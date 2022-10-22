@@ -1,4 +1,4 @@
-package com.example.examplemod;
+package org.altadoon.gt6x;
 
 import gregapi.api.Abstract_Proxy;
 

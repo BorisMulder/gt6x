@@ -1,28 +1,18 @@
-package com.example.examplemod;
+package org.altadoon.gt6x;
 
 /**
- * @author Your Name Here
+ * @author Boris Mulder (Altadoon)
  *
- * An example implementation for a Mod using my System. Copy and rename this File into your source Directory.
- *
- * If you have ANY Problems with the examples here, then you can contact me on the Forums or IRC.
- *
- * You may ask yourself why there are no imports on this File.
- * I decided to do that, so Beginners cannot mess up by choosing wrong imports when they copy and paste Stuff.
- * Also I avoided creating Variables, because people tend to copy them over for no reason, because they don't understand what they were for, and that they could be removed easily.
- *
- * Note: it is important to load after "gregapi_post".
- *
- * Note: There are NO TEXTURES contained in GT that correspond to the Examples. Those you will have to do or copy them yourself.
+ * The main mod class for GT6X
  */
-@cpw.mods.fml.common.Mod(modid=ExampleMod.MOD_ID, name=ExampleMod.MOD_NAME, version=ExampleMod.VERSION, dependencies="required-after:gregapi_post")
-public final class ExampleMod extends gregapi.api.Abstract_Mod {
+@cpw.mods.fml.common.Mod(modid= Gt6xMod.MOD_ID, name= Gt6xMod.MOD_NAME, version= Gt6xMod.VERSION, dependencies="required-after:gregapi_post")
+public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 	/** Your Mod-ID has to be LOWERCASE and without Spaces. Uppercase Chars and Spaces can create problems with Resource Packs. This is a vanilla forge "Issue". */
-	public static final String MOD_ID = "insert_your_modid_here"; // <-- TODO: you need to change this to the ID of your own Mod, and then remove this Comment after you did that.
+	public static final String MOD_ID = "gt6x";
 	/** This is your Mods Name */
-	public static final String MOD_NAME = "Insert_your_Mod_Name_here"; // <-- TODO: you need to change this to the Name of your own Mod, and then remove this Comment after you did that.
+	public static final String MOD_NAME = "Gregtech 6 eXtended";
 	/** This is your Mods Version */
-	public static final String VERSION = "EXAMPLE-MC1710"; // <-- TODO: you need to change this to the Version of your own Mod, and then remove this Comment after you did that.
+	public static final String VERSION = "0.0-gt6.15.05-MC1710";
 	/** Contains a ModData Object for ID and Name. Doesn't have to be changed. */
 	public static gregapi.code.ModData MOD_DATA = new gregapi.code.ModData(MOD_ID, MOD_NAME);
 
@@ -31,7 +21,7 @@ public final class ExampleMod extends gregapi.api.Abstract_Mod {
 
 	@Override public String getModID() {return MOD_ID;}
 	@Override public String getModName() {return MOD_NAME;}
-	@Override public String getModNameForLog() {return "Example_Mod";}
+	@Override public String getModNameForLog() {return "GT6X";}
 	@Override public gregapi.api.Abstract_Proxy getProxy() {return PROXY;}
 
 	// Do not change these 7 Functions. Just keep them this way.
