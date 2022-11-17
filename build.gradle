@@ -37,7 +37,7 @@ idea{
 
 apply plugin: 'forge'
 
-def gt6_version = "6.15.05"
+def gt6_version = "6.15.08"
 version = "0.0.0"
 group = "org.altadoon.gt6x"
 archivesBaseName = "gt6x"

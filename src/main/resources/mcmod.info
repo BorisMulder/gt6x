@@ -1,7 +1,7 @@
 [
 {
   "modid": "gt6x",
-  "name": "Gregtech 6 eXtended",
+  "name": "GregTech 6 eXtended",
   "description": "Altadoon &Co's Extensions to Gregtech 6.",
   "version": "${version}",
   "mcversion": "${mcversion}",
