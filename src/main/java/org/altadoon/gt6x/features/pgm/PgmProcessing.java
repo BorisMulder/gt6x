@@ -266,7 +266,7 @@ public class PgmProcessing extends GT6XFeature {
         // Pt/Pd separation
         RM.Bath.addRecipe1(true, 0, 200, dust.mat(NH4Cl, 20), PtPdLeachingSolution.liquid(95*U, false), PdChlorideSolution.liquid(70*U, false), dust.mat(AmmoniumHexachloroplatinate, 45));
         RM.Mixer.addRecipe0(true, 16, 100, FL.array(PdChlorideSolution.liquid(35*U, true), MT.NH3.gas(4*U, true)), FL.array(MT.H2O.liquid(8*3*U, false), MT.HCl.gas(4*2*U, false)), dust.mat(TetraamminepalladiumChloride, 7));
-        // TODO use thermolysis oven
+        //TODO use thermolysis oven
         RM.Distillery.addRecipe1(true, 16, 50, dust.mat(AmmoniumHexachloroplatinate, 9), FL.array(MT.N.gas(U1000, true)), FL.array(MT.Cl.gas(4*U, false)), dust.mat(NH4Cl, 4), dust.mat(MT.Pt, 1));
         RM.Distillery.addRecipe1(true, 16, 50, dust.mat(TetraamminepalladiumChloride, 7), FL.array(MT.N.gas(U1000, true)), FL.array(MT.Cl.gas(2*U, false), MT.NH3.gas(4*U, false)), dust.mat(MT.Pd, 1));
 

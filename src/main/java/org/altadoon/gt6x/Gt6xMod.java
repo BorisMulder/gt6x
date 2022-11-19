@@ -3,8 +3,10 @@ package org.altadoon.gt6x;
 import gregapi.data.CS;
 import org.altadoon.gt6x.common.Config;
 import org.altadoon.gt6x.common.Log;
+import org.altadoon.gt6x.common.MTEx;
 import org.altadoon.gt6x.common.MTx;
 import org.altadoon.gt6x.features.GT6XFeature;
+import org.altadoon.gt6x.features.oil.OilProcessing;
 import org.altadoon.gt6x.features.pgm.PgmProcessing;
 
 import java.util.ArrayList;
@@ -46,7 +48,8 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 
 	@SuppressWarnings("unchecked")
 	private static final Class<? extends GT6XFeature>[] allFeatures = new Class[]{
-		PgmProcessing.class
+		PgmProcessing.class,
+		OilProcessing.class
 	};
 	private ArrayList<GT6XFeature> enabledFeatures;
 
@@ -55,6 +58,7 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 	public void onModPreInit2(cpw.mods.fml.common.event.FMLPreInitializationEvent aEvent) {
 		this.modConfig = new Config(allFeatures);
 		this.enabledFeatures = modConfig.getEnabledFeatures();
+		MTEx.touch();
 		MTx.touch();
 
 		for (GT6XFeature feature : enabledFeatures) {
