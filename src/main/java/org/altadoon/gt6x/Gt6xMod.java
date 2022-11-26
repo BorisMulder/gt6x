@@ -5,9 +5,12 @@ import org.altadoon.gt6x.common.Config;
 import org.altadoon.gt6x.common.Log;
 import org.altadoon.gt6x.common.MTEx;
 import org.altadoon.gt6x.common.MTx;
+import org.altadoon.gt6x.common.MTEx;
 import org.altadoon.gt6x.features.GT6XFeature;
 import org.altadoon.gt6x.features.oil.OilProcessing;
 import org.altadoon.gt6x.features.pgm.PgmProcessing;
+import org.altadoon.gt6x.features.thermoven.ThermoOven;
+
 
 import java.util.ArrayList;
 
@@ -49,7 +52,9 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 	@SuppressWarnings("unchecked")
 	private static final Class<? extends GT6XFeature>[] allFeatures = new Class[]{
 		PgmProcessing.class,
-		OilProcessing.class
+		OilProcessing.class,
+		ThermoOven.class
+
 	};
 	private ArrayList<GT6XFeature> enabledFeatures;
 
