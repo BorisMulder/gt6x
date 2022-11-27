@@ -61,7 +61,7 @@ public class OilProcessing extends GT6XFeature {
     public void configure(Config config) {}
 
     private void addRecipeMaps() {
-        hydroCracking = new Recipe.RecipeMap(null, "gt6x.recipe.hydrocracking", "Hydrocracking", null, 0, 1, RES_PATH_GUI+"machines/HydroCracking",/*IN-OUT-MIN-ITEM=*/ 1, 3, 0,/*IN-OUT-MIN-FLUID=*/ 2, 9, 1,/*MIN*/ 2,/*AMP=*/ 1, "", 1, "", T, T, T, T, F, T, T);
+        hydroCracking = new Recipe.RecipeMap(null, "gt6x.recipe.hydrocracking", "Hydrocracking", null, 0, 1, RES_PATH_GUI+"machines/HydroCracking", 1, 3, 0, 2, 9, 1, 2, 1, "", 1, "", T, T, T, T, F, T, T);
     }
 
     private void changeDTowerRecipes() {

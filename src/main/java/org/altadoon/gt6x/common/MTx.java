@@ -214,13 +214,23 @@ public class MTx {
             .put(FLAMMABLE, EXPLOSIVE)
             .heat(100, 200)
             .setLocal("Catalytic Cracker Offgas")
-    )
+    ),
+    Slag = create( 16055, "Slag", 255, 240, 200, 255)
+            .setMcfg( 0, MT.UNUSED.Quicklime, U, MT.SiO2, 3*U)
+            .setTextures(SET_SAND)
+            .put(INGOTS, MORTAR, BRITTLE)
+            .heat(1800, 3000)
+            .setPulver(MT.OREMATS.Wollastonite, U),
+    BlastFurnaceGas = registerGas(gas(16056, "Blast Furnace Gas", 0, 20, 30, 200)
+            .put(FLAMMABLE)
+            .heat(100, 200))
     ;
-
 
     static {
         FL.createMolten(MT.K2S2O7.put(MELTING, MOLTEN), 1000);
         FL.createMolten(MT.Na2S2O7.put(MELTING, MOLTEN), 1000);
         FL.createMolten(RhodiumPotassiumSulfate.put(MELTING, MOLTEN), 1000);
+        FL.createMolten(Slag.put(MELTING, MOLTEN), 1000);
+        MT.PigIron.setPulver(MT.PigIron, U).setSmelting(MT.PigIron, U);
     }
 }
