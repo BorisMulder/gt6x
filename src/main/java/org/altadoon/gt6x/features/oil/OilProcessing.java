@@ -49,8 +49,9 @@ public class OilProcessing extends GT6XFeature {
     }
 
     @Override
-    public void postPostInit() {
+    public void afterPostInit() {
         // override recipes
+        //TODO move some to prePostInit instead of disabling
         changeDTowerRecipes();
         changeCrackingRecipes();
         changeElectrolysisRecipes();
@@ -61,7 +62,7 @@ public class OilProcessing extends GT6XFeature {
     public void configure(Config config) {}
 
     private void addRecipeMaps() {
-        hydroCracking = new Recipe.RecipeMap(null, "gt6x.recipe.hydrocracking", "Hydrocracking", null, 0, 1, RES_PATH_GUI+"machines/HydroCracking",/*IN-OUT-MIN-ITEM=*/ 1, 3, 0,/*IN-OUT-MIN-FLUID=*/ 2, 9, 1,/*MIN*/ 2,/*AMP=*/ 1, "", 1, "", T, T, T, T, F, T, T);
+        hydroCracking = new Recipe.RecipeMap(null, "gt6x.recipe.hydrocracking", "Hydrocracking", null, 0, 1, RES_PATH_GUI+"machines/HydroCracking", 1, 3, 0, 2, 9, 1, 2, 1, "", 1, "", T, T, T, T, F, T, T);
     }
 
     private void changeDTowerRecipes() {
@@ -91,10 +92,10 @@ public class OilProcessing extends GT6XFeature {
         RM.Generifier.findRecipe(null, null, false, 0, null, FL.array(FL.Gas_Natural.make(1))).mEnabled = false;
 
         // olefins
-        RM.SteamCracking.addRecipe0(false, 16,  64*4, new long[]{100}, FL.array(FL.Steam.make(8192), MTx.Ethane.gas(320*U1000, true)), FL.array(FL.Methane.make(250), FL.Ethylene.make(60)), dustTiny.mat(MT.CoalCoke, 9));
-        RM.SteamCracking.addRecipe0(false, 16,  64*6, new long[]{100}, FL.array(FL.Steam.make(12288), FL.Propane.make(660)), FL.array(FL.Methane.make(450), FL.Ethylene.make(120), FL.Propylene.make(180)), dustTiny.mat(MT.CoalCoke, 9));
-        RM.SteamCracking.addRecipe0(false, 16,  64*5, new long[]{100}, FL.array(FL.Steam.make(10240), FL.Butane.make(560)), FL.array(FL.Methane.make(200), FL.Ethylene.make(180), FL.Propylene.make(180)), dustTiny.mat(MT.CoalCoke, 9));
-        RM.SteamCracking.addRecipe0(false, 16,  64, new long[]{100}, FL.array(FL.Steam.make(2048), MTx.NaphthaLowSulfur.liquid(U10, true)), FL.array(MTx.SCNaphtha.liquid(U10, false)), dustTiny.mat(MT.CoalCoke, 9));
+        RM.SteamCracking.addRecipe0(false, 16,  64*4, new long[]{100}, FL.array(FL.Steam.make(8192), MTx.Ethane.gas(320*U1000, true)), FL.array(FL.Methane.make(250), FL.Ethylene.make(60)), dustTiny.mat(MT.PetCoke, 9));
+        RM.SteamCracking.addRecipe0(false, 16,  64*6, new long[]{100}, FL.array(FL.Steam.make(12288), FL.Propane.make(660)), FL.array(FL.Methane.make(450), FL.Ethylene.make(120), FL.Propylene.make(180)), dustTiny.mat(MT.PetCoke, 9));
+        RM.SteamCracking.addRecipe0(false, 16,  64*5, new long[]{100}, FL.array(FL.Steam.make(10240), FL.Butane.make(560)), FL.array(FL.Methane.make(200), FL.Ethylene.make(180), FL.Propylene.make(180)), dustTiny.mat(MT.PetCoke, 9));
+        RM.SteamCracking.addRecipe0(false, 16,  64, new long[]{100}, FL.array(FL.Steam.make(2048), MTx.NaphthaLowSulfur.liquid(U10, true)), FL.array(MTx.SCNaphtha.liquid(U10, false)), dustTiny.mat(MT.PetCoke, 9));
 
         // syngas
         RM.SteamCracking.addRecipe0(false, 16,  375, new long[]{800}, FL.array(FL.Steam.make(300*(long)STEAM_PER_WATER), FL.Gas_Natural.make(500)), FL.array(MT.H.gas(540*U1000, false), MT.CO.gas(180*U1000, false)), dustTiny.mat(MT.PetCoke, 9));
@@ -106,10 +107,10 @@ public class OilProcessing extends GT6XFeature {
 
         for (Recipe recipe : RM.CatalyticCracking.mRecipeList) recipe.mEnabled = false;
 
-        RM.CatalyticCracking.addRecipe1(false, 16,  64, new long[]{1000}, dust.mat(MT.Al2O3, 0), FL.array(MTx.NaphthaLowSulfur.liquid(U10, true)), FL.array(FL.Petrol.make(75), MTx.FccOffgas.gas(25*U1000, false)), dustTiny.mat(MT.CoalCoke, 1));
-        RM.CatalyticCracking.addRecipe1(false, 16,  64, new long[]{1000}, dust.mat(MT.Al2O3, 0), FL.array(MTx.KerosineLowSulfur.liquid(U10, true)), FL.array(FL.Petrol.make(100), MTx.FccOffgas.gas(25*U1000, false)), dustTiny.mat(MT.CoalCoke, 1));
-        RM.CatalyticCracking.addRecipe1(false, 16,  64, new long[]{1000}, dust.mat(MT.Al2O3, 0), FL.array(MTx.DieselLowSulfur.liquid(U10, true)), FL.array(FL.Petrol.make(125), MTx.FccOffgas.gas(25*U1000, false)), dustTiny.mat(MT.CoalCoke, 1));
-        RM.CatalyticCracking.addRecipe1(false, 16,  64, new long[]{1000}, dust.mat(MT.Al2O3, 0), FL.array(MTx.FuelLowSulfur.liquid(U10, true)), FL.array(FL.Petrol.make(150), MTx.FccOffgas.gas(25*U1000, false)), dustTiny.mat(MT.CoalCoke, 1));
+        RM.CatalyticCracking.addRecipe1(false, 16,  64, new long[]{1000}, dust.mat(MT.Al2O3, 0), FL.array(MTx.NaphthaLowSulfur.liquid(U10, true)), FL.array(FL.Petrol.make(75), MTx.FccOffgas.gas(25*U1000, false)), dustTiny.mat(MT.PetCoke, 1));
+        RM.CatalyticCracking.addRecipe1(false, 16,  64, new long[]{1000}, dust.mat(MT.Al2O3, 0), FL.array(MTx.KerosineLowSulfur.liquid(U10, true)), FL.array(FL.Petrol.make(100), MTx.FccOffgas.gas(25*U1000, false)), dustTiny.mat(MT.PetCoke, 1));
+        RM.CatalyticCracking.addRecipe1(false, 16,  64, new long[]{1000}, dust.mat(MT.Al2O3, 0), FL.array(MTx.DieselLowSulfur.liquid(U10, true)), FL.array(FL.Petrol.make(125), MTx.FccOffgas.gas(25*U1000, false)), dustTiny.mat(MT.PetCoke, 1));
+        RM.CatalyticCracking.addRecipe1(false, 16,  64, new long[]{1000}, dust.mat(MT.Al2O3, 0), FL.array(MTx.FuelLowSulfur.liquid(U10, true)), FL.array(FL.Petrol.make(150), MTx.FccOffgas.gas(25*U1000, false)), dustTiny.mat(MT.PetCoke, 1));
     }
 
     private void changeElectrolysisRecipes() {
@@ -122,6 +123,9 @@ public class OilProcessing extends GT6XFeature {
     }
 
     private void addFuelValues() {
+        FM.Burn.addRecipe0(true, -64, 24, MTx.FccOffgas.gas(U200, true), FL.Water.make(6), FL.CarbonDioxide.make(3));
+        FM.Gas.addRecipe0(true, -64, 30, MTx.FccOffgas.gas(U200, true), FL.Water.make(6), FL.CarbonDioxide.make(3));
+
         FM.Burn.addRecipe0(true, -64, 25, MTx.Ethane.gas(U200, true), FL.Water.make(6), FL.CarbonDioxide.make(4));
         FM.Gas.addRecipe0(true, -64, 35, MTx.Ethane.gas(U200, true), FL.Water.make(6), FL.CarbonDioxide.make(4));
 
@@ -146,7 +150,8 @@ public class OilProcessing extends GT6XFeature {
         FM.Burn.addRecipe0(true, -64, 6, MTx.Toluene.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
         FM.Engine.addRecipe0(true, -64, 8, MTx.Toluene.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
 
-        FM.Burn.addRecipe0(true, - 16, 36, MTx.Synoil.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
+        FM.Burn.addRecipe0(true, -16, 36, MTx.Synoil.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
+        FM.Burn.addRecipe0(true, -16, 4, MTx.Acetone.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
     }
 
     private void addRecipes() {
@@ -183,17 +188,9 @@ public class OilProcessing extends GT6XFeature {
         // Rubber
         RM.Mixer.addRecipe1(true, 16,  16, dust.mat(MT.MgCl2, 0), FL.array(MT.TiCl4.liquid(U1000, true), MTx.Isoprene.liquid(U10, false)), ZL_FS, dust.mat(MT.Rubber, 1));
 
-        // Phosphoric Acid
-        RM.Mixer.addRecipe1(true, 16,  16, dust.mat(MT.Phosphorus, 5), FL.array(MT.H2SO4.liquid(3*7*U, true)), FL.array(MTx.PhosphoricAcid.liquid(8*U, false)), dust.mat(MT.CaSO4, 18));
-        RM.Mixer.addRecipe1(true, 16,  16, dust.mat(MT.PhosphorusRed, 5), FL.array(MT.H2SO4.liquid(3*7*U, true)), FL.array(MTx.PhosphoricAcid.liquid(8*U, false)), dust.mat(MT.CaSO4, 18));
-        RM.Mixer.addRecipe1(true, 16,  16, dust.mat(MT.PhosphorusBlue, 5), FL.array(MT.H2SO4.liquid(3*7*U, true)), FL.array(MTx.PhosphoricAcid.liquid(8*U, false)), dust.mat(MT.CaSO4, 18));
-        RM.Mixer.addRecipe1(true, 16,  16, dust.mat(MT.PhosphorusWhite, 5), FL.array(MT.H2SO4.liquid(3*7*U, true)), FL.array(MTx.PhosphoricAcid.liquid(8*U, false)), dust.mat(MT.CaSO4, 18));
-        RM.Mixer.addRecipe1(true, 16,  16, dust.mat(MT.Phosphorite, 9), FL.array(MT.H2SO4.liquid(5*7*U, true)), FL.array(MTx.PhosphoricAcid.liquid(12*U, false), MT.HF.gas(U*2, false)), dust.mat(MT.CaSO4, 30));
-        RM.Mixer.addRecipe1(true, 16,  16, dust.mat(MT.Apatite, 9), FL.array(MT.H2SO4.liquid(5*7*U, true)), FL.array(MTx.PhosphoricAcid.liquid(12*U, false), MT.HCl.gas(U*2, false)), dust.mat(MT.CaSO4, 30));
-
         // BPA
         RM.Mixer.addRecipe0(true, 16,  64*3, FL.array(MT.Propylene.gas(9*U, true), MTx.Benzene.liquid(12*U, true), MTx.PhosphoricAcid.liquid(3*U1000, true)), FL.array(MTx.Cumene.liquid(21*U, false)));
-        RM.Mixer.addRecipe0(true, 16,  64*3, FL.array(MTx.Cumene.fluid(21*U, true), MT.O.gas(2*U, true)), FL.array(MTx.Acetone.liquid(5*U, false)), dust.mat(MTx.Phenol, 13)); // throw away half the acetone until it gets a purpose
+        RM.Mixer.addRecipe0(true, 16,  64*3, FL.array(MTx.Cumene.fluid(21*U, true), MT.O.gas(2*U, true)), FL.array(MTx.Acetone.liquid(10*U, false)), dust.mat(MTx.Phenol, 13));
         RM.Mixer.addRecipe1(true, 16,  64, dust.mat(MTx.Phenol, 26), FL.array(MTx.Acetone.fluid(10*U, true), MT.H2SO4.liquid(U1000, true)), MT.H2O.liquid(3*U, false), dust.mat(MTx.BPA, 33));
 
         // ECH
@@ -218,9 +215,6 @@ public class OilProcessing extends GT6XFeature {
 
         // Fischer-Tropsch process
         RM.Mixer.addRecipe1(true, 16, 512*15, dust.mat(MT.Ru, 0), FL.array(MT.CO.gas(15*2*U, true), MT.H.gas(30*2*U, true)), FL.array(MTx.Synoil.liquid(15*U, false), MT.H2O.liquid(15*3*U, false)));
-
-        // HCL to H + Cl (needed for some chains)
-        RM.Electrolyzer.addRecipe1(false, 64, 64, ST.tag(0), MT.HCl.gas(U, true), FL.array(MT.H.gas(U2, false), MT.Cl.gas(U2, false)));
 
         // Hydro-cracking
         // Fuel: 20-50 C (avg C34H70) - 3 fuel -> 2 Diesel + 1 Kerosine * 1.5
@@ -279,9 +273,9 @@ public class OilProcessing extends GT6XFeature {
         // Hydro cracker
         Class<? extends TileEntity> aClass = MultiTileEntityBasicMachine.class;
         OreDictMaterial aMat;
-        aMat = MT.DATA.Heat_T[1]; MTEx.gt6xMTEReg.add("Hydro Cracker ("+aMat.getLocal()+")", "Basic Machines", 43, 20001, aClass, aMat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS,   6.0F, NBT_RESISTANCE,   6.0F, NBT_INPUT,   32, NBT_TEXTURE, "hydrocracker", NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, hydroCracking, NBT_INV_SIDE_IN, SBIT_U|SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_TOP, NBT_INV_SIDE_OUT, SBIT_R|SBIT_B, NBT_INV_SIDE_AUTO_OUT, SIDE_BACK, NBT_TANK_SIDE_IN, SBIT_U|SBIT_L, NBT_TANK_SIDE_AUTO_IN, SIDE_LEFT, NBT_TANK_SIDE_OUT, SBIT_R|SBIT_B, NBT_TANK_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_ENERGY_ACCEPTED_SIDES, SBIT_D), "PwP", "ZMZ", "ICI", 'M', OP.casingMachineDouble.dat(aMat), 'C', OP.plateDouble   .dat(ANY.Cu), 'I', OP.plateDouble   .dat(MT.Invar), 'P', OP.pipeMedium.dat(MT.StainlessSteel), 'Z', dust.dat(MT.OREMATS.Zeolite));
-        aMat = MT.DATA.Heat_T[2]; MTEx.gt6xMTEReg.add("Hydro Cracker ("+aMat.getLocal()+")", "Basic Machines", 44, 20001, aClass, aMat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS,   4.0F, NBT_RESISTANCE,   4.0F, NBT_INPUT,  128, NBT_TEXTURE, "hydrocracker", NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, hydroCracking, NBT_INV_SIDE_IN, SBIT_U|SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_TOP, NBT_INV_SIDE_OUT, SBIT_R|SBIT_B, NBT_INV_SIDE_AUTO_OUT, SIDE_BACK, NBT_TANK_SIDE_IN, SBIT_U|SBIT_L, NBT_TANK_SIDE_AUTO_IN, SIDE_LEFT, NBT_TANK_SIDE_OUT, SBIT_R|SBIT_B, NBT_TANK_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_ENERGY_ACCEPTED_SIDES, SBIT_D), "PwP", "ZMZ", "ICI", 'M', OP.casingMachineDouble.dat(aMat), 'C', OP.plateTriple   .dat(ANY.Cu), 'I', OP.plateTriple   .dat(MT.Invar), 'P', OP.pipeMedium.dat(MT.StainlessSteel), 'Z', dust.dat(MT.OREMATS.Zeolite));
-        aMat = MT.DATA.Heat_T[3]; MTEx.gt6xMTEReg.add("Hydro Cracker ("+aMat.getLocal()+")", "Basic Machines", 45, 20001, aClass, aMat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS,   9.0F, NBT_RESISTANCE,   9.0F, NBT_INPUT,  512, NBT_TEXTURE, "hydrocracker", NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, hydroCracking, NBT_INV_SIDE_IN, SBIT_U|SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_TOP, NBT_INV_SIDE_OUT, SBIT_R|SBIT_B, NBT_INV_SIDE_AUTO_OUT, SIDE_BACK, NBT_TANK_SIDE_IN, SBIT_U|SBIT_L, NBT_TANK_SIDE_AUTO_IN, SIDE_LEFT, NBT_TANK_SIDE_OUT, SBIT_R|SBIT_B, NBT_TANK_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_ENERGY_ACCEPTED_SIDES, SBIT_D), "PwP", "ZMZ", "ICI", 'M', OP.casingMachineDouble.dat(aMat), 'C', OP.plateQuadruple.dat(ANY.Cu), 'I', OP.plateQuadruple.dat(MT.Invar), 'P', OP.pipeMedium.dat(MT.StainlessSteel), 'Z', dust.dat(MT.OREMATS.Zeolite));
-        aMat = MT.DATA.Heat_T[4]; MTEx.gt6xMTEReg.add("Hydro Cracker ("+aMat.getLocal()+")", "Basic Machines", 46, 20001, aClass, aMat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS,  12.5F, NBT_RESISTANCE,  12.5F, NBT_INPUT, 2048, NBT_TEXTURE, "hydrocracker", NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, hydroCracking, NBT_INV_SIDE_IN, SBIT_U|SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_TOP, NBT_INV_SIDE_OUT, SBIT_R|SBIT_B, NBT_INV_SIDE_AUTO_OUT, SIDE_BACK, NBT_TANK_SIDE_IN, SBIT_U|SBIT_L, NBT_TANK_SIDE_AUTO_IN, SIDE_LEFT, NBT_TANK_SIDE_OUT, SBIT_R|SBIT_B, NBT_TANK_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_ENERGY_ACCEPTED_SIDES, SBIT_D), "PwP", "ZMZ", "ICI", 'M', OP.casingMachineDouble.dat(aMat), 'C', OP.plateQuintuple.dat(ANY.Cu), 'I', OP.plateQuintuple.dat(MT.Invar), 'P', OP.pipeMedium.dat(MT.StainlessSteel), 'Z', dust.dat(MT.OREMATS.Zeolite));
+        aMat = MT.DATA.Heat_T[1]; MTEx.gt6xMTEReg.add("Hydro Cracker ("+aMat.getLocal()+")", "Basic Machines", 50, 20001, aClass, aMat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS,   6.0F, NBT_RESISTANCE,   6.0F, NBT_INPUT,   32, NBT_TEXTURE, "hydrocracker", NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, hydroCracking, NBT_INV_SIDE_IN, SBIT_U|SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_TOP, NBT_INV_SIDE_OUT, SBIT_R|SBIT_B, NBT_INV_SIDE_AUTO_OUT, SIDE_BACK, NBT_TANK_SIDE_IN, SBIT_U|SBIT_L, NBT_TANK_SIDE_AUTO_IN, SIDE_LEFT, NBT_TANK_SIDE_OUT, SBIT_R|SBIT_B, NBT_TANK_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_ENERGY_ACCEPTED_SIDES, SBIT_D), "PwP", "ZMZ", "ICI", 'M', OP.casingMachineDouble.dat(aMat), 'C', OP.plateDouble   .dat(ANY.Cu), 'I', OP.plateDouble   .dat(MT.Invar), 'P', OP.pipeMedium.dat(MT.StainlessSteel), 'Z', dust.dat(MT.OREMATS.Zeolite));
+        aMat = MT.DATA.Heat_T[2]; MTEx.gt6xMTEReg.add("Hydro Cracker ("+aMat.getLocal()+")", "Basic Machines", 51, 20001, aClass, aMat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS,   4.0F, NBT_RESISTANCE,   4.0F, NBT_INPUT,  128, NBT_TEXTURE, "hydrocracker", NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, hydroCracking, NBT_INV_SIDE_IN, SBIT_U|SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_TOP, NBT_INV_SIDE_OUT, SBIT_R|SBIT_B, NBT_INV_SIDE_AUTO_OUT, SIDE_BACK, NBT_TANK_SIDE_IN, SBIT_U|SBIT_L, NBT_TANK_SIDE_AUTO_IN, SIDE_LEFT, NBT_TANK_SIDE_OUT, SBIT_R|SBIT_B, NBT_TANK_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_ENERGY_ACCEPTED_SIDES, SBIT_D), "PwP", "ZMZ", "ICI", 'M', OP.casingMachineDouble.dat(aMat), 'C', OP.plateTriple   .dat(ANY.Cu), 'I', OP.plateTriple   .dat(MT.Invar), 'P', OP.pipeMedium.dat(MT.StainlessSteel), 'Z', dust.dat(MT.OREMATS.Zeolite));
+        aMat = MT.DATA.Heat_T[3]; MTEx.gt6xMTEReg.add("Hydro Cracker ("+aMat.getLocal()+")", "Basic Machines", 52, 20001, aClass, aMat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS,   9.0F, NBT_RESISTANCE,   9.0F, NBT_INPUT,  512, NBT_TEXTURE, "hydrocracker", NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, hydroCracking, NBT_INV_SIDE_IN, SBIT_U|SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_TOP, NBT_INV_SIDE_OUT, SBIT_R|SBIT_B, NBT_INV_SIDE_AUTO_OUT, SIDE_BACK, NBT_TANK_SIDE_IN, SBIT_U|SBIT_L, NBT_TANK_SIDE_AUTO_IN, SIDE_LEFT, NBT_TANK_SIDE_OUT, SBIT_R|SBIT_B, NBT_TANK_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_ENERGY_ACCEPTED_SIDES, SBIT_D), "PwP", "ZMZ", "ICI", 'M', OP.casingMachineDouble.dat(aMat), 'C', OP.plateQuadruple.dat(ANY.Cu), 'I', OP.plateQuadruple.dat(MT.Invar), 'P', OP.pipeMedium.dat(MT.StainlessSteel), 'Z', dust.dat(MT.OREMATS.Zeolite));
+        aMat = MT.DATA.Heat_T[4]; MTEx.gt6xMTEReg.add("Hydro Cracker ("+aMat.getLocal()+")", "Basic Machines", 53, 20001, aClass, aMat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS,  12.5F, NBT_RESISTANCE,  12.5F, NBT_INPUT, 2048, NBT_TEXTURE, "hydrocracker", NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, hydroCracking, NBT_INV_SIDE_IN, SBIT_U|SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_TOP, NBT_INV_SIDE_OUT, SBIT_R|SBIT_B, NBT_INV_SIDE_AUTO_OUT, SIDE_BACK, NBT_TANK_SIDE_IN, SBIT_U|SBIT_L, NBT_TANK_SIDE_AUTO_IN, SIDE_LEFT, NBT_TANK_SIDE_OUT, SBIT_R|SBIT_B, NBT_TANK_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_ENERGY_ACCEPTED_SIDES, SBIT_D), "PwP", "ZMZ", "ICI", 'M', OP.casingMachineDouble.dat(aMat), 'C', OP.plateQuintuple.dat(ANY.Cu), 'I', OP.plateQuintuple.dat(MT.Invar), 'P', OP.pipeMedium.dat(MT.StainlessSteel), 'Z', dust.dat(MT.OREMATS.Zeolite));
     }
 }
