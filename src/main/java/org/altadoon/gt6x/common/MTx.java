@@ -158,7 +158,7 @@ public class MTx {
             .uumMcfg(0, MT.C, U*3, MT.H, U*5, MT.Cl, U)
             .heat(138, 318)),
     Dichloropropanol = registerLiquid(lqudflam( 16039, "Dichloropropanol", 100, 200, 100, 255)
-            .uumMcfg(0, MT.C, U*3, MT.H, U*5, MT.Cl, U)
+            .uumMcfg(0, MT.C, U*3, MT.H, U*6, MT.Cl, U*2, MT.O, U)
             .heat(138, 318)),
     ECH = registerLiquid(lqudaciddcmp( 16040, "Epichlorohydrin", 100, 255, 100, 255)
             .uumMcfg(0, MT.C, U*3, MT.H, U*5, MT.Cl, U, MT.O, U)
