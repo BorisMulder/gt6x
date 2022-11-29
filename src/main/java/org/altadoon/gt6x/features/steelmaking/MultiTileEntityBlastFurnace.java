@@ -1,6 +1,7 @@
 package org.altadoon.gt6x.features.steelmaking;
 
 import gregapi.block.multitileentity.MultiTileEntityRegistry;
+import gregapi.data.CS;
 import gregapi.data.FL;
 import gregapi.data.LH;
 import gregapi.fluid.FluidTankGT;
@@ -12,11 +13,14 @@ import gregapi.tileentity.machines.ITileEntityMold;
 import gregapi.tileentity.multiblocks.ITileEntityMultiBlockController;
 import gregapi.tileentity.multiblocks.MultiTileEntityMultiBlockPart;
 import gregapi.tileentity.multiblocks.TileEntityBase10MultiBlockMachine;
+import net.minecraft.block.Block;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.IFluidHandler;
+import org.altadoon.gt6x.common.Log;
 import org.altadoon.gt6x.common.MTx;
 
 import java.util.List;
@@ -26,12 +30,19 @@ import static gregapi.data.CS.*;
 public class MultiTileEntityBlastFurnace extends TileEntityBase10MultiBlockMachine implements ITileEntityCrucible {
     @Override
     public boolean checkStructure2() {
+        Item bricks = MultiTileEntityRegistry.getRegistry("gt.multitileentity").getItem(18000).getItem();
+
         int tX = getOffsetXN(mFacing), tY = yCoord, tZ = getOffsetZN(mFacing);
         if (worldObj.blockExists(tX-1, tY, tZ-1) && worldObj.blockExists(tX+1, tY, tZ-1) && worldObj.blockExists(tX-1, tY, tZ+1) && worldObj.blockExists(tX+1, tY, tZ+1)) {
             boolean tSuccess = true;
             for (int i = -1; i <= 1; i++) for (int j = 0; j < 5; j++) for (int k = -1; k <= 1; k++) {
+                Item it = Item.getItemFromBlock(worldObj.getBlock(tX + 1, tY + j, tZ + k));
+
                 if (i == 0 && j != 0 && j != 4 && k == 0) {
-                    if (getAir(tX+i, tY+j, tZ+k)) worldObj.setBlockToAir(tX+i, tY+j, tZ+k); else tSuccess = false;
+                    if (getAir(tX+i, tY+j, tZ+k)) worldObj.setBlockToAir(tX+i, tY+j, tZ+k); else {
+                        CS.OUT.println("Invalid block at (" + tX+1 + "," + tY+j + "," + (tZ+k) + ") - expected air, got " + it.getUnlocalizedName() + " - " + Item.getIdFromItem(it));
+                        tSuccess = false;
+                    }
                 } else {
                     int side_type;
                     switch (j) {
@@ -42,7 +53,10 @@ public class MultiTileEntityBlastFurnace extends TileEntityBase10MultiBlockMachi
                         default: side_type = MultiTileEntityMultiBlockPart.NOTHING; break;
                     }
 
-                    if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX+i, tY+j, tZ+k, 18000, MultiTileEntityRegistry.getRegistry("gt.multitileentity").mLastRegisteredID, 0, side_type)) tSuccess = false;
+                    if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX+i, tY+j, tZ+k, 18000, MultiTileEntityRegistry.getRegistry("gt.multitileentity"), 0, side_type)) {
+                        CS.OUT.println("Invalid block at (" + tX+1 + "," + tY+j + "," + (tZ+k) + ") - expected " + bricks.getUnlocalizedName() + " - " + Item.getIdFromItem(bricks) + " got " + it.getUnlocalizedName() + " - " + Item.getIdFromItem(it));
+                        tSuccess = false;
+                    }
                 }
             }
             return tSuccess;

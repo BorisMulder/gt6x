@@ -57,7 +57,8 @@ public class Steelmaking extends GT6XFeature {
 
     private void addRecipes() {
         for (ItemStack coal : new ItemStack[]{OP.dust.mat(MT.Charcoal, 2), OP.dust.mat(MT.CoalCoke, 1), OP.gem.mat(MT.Charcoal, 2), OP.gem.mat(MT.CoalCoke, 1)}) {
-            blastFurnace.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.Fe2O3, 5), ST.mul(3, coal), OP.dust.mat(MT.CaCO3, 1)}, null, null, null, FL.array(FL.Air.make(1000)), FL.array(MT.PigIron.liquid(2*U, false), MTx.Slag.liquid(U, false), MTx.BlastFurnaceGas.gas(7*U, false)), 64, 8, 0);
+            blastFurnace.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.Fe2O3, 5), ST.mul(3, coal), OP.dust.mat(MT.CaCO3, 1)}, ZL_IS, null, null, FL.array(FL.Air.make(1000)), FL.array(MT.PigIron.liquid(2 * U, false), MTx.Slag.liquid(U, false), MTx.BlastFurnaceGas.gas(7 * U, false)), 64, 8, 0);
+            // TODO sintered pellets?
         }
     }
 }
