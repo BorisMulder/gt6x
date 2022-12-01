@@ -222,7 +222,8 @@ public class MTx {
             .heat(1800, 3000)
             .setPulver(MT.OREMATS.Wollastonite, U),
     BlastFurnaceGas = registerGas(gas(16056, "Blast Furnace Gas", 0, 20, 30, 200)
-            .put(FLAMMABLE)
+            .setMcfg(0, MT.N, 10*U, MT.CO, 4*U, MT.CO2, 4*U, MT.H, U)
+            .put(FLAMMABLE, CENTRIFUGE)
             .heat(100, 200))
     ;
 
@@ -230,7 +231,8 @@ public class MTx {
         FL.createMolten(MT.K2S2O7.put(MELTING, MOLTEN), 1000);
         FL.createMolten(MT.Na2S2O7.put(MELTING, MOLTEN), 1000);
         FL.createMolten(RhodiumPotassiumSulfate.put(MELTING, MOLTEN), 1000);
-        FL.createMolten(Slag.put(MELTING, MOLTEN), 1000);
+        FL.createMolten(Slag.put(MELTING, MOLTEN), 144);
         MT.PigIron.setPulver(MT.PigIron, U).setSmelting(MT.PigIron, U);
+        MT.OREMATS.Chromite.setSmelting(MT.OREMATS.Chromite, U);
     }
 }
