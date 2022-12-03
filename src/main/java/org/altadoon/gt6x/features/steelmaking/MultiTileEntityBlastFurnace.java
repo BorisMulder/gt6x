@@ -7,6 +7,8 @@ import gregapi.oredict.OreDictMaterial;
 import gregapi.oredict.OreDictMaterialStack;
 import gregapi.oredict.OreDictPrefix;
 import gregapi.tileentity.delegate.DelegatorTileEntity;
+import gregapi.tileentity.energy.ITileEntityEnergy;
+import gregapi.tileentity.machines.ITileEntityAdjacentOnOff;
 import gregapi.tileentity.machines.ITileEntityCrucible;
 import gregapi.tileentity.machines.ITileEntityMold;
 import gregapi.tileentity.multiblocks.ITileEntityMultiBlockController;
@@ -14,9 +16,9 @@ import gregapi.tileentity.multiblocks.MultiTileEntityMultiBlockPart;
 import gregapi.tileentity.multiblocks.TileEntityBase10MultiBlockMachine;
 import gregapi.util.OM;
 import gregapi.util.UT;
+import gregapi.util.WD;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.Fluid;
@@ -55,7 +57,7 @@ public class MultiTileEntityBlastFurnace extends TileEntityBase10MultiBlockMachi
                                 side_io &= MultiTileEntityMultiBlockPart.ONLY_CRUCIBLE;
                             }
                             break;
-                        case 1: side_io = MultiTileEntityMultiBlockPart.ONLY_FLUID_IN; break;
+                        case 1: side_io = MultiTileEntityMultiBlockPart.ONLY_FLUID_IN & MultiTileEntityMultiBlockPart.ONLY_ITEM_OUT; break;
                         case 4: side_io = MultiTileEntityMultiBlockPart.ONLY_ITEM_IN & MultiTileEntityMultiBlockPart.ONLY_FLUID_OUT; break;
                         default: side_io = MultiTileEntityMultiBlockPart.NOTHING; break;
                     }
@@ -70,12 +72,13 @@ public class MultiTileEntityBlastFurnace extends TileEntityBase10MultiBlockMachi
     }
 
     static {
-        LH.add("gt6x.tooltip.multiblock.blastfurnace.1", "3x5x3 hollow of 41 Blast Furnace Parts (excl. main) with Air inside");
+        LH.add("gt6x.tooltip.multiblock.blastfurnace.1", "3x5x3 hollow of 41 Blast Furnace Parts (excl. main) with Air inside;");
         LH.add("gt6x.tooltip.multiblock.blastfurnace.2", "Main centered at bottom-side facing outwards.");
-        LH.add("gt6x.tooltip.multiblock.blastfurnace.3", "Energy in from bottom layer;");
-        LH.add("gt6x.tooltip.multiblock.blastfurnace.4", "Molten metal and slag out holes in bottom layer: metal from right and slag from left;");
-        LH.add("gt6x.tooltip.multiblock.blastfurnace.5", "Air in at second layer;");
-        LH.add("gt6x.tooltip.multiblock.blastfurnace.6", "Stuff in and fluids out at the top.");
+        LH.add("gt6x.tooltip.multiblock.blastfurnace.3", "Energy in from bottom side.");
+        LH.add("gt6x.tooltip.multiblock.blastfurnace.4", "Molten metal and slag out at holes in bottom layer: metal from right and slag from left;");
+        LH.add("gt6x.tooltip.multiblock.blastfurnace.5", "pour into molds and the like as with a crucible.");
+        LH.add("gt6x.tooltip.multiblock.blastfurnace.6", "Air in and items out at second layer.");
+        LH.add("gt6x.tooltip.multiblock.blastfurnace.7", "Items in (not automatic; hoppers recommended) and gases out (automatic) at the top.");
     }
     
     @Override
@@ -87,6 +90,7 @@ public class MultiTileEntityBlastFurnace extends TileEntityBase10MultiBlockMachi
         aList.add(LH.Chat.WHITE    + LH.get("gt6x.tooltip.multiblock.blastfurnace.4"));
         aList.add(LH.Chat.WHITE    + LH.get("gt6x.tooltip.multiblock.blastfurnace.5"));
         aList.add(LH.Chat.WHITE    + LH.get("gt6x.tooltip.multiblock.blastfurnace.6"));
+        aList.add(LH.Chat.WHITE    + LH.get("gt6x.tooltip.multiblock.blastfurnace.7"));
         super.addToolTips(aList, aStack, aF3_H);
     }
 
@@ -122,30 +126,23 @@ public class MultiTileEntityBlastFurnace extends TileEntityBase10MultiBlockMachi
     }
 
     @Override
-    public void doOutputFluids() {
-        for (FluidTankGT tTank : mTanksOutput) {
-            Fluid tFluid = tTank.fluid();
-            if (tFluid != null && tTank.has() && FL.is(tFluid, "blastfurnacegas")) {
-                if (FL.move(tTank, getFluidOutputTarget(SIDE_UNDEFINED, null)) > 0) updateInventory();
+    public void updateAdjacentToggleableEnergySources() {
+        int tX = getOffsetXN(mFacing) - 1, tZ = getOffsetZN(mFacing) - 1;
+        for (int i = 0; i < 3; i++) for (int j = 0; j < 3; j++) {
+            DelegatorTileEntity<TileEntity> tDelegator = WD.te(worldObj, tX+i, yCoord-1, tZ+j, SIDE_TOP, false);
+            if (tDelegator.mTileEntity instanceof ITileEntityAdjacentOnOff && tDelegator.mTileEntity instanceof ITileEntityEnergy && ((ITileEntityEnergy)tDelegator.mTileEntity).isEnergyEmittingTo(mEnergyTypeAccepted, tDelegator.mSideOfTileEntity, true)) {
+                ((ITileEntityAdjacentOnOff)tDelegator.mTileEntity).setAdjacentOnOff(getStateOnOff());
             }
         }
     }
 
-    private void dummyFillMoldWithIngot(ITileEntityMold aMold, OreDictMaterialStack aMaterial, long aTemperature, byte aSide) {
-        OreDictPrefix tPrefix = OreDictPrefix.get("ingot");
-        if (tPrefix != null && aMold.isMoldInputSide(aSide) && aMaterial.mAmount > 0) {
-            if (tPrefix.mat(aMaterial.mMaterial.mTargetSolidifying.mMaterial, 1) != null) {
-                long tRequiredAmount = aMold.getMoldRequiredMaterialUnits(), rAmount = UT.Code.units(tRequiredAmount, U, aMaterial.mMaterial.mTargetSolidifying.mAmount, T);
-                if (aMaterial.mAmount > 0) {
-                    LOG.debug("checks succeeded");
-                } else {
-                    LOG.debug("checks failed: want " + rAmount + ", got " + aMaterial.mAmount + " required amount: " + tRequiredAmount + ", solidifying amount: " + aMaterial.mMaterial.mTargetSolidifying.mAmount);
-                }
-            } else {
-                LOG.debug("checks failed: solidifying material = " + aMaterial.mMaterial.mTargetSolidifying.mMaterial);
+    @Override
+    public void doOutputFluids() {
+        for (FluidTankGT tTank : mTanksOutput) {
+            Fluid tFluid = tTank.fluid();
+            if (tFluid != null && tTank.has() && tFluid.isGaseous()) {
+                if (FL.move(tTank, getFluidOutputTarget(SIDE_UNDEFINED, null)) > 0) updateInventory();
             }
-        } else {
-            LOG.debug("checks failed: tPrefix " + tPrefix + " is input side: " + aMold.isMoldInputSide(aSide) + " amount: " + aMaterial.mAmount);
         }
     }
 
@@ -157,8 +154,6 @@ public class MultiTileEntityBlastFurnace extends TileEntityBase10MultiBlockMachi
         long units_per_liter = U / material.mLiquid.amount;
         long available_U = origin.amount() * units_per_liter;
         OreDictMaterialStack as_stack = OM.stack(material, available_U);
-
-        dummyFillMoldWithIngot(aMold, as_stack, material.mMeltingPoint, aSideOfMold);
 
         long will_pour_U = aMold.fillMold(as_stack, material.mMeltingPoint, aSideOfMold);
         LOG.debug("trying to fill mold with " + will_pour_U + "U of " + material.getLocal() + " (available: " + available_U + "U or " + origin.amount() + "L)");
@@ -185,7 +180,8 @@ public class MultiTileEntityBlastFurnace extends TileEntityBase10MultiBlockMachi
             LOG.debug("trying to fill mold with " + tFluid.getName() +", side = " + relative_side + ", side of mold = " + aSideOfMold + ", left = " + SIDE_LEFT,  ", right = " + SIDE_RIGHT);
             if (FL.is(tFluid, "molten.slag") && relative_side == SIDE_LEFT) {
                 if (pour(aMold, aSideOfMold, tTank, MTx.Slag)) return true;
-            } else if (!FL.is(tFluid, "molten.slag") && !FL.is(tFluid, "blastfurnacegas") && relative_side == SIDE_RIGHT) {
+
+            } else if (!FL.is(tFluid, "molten.slag") && !tFluid.isGaseous() && relative_side == SIDE_RIGHT) {
                 OreDictMaterialStack tMaterial = OreDictMaterial.FLUID_MAP.get(tFluid.getName());
                 if (pour(aMold, aSideOfMold, tTank, tMaterial.mMaterial)) return true;
             }

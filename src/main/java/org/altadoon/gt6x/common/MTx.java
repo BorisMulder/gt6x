@@ -8,6 +8,7 @@ import org.altadoon.gt6x.Gt6xMod;
 import static gregapi.data.CS.*;
 import static gregapi.data.TD.Atomic.CHALCOGEN;
 import static gregapi.data.TD.Atomic.POLYATOMIC_NONMETAL;
+import static gregapi.data.TD.Compounds.ALLOY;
 import static gregapi.data.TD.Compounds.DECOMPOSABLE;
 import static gregapi.data.TD.ItemGenerator.*;
 import static gregapi.data.TD.Processing.*;
@@ -36,6 +37,9 @@ public class MTx {
     public static OreDictMaterial gasdcmp(int aID, String name, long aR, long aG, long aB, long aA, Object... aRandomData) { return gas(aID, name, aR, aG, aB, aA, aRandomData).put(DECOMPOSABLE); }
     public static OreDictMaterial lqudexpl(int aID, String name, long aR, long aG, long aB, long aA, Object... aRandomData) {return liquid(aID, name, aR, aG, aB, aA, aRandomData).put(FLAMMABLE, EXPLOSIVE);}
     public static OreDictMaterial lqudflam(int aID, String name, long aR, long aG, long aB, long aA, Object... aRandomData) {return liquid(aID, name, aR, aG, aB, aA, aRandomData).put(FLAMMABLE);}
+    public static OreDictMaterial salloymachine(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, Object... aRandomData) { return create(aID, aNameOreDict, aR, aG, aB , 255, aRandomData).setTextures(aSets).put(ALLOY, DECOMPOSABLE, G_INGOT_MACHINE, SMITHABLE, MELTING, EXTRUDER); }
+    public static OreDictMaterial alloy(int aID, String name, TextureSet[] aSets, long aR, long aG, long aB, long aA, Object... aRandomData) { return create(aID, name, aR, aG, aB, aA, aRandomData).setTextures(aSets).put(DECOMPOSABLE, G_DUST_ORES, MORTAR); }
+
 
     public static OreDictMaterial registerLiquid(OreDictMaterial mat) {
         FL.createLiquid(mat);
@@ -224,7 +228,24 @@ public class MTx {
     BlastFurnaceGas = registerGas(gas(16056, "Blast Furnace Gas", 0, 20, 30, 200)
             .setMcfg(0, MT.N, 10*U, MT.CO, 4*U, MT.CO2, 4*U, MT.H, U)
             .put(FLAMMABLE, CENTRIFUGE)
-            .heat(100, 200))
+            .heat(100, 200)),
+    Bloom = create(16057, "Bloom", 50, 50, 0, 255)
+            .heat(2011)
+            .put(MORTAR),
+    PbO = dustdcmp(16058, "Lead Oxide", SET_DULL, 150, 130, 100, 255)
+            .setMcfg(0, MT.Pb, U, MT.O, U)
+            .heat(1161, 1750)
+            .setSmelting(MT.Pb, 3*U4),
+    ZnO = dustdcmp(16059, "Zinc Oxide", SET_DULL, 255, 230, 240, 255)
+            .setMcfg(0, MT.Zn, U, MT.O, U)
+            .heat(2247, 2630)
+            .put(ELECTROLYSER),
+    FeCr2 = salloymachine(16060, "Ferrochrome", SET_FLINT, 50, 30, 40)
+            .setMcfg(0, MT.Fe, U, MT.Cr, 2*U)
+            .heat(C+1500),
+    Co3O4 = dustdcmp(16061, "Tricobalt Tetroxide", SET_DULL, 150, 150, 180, 255)
+            .setMcfg(0, MT.Co, 3*U, MT.O, 4*U)
+            .heat(1168, 1170)
     ;
 
     static {
