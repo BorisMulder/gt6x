@@ -1,4 +1,4 @@
-package org.altadoon.gt6x.features.steelmaking;
+package org.altadoon.gt6x.features.metallurgy;
 
 import gregapi.block.multitileentity.MultiTileEntityRegistry;
 import gregapi.data.*;
@@ -18,7 +18,7 @@ import org.altadoon.gt6x.features.GT6XFeature;
 import static gregapi.data.CS.*;
 import static gregapi.data.CS.T;
 
-public class Steelmaking extends GT6XFeature {
+public class Metallurgy extends GT6XFeature {
     public Recipe.RecipeMap blastFurnace = null;
 
     @Override

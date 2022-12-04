@@ -1,4 +1,4 @@
-package org.altadoon.gt6x.features.steelmaking;
+package org.altadoon.gt6x.features.metallurgy;
 
 import gregapi.data.*;
 import gregapi.fluid.FluidTankGT;
