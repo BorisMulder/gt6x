@@ -249,7 +249,10 @@ public class MTx {
             .heat(1168, 1170),
     As2O3 = dustdcmp(16062, "Arsenic Trioxide", SET_DULL, 200, 200, 200, 255)
             .setMcfg(0, MT.As, 2*U, MT.O, 3*U)
-            .heat(C+312, C+465)
+            .heat(C+312, C+465),
+    MoO3 = dustdcmp(16063, "Molybdenum Trioxide", SET_CUBE, 180, 180, 180, 255)
+            .setMcfg(0, MT.Mo, U, MT.O, 3*U)
+            .heat(1075, 1428)
     ;
 
     static {
