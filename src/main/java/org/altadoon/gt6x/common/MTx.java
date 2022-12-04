@@ -259,7 +259,5 @@ public class MTx {
         FL.createMolten(Slag.put(MELTING, MOLTEN), 144);
         FL.createMolten(FeCr2.put(MELTING, MOLTEN), 144);
         FL.createGas(MT.Zn.put(GASES));
-        MT.PigIron.setPulver(MT.PigIron, U).setSmelting(MT.PigIron, U);
-        MT.OREMATS.Chromite.setSmelting(MT.OREMATS.Chromite, U);
     }
 }
