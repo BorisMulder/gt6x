@@ -49,7 +49,7 @@ public class MultiTileEntityBlastFurnace extends TileEntityBase10MultiBlockMachi
                                 (i != 0 && k == 0 && (mFacing == SIDE_Z_POS || mFacing == SIDE_Z_NEG))
                             ) {
                                 design = 1;
-                                side_io &= (MultiTileEntityMultiBlockPart.ONLY_CRUCIBLE & MultiTileEntityMultiBlockPart.ONLY_ITEM_OUT);
+                                side_io &= (MultiTileEntityMultiBlockPart.ONLY_CRUCIBLE & MultiTileEntityMultiBlockPart.ONLY_ITEM_FLUID_OUT);
                             }
                             break;
                         case 1: side_io = MultiTileEntityMultiBlockPart.ONLY_FLUID_IN; break;
@@ -70,8 +70,8 @@ public class MultiTileEntityBlastFurnace extends TileEntityBase10MultiBlockMachi
         LH.add("gt6x.tooltip.multiblock.blastfurnace.1", "3x5x3 hollow of 41 Blast Furnace Parts (excl. main) with Air inside;");
         LH.add("gt6x.tooltip.multiblock.blastfurnace.2", "Main centered at bottom-side facing outwards.");
         LH.add("gt6x.tooltip.multiblock.blastfurnace.3", "Energy in from bottom side.");
-        LH.add("gt6x.tooltip.multiblock.blastfurnace.4", "Molten metal out at right hole in bottom layer, pour into molds and the like as crucible;");
-        LH.add("gt6x.tooltip.multiblock.blastfurnace.5", "Slag out at left hole, solid as item, liquid poured into molds.");
+        LH.add("gt6x.tooltip.multiblock.blastfurnace.4", "Molten metal out at right hole in bottom layer (not automatic), crucible molds, crossings, etc. usable");
+        LH.add("gt6x.tooltip.multiblock.blastfurnace.5", "Same for slag but at left hole, both liquid and solid");
         LH.add("gt6x.tooltip.multiblock.blastfurnace.6", "Air in at second layer.");
         LH.add("gt6x.tooltip.multiblock.blastfurnace.7", "Items in (not automatic; hoppers recommended) and gases out (automatic) at the top.");
     }

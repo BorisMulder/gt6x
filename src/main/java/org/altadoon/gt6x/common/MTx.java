@@ -230,7 +230,7 @@ public class MTx {
             .put(FLAMMABLE, CENTRIFUGE)
             .heat(100, 200)),
     Bloom = create(16057, "Bloom", 50, 50, 0, 255)
-            .heat(2011)
+            .heat(1350)
             .put(MORTAR),
     PbO = dustdcmp(16058, "Lead Oxide", SET_DULL, 150, 130, 100, 255)
             .setMcfg(1, MT.Pb, U, MT.O, U)
@@ -252,7 +252,11 @@ public class MTx {
             .heat(C+312, C+465),
     MoO3 = dustdcmp(16063, "Molybdenum Trioxide", SET_CUBE, 180, 180, 180, 255)
             .setMcfg(0, MT.Mo, U, MT.O, 3*U)
-            .heat(1075, 1428)
+            .heat(1075, 1428),
+    HgO = dustdcmp(16064, "Mercuric Oxide", SET_CUBE, 255, 150, 0, 255)
+            .setMcfg(0, MT.Hg, U, MT.O, U)
+            .heat(773)
+            .setSmelting(MT.Hg, U3)
     ;
 
     static {
