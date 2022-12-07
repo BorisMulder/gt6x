@@ -37,8 +37,7 @@ public class MTx {
     public static OreDictMaterial gasdcmp(int aID, String name, long aR, long aG, long aB, long aA, Object... aRandomData) { return gas(aID, name, aR, aG, aB, aA, aRandomData).put(DECOMPOSABLE); }
     public static OreDictMaterial lqudexpl(int aID, String name, long aR, long aG, long aB, long aA, Object... aRandomData) {return liquid(aID, name, aR, aG, aB, aA, aRandomData).put(FLAMMABLE, EXPLOSIVE);}
     public static OreDictMaterial lqudflam(int aID, String name, long aR, long aG, long aB, long aA, Object... aRandomData) {return liquid(aID, name, aR, aG, aB, aA, aRandomData).put(FLAMMABLE);}
-    public static OreDictMaterial salloymachine(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, Object... aRandomData) { return create(aID, aNameOreDict, aR, aG, aB , 255, aRandomData).setTextures(aSets).put(ALLOY, DECOMPOSABLE, G_INGOT_MACHINE, SMITHABLE, MELTING, EXTRUDER); }
-    public static OreDictMaterial alloy(int aID, String name, TextureSet[] aSets, long aR, long aG, long aB, long aA, Object... aRandomData) { return create(aID, name, aR, aG, aB, aA, aRandomData).setTextures(aSets).put(DECOMPOSABLE, G_DUST_ORES, MORTAR); }
+    public static OreDictMaterial alloymachine(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, Object... aRandomData) { return create(aID, aNameOreDict, aR, aG, aB , 255, aRandomData).setTextures(aSets).put(ALLOY, DECOMPOSABLE, G_INGOT_MACHINE, SMITHABLE, MELTING, EXTRUDER); }
 
 
     public static OreDictMaterial registerLiquid(OreDictMaterial mat) {
@@ -226,12 +225,12 @@ public class MTx {
             .heat(1810, 3000)
             .setPulver(MT.OREMATS.Wollastonite, U),
     BlastFurnaceGas = registerGas(gas(16056, "Blast Furnace Gas", 0, 20, 30, 200)
-            .setMcfg(0, MT.N, 10*U, MT.CO, 4*U, MT.CO2, 4*U, MT.H, U)
+            .setMcfg(0, MT.N, 11*U, MT.CO, 4*U, MT.CO2, 4*U, MT.H, U)
             .put(FLAMMABLE, CENTRIFUGE)
             .heat(100, 200)),
-    Bloom = create(16057, "Bloom", 50, 50, 0, 255)
+    Bloom = create(16057, "Bloom", 100, 50, 0, 255)
             .heat(1350)
-            .put(MORTAR),
+            .put(MORTAR, G_DUST),
     PbO = dustdcmp(16058, "Lead Oxide", SET_DULL, 150, 130, 100, 255)
             .setMcfg(1, MT.Pb, U, MT.O, U)
             .heat(1161, 1750)
@@ -241,7 +240,7 @@ public class MTx {
             .heat(2247, 2630)
             .setSmelting(MT.Zn, 3*U4)
             .put(ELECTROLYSER),
-    FeCr2 = salloymachine(16060, "Ferrochrome", SET_FLINT, 50, 30, 40)
+    FeCr2 = alloymachine(16060, "Ferrochrome", SET_SHINY, 160, 150, 150)
             .setMcfg(0, MT.Fe, U, MT.Cr, 2*U)
             .heat(C+1500),
     Co3O4 = dustdcmp(16061, "Tricobalt Tetroxide", SET_DULL, 150, 150, 180, 255)
@@ -256,7 +255,10 @@ public class MTx {
     HgO = dustdcmp(16064, "Mercuric Oxide", SET_CUBE, 255, 150, 0, 255)
             .setMcfg(0, MT.Hg, U, MT.O, U)
             .heat(773)
-            .setSmelting(MT.Hg, U3)
+            .setSmelting(MT.Hg, U2),
+    ZnBlastFurnaceGas = registerGas(gas(16065, "Zinc-Rich Blast Furnace Gas", 0, 20, 30, 200)
+            .setMcfg(0, MT.Zn, 20*U, MT.N, 11*U, MT.CO, 4*U, MT.CO2, 4*U, MT.H, U)
+            .heat(MT.Zn))
     ;
 
     static {

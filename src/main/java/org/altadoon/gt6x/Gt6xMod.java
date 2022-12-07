@@ -1,6 +1,5 @@
 package org.altadoon.gt6x;
 
-import gregapi.data.CS;
 import org.altadoon.gt6x.common.Config;
 import org.altadoon.gt6x.common.Log;
 import org.altadoon.gt6x.common.MTEx;
@@ -11,6 +10,8 @@ import org.altadoon.gt6x.features.pgm.PgmProcessing;
 import org.altadoon.gt6x.features.metallurgy.Metallurgy;
 
 import java.util.ArrayList;
+
+import static gregapi.data.CS.GT;
 
 /**
  * @author Boris Mulder (Altadoon)
@@ -53,13 +54,30 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 		OilProcessing.class,
 		Metallurgy.class
 	};
-	private ArrayList<GT6XFeature> enabledFeatures;
+	private final ArrayList<GT6XFeature> enabledFeatures;
+
+	public Gt6xMod() {
+		this.modConfig = new Config(allFeatures);
+		this.enabledFeatures = modConfig.getEnabledFeatures();
+
+		final Gt6xMod copy = this;
+		GT.mBeforePreInit.add(new Runnable() {
+			@Override public void run() {
+				copy.prePreInit();
+			}});
+		GT.mAfterPreInit.add(new Runnable() {
+			@Override public void run() {
+				copy.postPreInit();
+			}});
+		GT.mAfterPostInit.add(new Runnable() {
+			@Override public void run() {
+				copy.postPostInit();
+			}});
+	}
 
 
 	@Override
 	public void onModPreInit2(cpw.mods.fml.common.event.FMLPreInitializationEvent aEvent) {
-		this.modConfig = new Config(allFeatures);
-		this.enabledFeatures = modConfig.getEnabledFeatures();
 		MTEx.touch();
 		MTx.touch();
 
@@ -79,12 +97,24 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 	public void onModPostInit2(cpw.mods.fml.common.event.FMLPostInitializationEvent aEvent) {
 		for (GT6XFeature feature : enabledFeatures) {
 			feature.postInit();
+		}
+	}
 
-			final GT6XFeature featureCopy = feature;
-			CS.GT.mAfterPostInit.add(new Runnable() {
-				@Override public void run() {
-					featureCopy.postPostInit();
-				}});
+	private void prePreInit() {
+		for (GT6XFeature feature : enabledFeatures) {
+			feature.beforePreInit();
+		}
+	}
+
+	private void postPreInit() {
+		for (GT6XFeature feature : enabledFeatures) {
+			feature.afterPreInit();
+		}
+	}
+
+	private void postPostInit() {
+		for (GT6XFeature feature : enabledFeatures) {
+			feature.afterPostInit();
 		}
 	}
 

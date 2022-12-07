@@ -49,7 +49,7 @@ public class OilProcessing extends GT6XFeature {
     }
 
     @Override
-    public void postPostInit() {
+    public void afterPostInit() {
         // override recipes
         changeDTowerRecipes();
         changeCrackingRecipes();

@@ -76,7 +76,7 @@ public class PgmProcessing extends GT6XFeature {
     }
 
     @Override
-    public void postPostInit() {
+    public void afterPostInit() {
         changeSludgeRecipes();
 
         for (OreDictMaterial tMat : new OreDictMaterial[] {MT.Ru, MT.Rh, MT.Pd, MT.Os, MT.Ir, MT.Pt, MT.Ni, MT.Mithril, MT.MeteoricIron, MT.OREMATS.Cooperite, MT.OREMATS.Sperrylite}) {
