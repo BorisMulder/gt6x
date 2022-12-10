@@ -59,6 +59,11 @@ public class Metallurgy extends GT6XFeature {
     }
 
     @Override
+    public void beforePostInit() {
+        addOverrideRecipes();
+    }
+
+    @Override
     public void postInit() {
         addRecipes();
     }
@@ -79,7 +84,6 @@ public class Metallurgy extends GT6XFeature {
         while (it.hasNext()) {
             OreDictMaterial byproduct = it.next();
             if (byproduct.mID == MT.Co.mID) {
-                it.remove();
                 it.set(MT.OREMATS.Cobaltite);
             }
         }
@@ -106,14 +110,14 @@ public class Metallurgy extends GT6XFeature {
             removeAlloySmeltingRecipe(mat);
         }
 
-        MTx.Bloom.addAlloyingRecipe(new OreDictConfigurationComponent( 2, OM.stack(MT.Fe2O3                         , 5*U), OM.stack(MT.C, 1*U), OM.stack(MT.CaCO3, U)));
-        MTx.Bloom.addAlloyingRecipe(new OreDictConfigurationComponent( 6, OM.stack(MT.OREMATS.Magnetite             ,14*U), OM.stack(MT.C, 3*U), OM.stack(MT.CaCO3, U)));
-        MTx.Bloom.addAlloyingRecipe(new OreDictConfigurationComponent( 6, OM.stack(MT.OREMATS.BasalticMineralSand   ,14*U), OM.stack(MT.C, 3*U), OM.stack(MT.CaCO3, U)));
-        MTx.Bloom.addAlloyingRecipe(new OreDictConfigurationComponent( 6, OM.stack(MT.OREMATS.GraniticMineralSand   ,14*U), OM.stack(MT.C, 3*U), OM.stack(MT.CaCO3, U)));
-        MTx.Bloom.addAlloyingRecipe(new OreDictConfigurationComponent( 6, OM.stack(MT.OREMATS.Ferrovanadium         ,28*U), OM.stack(MT.C, 3*U), OM.stack(MT.CaCO3, U)));
+        MTx.Bloom.addAlloyingRecipe(new OreDictConfigurationComponent( 3, OM.stack(MT.Fe2O3                         , 5*U), OM.stack(MT.C, 1*U), OM.stack(MT.CaCO3, 1*U)));
+        MTx.Bloom.addAlloyingRecipe(new OreDictConfigurationComponent( 9, OM.stack(MT.OREMATS.Magnetite             ,14*U), OM.stack(MT.C, 3*U), OM.stack(MT.CaCO3, 3*U)));
+        MTx.Bloom.addAlloyingRecipe(new OreDictConfigurationComponent( 9, OM.stack(MT.OREMATS.BasalticMineralSand   ,14*U), OM.stack(MT.C, 3*U), OM.stack(MT.CaCO3, 3*U)));
+        MTx.Bloom.addAlloyingRecipe(new OreDictConfigurationComponent( 9, OM.stack(MT.OREMATS.GraniticMineralSand   ,14*U), OM.stack(MT.C, 3*U), OM.stack(MT.CaCO3, 3*U)));
+        MTx.Bloom.addAlloyingRecipe(new OreDictConfigurationComponent( 9, OM.stack(MT.OREMATS.Ferrovanadium         ,28*U), OM.stack(MT.C, 3*U), OM.stack(MT.CaCO3, 3*U)));
 
         // pig iron C content: around 4% (weight), Fe: 96% * 12u / 56u = 20,5 ==> 2 Fe20C + Fe2O3 -> 42 Fe + CO + CO2
-        MT.Fe.addAlloyingRecipe(new OreDictConfigurationComponent(21, OM.stack(MT.PigIron,20*U), OM.stack(MT.Fe2O3, 5*U2)));
+        MT.WroughtIron.addAlloyingRecipe(new OreDictConfigurationComponent(21, OM.stack(MT.PigIron,20*U), OM.stack(MT.Fe2O3, 5*U2)));
 
         MT.Steel.addAlloyingRecipe(new OreDictConfigurationComponent( 1, OM.stack(MT.PigIron, U), OM.stack(MT.Air, U)));
         // TODO add steel recipe from DRI (MT.Fe) with O2 to EAF
@@ -175,18 +179,10 @@ public class Metallurgy extends GT6XFeature {
             //TODO sintered pellets?
         }
 
-        /* TODO check
-        RM.Shredder.addRecipe1(false, 16, 64, OP.nugget.mat(MTx.Slag, 1), OP.dustTiny.mat(MT.OREMATS.Wollastonite, 1));
-        RM.Shredder.addRecipe1(false, 16, 64, OP.chunk.mat(MTx.Slag, 1), OP.dustSmall.mat(MT.OREMATS.Wollastonite, 1));
-        RM.Shredder.addRecipe1(false, 16, 64, OP.ingot.mat(MTx.Slag, 1), OP.dust.mat(MT.OREMATS.Wollastonite, 1));
-        RM.Mortar.addRecipe1(false, 16, 64, OP.nugget.mat(MTx.Slag, 1), OP.dustTiny.mat(MT.OREMATS.Wollastonite, 1));
-        RM.Mortar.addRecipe1(false, 16, 64, OP.chunk.mat(MTx.Slag, 1), OP.dustSmall.mat(MT.OREMATS.Wollastonite, 1));
-        RM.Mortar.addRecipe1(false, 16, 64, OP.ingot.mat(MTx.Slag, 1), OP.dust.mat(MT.OREMATS.Wollastonite, 1));
-         */
-
         // misc stuff
+        RM.Anvil.addRecipe1(true, 64, 192, OP.scrapGt.mat(MTx.Bloom, 12), OP.ingot.mat(MT.WroughtIron, 1), OP.nugget.mat(MTx.Slag, 3));
         RM.Distillery.addRecipe1(true, 16, 16, ST.tag(0), FL.array(MTx.ZnBlastFurnaceGas.gas(U, true)), FL.array(MT.Zn.liquid(U2, false), MTx.BlastFurnaceGas.gas(U2, false)));
-        RM.Mixer.addRecipe1(true, 16, 160, OP.dust.mat(MTx.MoO3, 4*U), FL.array(MT.H.gas(6*U, true)), FL.array(MT.H2O.liquid(9*U, false)), OP.dust.mat(MT.Mo, U));
+        //RM.Mixer.addRecipe1(true, 16, 160, OP.dust.mat(MTx.MoO3, 4*U), FL.array(MT.H.gas(6*U, true)), FL.array(MT.H2O.liquid(9*U, false)), OP.dust.mat(MT.Mo, U));
 
         // Sintering dusts into chunks
         sintering.add(new RecipeMapHandlerPrefixForging(OP.dust, 1, NF, 16, 0, 0, NF, OP.chunk, 4, NI, NI, true, false, false, lowHeatSintering));
@@ -213,29 +209,8 @@ public class Metallurgy extends GT6XFeature {
         }
     }
 
-    private void changeRecipes() {
-        Set<ItemStack> toDisableRoasting = new HashSet<>();
-        for (OreDictMaterial mat : new OreDictMaterial[] {
-                MT.OREMATS.Cobaltite, MT.OREMATS.Cooperite, MT.OREMATS.Galena, MT.OREMATS.Kesterite, MT.OREMATS.Molybdenite, MT.OREMATS.Pentlandite, MT.OREMATS.Sphalerite, MT.OREMATS.Stannite, MT.OREMATS.Cinnabar
-        }) {
-            toDisableRoasting.add(OP.dust.mat(mat, 1));
-        }
-
-        // make Stainless using crucible or EAF as you need to inject oxygen (it is a kind of steel after all)
-        for (Recipe r : RM.Roasting.mRecipeList) if (r.mInputs.length >= 1) {
-            for (ItemStack stack : toDisableRoasting) {
-                if (r.mInputs[0].isItemEqual(stack)) {
-                    r.mEnabled = false;
-                    break;
-                }
-            }
-        }
-
-        for (Recipe r : RM.Mixer.mRecipeList) {
-            if (r.mFluidOutputs.length >= 1 && r.mFluidOutputs[0].getFluid().getName().equals("molten.stainlesssteel"))
-                r.mEnabled = false;
-        }
-
+    private void addOverrideRecipes() {
+        // Roasting
         for (String tOxygen : FluidsGT.OXYGEN) if (FL.exists(tOxygen)) {
             RM.Roasting.addRecipe1(true, 16, 512, OM.dust(MT.OREMATS.Sphalerite), FL.make(tOxygen, 1500), MT.SO2.gas(3 * U2, false), OM.dust(MTx.ZnO, U2));
             RM.Roasting.addRecipe1(true, 16, 512, OM.dust(MT.OREMATS.Molybdenite), FL.make(tOxygen, 2334), MT.SO2.gas(6 * U3, false), OM.dust(MTx.MoO3, 4*U3));
@@ -262,9 +237,54 @@ public class Metallurgy extends GT6XFeature {
             RM.Roasting.addRecipe1(true, 16, 512, tChances, OM.dust(MT.OREMATS.Cinnabar), FL.make(tAir, 4000), MT.SO2.gas(3 * U2, false), OM.dust(MTx.HgO, U));
         }
 
+        MultiTileEntityRegistry aRegistry = MultiTileEntityRegistry.getRegistry("gt.multitileentity");
+
+        // Hints
+        RM.DidYouKnow.addFakeRecipe(false, ST.array(
+                IL.Ceramic_Mold.getWithName(1, "Don't forget to shape the Mold to pour it")
+                , IL.Ceramic_Crucible.getWithName(1, "Wait until it all turns into Steel")
+                , ST.make(aRegistry.getItem(1302), "Point a running Engine into the Crucible to blow Air")
+                , ST.make(OP.ingot.mat(MT.PigIron, 1), "Throw some Pig Iron into Crucible. Do not forget to leave space for Air!")
+                , ST.make(aRegistry.getItem(1199), "Heat up the Crucible using a Burning Box")
+        ), ST.array(OP.dust.mat(MT.Steel, 1), OP.ingot.mat(MT.Steel, 1), OP.plate.mat(MT.Steel, 1), OP.scrapGt.mat(MT.Steel, 1), OP.stick.mat(MT.Steel, 1), OP.gearGt.mat(MT.Steel, 1)), null, ZL_LONG, ZL_FS, ZL_FS, 0, 0, 0);
+
+        RM.DidYouKnow.addFakeRecipe(F, ST.array(
+                ST.make(OP.dust.mat(MT.OREMATS.Cinnabar, 3), "Throw three Units of Cinnabar into Crucible")
+                , ST.make(OP.dust.mat(MTx.HgO, 2), "Or two Units of Mercuric Oxide produced by roasting the cinnabar first!")
+                , IL.Ceramic_Crucible.getWithName(1, "Wait until it melts into Mercury")
+                , IL.Bottle_Empty.getWithName(1, "Rightclick the Crucible with an Empty Bottle")
+                , ST.make(aRegistry.getItem(1199), "Heat up the Crucible using a Burning Box")
+                , ST.make(Blocks.redstone_ore, 1, 0, "Using a Club to mine Vanilla Redstone Ore gives Cinnabar")
+        ), ST.array(IL.Bottle_Mercury.get(1), ST.make(OP.ingot.mat(MT.Hg, 1), "Pouring this into Molds only works with additional Cooling!"), ST.make(OP.nugget.mat(MT.Hg, 1), "Pouring this into Molds only works with additional Cooling!")), null, ZL_LONG, FL.array(MT.Hg.liquid(1, T)), FL.array(MT.Hg.liquid(1, T)), 0, 0, 0);
+    }
+
+    private void changeRecipes() {
+        /*
+        // Roasting
+        Set<ItemStack> toDisableRoasting = new HashSet<>();
+        for (OreDictMaterial mat : new OreDictMaterial[] {
+                MT.OREMATS.Cobaltite, MT.OREMATS.Cooperite, MT.OREMATS.Galena, MT.OREMATS.Kesterite, MT.OREMATS.Molybdenite, MT.OREMATS.Pentlandite, MT.OREMATS.Sphalerite, MT.OREMATS.Stannite, MT.OREMATS.Cinnabar
+        }) {
+            toDisableRoasting.add(OP.dust.mat(mat, 1));
+        }
+
+        // make Stainless using crucible or EAF as you need to inject oxygen (it is a kind of steel after all)
+        for (Recipe r : RM.Roasting.mRecipeList) if (r.mInputs.length >= 1) {
+            for (ItemStack stack : toDisableRoasting) {
+                if (r.mInputs[0].isItemEqual(stack)) {
+                    r.mEnabled = false;
+                    break;
+                }
+            }
+        }
+        */
+
+        for (Recipe r : RM.Mixer.mRecipeList) {
+            if (r.mFluidOutputs.length >= 1 && r.mFluidOutputs[0].getFluid().getName().equals("molten.stainlesssteel"))
+                r.mEnabled = false;
+        }
+
         Recipe r = RM.Centrifuge.findRecipe(null, null, true, Long.MAX_VALUE, null, ZL_FS, OM.dust(MT.OREMATS.Cinnabar)); if (r != null) r.mEnabled = false;
         //TODO decompose HgO using Thermolysis for full value
-
-
     }
 }

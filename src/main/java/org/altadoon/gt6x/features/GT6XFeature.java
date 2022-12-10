@@ -9,6 +9,7 @@ public abstract class GT6XFeature {
     public abstract void preInit();
     public void afterPreInit() {}
     public abstract void init();
+    public void beforePostInit() {}
     public abstract void postInit();
     public void afterPostInit() {}
 }

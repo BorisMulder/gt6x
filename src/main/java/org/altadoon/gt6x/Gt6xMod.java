@@ -69,6 +69,10 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 			@Override public void run() {
 				copy.postPreInit();
 			}});
+		GT.mBeforePostInit.add(new Runnable() {
+			@Override public void run() {
+				copy.prePostInit();
+			}});
 		GT.mAfterPostInit.add(new Runnable() {
 			@Override public void run() {
 				copy.postPostInit();
@@ -109,6 +113,12 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 	private void postPreInit() {
 		for (GT6XFeature feature : enabledFeatures) {
 			feature.afterPreInit();
+		}
+	}
+
+	private void prePostInit() {
+		for (GT6XFeature feature : enabledFeatures) {
+			feature.beforePostInit();
 		}
 	}
 
