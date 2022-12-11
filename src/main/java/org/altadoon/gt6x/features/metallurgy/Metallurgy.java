@@ -215,7 +215,7 @@ public class Metallurgy extends GT6XFeature {
         RM.Distillery.addRecipe1(true, 16, 64, ST.tag(0), FL.array(MTx.ZnBlastFurnaceGas.gas(7*U, true)), FL.array(MT.Zn.liquid(U, false), MTx.BlastFurnaceGas.gas(6*U, false)));
 
         // MoO3 to Mo
-        //TODO
+        //TODO fix
         RM.Mixer.addRecipe1(false, 16, 160, OP.dust.mat(MTx.MoO3, 4*U), FL.array(MT.H.gas(6*U, true)), FL.array(MT.H2O.liquid(9*U, false)), OP.dust.mat(MT.Mo, U));
 
         // Sintering dusts into chunks
@@ -297,14 +297,14 @@ public class Metallurgy extends GT6XFeature {
 
         // Hints
         for (Recipe r1 : RM.DidYouKnow.mRecipeList) {
-            if (r1.mFluidOutputs.length >= 1 && r1.mOutputs[0] != null && (
+            if (r1.mOutputs.length >= 1 && r1.mOutputs[0] != null && (
                 r1.mOutputs[0].isItemEqual(OP.dust.mat(MT.Steel, 1)) ||
                 r1.mOutputs[0].isItemEqual(IL.Bottle_Mercury.get(1))
             ))
                 r1.mEnabled = false;
         }
 
-        //TODO
+        //TODO test
         RM.DidYouKnow.addFakeRecipe(false, ST.array(
                 IL.Ceramic_Mold.getWithName(1, "Don't forget to shape the Mold to pour it")
                 , IL.Ceramic_Crucible.getWithName(1, "Wait until it all turns into Steel")
@@ -321,6 +321,5 @@ public class Metallurgy extends GT6XFeature {
                 , ST.make(MTEx.gt6Registry.getItem(1199), "Heat up the Crucible using a Burning Box")
                 , ST.make(Blocks.redstone_ore, 1, 0, "Using a Club to mine Vanilla Redstone Ore gives Cinnabar")
         ), ST.array(IL.Bottle_Mercury.get(1), ST.make(OP.ingot.mat(MT.Hg, 1), "Pouring this into Molds only works with additional Cooling!"), ST.make(OP.nugget.mat(MT.Hg, 1), "Pouring this into Molds only works with additional Cooling!")), null, ZL_LONG, FL.array(MT.Hg.liquid(1, T)), FL.array(MT.Hg.liquid(1, T)), 0, 0, 0);
-
     }
 }
