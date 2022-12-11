@@ -51,6 +51,7 @@ public class OilProcessing extends GT6XFeature {
     @Override
     public void afterPostInit() {
         // override recipes
+        //TODO move some to prePostInit instead of disabling
         changeDTowerRecipes();
         changeCrackingRecipes();
         changeElectrolysisRecipes();
