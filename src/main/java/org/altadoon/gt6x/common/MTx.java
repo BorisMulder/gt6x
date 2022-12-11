@@ -1,5 +1,6 @@
 package org.altadoon.gt6x.common;
 
+import gregapi.code.TagData;
 import gregapi.data.*;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.render.TextureSet;
@@ -20,6 +21,8 @@ import static gregapi.render.TextureSet.SET_FINE;
 public class MTx {
     public static void touch() {}
 
+    public static final TagData POLYMER = TagData.createTagData("PROPERTIES.Polymer", "Polymer");
+
     public static OreDictMaterial create(int aID, String name, long aR, long aG, long aB, long aA, Object... aRandomData) {
         if (aID <= 16000 || aID > 16999) {
             throw new IllegalArgumentException(name + ": GT6X materials should have IDs in the 16001-16999 range");
@@ -38,6 +41,7 @@ public class MTx {
     public static OreDictMaterial lqudexpl(int aID, String name, long aR, long aG, long aB, long aA, Object... aRandomData) {return liquid(aID, name, aR, aG, aB, aA, aRandomData).put(FLAMMABLE, EXPLOSIVE);}
     public static OreDictMaterial lqudflam(int aID, String name, long aR, long aG, long aB, long aA, Object... aRandomData) {return liquid(aID, name, aR, aG, aB, aA, aRandomData).put(FLAMMABLE);}
     public static OreDictMaterial alloymachine(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, Object... aRandomData) { return create(aID, aNameOreDict, aR, aG, aB , 255, aRandomData).setTextures(aSets).put(ALLOY, DECOMPOSABLE, G_INGOT_MACHINE, SMITHABLE, MELTING, EXTRUDER); }
+    public static OreDictMaterial plastic(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, long aA, Object... aRandomData) { return create(aID, aNameOreDict, aR, aG, aB , aA, aRandomData).setTextures(aSets).put(G_INGOT_MACHINE, MELTING, EXTRUDER, EXTRUDER_SIMPLE, MORTAR, FURNACE, POLYMER); }
 
 
     public static OreDictMaterial registerLiquid(OreDictMaterial mat) {
@@ -167,19 +171,18 @@ public class MTx {
             .uumMcfg(0, MT.C, U*3, MT.H, U*5, MT.Cl, U, MT.O, U)
             .heat(248, 391)
             .put(FLAMMABLE)),
-    Epoxy = dustdcmp( 16041, "Epoxy", SET_DULL, 120, 255, 100, 255)
+    Epoxy = plastic( 16041, "Epoxy", SET_DULL, 120, 255, 100, 255)
             .uumMcfg(0, MT.C, U*21, MT.H, U*24, MT.O, U*4)
-            .put(G_INGOT_MACHINE, EXTRUDER, EXTRUDER_SIMPLE, MORTAR, BRITTLE, FURNACE)
             .heat(400),
     VinylChloride = registerGas(gasdcmp(16042, "Vinyl Chloride", 150, 255, 150, 50)
             .uumMcfg(0, MT.C, 2*U, MT.H, U*3, MT.Cl, U)
             .heat(119, 260)
             .put(FLAMMABLE)),
-    PVC = dustdcmp( 16043, "PVC", SET_DULL, 125, 125, 125, 255)
+    PVC = plastic( 16043, "PVC", SET_DULL, 125, 125, 125, 255)
             .setLocal("Polyvinyl Chloride")
             .uumMcfg(0, MT.C, 2*U, MT.H, U*3, MT.Cl, U)
             .heat(C+100)
-            .put(G_INGOT_MACHINE, EXTRUDER, EXTRUDER_SIMPLE, MORTAR, PIPES, FURNACE),
+            .put(PIPES),
     CHCl3 = registerLiquid(lquddcmp( 16044, "Chloroform", 150, 255, 200, 255)
             .uumMcfg(0, MT.C, U, MT.H, U, MT.Cl, U*3)
             .heat(210, 334)),
@@ -189,11 +192,11 @@ public class MTx {
     C2F4 = registerGas(gasdcmp( 16046, "Tetrafluoroethylene", 150, 255, 255, 255)
             .uumMcfg(0, MT.C, U*2, MT.F, U*4)
             .heat(131, 197)),
-    PTFE = dustdcmp( 16047, "PTFE", SET_DULL, 200, 255, 255, 255)
+    PTFE = plastic( 16047, "PTFE", SET_DULL, 200, 255, 255, 255)
             .setLocal("Polytetrafluoroethylene")
             .uumMcfg(0, MT.C, U*2, MT.F, U*4)
             .heat(C+327)
-            .put(G_INGOT_MACHINE, EXTRUDER, EXTRUDER_SIMPLE, MORTAR, PIPES, FURNACE),
+            .put(PIPES),
     Synoil = registerLiquid(lqudflam( 16048, "Synthetic Oil", 210, 210, 0, 255)
             .heat(100, 400)),
     SCNaphtha = registerLiquid(lqudflam( 16049, "Steam-Cracked Naphtha", 255, 255, 100, 255)
@@ -218,6 +221,8 @@ public class MTx {
             .heat(100, 200)
             .setLocal("Catalytic Cracker Offgas")
     ),
+
+    // Metallurgy
     Slag = create( 16055, "Slag", 255, 240, 200, 255)
             .setMcfg( 0, MT.UNUSED.Quicklime, U, MT.SiO2, 3*U)
             .setTextures(SET_FLINT)
@@ -264,6 +269,8 @@ public class MTx {
     static {
         FL.createMolten(MT.K2S2O7.put(MELTING, MOLTEN), 1000);
         FL.createMolten(MT.Na2S2O7.put(MELTING, MOLTEN), 1000);
+        MT.Plastic.put(POLYMER);
+        MT.Rubber.put(POLYMER);
         FL.createMolten(RhodiumPotassiumSulfate.put(MELTING, MOLTEN), 1000);
         FL.createMolten(Slag.put(MELTING, MOLTEN), 144);
         FL.createMolten(FeCr2.put(MELTING, MOLTEN), 144);

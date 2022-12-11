@@ -3,10 +3,8 @@ package org.altadoon.gt6x.features.metallurgy;
 import gregapi.block.multitileentity.MultiTileEntityRegistry;
 import gregapi.code.ICondition;
 import gregapi.data.*;
-import gregapi.oredict.OreDictItemData;
-import gregapi.oredict.OreDictMaterial;
-import gregapi.oredict.OreDictMaterialCondition;
-import gregapi.oredict.OreDictMaterialStack;
+import gregapi.item.prefixitem.PrefixItem;
+import gregapi.oredict.*;
 import gregapi.oredict.configurations.IOreDictConfigurationComponent;
 import gregapi.oredict.configurations.OreDictConfigurationComponent;
 import gregapi.recipes.Recipe;
@@ -28,11 +26,14 @@ import java.util.*;
 
 import static gregapi.data.CS.*;
 import static gregapi.data.TD.Atomic.ANTIMATTER;
+import static gregapi.data.TD.Processing.EXTRUDER;
 import static gregapi.oredict.OreDictMaterialCondition.fullforge;
+import static org.altadoon.gt6x.Gt6xMod.MOD_ID;
 
 public class Metallurgy extends GT6XFeature {
     public Recipe.RecipeMap blastFurnace = null;
     public Recipe.RecipeMap sintering = null;
+    public OreDictPrefix sinter = null;
 
     @Override
     public String name() {
@@ -44,6 +45,7 @@ public class Metallurgy extends GT6XFeature {
 
     @Override
     public void preInit() {
+        createPrefixes();
         changeMaterialProperties();
         addRecipeMaps();
     }
@@ -54,12 +56,11 @@ public class Metallurgy extends GT6XFeature {
     }
 
     @Override
-    public void init() {
-        addMTEs();
-    }
+    public void init() {}
 
     @Override
     public void beforePostInit() {
+        addMTEs();
         addOverrideRecipes();
     }
 
@@ -71,6 +72,17 @@ public class Metallurgy extends GT6XFeature {
     @Override
     public void afterPostInit() {
         changeRecipes();
+    }
+
+    private void createPrefixes() {
+        sinter = OreDictPrefix.createPrefix("sinter")
+            .setCategoryName("Sinters")
+            .setLocalItemName("", " Sinter")
+            .aspects(gregapi.data.TC.FABRICO, 1); // Thaumcraft Aspects related to this Prefix.
+        new PrefixItem(MOD_ID, MD.GT.mID, "gt6x.meta.sinter", sinter,
+            MT.Empty, MT.Fe2O3, MT.OREMATS.Magnetite, MT.OREMATS.Garnierite, MT.OREMATS.Cassiterite, MT.OREMATS.Chromite, MTx.PbO, MTx.ZnO, MT.MnO2, MTx.Co3O4, MT.SiO2
+        );
+
     }
 
     private void changeMaterialProperties() {
@@ -110,11 +122,11 @@ public class Metallurgy extends GT6XFeature {
             removeAlloySmeltingRecipe(mat);
         }
 
-        MTx.Bloom.addAlloyingRecipe(new OreDictConfigurationComponent( 3, OM.stack(MT.Fe2O3                         , 5*U), OM.stack(MT.C, 1*U), OM.stack(MT.CaCO3, 1*U)));
-        MTx.Bloom.addAlloyingRecipe(new OreDictConfigurationComponent( 9, OM.stack(MT.OREMATS.Magnetite             ,14*U), OM.stack(MT.C, 3*U), OM.stack(MT.CaCO3, 3*U)));
-        MTx.Bloom.addAlloyingRecipe(new OreDictConfigurationComponent( 9, OM.stack(MT.OREMATS.BasalticMineralSand   ,14*U), OM.stack(MT.C, 3*U), OM.stack(MT.CaCO3, 3*U)));
-        MTx.Bloom.addAlloyingRecipe(new OreDictConfigurationComponent( 9, OM.stack(MT.OREMATS.GraniticMineralSand   ,14*U), OM.stack(MT.C, 3*U), OM.stack(MT.CaCO3, 3*U)));
-        MTx.Bloom.addAlloyingRecipe(new OreDictConfigurationComponent( 9, OM.stack(MT.OREMATS.Ferrovanadium         ,28*U), OM.stack(MT.C, 3*U), OM.stack(MT.CaCO3, 3*U)));
+        MTx.Bloom.addAlloyingRecipe(new OreDictConfigurationComponent( 3, OM.stack(MT.Fe2O3                         , 5*U), OM.stack(MT.C, 3*U), OM.stack(MT.CaCO3, 1*U)));
+        MTx.Bloom.addAlloyingRecipe(new OreDictConfigurationComponent( 9, OM.stack(MT.OREMATS.Magnetite             ,14*U), OM.stack(MT.C, 9*U), OM.stack(MT.CaCO3, 3*U)));
+        MTx.Bloom.addAlloyingRecipe(new OreDictConfigurationComponent( 9, OM.stack(MT.OREMATS.BasalticMineralSand   ,14*U), OM.stack(MT.C, 9*U), OM.stack(MT.CaCO3, 3*U)));
+        MTx.Bloom.addAlloyingRecipe(new OreDictConfigurationComponent( 9, OM.stack(MT.OREMATS.GraniticMineralSand   ,14*U), OM.stack(MT.C, 9*U), OM.stack(MT.CaCO3, 3*U)));
+        MTx.Bloom.addAlloyingRecipe(new OreDictConfigurationComponent( 9, OM.stack(MT.OREMATS.Ferrovanadium         ,28*U), OM.stack(MT.C, 9*U), OM.stack(MT.CaCO3, 3*U)));
 
         // pig iron C content: around 4% (weight), Fe: 96% * 12u / 56u = 20,5 ==> 2 Fe20C + Fe2O3 -> 42 Fe + CO + CO2
         MT.WroughtIron.addAlloyingRecipe(new OreDictConfigurationComponent(21, OM.stack(MT.PigIron,20*U), OM.stack(MT.Fe2O3, 5*U2)));
@@ -143,59 +155,95 @@ public class Metallurgy extends GT6XFeature {
 
     private void addMTEs() {
         OreDictMaterial aMat;
-        aMat = MT.WroughtIron; MTEx.gt6xMTEReg.add("Blast Furnace Part", "Multiblock Machines", 60, 17101, MultiTileEntityMultiBlockPart.class, aMat.mToolQuality, 64, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_TEXTURE, "blastfurnaceparts", NBT_DESIGNS, 1), "hP ", "PF ", "   ", 'P', OP.plate.dat(MT.WroughtIron), 'F', MultiTileEntityRegistry.getRegistry("gt.multitileentity").getItem(18000));
-        aMat = MT.WroughtIron; MTEx.gt6xMTEReg.add("Blast Furnace", "Multiblock Machines", 61, 17101, MultiTileEntityBlastFurnace.class, aMat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_INPUT, 32, NBT_INPUT_MIN, 8, NBT_INPUT_MAX, 64, NBT_TEXTURE, "blastfurnace", NBT_ENERGY_ACCEPTED, TD.Energy.KU, NBT_RECIPEMAP, blastFurnace, NBT_INV_SIDE_AUTO_OUT, SIDE_LEFT, NBT_TANK_SIDE_AUTO_OUT, SIDE_TOP, NBT_CHEAP_OVERCLOCKING, true, NBT_NEEDS_IGNITION, true), "PwP", "PRh", "yFP", 'P', OP.plateCurved.dat(MT.WroughtIron), 'R', OP.stickLong.dat(MT.WroughtIron), 'F', MTEx.gt6xMTEReg.getItem(60));
-
-        OM.data(MTEx.gt6xMTEReg.getItem(60), new OreDictItemData(MT.WroughtIron, U*2, MT.Clay, U*4, MT.Brick, U*4));
+        aMat = MT.WroughtIron; MTEx.gt6xMTEReg.add("Blast Furnace Part", "Multiblock Machines", 60, 17101, MultiTileEntityMultiBlockPart.class, aMat.mToolQuality, 64, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_TEXTURE, "blastfurnaceparts", NBT_DESIGNS, 1), "hP ", "PF ", "   ", 'P', OP.plate.dat(MT.WroughtIron), 'F', MTEx.gt6Registry.getItem(18000));
+        aMat = MT.WroughtIron; MTEx.gt6xMTEReg.add("Blast Furnace", "Multiblock Machines", 61, 17101, MultiTileEntityBlastFurnace.class, aMat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_INPUT, 32, NBT_INPUT_MIN, 8, NBT_INPUT_MAX, 32, NBT_TEXTURE, "blastfurnace", NBT_ENERGY_ACCEPTED, TD.Energy.KU, NBT_RECIPEMAP, blastFurnace, NBT_INV_SIDE_AUTO_OUT, SIDE_LEFT, NBT_TANK_SIDE_AUTO_OUT, SIDE_TOP, NBT_CHEAP_OVERCLOCKING, true, NBT_NEEDS_IGNITION, true), "PwP", "PRh", "yFP", 'P', OP.plateCurved.dat(MT.WroughtIron), 'R', OP.stickLong.dat(MT.WroughtIron), 'F', MTEx.gt6xMTEReg.getItem(60));
 
         Class<? extends TileEntity> aClass = MultiTileEntityBasicMachine.class;
-        aMat = MT.DATA.Heat_T[1]; MTEx.gt6xMTEReg.add("Sintering Oven ("+aMat.getLocal()+")", "Basic Machines", 62, 20001, aClass, aMat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS,   6.0F, NBT_RESISTANCE,   6.0F, NBT_INPUT,   32, NBT_TEXTURE, "sinteringoven", NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, sintering, NBT_INV_SIDE_IN, SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_ENERGY_ACCEPTED_SIDES, SBIT_D), "wUh", "PMP", "BCB", 'M', OP.casingMachineDouble.dat(aMat), 'C', OP.plateDouble   .dat(ANY.Cu), 'P', OP.plate.dat(MT.Ceramic), 'B', Blocks.brick_block, 'U', MultiTileEntityRegistry.getRegistry("gt.multitileentity").getItem(1005));
-        aMat = MT.DATA.Heat_T[2]; MTEx.gt6xMTEReg.add("Sintering Oven ("+aMat.getLocal()+")", "Basic Machines", 63, 20001, aClass, aMat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS,   4.0F, NBT_RESISTANCE,   4.0F, NBT_INPUT,  128, NBT_TEXTURE, "sinteringoven", NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, sintering, NBT_INV_SIDE_IN, SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_ENERGY_ACCEPTED_SIDES, SBIT_D), "wUh", "PMP", "BCB", 'M', OP.casingMachineDouble.dat(aMat), 'C', OP.plateTriple   .dat(ANY.Cu), 'P', OP.plate.dat(MT.Ta     ), 'B', Blocks.brick_block, 'U', MultiTileEntityRegistry.getRegistry("gt.multitileentity").getItem(1036));
-        aMat = MT.DATA.Heat_T[3]; MTEx.gt6xMTEReg.add("Sintering Oven ("+aMat.getLocal()+")", "Basic Machines", 64, 20001, aClass, aMat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS,   9.0F, NBT_RESISTANCE,   9.0F, NBT_INPUT,  512, NBT_TEXTURE, "sinteringoven", NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, sintering, NBT_INV_SIDE_IN, SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_ENERGY_ACCEPTED_SIDES, SBIT_D), "wUh", "PMP", "BCB", 'M', OP.casingMachineDouble.dat(aMat), 'C', OP.plateQuadruple.dat(ANY.Cu), 'P', OP.plate.dat(MT.W      ), 'B', Blocks.brick_block, 'U', MultiTileEntityRegistry.getRegistry("gt.multitileentity").getItem(1024));
-        aMat = MT.DATA.Heat_T[4]; MTEx.gt6xMTEReg.add("Sintering Oven ("+aMat.getLocal()+")", "Basic Machines", 65, 20001, aClass, aMat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS,  12.5F, NBT_RESISTANCE,  12.5F, NBT_INPUT, 2048, NBT_TEXTURE, "sinteringoven", NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, sintering, NBT_INV_SIDE_IN, SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_ENERGY_ACCEPTED_SIDES, SBIT_D), "wUh", "PMP", "BCB", 'M', OP.casingMachineDouble.dat(aMat), 'C', OP.plateQuintuple.dat(ANY.Cu), 'P', OP.plate.dat(MT.Ta4HfC5), 'B', Blocks.brick_block, 'U', MultiTileEntityRegistry.getRegistry("gt.multitileentity").getItem(1043));
+        aMat = MT.DATA.Heat_T[1]; MTEx.gt6xMTEReg.add("Sintering Oven ("+aMat.getLocal()+")", "Basic Machines", 62, 20001, aClass, aMat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS,   6.0F, NBT_RESISTANCE,   6.0F, NBT_INPUT,   32, NBT_TEXTURE, "sinteringoven", NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, sintering, NBT_INV_SIDE_IN, SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_ENERGY_ACCEPTED_SIDES, SBIT_D), "wUh", "PMP", "BCB", 'M', OP.casingMachineDouble.dat(aMat), 'C', OP.plateDouble   .dat(ANY.Cu), 'P', OP.plate.dat(MT.Ceramic), 'B', Blocks.brick_block, 'U', MTEx.gt6Registry.getItem(1005));
+        aMat = MT.DATA.Heat_T[2]; MTEx.gt6xMTEReg.add("Sintering Oven ("+aMat.getLocal()+")", "Basic Machines", 63, 20001, aClass, aMat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS,   4.0F, NBT_RESISTANCE,   4.0F, NBT_INPUT,  128, NBT_TEXTURE, "sinteringoven", NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, sintering, NBT_INV_SIDE_IN, SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_ENERGY_ACCEPTED_SIDES, SBIT_D), "wUh", "PMP", "BCB", 'M', OP.casingMachineDouble.dat(aMat), 'C', OP.plateTriple   .dat(ANY.Cu), 'P', OP.plate.dat(MT.Ta     ), 'B', Blocks.brick_block, 'U', MTEx.gt6Registry.getItem(1036));
+        aMat = MT.DATA.Heat_T[3]; MTEx.gt6xMTEReg.add("Sintering Oven ("+aMat.getLocal()+")", "Basic Machines", 64, 20001, aClass, aMat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS,   9.0F, NBT_RESISTANCE,   9.0F, NBT_INPUT,  512, NBT_TEXTURE, "sinteringoven", NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, sintering, NBT_INV_SIDE_IN, SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_ENERGY_ACCEPTED_SIDES, SBIT_D), "wUh", "PMP", "BCB", 'M', OP.casingMachineDouble.dat(aMat), 'C', OP.plateQuadruple.dat(ANY.Cu), 'P', OP.plate.dat(MT.W      ), 'B', Blocks.brick_block, 'U', MTEx.gt6Registry.getItem(1024));
+        aMat = MT.DATA.Heat_T[4]; MTEx.gt6xMTEReg.add("Sintering Oven ("+aMat.getLocal()+")", "Basic Machines", 65, 20001, aClass, aMat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS,  12.5F, NBT_RESISTANCE,  12.5F, NBT_INPUT, 2048, NBT_TEXTURE, "sinteringoven", NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, sintering, NBT_INV_SIDE_IN, SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_ENERGY_ACCEPTED_SIDES, SBIT_D), "wUh", "PMP", "BCB", 'M', OP.casingMachineDouble.dat(aMat), 'C', OP.plateQuintuple.dat(ANY.Cu), 'P', OP.plate.dat(MT.Ta4HfC5), 'B', Blocks.brick_block, 'U', MTEx.gt6Registry.getItem(1043));
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     private static final ICondition<OreDictMaterial>
-            lowHeatSintering = new ICondition.And(ANTIMATTER.NOT, OreDictMaterialCondition.meltmax(3300), fullforge()),
-            highHeatSintering = new ICondition.And(ANTIMATTER.NOT, OreDictMaterialCondition.meltmin(3300), fullforge());
+            lowHeatSintering = new ICondition.And(ANTIMATTER.NOT, EXTRUDER, OreDictMaterialCondition.meltmax(3300), fullforge()),
+            highHeatSintering = new ICondition.And(ANTIMATTER.NOT, EXTRUDER, OreDictMaterialCondition.meltmin(3300), fullforge());
 
 
     private void addRecipes() {
+        // Wrought iron
+        RM.Anvil.addRecipe2(true, 64, 192, OP.scrapGt.mat(MTx.Bloom, 9), OP.scrapGt.mat(MTx.Bloom, 9), OP.nugget.mat(MT.WroughtIron, 12), OP.scrapGt.mat(MTx.Slag, 6));
+
+        // slag melts @ 1540
+        OreDictMaterial[][] smeltLiquidSlag = new OreDictMaterial[][] {
+                {MT.Fe2O3, MT.PigIron}, {MT.OREMATS.Magnetite, MT.PigIron}, {MT.OREMATS.Chromite, MTx.FeCr2},
+        };
+        OreDictMaterial[][] smeltSolidSlag = new OreDictMaterial[][] {
+                {MT.OREMATS.Garnierite, MT.Ni}, {MT.OREMATS.Cassiterite, MT.Sn}, {MTx.PbO, MT.Pb}, {MT.MnO2, MT.Mn}, {MTx.Co3O4, MT.Co}, {MT.SiO2, MT.Si},
+        };
+
         for (ItemStack coal : new ItemStack[]{OP.dust.mat(MT.Charcoal, 1), OP.dust.mat(MT.CoalCoke, 1), OP.dust.mat(MT.LigniteCoke, 3), OP.dust.mat(MT.C, 1), OP.gem.mat(MT.Charcoal, 1), OP.gem.mat(MT.CoalCoke, 1), OP.gem.mat(MT.LigniteCoke, 3)}) {
-            blastFurnace.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.Fe2O3, 5), ST.mul(3, coal), OP.dust.mat(MT.CaCO3, 1)}, ZL_IS, null, null, FL.array(FL.Air.make(2000)), FL.array(MT.PigIron.liquid(2 * U, false), MTx.Slag.liquid(U, false), MTx.BlastFurnaceGas.gas(6 * U, false)), 128, 8, 0);
-            blastFurnace.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.OREMATS.Magnetite, 7), ST.mul(4, coal), OP.dust.mat(MT.CaCO3, 1)}, ZL_IS, null, null, FL.array(FL.Air.make(3000)), FL.array(MT.PigIron.liquid(3 * U, false), MTx.Slag.liquid(U, false), MTx.BlastFurnaceGas.gas(8 * U, false)), 192, 8, 0);
-            blastFurnace.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.OREMATS.GraniticMineralSand, 7), ST.mul(4, coal), OP.dust.mat(MT.CaCO3, 1)}, ZL_IS, null, null, FL.array(FL.Air.make(3000)), FL.array(MT.PigIron.liquid(3 * U, false), MTx.Slag.liquid(U, false), MTx.BlastFurnaceGas.gas(8 * U, false)), 192, 8, 0);
-            blastFurnace.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.OREMATS.YellowLimonite, 8), ST.mul(4, coal), OP.dust.mat(MT.CaCO3, 1)}, ZL_IS, null, null, FL.array(FL.Air.make(2000)), FL.array(MT.PigIron.liquid(2 * U, false), MTx.Slag.liquid(U, false), MTx.BlastFurnaceGas.gas(8 * U, false)), 128, 8, 0);
-            blastFurnace.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.OREMATS.BrownLimonite, 8), ST.mul(4, coal), OP.dust.mat(MT.CaCO3, 1)}, ZL_IS, null, null, FL.array(FL.Air.make(2000)), FL.array(MT.PigIron.liquid(2 * U, false), MTx.Slag.liquid(U, false), MTx.BlastFurnaceGas.gas(8 * U, false)), 128, 8, 0);
-            blastFurnace.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.OREMATS.Garnierite, 2), ST.mul(1, coal), OP.dust.mat(MT.CaCO3, 1)}, new ItemStack[]{OP.gem.mat(MTx.Slag, 1)}, null, null, FL.array(FL.Air.make(2000)), FL.array(MT.Ni.liquid(2 * U, false), MTx.BlastFurnaceGas.gas(2 * U, false)), 128, 8, 0);
-            blastFurnace.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.OREMATS.Cassiterite, 2), ST.mul(1, coal), OP.dust.mat(MT.CaCO3, 1)}, new ItemStack[]{OP.gem.mat(MTx.Slag, 1)}, null, null, FL.array(FL.Air.make(2000)), FL.array(MT.Sn.liquid(2 * U, false), MTx.BlastFurnaceGas.gas(2 * U, false)), 128, 8, 0);
-            blastFurnace.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.OREMATS.Chromite, 7), ST.mul(4, coal), OP.dust.mat(MT.CaCO3, 1)}, new ItemStack[]{OP.gem.mat(MTx.Slag, 1)}, null, null, FL.array(FL.Air.make(3000)), FL.array(MTx.FeCr2.liquid(3 * U, false), MTx.BlastFurnaceGas.gas(8 * U, false)), 192, 8, 0);
-            blastFurnace.addRecipe(true, new ItemStack[]{OP.dust.mat(MTx.PbO, 2), ST.mul(1, coal), OP.dust.mat(MT.CaCO3, 1)}, new ItemStack[]{OP.gem.mat(MTx.Slag, 1)}, null, null, FL.array(FL.Air.make(2000)), FL.array(MT.Pb.liquid(2 * U, false), MTx.BlastFurnaceGas.gas(2 * U, false)), 128, 8, 0);
-            blastFurnace.addRecipe(true, new ItemStack[]{OP.dust.mat(MTx.ZnO, 2), ST.mul(1, coal), OP.dust.mat(MT.CaCO3, 1)}, new ItemStack[]{OP.gem.mat(MTx.Slag, 1)}, null, null, FL.array(FL.Air.make(2000)), FL.array(MTx.ZnBlastFurnaceGas.gas(4 * U, false)), 128, 8, 0);
-            blastFurnace.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.MnO2, 2), ST.mul(2, coal), OP.dust.mat(MT.CaCO3, 1)}, new ItemStack[]{OP.gem.mat(MTx.Slag, 1)}, null, null, FL.array(FL.Air.make(2000)), FL.array(MT.Mn.liquid(2 * U, false), MTx.BlastFurnaceGas.gas(4 * U, false)), 128, 8, 0);
-            blastFurnace.addRecipe(true, new ItemStack[]{OP.dust.mat(MTx.Co3O4, 7), ST.mul(4, coal), OP.dust.mat(MT.CaCO3, 1)}, new ItemStack[]{OP.gem.mat(MTx.Slag, 1)}, null, null, FL.array(FL.Air.make(3000)), FL.array(MT.Co.liquid(3 * U, false), MTx.BlastFurnaceGas.gas(8 * U, false)), 192, 8, 0);
-            blastFurnace.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.SiO2, 3), ST.mul(2, coal)}, ZL_IS, null, null, FL.array(FL.Air.make(1000)), FL.array(MT.Si.liquid(U, false), MTx.BlastFurnaceGas.gas(4 * U, false)), 64, 8, 0);
-            //TODO sintered pellets?
+            // ore dusts (less efficent)
+            blastFurnace.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.Fe2O3, 5), ST.mul(3, coal), OP.dust.mat(MT.CaCO3, 1)}, ZL_IS, null, null, FL.array(FL.Air.make(7500)), FL.array(MT.PigIron.liquid(2 * U, false), MTx.Slag.liquid(U, false), MTx.BlastFurnaceGas.gas(15 * U, false)), 256, 8, 0);
+            blastFurnace.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.OREMATS.Magnetite, 14), ST.mul(9, coal), OP.dust.mat(MT.CaCO3, 3)}, ZL_IS, null, null, FL.array(FL.Air.make(22500)), FL.array(MT.PigIron.liquid(6 * U, false), MTx.Slag.liquid(3*U, false), MTx.BlastFurnaceGas.gas(36 * U, false)), 768, 8, 0);
+            blastFurnace.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.OREMATS.GraniticMineralSand, 14), ST.mul(9, coal), OP.dust.mat(MT.CaCO3, 3)}, ZL_IS, null, null, FL.array(FL.Air.make(22500)), FL.array(MT.PigIron.liquid(6 * U, false), MTx.Slag.liquid(3*U, false), MTx.BlastFurnaceGas.gas(36 * U, false)), 768, 8, 0);
+            blastFurnace.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.OREMATS.YellowLimonite, 8), ST.mul(3, coal), OP.dust.mat(MT.CaCO3, 1)}, ZL_IS, null, null, FL.array(FL.Air.make(7500)), FL.array(MT.PigIron.liquid(2 * U, false), MTx.Slag.liquid(U, false), MTx.BlastFurnaceGas.gas(15 * U, false)), 256, 8, 0);
+            blastFurnace.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.OREMATS.BrownLimonite, 8), ST.mul(3, coal), OP.dust.mat(MT.CaCO3, 1)}, ZL_IS, null, null, FL.array(FL.Air.make(7500)), FL.array(MT.PigIron.liquid(2 * U, false), MTx.Slag.liquid(U, false), MTx.BlastFurnaceGas.gas(15 * U, false)), 256, 8, 0);
+            blastFurnace.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.OREMATS.Garnierite, 2), ST.mul(3, coal), OP.dust.mat(MT.CaCO3, 1)}, new ItemStack[]{OP.gem.mat(MTx.Slag, 1)}, null, null, FL.array(FL.Air.make(7500)), FL.array(MT.Ni.liquid(2 * U, false), MTx.BlastFurnaceGas.gas(15 * U, false)), 256, 8, 0);
+            blastFurnace.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.OREMATS.Cassiterite, 2), ST.mul(3, coal), OP.dust.mat(MT.CaCO3, 1)}, new ItemStack[]{OP.gem.mat(MTx.Slag, 1)}, null, null, FL.array(FL.Air.make(7500)), FL.array(MT.Sn.liquid(2 * U, false), MTx.BlastFurnaceGas.gas(15 * U, false)), 256, 8, 0);
+            blastFurnace.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.OREMATS.Chromite, 14), ST.mul(9, coal), OP.dust.mat(MT.CaCO3, 3)}, ZL_IS, null, null, FL.array(FL.Air.make(22500)), FL.array(MTx.FeCr2.liquid(6 * U, false), MTx.Slag.liquid(3 * U, false), MTx.BlastFurnaceGas.gas(36 * U, false)), 768, 8, 0);
+            blastFurnace.addRecipe(true, new ItemStack[]{OP.dust.mat(MTx.PbO, 2), ST.mul(3, coal), OP.dust.mat(MT.CaCO3, 1)}, new ItemStack[]{OP.gem.mat(MTx.Slag, 1)}, null, null, FL.array(FL.Air.make(7500)), FL.array(MT.Pb.liquid(2 * U, false), MTx.BlastFurnaceGas.gas(15 * U, false)), 256, 8, 0);
+            blastFurnace.addRecipe(true, new ItemStack[]{OP.dust.mat(MTx.ZnO, 2), ST.mul(3, coal), OP.dust.mat(MT.CaCO3, 1)}, new ItemStack[]{OP.gem.mat(MTx.Slag, 1)}, null, null, FL.array(FL.Air.make(5000)), FL.array(MTx.ZnBlastFurnaceGas.gas(12 * U, false)), 256, 8, 0);
+            blastFurnace.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.MnO2, 2), ST.mul(3, coal), OP.dust.mat(MT.CaCO3, 1)}, new ItemStack[]{OP.gem.mat(MTx.Slag, 1)}, null, null, FL.array(FL.Air.make(7500)), FL.array(MT.Mn.liquid(2 * U, false), MTx.BlastFurnaceGas.gas(15 * U, false)), 256, 8, 0);
+            blastFurnace.addRecipe(true, new ItemStack[]{OP.dust.mat(MTx.Co3O4, 14), ST.mul(9, coal), OP.dust.mat(MT.CaCO3, 3)}, new ItemStack[]{OP.gem.mat(MTx.Slag, 3)}, null, null, FL.array(FL.Air.make(22500)), FL.array(MT.Co.liquid(6 * U, false), MTx.BlastFurnaceGas.gas(36 * U, false)), 768, 8, 0);
+            blastFurnace.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.SiO2, 6), ST.mul(3, coal)}, ZL_IS, null, null, FL.array(FL.Air.make(7500)), FL.array(MT.Si.liquid(2*U, false), MTx.BlastFurnaceGas.gas(15 * U, false)), 256, 8, 0);
+
+            // sintered pellets (more efficient)
+            for (OreDictMaterial[] mats : smeltLiquidSlag) {
+                blastFurnace.addRecipe2(true, 8, 128, sinter.mat(mats[0], 8), ST.mul(1, coal), FL.array(FL.Air.make(5000)), FL.array(mats[1].liquid(2*U, false), MTx.Slag.liquid(U, false), MTx.BlastFurnaceGas.gas(10 * U, false)));
+            }
+            for (OreDictMaterial[] mats : smeltSolidSlag) {
+                blastFurnace.addRecipe2(true, 8, 128, sinter.mat(mats[0], 8), ST.mul(1, coal), FL.array(FL.Air.make(5000)), FL.array(mats[1].liquid(2*U, false), MTx.BlastFurnaceGas.gas(10 * U, false)), OP.gem.mat(MTx.Slag, 1));
+            }
+            blastFurnace.addRecipe2(true, 8, 128, sinter.mat(MTx.ZnO, 8), ST.mul(1, coal), FL.array(FL.Air.make(5000)), FL.array(MTx.ZnBlastFurnaceGas.gas(12 * U, false)), OP.gem.mat(MTx.Slag, 1));
         }
 
-        // misc stuff
-        RM.Anvil.addRecipe1(true, 64, 192, OP.scrapGt.mat(MTx.Bloom, 12), OP.ingot.mat(MT.WroughtIron, 1), OP.nugget.mat(MTx.Slag, 3));
-        RM.Distillery.addRecipe1(true, 16, 16, ST.tag(0), FL.array(MTx.ZnBlastFurnaceGas.gas(U, true)), FL.array(MT.Zn.liquid(U2, false), MTx.BlastFurnaceGas.gas(U2, false)));
-        //RM.Mixer.addRecipe1(true, 16, 160, OP.dust.mat(MTx.MoO3, 4*U), FL.array(MT.H.gas(6*U, true)), FL.array(MT.H2O.liquid(9*U, false)), OP.dust.mat(MT.Mo, U));
+        // blast furnace gas
+        RM.CryoDistillationTower.addRecipe0(true, 64,  128, FL.array(MTx.BlastFurnaceGas.gas(4*U10, true)), FL.array(MT.N.gas(177*U1000, F), MT.CO.gas(4*20*U1000, T), MT.CO2.gas(4*30*U1000, T), MT.H.gas(4*5*U1000, T), MT.He.gas(U1000, T), MT.Ne.gas(U1000, T), MT.Ar.gas(U1000, T)));
+        FM.Burn.addRecipe0(true, -16, 1, MTx.BlastFurnaceGas.gas(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
+        RM.Distillery.addRecipe1(true, 16, 64, ST.tag(0), FL.array(MTx.ZnBlastFurnaceGas.gas(7*U, true)), FL.array(MT.Zn.liquid(U, false), MTx.BlastFurnaceGas.gas(6*U, false)));
+
+        // MoO3 to Mo
+        //TODO
+        RM.Mixer.addRecipe1(false, 16, 160, OP.dust.mat(MTx.MoO3, 4*U), FL.array(MT.H.gas(6*U, true)), FL.array(MT.H2O.liquid(9*U, false)), OP.dust.mat(MT.Mo, U));
 
         // Sintering dusts into chunks
-        sintering.add(new RecipeMapHandlerPrefixForging(OP.dust, 1, NF, 16, 0, 0, NF, OP.chunk, 4, NI, NI, true, false, false, lowHeatSintering));
+        sintering.add(new RecipeMapHandlerPrefixForging(OP.dust, 1, NF, 16, 0, 0, NF, OP.ingot, 1, NI, NI, true, false, false, lowHeatSintering));
         sintering.add(new RecipeMapHandlerPrefixForging(OP.dustSmall, 1, NF, 16, 0, 0, NF, OP.chunk, 1, NI, NI, true, false, false, lowHeatSintering));
-        sintering.add(new RecipeMapHandlerPrefixForging(OP.dustTiny, 9, NF, 16, 0, 0, NF, OP.chunk, 4, NI, NI, true, false, false, lowHeatSintering));
-        sintering.add(new RecipeMapHandlerPrefixForging(OP.dust, 1, NF, 96, 0, 0, NF, OP.chunk, 4, NI, NI, true, false, false, highHeatSintering));
+        sintering.add(new RecipeMapHandlerPrefixForging(OP.dustTiny, 1, NF, 16, 0, 0, NF, OP.nugget, 1, NI, NI, true, false, false, lowHeatSintering));
+        sintering.add(new RecipeMapHandlerPrefixForging(OP.dust, 1, NF, 96, 0, 0, NF, OP.ingot, 1, NI, NI, true, false, false, highHeatSintering));
         sintering.add(new RecipeMapHandlerPrefixForging(OP.dustSmall, 1, NF, 96, 0, 0, NF, OP.chunk, 1, NI, NI, true, false, false, highHeatSintering));
-        sintering.add(new RecipeMapHandlerPrefixForging(OP.dustTiny, 9, NF, 96, 0, 0, NF, OP.chunk, 4, NI, NI, true, false, false, highHeatSintering));
+        sintering.add(new RecipeMapHandlerPrefixForging(OP.dustTiny, 1, NF, 96, 0, 0, NF, OP.nugget, 1, NI, NI, true, false, false, highHeatSintering));
 
         // misc sintering
-        for (ItemStack coal : new ItemStack[]{OP.dust.mat(MT.Charcoal, 1), OP.dust.mat(MT.CoalCoke, 1), OP.dust.mat(MT.Graphite, 1), OP.dust.mat(MT.C, 1) }) {
+        for (ItemStack coal : new ItemStack[]{OP.dust.mat(MT.Charcoal, 1), OP.dust.mat(MT.LigniteCoke, 3),  OP.dust.mat(MT.CoalCoke, 1), OP.dust.mat(MT.C, 1) }) {
             sintering.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.W, 1), ST.copy(coal)}, new ItemStack[]{OP.ingot.mat(MT.TungstenCarbide, 2)}, null, null, ZL_FS, ZL_FS, 256, 96, 0);
             sintering.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.Ta, 4), OP.dust.mat(MT.Hf, 1), ST.mul(5, coal)}, new ItemStack[]{OP.ingot.mat(MT.Ta4HfC5, 10)}, null, null, ZL_FS, ZL_FS, 512, 96, 0);
+
+            sintering.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.Fe2O3, 5), ST.mul(1, coal), OP.dust.mat(MT.CaCO3, 1)}, new ItemStack[]{sinter.mat(MT.Fe2O3, 8)}, null, null, ZL_FS, ZL_FS, 32, 16, 0);
+            sintering.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.OREMATS.Magnetite, 14), ST.mul(3, coal), OP.dust.mat(MT.CaCO3, 3)}, new ItemStack[]{sinter.mat(MT.OREMATS.Magnetite, 24)}, null, null, ZL_FS, ZL_FS, 96, 16, 0);
+            sintering.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.OREMATS.GraniticMineralSand, 14), ST.mul(3, coal), OP.dust.mat(MT.CaCO3, 3)}, new ItemStack[]{sinter.mat(MT.OREMATS.Magnetite, 24)}, null, null, ZL_FS, ZL_FS, 96, 16, 0);
+            sintering.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.OREMATS.YellowLimonite, 8), ST.mul(1, coal), OP.dust.mat(MT.CaCO3, 1)}, new ItemStack[]{sinter.mat(MT.Fe2O3, 8)}, null, null, ZL_FS, ZL_FS, 32, 16, 0);
+            sintering.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.OREMATS.BrownLimonite, 8), ST.mul(1, coal), OP.dust.mat(MT.CaCO3, 1)}, new ItemStack[]{sinter.mat(MT.Fe2O3, 8)}, null, null, ZL_FS, ZL_FS, 32, 16, 0);
+            sintering.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.OREMATS.Garnierite, 2), ST.mul(1, coal), OP.dust.mat(MT.CaCO3, 1)}, new ItemStack[]{sinter.mat(MT.OREMATS.Garnierite, 8)}, null, null, ZL_FS, ZL_FS, 32, 16, 0);
+            sintering.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.OREMATS.Cassiterite, 2), ST.mul(1, coal), OP.dust.mat(MT.CaCO3, 1)}, new ItemStack[]{sinter.mat(MT.OREMATS.Cassiterite, 8)}, null, null, ZL_FS, ZL_FS, 32, 16, 0);
+            sintering.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.OREMATS.Chromite, 14), ST.mul(3, coal), OP.dust.mat(MT.CaCO3, 3)}, new ItemStack[]{sinter.mat(MT.OREMATS.Chromite, 24)}, null, null, ZL_FS, ZL_FS, 96, 16, 0);
+            sintering.addRecipe(true, new ItemStack[]{OP.dust.mat(MTx.PbO, 2), ST.mul(1, coal), OP.dust.mat(MT.CaCO3, 1)}, new ItemStack[]{sinter.mat(MTx.PbO, 8)}, null, null, ZL_FS, ZL_FS, 32, 16, 0);
+            sintering.addRecipe(true, new ItemStack[]{OP.dust.mat(MTx.ZnO, 2), ST.mul(1, coal), OP.dust.mat(MT.CaCO3, 1)}, new ItemStack[]{sinter.mat(MTx.ZnO, 8)}, null, null, ZL_FS, ZL_FS, 32, 16, 0);
+            sintering.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.MnO2, 2), ST.mul(1, coal), OP.dust.mat(MT.CaCO3, 1)}, new ItemStack[]{sinter.mat(MT.MnO2, 8)}, null, null, ZL_FS, ZL_FS, 32, 16, 0);
+            sintering.addRecipe(true, new ItemStack[]{OP.dust.mat(MTx.Co3O4, 14), ST.mul(3, coal), OP.dust.mat(MT.CaCO3, 3)}, new ItemStack[]{sinter.mat(MTx.Co3O4, 24)}, null, null, ZL_FS, ZL_FS, 96, 16, 0);
+            sintering.addRecipe(true, new ItemStack[]{OP.dust.mat(MT.SiO2, 6), ST.mul(1, coal)}, new ItemStack[]{sinter.mat(MT.SiO2, 8)}, null, null, ZL_FS, ZL_FS, 32, 16, 0);
         }
 
         // mixing from/to molten ferrochrome and pig iron
@@ -236,49 +284,9 @@ public class Metallurgy extends GT6XFeature {
             RM.Roasting.addRecipe1(true, 16, 512, tChances, OM.dust(MT.OREMATS.Kesterite), FL.make(tAir, 4000), MT.SO2.gas(12 * U8, false), OM.dust(MT.Cu, 2 * U8), OM.dust(MTx.ZnO, U8), OM.dust(MT.OREMATS.Cassiterite, U8));
             RM.Roasting.addRecipe1(true, 16, 512, tChances, OM.dust(MT.OREMATS.Cinnabar), FL.make(tAir, 4000), MT.SO2.gas(3 * U2, false), OM.dust(MTx.HgO, U));
         }
-
-        MultiTileEntityRegistry aRegistry = MultiTileEntityRegistry.getRegistry("gt.multitileentity");
-
-        // Hints
-        RM.DidYouKnow.addFakeRecipe(false, ST.array(
-                IL.Ceramic_Mold.getWithName(1, "Don't forget to shape the Mold to pour it")
-                , IL.Ceramic_Crucible.getWithName(1, "Wait until it all turns into Steel")
-                , ST.make(aRegistry.getItem(1302), "Point a running Engine into the Crucible to blow Air")
-                , ST.make(OP.ingot.mat(MT.PigIron, 1), "Throw some Pig Iron into Crucible. Do not forget to leave space for Air!")
-                , ST.make(aRegistry.getItem(1199), "Heat up the Crucible using a Burning Box")
-        ), ST.array(OP.dust.mat(MT.Steel, 1), OP.ingot.mat(MT.Steel, 1), OP.plate.mat(MT.Steel, 1), OP.scrapGt.mat(MT.Steel, 1), OP.stick.mat(MT.Steel, 1), OP.gearGt.mat(MT.Steel, 1)), null, ZL_LONG, ZL_FS, ZL_FS, 0, 0, 0);
-
-        RM.DidYouKnow.addFakeRecipe(F, ST.array(
-                ST.make(OP.dust.mat(MT.OREMATS.Cinnabar, 3), "Throw three Units of Cinnabar into Crucible")
-                , ST.make(OP.dust.mat(MTx.HgO, 2), "Or two Units of Mercuric Oxide produced by roasting the cinnabar first!")
-                , IL.Ceramic_Crucible.getWithName(1, "Wait until it melts into Mercury")
-                , IL.Bottle_Empty.getWithName(1, "Rightclick the Crucible with an Empty Bottle")
-                , ST.make(aRegistry.getItem(1199), "Heat up the Crucible using a Burning Box")
-                , ST.make(Blocks.redstone_ore, 1, 0, "Using a Club to mine Vanilla Redstone Ore gives Cinnabar")
-        ), ST.array(IL.Bottle_Mercury.get(1), ST.make(OP.ingot.mat(MT.Hg, 1), "Pouring this into Molds only works with additional Cooling!"), ST.make(OP.nugget.mat(MT.Hg, 1), "Pouring this into Molds only works with additional Cooling!")), null, ZL_LONG, FL.array(MT.Hg.liquid(1, T)), FL.array(MT.Hg.liquid(1, T)), 0, 0, 0);
     }
 
     private void changeRecipes() {
-        /*
-        // Roasting
-        Set<ItemStack> toDisableRoasting = new HashSet<>();
-        for (OreDictMaterial mat : new OreDictMaterial[] {
-                MT.OREMATS.Cobaltite, MT.OREMATS.Cooperite, MT.OREMATS.Galena, MT.OREMATS.Kesterite, MT.OREMATS.Molybdenite, MT.OREMATS.Pentlandite, MT.OREMATS.Sphalerite, MT.OREMATS.Stannite, MT.OREMATS.Cinnabar
-        }) {
-            toDisableRoasting.add(OP.dust.mat(mat, 1));
-        }
-
-        // make Stainless using crucible or EAF as you need to inject oxygen (it is a kind of steel after all)
-        for (Recipe r : RM.Roasting.mRecipeList) if (r.mInputs.length >= 1) {
-            for (ItemStack stack : toDisableRoasting) {
-                if (r.mInputs[0].isItemEqual(stack)) {
-                    r.mEnabled = false;
-                    break;
-                }
-            }
-        }
-        */
-
         for (Recipe r : RM.Mixer.mRecipeList) {
             if (r.mFluidOutputs.length >= 1 && r.mFluidOutputs[0].getFluid().getName().equals("molten.stainlesssteel"))
                 r.mEnabled = false;
@@ -286,5 +294,33 @@ public class Metallurgy extends GT6XFeature {
 
         Recipe r = RM.Centrifuge.findRecipe(null, null, true, Long.MAX_VALUE, null, ZL_FS, OM.dust(MT.OREMATS.Cinnabar)); if (r != null) r.mEnabled = false;
         //TODO decompose HgO using Thermolysis for full value
+
+        // Hints
+        for (Recipe r1 : RM.DidYouKnow.mRecipeList) {
+            if (r1.mFluidOutputs.length >= 1 && r1.mOutputs[0] != null && (
+                r1.mOutputs[0].isItemEqual(OP.dust.mat(MT.Steel, 1)) ||
+                r1.mOutputs[0].isItemEqual(IL.Bottle_Mercury.get(1))
+            ))
+                r1.mEnabled = false;
+        }
+
+        //TODO
+        RM.DidYouKnow.addFakeRecipe(false, ST.array(
+                IL.Ceramic_Mold.getWithName(1, "Don't forget to shape the Mold to pour it")
+                , IL.Ceramic_Crucible.getWithName(1, "Wait until it all turns into Steel")
+                , ST.make(MTEx.gt6Registry.getItem(1302), "Point a running Engine into the Crucible to blow Air")
+                , ST.make(OP.ingot.mat(MT.PigIron, 1), "Throw some Pig Iron into Crucible. Do not forget to leave space for Air!")
+                , ST.make(MTEx.gt6Registry.getItem(1199), "Heat up the Crucible using a Burning Box")
+        ), ST.array(OP.dust.mat(MT.Steel, 1), OP.ingot.mat(MT.Steel, 1), OP.plate.mat(MT.Steel, 1), OP.scrapGt.mat(MT.Steel, 1), OP.stick.mat(MT.Steel, 1), OP.gearGt.mat(MT.Steel, 1)), null, ZL_LONG, ZL_FS, ZL_FS, 0, 0, 0);
+
+        RM.DidYouKnow.addFakeRecipe(F, ST.array(
+                ST.make(OP.dust.mat(MT.OREMATS.Cinnabar, 3), "Throw three Units of Cinnabar into Crucible")
+                , ST.make(OP.dust.mat(MTx.HgO, 2), "Or two Units of Mercuric Oxide produced by roasting the cinnabar first!")
+                , IL.Ceramic_Crucible.getWithName(1, "Wait until it melts into Mercury")
+                , IL.Bottle_Empty.getWithName(1, "Rightclick the Crucible with an Empty Bottle")
+                , ST.make(MTEx.gt6Registry.getItem(1199), "Heat up the Crucible using a Burning Box")
+                , ST.make(Blocks.redstone_ore, 1, 0, "Using a Club to mine Vanilla Redstone Ore gives Cinnabar")
+        ), ST.array(IL.Bottle_Mercury.get(1), ST.make(OP.ingot.mat(MT.Hg, 1), "Pouring this into Molds only works with additional Cooling!"), ST.make(OP.nugget.mat(MT.Hg, 1), "Pouring this into Molds only works with additional Cooling!")), null, ZL_LONG, FL.array(MT.Hg.liquid(1, T)), FL.array(MT.Hg.liquid(1, T)), 0, 0, 0);
+
     }
 }
