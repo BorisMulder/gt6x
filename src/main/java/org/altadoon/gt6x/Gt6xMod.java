@@ -57,28 +57,17 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 	private final ArrayList<GT6XFeature> enabledFeatures;
 
 	public Gt6xMod() {
+		MTx.touch();
+
 		this.modConfig = new Config(allFeatures);
 		this.enabledFeatures = modConfig.getEnabledFeatures();
 
 		final Gt6xMod copy = this;
-		GT.mBeforePreInit.add(new Runnable() {
-			@Override public void run() {
-				copy.prePreInit();
-			}});
-		GT.mAfterPreInit.add(new Runnable() {
-			@Override public void run() {
-				copy.postPreInit();
-			}});
-		GT.mBeforePostInit.add(new Runnable() {
-			@Override public void run() {
-				copy.prePostInit();
-			}});
-		GT.mAfterPostInit.add(new Runnable() {
-			@Override public void run() {
-				copy.postPostInit();
-			}});
+		GT.mBeforePreInit.add(copy::prePreInit);
+		GT.mAfterPreInit.add(copy::postPreInit);
+		GT.mBeforePostInit.add(copy::prePostInit);
+		GT.mAfterPostInit.add(copy::postPostInit);
 	}
-
 
 	@Override
 	public void onModPreInit2(cpw.mods.fml.common.event.FMLPreInitializationEvent aEvent) {

@@ -224,46 +224,69 @@ public class MTx {
 
     // Metallurgy
     Slag = create( 16055, "Slag", 255, 240, 200, 255)
-            .setMcfg( 0, MT.UNUSED.Quicklime, U, MT.SiO2, 3*U)
+            .setMcfg( 0, MT.Quicklime, U, MT.SiO2, 3*U)
             .setTextures(SET_FLINT)
             .put(INGOTS, MORTAR, BRITTLE, GEMS)
             .heat(1810, 3000)
             .setPulver(MT.OREMATS.Wollastonite, U),
     BlastFurnaceGas = registerGas(gas(16056, "Blast Furnace Gas", 0, 20, 30, 200)
-            .setMcfg(0, MT.N, 11*U, MT.CO, 4*U, MT.CO2, 4*U, MT.H, U)
+            .uumMcfg(0, MT.N, 11*U, MT.CO, 4*U, MT.CO2, 4*U, MT.H, U)
             .put(FLAMMABLE, CENTRIFUGE)
             .heat(100, 200)),
-    Bloom = create(16057, "Bloom", 100, 50, 0, 255)
-            .heat(1350)
-            .put(MORTAR, G_DUST),
+    SpongeIron = dustdcmp(16057, "Sponge Iron", SET_STONE, 100, 50, 0, 255)
+            .uumMcfg(0, MT.Fe, U)
+            .heat(1350),
     PbO = dustdcmp(16058, "Lead Oxide", SET_DULL, 150, 130, 100, 255)
-            .setMcfg(1, MT.Pb, U, MT.O, U)
+            .uumMcfg(1, MT.Pb, U, MT.O, U)
             .heat(1161, 1750)
             .setSmelting(MT.Pb, 3*U4),
     ZnO = dustdcmp(16059, "Zinc Oxide", SET_DULL, 255, 230, 240, 255)
-            .setMcfg(1, MT.Zn, U, MT.O, U)
+            .uumMcfg(1, MT.Zn, U, MT.O, U)
             .heat(2247, 2630)
-            .setSmelting(MT.Zn, 3*U4)
-            .put(ELECTROLYSER),
+            .setSmelting(MT.Zn, 3*U4),
     FeCr2 = alloymachine(16060, "Ferrochrome", SET_SHINY, 160, 150, 150)
-            .setMcfg(0, MT.Fe, U, MT.Cr, 2*U)
+            .uumMcfg(0, MT.Fe, U, MT.Cr, 2*U)
             .heat(C+1500),
     Co3O4 = dustdcmp(16061, "Tricobalt Tetroxide", SET_DULL, 150, 150, 180, 255)
-            .setMcfg(0, MT.Co, 3*U, MT.O, 4*U)
+            .uumMcfg(0, MT.Co, 3*U, MT.O, 4*U)
             .heat(1168, 1170),
     As2O3 = dustdcmp(16062, "Arsenic Trioxide", SET_DULL, 200, 200, 200, 255)
-            .setMcfg(0, MT.As, 2*U, MT.O, 3*U)
+            .uumMcfg(0, MT.As, 2*U, MT.O, 3*U)
             .heat(C+312, C+465),
-    MoO3 = dustdcmp(16063, "Molybdenum Trioxide", SET_CUBE, 180, 180, 180, 255)
-            .setMcfg(0, MT.Mo, U, MT.O, 3*U)
+    MoO3 = dustdcmp(16063, "Molybdenum Trioxide", SET_CUBE, 180, 180, 200, 255)
+            .uumMcfg(0, MT.Mo, U, MT.O, 3*U)
             .heat(1075, 1428),
     HgO = dustdcmp(16064, "Mercuric Oxide", SET_CUBE, 255, 150, 0, 255)
-            .setMcfg(0, MT.Hg, U, MT.O, U)
+            .uumMcfg(0, MT.Hg, U, MT.O, U)
             .heat(773)
             .setSmelting(MT.Hg, U2),
     ZnBlastFurnaceGas = registerGas(gas(16065, "Zinc-Rich Blast Furnace Gas", 0, 20, 30, 200)
-            .setMcfg(0, MT.Zn, 20*U, MT.N, 11*U, MT.CO, 4*U, MT.CO2, 4*U, MT.H, U)
-            .heat(MT.Zn))
+            .uumMcfg(0, MT.Zn, 20*U, MT.N, 11*U, MT.CO, 4*U, MT.CO2, 4*U, MT.H, U)
+            .heat(MT.Zn)),
+    NaHCO3 = dustdcmp(16066, "Sodium Bicarbonate", SET_FINE, 255, 255, 255, 255)
+            .uumMcfg(0, MT.Na, U, MT.H, U, MT.C, U, MT.O, 3*U)
+            .heat(C+80)
+            .setSmelting(MT.Na2CO3, U2),
+    Na2CrO4 = dustdcmp(16067, "Sodium Chromate", SET_CUBE, 255, 255, 0, 255)
+            .uumMcfg(0, MT.Na, 2*U, MT.Cr, U, MT.O, 4*U)
+            .heat(1065),
+    Na2Cr2O7 = dustdcmp(16068, "Sodium Dichromate", SET_CUBE, 255, 125, 0, 255)
+            .uumMcfg(0, MT.Na, 2*U, MT.Cr, 2*U, MT.O, 7*U)
+            .heat(629, 673),
+    Na2CrO4Solution = lquddcmp(16069, "Sodium Chromate Solution", 255, 255, 0, 255)
+            .uumMcfg(0, MTx.Na2CrO4, U, MT.H2O, 3*U)
+            .heat(200, 400),
+    DichromateSoda = lquddcmp(16070, "Sodium Dichromate-Bicarbonate Solution", 255, 125, 0, 255)
+            .uumMcfg(0, MTx.Na2Cr2O7, 11*U, NaHCO3, 12*U, MT.H2O, 9*U)
+            .heat(200, 400),
+    Na2CO3Cr2O3Mixture = dustdcmp(16071, "Chromium Oxide Mixture", SET_POWDER, 50, 200, 50, 255)
+            .uumMcfg(0, MTx.Cr2O3, U, MT.Na2CO3, U),
+    Na2CO3Solution = lquddcmp(16072, "Sodium Carbonate Solution", 100, 100, 255, 255)
+            .uumMcfg(0, MT.Na2CO3, 6*U, MT.H2O, 3*U)
+            .heat(200, 400),
+    Cr2O3 = dustdcmp(16073, "Chromium(III) Oxide", SET_DULL, 100, 255, 100, 255)
+            .uumMcfg(0, MT.Cr, 2*U, MT.O, 3*U)
+            .heat(2708, 4270)
     ;
 
     static {
