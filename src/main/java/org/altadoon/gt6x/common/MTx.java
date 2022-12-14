@@ -270,23 +270,27 @@ public class MTx {
     Na2CrO4 = dustdcmp(16067, "Sodium Chromate", SET_CUBE, 255, 255, 0, 255)
             .uumMcfg(0, MT.Na, 2*U, MT.Cr, U, MT.O, 4*U)
             .heat(1065),
-    Na2Cr2O7 = dustdcmp(16068, "Sodium Dichromate", SET_CUBE, 255, 125, 0, 255)
+    Na2Cr2O7 = dustdcmp(16068, "Sodium Dichromate", SET_DULL, 255, 125, 0, 255)
             .uumMcfg(0, MT.Na, 2*U, MT.Cr, 2*U, MT.O, 7*U)
             .heat(629, 673),
-    Na2CrO4Solution = lquddcmp(16069, "Sodium Chromate Solution", 255, 255, 0, 255)
+    Na2CrO4Solution = registerLiquid(lquddcmp(16069, "Sodium Chromate Solution", 255, 255, 0, 255)
             .uumMcfg(0, MTx.Na2CrO4, U, MT.H2O, 3*U)
-            .heat(200, 400),
-    DichromateSoda = lquddcmp(16070, "Sodium Dichromate-Bicarbonate Solution", 255, 125, 0, 255)
+            .heat(200, 400)),
+    DichromateSoda = registerLiquid(lquddcmp(16070, "Sodium Dichromate-Bicarbonate Solution", 255, 125, 0, 255)
             .uumMcfg(0, MTx.Na2Cr2O7, 11*U, NaHCO3, 12*U, MT.H2O, 9*U)
-            .heat(200, 400),
-    Na2CO3Cr2O3Mixture = dustdcmp(16071, "Chromium Oxide Mixture", SET_POWDER, 50, 200, 50, 255)
-            .uumMcfg(0, MTx.Cr2O3, U, MT.Na2CO3, U),
-    Na2CO3Solution = lquddcmp(16072, "Sodium Carbonate Solution", 100, 100, 255, 255)
+            .heat(200, 400)),
+    Na2CO3Solution = registerLiquid(lquddcmp(16071, "Sodium Carbonate Solution", 100, 100, 255, 255)
             .uumMcfg(0, MT.Na2CO3, 6*U, MT.H2O, 3*U)
-            .heat(200, 400),
-    Cr2O3 = dustdcmp(16073, "Chromium(III) Oxide", SET_DULL, 100, 255, 100, 255)
+            .heat(200, 400)),
+    Cr2O3 = dustdcmp(16072, "Chromium(III) Oxide", SET_DULL, 100, 255, 100, 255)
             .uumMcfg(0, MT.Cr, 2*U, MT.O, 3*U)
-            .heat(2708, 4270)
+            .heat(2708, 4270),
+    Na2CO3Cr2O3Mixture = dustdcmp(16073, "Chromium Oxide Mixture", SET_POWDER, 50, 200, 50, 255)
+            .uumMcfg(0, MTx.Cr2O3, U, MT.Na2CO3, U)
+            .heat(MTx.Cr2O3),
+    CrSlag = dustdcmp(16074, "Chromite Slag", SET_POWDER, 150, 150, 0, 255)
+            .uumMcfg(0, MTx.Na2CrO4, 4*7*U, MT.OREMATS.Wollastonite, 5*U, MT.Fe2O3, 5*U)
+            .heat(MTx.Na2CrO4)
     ;
 
     static {
