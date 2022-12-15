@@ -54,6 +54,7 @@ public class Metallurgy extends GT6XFeature {
     public void preInit() {
         createPrefixes();
         changeMaterialProperties();
+        changeByProducts();
         addRecipeMaps();
     }
 
@@ -99,6 +100,7 @@ public class Metallurgy extends GT6XFeature {
         MT.OREMATS.Cobaltite.setSmelting(MT.OREMATS.Cobaltite, U);
         MT.MnO2.setSmelting(MT.MnO2, U);
         MT.FeCl2.remove(TD.Processing.ELECTROLYSER);
+        MT.OREMATS.Smithsonite.remove(TD.Processing.ELECTROLYSER);
         MT.BlueSapphire.uumMcfg(6, MT.Al2O3, 5*U, MT.Fe2O3, U);
         if (complexChromiumRefining) {
             MT.OREMATS.Chromite.remove(TD.Processing.ELECTROLYSER);
@@ -107,6 +109,9 @@ public class Metallurgy extends GT6XFeature {
             MT.Ruby.uumMcfg(6, MT.Al2O3, 5*U, MTx.Cr2O3, U);
         }
 
+    }
+
+    private void changeByProducts() {
         MT.OREMATS.Cobaltite.mByProducts.removeIf(byproduct -> byproduct.mID == MT.Co.mID);
         MT.OREMATS.Stibnite.mByProducts.removeIf(byproduct -> byproduct.mID == MT.Sb.mID);
         MT.OREMATS.Sphalerite.mByProducts.removeIf(byproduct -> byproduct.mID == MT.Zn.mID);
@@ -250,8 +255,10 @@ public class Metallurgy extends GT6XFeature {
         //TODO use thermolyzer
         RM.Drying.addRecipe0(true, 16, 128, FL.array(MT.GreenVitriol.liquid(12*U, true)), FL.array(MT.SO2.gas(3*U, false), MT.SO3.gas(4*U, false)), dust.mat(MT.Fe2O3, 5));
         RM.Drying.addRecipe1(true, 16, 64, dust.mat(MTx.HgO, 1), ZL_FS, FL.array(MT.Hg.liquid(U2, false), MT.O.gas(U2, false)));
+        RM.Drying.addRecipe1(true, 16, 64, dust.mat(MT.OREMATS.Smithsonite, 5), ZL_FS, FL.array(MT.CO2.gas(3*U, false)), dust.mat(MTx.ZnO, 1));
 
         //TODO direct reduction of Ni, Sn, Pb, Mn, Co?
+        //TODO process wulfenite & powellite
 
         // Sintering dusts into chunks
         sintering.add(new RecipeMapHandlerPrefixForging(dust, 1, NF, 16, 0, 0, NF, ingot, 1, NI, NI, true, false, false, lowHeatSintering));
