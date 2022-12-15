@@ -285,12 +285,21 @@ public class MTx {
     Cr2O3 = dustdcmp(16072, "Chromium(III) Oxide", SET_DULL, 100, 255, 100, 255)
             .uumMcfg(0, MT.Cr, 2*U, MT.O, 3*U)
             .heat(2708, 4270),
-    Na2CO3Cr2O3Mixture = dustdcmp(16073, "Chromium Oxide Mixture", SET_POWDER, 50, 200, 50, 255)
+    CrSodaMixture = dustdcmp(16073, "Chromium Oxide-Soda Mixture", SET_POWDER, 50, 200, 50, 255)
             .uumMcfg(0, MTx.Cr2O3, U, MT.Na2CO3, U)
             .heat(MTx.Cr2O3),
     CrSlag = dustdcmp(16074, "Chromite Slag", SET_POWDER, 150, 150, 0, 255)
             .uumMcfg(0, MTx.Na2CrO4, 4*7*U, MT.OREMATS.Wollastonite, 5*U, MT.Fe2O3, 5*U)
-            .heat(MTx.Na2CrO4)
+            .heat(MTx.Na2CrO4),
+    Sb2O3 = dustdcmp(16075, "Antimony Trioxide", SET_FINE, 255, 200, 150, 255)
+            .uumMcfg(0, MT.Sb, 2*U, MT.O, 3*U)
+            .heat(929, 1698),
+    FeS = dustdcmp(16076, "Ferrous Sulfide", SET_SHINY, 66, 66, 66, 255)
+            .uumMcfg(0, MT.Fe, U, MT.S, U)
+            .heat(1467),
+    Cementite = alloymachine(16077, "Cementite", SET_METALLIC, 50, 0, 0)
+            .uumMcfg(0, MT.Fe, 3*U, MT.C, U)
+            .heat(MT.PigIron)
     ;
 
     static {
@@ -302,5 +311,6 @@ public class MTx {
         FL.createMolten(Slag.put(MELTING, MOLTEN), 144);
         FL.createMolten(FeCr2.put(MELTING, MOLTEN), 144);
         FL.createGas(MT.Zn.put(GASES));
+        FL.createGas(MT.As.put(GASES));
     }
 }
