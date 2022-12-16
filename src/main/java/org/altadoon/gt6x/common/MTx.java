@@ -117,6 +117,7 @@ public class MTx {
     Chalcocite = oredustdcmp(16020, "Chalcocite", SET_CUBE_SHINY, 50, 30, 30, 255)
             .uumMcfg(0, MT.Cu, U*2, MT.S, U)
             .setSmelting(MT.Cu, U9*5)
+            .addSourceOf(MT.Cu)
             .heat(1400)
             .put(FURNACE, G_GEM_ORES),
 
@@ -289,7 +290,7 @@ public class MTx {
             .uumMcfg(0, MTx.Cr2O3, U, MT.Na2CO3, U)
             .heat(MTx.Cr2O3),
     CrSlag = dustdcmp(16074, "Chromite Slag", SET_POWDER, 150, 150, 0, 255)
-            .uumMcfg(0, MTx.Na2CrO4, 4*7*U, MT.OREMATS.Wollastonite, 5*U, MT.Fe2O3, 5*U)
+            .setMcfg(0, MTx.Na2CrO4, 4*7*U, MT.OREMATS.Wollastonite, 5*U, MT.Fe2O3, 5*U)
             .heat(MTx.Na2CrO4),
     Sb2O3 = dustdcmp(16075, "Antimony Trioxide", SET_FINE, 255, 200, 150, 255)
             .uumMcfg(0, MT.Sb, 2*U, MT.O, 3*U)
@@ -299,7 +300,13 @@ public class MTx {
             .heat(1467),
     Cementite = alloymachine(16077, "Cementite", SET_METALLIC, 50, 0, 0)
             .uumMcfg(0, MT.Fe, 3*U, MT.C, U)
-            .heat(MT.PigIron)
+            .heat(MT.PigIron),
+    H2MoO4 = dustdcmp(16078, "Molybdic Acid", SET_DULL, 200, 200, 0, 255, ACID)
+            .uumMcfg(0, MT.H, 2*U, MT.Mo, U, MT.O, 4*U)
+            .heat(573),
+    PbCl2 = dustdcmp(16079, "Lead Chloride", SET_CUBE, 255, 200, 255, 255, ELECTROLYSER)
+            .uumMcfg(0, MT.Pb, U, MT.Cl, 2*U)
+            .heat(774,1220)
     ;
 
     static {
@@ -307,10 +314,15 @@ public class MTx {
         FL.createMolten(MT.Na2S2O7.put(MELTING, MOLTEN), 1000);
         MT.Plastic.put(POLYMER);
         MT.Rubber.put(POLYMER);
+        MT.OREMATS.Wolframite.setLocal("Magnesium Tungstate").addSourceOf(MT.Mg);
+        MT.OREMATS.Tungstate.setLocal("Lithium Tungstate");
         FL.createMolten(RhodiumPotassiumSulfate.put(MELTING, MOLTEN), 1000);
+        FL.createMolten(PbCl2.put(MELTING, MOLTEN), 1000);
         FL.createMolten(Slag.put(MELTING, MOLTEN), 144);
         FL.createMolten(FeCr2.put(MELTING, MOLTEN), 144);
         FL.createGas(MT.Zn.put(GASES));
         FL.createGas(MT.As.put(GASES));
+        MT.As.heat(887, 887).remove(MELTING); MT.As.remove(MOLTEN);
+
     }
 }
