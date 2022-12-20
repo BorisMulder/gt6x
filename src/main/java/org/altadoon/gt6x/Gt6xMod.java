@@ -8,6 +8,7 @@ import org.altadoon.gt6x.features.GT6XFeature;
 import org.altadoon.gt6x.features.oil.OilProcessing;
 import org.altadoon.gt6x.features.pgm.PgmProcessing;
 import org.altadoon.gt6x.features.metallurgy.Metallurgy;
+import org.altadoon.gt6x.features.refractorymetals.RefractoryMetals;
 
 import java.util.ArrayList;
 
@@ -52,7 +53,8 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 	private static final Class<? extends GT6XFeature>[] allFeatures = new Class[]{
 		PgmProcessing.class,
 		OilProcessing.class,
-		Metallurgy.class
+		Metallurgy.class,
+		RefractoryMetals.class,
 	};
 	private final ArrayList<GT6XFeature> enabledFeatures;
 

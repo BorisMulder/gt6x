@@ -306,7 +306,20 @@ public class MTx {
             .heat(573),
     PbCl2 = dustdcmp(16079, "Lead Chloride", SET_CUBE, 255, 200, 255, 255, ELECTROLYSER)
             .uumMcfg(0, MT.Pb, U, MT.Cl, 2*U)
-            .heat(774,1220)
+            .heat(774,1220),
+    Wolframite = oredustdcmp(16080, "TrueWolframite", SET_METALLIC, 100, 100, 120, 255)
+            .uumMcfg(0, MT.OREMATS.Ferberite, U, MT.OREMATS.Huebnerite, U)
+            .setLocal("Wolframite"),
+    Vanadinite = oredustdcmp(16081, "Vanadinite", SET_CUBE_SHINY, 153, 51, 0, 255)
+            .uumMcfg(0, MT.Pb, 5*U, MT.V, 3*U, MT.O, 12*U, MT.Cl, U)
+            .heat(C + 1910)
+            .tooltip("PB" + CS.NUM_SUB[5] + "(VO" + CS.NUM_SUB[4] + ")" + NUM_SUB[3] + "Cl"),
+    NaVO3Solution = registerLiquid(liquid(16082, "Sodium Metavanadate Solution", 255, 200, 120, 255)
+            .uumMcfg(0, MT.Na, U, MT.V, U, MT.O, 3*U, MT.H2O, 6*U)
+            .heat(200, 400)),
+    NH4VO3 = dustdcmp(16083, "Ammonium Metavanadate", SET_DULL, 255, 200, 150, 255)
+            .uumMcfg(0, MT.N, U, MT.H, 4*U, MT.V, U, MT.O, 3*U)
+            .heat(473)
     ;
 
     static {
@@ -323,6 +336,5 @@ public class MTx {
         FL.createGas(MT.Zn.put(GASES));
         FL.createGas(MT.As.put(GASES));
         MT.As.heat(887, 887).remove(MELTING); MT.As.remove(MOLTEN);
-
     }
 }
