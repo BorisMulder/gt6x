@@ -1,7 +1,7 @@
 package org.altadoon.gt6x.features.refractorymetals;
 
 import gregapi.data.*;
-import gregapi.oredict.OreDictMaterial;
+import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.worldgen.WorldgenObject;
 import gregapi.worldgen.WorldgenOresBedrock;
@@ -11,6 +11,8 @@ import net.minecraftforge.fluids.FluidStack;
 import org.altadoon.gt6x.common.Config;
 import org.altadoon.gt6x.common.MTx;
 import org.altadoon.gt6x.features.GT6XFeature;
+
+import java.util.List;
 
 import static gregapi.data.CS.*;
 import static gregapi.data.OP.*;
@@ -79,7 +81,7 @@ public class RefractoryMetals extends GT6XFeature {
     }
 
     private void changeByProducts() {
-        //TODO
+        MTx.Vanadinite.addOreByProducts(MT.OREMATS.Galena, MT.OREMATS.Wulfenite, MT.OREMATS.Barite, MT.OREMATS.Stolzite);
     }
 
     private void changeWorldgen() {
@@ -89,14 +91,19 @@ public class RefractoryMetals extends GT6XFeature {
         for (WorldgenObject obj : ORE_END) {
             disableWorldgen(obj);
         }
-        //TODO disable bedrock ore?
+        for (List<WorldgenObject> list : GEN_FLOOR) {
+            for (WorldgenObject obj : list)
+                disableWorldgen(obj);
+        }
     }
 
     private void disableWorldgen(WorldgenObject obj) {
-        if (obj.mName.equals("ore.large.molybdenum")) {
-            obj.mEnabled = false;
-        } else if (obj.mName.equals("ore.large.tungstate")) {
-            obj.mEnabled = false;
+        switch (obj.mName) {
+            case "ore.large.molybdenum":
+            case "ore.large.tungstate":
+            case "ore.bedrock.vanadium":
+                obj.mEnabled = false;
+                break;
         }
     }
 
@@ -110,7 +117,7 @@ public class RefractoryMetals extends GT6XFeature {
         new WorldgenOresLarge("ore.large.wolframite", true, true, 20,  50,   5, 3, 16,
                 MT.OREMATS.Huebnerite, MT.OREMATS.Ferberite, MTx.Wolframite, MT.OREMATS.Molybdenite,
                 ORE_OVERWORLD, ORE_A97, ORE_ENVM, ORE_CW2_AquaCavern, ORE_CW2_Caveland, ORE_CW2_Cavenia, ORE_CW2_Cavern, ORE_CW2_Caveworld, ORE_EREBUS, ORE_ATUM, ORE_BETWEENLANDS, ORE_MARS, ORE_PLANETS, ORE_END);
-        new WorldgenOresBedrock("ore.bedrock.vanadinite", true, true, 6000, MTx.Vanadinite, BlocksGT.FlowersA, 7, GEN_FLOOR); // TODO Vanadium Flower
+        new WorldgenOresBedrock("ore.bedrock.vanadinite", true, true, 6000, MTx.Vanadinite, BlocksGT.FlowersA, 7, GEN_FLOOR); // Vanadium Flower
     }
 
     private void addRecipes() {
@@ -134,8 +141,9 @@ public class RefractoryMetals extends GT6XFeature {
         // Cr
         if (complexChromiumRefining) {
             // we assume SiO2 is present in Chromite which comes out as slag. Part of it remains in the hematite which can be used in a blast furnace. 6 units of SiO2 are added to the left hand of the equation.
-            RM.BurnMixer.addRecipe(true, new ItemStack[]{dust.mat(MT.OREMATS.Chromite, 28), dustSmall.mat(MT.CaCO3, 10), dust.mat(MT.Na2CO3, 6*8)}, new ItemStack[]{dust.mat(MTx.CrSlag, 76)}, null, null, FL.array(FL.Air.make(14*4000)), FL.array(MT.CO2.gas(10*3*U, false)), 3*512, 16, 0);
-            RM.BurnMixer.addRecipe(true, new ItemStack[]{dust.mat(MT.OREMATS.Chromite, 28), dustSmall.mat(MT.CaCO3, 10), dust.mat(MT.Na2CO3, 6*8)}, new ItemStack[]{dust.mat(MTx.CrSlag, 76)}, null, null, FL.array(MT.O.gas(7*2*U, true)), FL.array(MT.CO2.gas(10*3*U, false)), 3*512, 16, 0);
+            //TODO fix?
+            RM.BurnMixer.addRecipe(true, new ItemStack[]{OM.dust(MT.OREMATS.Chromite, 28*U), OM.dust(MT.CaCO3, 5*U2), OM.dust(MT.Na2CO3, 48*U)}, ST.array(OP.dust.mat(MTx.CrSlag, 76)), null, null, FL.array(FL.Air.make(14*4000)), FL.array(MT.CO2.gas(10*3*U, false)), 3*512, 16, 0);
+            RM.BurnMixer.addRecipe(true, new ItemStack[]{OM.dust(MT.OREMATS.Chromite, 28*U), OM.dust(MT.CaCO3, 5*U2), OM.dust(MT.Na2CO3, 48*U)}, ST.array(OP.dust.mat(MTx.CrSlag, 76)), null, null, FL.array(MT.O.gas(7*2*U, true)), FL.array(MT.CO2.gas(10*3*U, false)), 3*512, 16, 0);
 
             for (FluidStack tWater : FL.waters(3000)) {
                 RM.Bath.addRecipe1(true, 0, 3*256, dust.mat(MTx.CrSlag, 76), FL.mul(tWater, 8), MTx.Na2CrO4Solution.liquid(8*10*U, false), dust.mat(MT.Fe2O3, 10), gem.mat(MTx.Slag, 10));
@@ -146,11 +154,14 @@ public class RefractoryMetals extends GT6XFeature {
             //TODO use thermolysis oven
             RM.Drying.addRecipe0(true, 16, 3*128, FL.array(MTx.DichromateSoda.liquid(32*U, true)), FL.array(MTx.Na2CO3Solution.liquid(9*U, false), MT.DistWater.liquid(9*U, false), MT.CO2.gas(3*U, false)), dust.mat(MTx.Na2Cr2O7, 11));
             RM.Drying.addRecipe0(true, 16, 3*128, FL.array(MTx.Na2CO3Solution.liquid(9*U, false)), FL.array(MT.DistWater.liquid(3*U, false)), dust.mat(MT.Na2CO3, 6));
+
             for (ItemStack coal : new ItemStack[]{dust.mat(MT.Charcoal, 1), dust.mat(MT.LigniteCoke, 3), dust.mat(MT.CoalCoke, 1), dust.mat(MT.C, 1)}) {
                 RM.BurnMixer.addRecipe2(true, 16, 64, ST.mul(2, coal), dust.mat(MTx.Na2Cr2O7, 11), ZL_FS, MT.CO.gas(2*U, false), dust.mat(MTx.CrSodaMixture, 11));
             }
             RM.Bath.addRecipe1(true, 0, 512, dust.mat(MTx.Cr2O3, 5), MT.Al.liquid(2*U, true), MT.Cr.liquid(2*U, false), dust.mat(MT.Al2O3, 5));
         }
+
+        //TODO Zr,Hf
     }
 
 }

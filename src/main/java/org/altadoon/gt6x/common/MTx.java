@@ -2,6 +2,7 @@ package org.altadoon.gt6x.common;
 
 import gregapi.code.TagData;
 import gregapi.data.*;
+import gregapi.oredict.OreDictManager;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.render.TextureSet;
 import org.altadoon.gt6x.Gt6xMod;
@@ -309,32 +310,56 @@ public class MTx {
             .heat(774,1220),
     Wolframite = oredustdcmp(16080, "TrueWolframite", SET_METALLIC, 100, 100, 120, 255)
             .uumMcfg(0, MT.OREMATS.Ferberite, U, MT.OREMATS.Huebnerite, U)
-            .setLocal("Wolframite"),
+            .setLocal("Wolframite")
+            .addSourceOf(MT.Fe, MT.W, MT.Mn)
+            .qual(3),
     Vanadinite = oredustdcmp(16081, "Vanadinite", SET_CUBE_SHINY, 153, 51, 0, 255)
             .uumMcfg(0, MT.Pb, 5*U, MT.V, 3*U, MT.O, 12*U, MT.Cl, U)
             .heat(C + 1910)
-            .tooltip("PB" + CS.NUM_SUB[5] + "(VO" + CS.NUM_SUB[4] + ")" + NUM_SUB[3] + "Cl"),
+            .tooltip("Pb" + CS.NUM_SUB[5] + "(VO" + CS.NUM_SUB[4] + ")" + NUM_SUB[3] + "Cl"),
     NaVO3Solution = registerLiquid(liquid(16082, "Sodium Metavanadate Solution", 255, 200, 120, 255)
             .uumMcfg(0, MT.Na, U, MT.V, U, MT.O, 3*U, MT.H2O, 6*U)
             .heat(200, 400)),
     NH4VO3 = dustdcmp(16083, "Ammonium Metavanadate", SET_DULL, 255, 200, 150, 255)
             .uumMcfg(0, MT.N, U, MT.H, 4*U, MT.V, U, MT.O, 3*U)
-            .heat(473)
+            .heat(473),
+    CoO = dustdcmp(16084, "Cobalt Monoxide", SET_DULL, 50, 50, 100, 255)
+            .uumMcfg(0, MT.Co, U, MT.O, U)
+            .heat(2206),
+    CobaltBlue = dustdcmp(16085, "Cobalt Blue", SET_FINE, 0, 71, 171, 255, DYE_INDEX_Blue)
+            .uumMcfg(0, MT.Co, U, MT.Al, 2*U, MT.O, 4*U)
+            .heat((MT.Al2O3.mMeltingPoint + MTx.CoO.mMeltingPoint) / 2),
+    NH4SO4 = dustdcmp(16086, "Ammonium Sulfate", SET_CUBE, 255, 255, 230, 255)
+            .uumMcfg(0, MT.N, 2*U, MT.H, 8*U, MT.S, U, MT.O, 4*U)
+            .heat(508)
+            .tooltip("(NH" + NUM_SUB[4] + ")" + NUM_SUB[2] + "SO" + NUM_SUB[4]),
+    SeO2 = dustdcmp(16087, "Selenium Dioxide", SET_QUARTZ, 255, 200, 240, 255)
+            .uumMcfg(0, MT.Se, U, MT.O, 2*U)
+            .heat(613, 623)
     ;
 
     static {
-        FL.createMolten(MT.K2S2O7.put(MELTING, MOLTEN), 1000);
-        FL.createMolten(MT.Na2S2O7.put(MELTING, MOLTEN), 1000);
+        MT.BlueSapphire.uumMcfg(6, MT.Al2O3, 5*U, MT.Fe2O3, U);
+        MT.NH3.uumMcfg(1, MT.N, U, MT.H, 3*U);
+
+        MT.As.heat(887, 887).remove(MELTING); MT.As.remove(MOLTEN);
+
         MT.Plastic.put(POLYMER);
         MT.Rubber.put(POLYMER);
+
         MT.OREMATS.Wolframite.setLocal("Magnesium Tungstate").addSourceOf(MT.Mg);
         MT.OREMATS.Tungstate.setLocal("Lithium Tungstate");
+
+        FL.createMolten(MT.K2S2O7.put(MELTING, MOLTEN), 1000);
+        FL.createMolten(MT.Na2S2O7.put(MELTING, MOLTEN), 1000);
         FL.createMolten(RhodiumPotassiumSulfate.put(MELTING, MOLTEN), 1000);
         FL.createMolten(PbCl2.put(MELTING, MOLTEN), 1000);
         FL.createMolten(Slag.put(MELTING, MOLTEN), 144);
         FL.createMolten(FeCr2.put(MELTING, MOLTEN), 144);
+
         FL.createGas(MT.Zn.put(GASES));
         FL.createGas(MT.As.put(GASES));
-        MT.As.heat(887, 887).remove(MELTING); MT.As.remove(MOLTEN);
+
+        OreDictManager.INSTANCE.addReRegistration("dustCobaltBlue", "dyeMixableBlue");
     }
 }
