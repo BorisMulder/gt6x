@@ -1,6 +1,7 @@
 package org.altadoon.gt6x.features.refractorymetals;
 
 import gregapi.data.*;
+import gregapi.oredict.OreDictMaterial;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.worldgen.WorldgenObject;
@@ -13,6 +14,8 @@ import org.altadoon.gt6x.common.MTx;
 import org.altadoon.gt6x.features.GT6XFeature;
 
 import java.util.List;
+import java.util.ListIterator;
+import java.util.Objects;
 
 import static gregapi.data.CS.*;
 import static gregapi.data.OP.*;
@@ -20,13 +23,16 @@ import static gregapi.data.OP.*;
 public class RefractoryMetals extends GT6XFeature {
     public static final String FEATURE_NAME = "RFMProcessing";
     private static final String CHROMIUM_CHEM = "complexChromiumRefining";
+    private static final String COLTAN_CHEM = "complexColtanRefining";
     private static final String FEATURE_OREGEN = "overrideOregen";
     private boolean complexChromiumRefining = true;
+    private boolean complexColtanRefining = true;
     private boolean overrideWorldgen = false;
 
     @Override
     public void configure(Config cfg) {
         complexChromiumRefining = cfg.cfg.getBoolean(CHROMIUM_CHEM, FEATURE_NAME, true, "Refine pure chromium using aluminothermic reaction of chromium(III) oxide");
+        complexColtanRefining = cfg.cfg.getBoolean(COLTAN_CHEM, FEATURE_NAME, true, "Refine Coltan ores in a more realistic way");
         overrideWorldgen = cfg.cfg.getBoolean(FEATURE_OREGEN, FEATURE_NAME, true, "Override some ore veins from gt6 default configs. Does nothing if Simple mode is enabled. Disable if you provide your own config for molybdenum veins (ore.large.molybdenum), if you have no idea leave this as is.");
     }
 
@@ -70,6 +76,19 @@ public class RefractoryMetals extends GT6XFeature {
         MT.OREMATS.Powellite.setSmelting(MT.OREMATS.Powellite, U).remove(TD.Processing.CENTRIFUGE);
         MT.OREMATS.Wulfenite.setSmelting(MT.OREMATS.Wulfenite, U).remove(TD.Processing.CENTRIFUGE);
         MT.V2O5.setSmelting(MT.V2O5, U).remove(TD.Processing.ELECTROLYSER);
+        MT.Zircon.setSmelting(MT.Zircon, U).remove(TD.Processing.ELECTROLYSER);
+
+        if (complexColtanRefining) {
+            MT.OREMATS.Coltan.uumMcfg(0, MT.Fe, U, MT.Mn, U, MT.Ta, 2 * U, MT.Nb, 2*U, MT.O, 12 * U)
+                    .tooltip("(Fe, Mn)(Ta, Nb)" + NUM_SUB[2] + "O" + NUM_SUB[6])
+                    .remove(TD.Processing.CENTRIFUGE);
+            MT.OREMATS.Tantalite.uumMcfg(0, MT.Fe, U, MT.Mn, U, MT.Ta, 4 * U, MT.O, 12 * U)
+                    .tooltip("(Fe, Mn)Ta" + NUM_SUB[2] + "O" + NUM_SUB[6])
+                    .remove(TD.Processing.ELECTROLYSER);
+            MT.OREMATS.Columbite.uumMcfg(0, MT.Fe, U, MT.Mn, U, MT.Nb, 4 * U, MT.O, 12 * U)
+                    .tooltip("(Fe, Mn)Nb" + NUM_SUB[2] + "O" + NUM_SUB[6])
+                    .remove(TD.Processing.ELECTROLYSER);
+        }
 
         if (complexChromiumRefining) {
             MT.OREMATS.Chromite.setSmelting(MT.OREMATS.Chromite, U);
@@ -82,6 +101,16 @@ public class RefractoryMetals extends GT6XFeature {
 
     private void changeByProducts() {
         MTx.Vanadinite.addOreByProducts(MT.OREMATS.Galena, MT.OREMATS.Wulfenite, MT.OREMATS.Barite, MT.OREMATS.Stolzite);
+
+        for (OreDictMaterial mat : new OreDictMaterial[] { MT.Zircon, MT.Eudialyte, MT.Azurite, MT.Zr }) {
+            ListIterator<OreDictMaterial> it = mat.mByProducts.listIterator();
+            while (it.hasNext()) {
+                OreDictMaterial byproduct = it.next();
+                if (byproduct.mID == MT.Hf.mID) {
+                    it.set(MT.Zircon);
+                }
+            }
+        }
     }
 
     private void changeWorldgen() {
@@ -93,7 +122,8 @@ public class RefractoryMetals extends GT6XFeature {
         }
         for (List<WorldgenObject> list : GEN_FLOOR) {
             for (WorldgenObject obj : list)
-                disableWorldgen(obj);
+                if (Objects.equals(obj.mName, "ore.bedrock.vanadium"))
+                    obj.mEnabled = false;
         }
     }
 
@@ -101,7 +131,6 @@ public class RefractoryMetals extends GT6XFeature {
         switch (obj.mName) {
             case "ore.large.molybdenum":
             case "ore.large.tungstate":
-            case "ore.bedrock.vanadium":
                 obj.mEnabled = false;
                 break;
         }
@@ -121,6 +150,11 @@ public class RefractoryMetals extends GT6XFeature {
     }
 
     private void addRecipes() {
+        // Common
+        RM.Mixer.addRecipe0(true, 16, 64, FL.array(MT.HF.gas(U, true), MT.NH3.gas(U, true)), ZL_FS, OP.dust.mat(MTx.NH4F, 2));
+        //TODO use thermolysis oven
+        RM.Drying.addRecipe1(true, 16, 256, OP.dust.mat(MTx.NH4F, 2), ZL_FS, FL.array(MT.HF.gas(U, true), MT.NH3.gas(U, true)));
+
         // Mo, W
         RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Powellite, 6), FL.array(MT.HCl.gas(4*U, true)), ZL_FS, dust.mat(MTx.H2MoO4, 7), dust.mat(MT.CaCl2, 3));
         RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Wulfenite, 6), FL.array(MT.HCl.gas(4*U, true)), ZL_FS, dust.mat(MTx.H2MoO4, 7), dust.mat(MTx.PbCl2, 3));
@@ -142,8 +176,8 @@ public class RefractoryMetals extends GT6XFeature {
         if (complexChromiumRefining) {
             // we assume SiO2 is present in Chromite which comes out as slag. Part of it remains in the hematite which can be used in a blast furnace. 6 units of SiO2 are added to the left hand of the equation.
             //TODO fix?
-            RM.BurnMixer.addRecipe(true, new ItemStack[]{OM.dust(MT.OREMATS.Chromite, 28*U), OM.dust(MT.CaCO3, 5*U2), OM.dust(MT.Na2CO3, 48*U)}, ST.array(OP.dust.mat(MTx.CrSlag, 76)), null, null, FL.array(FL.Air.make(14*4000)), FL.array(MT.CO2.gas(10*3*U, false)), 3*512, 16, 0);
-            RM.BurnMixer.addRecipe(true, new ItemStack[]{OM.dust(MT.OREMATS.Chromite, 28*U), OM.dust(MT.CaCO3, 5*U2), OM.dust(MT.Na2CO3, 48*U)}, ST.array(OP.dust.mat(MTx.CrSlag, 76)), null, null, FL.array(MT.O.gas(7*2*U, true)), FL.array(MT.CO2.gas(10*3*U, false)), 3*512, 16, 0);
+            RM.Mixer.addRecipe(true, new ItemStack[]{OM.dust(MT.OREMATS.Chromite, 28*U), OM.dust(MT.CaCO3, 5*U2), OM.dust(MT.Na2CO3, 48*U)}, ST.array(OP.dust.mat(MTx.CrSlag, 76)), null, null, FL.array(FL.Air.make(14*4000)), FL.array(MT.CO2.gas(10*3*U, false)), 3*512, 16, 0);
+            RM.Mixer.addRecipe(true, new ItemStack[]{OM.dust(MT.OREMATS.Chromite, 28*U), OM.dust(MT.CaCO3, 5*U2), OM.dust(MT.Na2CO3, 48*U)}, ST.array(OP.dust.mat(MTx.CrSlag, 76)), null, null, FL.array(MT.O.gas(7*2*U, true)), FL.array(MT.CO2.gas(10*3*U, false)), 3*512, 16, 0);
 
             for (FluidStack tWater : FL.waters(3000)) {
                 RM.Bath.addRecipe1(true, 0, 3*256, dust.mat(MTx.CrSlag, 76), FL.mul(tWater, 8), MTx.Na2CrO4Solution.liquid(8*10*U, false), dust.mat(MT.Fe2O3, 10), gem.mat(MTx.Slag, 10));
@@ -161,7 +195,26 @@ public class RefractoryMetals extends GT6XFeature {
             RM.Bath.addRecipe1(true, 0, 512, dust.mat(MTx.Cr2O3, 5), MT.Al.liquid(2*U, true), MT.Cr.liquid(2*U, false), dust.mat(MT.Al2O3, 5));
         }
 
-        //TODO Zr,Hf
+        // Zr,Hf
+        for (ItemStack coal : new ItemStack[]{dust.mat(MT.Charcoal, 1), dust.mat(MT.LigniteCoke, 3), dust.mat(MT.CoalCoke, 1), dust.mat(MT.C, 1), dust.mat(MT.Graphite, 1)}) {
+            RM.BurnMixer.addRecipe2(true, 16, 256, ST.mul(2, coal), dust.mat(MT.Zircon, 12), FL.array(MT.Cl.gas(8*U, true), MT.CaCO3.liquid(10*U, true)), FL.array(MTx.ZrHfCl4.gas(10*U, false), MT.CO2.gas(12*U, false)), gem.mat(MTx.Slag, 10));
+            RM.BurnMixer.addRecipe2(true, 16, 256, coal, dust.mat(MT.Zircon, 6), FL.array(MT.Cl.gas(4*U, true), MT.CaCO3.liquid(5*U, true)), FL.array(MTx.ZrHfCl4.gas(5*U, false), MT.CO2.gas(6*U, false)), gem.mat(MTx.Slag, 5));
+        }
+        RM.Distillery.addRecipe1(true, 64, 256, ST.tag(0), FL.array(MTx.ZrHfCl4.gas(5*U, true)), FL.array(MTx.ZrCl4.gas(49*U10, false), MTx.HfCl4.gas(U10, false)));
+        RM.Bath.addRecipe1(true, 0, 512, OM.dust(MT.Na, U*4), MTx.ZrCl4.gas(5*U, T), NF, OM.dust(MT.Zr), OM.dust(MT.NaCl , U*2), OM.dust(MT.NaCl , U*2), OM.dust(MT.NaCl , U*2), OM.dust(MT.NaCl , U*2));
+        RM.Bath.addRecipe1(true, 0, 512, OM.dust(MT.Mg, U*2), MTx.ZrCl4.gas(5*U, T), NF, OM.dust(MT.Zr), OM.dust(MT.MgCl2, U*2), OM.dust(MT.MgCl2, U*2), OM.dust(MT.MgCl2, U*2));
+        RM.Bath.addRecipe1(true, 0, 512, OM.dust(MT.Na, U*4), MTx.HfCl4.gas(5*U, T), NF, OM.dust(MT.Hf), OM.dust(MT.NaCl , U*2), OM.dust(MT.NaCl , U*2), OM.dust(MT.NaCl , U*2), OM.dust(MT.NaCl , U*2));
+        RM.Bath.addRecipe1(true, 0, 512, OM.dust(MT.Mg, U*2), MTx.HfCl4.gas(5*U, T), NF, OM.dust(MT.Hf), OM.dust(MT.MgCl2, U*2), OM.dust(MT.MgCl2, U*2), OM.dust(MT.MgCl2, U*2));
+
+        // Nb, Ta
+        if (complexColtanRefining) {
+            RM.Bath.addRecipe1(true, 0, 1024, OM.dust(MT.OREMATS.Coltan, 18*U), MT.HF.gas(28*2*U, true), MTx.ColtanFAqSolution.liquid(74*U, false), NI);
+            RM.Mixer.addRecipe0(true, 16, 1024, FL.array(MTx.ColtanFAqSolution.liquid(74*U, true), MTx.MIBK.liquid(38*U, true)), FL.array(MTx.NbTaFOrganicSolution.liquid(76*U, false), MTx.FeMnF2Solution.liquid(36*U, false)));
+            RM.Electrolyzer.addRecipe0(true, 64, 1024, FL.array(MTx.FeMnF2Solution.liquid(36*U, true)), FL.array(MT.HF.gas(8*U, false), MT.H.gas(20*U, false), MT.O.gas(10*U, false)), OM.dust(MT.Fe, U), OM.dust(MT.Mn, U));
+            for (FluidStack tWater : FL.waters(30000)) {
+                RM.Mixer.addRecipe0(true, 16, 1024, FL.array(MTx.NbTaFOrganicSolution.liquid(76*U, true), MT.NH3.gas(10*U, true), tWater), FL.array(), OM.dust(MT.Nb2O5, 7*U));
+            }
+        }
     }
 
 }

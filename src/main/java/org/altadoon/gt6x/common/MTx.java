@@ -258,7 +258,7 @@ public class MTx {
     MoO3 = dustdcmp(16063, "Molybdenum Trioxide", SET_CUBE, 180, 180, 200, 255)
             .uumMcfg(0, MT.Mo, U, MT.O, 3*U)
             .heat(1075, 1428),
-    HgO = dustdcmp(16064, "Mercuric Oxide", SET_CUBE, 255, 150, 0, 255)
+    HgO = dustdcmp(16064, "Mercury(II) Oxide", SET_CUBE, 255, 150, 0, 255)
             .uumMcfg(0, MT.Hg, U, MT.O, U)
             .heat(773)
             .setSmelting(MT.Hg, U2),
@@ -287,7 +287,7 @@ public class MTx {
     Cr2O3 = dustdcmp(16072, "Chromium(III) Oxide", SET_DULL, 100, 255, 100, 255)
             .uumMcfg(0, MT.Cr, 2*U, MT.O, 3*U)
             .heat(2708, 4270),
-    CrSodaMixture = dustdcmp(16073, "Chromium Oxide-Soda Mixture", SET_POWDER, 50, 200, 50, 255)
+    CrSodaMixture = dustdcmp(16073, "Chromia-Soda Mixture", SET_POWDER, 50, 200, 50, 255)
             .uumMcfg(0, MTx.Cr2O3, U, MT.Na2CO3, U)
             .heat(MTx.Cr2O3),
     CrSlag = dustdcmp(16074, "Chromite Slag", SET_POWDER, 150, 150, 0, 255)
@@ -296,7 +296,7 @@ public class MTx {
     Sb2O3 = dustdcmp(16075, "Antimony Trioxide", SET_FINE, 255, 200, 150, 255)
             .uumMcfg(0, MT.Sb, 2*U, MT.O, 3*U)
             .heat(929, 1698),
-    FeS = dustdcmp(16076, "Ferrous Sulfide", SET_SHINY, 66, 66, 66, 255)
+    FeS = dustdcmp(16076, "Iron(II) Sulfide", SET_SHINY, 66, 66, 66, 255)
             .uumMcfg(0, MT.Fe, U, MT.S, U)
             .heat(1467),
     Cementite = alloymachine(16077, "Cementite", SET_METALLIC, 50, 0, 0)
@@ -323,7 +323,7 @@ public class MTx {
     NH4VO3 = dustdcmp(16083, "Ammonium Metavanadate", SET_DULL, 255, 200, 150, 255)
             .uumMcfg(0, MT.N, U, MT.H, 4*U, MT.V, U, MT.O, 3*U)
             .heat(473),
-    CoO = dustdcmp(16084, "Cobalt Monoxide", SET_DULL, 50, 50, 100, 255)
+    CoO = dustdcmp(16084, "Cobalt(II) Oxide", SET_DULL, 50, 50, 100, 255)
             .uumMcfg(0, MT.Co, U, MT.O, U)
             .heat(2206),
     CobaltBlue = dustdcmp(16085, "Cobalt Blue", SET_FINE, 0, 71, 171, 255, DYE_INDEX_Blue)
@@ -335,7 +335,42 @@ public class MTx {
             .tooltip("(NH" + NUM_SUB[4] + ")" + NUM_SUB[2] + "SO" + NUM_SUB[4]),
     SeO2 = dustdcmp(16087, "Selenium Dioxide", SET_QUARTZ, 255, 200, 240, 255)
             .uumMcfg(0, MT.Se, U, MT.O, 2*U)
-            .heat(613, 623)
+            .heat(613, 623),
+    ZrCl4 = registerGas(gasdcmp(16088, "Zirconium Tetrachloride", 255, 0, 255, 200)
+            .uumMcfg(0, MT.Zr, U, MT.Cl, 4*U)
+            .heat(604, 604)),
+    HfCl4 = registerGas(gasdcmp(16089, "Hafnium Tetrachloride", 200, 0, 255, 200)
+            .uumMcfg(0, MT.Hf, U, MT.Cl, 4*U)
+            .heat(705, 705)),
+    ZrHfCl4 = registerGas(gasdcmp(16090, "Impure Zirconium Tetrachloride", 228, 0, 255, 200)
+            .uumMcfg(0, ZrCl4, 49*U50, HfCl4, U50)
+            .heat(654, 654)),
+    MnF2 = dustdcmp(16091, "Manganese(II) Fluoride", SET_CUBE, 255, 150, 200, 255, ELECTROLYSER)
+            .uumMcfg(0, MT.Mn, U, MT.F, 2*U)
+            .heat(1129, 2090),
+    FeF2 = dustdcmp(16092, "Iron(II) Fluoride", SET_CUBE, 150, 255, 255, 255, ELECTROLYSER)
+            .uumMcfg(0, MT.Fe, U, MT.F, 2*U)
+            .heat(1240, 1370),
+    H2TaF7 = create(16093, "Hydrogen Heptafluorotantalate", 255, 0, 255, 255)
+            .uumMcfg(0, MT.H, 2*U, MT.Ta, U, MT.F, 7*U),
+    NH4F = dustdcmp(16094, "Ammonium Fluoride", SET_CUBE, 50, 255, 255, 255)
+            .uumMcfg(0, MT.N, U, MT.H, 4*U, MT.F, U)
+            .heat(373, 373),
+    H2NbOF5 = create(16095, "Hydrogen Pentafluorooxoniobate", 255, 0, 255, 255)
+            .uumMcfg(0, MT.H, 2*U, MT.Nb, U, MT.F, 7*U),
+    ColtanFAqSolution = registerLiquid(lquddcmp(16096, "Coltan Leaching Solution", 175, 0, 175, 255)
+            .uumMcfg(0, H2TaF7, 20*U, H2NbOF5, 18*U, FeF2, 3*U, MnF2, 3*U, MT.H2O, 10*3*U)
+            .heat(200, 400)),
+    FeMnF2Solution = registerLiquid(lquddcmp(16097, "Iron-Manganese Aqueous Solution", 255, 0, 255, 255)
+            .uumMcfg(0, FeF2, 3*U, MnF2, 3*U, MT.H2O, 10*3*U)
+            .heat(200, 400)),
+    MIBK = registerLiquid(lquddcmp(16098, "Methyl Isobutyl Ketone", 255, 255, 255, 100)
+            .uumMcfg(0, MT.C, 6*U, MT.H, 12*U, MT.O, U)
+            .heat(188, 391)),
+    NbTaFOrganicSolution = registerLiquid(lquddcmp(16099, "Niobium Tantalum Organic Solution", 100, 255, 255, 255)
+            .uumMcfg(0, H2TaF7, 10*U, H2NbOF5, 9*U, MIBK, 19*U)
+            .heat(MIBK))
+    //TODO TaFOrganicSolution, Ammonium Fluoride Solution (thermolyzable)
     ;
 
     static {
