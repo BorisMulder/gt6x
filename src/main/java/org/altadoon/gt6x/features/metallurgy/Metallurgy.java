@@ -261,10 +261,6 @@ public class Metallurgy extends GT6XFeature {
             RM.Electrolyzer.addRecipe2(true, 64, 128, dust.mat(MTx.NH4SO4, 9), dust.mat(MTx.SeO2, 3), FL.array(MT.GrayVitriol.liquid(6 * U, true), tWater), FL.array(MT.H2SO4.liquid(14*U, false), MT.NH3.gas(2*U, false), MT.O.gas(3*U, false)), dust.mat(MT.Mn, 1), dust.mat(MT.Se, 1));
         }
 
-        //TODO verify and remove these
-        RM.Generifier.addRecipe1(false, 0, 1, dust.mat(MTx.CobaltBlue, 1), dust.mat(MT.Blue, 1));
-        CR.shapeless(dust.mat(MT.Blue, 1), new Object[] { dust.dat(MTx.CobaltBlue) });
-
         // Sintering dusts into chunks
         sintering.add(new RecipeMapHandlerPrefixSintering(dust,      1, NF, 16, 0, 0, NF, ingot , 1, NI, NI, true, false, false, lowHeatSintering));
         sintering.add(new RecipeMapHandlerPrefixSintering(dustSmall, 1, NF, 16, 0, 0, NF, chunk , 1, NI, NI, true, false, false, lowHeatSintering));
