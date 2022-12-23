@@ -81,16 +81,6 @@ public class RefractoryMetals extends GT6XFeature {
                     .tooltip("(Fe, Mn)(Ta, Nb)" + NUM_SUB[2] + "O" + NUM_SUB[6])
                     .addSourceOf(MT.Fe)
                     .remove(TD.Processing.CENTRIFUGE);
-            MT.OREMATS.Tantalite.uumMcfg(0, MT.Fe, U, MT.Mn, U, MT.Ta, 4 * U, MT.O, 12 * U)
-                    .tooltip("(Fe, Mn)Ta" + NUM_SUB[2] + "O" + NUM_SUB[6])
-                    .addSourceOf(MT.Fe)
-                    .remove(TD.Processing.ELECTROLYSER);
-            MT.OREMATS.Columbite.uumMcfg(0, MT.Fe, U, MT.Mn, U, MT.Nb, 4 * U, MT.O, 12 * U)
-                    .tooltip("(Fe, Mn)Nb" + NUM_SUB[2] + "O" + NUM_SUB[6])
-                    .addSourceOf(MT.Fe)
-                    .remove(TD.Processing.ELECTROLYSER);
-            MT.Ta2O5.remove(TD.ItemGenerator.ORES);
-            MT.Nb2O5.remove(TD.ItemGenerator.ORES);
         }
 
         if (complexChromiumRefining) {
@@ -215,8 +205,9 @@ public class RefractoryMetals extends GT6XFeature {
                 RM.Bath.addRecipe1(true, 0, 64, dust.mat(MTx.CrSodaMixture, 11), tWater, MTx.Na2CO3Solution.liquid(9*U, false), dust.mat(MTx.Cr2O3, 5));
             }
             //TODO use thermolysis oven
-            RM.Drying.addRecipe0(true, 16, 3*128, FL.array(MTx.DichromateSoda.liquid(32*U, true)), FL.array(MTx.Na2CO3Solution.liquid(9*U, false), MT.DistWater.liquid(9*U, false), MT.CO2.gas(3*U, false)), dust.mat(MTx.Na2Cr2O7, 11));
-            RM.Drying.addRecipe0(true, 16, 3*128, FL.array(MTx.Na2CO3Solution.liquid(9*U, false)), FL.array(MT.DistWater.liquid(3*U, false)), dust.mat(MT.Na2CO3, 6));
+            RM.Drying.addRecipe0(true, 16, 18000, FL.array(MTx.DichromateSoda.liquid(32*U, true)), FL.array(MTx.Na2CO3Solution.liquid(9*U, false), MT.DistWater.liquid(9*U, false), MT.CO2.gas(3*U, false)), dust.mat(MTx.Na2Cr2O7, 11));
+            // DO use dryer
+            RM.Drying.addRecipe0(true, 16, 6000, FL.array(MTx.Na2CO3Solution.liquid(9*U, false)), FL.array(MT.DistWater.liquid(3*U, false)), dust.mat(MT.Na2CO3, 6));
 
             for (ItemStack coal : new ItemStack[]{dust.mat(MT.Charcoal, 1), dust.mat(MT.LigniteCoke, 3), dust.mat(MT.CoalCoke, 1), dust.mat(MT.C, 1)}) {
                 RM.BurnMixer.addRecipe2(true, 16, 64, ST.mul(2, coal), dust.mat(MTx.Na2Cr2O7, 11), ZL_FS, MT.CO.gas(2*U, false), dust.mat(MTx.CrSodaMixture, 11));
@@ -238,15 +229,15 @@ public class RefractoryMetals extends GT6XFeature {
         // Nb, Ta
         if (complexColtanRefining) {
             RM.Bath.addRecipe1(true, 0, 1024, OM.dust(MT.OREMATS.Coltan, 18*U), MT.HF.gas(28*2*U, true), MTx.ColtanFAqSolution.liquid(74*U, false), NI);
-            RM.Mixer.addRecipe0(true, 16, 1024, FL.array(MTx.ColtanFAqSolution.liquid(74*U, true), MTx.MIBK.liquid(38*U, true)), FL.array(MTx.NbTaFOrganicSolution.liquid(76*U, false), MTx.FeMnF2Solution.liquid(36*U, false)));
+            RM.Mixer.addRecipe0(true, 16, 1024, FL.array(MTx.ColtanFAqSolution.liquid(74*U, true), MTx.MIBK.liquid(38*U, true)), FL.array(MTx.NbTaFMIBKSolution.liquid(76*U, false), MTx.FeMnF2Solution.liquid(36*U, false)));
             RM.Electrolyzer.addRecipe1(true, 64, 1024, ST.tag(0), FL.array(MTx.FeMnF2Solution.liquid(36*U, true)), FL.array(MT.HF.gas(8*U, false), MT.H.gas(20*U, false), MT.O.gas(10*U, false)), OM.dust(MT.Fe, U), OM.dust(MT.Mn, U));
             for (FluidStack tWater : FL.waters(3000)) {
-                RM.Mixer.addRecipe0(true, 16, 1024, FL.array(MTx.NbTaFOrganicSolution.liquid(76*U, true), MT.NH3.gas(10*U, true), FL.mul(tWater, 13)), FL.array(MTx.TaFOrganicSolution.liquid(58*U, false), MTx.NH4FSolution.liquid(10*6*U, false)), OM.dust(MT.Nb2O5, 7*U));
-                RM.Mixer.addRecipe0(true, 16, 1024, FL.array(MTx.TaFOrganicSolution.liquid(58*U, true), MT.NH3.gas(14*U, true), FL.mul(tWater, 19)), FL.array(MTx.MIBK.liquid(38*U, false), MTx.NH4FSolution.liquid(14*6*U, false)), OM.dust(MT.Ta2O5, 7*U));
+                RM.Mixer.addRecipe0(true, 16, 1024, FL.array(MTx.NbTaFMIBKSolution.liquid(76*U, true), MT.NH3.gas(10*U, true), FL.mul(tWater, 13)), FL.array(MTx.TaFMIBKSolution.liquid(58*U, false), MTx.NH4FSolution.liquid(10*6*U, false)), OM.dust(MT.Nb2O5, 7*U));
+                RM.Mixer.addRecipe0(true, 16, 1024, FL.array(MTx.TaFMIBKSolution.liquid(58*U, true), MT.NH3.gas(14*U, true), FL.mul(tWater, 19)), FL.array(MTx.MIBK.liquid(38*U, false), MTx.NH4FSolution.liquid(14*6*U, false)), OM.dust(MT.Ta2O5, 7*U));
             }
             //TODO use thermolysis
-            RM.Drying.addRecipe1(true, 16, 128, ST.tag(0), FL.array(MTx.NH4FSolution.liquid(6*U, true)), FL.array(MT.DistWater.liquid(3*U, false), MT.HF.gas(2*U, false), MT.NH3.gas(U, false)));
-            RM.Mixer.addRecipe1(true, 16, 1024, dust.mat(MT.KF, 8), FL.array(MTx.TaFOrganicSolution.liquid(58*U, true)), FL.array(MTx.MIBK.liquid(38*U, false), MT.HF.gas(8*U, false)), OM.dust(MT.K2TaF7, 20*U));
+            RM.Drying.addRecipe0(true, 16, 6000, FL.array(MTx.NH4FSolution.liquid(6*U, true)), FL.array(MT.DistWater.liquid(3*U, false), MT.HF.gas(2*U, false), MT.NH3.gas(U, false)));
+            RM.Mixer.addRecipe1(true, 16, 1024, dust.mat(MT.KF, 8), FL.array(MTx.TaFMIBKSolution.liquid(58*U, true)), FL.array(MTx.MIBK.liquid(38*U, false), MT.HF.gas(8*U, false)), OM.dust(MT.K2TaF7, 20*U));
             RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.Nb2O5, 7), MT.Ca.liquid(5*U, true), MT.Nb.liquid(2*U, false), dust.mat(MT.Quicklime, 10));
             RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.Ta2O5, 7), MT.Ca.liquid(5*U, true), MT.Quicklime.liquid(10*U, false), dust.mat(MT.Ta, 2));
             RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.Ta2O5, 7), MT.Al.liquid(10*U3, true), MT.Al2O3.liquid(25*U3, false), dust.mat(MT.Ta, 2));

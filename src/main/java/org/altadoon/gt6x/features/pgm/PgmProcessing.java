@@ -127,7 +127,7 @@ public class PgmProcessing extends GT6XFeature {
             RM.Centrifuge.findRecipe(null, null, true, Long.MAX_VALUE, null, ZL_FS, size.mat(MT.PlatinumGroupSludge, 1)).mEnabled = false;
         }
 
-        RM.Bath.addRecipe1(true, 0, 64, new long[]{2500},
+        RM.Bath.addRecipe1(true, 0, 64, new long[]{2500, 2500},
                 dust.mat(MT.PlatinumGroupSludge, 2),
                 FL.array(MT.AquaRegia.liquid(13*8*U8, false)),
                 FL.array(

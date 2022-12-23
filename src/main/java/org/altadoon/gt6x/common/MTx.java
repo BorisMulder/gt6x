@@ -69,10 +69,10 @@ public class MTx {
             .heat(952),
     PtPdLeachingSolution = registerLiquid(lqudaciddcmp(16004, "Platinum Palladium Leaching Solution", 255, 100, 70, 255)
             .uumMcfg(0, MT.ChloroplatinicAcid, 5*9*U, PalladiumChloride, 2*3*U, MT.H2O, U*3*16)
-            .heat( 200,  400)),
+            .heat(MT.H2O)),
     PdChlorideSolution = registerLiquid(lqudaciddcmp(16005, "Palladium Chloride Solution", 255, 180, 90, 255)
             .uumMcfg(0, PalladiumChloride, U, MT.H2O, U*3*8, MT.HCl, U*2*4)
-            .heat( 200,  400)),
+            .heat(MT.H2O)),
     TetraamminepalladiumChloride = dustdcmp(16006, "Tetraamminepalladium Chloride", SET_DULL, 255, 200, 25, 255)
             .uumMcfg(0, MT.Pd, U, MT.NH3, U*4*4, MT.Cl, U*2),
     RhodiumSulfate = dustdcmp(16007, "Rhodium Sulfate", SET_CUBE_SHINY, 255, 70, 10, 255)
@@ -235,9 +235,9 @@ public class MTx {
             .uumMcfg(0, MT.N, 11*U, MT.CO, 4*U, MT.CO2, 4*U, MT.H, U)
             .put(FLAMMABLE, CENTRIFUGE)
             .heat(100, 200)),
-    SpongeIron = dustdcmp(16057, "Sponge Iron", SET_METALLIC, 100, 50, 0, 255)
-            .uumMcfg(0, MT.Fe, U)
-            .heat(1350),
+    ZnBlastFurnaceGas = registerGas(gas(16057, "Zinc-Rich Blast Furnace Gas", 0, 20, 30, 200)
+            .uumMcfg(0, MT.Zn, 20*U, MT.N, 11*U, MT.CO, 4*U, MT.CO2, 4*U, MT.H, U)
+            .heat(MT.Zn)),
     PbO = dustdcmp(16058, "Lead Oxide", SET_DULL, 150, 130, 100, 255)
             .uumMcfg(1, MT.Pb, U, MT.O, U)
             .heat(1161, 1750)
@@ -262,9 +262,9 @@ public class MTx {
             .uumMcfg(0, MT.Hg, U, MT.O, U)
             .heat(773)
             .setSmelting(MT.Hg, U2),
-    ZnBlastFurnaceGas = registerGas(gas(16065, "Zinc-Rich Blast Furnace Gas", 0, 20, 30, 200)
-            .uumMcfg(0, MT.Zn, 20*U, MT.N, 11*U, MT.CO, 4*U, MT.CO2, 4*U, MT.H, U)
-            .heat(MT.Zn)),
+    CoO = dustdcmp(16065, "Cobalt(II) Oxide", SET_DULL, 50, 50, 100, 255)
+            .uumMcfg(0, MT.Co, U, MT.O, U)
+            .heat(2206),
     NaHCO3 = dustdcmp(16066, "Sodium Bicarbonate", SET_FINE, 255, 255, 255, 255)
             .uumMcfg(0, MT.Na, U, MT.H, U, MT.C, U, MT.O, 3*U)
             .heat(C+80)
@@ -277,13 +277,13 @@ public class MTx {
             .heat(629, 673),
     Na2CrO4Solution = registerLiquid(lquddcmp(16069, "Sodium Chromate Solution", 255, 255, 0, 255)
             .uumMcfg(0, MTx.Na2CrO4, U, MT.H2O, 3*U)
-            .heat(200, 400)),
+            .heat(MT.H2O)),
     DichromateSoda = registerLiquid(lquddcmp(16070, "Sodium Dichromate-Bicarbonate Solution", 255, 125, 0, 255)
             .uumMcfg(0, MTx.Na2Cr2O7, 11*U, NaHCO3, 12*U, MT.H2O, 9*U)
-            .heat(200, 400)),
+            .heat(MT.H2O)),
     Na2CO3Solution = registerLiquid(lquddcmp(16071, "Sodium Carbonate Solution", 100, 100, 255, 255)
             .uumMcfg(0, MT.Na2CO3, 6*U, MT.H2O, 3*U)
-            .heat(200, 400)),
+            .heat(MT.H2O)),
     Cr2O3 = dustdcmp(16072, "Chromium(III) Oxide", SET_DULL, 100, 255, 100, 255)
             .uumMcfg(0, MT.Cr, 2*U, MT.O, 3*U)
             .heat(2708, 4270),
@@ -319,13 +319,11 @@ public class MTx {
             .tooltip("Pb" + CS.NUM_SUB[5] + "(VO" + CS.NUM_SUB[4] + ")" + NUM_SUB[3] + "Cl"),
     NaVO3Solution = registerLiquid(liquid(16082, "Sodium Metavanadate Solution", 255, 200, 120, 255)
             .uumMcfg(0, MT.Na, U, MT.V, U, MT.O, 3*U, MT.H2O, 6*U)
-            .heat(200, 400)),
+            .heat(MT.H2O)),
     NH4VO3 = dustdcmp(16083, "Ammonium Metavanadate", SET_DULL, 255, 200, 150, 255)
             .uumMcfg(0, MT.N, U, MT.H, 4*U, MT.V, U, MT.O, 3*U)
             .heat(473),
-    CoO = dustdcmp(16084, "Cobalt(II) Oxide", SET_DULL, 50, 50, 100, 255)
-            .uumMcfg(0, MT.Co, U, MT.O, U)
-            .heat(2206),
+    // 84 free
     CobaltBlue = dustdcmp(16085, "Cobalt Blue", SET_FINE, 0, 71, 171, 255, DYE_INDEX_Blue)
             .uumMcfg(0, MT.Co, U, MT.Al, 2*U, MT.O, 4*U)
             .heat((MT.Al2O3.mMeltingPoint + MTx.CoO.mMeltingPoint) / 2),
@@ -346,10 +344,10 @@ public class MTx {
             .uumMcfg(0, ZrCl4, 49*U50, HfCl4, U50)
             .heat(654, 654)
             .setLocal("Impure Zirconium Tetrachloride")),
-    MnF2 = dustdcmp(16091, "Manganese(II) Fluoride", SET_CUBE, 255, 150, 200, 255, ELECTROLYSER)
+    MnF2 = dustdcmp(16091, "Manganese(II) Fluoride", SET_CUBE, 255, 150, 200, 255, ELECTROLYSER, ACID)
             .uumMcfg(0, MT.Mn, U, MT.F, 2*U)
             .heat(1129, 2090),
-    FeF2 = dustdcmp(16092, "Iron(II) Fluoride", SET_CUBE, 150, 255, 255, 255, ELECTROLYSER)
+    FeF2 = dustdcmp(16092, "Iron(II) Fluoride", SET_CUBE, 150, 255, 255, 255, ELECTROLYSER, ACID)
             .uumMcfg(0, MT.Fe, U, MT.F, 2*U)
             .heat(1240, 1370),
     H2TaF7 = create(16093, "Hydrogen Heptafluorotantalate", 255, 0, 255, 255)
@@ -361,21 +359,43 @@ public class MTx {
             .uumMcfg(0, MT.H, 2*U, MT.Nb, U, MT.O, U, MT.F, 5*U),
     ColtanFAqSolution = registerLiquid(lquddcmp(16096, "Coltan Leaching Solution", 175, 0, 175, 255)
             .uumMcfg(0, H2TaF7, 20*U, H2NbOF5, 18*U, FeF2, 3*U, MnF2, 3*U, MT.H2O, 10*3*U)
-            .heat(200, 400)),
+            .heat(MT.H2O)),
     FeMnF2Solution = registerLiquid(lquddcmp(16097, "Iron-Manganese Aqueous Solution", 255, 0, 255, 255)
             .uumMcfg(0, FeF2, 3*U, MnF2, 3*U, MT.H2O, 10*3*U)
-            .heat(200, 400)),
+            .heat(MT.H2O)),
     MIBK = registerLiquid(lquddcmp(16098, "Methyl Isobutyl Ketone", 255, 255, 255, 100)
             .uumMcfg(0, MT.C, 6*U, MT.H, 12*U, MT.O, U)
             .heat(188, 391)),
-    NbTaFOrganicSolution = registerLiquid(lquddcmp(16099, "Niobium Tantalum Fluorotantalate Organic Solution", 100, 255, 255, 255)
+    NbTaFMIBKSolution = registerLiquid(lquddcmp(16099, "Niobium Tantalum Fluorotantalate Organic Solution", 100, 150, 150, 255)
             .uumMcfg(0, H2TaF7, 10*U, H2NbOF5, 9*U, MIBK, 19*U)
             .heat(MIBK)),
     NH4FSolution = registerLiquid(lquddcmp(16100, "Ammonium Fluoride Solution", 100, 255, 255, 200)
-            .uumMcfg(0, NH4F, 3*U, MT.H2O, 3*U)),
-    TaFOrganicSolution = registerLiquid(lquddcmp(16101, "Hydrogen Heptafluorotantalate Organic Solution", 150, 150, 50, 255)
+            .uumMcfg(0, NH4F, 3*U, MT.H2O, 3*U)
+            .heat(MT.H2O)),
+    TaFMIBKSolution = registerLiquid(lquddcmp(16101, "Hydrogen Heptafluorotantalate Organic Solution", 150, 150, 100, 255)
             .uumMcfg(0, H2TaF7, 10*U, MIBK, 19*U)
-            .heat(MIBK))
+            .heat(MIBK)),
+    CaOH2 = dustdcmp(16102, "Slaked Lime", SET_DULL, 255, 255, 200, 255)
+            .uumMcfg(0, MT.Ca, U, MT.O, 2*U, MT.H, 2*U)
+            .heat(853)
+            .setSmelting(MT.Quicklime, 2*U5),
+    CaCl2Solution = registerLiquid(lquddcmp(16103, "Calcium Chloride Solution", 235, 235, 255, 200)
+            .setMcfg(0, MT.CaCl2, 3*U, MT.H2O, 3*U)
+            .heat(MT.H2O)),
+    FeCl2Solution = registerLiquid(lquddcmp(16104, "Ferrous Chloride Solution", 235, 255, 235, 200)
+            .setMcfg(0, MT.FeCl2, 3*U, MT.H2O, 3*U)
+            .heat(MT.H2O)),
+    Fayalite = dustdcmp(16105, "Fayalite", SET_POWDER, 100, 50, 0, 255)
+            .uumMcfg(0, MT.Fe, 2*U, MT.Si, U, MT.O, 4*U)
+            .heat(C + 1205),
+    FerrousSlag = create( 16106, "Ferrous Slag", 255, 200, 180, 255)
+            .setTextures(SET_FLINT)
+            .put(INGOTS, MORTAR, BRITTLE, GEMS)
+            .heat(Fayalite)
+            .setPulver(Fayalite, U),
+    SpongeIron = dustdcmp(16107, "Sponge Iron", SET_METALLIC, 100, 50, 0, 255)
+            .uumMcfg(0, MT.Fe, 5*U, MT.C, U, FerrousSlag, 35*U8)
+            .heat(1250)
     ;
 
     static {
