@@ -26,6 +26,7 @@
       <option name="externalProjectPath" value="$PROJECT_DIR$" />
       <option name="externalSystemIdString" value="GRADLE" />
       <option name="scriptParameters" value="-PappArgs=&quot;['--username', 'GregTest']&quot; --stacktrace" />
+
       <option name="taskDescriptions">
         <list />
       </option>
