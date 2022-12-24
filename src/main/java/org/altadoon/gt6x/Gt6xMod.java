@@ -1,10 +1,7 @@
 package org.altadoon.gt6x;
 
 import gregapi.data.CS;
-import org.altadoon.gt6x.common.Config;
-import org.altadoon.gt6x.common.Log;
-import org.altadoon.gt6x.common.MTx;
-import org.altadoon.gt6x.common.MTEx;
+import org.altadoon.gt6x.common.*;
 import org.altadoon.gt6x.features.GT6XFeature;
 import org.altadoon.gt6x.features.pgm.PgmProcessing;
 import org.altadoon.gt6x.features.thermoven.ThermoOven;
@@ -61,6 +58,7 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 		this.enabledFeatures = modConfig.getEnabledFeatures();
 		MTEx.touch();
 		MTx.touch();
+		RMx.touch();
 
 		for (GT6XFeature feature : enabledFeatures) {
 			feature.preInit();
