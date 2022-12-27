@@ -24,6 +24,36 @@ public class MTx {
 
     public static final TagData POLYMER = TagData.createTagData("PROPERTIES.Polymer", "Polymer");
 
+    static {
+        // change some properties of vanilla GT6 materials
+        MT.NH3.uumMcfg(1, MT.N, U, MT.H, 3*U);
+        MT.PigIron.uumMcfg(5, MT.Fe, 5*U, MT.C, U);
+        MT.Steel  .uumMcfg(20, MT.Fe, 20*U, MT.C, U);
+
+        MT.BlueSapphire.uumMcfg(6, MT.Al2O3, 5*U, MT.Fe2O3, U);
+        MT.Ruby.uumMcfg(6, MT.Al2O3, 5*U, MTx.Cr2O3, U);
+        MT.GreenSapphire.uumMcfg(6, MT.Al2O3, 5*U, MTx.MgO, U);
+        MT.PurpleSapphire.uumMcfg(6, MT.Al2O3, 5*U, MT.V2O5, U);
+
+        MT.As.heat(887, 887).remove(MELTING); MT.As.remove(MOLTEN);
+
+        MT.Plastic.put(POLYMER);
+        MT.Rubber.put(POLYMER);
+
+        MT.OREMATS.Wolframite.setLocal("Magnesium Tungstate").addSourceOf(MT.Mg);
+        MT.OREMATS.Tungstate.setLocal("Lithium Tungstate");
+        MT.OREMATS.Huebnerite.setLocal("Hübnerite");
+
+        FL.createMolten(MT.K2S2O7.put(MELTING, MOLTEN), 1000);
+        FL.createMolten(MT.Na2S2O7.put(MELTING, MOLTEN), 1000);
+        FL.createMolten(MT.Quicklime.put(MELTING, MOLTEN), 1000);
+        FL.createMolten(MT.Nb.put(MELTING, MOLTEN), 1000);
+
+        FL.createGas(MT.Zn.put(GASES));
+        FL.createGas(MT.As.put(GASES));
+        FL.createGas(MT.Mg.put(GASES));
+    }
+
     public static OreDictMaterial create(int aID, String name, long aR, long aG, long aB, long aA, Object... aRandomData) {
         if (aID <= 16000 || aID > 16999) {
             throw new IllegalArgumentException(name + ": GT6X materials should have IDs in the 16001-16999 range");
@@ -41,7 +71,8 @@ public class MTx {
     public static OreDictMaterial gasdcmp(int aID, String name, long aR, long aG, long aB, long aA, Object... aRandomData) { return gas(aID, name, aR, aG, aB, aA, aRandomData).put(DECOMPOSABLE); }
     public static OreDictMaterial lqudexpl(int aID, String name, long aR, long aG, long aB, long aA, Object... aRandomData) {return liquid(aID, name, aR, aG, aB, aA, aRandomData).put(FLAMMABLE, EXPLOSIVE);}
     public static OreDictMaterial lqudflam(int aID, String name, long aR, long aG, long aB, long aA, Object... aRandomData) {return liquid(aID, name, aR, aG, aB, aA, aRandomData).put(FLAMMABLE);}
-    public static OreDictMaterial alloymachine(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, Object... aRandomData) { return create(aID, aNameOreDict, aR, aG, aB , 255, aRandomData).setTextures(aSets).put(ALLOY, DECOMPOSABLE, G_INGOT_MACHINE, SMITHABLE, MELTING, EXTRUDER); }
+    public static OreDictMaterial machine(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, Object... aRandomData) { return create(aID, aNameOreDict, aR, aG, aB , 255, aRandomData).setTextures(aSets).put(DECOMPOSABLE, G_INGOT_MACHINE, SMITHABLE, MELTING, EXTRUDER); }
+    public static OreDictMaterial alloymachine(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, Object... aRandomData) { return machine(aID, aNameOreDict, aSets, aR, aG, aB , aRandomData).put(ALLOY); }
     public static OreDictMaterial plastic(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, long aA, Object... aRandomData) { return create(aID, aNameOreDict, aR, aG, aB , aA, aRandomData).setTextures(aSets).put(G_INGOT_MACHINE, MELTING, EXTRUDER, EXTRUDER_SIMPLE, MORTAR, FURNACE, POLYMER); }
 
 
@@ -236,7 +267,7 @@ public class MTx {
             .put(FLAMMABLE, CENTRIFUGE)
             .heat(100, 200)),
     ZnBlastFurnaceGas = registerGas(gas(16057, "Zinc-Rich Blast Furnace Gas", 0, 20, 30, 200)
-            .uumMcfg(0, MT.Zn, 20*U, MT.N, 11*U, MT.CO, 4*U, MT.CO2, 4*U, MT.H, U)
+            .uumMcfg(0, MT.Zn, U, BlastFurnaceGas, 6*U)
             .heat(MT.Zn)),
     PbO = dustdcmp(16058, "Lead Oxide", SET_DULL, 150, 130, 100, 255)
             .uumMcfg(1, MT.Pb, U, MT.O, U)
@@ -300,7 +331,7 @@ public class MTx {
             .uumMcfg(0, MT.Fe, U, MT.S, U)
             .heat(1467),
     Cementite = alloymachine(16077, "Cementite", SET_METALLIC, 50, 0, 0)
-            .uumMcfg(0, MT.Fe, 3*U, MT.C, U)
+            .uumMcfg(3, MT.Fe, 3*U, MT.C, U)
             .heat(MT.PigIron),
     H2MoO4 = dustdcmp(16078, "Molybdic Acid", SET_DULL, 200, 200, 0, 255, ACID)
             .uumMcfg(0, MT.H, 2*U, MT.Mo, U, MT.O, 4*U)
@@ -323,7 +354,10 @@ public class MTx {
     NH4VO3 = dustdcmp(16083, "Ammonium Metavanadate", SET_DULL, 255, 200, 150, 255)
             .uumMcfg(0, MT.N, U, MT.H, 4*U, MT.V, U, MT.O, 3*U)
             .heat(473),
-    // 84 free
+    Wuestite = oredustdcmp(16084, "Wuestite", SET_DULL, 50, 50, 0, 255)
+            .setMcfg(0, MT.Fe, U, MT.O, U)
+            .heat(C+1377, C+3414)
+            .setLocal("Wüstite"),
     CobaltBlue = dustdcmp(16085, "Cobalt Blue", SET_FINE, 0, 71, 171, 255, DYE_INDEX_Blue)
             .uumMcfg(0, MT.Co, U, MT.Al, 2*U, MT.O, 4*U)
             .heat((MT.Al2O3.mMeltingPoint + MTx.CoO.mMeltingPoint) / 2),
@@ -385,42 +419,44 @@ public class MTx {
     FeCl2Solution = registerLiquid(lquddcmp(16104, "Ferrous Chloride Solution", 235, 255, 235, 200)
             .setMcfg(0, MT.FeCl2, 3*U, MT.H2O, 3*U)
             .heat(MT.H2O)),
-    Fayalite = dustdcmp(16105, "Fayalite", SET_POWDER, 100, 50, 0, 255)
-            .uumMcfg(0, MT.Fe, 2*U, MT.Si, U, MT.O, 4*U)
+    MgCl2Solution = registerLiquid(lquddcmp(16105, "Magnesium Chloride Solution", 255, 235, 255, 200)
+            .setMcfg(0, MT.MgCl2, 3*U, MT.H2O, 3*U)
+            .heat(MT.H2O)),
+    Fayalite = dustdcmp(16106, "Fayalite", SET_POWDER, 100, 50, 0, 255)
+            .setMcfg(0, Wuestite, 4*U, MT.SiO2, 3*U)
             .heat(C + 1205),
-    FerrousSlag = create( 16106, "Ferrous Slag", 255, 200, 180, 255)
+    FerrousSlag = create( 16107, "Ferrous Slag", 255, 200, 180, 255)
+            .setMcfg(0, Wuestite, 4*U, MT.SiO2, 3*U)
             .setTextures(SET_FLINT)
             .put(INGOTS, MORTAR, BRITTLE, GEMS)
             .heat(Fayalite)
             .setPulver(Fayalite, U),
-    SpongeIron = dustdcmp(16107, "Sponge Iron", SET_METALLIC, 100, 50, 0, 255)
-            .uumMcfg(0, MT.Fe, 5*U, MT.C, U, FerrousSlag, 35*U8)
-            .heat(1250)
+    SpongeIron = dustdcmp(16108, "Sponge Iron", SET_METALLIC, 100, 50, 0, 255)
+            .setMcfg(0, MT.PigIron, 8*U, FerrousSlag, 7*U)
+            .heat(1250),
+    MgOH2 = dustdcmp(16109, "Magnesium Hydroxide", SET_DULL, 255, 200, 255, 255)
+            .uumMcfg(0, MT.Mg, U, MT.O, 2*U, MT.H, 2*U)
+            .heat(623),
+    MgO = dustdcmp(16110, "Magnesia", SET_FINE, 255, 255, 255, 255, "Periclase")
+            .uumMcfg(0, MT.Mg, U, MT.O, U)
+            .heat(3125, 3870),
+    MgHCO3 = registerLiquid(lquddcmp(16111, "Magnesium Bicarbonate Solution", 235, 200, 255, 255)
+            .uumMcfg(0, MT.Mg, U, MT.H, 2*U, MT.C, 2*U, MT.O,6*U, MT.H2O, 3*U))
+            .heat(MT.H2O),
+    MgBlastFurnaceGas = registerGas(gasdcmp(16112, "Magnesium-Rich Blast Furnace Gas", 50, 20, 30, 200)
+            .uumMcfg(0, MT.Mg, U, MT.CO2, 6*U)
+            .heat(MT.Mg)),
+    MeteoricCementite = alloymachine(16113, "Meteoric Cementite", SET_METALLIC, 50, 50, 0, 255)
+            .setMcfg(3, MT.MeteoricIron, 3*U, MT.C, U)
+            .heat(MT.MeteoricSteel)
     ;
 
     static {
-        MT.BlueSapphire.uumMcfg(6, MT.Al2O3, 5*U, MT.Fe2O3, U);
-        MT.NH3.uumMcfg(1, MT.N, U, MT.H, 3*U);
-
-        MT.As.heat(887, 887).remove(MELTING); MT.As.remove(MOLTEN);
-
-        MT.Plastic.put(POLYMER);
-        MT.Rubber.put(POLYMER);
-
-        MT.OREMATS.Wolframite.setLocal("Magnesium Tungstate").addSourceOf(MT.Mg);
-        MT.OREMATS.Tungstate.setLocal("Lithium Tungstate");
-
-        FL.createMolten(MT.K2S2O7.put(MELTING, MOLTEN), 1000);
-        FL.createMolten(MT.Na2S2O7.put(MELTING, MOLTEN), 1000);
-        FL.createMolten(MT.Quicklime.put(MELTING, MOLTEN), 1000);
-        FL.createMolten(MT.Nb.put(MELTING, MOLTEN), 1000);
         FL.createMolten(RhodiumPotassiumSulfate.put(MELTING, MOLTEN), 1000);
         FL.createMolten(PbCl2.put(MELTING, MOLTEN), 1000);
         FL.createMolten(Slag.put(MELTING, MOLTEN), 144);
+        FL.createMolten(FerrousSlag.put(MELTING, MOLTEN), 144);
         FL.createMolten(FeCr2.put(MELTING, MOLTEN), 144);
-
-        FL.createGas(MT.Zn.put(GASES));
-        FL.createGas(MT.As.put(GASES));
 
         OreDictManager.INSTANCE.addReRegistration("dustCobaltBlue", "dyeMixableBlue");
     }

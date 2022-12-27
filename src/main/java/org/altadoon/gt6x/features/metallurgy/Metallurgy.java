@@ -35,6 +35,7 @@ public class Metallurgy extends GT6XFeature {
 
     public Recipe.RecipeMap blastFurnace = null;
     public Recipe.RecipeMap sintering = null;
+    public Recipe.RecipeMap directReduction = null;
     public OreDictPrefix sinter = null;
 
     @Override
@@ -88,9 +89,7 @@ public class Metallurgy extends GT6XFeature {
     }
 
     private void changeMaterialProperties() {
-        MT.PigIron.uumMcfg(0, MT.Fe, 5*U, MT.C, U)
-                  .setPulver(MT.PigIron, U).setSmelting(MT.PigIron, U);
-        MT.Steel  .uumMcfg(0, MT.Fe, 20*U, MT.C, U);
+        MT.PigIron.setPulver(MT.PigIron, U).setSmelting(MT.PigIron, U);
         MT.OREMATS.Garnierite.setSmelting(MT.OREMATS.Garnierite, U).remove(TD.Processing.ELECTROLYSER);
         MT.OREMATS.Cobaltite.setSmelting(MT.OREMATS.Cobaltite, U);
         MT.MnO2.setSmelting(MT.MnO2, U);
@@ -128,8 +127,9 @@ public class Metallurgy extends GT6XFeature {
     }
 
     private void addRecipeMaps() {
-        blastFurnace = new Recipe.RecipeMap(null, "gt6x.recipe.blastfurnace", "Blast Furnace", null, 0, 1, RES_PATH_GUI+"machines/BlastFurnace",6 , 3, 1, 3, 3, 0, 1, 1, "", 1, "", true, true, true, true, false, true, T);
+        blastFurnace = new Recipe.RecipeMap(null, "gt6x.recipe.blastfurnace", "Blast Furnace", null, 0, 1, RES_PATH_GUI+"machines/BlastFurnace",6 , 3, 1, 3, 3, 0, 1, 1, "", 1, "", true, true, true, true, false, true, true);
         sintering = new Recipe.RecipeMap(null, "gt6x.recipe.sintering", "Sintering", null, 0, 1, RES_PATH_GUI+"machines/Sintering",3 , 1, 1, 0, 0, 0, 1, 1, "", 1, "", true, true, true, true, false, true, true);
+        directReduction = new Recipe.RecipeMap(null, "gt6x.recipe.directreduction", "Direct Reduction", null, 0, 1, RES_PATH_GUI+"machines/DirectReduction",6 , 3, 1, 3, 3, 1, 1, 1, "", 1, "", true, true, true, true, false, true, true);
     }
 
     private void removeAlloySmeltingRecipe(OreDictMaterial mat) {
@@ -149,18 +149,24 @@ public class Metallurgy extends GT6XFeature {
         }
 
         // blast furnace: coke + 1 flux + 5 hematite (+3/5 SiO2) -> 2 iron + 1 slag + CO2. Now it is coke + 25 hematite + 3 SiO2 -> 8 Fe + 7 fayalite + CO.
-        MTx.SpongeIron.addAlloyingRecipe(new OreDictConfigurationComponent( 5, OM.stack(MT.Fe2O3                         , 25*U3), OM.stack(MT.C, 4*U)));
+        MTx.SpongeIron.addAlloyingRecipe(new OreDictConfigurationComponent( 5, OM.stack(MT.Fe2O3                      , 25*U3), OM.stack(MT.C, 4*U)));
+        MTx.SpongeIron.addAlloyingRecipe(new OreDictConfigurationComponent( 5, OM.stack(MT.OREMATS.BrownLimonite      , 40*U3), OM.stack(MT.C, 4*U)));
+        MTx.SpongeIron.addAlloyingRecipe(new OreDictConfigurationComponent( 5, OM.stack(MT.OREMATS.YellowLimonite     , 40*U3), OM.stack(MT.C, 4*U)));
         // blast furnace: coke + 3 flux + 14 magnetite (9/5 SiO2) -> 6 iron + 3 slag + CO2. Now it is coke + 14*5=70 magnetite + 9 SiO2 -> 24 Fe + 21 fayalite (containing 6 Fe, made from 14 magnetite) + CO.
         //TODO test if these ratios work
-        MTx.SpongeIron.addAlloyingRecipe(new OreDictConfigurationComponent( 5, OM.stack(MT.OREMATS.Magnetite             ,70*U9), OM.stack(MT.C, 4*U)));
-        MTx.SpongeIron.addAlloyingRecipe(new OreDictConfigurationComponent( 5, OM.stack(MT.OREMATS.BasalticMineralSand   ,70*U9), OM.stack(MT.C, 4*U)));
-        MTx.SpongeIron.addAlloyingRecipe(new OreDictConfigurationComponent( 5, OM.stack(MT.OREMATS.GraniticMineralSand   ,70*U9), OM.stack(MT.C, 4*U)));
+        MTx.SpongeIron.addAlloyingRecipe(new OreDictConfigurationComponent( 5, OM.stack(MT.OREMATS.Magnetite          , 70*U9), OM.stack(MT.C, 4*U)));
+        MTx.SpongeIron.addAlloyingRecipe(new OreDictConfigurationComponent( 5, OM.stack(MT.OREMATS.BasalticMineralSand, 70*U9), OM.stack(MT.C, 4*U)));
+        MTx.SpongeIron.addAlloyingRecipe(new OreDictConfigurationComponent( 5, OM.stack(MT.OREMATS.GraniticMineralSand, 70*U9), OM.stack(MT.C, 4*U)));
 
         // pig iron C content: around 4% (weight), Fe: 96% * 56u * 12u = 4,5 ==> 2 Fe5C + Fe2O3 + O -> 12 Fe + 2 CO2
-        MT.WroughtIron.addAlloyingRecipe(new OreDictConfigurationComponent(12, OM.stack(MT.PigIron,10*U), OM.stack(MT.Fe2O3, 5*U), OM.stack(MT.Air, U)));
+        MT.WroughtIron.addAlloyingRecipe(new OreDictConfigurationComponent(12, OM.stack(MT.PigIron,10*U), OM.stack(MT.Fe2O3, 5*U), OM.stack(MT.Air, 12*U)));
+        MTx.MeteoricCementite.addAlloyingRecipe(new OreDictConfigurationComponent(3, OM.stack(MT.MeteoricIron,3*U), OM.stack(MT.C, U)));
 
+        // Bessemer Process
         MT.Steel.addAlloyingRecipe(new OreDictConfigurationComponent( 1, OM.stack(MT.PigIron, U), OM.stack(MT.Air, U)));
-        // TODO add steel recipe from Pig or Sponge Iron with O2 to EAF
+        MT.Steel.addAlloyingRecipe(new OreDictConfigurationComponent( 1, OM.stack(MTx.Cementite, U), OM.stack(MT.Air, U)));
+        MT.MeteoricSteel.addAlloyingRecipe(new OreDictConfigurationComponent( 1, OM.stack(MTx.MeteoricCementite, U), OM.stack(MT.Air, U)));
+        // TODO add steel recipe from Pig or Sponge Iron with O2 to EAF (and with Scrap instead of O2)
 
         //MT.MeteoricSteel.addAlloyingRecipe(new OreDictConfigurationComponent( 1, OM.stack(MT.MeteoricIron, U), OM.stack(MT.C, U72), OM.stack(MT.Air, U)));
         // TODO add these two recipes to EAF (maybe use CO instead of O?)
@@ -174,7 +180,10 @@ public class Metallurgy extends GT6XFeature {
         MT.Kanthal.addAlloyingRecipe(new OreDictConfigurationComponent(3, OM.stack(MT.PigIron, U), OM.stack(MT.Al, U), OM.stack(MT.Cr, U)));
         MT.Kanthal.addAlloyingRecipe(new OreDictConfigurationComponent(6, OM.stack(MT.PigIron, U), OM.stack(MT.Al, 2*U), OM.stack(MTx.FeCr2, 3*U)));
         MT.Angmallen.addAlloyingRecipe(new OreDictConfigurationComponent(2, OM.stack(MT.PigIron, U), OM.stack(MT.Au, U)));
+
         // TODO add these two recipes to EAF (with and without DRI)
+
+        MT.SiC.addAlloyingRecipe(new OreDictConfigurationComponent(2, OM.stack(MT.SiO2, 3*U), OM.stack(MT.C, 2*U)));
 
         //TODO Iron Carbide/Carburizing Process
         //TODO iron/wrought iron + CO -> Cementite or Steel (roasting oven?)
@@ -182,8 +191,10 @@ public class Metallurgy extends GT6XFeature {
 
     private void addMTEs() {
         OreDictMaterial aMat;
-        aMat = MT.WroughtIron; MTEx.gt6xMTEReg.add("Blast Furnace Part", "Multiblock Machines", 60, 17101, MultiTileEntityMultiBlockPart.class, aMat.mToolQuality, 64, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_TEXTURE, "blastfurnaceparts", NBT_DESIGNS, 1), "hP ", "PF ", "   ", 'P', plate.dat(MT.WroughtIron), 'F', MTEx.gt6Registry.getItem(18000));
-                               MTEx.gt6xMTEReg.add("Blast Furnace", "Multiblock Machines", 61, 17101, MultiTileEntityBlastFurnace.class, aMat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_INPUT, 32, NBT_INPUT_MIN, 8, NBT_INPUT_MAX, 32, NBT_TEXTURE, "blastfurnace", NBT_ENERGY_ACCEPTED, TD.Energy.KU, NBT_RECIPEMAP, blastFurnace, NBT_INV_SIDE_AUTO_OUT, SIDE_LEFT, NBT_TANK_SIDE_AUTO_OUT, SIDE_TOP, NBT_CHEAP_OVERCLOCKING, true, NBT_NEEDS_IGNITION, true), "PwP", "PRh", "yFP", 'P', plateCurved.dat(MT.WroughtIron), 'R', stickLong.dat(MT.WroughtIron), 'F', MTEx.gt6xMTEReg.getItem(60));
+        aMat = MT.WroughtIron; MTEx.gt6xMTEReg.add("Blast Furnace Part", "Multiblock Machines", 60, 17101, MultiTileEntityMultiBlockPart.class, aMat.mToolQuality, 64, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_TEXTURE, "blastfurnaceparts", NBT_DESIGNS, 1), "hP ", "PF ", "   ", 'P', plate.dat(MT.WroughtIron), 'F', MTEx.gt6Registry.getItem(18000)); // fire bricks
+                               MTEx.gt6xMTEReg.add("Blast Furnace"     , "Multiblock Machines", 61, 17101, MultiTileEntityBlastFurnace  .class, aMat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_INPUT, 32, NBT_INPUT_MIN, 8 , NBT_INPUT_MAX, 32 , NBT_TEXTURE, "blastfurnace", NBT_ENERGY_ACCEPTED, TD.Energy.KU, NBT_RECIPEMAP, blastFurnace   , NBT_INV_SIDE_AUTO_OUT, SIDE_LEFT  , NBT_TANK_SIDE_AUTO_OUT, SIDE_TOP, NBT_CHEAP_OVERCLOCKING, true, NBT_NEEDS_IGNITION, true), "PwP", "PRh", "yFP", 'P', plateCurved.dat(MT.WroughtIron), 'R', stickLong.dat(MT.WroughtIron), 'F', MTEx.gt6xMTEReg.getItem(60));
+        aMat = MT.SiC;         MTEx.gt6xMTEReg.add("Shaft Furnace Part", "Multiblock Machines", 66, 17101, MultiTileEntityMultiBlockPart.class, aMat.mToolQuality, 64, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_TEXTURE, "blastfurnaceparts", NBT_DESIGNS, 1), "ICI", "CWC", "ICI", 'I', ingot.dat(MT.SiC), 'C', dust.dat(ANY.Clay), 'W', OD.container1000water);
+                               MTEx.gt6xMTEReg.add("Shaft Furnace"     , "Multiblock Machines", 67, 17101, MultiTileEntityShaftFurnace  .class, aMat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_INPUT, 64, NBT_INPUT_MIN, 64, NBT_INPUT_MAX, 256, NBT_TEXTURE, "shaftfurnace", NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, directReduction, NBT_INV_SIDE_AUTO_OUT, SIDE_BOTTOM, NBT_TANK_SIDE_AUTO_OUT, SIDE_TOP, NBT_CHEAP_OVERCLOCKING, true                          ), "wPh", "PFP", "BHB", 'B', plate.dat(MT.SiC), 'P', pipe.dat(MT.StainlessSteel), 'F', MTEx.gt6xMTEReg.getItem(66), 'H', MTEx.gt6Registry.getItem(8011)); // stainless hopper
 
         Class<? extends TileEntity> aClass = MultiTileEntityBasicMachine.class;
         aMat = MT.DATA.Heat_T[1]; MTEx.gt6xMTEReg.add("Sintering Oven ("+aMat.getLocal()+")", "Basic Machines", 62, 20001, aClass, aMat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS,   6.0F, NBT_RESISTANCE,   6.0F, NBT_INPUT,   32, NBT_TEXTURE, "sinteringoven", NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, sintering, NBT_INV_SIDE_IN, SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_ENERGY_ACCEPTED_SIDES, SBIT_D), "wUh", "PMP", "BCB", 'M', casingMachineDouble.dat(aMat), 'C', plateDouble   .dat(ANY.Cu), 'P', plate.dat(MT.Ceramic), 'B', Blocks.brick_block, 'U', MTEx.gt6Registry.getItem(1005));
@@ -219,7 +230,7 @@ public class Metallurgy extends GT6XFeature {
             blastFurnace.addRecipe(true, ST.array(dust.mat(MT.OREMATS.Cassiterite, 2), ST.mul(3, coal), dust.mat(MT.CaCO3, 1)), ST.array(gem.mat(MTx.Slag, 1)), null, null, FL.array(FL.Air.make(7500)), FL.array(MT.Sn.liquid(2*U, false), MTx.BlastFurnaceGas.gas(15*U, false)), 256, 8, 0);
             blastFurnace.addRecipe(true, ST.array(dust.mat(MT.OREMATS.Chromite, 14), ST.mul(9, coal), dust.mat(MT.CaCO3, 3)), ZL_IS, null, null, FL.array(FL.Air.make(22500)), FL.array(MTx.FeCr2.liquid(6*U, false), MTx.Slag.liquid(3*U, false), MTx.BlastFurnaceGas.gas(36*U, false)), 768, 8, 0);
             blastFurnace.addRecipe(true, ST.array(dust.mat(MTx.PbO, 2), ST.mul(3, coal), dust.mat(MT.CaCO3, 1)), ST.array(gem.mat(MTx.Slag, 1)), null, null, FL.array(FL.Air.make(7500)), FL.array(MT.Pb.liquid(2*U, false), MTx.BlastFurnaceGas.gas(15*U, false)), 256, 8, 0);
-            blastFurnace.addRecipe(true, ST.array(dust.mat(MTx.ZnO, 2), ST.mul(3, coal), dust.mat(MT.CaCO3, 1)), ST.array(gem.mat(MTx.Slag, 1)), null, null, FL.array(FL.Air.make(5000)), FL.array(MTx.ZnBlastFurnaceGas.gas(12*U, false)), 256, 8, 0);
+            blastFurnace.addRecipe(true, ST.array(dust.mat(MTx.ZnO, 2), ST.mul(3, coal), dust.mat(MT.CaCO3, 1)), ST.array(gem.mat(MTx.Slag, 1)), null, null, FL.array(FL.Air.make(5000)), FL.array(MTx.ZnBlastFurnaceGas.gas(14*U, false)), 256, 8, 0);
             blastFurnace.addRecipe(true, ST.array(dust.mat(MT.MnO2, 2), ST.mul(3, coal), dust.mat(MT.CaCO3, 1)), ST.array(gem.mat(MTx.Slag, 1)), null, null, FL.array(FL.Air.make(7500)), FL.array(MT.Mn.liquid(2*U, false), MTx.BlastFurnaceGas.gas(15*U, false)), 256, 8, 0);
             blastFurnace.addRecipe(true, ST.array(dust.mat(MTx.CoO, 4), ST.mul(3, coal), dust.mat(MT.CaCO3, 1)), ST.array(gem.mat(MTx.Slag, 1)), null, null, FL.array(FL.Air.make(7500)), FL.array(MT.Co.liquid(2*U, false), MTx.BlastFurnaceGas.gas(15*U, false)), 256, 8, 0);
             blastFurnace.addRecipe(true, ST.array(dust.mat(MTx.Co3O4, 14), ST.mul(9, coal), dust.mat(MT.CaCO3, 3)), ST.array(gem.mat(MTx.Slag, 3)), null, null, FL.array(FL.Air.make(22500)), FL.array(MT.Co.liquid(6*U, false), MTx.BlastFurnaceGas.gas(36*U, false)), 768, 8, 0);
@@ -233,24 +244,32 @@ public class Metallurgy extends GT6XFeature {
             for (OreDictMaterial[] mats : smeltSolidSlag) {
                 blastFurnace.addRecipe2(true, 8, 128, sinter.mat(mats[0], 8), ST.mul(1, coal), FL.array(FL.Air.make(5000)), FL.array(mats[1].liquid(2*U, false), MTx.BlastFurnaceGas.gas(10*U, false)), gem.mat(MTx.Slag, 1));
             }
-            blastFurnace.addRecipe2(true, 8, 128, sinter.mat(MTx.ZnO, 8), ST.mul(1, coal), FL.array(FL.Air.make(5000)), FL.array(MTx.ZnBlastFurnaceGas.gas(12*U, false)), gem.mat(MTx.Slag, 1));
+            blastFurnace.addRecipe2(true, 8, 128, sinter.mat(MTx.ZnO, 8), ST.mul(1, coal), FL.array(FL.Air.make(5000)), FL.array(MTx.ZnBlastFurnaceGas.gas(14*U, false)), gem.mat(MTx.Slag, 1));
         }
 
-        // blast furnace gas
+        // Pidgeon Process
+        blastFurnace.addRecipe2(true, 8, 512, dust.mat(MT.Dolomite, 20), dust.mat(MT.Si, 1), ZL_FS, FL.array(MTx.MgBlastFurnaceGas.gas(14*U, false), MTx.Slag.liquid(5*U, false)), dust.mat(MT.Quicklime, 2));
+
+        // blast furnace gases
         RM.CryoDistillationTower.addRecipe0(true, 64,  128, FL.array(MTx.BlastFurnaceGas.gas(4*U10, true)), FL.array(MT.N.gas(177*U1000, false), MT.CO.gas(4*20*U1000, T), MT.CO2.gas(4*30*U1000, T), MT.H.gas(4*5*U1000, T), MT.He.gas(U1000, T), MT.Ne.gas(U1000, T), MT.Ar.gas(U1000, T)));
         FM.Burn.addRecipe0(true, -16, 1, MTx.BlastFurnaceGas.gas(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
         RM.Distillery.addRecipe1(true, 16, 64, ST.tag(0), FL.array(MTx.ZnBlastFurnaceGas.gas(7*U, true)), FL.array(MT.Zn.gas(U, false), MTx.BlastFurnaceGas.gas(6*U, false)));
+        RM.Distillery.addRecipe1(true, 16, 64, ST.tag(0), FL.array(MTx.MgBlastFurnaceGas.gas(7*U, true)), FL.array(MT.Mg.gas(U, false), MT.CO2.gas(6*U, false)));
 
         // Misc metal processing
         RM.Anvil.addRecipe2(false, 64, 192, scrapGt.mat(MTx.SpongeIron, 9), scrapGt.mat(MTx.SpongeIron, 9), ingot.mat(MT.WroughtIron, 1), scrapGt.mat(MTx.FerrousSlag, 8));
 
         //TODO direct reduction in EAF/DRI of Pb?
 
-        // Precipitation of Zn, As
+        // Precipitation of Zn, As, Mg gases
         RM.Freezer.addRecipe1(true, 16, 48, ST.tag(0), MT.Zn.gas(U, true), NF, OM.dust(MT.Zn, U)); // from 1180 to 300
         RM.Freezer.addRecipe1(true, 16, 32, ST.tag(0),MT.As.gas(U, true), NF, OM.dust(MT.As, U)); // from 887 to 300
+        RM.Freezer.addRecipe1(true, 16, 64, ST.tag(0),MT.Mg.gas(U, true), NF, OM.dust(MT.Mg, U)); // from 1378 to 300
         RM.Bath   .addRecipe1(true, 0, 512, ST.tag(0),MT.Zn.gas(U, true), MT.Zn.liquid(U, false), NI); // from 1180 to 692
         RM.Bath   .addRecipe1(true, 0, 512, ST.tag(0),MT.As.gas(U, true), NF, OM.dust(MT.As, U)); // from 887 to 300
+        RM.Bath   .addRecipe1(true, 0, 512, ST.tag(0),MT.Mg.gas(U, true), MT.Mg.liquid(U, false), NI); // from 1378 to 922
+
+        //TODO fix infinite slag from Fe -> FeCl2 -> Fe2O3
 
         // Electrowinning from acids
         RM.Bath.addRecipe1(true, 0, 256, dust.mat(MTx.ZnO, 1), FL.array(MT.H2SO4.liquid(7*U, true)), FL.array(MT.WhiteVitriol.liquid(6*U, false), MT.H2O.liquid(3*U, false)));
@@ -260,6 +279,7 @@ public class Metallurgy extends GT6XFeature {
         RM.Bath.addRecipe1(true, 0, 256, dust.mat(MT.OREMATS.Cassiterite, 1), FL.array(MT.HCl.gas(8*U, true)), FL.array(MT.StannicChloride.liquid(5*U, false), MT.H2O.liquid(6*U, false)));
         RM.Bath.addRecipe1(true, 0, 256, dust.mat(MT.OREMATS.Wollastonite, 5), MT.HCl.gas(4*U, true), MTx.CaCl2Solution.liquid(6*U, false), dust.mat(MT.SiO2, 3));
         RM.Bath.addRecipe1(true, 0, 256, dust.mat(MTx.Fayalite, 7), MT.HCl.gas(8*U, true), MTx.FeCl2Solution.liquid(12*U, false), dust.mat(MT.SiO2, 3));
+        RM.Bath.addRecipe1(true, 0, 256, dust.mat(MTx.MgO, 2), MT.HCl.gas(4*U, true), MTx.MgCl2Solution.liquid(6*U, false), NI);
 
         RM.Mixer.addRecipe2(true, 16, 128, ST.tag(3), dust.mat(MT.FeCl2, 6), FL.array(MT.H2O.liquid(6*U, true), MT.O.gas(U, true)), FL.array(MT.HCl.gas(8*U, false)), dust.mat(MT.Fe2O3, 5));
         RM.Mixer.addRecipe0(true, 16, 128, FL.array(MT.H2SO4.liquid(7*U, true), MT.NH3.gas(2*U, true)), ZL_FS, dust.mat(MTx.NH4SO4, 9));
@@ -268,7 +288,9 @@ public class Metallurgy extends GT6XFeature {
         RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.OREMATS.Realgar, 2), dust.mat(MT.Fe, 1), ZL_FS, FL.array(MT.As.gas(U, false)), dust.mat(MTx.FeS, 2));
         RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.OREMATS.Stibnite, 5), dust.mat(MT.Fe, 3), ZL_FS, FL.array(MT.Sb.liquid(2*U, false)), dust.mat(MTx.FeS, 6));
         RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.CaOH2, 5), MT.CO2.gas(3*U, true), MT.H2O.liquid(3*U, false), dust.mat(MT.CaCO3, 5));
+        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.MgOH2, 5), MT.CO2.gas(6*U, true), MTx.MgHCO3.liquid(11*U, false), NI);
         RM.Mixer.addRecipe0(true, 16, 64, FL.array(MTx.CaCl2Solution.liquid(6*U, true), MT.CO2.gas(3*U, true)), FL.array(MT.HCl.gas(4*U, false)), dust.mat(MT.CaCO3, 5));
+        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.CaOH2, 5), FL.array(MTx.MgCl2Solution.liquid(6*U, true)), FL.array(MTx.CaCl2Solution.liquid(6*U, false)), dust.mat(MTx.MgOH2, 5));
 
         //TODO use thermolyzer
         RM.Drying.addRecipe1(true, 16, 64, dust.mat(MTx.Co3O4, 7), NF, MT.O.gas(U, false), dust.mat(MTx.CoO, 6));
@@ -276,17 +298,25 @@ public class Metallurgy extends GT6XFeature {
         RM.Drying.addRecipe1(true, 16, 64, dust.mat(MTx.HgO, 1), ZL_FS, FL.array(MT.Hg.liquid(U2, false), MT.O.gas(U2, false)));
         RM.Drying.addRecipe1(true, 16, 64, dust.mat(MT.OREMATS.Smithsonite, 5), ZL_FS, FL.array(MT.CO2.gas(3*U, false)), dust.mat(MTx.ZnO, 1));
         RM.Drying.addRecipe1(true, 16, 64, dust.mat(MT.CaCO3, 5), NF, MT.CO2.gas(3*U, false), dust.mat(MT.Quicklime, 2));
+        RM.Drying.addRecipe1(true, 16, 64, dust.mat(MT.MgCO3, 5), NF, MT.CO2.gas(3*U, false), dust.mat(MTx.MgO, 2));
         RM.Drying.addRecipe1(true, 16, 6000, dust.mat(MTx.CaOH2, 5), NF, MT.DistWater.liquid(3*U, false), dust.mat(MT.Quicklime, 2));
+        RM.Drying.addRecipe1(true, 16, 6000, dust.mat(MTx.MgOH2, 5), NF, MT.DistWater.liquid(3*U, false), dust.mat(MTx.MgO, 2));
+        RM.Drying.addRecipe0(true, 16, 6000, FL.array(MTx.MgHCO3.liquid(11*U, true)), FL.array(MT.DistWater.liquid(3*U, false), MT.CO2.gas(3*U, false)), dust.mat(MT.MgCO3, 5));
         RM.Drying.addRecipe1(true, 16, 6000, dust.mat(MT.OREMATS.BrownLimonite, 8), NF, MT.DistWater.liquid(3*U, false), dust.mat(MT.Fe2O3, 5));
         RM.Drying.addRecipe1(true, 16, 6000, dust.mat(MT.OREMATS.YellowLimonite, 8), NF, MT.DistWater.liquid(3*U, false), dust.mat(MT.Fe2O3, 5));
+        RM.Drying.addRecipe1(true, 512, 64, dust.mat(MT.SiC, 2), NF, MT.Si.liquid(U, false), dust.mat(MT.Graphite, 1));
+        RM.Drying.addRecipe1(true, 16, 128, dust.mat(MT.Dolomite, 10), NF, MT.CO2.gas(6*U, false), dust.mat(MT.Quicklime, 2), dust.mat(MTx.MgO, 2));
         // Keep dryer, 1 distWater is normally made in 2 ticks
         RM.Drying.addRecipe0(true, 16, 2000, MTx.CaCl2Solution.liquid(2*U, true), MT.DistWater.liquid(U, false), dust.mat(MT.CaCl2, 1));
         RM.Drying.addRecipe0(true, 16, 2000, MTx.FeCl2Solution.liquid(2*U, true), MT.DistWater.liquid(U, false), dust.mat(MT.FeCl2, 1));
+        RM.Drying.addRecipe0(true, 16, 2000, MTx.MgCl2Solution.liquid(2*U, true), MT.DistWater.liquid(U, false), dust.mat(MT.MgCl2, 1));
 
         for (FluidStack tWater : FL.waters(3000)) {
             RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.CaCl2, 3), FL.array(tWater, MT.CO2.gas(3*U, true)), FL.array(MT.HCl.gas(4*U, false)), dust.mat(MT.CaCO3, 5));
             RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.Quicklime, 2), tWater, NF, dust.mat(MTx.CaOH2, 5));
-            RM.Electrolyzer.addRecipe2(true, 64, 128, dust.mat(MTx.NH4SO4, 9), dust.mat(MTx.SeO2, 3), FL.array(MT.GrayVitriol.liquid(6 * U, true), tWater), FL.array(MT.H2SO4.liquid(14*U, false), MT.NH3.gas(2*U, false), MT.O.gas(3*U, false)), dust.mat(MT.Mn, 1), dust.mat(MT.Se, 1));
+            RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.CaCl2, 3), tWater, MTx.CaCl2Solution.liquid(6*U, false), NI);
+            RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.MgCl2, 3), tWater, MTx.MgCl2Solution.liquid(6*U, false), NI);
+            RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.FeCl2, 3), tWater, MTx.FeCl2Solution.liquid(6*U, false), NI);
         }
 
         // Sintering dusts into chunks
@@ -333,6 +363,37 @@ public class Metallurgy extends GT6XFeature {
             RM.Mixer.addRecipe1(T, 16, 3 , ST.tag(2), FL.array(FL.make_(tIron, 1 ), FL.make_("molten.chromium",    2)), FL.make_("molten.ferrochrome", 3), ZL_IS);
             RM.Mixer.addRecipe1(T, 16, 3 , ST.tag(3), FL.array(FL.make_(tIron, 1 ), FL.make_("molten.chromium", 1), FL.make_("molten.aluminium" , 1)), FL.make("molten.kanthal", 3), ZL_IS);
             RM.Mixer.addRecipe1(T, 16, 6 , ST.tag(3), FL.array(FL.make_(tIron, 1 ), FL.make_("molten.ferrochrome", 3), FL.make_("molten.aluminium" , 2)), FL.make("molten.kanthal", 6), ZL_IS);
+        }
+
+        // DRI
+        // Fe2O3 + 3 CO -> 2 Fe + 3 CO2
+        // Fe2O3 + 3 H2 -> 2 Fe + 3 H2O
+        // 7 Fe2O3 + 3 CO + 18 H2 -> 14 Fe + 3 CO2 + 18 H2O
+        // Fe2O3 + CO + H2 -> 2 Fe + CO2 + H2O
+
+        // Fe2O3 + SiO2 -> Fe2SiO4 + O
+        // 5 Fe2O3 + SiO2 -> 8 Fe + Fe2SiO4 + O
+        // 25 Fe2O3 + 5 SiO2 + 10 CO -> 10 Fe5C + 5 Fe2SiO4 + 15O
+
+        // 25 Fe2O3 + 5 SiO2 + 8 CO + 73 H2 -> 8 Fe5C + 5 Fe2SiO4 + 73 H2O (CO-poor)
+        // 100 Fe2O3 + 20 SiO2 + 81 CO + 243 H2 -> 32 Fe5C + 20 Fe2SiO4 + 243 H2O + 49 CO2 (methane ratio)
+        // 50 Fe2O3 + 10 SiO2 + 81 CO + 81 H2 -> 16 Fe5C + 10 Fe2SiO4 + 81 H2O + 65 CO2 (coal ratio)
+
+        // For Fe3O4, set the input to a multiple of 14 and multiply the other sides by 3
+        directReduction.addRecipe2(true, 64, 64, ST.tag(0), dust.mat(MT.Fe2O3, 5), FL.array(MT.CO.gas(8 *2*U25 , true), MT.H.gas(73 *2*U25 , true)), FL.array(FL.Steam.make(3000)                                                     ), dust.mat(MTx.SpongeIron, 3));
+        directReduction.addRecipe2(true, 64, 64, ST.tag(1), dust.mat(MT.Fe2O3, 5), FL.array(MT.CO.gas(81*2*U100, true), MT.H.gas(243*2*U100, true)), FL.array(FL.Steam.make(3000), MT.CO2.gas(49*3*U100, false)), dust.mat(MTx.SpongeIron, 3));
+        directReduction.addRecipe2(true, 64, 64, ST.tag(2), dust.mat(MT.Fe2O3, 5), FL.array(MT.CO.gas(81*2*U50 , true), MT.H.gas(81 *2*U50 , true)), FL.array(FL.Steam.make(3000), MT.CO2.gas(65*3*U50 , false)), dust.mat(MTx.SpongeIron, 3));
+
+        for(OreDictMaterial limonite : new OreDictMaterial[] {MT.OREMATS.BrownLimonite, MT.OREMATS.YellowLimonite }) {
+            directReduction.addRecipe2(true, 64, 96, ST.tag(0), dust.mat(limonite, 8), FL.array(MT.CO.gas(8  * 2 * U25 , true), MT.H.gas(73  * 2 * U25 , true)), FL.array(FL.Steam.make(4000)                                                     ), dust.mat(MTx.SpongeIron, 3));
+            directReduction.addRecipe2(true, 64, 96, ST.tag(1), dust.mat(limonite, 8), FL.array(MT.CO.gas(81 * 2 * U100, true), MT.H.gas(243 * 2 * U100, true)), FL.array(FL.Steam.make(4000), MT.CO2.gas(49*3*U100, false)), dust.mat(MTx.SpongeIron, 3));
+            directReduction.addRecipe2(true, 64, 96, ST.tag(2), dust.mat(limonite, 8), FL.array(MT.CO.gas(81 * 2 * U50 , true), MT.H.gas(81  * 2 * U50 , true)), FL.array(FL.Steam.make(4000), MT.CO2.gas(65*3*U50 , false)), dust.mat(MTx.SpongeIron, 3));
+        }
+
+        for(OreDictMaterial magnetite : new OreDictMaterial[] {MT.OREMATS.Magnetite, MT.OREMATS.GraniticMineralSand, MT.OREMATS.BasalticMineralSand }) {
+            directReduction.addRecipe2(true, 64, 64*3, ST.tag(0), dust.mat(magnetite, 14), FL.array(MT.CO.gas(3* 8*2*U25 , true), MT.H.gas(3* 73*2*U25 , true)), FL.array(FL.Steam.make(9000)                                                       ), dust.mat(MTx.SpongeIron, 9));
+            directReduction.addRecipe2(true, 64, 64*3, ST.tag(1), dust.mat(magnetite, 14), FL.array(MT.CO.gas(3*81*2*U100, true), MT.H.gas(3*243*2*U100, true)), FL.array(FL.Steam.make(9000), MT.CO2.gas(3*49*3*U100, false)), dust.mat(MTx.SpongeIron, 9));
+            directReduction.addRecipe2(true, 64, 64*3, ST.tag(2), dust.mat(magnetite, 14), FL.array(MT.CO.gas(3*81*2*U50 , true), MT.H.gas(3* 81*2*U50 , true)), FL.array(FL.Steam.make(9000), MT.CO2.gas(3*65*3*U50 , false)), dust.mat(MTx.SpongeIron, 9));
         }
     }
 
@@ -421,15 +482,18 @@ public class Metallurgy extends GT6XFeature {
                 r.mEnabled = false;
         }
 
-        List<String> undesiredFluids = Arrays.asList(MT.GrayVitriol.mLiquid.getUnlocalizedName(), MT.GreenVitriol.mLiquid.getUnlocalizedName());
+        List<String> disableElectrolysisFluids = Arrays.asList(MT.GrayVitriol.mLiquid.getUnlocalizedName(), MT.GreenVitriol.mLiquid.getUnlocalizedName());
 
         for (Recipe r : RM.Electrolyzer.mRecipeList) {
             if (r.mFluidInputs.length > 1) {
                 for (FluidStack input : r.mFluidInputs) {
-                    if (undesiredFluids.contains(input.getUnlocalizedName()))
+                    if (disableElectrolysisFluids.contains(input.getUnlocalizedName()))
                         r.mEnabled = false;
                 }
             }
+        }
+        for (FluidStack tWater : FL.waters(3000)) {
+            RM.Electrolyzer.addRecipe2(true, 64, 128, dust.mat(MTx.NH4SO4, 9), dust.mat(MTx.SeO2, 3), FL.array(MT.GrayVitriol.liquid(6 * U, true), tWater), FL.array(MT.H2SO4.liquid(14 * U, false), MT.NH3.gas(2 * U, false), MT.O.gas(3 * U, false)), dust.mat(MT.Mn, 1), dust.mat(MT.Se, 1));
         }
         Recipe x = RM.Centrifuge.findRecipe(null, null, true, Long.MAX_VALUE, null, ZL_FS, OM.dust(MT.OREMATS.Cinnabar)); if (x != null) x.mEnabled = false;
 

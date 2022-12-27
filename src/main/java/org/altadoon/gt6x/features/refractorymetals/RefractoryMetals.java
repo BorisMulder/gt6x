@@ -2,6 +2,7 @@ package org.altadoon.gt6x.features.refractorymetals;
 
 import gregapi.data.*;
 import gregapi.oredict.OreDictMaterial;
+import gregapi.recipes.Recipe;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.worldgen.*;
@@ -64,7 +65,7 @@ public class RefractoryMetals extends GT6XFeature {
 
     @Override
     public void afterPostInit() {
-
+        changeRecipes();
     }
 
     private void changeMaterialProperties() {
@@ -88,7 +89,6 @@ public class RefractoryMetals extends GT6XFeature {
             MT.OREMATS.Chromite.remove(TD.Processing.ELECTROLYSER);
             MT.StainlessSteel.remove(TD.Processing.CENTRIFUGE);
             MT.Kanthal.remove(TD.Processing.CENTRIFUGE);
-            MT.Ruby.uumMcfg(6, MT.Al2O3, 5*U, MTx.Cr2O3, U);
         }
     }
 
@@ -244,4 +244,25 @@ public class RefractoryMetals extends GT6XFeature {
         }
     }
 
+    private void changeRecipes() {
+        //TODO not working
+        for (Recipe r : RM.CrystallisationCrucible.mRecipeList) {
+            if (r.mFluidInputs.length >= 1 && r.mFluidInputs[0].getFluid().getName().equals("molten.alumina") &&
+                r.mInputs.length == 1) {
+                for (long amount : new long[] {2*U, 2*U3}) {
+                    if (ST.equal(r.mInputs[0], OM.dust(MT.V,amount))) {
+                        r.mInputs[0] = OM.dust(MT.V2O5,amount);
+                    } else if (ST.equal(r.mInputs[0], OM.dust(MT.Cr,amount))) {
+                        r.mInputs[0] = OM.dust(MTx.Cr2O3,amount);
+                    } else if (ST.equal(r.mInputs[0], OM.dust(MT.Fe,amount))) {
+                        r.mInputs[0] = OM.dust(MT.Fe2O3,amount);
+                    } else if (ST.equal(r.mInputs[0], OM.dust(MT.Ti,amount))) {
+                        r.mInputs[0] = OM.dust(MT.TiO2,amount);
+                    } else if (ST.equal(r.mInputs[0], OM.dust(MT.Mg,amount))) {
+                        r.mInputs[0] = OM.dust(MTx.MgO,amount);
+                    }
+                }
+            }
+        }
+    }
 }
