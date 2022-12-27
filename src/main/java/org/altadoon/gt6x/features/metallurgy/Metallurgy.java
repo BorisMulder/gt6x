@@ -150,8 +150,6 @@ public class Metallurgy extends GT6XFeature {
 
         // blast furnace: coke + 1 flux + 5 hematite (+3/5 SiO2) -> 2 iron + 1 slag + CO2. Now it is coke + 25 hematite + 3 SiO2 -> 8 Fe + 7 fayalite + CO.
         MTx.SpongeIron.addAlloyingRecipe(new OreDictConfigurationComponent( 5, OM.stack(MT.Fe2O3                      , 25*U3), OM.stack(MT.C, 4*U)));
-        MTx.SpongeIron.addAlloyingRecipe(new OreDictConfigurationComponent( 5, OM.stack(MT.OREMATS.BrownLimonite      , 40*U3), OM.stack(MT.C, 4*U)));
-        MTx.SpongeIron.addAlloyingRecipe(new OreDictConfigurationComponent( 5, OM.stack(MT.OREMATS.YellowLimonite     , 40*U3), OM.stack(MT.C, 4*U)));
         // blast furnace: coke + 3 flux + 14 magnetite (9/5 SiO2) -> 6 iron + 3 slag + CO2. Now it is coke + 14*5=70 magnetite + 9 SiO2 -> 24 Fe + 21 fayalite (containing 6 Fe, made from 14 magnetite) + CO.
         //TODO test if these ratios work
         MTx.SpongeIron.addAlloyingRecipe(new OreDictConfigurationComponent( 5, OM.stack(MT.OREMATS.Magnetite          , 70*U9), OM.stack(MT.C, 4*U)));
@@ -185,7 +183,7 @@ public class Metallurgy extends GT6XFeature {
 
         MT.SiC.addAlloyingRecipe(new OreDictConfigurationComponent(2, OM.stack(MT.SiO2, 3*U), OM.stack(MT.C, 2*U)));
 
-        //TODO Iron Carbide/Carburizing Process
+        //TODO Iron Carbide/Carburizing Process for scrap? Or just put in EAF with DRI?
         //TODO iron/wrought iron + CO -> Cementite or Steel (roasting oven?)
     }
 
