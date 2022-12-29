@@ -362,33 +362,7 @@ public class Metallurgy extends GT6XFeature {
             RM.Mixer.addRecipe1(T, 16, 6 , ST.tag(3), FL.array(FL.make_(tIron, 1 ), FL.make_("molten.ferrochrome", 3), FL.make_("molten.aluminium" , 2)), FL.make("molten.kanthal", 6), ZL_IS);
         }
 
-        // DRI
-        // Fe2O3 + 3 CO -> 2 Fe + 3 CO2
-        // Fe2O3 + 3 H2 -> 2 Fe + 3 H2O
-        // 7 Fe2O3 + 3 CO + 18 H2 -> 14 Fe + 3 CO2 + 18 H2O
-        // Fe2O3 + CO + H2 -> 2 Fe + CO2 + H2O
-
-        // Fe2O3 + SiO2 -> Fe2SiO4 + O
-        // 5 Fe2O3 + SiO2 -> 8 Fe + Fe2SiO4 + O
-        // 25 Fe2O3 + 5 SiO2 + 10 CO -> 10 Fe5C + 5 Fe2SiO4 + 15O
-
-        // 25 Fe2O3 + 5 SiO2 + 8 CO + 73 H2 -> 8 Fe5C + 5 Fe2SiO4 + 73 H2O (CO-poor)
-        // 100 Fe2O3 + 20 SiO2 + 81 CO + 243 H2 -> 32 Fe5C + 20 Fe2SiO4 + 243 H2O + 49 CO2 (methane ratio)
-        // 50 Fe2O3 + 10 SiO2 + 81 CO + 81 H2 -> 16 Fe5C + 10 Fe2SiO4 + 81 H2O + 65 CO2 (coal ratio)
-
-        // For Fe3O4, set the input to a multiple of 14 instead of 5 and multiply the other elements by 3
-
-        // Iron Carbide Process
-        // 3 Fe2O3 + 2 CH4 + 5 H2 -> 2 Fe3C + 9 H2O
-        // Fe2O3 + SiO2 -> Fe2SiO4 + O
-        // 5 Fe2O3 + SiO2 -> 8 Fe + Fe2SiO4 (bloomery)
-        // 15 Fe2O3 + 3 SiO2 + 8 CH4 + 23 H2 -> 8 Fe3C + 3 Fe2SiO4 + 39 H2O
-
-        // Fe3O4 + CH4 + 2 H2 -> Fe3C + 4 H2O
-        // 2 Fe3O4 + 3 SiO2 -> 3 Fe2SiO4 + O2
-        // 10 Fe3O4 + 3 SiO2 -> 24 Fe + 3 Fe2SiO4 (bloomery)
-        // 10 Fe3O4 + 3 SiO2 + 8 CH4 + 18 H2 -> 8 Fe3C + 3 Fe2SiO4 + 34 H2O
-
+        // DRI and Fe3C
         directReduction.addRecipe2(true, 64, 64, ST.tag(0), dust.mat(MT.Fe2O3, 5), FL.array(MT.CO .gas(8  * 2 * U25 , true), MT.H.gas(73  * 2 * U25 , true)), FL.array(MT.H2O.liquid(73  * 3 * U25 , false)), dust.mat(MTx.SpongeIron, 3));
         directReduction.addRecipe2(true, 64, 64, ST.tag(1), dust.mat(MT.Fe2O3, 5), FL.array(MT.CO .gas(81 * 2 * U100, true), MT.H.gas(243 * 2 * U100, true)), FL.array(MT.H2O.liquid(243 * 3 * U100, false), MT.CO2.gas(49 * 3 * U100, false)), dust.mat(MTx.SpongeIron, 3));
         directReduction.addRecipe2(true, 64, 64, ST.tag(2), dust.mat(MT.Fe2O3, 5), FL.array(MT.CO .gas(81 * 2 * U50 , true), MT.H.gas(81  * 2 * U50 , true)), FL.array(MT.H2O.liquid(81  * 3 * U50 , false), MT.CO2.gas(65 * 3 * U50 , false)), dust.mat(MTx.SpongeIron, 3));

@@ -310,7 +310,7 @@ public class MTx {
     Na2CO3Solution = registerLiquid(lquddcmp(16071, "Sodium Carbonate Solution", 100, 100, 255, 255)
             .uumMcfg(0, MT.Na2CO3, 6*U, MT.H2O, 3*U)
             .heat(MT.H2O)),
-    Cr2O3 = dustdcmp(16072, "Chromium(III) Oxide", SET_DULL, 100, 255, 100, 255)
+    Cr2O3 = dustdcmp(16072, "Chromium(III) Oxide", SET_DULL, 100, 255, 100, 255, "Chromia")
             .uumMcfg(0, MT.Cr, 2*U, MT.O, 3*U)
             .heat(2708, 4270),
     CrSodaMixture = dustdcmp(16073, "Chromia-Soda Mixture", SET_POWDER, 50, 200, 50, 255)
@@ -319,10 +319,10 @@ public class MTx {
     CrSlag = dustdcmp(16074, "Chromite Slag", SET_POWDER, 150, 150, 0, 255)
             .setMcfg(0, Na2CrO4, 4*7*U, MT.OREMATS.Wollastonite, 5*U, MT.Fe2O3, 5*U)
             .heat(Na2CrO4),
-    Sb2O3 = dustdcmp(16075, "Antimony Trioxide", SET_FINE, 255, 200, 150, 255)
+    Sb2O3 = dustdcmp(16075, "Antimony Trioxide", SET_FINE, 255, 200, 150, 255, "Antimony(III) Oxide")
             .uumMcfg(0, MT.Sb, 2*U, MT.O, 3*U)
             .heat(929, 1698),
-    FeS = dustdcmp(16076, "Iron(II) Sulfide", SET_SHINY, 66, 66, 66, 255, "Ferrous Sulfide")
+    FeS = dustdcmp(16076, "Ferrous Sulfide", SET_SHINY, 66, 66, 66, 255, "Iron(II) Sulfide")
             .uumMcfg(0, MT.Fe, U, MT.S, U)
             .heat(1467),
     FeO = oredustdcmp(16077, "Wuestite", SET_DULL, 50, 50, 0, 255, "Ferrous Oxide", "Iron(II) Oxide")
@@ -371,10 +371,10 @@ public class MTx {
             .uumMcfg(0, ZrCl4, 49*U50, HfCl4, U50)
             .heat(654, 654)
             .setLocal("Impure Zirconium Tetrachloride")),
-    MnF2 = dustdcmp(16091, "Manganese(II) Fluoride", SET_CUBE, 255, 150, 200, 255, ELECTROLYSER, ACID)
+    MnF2 = dustdcmp(16091, "Manganese Fluoride", SET_CUBE, 255, 150, 200, 255, ELECTROLYSER, ACID)
             .uumMcfg(0, MT.Mn, U, MT.F, 2*U)
             .heat(1129, 2090),
-    FeF2 = dustdcmp(16092, "Iron(II) Fluoride", SET_CUBE, 150, 255, 255, 255, ELECTROLYSER, ACID)
+    FeF2 = dustdcmp(16092, "Ferrous Fluoride", SET_CUBE, 150, 255, 255, 255, ELECTROLYSER, ACID, "Iron(II) Fluoride")
             .uumMcfg(0, MT.Fe, U, MT.F, 2*U)
             .heat(1240, 1370),
     H2TaF7 = create(16093, "Hydrogen Heptafluorotantalate", 255, 0, 255, 255)
@@ -424,13 +424,13 @@ public class MTx {
             .put(INGOTS, MORTAR, BRITTLE, GEMS)
             .heat(Fayalite)
             .setPulver(Fayalite, U),
-    SpongeIron = dustdcmp(16108, "Sponge Iron", SET_METALLIC, 100, 50, 0, 255)
+    SpongeIron = dustdcmp(16108, "Sponge Iron", SET_METALLIC, 100, 50, 0, 255, "Bloom")
             .setMcfg(0, MT.PigIron, 8*5*U, FerrousSlag, 7*5*U)
             .heat(1250),
     MgOH2 = dustdcmp(16109, "Magnesium Hydroxide", SET_DULL, 255, 200, 255, 255)
             .uumMcfg(0, MT.Mg, U, MT.O, 2*U, MT.H, 2*U)
             .heat(623),
-    MgO = dustdcmp(16110, "Magnesia", SET_FINE, 255, 255, 255, 255, "Periclase")
+    MgO = dustdcmp(16110, "Magnesia", SET_FINE, 255, 255, 255, 255, "Periclase", "Magnesium Oxide")
             .uumMcfg(0, MT.Mg, U, MT.O, U)
             .heat(3125, 3870),
     MgHCO3 = registerLiquid(lquddcmp(16111, "Magnesium Bicarbonate Solution", 235, 200, 255, 255)
@@ -445,7 +445,7 @@ public class MTx {
     MeteoricCementite = alloymachine(16114, "Meteoric Cementite", SET_METALLIC, 50, 50, 0, 255, "Meteoric Iron Carbide")
             .setMcfg(3, MT.MeteoricIron, 3*U, MT.C, U)
             .heat(MT.MeteoricIron),
-    ImpureCementite = dustdcmp(16115, "Slag-containing Cementite", SET_METALLIC, 100, 50, 0, 255)
+    ImpureCementite = dustdcmp(16115, "Slag-rich Cementite", SET_METALLIC, 100, 50, 0, 255)
             .setLocal("Impure Cementite")
             .setMcfg(0, Cementite, 8*3*U, FerrousSlag, 7*3*U)
             .heat(Cementite)
