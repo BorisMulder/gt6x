@@ -30,11 +30,6 @@ public class MTx {
         MT.PigIron.uumMcfg(5, MT.Fe, 5*U, MT.C, U);
         MT.Steel  .uumMcfg(20, MT.Fe, 20*U, MT.C, U);
 
-        MT.BlueSapphire.uumMcfg(6, MT.Al2O3, 5*U, MT.Fe2O3, U);
-        MT.Ruby.uumMcfg(6, MT.Al2O3, 5*U, MTx.Cr2O3, U);
-        MT.GreenSapphire.uumMcfg(6, MT.Al2O3, 5*U, MTx.MgO, U);
-        MT.PurpleSapphire.uumMcfg(6, MT.Al2O3, 5*U, MT.V2O5, U);
-
         MT.As.heat(887, 887).remove(MELTING); MT.As.remove(MOLTEN);
 
         MT.Plastic.put(POLYMER);
@@ -307,10 +302,10 @@ public class MTx {
             .uumMcfg(0, MT.Na, 2*U, MT.Cr, 2*U, MT.O, 7*U)
             .heat(629, 673),
     Na2CrO4Solution = registerLiquid(lquddcmp(16069, "Sodium Chromate Solution", 255, 255, 0, 255)
-            .uumMcfg(0, MTx.Na2CrO4, U, MT.H2O, 3*U)
+            .uumMcfg(0, Na2CrO4, U, MT.H2O, 3*U)
             .heat(MT.H2O)),
     DichromateSoda = registerLiquid(lquddcmp(16070, "Sodium Dichromate-Bicarbonate Solution", 255, 125, 0, 255)
-            .uumMcfg(0, MTx.Na2Cr2O7, 11*U, NaHCO3, 12*U, MT.H2O, 9*U)
+            .uumMcfg(0, Na2Cr2O7, 11*U, NaHCO3, 12*U, MT.H2O, 9*U)
             .heat(MT.H2O)),
     Na2CO3Solution = registerLiquid(lquddcmp(16071, "Sodium Carbonate Solution", 100, 100, 255, 255)
             .uumMcfg(0, MT.Na2CO3, 6*U, MT.H2O, 3*U)
@@ -319,20 +314,21 @@ public class MTx {
             .uumMcfg(0, MT.Cr, 2*U, MT.O, 3*U)
             .heat(2708, 4270),
     CrSodaMixture = dustdcmp(16073, "Chromia-Soda Mixture", SET_POWDER, 50, 200, 50, 255)
-            .uumMcfg(0, MTx.Cr2O3, U, MT.Na2CO3, U)
-            .heat(MTx.Cr2O3),
+            .uumMcfg(0, Cr2O3, U, MT.Na2CO3, U)
+            .heat(Cr2O3),
     CrSlag = dustdcmp(16074, "Chromite Slag", SET_POWDER, 150, 150, 0, 255)
-            .setMcfg(0, MTx.Na2CrO4, 4*7*U, MT.OREMATS.Wollastonite, 5*U, MT.Fe2O3, 5*U)
-            .heat(MTx.Na2CrO4),
+            .setMcfg(0, Na2CrO4, 4*7*U, MT.OREMATS.Wollastonite, 5*U, MT.Fe2O3, 5*U)
+            .heat(Na2CrO4),
     Sb2O3 = dustdcmp(16075, "Antimony Trioxide", SET_FINE, 255, 200, 150, 255)
             .uumMcfg(0, MT.Sb, 2*U, MT.O, 3*U)
             .heat(929, 1698),
-    FeS = dustdcmp(16076, "Iron(II) Sulfide", SET_SHINY, 66, 66, 66, 255)
+    FeS = dustdcmp(16076, "Iron(II) Sulfide", SET_SHINY, 66, 66, 66, 255, "Ferrous Sulfide")
             .uumMcfg(0, MT.Fe, U, MT.S, U)
             .heat(1467),
-    Cementite = alloymachine(16077, "Cementite", SET_METALLIC, 50, 0, 0)
-            .uumMcfg(3, MT.Fe, 3*U, MT.C, U)
-            .heat(MT.PigIron),
+    FeO = oredustdcmp(16077, "Wuestite", SET_DULL, 50, 50, 0, 255, "Ferrous Oxide", "Iron(II) Oxide")
+            .setMcfg(0, MT.Fe, U, MT.O, U)
+            .heat(C+1377, C+3414)
+            .setLocal("Wüstite"),
     H2MoO4 = dustdcmp(16078, "Molybdic Acid", SET_DULL, 200, 200, 0, 255, ACID)
             .uumMcfg(0, MT.H, 2*U, MT.Mo, U, MT.O, 4*U)
             .heat(573),
@@ -354,13 +350,10 @@ public class MTx {
     NH4VO3 = dustdcmp(16083, "Ammonium Metavanadate", SET_DULL, 255, 200, 150, 255)
             .uumMcfg(0, MT.N, U, MT.H, 4*U, MT.V, U, MT.O, 3*U)
             .heat(473),
-    Wuestite = oredustdcmp(16084, "Wuestite", SET_DULL, 50, 50, 0, 255)
-            .setMcfg(0, MT.Fe, U, MT.O, U)
-            .heat(C+1377, C+3414)
-            .setLocal("Wüstite"),
+    // 16084 free
     CobaltBlue = dustdcmp(16085, "Cobalt Blue", SET_FINE, 0, 71, 171, 255, DYE_INDEX_Blue)
             .uumMcfg(0, MT.Co, U, MT.Al, 2*U, MT.O, 4*U)
-            .heat((MT.Al2O3.mMeltingPoint + MTx.CoO.mMeltingPoint) / 2),
+            .heat((MT.Al2O3.mMeltingPoint + CoO.mMeltingPoint) / 2),
     NH4SO4 = dustdcmp(16086, "Ammonium Sulfate", SET_CUBE, 255, 255, 230, 255)
             .uumMcfg(0, MT.N, 2*U, MT.H, 8*U, MT.S, U, MT.O, 4*U)
             .heat(508)
@@ -423,16 +416,16 @@ public class MTx {
             .setMcfg(0, MT.MgCl2, 3*U, MT.H2O, 3*U)
             .heat(MT.H2O)),
     Fayalite = dustdcmp(16106, "Fayalite", SET_POWDER, 100, 50, 0, 255)
-            .setMcfg(0, Wuestite, 4*U, MT.SiO2, 3*U)
+            .setMcfg(0, FeO, 4*U, MT.SiO2, 3*U)
             .heat(C + 1205),
     FerrousSlag = create( 16107, "Ferrous Slag", 255, 200, 180, 255)
-            .setMcfg(0, Wuestite, 4*U, MT.SiO2, 3*U)
+            .setMcfg(0, Fayalite, U)
             .setTextures(SET_FLINT)
             .put(INGOTS, MORTAR, BRITTLE, GEMS)
             .heat(Fayalite)
             .setPulver(Fayalite, U),
     SpongeIron = dustdcmp(16108, "Sponge Iron", SET_METALLIC, 100, 50, 0, 255)
-            .setMcfg(0, MT.PigIron, 8*U, FerrousSlag, 7*U)
+            .setMcfg(0, MT.PigIron, 8*5*U, FerrousSlag, 7*5*U)
             .heat(1250),
     MgOH2 = dustdcmp(16109, "Magnesium Hydroxide", SET_DULL, 255, 200, 255, 255)
             .uumMcfg(0, MT.Mg, U, MT.O, 2*U, MT.H, 2*U)
@@ -446,12 +439,24 @@ public class MTx {
     MgBlastFurnaceGas = registerGas(gasdcmp(16112, "Magnesium-Rich Blast Furnace Gas", 50, 20, 30, 200)
             .uumMcfg(0, MT.Mg, U, MT.CO2, 6*U)
             .heat(MT.Mg)),
-    MeteoricCementite = alloymachine(16113, "Meteoric Cementite", SET_METALLIC, 50, 50, 0, 255)
+    Cementite = alloymachine(16113, "Cementite", SET_METALLIC, 50, 0, 0, "Iron Carbide")
+            .uumMcfg(3, MT.Fe, 3*U, MT.C, U)
+            .heat(MT.WroughtIron),
+    MeteoricCementite = alloymachine(16114, "Meteoric Cementite", SET_METALLIC, 50, 50, 0, 255, "Meteoric Iron Carbide")
             .setMcfg(3, MT.MeteoricIron, 3*U, MT.C, U)
-            .heat(MT.MeteoricSteel)
+            .heat(MT.MeteoricIron),
+    ImpureCementite = dustdcmp(16115, "Slag-containing Cementite", SET_METALLIC, 100, 50, 0, 255)
+            .setLocal("Impure Cementite")
+            .setMcfg(0, Cementite, 8*3*U, FerrousSlag, 7*3*U)
+            .heat(Cementite)
     ;
 
     static {
+        MT.BlueSapphire.uumMcfg(6, MT.Al2O3, 5*U, MT.Fe2O3, U);
+        MT.Ruby.uumMcfg(6, MT.Al2O3, 5*U, Cr2O3, U);
+        MT.GreenSapphire.uumMcfg(6, MT.Al2O3, 5*U, MgO, U);
+        MT.PurpleSapphire.uumMcfg(6, MT.Al2O3, 5*U, MT.V2O5, U);
+
         FL.createMolten(RhodiumPotassiumSulfate.put(MELTING, MOLTEN), 1000);
         FL.createMolten(PbCl2.put(MELTING, MOLTEN), 1000);
         FL.createMolten(Slag.put(MELTING, MOLTEN), 144);
