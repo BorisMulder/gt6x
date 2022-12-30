@@ -26,9 +26,10 @@ public class MTx {
 
     static {
         // change some properties of vanilla GT6 materials
-        MT.NH3.uumMcfg(1, MT.N, U, MT.H, 3*U);
+        MT.NH3    .uumMcfg(1, MT.N, U, MT.H, 3*U);
         MT.PigIron.uumMcfg(5, MT.Fe, 5*U, MT.C, U);
         MT.Steel  .uumMcfg(20, MT.Fe, 20*U, MT.C, U);
+        MT.Olivine.uumMcfg(0, MT.Mg, U, MT.Fe, U, MT.Si, U, MT.O, 4*U);
 
         MT.As.heat(887, 887).remove(MELTING); MT.As.remove(MOLTEN);
 
@@ -371,15 +372,15 @@ public class MTx {
             .uumMcfg(0, ZrCl4, 49*U50, HfCl4, U50)
             .heat(654, 654)
             .setLocal("Impure Zirconium Tetrachloride")),
-    MnF2 = dustdcmp(16091, "Manganese Fluoride", SET_CUBE, 255, 150, 200, 255, ELECTROLYSER, ACID)
+    MnF2 = create(16091, "Manganese Fluoride", 255, 150, 200, 255, ELECTROLYSER, ACID)
             .uumMcfg(0, MT.Mn, U, MT.F, 2*U)
             .heat(1129, 2090),
-    FeF2 = dustdcmp(16092, "Ferrous Fluoride", SET_CUBE, 150, 255, 255, 255, ELECTROLYSER, ACID, "Iron(II) Fluoride")
+    FeF2 = create(16092, "Ferrous Fluoride", 150, 255, 255, 255, ELECTROLYSER, ACID, "Iron(II) Fluoride")
             .uumMcfg(0, MT.Fe, U, MT.F, 2*U)
             .heat(1240, 1370),
     H2TaF7 = create(16093, "Hydrogen Heptafluorotantalate", 255, 0, 255, 255)
             .uumMcfg(0, MT.H, 2*U, MT.Ta, U, MT.F, 7*U),
-    NH4F = dustdcmp(16094, "Ammonium Fluoride", SET_CUBE, 50, 255, 255, 255)
+    NH4F = create(16094, "Ammonium Fluoride", 50, 255, 255, 255)
             .uumMcfg(1, MT.N, U, MT.H, 4*U, MT.F, U)
             .heat(373, 373),
     H2NbOF5 = create(16095, "Hydrogen Pentafluorooxoniobate", 255, 0, 255, 255)

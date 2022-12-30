@@ -168,10 +168,7 @@ public class RefractoryMetals extends GT6XFeature {
     }
 
     private void addRecipes() {
-        // Common
-        RM.Mixer.addRecipe0(true, 16, 64, FL.array(MT.HF.gas(U, true), MT.NH3.gas(U, true)), ZL_FS, dust.mat(MTx.NH4F, 2));
-        //TODO use thermolysis oven
-        RM.Drying.addRecipe1(true, 16, 256, dust.mat(MTx.NH4F, 2), ZL_FS, FL.array(MT.HF.gas(U, true), MT.NH3.gas(U, true)));
+        // MIBK; acetone requires oil feature
         RM.Mixer.addRecipe1(true, 16, 256, dust.mat(MT.Pd, 0), FL.array(MTx.Acetone.liquid(20*U, true), MT.H.gas(2*U, true)), FL.array(MTx.MIBK.liquid(19*U, false), MT.H2O.liquid(3*U, false)));
 
         // Mo, W
