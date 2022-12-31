@@ -60,11 +60,12 @@ public class Metallurgy extends GT6XFeature {
     }
 
     @Override
-    public void init() {}
+    public void init() {
+        addMTEs();
+    }
 
     @Override
     public void beforePostInit() {
-        addMTEs();
         addOverrideRecipes();
     }
 
@@ -102,7 +103,7 @@ public class Metallurgy extends GT6XFeature {
         for (OreDictMaterial magnetite : new OreDictMaterial[] { MT.OREMATS.Magnetite, MT.OREMATS.BasalticMineralSand, MT.OREMATS.GraniticMineralSand })
             magnetite.heat(MT.Fe2O3);
 
-        // TODO increase tool stats for HSS
+        // TODO HSS
     }
 
     private void changeByProducts() {
@@ -163,10 +164,8 @@ public class Metallurgy extends GT6XFeature {
 
         // Bessemer Process
         MT.Steel.addAlloyingRecipe(new OreDictConfigurationComponent( 1, OM.stack(MT.PigIron, U), OM.stack(MT.Air, U)));
-        MT.Steel.addAlloyingRecipe(new OreDictConfigurationComponent( 1, OM.stack(MTx.Cementite, U), OM.stack(MT.Air, U)));
+        MTx.MeteoricCementite.addAlloyingRecipe(new OreDictConfigurationComponent( 1, OM.stack(MT.MeteoricIron, U), OM.stack(MT.C, U3)));
         MT.MeteoricSteel.addAlloyingRecipe(new OreDictConfigurationComponent( 1, OM.stack(MTx.MeteoricCementite, U), OM.stack(MT.Air, U)));
-        //TODO remove cementite?
-        // TODO add steel recipe from Pig or Sponge Iron with O2 to EAF (and with Scrap instead of O2)
 
         MT.StainlessSteel.addAlloyingRecipe(new OreDictConfigurationComponent(36, OM.stack(MT.PigIron,16*U), OM.stack(MT.Invar, 12*U), OM.stack(MT.Cr, 4*U), OM.stack(MT.Mn, 4*U), OM.stack(MT.Air, 24*U)));
         MT.StainlessSteel.addAlloyingRecipe(new OreDictConfigurationComponent(36, OM.stack(MT.PigIron,24*U), OM.stack(MT.Nichrome, 5*U), OM.stack(MT.Cr, 3*U), OM.stack(MT.Mn, 4*U), OM.stack(MT.Air, 24*U)));
@@ -178,20 +177,17 @@ public class Metallurgy extends GT6XFeature {
         MT.Kanthal.addAlloyingRecipe(new OreDictConfigurationComponent(6, OM.stack(MT.PigIron, U), OM.stack(MT.Al, 2*U), OM.stack(MTx.FeCr2, 3*U)));
         MT.Angmallen.addAlloyingRecipe(new OreDictConfigurationComponent(2, OM.stack(MT.PigIron, U), OM.stack(MT.Au, U)));
 
-        // TODO add these two recipes to EAF (with and without DRI)
-
         MT.SiC.addAlloyingRecipe(new OreDictConfigurationComponent(2, OM.stack(MT.SiO2, 3*U), OM.stack(MT.C, 2*U)));
 
-        //TODO Iron Carbide/Carburizing Process for scrap? Or just put in EAF with DRI?
-        //TODO iron/wrought iron + CO -> Cementite or Steel (roasting oven?)
+        // TODO EAF
     }
 
     private void addMTEs() {
         OreDictMaterial aMat;
-        aMat = MT.WroughtIron; MTEx.gt6xMTEReg.add("Blast Furnace Part", "Multiblock Machines", 60, 17101, MultiTileEntityMultiBlockPart.class, aMat.mToolQuality, 64, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_TEXTURE, "blastfurnaceparts", NBT_DESIGNS, 1), "hP ", "PF ", "   ", 'P', plate.dat(MT.WroughtIron), 'F', MTEx.gt6Registry.getItem(18000)); // fire bricks
-                               MTEx.gt6xMTEReg.add("Blast Furnace"     , "Multiblock Machines", 61, 17101, MultiTileEntityBlastFurnace  .class, aMat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_INPUT, 32, NBT_INPUT_MIN, 8 , NBT_INPUT_MAX, 32 , NBT_TEXTURE, "blastfurnace", NBT_ENERGY_ACCEPTED, TD.Energy.KU, NBT_RECIPEMAP, blastFurnace   , NBT_INV_SIDE_AUTO_OUT, SIDE_LEFT  , NBT_TANK_SIDE_AUTO_OUT, SIDE_TOP, NBT_CHEAP_OVERCLOCKING, true, NBT_NEEDS_IGNITION, true), "PwP", "PRh", "yFP", 'P', plateCurved.dat(MT.WroughtIron), 'R', stickLong.dat(MT.WroughtIron), 'F', MTEx.gt6xMTEReg.getItem(60));
-        aMat = MT.SiC;         MTEx.gt6xMTEReg.add("Shaft Furnace Part", "Multiblock Machines", 66, 17101, MultiTileEntityMultiBlockPart.class, aMat.mToolQuality, 64, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_TEXTURE, "blastfurnaceparts", NBT_DESIGNS, 1), "ICI", "CWC", "ICI", 'I', ingot.dat(MT.SiC), 'C', dust.dat(ANY.Clay), 'W', OD.container1000water);
-                               MTEx.gt6xMTEReg.add("Shaft Furnace"     , "Multiblock Machines", 67, 17101, MultiTileEntityShaftFurnace  .class, aMat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_INPUT, 64, NBT_INPUT_MIN, 64, NBT_INPUT_MAX, 256, NBT_TEXTURE, "shaftfurnace", NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, directReduction,                                     NBT_TANK_SIDE_AUTO_OUT, SIDE_TOP, NBT_CHEAP_OVERCLOCKING, true                          ), "wPh", "PSP", " I ", 'I', ingot.dat(MT.SiC), 'P', pipe.dat(MT.StainlessSteel), 'S', MTEx.gt6xMTEReg.getItem(66));
+        aMat = MT.WroughtIron; MTEx.gt6xMTEReg.add("Blast Furnace Part", "Multiblock Machines", 60, 17101, MultiTileEntityMultiBlockPart.class, aMat.mToolQuality, 64, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_TEXTURE, "blastfurnaceparts", NBT_DESIGNS, 1), "hP ", "PF ", "   ", 'P', plate.dat(aMat), 'F', MTEx.gt6Registry.getItem(18000)); // fire bricks
+                               MTEx.gt6xMTEReg.add("Blast Furnace"     , "Multiblock Machines", 61, 17101, MultiTileEntityBlastFurnace  .class, aMat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_INPUT, 32, NBT_INPUT_MIN, 8 , NBT_INPUT_MAX, 32  , NBT_TEXTURE, "blastfurnace", NBT_ENERGY_ACCEPTED, TD.Energy.KU, NBT_RECIPEMAP, blastFurnace   , NBT_INV_SIDE_AUTO_OUT, SIDE_LEFT  , NBT_TANK_SIDE_AUTO_OUT, SIDE_TOP, NBT_CHEAP_OVERCLOCKING, true, NBT_NEEDS_IGNITION, true), "PwP", "PRh", "yFP", 'P', plateCurved.dat(aMat), 'R', stickLong.dat(aMat), 'F', MTEx.gt6xMTEReg.getItem(60));
+        aMat = MT.SiC;         MTEx.gt6xMTEReg.add("Shaft Furnace Part", "Multiblock Machines", 66, 17101, MultiTileEntityMultiBlockPart.class, aMat.mToolQuality, 64, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_TEXTURE, "blastfurnaceparts", NBT_DESIGNS, 1), "ICI", "CWC", "ICI", 'I', ingot.dat(aMat), 'C', dust.dat(ANY.Clay), 'W', OD.container1000water);
+                               MTEx.gt6xMTEReg.add("Shaft Furnace"     , "Multiblock Machines", 67, 17101, MultiTileEntityShaftFurnace  .class, aMat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_INPUT, 64, NBT_INPUT_MIN, 64, NBT_INPUT_MAX, 1024, NBT_TEXTURE, "shaftfurnace", NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, directReduction,                                     NBT_TANK_SIDE_AUTO_OUT, SIDE_TOP, NBT_CHEAP_OVERCLOCKING, true                          ), "IPI", "PSP", "wIh", 'I', plate.dat(aMat), 'P', pipe.dat(MT.StainlessSteel), 'S', MTEx.gt6xMTEReg.getItem(66));
         //TODO fix recipe
 
         Class<? extends TileEntity> aClass = MultiTileEntityBasicMachine.class;
@@ -332,7 +328,6 @@ public class Metallurgy extends GT6XFeature {
         sintering.addRecipe2(true, 16, 64, dust.mat(MTx.CoO, 2), dust.mat(MT.Al2O3, 5), dust.mat(MTx.CobaltBlue, 7));
 
         for (ItemStack coal : ST.array(dust.mat(MT.Charcoal, 1), dust.mat(MT.LigniteCoke, 3),  dust.mat(MT.CoalCoke, 1), dust.mat(MT.C, 1) )) {
-            //TODO add cobalt to WC?
             sintering.addRecipe(true, ST.array(dust.mat(MT.W, 1), ST.copy(coal)), ST.array(ingot.mat(MT.TungstenCarbide, 2)), null, null, ZL_FS, ZL_FS, 256, 96, 0);
             sintering.addRecipe(true, ST.array(dust.mat(MT.Ta, 4), dust.mat(MT.Hf, 1), ST.mul(5, coal)), ST.array(ingot.mat(MT.Ta4HfC5, 10)), null, null, ZL_FS, ZL_FS, 512, 96, 0);
 
