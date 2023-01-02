@@ -57,10 +57,10 @@ public class MultiTileEntityShaftFurnace extends TileEntityBase10MultiBlockMachi
     }
 
     static {
-        LH.add("gt6x.tooltip.multiblock.shaftfurnace.1", "1x1x1 Base of 1 Shaft Furnace Part (centered on a 3x3 grid)");
-        LH.add("gt6x.tooltip.multiblock.shaftfurnace.2", "On top of that two layers of 4 diagonally adjacent Shaft Furnace Parts (incl. main) with one block of Air in-between;");
-        LH.add("gt6x.tooltip.multiblock.shaftfurnace.3", "Finally, three 3x3x3 layers of 25 Shaft Furnace Parts with Air in the middle except at the top layer.");
-        LH.add("gt6x.tooltip.multiblock.shaftfurnace.4", "Total: 33 parts + 1 main. Main at side of third layer facing outwards;");
+        LH.add("gt6x.tooltip.multiblock.shaftfurnace.1", "Total: 33 parts + 1 main. First, put a base consisting of a single Shaft Furnace Part centered on a 3x3 grid.");
+        LH.add("gt6x.tooltip.multiblock.shaftfurnace.2", "On top of that, two layers of 4 Shaft Furnace Parts in a Plus-shape with one block of Air in the middle over the base.");
+        LH.add("gt6x.tooltip.multiblock.shaftfurnace.3", "Main replaces one of those blocks at the third layer facing outwards.");
+        LH.add("gt6x.tooltip.multiblock.shaftfurnace.4", "Finally, three 3x3 layers of 25 Shaft Furnace Parts with Air in the middle except at the top layer.");
         LH.add("gt6x.tooltip.multiblock.shaftfurnace.5", "Energy and fluids in at the fourth layer");
         LH.add("gt6x.tooltip.multiblock.shaftfurnace.6", "Items in at the top, out at the bottom (not automatic; hoppers recommended)");
         LH.add("gt6x.tooltip.multiblock.shaftfurnace.7", "Fluids out automatically at the top.");
