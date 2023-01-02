@@ -1,7 +1,10 @@
 package org.altadoon.gt6x.common;
 
 import gregapi.code.TagData;
-import gregapi.data.*;
+import gregapi.data.FL;
+import gregapi.data.MD;
+import gregapi.data.MT;
+import gregapi.data.TC;
 import gregapi.oredict.OreDictManager;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.render.TextureSet;
@@ -90,7 +93,7 @@ public class MTx {
     AmmoniumHexachloroplatinate = dustdcmp(16002, "Ammonium Hexachloroplatinate", SET_FINE, 255, 220, 10, 255)
             .uumMcfg(0, MT.N, U*2, MT.H, U*8, MT.Pt, U, MT.Cl, U*6)
             .heat(653)
-            .tooltip("(NH" + CS.NUM_SUB[4] + ")" + CS.NUM_SUB[2] + "PtCl" + CS.NUM_SUB[6]),
+            .tooltip("(NH" + NUM_SUB[4] + ")" + NUM_SUB[2] + "PtCl" + NUM_SUB[6]),
     PalladiumChloride = dustdcmp(16003, "Palladium Chloride", SET_FINE, 90, 70, 50, 255)
             .uumMcfg(0, MT.Pd, U, MT.Cl, U*2)
             .heat(952),
@@ -105,14 +108,14 @@ public class MTx {
     RhodiumSulfate = dustdcmp(16007, "Rhodium Sulfate", SET_CUBE_SHINY, 255, 70, 10, 255)
             .uumMcfg(0, MT.Rh, U*2, MT.S, U*3, MT.O, U*12)
             .heat(500)
-            .tooltip("Rh" + CS.NUM_SUB[2] + "(SO" + CS.NUM_SUB[4] + ")" + CS.NUM_SUB[3]),
+            .tooltip("Rh" + NUM_SUB[2] + "(SO" + NUM_SUB[4] + ")" + NUM_SUB[3]),
     RuOsIrResidue = dustdcmp(16008, "Ruthenium Osmium Iridium Residue", SET_SHINY, 90, 150, 200, 15)
             .uumMcfg(0, MT.Ru, U, MT.Os, U, MT.Ir, U)
             .heat(3000),
     Ozone = registerGas(gas(16009, "Ozone", 0, 150, 255, 25)
             .uumMcfg(0, MT.O, U*3)
             .put(POLYATOMIC_NONMETAL, CHALCOGEN)
-            .heat(CS.C-192, CS.C-112)),
+            .heat(C-192, C-112)),
     IrO2 = dustdcmp(16010, "Iridium Dioxide", SET_CUBE, 60, 60, 60, 255)
             .uumMcfg(0, MT.Ir, U, MT.O, U*2)
             .heat(1370),
@@ -130,18 +133,18 @@ public class MTx {
             .heat( 200,  400)),
     AmmoniumHexachlororuthenate = dustdcmp(16015,  "Ammonium Hexachlororuthenate", SET_FINE, 255, 120, 10, 255)
             .uumMcfg(0, MT.N, U*2, MT.H, U*8, MT.Ru, U, MT.Cl, U*6)
-            .tooltip("(NH" + CS.NUM_SUB[4] + ")" + CS.NUM_SUB[2] + "RuCl" + CS.NUM_SUB[6]),
+            .tooltip("(NH" + NUM_SUB[4] + ")" + NUM_SUB[2] + "RuCl" + NUM_SUB[6]),
     IrRhOxide = dustdcmp(16016,  "Iridium-Rhodium Oxide Mixture", SET_FINE, 200, 200, 200, 255)
             .uumMcfg(0, MT.Ir, U, MT.Rh, U, MT.O, U*8),
     NH4Cl = dustdcmp(16017, "Ammonium Chloride", SET_FINE, 250, 250, 250, 255)
             .uumMcfg(0, MT.N, U, MT.H, U*4, MT.Cl, U)
-            .heat(338+CS.C, 520+CS.C ),
+            .heat(338+C, 520+C ),
     RhodiumPotassiumSulfate = dustdcmp(16018, "Rhodium-Potassium Sulfate Mixture", SET_CUBE_SHINY, 255, 100, 150, 255)
             .uumMcfg(0, RhodiumSulfate, U, MT.K2SO4, U*6*7)
             .heat(500),
     RhodiumSulfateSolution = registerLiquid(lquddcmp(16019, "Rhodium Sulfate Solution", 255, 50, 10, 255)
             .uumMcfg(0, RhodiumSulfate, U, MT.H2O, U)
-            .heat(CS.C, 373)),
+            .heat(C, 373)),
     Chalcocite = oredustdcmp(16020, "Chalcocite", SET_CUBE_SHINY, 50, 30, 30, 255)
             .uumMcfg(0, MT.Cu, U*2, MT.S, U)
             .setSmelting(MT.Cu, U9*5)
@@ -236,7 +239,7 @@ public class MTx {
             .heat( 238,  357)),
     PhosphoricAcid = registerLiquid(lqudaciddcmp(16051, "Phosphoric Acid", 150, 200, 0, 255)
             .uumMcfg(0, MT.H, 3*U, MT.PO4, U)
-            .heat(290, CS.C + 212)),
+            .heat(290, C + 212)),
     TNT = dustdcmp(16052, "Trinitrotoluene", SET_DULL, 225, 198, 153, 255)
             .uumMcfg(0, MT.C, 7*U, MT.H, 5*U, MT.N, 3*U, MT.O, 6*U)
             .put(FLAMMABLE, EXPLOSIVE, MD.MC)
@@ -344,7 +347,7 @@ public class MTx {
     Vanadinite = oredustdcmp(16081, "Vanadinite", SET_CUBE_SHINY, 153, 51, 0, 255)
             .uumMcfg(0, MT.Pb, 5*U, MT.V, 3*U, MT.O, 12*U, MT.Cl, U)
             .heat(C + 1910)
-            .tooltip("Pb" + CS.NUM_SUB[5] + "(VO" + CS.NUM_SUB[4] + ")" + NUM_SUB[3] + "Cl"),
+            .tooltip("Pb" + NUM_SUB[5] + "(VO" + NUM_SUB[4] + ")" + NUM_SUB[3] + "Cl"),
     NaVO3Solution = registerLiquid(liquid(16082, "Sodium Metavanadate Solution", 255, 200, 120, 255)
             .uumMcfg(0, MT.Na, U, MT.V, U, MT.O, 3*U, MT.H2O, 6*U)
             .heat(MT.H2O)),
@@ -449,7 +452,10 @@ public class MTx {
     ImpureCementite = dustdcmp(16115, "Slag-rich Cementite", SET_METALLIC, 100, 50, 0, 255)
             .setLocal("Impure Cementite")
             .setMcfg(0, Cementite, 8*3*U, FerrousSlag, 7*3*U)
-            .heat(Cementite)
+            .heat(Cementite),
+    MgOC = machine(16116, "MgO-C", SET_QUARTZ, 100, 100, 100, 255)
+            .setMcfg(0, MgO, U, MT.Graphite, U)
+            .heat(MgO)
     ;
 
     static {
