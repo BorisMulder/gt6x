@@ -17,6 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.FluidStack;
 import org.altadoon.gt6x.common.Config;
+import org.altadoon.gt6x.common.EAFSmeltingRecipe;
 import org.altadoon.gt6x.common.MTEx;
 import org.altadoon.gt6x.common.MTx;
 import org.altadoon.gt6x.features.GT6XFeature;
@@ -178,8 +179,6 @@ public class Metallurgy extends GT6XFeature {
         MT.Angmallen.addAlloyingRecipe(new OreDictConfigurationComponent(2, OM.stack(MT.PigIron, U), OM.stack(MT.Au, U)));
 
         MT.SiC.addAlloyingRecipe(new OreDictConfigurationComponent(2, OM.stack(MT.SiO2, 3*U), OM.stack(MT.C, 2*U)));
-
-        // TODO EAF
     }
 
     private void addMTEs() {
@@ -193,6 +192,7 @@ public class Metallurgy extends GT6XFeature {
         aMat = MT.DATA.Heat_T[3]; MTEx.gt6xMTEReg.add("Sintering Oven ("+aMat.getLocal()+")", "Basic Machines"     , 64, 20001, aClass                             , aMat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS,  9.0F, NBT_RESISTANCE,  9.0F, NBT_INPUT,  512, NBT_TEXTURE, "sinteringoven", NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, sintering, NBT_INV_SIDE_IN, SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_ENERGY_ACCEPTED_SIDES, SBIT_D), "wUh", "PMP", "BCB", 'M', casingMachineDouble.dat(aMat), 'C', plateQuadruple.dat(ANY.Cu), 'P', plate.dat(MT.W      ), 'B', Blocks.brick_block, 'U', MTEx.gt6Registry.getItem(1024));
         aMat = MT.DATA.Heat_T[4]; MTEx.gt6xMTEReg.add("Sintering Oven ("+aMat.getLocal()+")", "Basic Machines"     , 65, 20001, aClass                             , aMat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS, 12.5F, NBT_RESISTANCE, 12.5F, NBT_INPUT, 2048, NBT_TEXTURE, "sinteringoven", NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, sintering, NBT_INV_SIDE_IN, SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_ENERGY_ACCEPTED_SIDES, SBIT_D), "wUh", "PMP", "BCB", 'M', casingMachineDouble.dat(aMat), 'C', plateQuintuple.dat(ANY.Cu), 'P', plate.dat(MT.Ta4HfC5), 'B', Blocks.brick_block, 'U', MTEx.gt6Registry.getItem(1043));
 
+        //TODO improve texture
         aMat = MT.SiC;            MTEx.gt6xMTEReg.add("Silicon Carbide Refractory Bricks"   , "Multiblock Machines", 66, 17101, MultiTileEntityMultiBlockPart.class, aMat.mToolQuality, 64, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS,  6.0F, NBT_RESISTANCE,  6.0F, NBT_TEXTURE, "firebricks"       , NBT_DESIGNS, 1), "ICI", "CWC", "ICI", 'I', ingot.dat(aMat), 'C', dust.dat(ANY.Clay), 'W', OD.container1000water);
                                   MTEx.gt6xMTEReg.add("Shaft Furnace"                       , "Multiblock Machines", 67, 17101, MultiTileEntityShaftFurnace  .class, aMat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, aMat, NBT_HARDNESS,  6.0F, NBT_RESISTANCE,  6.0F, NBT_TEXTURE, "shaftfurnace"     , NBT_INPUT, 64, NBT_INPUT_MIN, 64, NBT_INPUT_MAX, 1024, NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, directReduction,                                     NBT_TANK_SIDE_AUTO_OUT, SIDE_TOP, NBT_CHEAP_OVERCLOCKING, true                          ), "IPI", "PSP", "wIh", 'I', plate.dat(aMat), 'P', pipeMedium.dat(MT.StainlessSteel), 'S', MTEx.gt6xMTEReg.getItem(66));
 
@@ -386,6 +386,15 @@ public class Metallurgy extends GT6XFeature {
             directReduction.addRecipe2(true, 64, 64*3, ST.tag(2), dust.mat(magnetite, 14), FL.array(MT.CO .gas(218 * 2 * U50 , true), MT.H.gas(218 * 2 * U50 , true)), FL.array(MT.H2O.liquid(218 * 3 * U50 , false), MT.CO2.gas(170 * 3 * U50 , false)), dust.mat(MTx.SpongeIron, 9));
             directReduction.addRecipe2(true, 64, 32*3, ST.tag(3), dust.mat(magnetite, 14), FL.array(MT.CH4.gas(8   * 5 * U5  , true), MT.H.gas(18  * 2 * U5  , true)), FL.array(MT.H2O.liquid(34  * 3 * U5  , false)), dust.mat(MTx.ImpureCementite, 9));
         }
+
+        new EAFSmeltingRecipe(0, false, new OreDictMaterialStack[]{ OM.stack(MT .PigIron        , 5 *U), OM.stack(MT.Fe         , 15*U) }, MT.Steel.mMeltingPoint  , OM.stack(MT.Steel  , 20*U));
+        new EAFSmeltingRecipe(0, false, new OreDictMaterialStack[]{ OM.stack(MT .PigIron        , 5 *U), OM.stack(MT.WroughtIron, 15*U) }, MT.Steel.mMeltingPoint  , OM.stack(MT.Steel  , 20*U));
+        new EAFSmeltingRecipe(0, true , new OreDictMaterialStack[]{ OM.stack(MT .PigIron        , 20*U), OM.stack(MT.O          , 4 *U) }, MT.Steel.mMeltingPoint  , OM.stack(MT.Steel  , 20*U), OM.stack(MT.CO, 4*U), OM.stack(MT.CO2, 3*U));
+        new EAFSmeltingRecipe(0, false, new OreDictMaterialStack[]{ OM.stack(MTx.Cementite      , 3 *U), OM.stack(MT.Fe         , 2 *U) }, MT.PigIron.mMeltingPoint, OM.stack(MT.PigIron, 5 *U));
+        new EAFSmeltingRecipe(0, false, new OreDictMaterialStack[]{ OM.stack(MTx.Cementite      , 3 *U), OM.stack(MT.WroughtIron, 2 *U) }, MT.PigIron.mMeltingPoint, OM.stack(MT.PigIron, 5 *U));
+        new EAFSmeltingRecipe(0, true , new OreDictMaterialStack[]{ OM.stack(MTx.Cementite      , 15*U), OM.stack(MT.O          , 3 *U) }, MT.PigIron.mMeltingPoint, OM.stack(MT.PigIron, 15*U), OM.stack(MT.CO, 2*U), OM.stack(MT.CO2, 3*U));
+        new EAFSmeltingRecipe(0, false, new OreDictMaterialStack[]{ OM.stack(MTx.ImpureCementite, 15*U) }, MTx.FerrousSlag.mMeltingPoint, OM.stack(MTx.Cementite, 8*U), OM.stack(MTx.FerrousSlag, 7*U));
+        new EAFSmeltingRecipe(0, false, new OreDictMaterialStack[]{ OM.stack(MTx.SpongeIron     , 15*U) }, MTx.FerrousSlag.mMeltingPoint, OM.stack(MT .PigIron  , 8*U), OM.stack(MTx.FerrousSlag, 7*U));
     }
 
     private void addOverrideRecipes() {
