@@ -95,8 +95,8 @@ public class EAFSmeltingRecipe {
         }
         ArrayListNoNulls<ItemStack> outputs = new ArrayListNoNulls<>();
         for (OreDictMaterialStack stack : results.getUndividedComponents()) {
-            if (stack.mMaterial.mBoilingPoint >= smeltingTemperature) {
-                outputs.add(FL.display(stack.mMaterial.gas(stack.mAmount, false), false, false, true));
+            if (smeltingTemperature >= stack.mMaterial.mBoilingPoint) {
+                outputs.add(FL.display(stack.mMaterial.gas(stack.mAmount, false), UT.Code.units(stack.mAmount, U, 1000, true), false, false));
             } else {
                 outputs.add(OM.ingotOrDust(stack.mMaterial, stack.mAmount));
             }

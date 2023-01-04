@@ -6,6 +6,7 @@ import gregapi.block.multitileentity.MultiTileEntityContainer;
 import gregapi.block.multitileentity.MultiTileEntityRegistry;
 import gregapi.code.ArrayListNoNulls;
 import gregapi.code.HashSetNoNulls;
+import gregapi.code.TagData;
 import gregapi.data.LH;
 import gregapi.data.MT;
 import gregapi.data.OP;
@@ -20,6 +21,7 @@ import gregapi.render.BlockTextureMulti;
 import gregapi.render.IIconContainer;
 import gregapi.render.ITexture;
 import gregapi.tileentity.ITileEntityServerTickPost;
+import gregapi.tileentity.data.ITileEntityGibbl;
 import gregapi.tileentity.data.ITileEntityTemperature;
 import gregapi.tileentity.data.ITileEntityWeight;
 import gregapi.tileentity.energy.ITileEntityEnergy;
@@ -44,13 +46,15 @@ import org.altadoon.gt6x.common.EAFSmeltingRecipe;
 import org.altadoon.gt6x.common.MTEx;
 import org.altadoon.gt6x.common.MTx;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
 import static gregapi.data.CS.*;
+import static org.altadoon.gt6x.common.Log.LOG;
 
-public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implements ITileEntityCrucible, ITileEntityEnergy, ITileEntityWeight, ITileEntityTemperature, ITileEntityMold, ITileEntityServerTickPost, ITileEntityEnergyDataCapacitor, IMultiBlockEnergy, IMultiBlockInventory, IMultiBlockFluidHandler, IFluidHandler {
+public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implements ITileEntityCrucible, ITileEntityEnergy, ITileEntityWeight, ITileEntityTemperature, ITileEntityGibbl, ITileEntityMold, ITileEntityServerTickPost, ITileEntityEnergyDataCapacitor, IMultiBlockEnergy, IMultiBlockInventory, IMultiBlockFluidHandler, IFluidHandler {
     private static final int GAS_RANGE = 5;
     private static final int FLAME_RANGE = 5;
     private static final long MAX_AMOUNT = 64*3*U;
@@ -152,13 +156,19 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
                             design = 1;
                             side_io &= (MultiTileEntityMultiBlockPart.ONLY_CRUCIBLE & MultiTileEntityMultiBlockPart.ONLY_ITEM_FLUID_OUT);
                         }
-                        if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX+i, tY+j, tZ+k, 70, mteRegID, design, side_io)) tSuccess = false;
+                        if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX+i, tY+j, tZ+k, 70, mteRegID, design, side_io)) {
+                            tSuccess = false;
+                            LOG.error("expected bricks at {},{},{}", tX+i, tY+j, tZ+k);
+                        }
                         break;
                     case 1:
                         if (shouldBeAir(i, k)) {
                             if (getAir(tX+i, tY+j, tZ+k))
                                 worldObj.setBlockToAir(tX + i, tY + j, tZ + k);
-                            else tSuccess = false;
+                            else {
+                                LOG.error("expected air at {},{},{}", tX+i, tY+j, tZ+k);
+                                tSuccess = false;
+                            }
                         } else {
                             if ((i ==  0 && k == -2 && (mFacing == SIDE_X_POS)) ||
                                 (i ==  0 && k ==  2 && (mFacing == SIDE_X_NEG)) ||
@@ -168,33 +178,49 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
                                 design = 1;
                                 side_io &= (MultiTileEntityMultiBlockPart.ONLY_CRUCIBLE & MultiTileEntityMultiBlockPart.ONLY_ITEM_FLUID_OUT);
                             }
-                            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX+i, tY+j, tZ+k, 70, mteRegID, design, side_io)) tSuccess = false;
+                            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX+i, tY+j, tZ+k, 70, mteRegID, design, side_io)) {
+                                tSuccess = false;
+                                LOG.error("expected bricks at {},{},{}", tX+i, tY+j, tZ+k);
+                            }
                         }
                         break;
                     case 2:
                         if (i == 0 && k == 0) {
-                            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX+i, tY+j, tZ+k, 68, mteRegID, design, side_io)) tSuccess = false;
+                            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX+i, tY+j, tZ+k, 68, mteRegID, design, side_io)) {
+                                tSuccess = false;
+                                LOG.error("expected electrode at {},{},{}", tX+i, tY+j, tZ+k);
+                            }
                         } else if (shouldBeAir(i, k)) {
                             if (getAir(tX+i, tY+j, tZ+k))
                                 worldObj.setBlockToAir(tX + i, tY + j, tZ + k);
-                            else tSuccess = false;
+                            else {
+                                tSuccess = false;
+                                LOG.error("expected air at {},{},{}", tX+i, tY+j, tZ+k);
+                            }
                         } else {
                             side_io = MultiTileEntityMultiBlockPart.ONLY_FLUID_IN;
-                            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX+i, tY+j, tZ+k, 70, mteRegID, design, side_io)) tSuccess = false;
+                            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX+i, tY+j, tZ+k, 70, mteRegID, design, side_io)) {
+                                tSuccess = false;
+                                LOG.error("expected bricks at {},{},{}", tX+i, tY+j, tZ+k);
+                            }
                         }
                         break;
                     case 3:
-                        if (i == 2 || k == 2) {
+                        if (Math.abs(i) == 2 || Math.abs(k) == 2) {
                             continue;
                         } else if (i == 0 && k == 0) {
                             design = 1;
                             side_io = MultiTileEntityMultiBlockPart.ONLY_ENERGY_IN;
-                            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX + i, tY + j, tZ + k, 68, mteRegID, design, side_io))
+                            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX + i, tY + j, tZ + k, 68, mteRegID, design, side_io)) {
                                 tSuccess = false;
+                                LOG.error("expected electrode at {},{},{}", tX+i, tY+j, tZ+k);
+                            }
                         } else {
                             side_io = MultiTileEntityMultiBlockPart.ONLY_ITEM_IN & MultiTileEntityMultiBlockPart.ONLY_FLUID_OUT;
-                            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX + i, tY + j, tZ + k, 69, mteRegID, design, side_io))
+                            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX + i, tY + j, tZ + k, 69, mteRegID, design, side_io)) {
                                 tSuccess = false;
+                                LOG.error("expected roof at {},{},{}", tX+i, tY+j, tZ+k);
+                            }
                         }
                 }
             }
@@ -205,7 +231,14 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
 
     @Override
     public boolean isInsideStructure(int x, int y, int z) {
-        return x >= xCoord - 1 && y >= yCoord && z >= zCoord - 1 && x <= xCoord + 1 && y <= yCoord + 2 && z <= zCoord + 1;
+        int xCenter = getOffsetXN(mFacing, 2), yBottom = yCoord - 1, zCenter = getOffsetZN(mFacing, 2);
+
+        if (y >= yBottom && y <= yBottom + 2) {
+            return Math.abs(x - xCenter) != 2 || Math.abs(z - zCenter) != 2;
+        } else if (y == yBottom + 3) {
+            return Math.abs(x - xCenter) != 2 && Math.abs(z - zCenter) != 2;
+        }
+        return false;
     }
 
     static {
@@ -217,25 +250,27 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
         LH.add("gt6x.tooltip.multiblock.eaf.6", "Items in and gases out at the top, molten metal out at the hole in the bottom layer to the right of the main");
         LH.add("gt6x.tooltip.multiblock.eaf.7", "slag out at the hole in the second layer to the left of the main");
         LH.add("gt6x.tooltip.multiblock.eaf.8", "Energy in at the electrode on the top, fluids in at the third layer");
+        LH.add("gt6x.tooltip.multiblock.eaf.9", "Use Gibbl-o-meter to measure the total amount of gases inside");
     }
 
     @Override
     public void addToolTips(List<String> tooltips, ItemStack stack, boolean modeF3_H) {
         tooltips.add(LH.Chat.CYAN     + LH.get(LH.STRUCTURE) + ":");
-        tooltips.add(LH.Chat.WHITE    + LH.get("gt.tooltip.multiblock.eaf.1"));
-        tooltips.add(LH.Chat.WHITE    + LH.get("gt.tooltip.multiblock.eaf.2"));
-        tooltips.add(LH.Chat.WHITE    + LH.get("gt.tooltip.multiblock.eaf.3"));
-        tooltips.add(LH.Chat.WHITE    + LH.get("gt.tooltip.multiblock.eaf.4"));
-        tooltips.add(LH.Chat.WHITE    + LH.get("gt.tooltip.multiblock.eaf.5"));
-        tooltips.add(LH.Chat.WHITE    + LH.get("gt.tooltip.multiblock.eaf.6"));
-        tooltips.add(LH.Chat.WHITE    + LH.get("gt.tooltip.multiblock.eaf.7"));
-        tooltips.add(LH.Chat.WHITE    + LH.get("gt.tooltip.multiblock.eaf.8"));
+        tooltips.add(LH.Chat.WHITE    + LH.get("gt6x.tooltip.multiblock.eaf.1"));
+        tooltips.add(LH.Chat.WHITE    + LH.get("gt6x.tooltip.multiblock.eaf.2"));
+        tooltips.add(LH.Chat.WHITE    + LH.get("gt6x.tooltip.multiblock.eaf.3"));
+        tooltips.add(LH.Chat.WHITE    + LH.get("gt6x.tooltip.multiblock.eaf.4"));
+        tooltips.add(LH.Chat.WHITE    + LH.get("gt6x.tooltip.multiblock.eaf.5"));
+        tooltips.add(LH.Chat.WHITE    + LH.get("gt6x.tooltip.multiblock.eaf.6"));
+        tooltips.add(LH.Chat.WHITE    + LH.get("gt6x.tooltip.multiblock.eaf.7"));
+        tooltips.add(LH.Chat.WHITE    + LH.get("gt6x.tooltip.multiblock.eaf.8"));
         tooltips.add(LH.getToolTipEfficiency(7500));
         tooltips.add(LH.Chat.CYAN     + LH.get(LH.CONVERTS_FROM_X) + " 1 " + TD.Energy.EU.getLocalisedNameShort() + " " + LH.get(LH.CONVERTS_TO_Y) + " +1 K " + LH.get(LH.CONVERTS_PER_Z) + " "+ KG_PER_ENERGY + "kg (at least 512 Units per Tick required!)");
-        tooltips.add(LH.Chat.YELLOW   + LH.get(LH.TOOLTIP_THERMALMASS) + mMaterial.getWeight(U*200) + " kg");
+        tooltips.add(LH.Chat.YELLOW   + LH.get(LH.TOOLTIP_THERMALMASS) + String.format("%.2f", mMaterial.getWeight(U*200)) + " kg");
         tooltips.add(LH.Chat.DRED     + LH.get(LH.HAZARD_MELTDOWN) + " (" + getTemperatureMax(SIDE_ANY) + " K)");
         tooltips.add(LH.Chat.ORANGE   + LH.get(LH.TOOLTIP_ACIDPROOF));
         tooltips.add(LH.Chat.DGRAY    + LH.get(LH.TOOL_TO_REMOVE_SHOVEL));
+        tooltips.add(LH.Chat.DGRAY    + LH.get("gt6x.tooltip.multiblock.eaf.9"));
     }
 
     private boolean hasToAddTimer = T;
@@ -598,17 +633,20 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
 
     @Override
     public boolean onPlaced(ItemStack stack, EntityPlayer player, MultiTileEntityContainer container, World world, int x, int y, int z, byte side, float hitX, float hitY, float hitZ) {
+        super.onPlaced(stack, player, container, world, x, y, z, side, hitX, hitY, hitZ);
+
         currentTemperature = WD.envTemp(worldObj, xCoord, yCoord, zCoord);
+
         return true;
     }
 
     @Override
-    public ITexture getTexture2(Block aBlock, int aRenderPass, byte aSide, boolean[] aShouldSideBeRendered) {
-        return aShouldSideBeRendered[aSide] ?
-                BlockTextureMulti.get(
-                        BlockTextureDefault.get(texturesMaterial[FACING_ROTATIONS[mFacing][aSide]], mRGBa),
-                        BlockTextureDefault.get((isActive ? texturesActive : texturesInactive
-                        )[FACING_ROTATIONS[mFacing][aSide]]))
+    public ITexture getTexture2(Block aBlock, int aRenderPass, byte side, boolean[] aShouldSideBeRendered) {
+        return aShouldSideBeRendered[side]
+                ? BlockTextureMulti.get(
+                        BlockTextureDefault.get(texturesMaterial[FACING_ROTATIONS[mFacing][side]], mRGBa),
+                        BlockTextureDefault.get((isActive ? texturesActive : texturesInactive)[FACING_ROTATIONS[mFacing][side]])
+                )
                 : null;
     }
 
@@ -616,4 +654,51 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
     @Override public void setVisualData(byte aData) { isActive=((aData&1)!=0); }
     @Override public byte getDefaultSide() { return SIDE_FRONT; }
     @Override public boolean[] getValidSides() {return isActive ? SIDES_THIS[mFacing] : SIDES_HORIZONTAL;}
+
+
+    @Override public boolean allowCovers(byte side) {return true;}
+
+    @Override public ItemStack[] getDefaultInventory(NBTTagCompound aNBT) {return new ItemStack[1];}
+    @Override public int[] getAccessibleSlotsFromSide2(byte side) {return UT.Code.getAscendingArray(1);}
+    @Override public boolean canInsertItem2(int aSlot, ItemStack aStack, byte side) {return !slotHas(0);}
+    @Override public boolean canExtractItem2(int aSlot, ItemStack aStack, byte side) {return false;}
+    @Override public int getInventoryStackLimit() {return 64;}
+
+    public static final List<TagData> ENERGYTYPES = new ArrayListNoNulls<>(false, TD.Energy.EU, TD.Energy.CU);
+
+    @Override public boolean isEnergyType(TagData aEnergyType, byte side, boolean aEmitting) {return !aEmitting && ENERGYTYPES.contains(aEnergyType);}
+    @Override public boolean isEnergyCapacitorType(TagData aEnergyType, byte side) {return ENERGYTYPES.contains(aEnergyType);}
+    @Override public boolean isEnergyAcceptingFrom(TagData aEnergyType, byte side, boolean aTheoretical) {return ENERGYTYPES.contains(aEnergyType);}
+    @Override public long doInject(TagData aEnergyType, byte side, long aSize, long aAmount, boolean aDoInject) {
+        if (aDoInject) {
+            if (aEnergyType == TD.Energy.CU)
+                storedEnergy -= Math.abs(aAmount * aSize);
+            else
+                storedEnergy += Math.abs(aAmount * aSize);
+        }
+        return aAmount;
+    }
+    @Override public long getEnergyDemanded(TagData aEnergyType, byte side, long aSize) {return Long.MAX_VALUE - storedEnergy;}
+    @Override public long getEnergySizeInputMin(TagData aEnergyType, byte side) {return 512;}
+    @Override public long getEnergySizeInputRecommended(TagData aEnergyType, byte side) {return 512;}
+    @Override public long getEnergySizeInputMax(TagData aEnergyType, byte side) {return Long.MAX_VALUE;}
+    @Override public Collection<TagData> getEnergyTypes(byte side) {return ENERGYTYPES;}
+
+    @Override
+    public long getGibblValue(byte side) {
+        long result = 0;
+
+        for (OreDictMaterialStack stack : content) {
+            if (currentTemperature >= stack.mMaterial.mBoilingPoint) {
+                result += UT.Code.units(stack.mAmount, U, 1000, true);
+            }
+        }
+
+        return result;
+    }
+
+    @Override
+    public long getGibblMax(byte side) {
+        return UT.Code.units(MAX_AMOUNT, U, 1000, true);
+    }
 }
