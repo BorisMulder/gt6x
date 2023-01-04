@@ -11,6 +11,8 @@ import gregapi.data.LH;
 import gregapi.data.MT;
 import gregapi.data.OP;
 import gregapi.data.TD;
+import gregapi.gui.ContainerClientBasicMachine;
+import gregapi.gui.ContainerCommonBasicMachine;
 import gregapi.old.Textures;
 import gregapi.oredict.OreDictItemData;
 import gregapi.oredict.OreDictMaterial;
@@ -45,6 +47,8 @@ import net.minecraftforge.fluids.IFluidHandler;
 import org.altadoon.gt6x.common.EAFSmeltingRecipe;
 import org.altadoon.gt6x.common.MTEx;
 import org.altadoon.gt6x.common.MTx;
+import org.altadoon.gt6x.gui.ContainerClientEAF;
+import org.altadoon.gt6x.gui.ContainerCommonEAF;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -71,6 +75,8 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
             texturesMaterial = L6_IICONCONTAINER,
             texturesInactive = L6_IICONCONTAINER,
             texturesActive = L6_IICONCONTAINER;
+
+    public String guiTexture = "";
 
     @Override
     public String getTileEntityName() {
@@ -649,6 +655,10 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
                 )
                 : null;
     }
+
+    //TODO
+    @Override public Object getGUIClient2(int aGUIID, EntityPlayer aPlayer) {return new ContainerClientEAF(aPlayer.inventory, this, aGUIID, guiTexture);}
+    @Override public Object getGUIServer2(int aGUIID, EntityPlayer aPlayer) {return new ContainerCommonEAF(aPlayer.inventory, this, aGUIID);}
 
     @Override public byte getVisualData() { return (byte)(isActive?1:0); }
     @Override public void setVisualData(byte aData) { isActive=((aData&1)!=0); }
