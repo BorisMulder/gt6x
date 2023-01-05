@@ -7,12 +7,7 @@ import gregapi.block.multitileentity.MultiTileEntityRegistry;
 import gregapi.code.ArrayListNoNulls;
 import gregapi.code.HashSetNoNulls;
 import gregapi.code.TagData;
-import gregapi.data.LH;
-import gregapi.data.MT;
-import gregapi.data.OP;
-import gregapi.data.TD;
-import gregapi.gui.ContainerClientBasicMachine;
-import gregapi.gui.ContainerCommonBasicMachine;
+import gregapi.data.*;
 import gregapi.old.Textures;
 import gregapi.oredict.OreDictItemData;
 import gregapi.oredict.OreDictMaterial;
@@ -43,17 +38,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
 import org.altadoon.gt6x.common.EAFSmeltingRecipe;
 import org.altadoon.gt6x.common.MTEx;
-import org.altadoon.gt6x.common.MTx;
 import org.altadoon.gt6x.gui.ContainerClientEAF;
 import org.altadoon.gt6x.gui.ContainerCommonEAF;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static gregapi.data.CS.*;
 import static org.altadoon.gt6x.common.Log.LOG;
@@ -64,11 +56,14 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
     private static final long MAX_AMOUNT = 64*3*U;
     private static final long KG_PER_ENERGY = 75;
 
+    public static final int GUI_SLOTS = 12;
+
     protected boolean isMeltingDown = false;
 
     protected boolean isActive = false;
     protected byte cooldown = 100;
     protected long storedEnergy = 0, currentTemperature = DEF_ENV_TEMP, oldTemperature = 0;
+    /** Should remain sorted from least to most dense (depending on temperature). In case of gases, sorted by atomic weight. */
     protected List<OreDictMaterialStack> content = new ArrayListNoNulls<>();
 
     public IIconContainer[]
@@ -76,7 +71,33 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
             texturesInactive = L6_IICONCONTAINER,
             texturesActive = L6_IICONCONTAINER;
 
-    public String guiTexture = "";
+    public static final String GUI_TEXTURE = RES_PATH_GUI + "machines/EAF.png";
+
+    private static class MaterialDensityComparator implements Comparator<OreDictMaterialStack> {
+        private final long temperature;
+
+        public MaterialDensityComparator(long temperature) {
+            this.temperature = temperature;
+        }
+
+        @Override
+        public int compare(OreDictMaterialStack o1, OreDictMaterialStack o2) {
+            if (o1.mMaterial.mID == o2.mMaterial.mID)
+                return 0;
+
+            if (temperature >= o1.mMaterial.mBoilingPoint) {
+                if (temperature >= o2.mMaterial.mBoilingPoint) {
+                    return Double.compare(o1.mMaterial.getMass(), o2.mMaterial.getMass());
+                } else {
+                    return -1;
+                }
+            } else if (temperature >= o2.mMaterial.mBoilingPoint) {
+                return 1;
+            } else {
+                return Double.compare(o1.mMaterial.mGramPerCubicCentimeter, o2.mMaterial.mGramPerCubicCentimeter);
+            }
+        }
+    }
 
     @Override
     public String getTileEntityName() {
@@ -94,35 +115,34 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
         isMeltingDown = (currentTemperature +100 > getTemperatureMax(SIDE_ANY));
 
         if (CODE_CLIENT) {
-            if (GT_API.sBlockIcons == null && aNBT.hasKey(NBT_TEXTURE)) {
-                String tTextureName = aNBT.getString(NBT_TEXTURE);
+            if (GT_API.sBlockIcons == null) {
                 texturesMaterial = new IIconContainer[] {
-                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/"+tTextureName+"/colored/bottom"),
-                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/"+tTextureName+"/colored/top"),
-                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/"+tTextureName+"/colored/left"),
-                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/"+tTextureName+"/colored/front"),
-                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/"+tTextureName+"/colored/right"),
-                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/"+tTextureName+"/colored/back")};
+                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/eaf/colored/bottom"),
+                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/eaf/colored/top"),
+                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/eaf/colored/left"),
+                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/eaf/colored/front"),
+                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/eaf/colored/right"),
+                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/eaf/colored/back")};
                 texturesInactive = new IIconContainer[] {
-                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/"+tTextureName+"/overlay/bottom"),
-                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/"+tTextureName+"/overlay/top"),
-                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/"+tTextureName+"/overlay/left"),
-                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/"+tTextureName+"/overlay/front"),
-                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/"+tTextureName+"/overlay/right"),
-                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/"+tTextureName+"/overlay/back")};
+                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/eaf/overlay/bottom"),
+                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/eaf/overlay/top"),
+                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/eaf/overlay/left"),
+                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/eaf/overlay/front"),
+                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/eaf/overlay/right"),
+                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/eaf/overlay/back")};
                 texturesActive = new IIconContainer[] {
-                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/"+tTextureName+"/overlay_active/bottom"),
-                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/"+tTextureName+"/overlay_active/top"),
-                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/"+tTextureName+"/overlay_active/left"),
-                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/"+tTextureName+"/overlay_active/front"),
-                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/"+tTextureName+"/overlay_active/right"),
-                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/"+tTextureName+"/overlay_active/back")};
+                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/eaf/overlay_active/bottom"),
+                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/eaf/overlay_active/top"),
+                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/eaf/overlay_active/left"),
+                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/eaf/overlay_active/front"),
+                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/eaf/overlay_active/right"),
+                        new Textures.BlockIcons.CustomIcon("machines/multiblockmains/eaf/overlay_active/back")};
             } else {
-                TileEntity tCanonicalTileEntity = MultiTileEntityRegistry.getCanonicalTileEntity(getMultiTileEntityRegistryID(), getMultiTileEntityID());
-                if (tCanonicalTileEntity instanceof MultiTileEntityEAF) {
-                    texturesMaterial = ((MultiTileEntityEAF)tCanonicalTileEntity).texturesMaterial;
-                    texturesInactive = ((MultiTileEntityEAF)tCanonicalTileEntity).texturesInactive;
-                    texturesActive = ((MultiTileEntityEAF)tCanonicalTileEntity).texturesActive;
+                TileEntity canonicalTileEntity = MultiTileEntityRegistry.getCanonicalTileEntity(getMultiTileEntityRegistryID(), getMultiTileEntityID());
+                if (canonicalTileEntity instanceof MultiTileEntityEAF) {
+                    texturesMaterial = ((MultiTileEntityEAF)canonicalTileEntity).texturesMaterial;
+                    texturesInactive = ((MultiTileEntityEAF)canonicalTileEntity).texturesInactive;
+                    texturesActive = ((MultiTileEntityEAF)canonicalTileEntity).texturesActive;
                 }
             }
         }
@@ -318,29 +338,29 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
         ItemStack itemStack = slot(0);
 
         if (ST.valid(itemStack)) {
-            OreDictItemData tData = OM.anydata_(itemStack);
-            if (tData == null) {
+            OreDictItemData itemData = OM.anydata_(itemStack);
+            if (itemData == null) {
                 slotTrash(0);
                 UT.Sounds.send(SFX.MC_FIZZ, this);
-            } else if (tData.mPrefix == null) {
+            } else if (itemData.mPrefix == null) {
                 List<OreDictMaterialStack> tList = new ArrayListNoNulls<>();
-                for (OreDictMaterialStack tMaterial : tData.getAllMaterialStacks()) if (tMaterial.mAmount > 0) tList.add(tMaterial.clone());
+                for (OreDictMaterialStack tMaterial : itemData.getAllMaterialStacks()) if (tMaterial.mAmount > 0) tList.add(tMaterial.clone());
                 if (addMaterialStacks(tList, temperature)) decrStackSize(0, 1);
-            } else if (tData.mPrefix == OP.oreRaw) {
-                if (addMaterialStacks(Collections.singletonList(OM.stack(tData.mMaterial.mMaterial.mTargetCrushing.mMaterial, tData.mMaterial.mMaterial.mTargetCrushing.mAmount * tData.mMaterial.mMaterial.mOreMultiplier)), temperature)) decrStackSize(0, 1);
-            } else if (tData.mPrefix == OP.blockRaw) {
-                if (addMaterialStacks(Collections.singletonList(OM.stack(tData.mMaterial.mMaterial.mTargetCrushing.mMaterial, tData.mMaterial.mMaterial.mTargetCrushing.mAmount * tData.mMaterial.mMaterial.mOreMultiplier * 9)), temperature)) decrStackSize(0, 1);
-            } else if (tData.mPrefix == OP.crateGtRaw) {
-                if (addMaterialStacks(Collections.singletonList(OM.stack(tData.mMaterial.mMaterial.mTargetCrushing.mMaterial, tData.mMaterial.mMaterial.mTargetCrushing.mAmount * tData.mMaterial.mMaterial.mOreMultiplier * 16)), temperature)) decrStackSize(0, 1);
-            } else if (tData.mPrefix == OP.crateGt64Raw) {
-                if (addMaterialStacks(Collections.singletonList(OM.stack(tData.mMaterial.mMaterial.mTargetCrushing.mMaterial, tData.mMaterial.mMaterial.mTargetCrushing.mAmount * tData.mMaterial.mMaterial.mOreMultiplier * 64)), temperature)) decrStackSize(0, 1);
-            } else if (tData.mPrefix.contains(TD.Prefix.STANDARD_ORE)) {
-                if (addMaterialStacks(Collections.singletonList(OM.stack(tData.mMaterial.mMaterial.mTargetCrushing.mMaterial, tData.mMaterial.mMaterial.mTargetCrushing.mAmount * tData.mMaterial.mMaterial.mOreMultiplier)), temperature)) decrStackSize(0, 1);
-            } else if (tData.mPrefix.contains(TD.Prefix.DENSE_ORE)) {
-                if (addMaterialStacks(Collections.singletonList(OM.stack(tData.mMaterial.mMaterial.mTargetCrushing.mMaterial, tData.mMaterial.mMaterial.mTargetCrushing.mAmount * tData.mMaterial.mMaterial.mOreMultiplier * 2)), temperature)) decrStackSize(0, 1);
+            } else if (itemData.mPrefix == OP.oreRaw) {
+                if (addMaterialStacks(Collections.singletonList(OM.stack(itemData.mMaterial.mMaterial.mTargetCrushing.mMaterial, itemData.mMaterial.mMaterial.mTargetCrushing.mAmount * itemData.mMaterial.mMaterial.mOreMultiplier)), temperature)) decrStackSize(0, 1);
+            } else if (itemData.mPrefix == OP.blockRaw) {
+                if (addMaterialStacks(Collections.singletonList(OM.stack(itemData.mMaterial.mMaterial.mTargetCrushing.mMaterial, itemData.mMaterial.mMaterial.mTargetCrushing.mAmount * itemData.mMaterial.mMaterial.mOreMultiplier * 9)), temperature)) decrStackSize(0, 1);
+            } else if (itemData.mPrefix == OP.crateGtRaw) {
+                if (addMaterialStacks(Collections.singletonList(OM.stack(itemData.mMaterial.mMaterial.mTargetCrushing.mMaterial, itemData.mMaterial.mMaterial.mTargetCrushing.mAmount * itemData.mMaterial.mMaterial.mOreMultiplier * 16)), temperature)) decrStackSize(0, 1);
+            } else if (itemData.mPrefix == OP.crateGt64Raw) {
+                if (addMaterialStacks(Collections.singletonList(OM.stack(itemData.mMaterial.mMaterial.mTargetCrushing.mMaterial, itemData.mMaterial.mMaterial.mTargetCrushing.mAmount * itemData.mMaterial.mMaterial.mOreMultiplier * 64)), temperature)) decrStackSize(0, 1);
+            } else if (itemData.mPrefix.contains(TD.Prefix.STANDARD_ORE)) {
+                if (addMaterialStacks(Collections.singletonList(OM.stack(itemData.mMaterial.mMaterial.mTargetCrushing.mMaterial, itemData.mMaterial.mMaterial.mTargetCrushing.mAmount * itemData.mMaterial.mMaterial.mOreMultiplier)), temperature)) decrStackSize(0, 1);
+            } else if (itemData.mPrefix.contains(TD.Prefix.DENSE_ORE)) {
+                if (addMaterialStacks(Collections.singletonList(OM.stack(itemData.mMaterial.mMaterial.mTargetCrushing.mMaterial, itemData.mMaterial.mMaterial.mTargetCrushing.mAmount * itemData.mMaterial.mMaterial.mOreMultiplier * 2)), temperature)) decrStackSize(0, 1);
             } else {
                 List<OreDictMaterialStack> tList = new ArrayListNoNulls<>();
-                for (OreDictMaterialStack tMaterial : tData.getAllMaterialStacks()) if (tMaterial.mAmount > 0) tList.add(tMaterial.clone());
+                for (OreDictMaterialStack tMaterial : itemData.getAllMaterialStacks()) if (tMaterial.mAmount > 0) tList.add(tMaterial.clone());
                 if (addMaterialStacks(tList, temperature)) decrStackSize(0, 1);
             }
         }
@@ -356,35 +376,39 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
 
         for (OreDictMaterialStack stack : content) {
             // check EAF-specific recipes
-            for (EAFSmeltingRecipe recipe : EAFSmeltingRecipe.SmeltsInto.get(stack.mMaterial)) if (tAlreadyCheckedEAFRecipes.add(recipe) && currentTemperature >= recipe.smeltingTemperature) {
-                List<OreDictMaterialStack> neededStuff = new ArrayListNoNulls<>();
-                for (OreDictMaterialStack ingredient : recipe.ingredients.getUndividedComponents()) {
-                    neededStuff.add(OM.stack(ingredient.mMaterial, Math.max(1, ingredient.mAmount / U)));
-                }
+            ArrayListNoNulls<EAFSmeltingRecipe> targetRecipes = EAFSmeltingRecipe.SmeltsInto.get(stack.mMaterial);
+            if (targetRecipes != null) {
+                for (EAFSmeltingRecipe recipe : targetRecipes)
+                    if (tAlreadyCheckedEAFRecipes.add(recipe) && currentTemperature >= recipe.smeltingTemperature) {
+                        List<OreDictMaterialStack> neededStuff = new ArrayListNoNulls<>();
+                        for (OreDictMaterialStack ingredient : recipe.ingredients.getUndividedComponents()) {
+                            neededStuff.add(OM.stack(ingredient.mMaterial, Math.max(1, ingredient.mAmount / U)));
+                        }
 
-                if (!neededStuff.isEmpty()) {
-                    boolean ingredientNotFound = false;
-                    long nConversions = Long.MAX_VALUE;
-                    for (OreDictMaterialStack needed : neededStuff) {
-                        ingredientNotFound = true;
-                        for (OreDictMaterialStack contained : content) {
-                            if (contained.mMaterial == needed.mMaterial) {
-                                nConversions = Math.min(nConversions, contained.mAmount / needed.mAmount);
-                                ingredientNotFound = false;
-                                break;
+                        if (!neededStuff.isEmpty()) {
+                            boolean ingredientNotFound = false;
+                            long nConversions = Long.MAX_VALUE;
+                            for (OreDictMaterialStack needed : neededStuff) {
+                                ingredientNotFound = true;
+                                for (OreDictMaterialStack contained : content) {
+                                    if (contained.mMaterial == needed.mMaterial) {
+                                        nConversions = Math.min(nConversions, contained.mAmount / needed.mAmount);
+                                        ingredientNotFound = false;
+                                        break;
+                                    }
+                                }
+                                if (ingredientNotFound) break;
+                            }
+
+                            // prefer the conversion with the largest amount of units converted
+                            if (!ingredientNotFound && nConversions > 0) {
+                                if (preferredEAFRecipe == null || nConversions * recipe.ingredients.getCommonDivider() > maxConversions * preferredEAFRecipe.ingredients.getCommonDivider()) {
+                                    maxConversions = nConversions;
+                                    preferredEAFRecipe = recipe;
+                                }
                             }
                         }
-                        if (ingredientNotFound) break;
                     }
-
-                    // prefer the conversion with the largest amount of units converted
-                    if (!ingredientNotFound && nConversions > 0) {
-                        if (preferredEAFRecipe == null || nConversions * recipe.ingredients.getCommonDivider() > maxConversions * preferredEAFRecipe.ingredients.getCommonDivider()) {
-                            maxConversions = nConversions;
-                            preferredEAFRecipe = recipe;
-                        }
-                    }
-                }
             }
 
             // check normal smelting recipes if no EAF recipe is present
@@ -479,16 +503,8 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
         }
 
         double tWeight = mMaterial.getWeight(U*100);
-        OreDictMaterialStack tLightest = null;
-
-        for (OreDictMaterialStack tMaterial : content) {
-            if (tLightest == null || tMaterial.mMaterial.mGramPerCubicCentimeter < tLightest.mMaterial.mGramPerCubicCentimeter) tLightest = tMaterial;
-            tWeight += tMaterial.weight();
-        }
 
         oldTemperature = currentTemperature;
-
-        //TODO update GUI
 
         long requiredEnergy = 1 + (long)(tWeight / KG_PER_ENERGY), conversions = storedEnergy / requiredEnergy;
 
@@ -509,6 +525,17 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
         }
 
         currentTemperature = Math.max(currentTemperature, Math.min(200, temperature));
+
+        content.sort(new MaterialDensityComparator(currentTemperature));
+        updateInventory();
+        //TODO update GUI
+
+        //TODO remove
+        LOG.debug("EAF content:");
+        for (OreDictMaterialStack stack : content) {
+            LOG.debug("{} units of {}", (double)stack.mAmount / U, stack.mMaterial.mNameInternal);
+        }
+
 
         if (currentTemperature > getTemperatureMax(SIDE_INSIDE)) {
             UT.Sounds.send(SFX.MC_FIZZ, this);
@@ -548,6 +575,8 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
             double crucibleWeight = OM.weight(content)+mMaterial.getWeight(U*100), stacksWeight = OM.weight(stacks);
             if (crucibleWeight+stacksWeight > 0) currentTemperature = temperature + (currentTemperature >temperature?+1:-1)*UT.Code.units(Math.abs(currentTemperature - temperature), (long)(crucibleWeight+stacksWeight), (long)crucibleWeight, false);
             for (OreDictMaterialStack stack : stacks) {
+                LOG.debug("trying to add {} units of {}", (double)stack.mAmount / U, stack.mMaterial.mNameInternal);
+
                 if (currentTemperature >= stack.mMaterial.mMeltingPoint) {
                     if (temperature <  stack.mMaterial.mMeltingPoint) {
                         OM.stack(stack.mMaterial.mTargetSmelting.mMaterial, UT.Code.units_(stack.mAmount, U, stack.mMaterial.mTargetSmelting.mAmount, F)).addToList(content);
@@ -610,28 +639,41 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
         return super.breakBlock();
     }
 
+    private boolean doPour(OreDictMaterialStack stack, ITileEntityMold mold, byte sideOfMold) {
+        if (stack != null &&
+                currentTemperature >= stack.mMaterial.mMeltingPoint &&
+                currentTemperature < stack.mMaterial.mBoilingPoint &&
+                stack.mMaterial.mTargetSmelting.mMaterial == stack.mMaterial) {
+            long amount = mold.fillMold(stack, currentTemperature, sideOfMold);
+            if (amount > 0) {
+                stack.mAmount -= amount;
+            }
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public boolean fillMoldAtSide(ITileEntityMold mold, byte sideOfMachine, byte sideOfMold) {
         if (checkStructure(false)) {
             byte relative_side = FACING_ROTATIONS[mFacing][sideOfMachine];
-
-            for (OreDictMaterialStack stack : content) if (stack != null &&
-                    currentTemperature >= stack.mMaterial.mMeltingPoint &&
-                    currentTemperature < stack.mMaterial.mBoilingPoint &&
-                    stack.mMaterial.mTargetSmelting.mMaterial == stack.mMaterial) {
-                boolean pour = false;
-                if ((stack.mMaterial.mID == MTx.Slag.mID || stack.mMaterial.mID == MTx.FerrousSlag.mID) && relative_side == SIDE_LEFT)
-                    pour = true;
-                else if (relative_side == SIDE_RIGHT)
-                    pour = true;
-
-                if (pour) {
-                    long amount = mold.fillMold(stack, currentTemperature, sideOfMold);
-                    if (amount > 0) {
-                        stack.mAmount -= amount;
-                        return true;
+            switch (relative_side) {
+                case SIDE_LEFT:
+                    if (content.size() > 1) {
+                        for (int i = 0; i < content.size() - 1; i++) {
+                            OreDictMaterialStack stack = content.get(i);
+                            if (doPour(stack, mold, sideOfMold)) {
+                                return true;
+                            }
+                        }
                     }
-                }
+                    break;
+                case SIDE_RIGHT:
+                    if (content.size() > 0) {
+                        OreDictMaterialStack stack = content.get(content.size() - 1);
+                        return doPour(stack, mold, sideOfMold);
+                    }
+                    break;
             }
         }
         return false;
@@ -656,9 +698,11 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
                 : null;
     }
 
-    //TODO
-    @Override public Object getGUIClient2(int aGUIID, EntityPlayer aPlayer) {return new ContainerClientEAF(aPlayer.inventory, this, aGUIID, guiTexture);}
-    @Override public Object getGUIServer2(int aGUIID, EntityPlayer aPlayer) {return new ContainerCommonEAF(aPlayer.inventory, this, aGUIID);}
+    @Override
+    public boolean onBlockActivated3(EntityPlayer aPlayer, byte aSide, float aHitX, float aHitY, float aHitZ) {
+        if (isServerSide()) openGUI(aPlayer, aSide);
+        return true;
+    }
 
     @Override public byte getVisualData() { return (byte)(isActive?1:0); }
     @Override public void setVisualData(byte aData) { isActive=((aData&1)!=0); }
@@ -666,13 +710,57 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
     @Override public boolean[] getValidSides() {return isActive ? SIDES_THIS[mFacing] : SIDES_HORIZONTAL;}
 
 
-    @Override public boolean allowCovers(byte side) {return true;}
+    @Override public boolean allowCovers(byte side) {return false;}
 
     @Override public ItemStack[] getDefaultInventory(NBTTagCompound aNBT) {return new ItemStack[1];}
     @Override public int[] getAccessibleSlotsFromSide2(byte side) {return UT.Code.getAscendingArray(1);}
     @Override public boolean canInsertItem2(int aSlot, ItemStack aStack, byte side) {return !slotHas(0);}
     @Override public boolean canExtractItem2(int aSlot, ItemStack aStack, byte side) {return false;}
-    @Override public int getInventoryStackLimit() {return 64;}
+    @Override public int getInventoryStackLimit() {return (int)(MAX_AMOUNT / U);}
+
+
+    @Override public Object getGUIClient2(int aGUIID, EntityPlayer aPlayer) {return new ContainerClientEAF(aPlayer.inventory, this, aGUIID, GUI_TEXTURE);}
+    @Override public Object getGUIServer2(int aGUIID, EntityPlayer aPlayer) {return new ContainerCommonEAF(aPlayer.inventory, this, aGUIID);}
+
+    @Override public int getSizeInventoryGUI() {return GUI_SLOTS;}
+    @Override public ItemStack decrStackSizeGUI(int aSlot, int aDecrement) {return null;}
+    @Override public ItemStack getStackInSlotOnClosingGUI(int aSlot) {return null;}
+    @Override public int getInventoryStackLimitGUI(int aSlot) {return getInventoryStackLimit();}
+    @Override public ItemStack getStackInSlotGUI(int slot) {
+        if (slot >= content.size())
+            return null;
+
+        OreDictMaterialStack stack = content.get(slot);
+        if (currentTemperature < stack.mMaterial.mMeltingPoint) {
+            return OM.dust(stack.mMaterial, U);
+        } else if (currentTemperature < stack.mMaterial.mBoilingPoint) {
+            FluidStack molten = stack.mMaterial.liquid(stack.mAmount, false);
+            if (!FL.Error.is(molten)) {
+                return FL.display(molten, UT.Code.units(stack.mAmount, U, stack.mMaterial.mLiquid.amount, true), false, false);
+            } else {
+                return OM.ingotOrDust(stack.mMaterial, U);
+            }
+        } else {
+            FluidStack gas = stack.mMaterial.gas(stack.mAmount, false);
+            if (!FL.Error.is(gas)) {
+                return FL.display(gas, UT.Code.units(stack.mAmount, U, 1000, true), false, false);
+            } else {
+                return OM.ingotOrDust(stack.mMaterial, U);
+            }
+        }
+    }
+
+    @Override public void setInventorySlotContentsGUI(int aSlot, ItemStack aStack) {
+        LOG.debug("setInventorySlotContentsGUI called");
+    }
+
+    public double getAmountInSlotGui(int slot) {
+        if (slot >= content.size())
+            return 0;
+
+        OreDictMaterialStack stack = content.get(slot);
+        return (double)stack.mAmount / U;
+    }
 
     public static final List<TagData> ENERGYTYPES = new ArrayListNoNulls<>(false, TD.Energy.EU, TD.Energy.CU);
 
