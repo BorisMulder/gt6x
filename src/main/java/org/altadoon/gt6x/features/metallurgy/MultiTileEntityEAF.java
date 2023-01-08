@@ -372,7 +372,7 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
         IOreDictConfigurationComponent preferredRecipe = null;
         EAFSmeltingRecipe preferredEAFRecipe = null;
         long maxConversions = 0;
-        boolean tNewContent = (tHash != content.hashCode());
+        boolean hasNewContent = (tHash != content.hashCode());
 
         for (OreDictMaterialStack stack : content) {
             // check EAF-specific recipes
@@ -451,6 +451,9 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
                 }
             }
         }
+
+        boolean contentChanged = false;
+
         if (preferredEAFRecipe != null) {
             for (OreDictMaterialStack ingredient : preferredEAFRecipe.ingredients.getUndividedComponents()) {
                 for (OreDictMaterialStack tContent : content) {
@@ -463,6 +466,7 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
             for (OreDictMaterialStack result : preferredEAFRecipe.results.getUndividedComponents()) {
                 OM.stack(result.mMaterial, preferredEAFRecipe.results.getCommonDivider() * maxConversions).addToList(content);
             }
+            contentChanged = true;
         } else if (preferredAlloy != null && preferredRecipe != null) {
             for (OreDictMaterialStack tComponent : preferredRecipe.getUndividedComponents()) {
                 for (OreDictMaterialStack tContent : content) {
@@ -473,6 +477,7 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
                 }
             }
             OM.stack(preferredAlloy, preferredRecipe.getCommonDivider() * maxConversions).addToList(content);
+            contentChanged = true;
         }
 
         List<OreDictMaterialStack> toBeAdded = new ArrayListNoNulls<>();
@@ -480,17 +485,21 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
             OreDictMaterialStack stack = content.get(i);
             if (stack == null || stack.mMaterial == MT.NULL || stack.mMaterial == MT.Air || stack.mAmount <= 0) {
                 GarbageGT.trash(content.remove(i--));
+                contentChanged = true;
             } else if (currentTemperature > C + 40 && stack.mMaterial.contains(TD.Properties.FLAMMABLE) && !stack.mMaterial.containsAny(TD.Properties.UNBURNABLE, TD.Processing.MELTING)) {
                 GarbageGT.trash(content.remove(i--));
+                contentChanged = true;
                 UT.Sounds.send(SFX.MC_FIZZ, this);
                 if (stack.mMaterial.contains(TD.Properties.EXPLOSIVE)) explode(UT.Code.scale(stack.mAmount, MAX_AMOUNT, 8, F));
                 return;
-            } else if (currentTemperature >= stack.mMaterial.mMeltingPoint && (oldTemperature <  stack.mMaterial.mMeltingPoint || tNewContent)) {
+            } else if (currentTemperature >= stack.mMaterial.mMeltingPoint && (oldTemperature <  stack.mMaterial.mMeltingPoint || hasNewContent)) {
                 content.remove(i--);
                 OM.stack(stack.mMaterial.mTargetSmelting.mMaterial, UT.Code.units_(stack.mAmount, U, stack.mMaterial.mTargetSmelting.mAmount, F)).addToList(toBeAdded);
-            } else if (currentTemperature <  stack.mMaterial.mMeltingPoint && (oldTemperature >= stack.mMaterial.mMeltingPoint || tNewContent)) {
+                contentChanged = true;
+            } else if (currentTemperature <  stack.mMaterial.mMeltingPoint && (oldTemperature >= stack.mMaterial.mMeltingPoint || hasNewContent)) {
                 content.remove(i--);
                 OM.stack(stack.mMaterial.mTargetSolidifying.mMaterial, UT.Code.units_(stack.mAmount, U, stack.mMaterial.mTargetSolidifying.mAmount, F)).addToList(toBeAdded);
+                contentChanged = true;
             }
         }
         for (int i = 0; i < toBeAdded.size(); i++) {
@@ -527,8 +536,9 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
         currentTemperature = Math.max(currentTemperature, Math.min(200, temperature));
 
         content.sort(new MaterialDensityComparator(currentTemperature));
-        updateInventory();
-        //TODO update GUI
+
+        if (oldTemperature != currentTemperature || hasNewContent || contentChanged)
+            updateClientData();
 
         //TODO remove
         LOG.debug("EAF content:");
