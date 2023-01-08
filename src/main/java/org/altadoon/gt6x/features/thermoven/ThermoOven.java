@@ -1,4 +1,6 @@
 package org.altadoon.gt6x.features.thermoven;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
 import org.altadoon.gt6x.common.RMx;
 import gregapi.block.multitileentity.MultiTileEntityRegistry;
 import gregapi.data.*;
@@ -14,6 +16,8 @@ import org.altadoon.gt6x.common.MTEx;
 
 import static gregapi.data.CS.*;
 import static gregapi.data.OP.*;
+import static org.altadoon.gt6x.common.MTx.*;
+
 /**
  * @author Francisco Lobaton (Roku)
  *
@@ -44,6 +48,7 @@ public class ThermoOven extends GT6XFeature {
     @Override
     public void postInit(){
         //add recipes here
+        addThermolysisRecipes();
         //disable vanilla gt6 recipes
 
     }
@@ -52,7 +57,9 @@ public class ThermoOven extends GT6XFeature {
     public void postPostInit() {
         //test
     }
-
+    private void addThermolysisRecipes(){
+        //moved recipes to Pgm processing 
+        }
     private void addThermoOven(){
         Class<? extends TileEntity> aClass = MultiTileEntityBasicMachine.class;
         OreDictMaterial aMat;

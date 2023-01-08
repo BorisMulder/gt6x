@@ -13,6 +13,7 @@ import gregapi.worldgen.WorldgenOresLarge;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import org.altadoon.gt6x.common.Config;
+import org.altadoon.gt6x.common.RMx;
 import org.altadoon.gt6x.features.GT6XFeature;
 
 import java.util.Arrays;
@@ -244,6 +245,8 @@ public class PgmProcessing extends GT6XFeature {
         RM.Mixer.addRecipe1(true, 64, 50, dust.mat(MT.OREMATS.Magnetite, 0), FL.array(MT.H.gas(3*U, true), MT.N.gas(U, true)), FL.array(MT.NH3.gas(U, false)));
         // NH4Cl recipe
         RM.Mixer.addRecipe(true, ZL_IS, new ItemStack[]{ dust.mat(NH4Cl, 2) }, null, null, FL.array(MT.HCl.gas(U, false), MT.NH3.gas(U, false)), ZL_FS, 20,16,0);
+        //NH4CL recipe
+        RMx.thermolysis.addRecipe1(true,16,120,dust.mat(NH4Cl,2) ,ZL_FS,FL.array(MT.HCl.gas(U,false),MT.NH3.gas(U,false)));
         // O3 recipe
         RM.Lightning.addRecipe1(true, 64, 100, ST.tag(3), MT.O.gas(3*U, true),Ozone.gas(2*U, false), NI);
 
@@ -266,10 +269,10 @@ public class PgmProcessing extends GT6XFeature {
         // Pt/Pd separation
         RM.Bath.addRecipe1(true, 0, 200, dust.mat(NH4Cl, 20), PtPdLeachingSolution.liquid(95*U, false), PdChlorideSolution.liquid(70*U, false), dust.mat(AmmoniumHexachloroplatinate, 45));
         RM.Mixer.addRecipe0(true, 16, 100, FL.array(PdChlorideSolution.liquid(35*U, true), MT.NH3.gas(4*U, true)), FL.array(MT.H2O.liquid(8*3*U, false), MT.HCl.gas(4*2*U, false)), dust.mat(TetraamminepalladiumChloride, 7));
-        //TODO use thermolysis oven
-        RM.Distillery.addRecipe1(true, 16, 50, dust.mat(AmmoniumHexachloroplatinate, 9), FL.array(MT.N.gas(U1000, true)), FL.array(MT.Cl.gas(4*U, false)), dust.mat(NH4Cl, 4), dust.mat(MT.Pt, 1));
-        RM.Distillery.addRecipe1(true, 16, 50, dust.mat(TetraamminepalladiumChloride, 7), FL.array(MT.N.gas(U1000, true)), FL.array(MT.Cl.gas(2*U, false), MT.NH3.gas(4*U, false)), dust.mat(MT.Pd, 1));
-
+        //NH4PtCl6 -> 2 NH4Cl + Pt + 4 Cl
+        RMx.thermolysis.addRecipe1(true,16,60,dust.mat(AmmoniumHexachloroplatinate,9),ZL_FS,MT.Cl.gas(4*U,false),new ItemStack[]{dust.mat(NH4Cl,2),dust.mat(MT.Pt,1)});
+        //(NH3)4PdCl2 -> 4 NH3 + Pd +2 Cl
+        RMx.thermolysis.addRecipe1(true,16,60,dust.mat(TetraamminepalladiumChloride,7),ZL_FS,FL.array(MT.Cl.gas(2*U,false),MT.NH3.gas(4*U, false)) ,dust.mat(MT.Pd,1));
         // Rh separation (Yo Greg, wanna buy some international units of amount of substance? I divided some amounts by three here (and the PGMs by 2) because it would become rather annoying otherwise). But it adds up to a closed-loop process now.
         RM.Bath.addRecipe1(true, 0, 100, dust.mat(PGMResidue, 4), FL.array(MT.K2S2O7.liquid(14*U, true)), FL.array(RhodiumPotassiumSulfate.liquid(13*U, false), MT.SO2.gas(3*U, false)), dust.mat(RuOsIrResidue, 3));
         for (FluidStack tWater : FL.waters(8000)) {
@@ -280,12 +283,16 @@ public class PgmProcessing extends GT6XFeature {
         // Ir separation
         RM.Roasting.addRecipe1(true, 16, 150, dust.mat(RuOsIrResidue, 9), Ozone.gas(20*U, true), RuOsO4.gas(30*U, false), dust.mat(IrO2, 9));
         RM.Roasting.addRecipe1(true, 64, 150, dust.mat(IrO2, 3), MT.H.gas(4*U, true), MT.H2O.liquid(6*U, false), dust.mat(MT.Ir, 1));
+        //iridium oxide recipe
+        RMx.thermolysis.addRecipe1(true,128,150,dust.mat(IrO2,3),ZL_FS,MT.O.gas(2*U,false),dust.mat(MT.Ir,1));
 
         // Ru/Os separation
         RM.Mixer.addRecipe0(true, 16, 100, FL.array(RuOsO4.gas(10*U, true), MT.HCl.gas(12*U, true)), FL.array(ChlororuthenicAcid.liquid(15*U, false), MT.O.gas(2*U, false)), dust.mat(OsO4, 5));
         RM.Bath.addRecipe1(true, 0, 100, dust.mat(NH4Cl, 4), FL.array(ChlororuthenicAcid.liquid(15*U, true)), FL.array(MT.H2O.liquid(6*U, false), MT.HCl.gas(4*U, false)), dust.mat(AmmoniumHexachlororuthenate, 9));
         RM.Roasting.addRecipe1(true, 64, 150, dust.mat(AmmoniumHexachlororuthenate, 9), MT.H.gas(4*U, true), MT.HCl.gas(8*U, false), dust.mat(NH4Cl, 4), dust.mat(MT.Ru, 1));
         RM.Roasting.addRecipe1(true, 64, 150, dust.mat(OsO4, 5), MT.H.gas(8*U, true), MT.H2O.liquid(12*U, false), dust.mat(MT.Os, 1));
+        //osmium tetroxide recipe
+        RMx.thermolysis.addRecipe1(true,64,150,dust.mat(OsO4,5),ZL_FS,MT.O.gas(4*U,false),dust.mat(MT.Os,1));
     }
 
     public void addSimpleRecipes() {
