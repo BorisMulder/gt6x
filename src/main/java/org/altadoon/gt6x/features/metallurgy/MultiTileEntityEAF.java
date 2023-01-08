@@ -8,6 +8,8 @@ import gregapi.code.ArrayListNoNulls;
 import gregapi.code.HashSetNoNulls;
 import gregapi.code.TagData;
 import gregapi.data.*;
+import gregapi.network.INetworkHandler;
+import gregapi.network.IPacket;
 import gregapi.old.Textures;
 import gregapi.oredict.OreDictItemData;
 import gregapi.oredict.OreDictMaterial;
@@ -45,6 +47,7 @@ import org.altadoon.gt6x.common.MTEx;
 import org.altadoon.gt6x.gui.ContainerClientEAF;
 import org.altadoon.gt6x.gui.ContainerCommonEAF;
 
+import java.nio.ByteBuffer;
 import java.util.*;
 
 import static gregapi.data.CS.*;
@@ -53,16 +56,16 @@ import static org.altadoon.gt6x.common.Log.LOG;
 public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implements ITileEntityCrucible, ITileEntityEnergy, ITileEntityWeight, ITileEntityTemperature, ITileEntityGibbl, ITileEntityMold, ITileEntityServerTickPost, ITileEntityEnergyDataCapacitor, IMultiBlockEnergy, IMultiBlockInventory, IMultiBlockFluidHandler, IFluidHandler {
     private static final int GAS_RANGE = 5;
     private static final int FLAME_RANGE = 5;
-    private static final long MAX_AMOUNT = 64*3*U;
+    public static final long MAX_UNITS = 64*3;
     private static final long KG_PER_ENERGY = 75;
 
     public static final int GUI_SLOTS = 12;
 
-    protected boolean isMeltingDown = false;
-
     protected boolean isActive = false;
     protected byte cooldown = 100;
     protected long storedEnergy = 0, currentTemperature = DEF_ENV_TEMP, oldTemperature = 0;
+    protected double currentWeight = 0.0;
+
     /** Should remain sorted from least to most dense (depending on temperature). In case of gases, sorted by atomic weight. */
     protected List<OreDictMaterialStack> content = new ArrayListNoNulls<>();
 
@@ -112,7 +115,6 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
         if (aNBT.hasKey(NBT_TEMPERATURE+".old")) oldTemperature = aNBT.getLong(NBT_TEMPERATURE+".old");
         if (aNBT.hasKey(NBT_ACTIVE)) isActive = aNBT.getBoolean(NBT_ACTIVE);
         content = OreDictMaterialStack.loadList(NBT_MATERIALS, aNBT);
-        isMeltingDown = (currentTemperature +100 > getTemperatureMax(SIDE_ANY));
 
         if (CODE_CLIENT) {
             if (GT_API.sBlockIcons == null) {
@@ -490,7 +492,7 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
                 GarbageGT.trash(content.remove(i--));
                 contentChanged = true;
                 UT.Sounds.send(SFX.MC_FIZZ, this);
-                if (stack.mMaterial.contains(TD.Properties.EXPLOSIVE)) explode(UT.Code.scale(stack.mAmount, MAX_AMOUNT, 8, F));
+                if (stack.mMaterial.contains(TD.Properties.EXPLOSIVE)) explode(UT.Code.scale(stack.mAmount, MAX_UNITS*U, 8, F));
                 return;
             } else if (currentTemperature >= stack.mMaterial.mMeltingPoint && (oldTemperature <  stack.mMaterial.mMeltingPoint || hasNewContent)) {
                 content.remove(i--);
@@ -537,9 +539,6 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
 
         content.sort(new MaterialDensityComparator(currentTemperature));
 
-        if (oldTemperature != currentTemperature || hasNewContent || contentChanged)
-            updateClientData();
-
         //TODO remove
         LOG.debug("EAF content:");
         for (OreDictMaterialStack stack : content) {
@@ -550,6 +549,7 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
         if (currentTemperature > getTemperatureMax(SIDE_INSIDE)) {
             UT.Sounds.send(SFX.MC_FIZZ, this);
             GarbageGT.trash(content);
+            contentChanged = true;
             if (currentTemperature >= 320) try {
                 for (EntityLivingBase tLiving : (List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class, box(-GAS_RANGE, -1, -GAS_RANGE, GAS_RANGE+1, GAS_RANGE+1, GAS_RANGE+1)))
                     UT.Entities.applyTemperatureDamage(tLiving, currentTemperature, 4);
@@ -571,17 +571,37 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
                 worldObj.setBlock(xCenter+i, yCoord  , zCenter+j, Blocks.flowing_lava, 1, 3);
                 worldObj.setBlock(xCenter+i, yCoord+1, zCenter+j, Blocks.flowing_lava, 1, 3);
             }
-            return;
         }
 
-        if (isMeltingDown != (currentTemperature +100 > getTemperatureMax(SIDE_ANY))) {
-            isMeltingDown = !isMeltingDown;
+        if (hasNewContent || contentChanged) {
+            currentWeight = OM.weight(content);
+        }
+
+        if (oldTemperature != currentTemperature || hasNewContent || contentChanged) {
             updateClientData();
         }
     }
 
+    private boolean canAddNewStacks(List<OreDictMaterialStack> stacks) {
+        // don't allow to add more than max amount stacks
+        int amountNewStacks = 0;
+        for (OreDictMaterialStack stack : stacks) {
+            boolean found = false;
+
+            for (OreDictMaterialStack cnt : content) {
+                if (cnt.mMaterial == stack.mMaterial) {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) amountNewStacks++;
+        }
+        return content.size() + amountNewStacks <= GUI_SLOTS;
+    }
+
     public boolean addMaterialStacks(List<OreDictMaterialStack> stacks, long temperature) {
-        if (checkStructure(F) && OM.total(content)+OM.total(stacks) <= MAX_AMOUNT) {
+        if (checkStructure(F) && OM.total(content)+OM.total(stacks) <= MAX_UNITS*U && canAddNewStacks(stacks)) {
             double crucibleWeight = OM.weight(content)+mMaterial.getWeight(U*100), stacksWeight = OM.weight(stacks);
             if (crucibleWeight+stacksWeight > 0) currentTemperature = temperature + (currentTemperature >temperature?+1:-1)*UT.Code.units(Math.abs(currentTemperature - temperature), (long)(crucibleWeight+stacksWeight), (long)crucibleWeight, false);
             for (OreDictMaterialStack stack : stacks) {
@@ -607,16 +627,6 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
     }
 
     @Override
-    public long getTemperatureValue(byte side) {
-        return currentTemperature;
-    }
-
-    @Override
-    public long getTemperatureMax(byte side) {
-        return (mMaterial.mMeltingPoint);
-    }
-
-    @Override
     public boolean isMoldInputSide(byte side) {
         return SIDES_TOP[side] && checkStructure(false);
     }
@@ -639,9 +649,6 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
         }
         return 0;
     }
-
-    @Override
-    public double getWeightValue(byte side) {return OM.weight(content);}
 
     @Override
     public boolean breakBlock() {
@@ -716,6 +723,30 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
 
     @Override public byte getVisualData() { return (byte)(isActive?1:0); }
     @Override public void setVisualData(byte aData) { isActive=((aData&1)!=0); }
+
+    @Override
+    public IPacket getClientDataPacket(boolean aSendAll) {
+        ByteBuffer buf = ByteBuffer.allocate(5 + Long.BYTES);
+        buf.put(new byte[]{(byte)UT.Code.getR(mRGBa), (byte)UT.Code.getG(mRGBa), (byte)UT.Code.getB(mRGBa), getVisualData(), getDirectionData()});
+        buf.putLong(currentTemperature);
+
+        return getClientDataPacketByteArray(true, buf.array());
+    }
+
+    @Override
+    public boolean receiveDataByteArray(byte[] aData, INetworkHandler aNetworkHandler) {
+        ByteBuffer buf = ByteBuffer.wrap(aData);
+
+        try {
+            for (int i = 0; i < 5; i++) buf.get();
+
+            currentTemperature = buf.getLong();
+        } catch (Exception e) {
+            LOG.error("failed to parse byte array", e);
+        }
+        return super.receiveDataByteArray(aData, aNetworkHandler);
+    }
+
     @Override public byte getDefaultSide() { return SIDE_FRONT; }
     @Override public boolean[] getValidSides() {return isActive ? SIDES_THIS[mFacing] : SIDES_HORIZONTAL;}
 
@@ -726,7 +757,7 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
     @Override public int[] getAccessibleSlotsFromSide2(byte side) {return UT.Code.getAscendingArray(1);}
     @Override public boolean canInsertItem2(int aSlot, ItemStack aStack, byte side) {return !slotHas(0);}
     @Override public boolean canExtractItem2(int aSlot, ItemStack aStack, byte side) {return false;}
-    @Override public int getInventoryStackLimit() {return (int)(MAX_AMOUNT / U);}
+    @Override public int getInventoryStackLimit() {return (int)MAX_UNITS;}
 
 
     @Override public Object getGUIClient2(int aGUIID, EntityPlayer aPlayer) {return new ContainerClientEAF(aPlayer.inventory, this, aGUIID, GUI_TEXTURE);}
@@ -736,32 +767,52 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
     @Override public ItemStack decrStackSizeGUI(int aSlot, int aDecrement) {return null;}
     @Override public ItemStack getStackInSlotOnClosingGUI(int aSlot) {return null;}
     @Override public int getInventoryStackLimitGUI(int aSlot) {return getInventoryStackLimit();}
-    @Override public ItemStack getStackInSlotGUI(int slot) {
-        if (slot >= content.size())
-            return null;
 
-        OreDictMaterialStack stack = content.get(slot);
-        if (currentTemperature < stack.mMaterial.mMeltingPoint) {
-            return OM.dust(stack.mMaterial, U);
-        } else if (currentTemperature < stack.mMaterial.mBoilingPoint) {
-            FluidStack molten = stack.mMaterial.liquid(stack.mAmount, false);
-            if (!FL.Error.is(molten)) {
-                return FL.display(molten, UT.Code.units(stack.mAmount, U, stack.mMaterial.mLiquid.amount, true), false, false);
-            } else {
-                return OM.ingotOrDust(stack.mMaterial, U);
+    private String getSide() {
+        return isClientSide() ? "Client" : isServerSide() ? "Server" : "Unknown";
+    }
+
+    private final ItemStack[] clientGuiSlotContent = new ItemStack[GUI_SLOTS];
+
+    @Override public ItemStack getStackInSlotGUI(int slot) {
+        LOG.debug("getStackInSlotGUI called from {} on slot {}", getSide(), slot);
+
+        if (isServerSide()) {
+            if (slot >= content.size())
+                return null;
+
+            OreDictMaterialStack stack = content.get(slot);
+
+            // here we divide the amount of Units by 91 to fit it into an int (we don't need the factors 7 and 13)
+            // we do this in order to display the amount of units more precisely in the GUI.
+            int fakeStackSize = (int)(stack.mAmount / 91);
+
+            LOG.debug("it contains a stack of {} units of {}, fake stack size: {}", (double) stack.mAmount / U, stack.mMaterial.getLocal(), fakeStackSize);
+
+            if (currentTemperature >= stack.mMaterial.mMeltingPoint) {
+                FluidStack fluid = stack.mMaterial.fluid(currentTemperature, U, false);
+                if (!FL.Error.is(fluid)) {
+                    fluid.amount = fakeStackSize;
+                    return FL.display(fluid, true, false, false);
+                } else {
+                    ItemStack ingots = OP.ingot.mat(stack.mMaterial, fakeStackSize);
+                    if (ingots != null) return ingots;
+                }
             }
+            return OP.dust.mat(stack.mMaterial, fakeStackSize);
         } else {
-            FluidStack gas = stack.mMaterial.gas(stack.mAmount, false);
-            if (!FL.Error.is(gas)) {
-                return FL.display(gas, UT.Code.units(stack.mAmount, U, 1000, true), false, false);
-            } else {
-                return OM.ingotOrDust(stack.mMaterial, U);
-            }
+            return clientGuiSlotContent[slot];
         }
     }
 
-    @Override public void setInventorySlotContentsGUI(int aSlot, ItemStack aStack) {
-        LOG.debug("setInventorySlotContentsGUI called");
+    @Override public void setInventorySlotContentsGUI(int slot, ItemStack stack) {
+        //TODO rounded down to 64
+        LOG.debug("setInventorySlotContentsGUI called from {} on slot {} with a stack of {} {}", getSide(), slot, stack.stackSize, stack.getDisplayName());
+
+        if (isClientSide()) {
+            clientGuiSlotContent[slot] = stack;
+            mInventoryChanged = true;
+        }
     }
 
     public double getAmountInSlotGui(int slot) {
@@ -793,6 +844,19 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
     @Override public Collection<TagData> getEnergyTypes(byte side) {return ENERGYTYPES;}
 
     @Override
+    public long getTemperatureValue(byte side) {
+        return currentTemperature;
+    }
+
+    @Override
+    public long getTemperatureMax(byte side) {
+        return (mMaterial.mMeltingPoint);
+    }
+
+    @Override
+    public double getWeightValue(byte side) {return currentWeight;}
+
+    @Override
     public long getGibblValue(byte side) {
         long result = 0;
 
@@ -807,6 +871,6 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
 
     @Override
     public long getGibblMax(byte side) {
-        return UT.Code.units(MAX_AMOUNT, U, 1000, true);
+        return UT.Code.units(MAX_UNITS, 1, 1000, true);
     }
 }

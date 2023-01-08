@@ -1,5 +1,6 @@
 package org.altadoon.gt6x.gui;
 
+import gregapi.data.CS;
 import gregapi.gui.ContainerCommon;
 import gregapi.gui.Slot_Holo;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -12,9 +13,9 @@ public class ContainerCommonEAF extends ContainerCommon {
 
     @Override
     public int addSlots(InventoryPlayer aPlayerInventory) {
-        for (int y = 0, i = 0; y < 6; y++)
-            for (int x = 1; x <= 2; x++)
-                addSlotToContainer(new Slot_Holo(mTileEntity, mOffset+i++, 8 + 3 * x * 18, 18 + y * 18, false, false, 64*3));
+        for (int x = 0, i = 0; x < 2; x++)
+            for (int y = 0; y < 6; y++)
+                addSlotToContainer(new Slot_Holo(mTileEntity, mOffset+i++, 8 + (63+18) * x, 18 + y * 18, false, false, (int)MultiTileEntityEAF.MAX_UNITS));
 
         return 18+18*6+13;
     }

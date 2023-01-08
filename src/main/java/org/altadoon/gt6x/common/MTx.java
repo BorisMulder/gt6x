@@ -30,7 +30,7 @@ public class MTx {
     static {
         // change some properties of vanilla GT6 materials
         MT.NH3    .uumMcfg(1, MT.N, U, MT.H, 3*U);
-        MT.PigIron.uumMcfg(5, MT.Fe, 5*U, MT.C, U).heat(MT.WroughtIron);
+        MT.PigIron.uumMcfg(5, MT.Fe, 5*U, MT.C, U).heat(MT.WroughtIron).qual(3, 6.0, 128, 2);
         MT.Steel  .uumMcfg(20, MT.Fe, 20*U, MT.C, U).heat(2046, MT.Fe.mBoilingPoint);
         MT.Olivine.uumMcfg(0, MT.Mg, U, MT.Fe, U, MT.Si, U, MT.O, 4*U);
 
