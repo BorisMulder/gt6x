@@ -43,6 +43,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
 import org.altadoon.gt6x.common.EAFSmeltingRecipe;
+import org.altadoon.gt6x.common.ItemMaterialDisplay;
 import org.altadoon.gt6x.common.MTEx;
 import org.altadoon.gt6x.gui.ContainerClientEAF;
 import org.altadoon.gt6x.gui.ContainerCommonEAF;
@@ -783,44 +784,27 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
 
             OreDictMaterialStack stack = content.get(slot);
 
-            // here we divide the amount of Units by 91 to fit it into an int (we don't need the factors 7 and 13)
-            // we do this in order to display the amount of units more precisely in the GUI.
-            int fakeStackSize = (int)(stack.mAmount / 91);
-
-            LOG.debug("it contains a stack of {} units of {}, fake stack size: {}", (double) stack.mAmount / U, stack.mMaterial.getLocal(), fakeStackSize);
+            LOG.debug("it contains a stack of {} units of {}", (double) stack.mAmount / U, stack.mMaterial.getLocal());
 
             if (currentTemperature >= stack.mMaterial.mMeltingPoint) {
-                FluidStack fluid = stack.mMaterial.fluid(currentTemperature, U, false);
+                FluidStack fluid = stack.mMaterial.fluid(currentTemperature, stack.mAmount, false);
                 if (!FL.Error.is(fluid)) {
-                    fluid.amount = fakeStackSize;
                     return FL.display(fluid, true, false, false);
-                } else {
-                    ItemStack ingots = OP.ingot.mat(stack.mMaterial, fakeStackSize);
-                    if (ingots != null) return ingots;
                 }
             }
-            return OP.dust.mat(stack.mMaterial, fakeStackSize);
+            return ItemMaterialDisplay.display(stack);
         } else {
             return clientGuiSlotContent[slot];
         }
     }
 
     @Override public void setInventorySlotContentsGUI(int slot, ItemStack stack) {
-        //TODO rounded down to 64
         LOG.debug("setInventorySlotContentsGUI called from {} on slot {} with a stack of {} {}", getSide(), slot, stack.stackSize, stack.getDisplayName());
 
         if (isClientSide()) {
             clientGuiSlotContent[slot] = stack;
             mInventoryChanged = true;
         }
-    }
-
-    public double getAmountInSlotGui(int slot) {
-        if (slot >= content.size())
-            return 0;
-
-        OreDictMaterialStack stack = content.get(slot);
-        return (double)stack.mAmount / U;
     }
 
     public static final List<TagData> ENERGYTYPES = new ArrayListNoNulls<>(false, TD.Energy.EU, TD.Energy.CU);

@@ -1,9 +1,6 @@
 package org.altadoon.gt6x;
 
-import org.altadoon.gt6x.common.Config;
-import org.altadoon.gt6x.common.Log;
-import org.altadoon.gt6x.common.MTEx;
-import org.altadoon.gt6x.common.MTx;
+import org.altadoon.gt6x.common.*;
 import org.altadoon.gt6x.features.GT6XFeature;
 import org.altadoon.gt6x.features.oil.OilProcessing;
 import org.altadoon.gt6x.features.pgm.PgmProcessing;
@@ -75,6 +72,7 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 	public void onModPreInit2(cpw.mods.fml.common.event.FMLPreInitializationEvent aEvent) {
 		MTEx.touch();
 		MTx.touch();
+		ItemMaterialDisplay.touch();
 
 		for (GT6XFeature feature : enabledFeatures) {
 			feature.preInit();
