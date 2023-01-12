@@ -151,7 +151,7 @@ public class Metallurgy extends GT6XFeature {
     }
 
     private void changeAlloySmeltingRecipes() {
-        for (OreDictMaterial mat : new OreDictMaterial[]{ MT.Si, MT.Fe, MT.Steel, MT.MeteoricSteel, MT.StainlessSteel, MT.TungstenCarbide }) {
+        for (OreDictMaterial mat : new OreDictMaterial[]{ MT.Si, MT.Fe, MT.Steel, MT.MeteoricSteel, MT.StainlessSteel, MT.TungstenCarbide, MT.Ta4HfC5, MT.SiC, MT.Vibramantium }) {
             removeAlloySmeltingRecipe(mat);
         }
 
@@ -332,10 +332,12 @@ public class Metallurgy extends GT6XFeature {
         // misc sintering
         sintering.addRecipe2(true, 16, 64, dust.mat(MTx.CoO, 2), dust.mat(MT.Al2O3, 5), dust.mat(MTx.CobaltBlue, 7));
         sintering.addRecipeX(true, 64, 256, ST.array(dust.mat(MTx.MgO, 1), dust.mat(MT.Graphite, 1)), ingot.mat(MTx.MgOC, 2));
+        sintering.addRecipeX(true, 96, 2048, ST.array(dust.mat(MT.Ad, 3), dust.mat(MT.Vb, 1)), ingot.mat(MT.Vibramantium, 4));
 
         for (ItemStack coal : ST.array(dust.mat(MT.Charcoal, 1), dust.mat(MT.LigniteCoke, 3),  dust.mat(MT.CoalCoke, 1), dust.mat(MT.C, 1) )) {
-            sintering.addRecipe(true, ST.array(dust.mat(MT.W, 1), ST.copy(coal)), ST.array(ingot.mat(MT.TungstenCarbide, 2)), null, null, ZL_FS, ZL_FS, 256, 96, 0);
-            sintering.addRecipe(true, ST.array(dust.mat(MT.Ta, 4), dust.mat(MT.Hf, 1), ST.mul(5, coal)), ST.array(ingot.mat(MT.Ta4HfC5, 10)), null, null, ZL_FS, ZL_FS, 512, 96, 0);
+            sintering.addRecipe(true, ST.array(dust.mat(MT.W, 1), ST.copy(coal)), ST.array(ingot.mat(MT.TungstenCarbide, 2)), null, null, ZL_FS, ZL_FS, 334, 96, 0);
+            sintering.addRecipe(true, ST.array(dust.mat(MT.Ta, 4), dust.mat(MT.Hf, 1), ST.mul(5, coal)), ST.array(ingot.mat(MT.Ta4HfC5, 10)), null, null, ZL_FS, ZL_FS, 1400, 96, 0);
+            sintering.addRecipe(true, ST.array(dust.mat(MT.Ke, 6), dust.mat(MT.Nq, 2), ST.mul(1, coal)), ST.array(ingot.mat(MT.Trinaquadalloy, 9)), null, null, ZL_FS, ZL_FS, 1746, 96, 0);
 
             sintering.addRecipe(true, ST.array(dust.mat(MT.Fe2O3, 5), ST.mul(1, coal), dust.mat(MT.CaCO3, 1)), ST.array(sinter.mat(MT.Fe2O3, 8)), null, null, ZL_FS, ZL_FS, 32, 16, 0);
             sintering.addRecipe(true, ST.array(dust.mat(MT.OREMATS.Magnetite, 14), ST.mul(3, coal), dust.mat(MT.CaCO3, 3)), ST.array(sinter.mat(MT.OREMATS.Magnetite, 24)), null, null, ZL_FS, ZL_FS, 96, 16, 0);

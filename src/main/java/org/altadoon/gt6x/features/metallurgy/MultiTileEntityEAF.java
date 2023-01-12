@@ -811,17 +811,14 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
         }
     }
 
-    public static final List<TagData> ENERGYTYPES = new ArrayListNoNulls<>(false, TD.Energy.EU, TD.Energy.CU);
+    public static final List<TagData> ENERGYTYPES = new ArrayListNoNulls<>(false, TD.Energy.EU);
 
     @Override public boolean isEnergyType(TagData aEnergyType, byte side, boolean aEmitting) {return !aEmitting && ENERGYTYPES.contains(aEnergyType);}
     @Override public boolean isEnergyCapacitorType(TagData aEnergyType, byte side) {return ENERGYTYPES.contains(aEnergyType);}
     @Override public boolean isEnergyAcceptingFrom(TagData aEnergyType, byte side, boolean aTheoretical) {return ENERGYTYPES.contains(aEnergyType);}
     @Override public long doInject(TagData aEnergyType, byte side, long aSize, long aAmount, boolean aDoInject) {
         if (aDoInject) {
-            if (aEnergyType == TD.Energy.CU)
-                storedEnergy -= Math.abs(aAmount * aSize);
-            else
-                storedEnergy += Math.abs(aAmount * aSize);
+            storedEnergy += Math.abs(aAmount * aSize);
         }
         return aAmount;
     }

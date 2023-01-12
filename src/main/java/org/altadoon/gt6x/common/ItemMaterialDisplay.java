@@ -109,6 +109,7 @@ public class ItemMaterialDisplay extends Item implements IItemGT {
         list.add(LH.Chat.WHITE + String.format("Density: %.3f g/cm\u00B3", mat.mMaterial.mGramPerCubicCentimeter));
     }
 
+    //TODO fix
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister aIconRegister) {
@@ -146,21 +147,6 @@ public class ItemMaterialDisplay extends Item implements IItemGT {
         OreDictMaterialStack mat = UnDisplay(stack);
         return mat.mMaterial.getLocal();
     }
-
-    /*
-    @Override
-    @SideOnly(Side.CLIENT)
-    @SuppressWarnings("unchecked")
-    public void getSubItems(Item aItem, CreativeTabs aTab, List list) {
-        for (int i = 0; i < OreDictMaterial.MATERIAL_ARRAY.length; i++) {
-            OreDictMaterial mat = OreDictMaterial.MATERIAL_ARRAY[i];
-            if (mat != null) {
-                ItemStack tStack = display(mat);
-                if (tStack != null) list.add(tStack);
-            }
-        }
-    }
-    */
 
     @Override public final Item setUnlocalizedName(String aName) {return this;}
     @Override public final String getUnlocalizedName() {return name;}
