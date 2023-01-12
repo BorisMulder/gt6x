@@ -792,13 +792,17 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
                     return FL.display(fluid, true, false, false);
                 }
             }
-            return ItemMaterialDisplay.display(stack);
+            return ItemMaterialDisplay.display(stack, currentTemperature);
         } else {
             return clientGuiSlotContent[slot];
         }
     }
 
     @Override public void setInventorySlotContentsGUI(int slot, ItemStack stack) {
+        if(stack == null) {
+            return;
+        }
+
         LOG.debug("setInventorySlotContentsGUI called from {} on slot {} with a stack of {} {}", getSide(), slot, stack.stackSize, stack.getDisplayName());
 
         if (isClientSide()) {
