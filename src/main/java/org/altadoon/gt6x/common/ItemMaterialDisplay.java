@@ -112,7 +112,7 @@ public class ItemMaterialDisplay extends Item implements IItemGT {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister aIconRegister) {
-        icon = aIconRegister.registerIcon(CS.ModIDs.GT + ":" + "items/ItemMaterialDisplay.png");
+        icon = aIconRegister.registerIcon(CS.ModIDs.GT + ":" + TEX_DIR_ITEM + "ItemMaterialDisplay.png");
         LOG.debug("registerIcons called, icon: {}", icon);
     }
 
