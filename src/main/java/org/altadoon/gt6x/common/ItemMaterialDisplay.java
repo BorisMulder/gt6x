@@ -1,15 +1,23 @@
 package org.altadoon.gt6x.common;
 
+import codechicken.nei.NEIClientConfig;
+import codechicken.nei.NEIClientUtils;
+import codechicken.nei.guihook.GuiContainerManager;
+import codechicken.nei.guihook.IContainerInputHandler;
+import codechicken.nei.recipe.GuiCraftingRecipe;
+import codechicken.nei.recipe.GuiUsageRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import gregapi.data.*;
+import gregapi.gui.ContainerClient;
 import gregapi.item.IItemGT;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.oredict.OreDictMaterialStack;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -22,7 +30,6 @@ import java.util.Collections;
 import java.util.List;
 
 import static gregapi.data.CS.*;
-import static org.altadoon.gt6x.common.Log.LOG;
 
 public class ItemMaterialDisplay extends Item implements IItemGT {
     public static final ItemMaterialDisplay INSTANCE = new ItemMaterialDisplay();
@@ -65,11 +72,11 @@ public class ItemMaterialDisplay extends Item implements IItemGT {
         CS.GarbageGT.BLACKLIST.add(this);
     }
 
-    public OreDictMaterialStack UnDisplay(ItemStack stack) {
+    public static OreDictMaterialStack UnDisplay(ItemStack stack) {
         NBTTagCompound NBT = stack.getTagCompound();
         long amount = 0;
         OreDictMaterial mat = MT.NULL;
-        if (NBT != null) {
+        if (NBT != null && stack.getItem() instanceof ItemMaterialDisplay) {
             amount = NBT.getLong("a");
             short matId = NBT.getShort("m");
             mat = OreDictMaterial.get(matId);
@@ -113,14 +120,12 @@ public class ItemMaterialDisplay extends Item implements IItemGT {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister aIconRegister) {
-        icon = aIconRegister.registerIcon(CS.ModIDs.GT + ":" + TEX_DIR_ITEM + "ItemMaterialDisplay.png");
-        LOG.debug("registerIcons called, icon: {}", icon);
+        icon = aIconRegister.registerIcon(CS.ModIDs.GT + ":" + "ItemMaterialDisplay");
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIconFromDamage(int aMeta) {
-        LOG.debug("getIconFromDamage called, icon: {}", icon);
         return icon;
     }
 
@@ -155,5 +160,68 @@ public class ItemMaterialDisplay extends Item implements IItemGT {
     }
     @Override public final boolean hasContainerItem(ItemStack aStack) {
         return false;
+    }
+
+    static {
+        GuiContainerManager.addInputHandler(new ItemMaterialDisplayNeiHandler());
+    }
+
+    public static class ItemMaterialDisplayNeiHandler implements IContainerInputHandler {
+        protected boolean canHandle(GuiContainer gui) {
+            return gui instanceof ContainerClient;
+        }
+
+        protected boolean showUsages(ItemStack stackover) {
+            OreDictMaterial mat = ItemMaterialDisplay.UnDisplay(stackover).mMaterial;
+            if (mat != MT.NULL)
+                return GuiUsageRecipe.openRecipeGui("item", OP.dust.mat(mat, 1));
+
+            return false;
+        }
+
+        protected boolean showRecipes(ItemStack stackover) {
+            OreDictMaterial mat = ItemMaterialDisplay.UnDisplay(stackover).mMaterial;
+            if (mat != MT.NULL)
+                return GuiCraftingRecipe.openRecipeGui("item", OP.ingot.mat(mat, 1));
+
+            return false;
+        }
+
+        @Override
+        public boolean keyTyped(GuiContainer gui, char keyChar, int keyCode) {
+            ItemStack stackover = GuiContainerManager.getStackMouseOver(gui);
+            if (stackover == null)
+                return false;
+            if(keyCode == NEIClientConfig.getKeyBinding("gui.usage") || (keyCode == NEIClientConfig.getKeyBinding("gui.recipe") && NEIClientUtils.shiftKey()))
+                return showRecipes(stackover);
+            if(keyCode == NEIClientConfig.getKeyBinding("gui.recipe"))
+                return showUsages(stackover);
+
+            return false;
+        }
+
+        @Override
+        public boolean mouseClicked(GuiContainer gui, int mousex, int mousey, int button) {
+            if (!canHandle(gui))
+                return false;
+            ItemStack stackover = GuiContainerManager.getStackMouseOver(gui);
+            if (stackover == null)
+                return false;
+            if (button == 0)
+                return showRecipes(stackover);
+            if (button == 1)
+                return showUsages(stackover);
+
+            return false;
+        }
+
+
+        @Override public void onKeyTyped(GuiContainer gui, char keyChar, int keyID) {}
+        @Override public boolean lastKeyTyped(GuiContainer gui, char keyChar, int keyID) { return false; }
+        @Override public void onMouseClicked(GuiContainer gui, int mousex, int mousey, int button) {}
+        @Override public void onMouseUp(GuiContainer gui, int mousex, int mousey, int button) {}
+        @Override public boolean mouseScrolled(GuiContainer gui, int mousex, int mousey, int scrolled) { return false; }
+        @Override public void onMouseScrolled(GuiContainer gui, int mousex, int mousey, int scrolled) {}
+        @Override public void onMouseDragged(GuiContainer gui, int mousex, int mousey, int button, long heldTime) {}
     }
 }

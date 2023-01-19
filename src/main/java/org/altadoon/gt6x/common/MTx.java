@@ -419,7 +419,7 @@ public class MTx {
     MgCl2Solution = registerLiquid(lquddcmp(16105, "Magnesium Chloride Solution", 255, 235, 255, 200)
             .setMcfg(0, MT.MgCl2, 3*U, MT.H2O, 3*U)
             .heat(MT.H2O)),
-    Fayalite = dustdcmp(16106, "Fayalite", SET_POWDER, 100, 50, 0, 255)
+    Fayalite = dustdcmp(16106, "Fayalite", SET_DULL, 100, 50, 0, 255)
             .setMcfg(0, FeO, 4*U, MT.SiO2, 3*U)
             .heat(C + 1205),
     FerrousSlag = create( 16107, "Ferrous Slag", 255, 200, 180, 255)
