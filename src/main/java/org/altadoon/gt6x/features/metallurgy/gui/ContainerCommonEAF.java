@@ -1,4 +1,4 @@
-package org.altadoon.gt6x.gui;
+package org.altadoon.gt6x.features.metallurgy.gui;
 
 import gregapi.gui.ContainerCommon;
 import gregapi.gui.Slot_Holo;

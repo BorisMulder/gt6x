@@ -1,4 +1,4 @@
-package org.altadoon.gt6x.common;
+package org.altadoon.gt6x.features.metallurgy;
 
 import gregapi.code.ArrayListNoNulls;
 import gregapi.data.FL;

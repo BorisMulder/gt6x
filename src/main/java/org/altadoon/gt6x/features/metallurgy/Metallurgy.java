@@ -17,7 +17,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.FluidStack;
 import org.altadoon.gt6x.common.Config;
-import org.altadoon.gt6x.common.EAFSmeltingRecipe;
 import org.altadoon.gt6x.common.MTEx;
 import org.altadoon.gt6x.common.MTx;
 import org.altadoon.gt6x.features.GT6XFeature;

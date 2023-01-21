@@ -1,11 +1,11 @@
-package org.altadoon.gt6x.gui;
+package org.altadoon.gt6x.features.metallurgy.gui;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import gregapi.data.LH;
 import gregapi.gui.ContainerClient;
 import net.minecraft.entity.player.InventoryPlayer;
-import org.altadoon.gt6x.common.EAFSmeltingRecipe;
+import org.altadoon.gt6x.features.metallurgy.EAFSmeltingRecipe;
 import org.altadoon.gt6x.features.metallurgy.MultiTileEntityEAF;
 
 @SideOnly(Side.CLIENT)
