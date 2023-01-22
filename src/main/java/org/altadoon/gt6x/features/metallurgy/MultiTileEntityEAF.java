@@ -276,7 +276,7 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
         LH.add("gt6x.tooltip.multiblock.eaf.5", "Fourth layer: 3x3 of 8 Alumina Refractory Bricks, one block of Graphite Electrodes at the center.");
         LH.add("gt6x.tooltip.multiblock.eaf.6", "molten metal (or most dense liquid) out at the hole in the bottom layer to the right of the main");
         LH.add("gt6x.tooltip.multiblock.eaf.7", "slag (or least dense liquid) out at the hole in the second layer to the left of the main");
-        LH.add("gt6x.tooltip.multiblock.eaf.8", "Energy in at the electrode on the top, Items in and gases out at the top walls, fluids in at the third layer");
+        LH.add("gt6x.tooltip.multiblock.eaf.8", "Energy in at the electrode on the top, Items in and gases out at the top layer, fluids in at the third layer");
         LH.add("gt6x.tooltip.multiblock.eaf.9", "Use Gibbl-o-meter to measure the total amount of gases inside");
     }
 
@@ -589,7 +589,7 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
                 Pair<Integer, OreDictMaterialStack> idxStack = getStack(false, MaterialState.GAS_OR_PLASMA);
                 if (idxStack != null) {
                     OreDictMaterialStack stack = idxStack.getValue();
-                    FluidStack gas = stack.mMaterial.gas(stack.mAmount, false);
+                    FluidStack gas = OMStackToFluid(stack);
                     if (FL.Error.is(gas)) {
                         return didEmit;
                     }
@@ -598,7 +598,7 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
                     if (target.mTileEntity instanceof IFluidHandler && ((IFluidHandler)target.mTileEntity).canFill(target.getForgeSideOfTileEntity(), gas.getFluid())) {
                         long transferred = FL.fill(target, gas, true);
                         if (transferred > 0) {
-                            decreaseContent(idxStack, UT.Code.units_(transferred, 1000, U, true));
+                            decreaseContent(idxStack, UT.Code.units_(transferred, 1000, U, true), true);
                             didEmit = true;
                         }
                     }
@@ -699,6 +699,9 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
 
     protected OreDictMaterialStack fluidToOMStack(FluidStack fluidStack) {
         OreDictMaterialStack mat = OreDictMaterial.FLUID_MAP.get(fluidStack.getFluid().getName());
+        if (mat == null)
+            return null;
+
         long amount = UT.Code.units(fluidStack.amount, mat.mAmount, U, false);
         return mat.copy(amount);
     }
@@ -707,6 +710,12 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
         return matStack.mMaterial.fluid(currentTemperature, matStack.mAmount, false);
     }
 
+    /**
+     * get the next stack in a given state from the content
+     * @param countFromBottom if true, search from bottom to top. If false, top to bottom and skip the bottom liquid.
+     * @param state the desired MaterialState
+     * @return a pair of the index in the content and the OreDictMaterialStack
+     */
     protected Pair<Integer, OreDictMaterialStack> getStack(boolean countFromBottom, MaterialState state) {
         if (countFromBottom) {
             for (int i = content.size() - 1; i >= 0; i--) {
@@ -726,6 +735,12 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
         return null;
     }
 
+    /**
+     * Search for a specific material in the content
+     * @param mat the material to search for
+     * @param skipBottomLayer if true, the last (bottom) stack in the content is skipped in the search
+     * @return a pair of the index in the content and the OreDictMaterialStack
+     */
     protected Pair<Integer, OreDictMaterialStack> findStack(OreDictMaterial mat, boolean skipBottomLayer) {
         for (int i = 0; i < content.size() - (skipBottomLayer ? 1 : 0); i++) {
             OreDictMaterialStack stack = content.get(i);
@@ -734,43 +749,40 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
         return null;
     }
 
-    protected boolean decreaseContent(Pair<Integer, OreDictMaterialStack> stackIdx, long amount) {
-        if (stackIdx == null || amount <= 0)
-            return false;
+    /**
+     * Decrease content by an amount of units and return an OreDictMaterialStack containing the decreased material
+     * @param idxStack the index in the content + the content stack
+     * @param amount the amount of units to be drained
+     * @param doDecrease if set to false, it does not remove the amount from the content
+     * @return a stack containing the removed amount
+     */
+    protected OreDictMaterialStack decreaseContent(Pair<Integer, OreDictMaterialStack> idxStack, long amount, boolean doDecrease) {
+        if (idxStack == null || amount <= 0)
+            return null;
 
-        OreDictMaterialStack stack = stackIdx.getValue();
-        stack.mAmount -= amount;
-        if (stack.mAmount <= 0) {
-            content.remove(stackIdx.getKey().intValue());
+        OreDictMaterialStack stack = idxStack.getValue();
+        amount = Math.min(amount, stack.mAmount);
+
+        if (doDecrease) {
+            stack.mAmount -= amount;
+            if (stack.mAmount <= 0) {
+                content.remove(idxStack.getKey().intValue());
+            }
         }
-        return true;
+        return new OreDictMaterialStack(stack.mMaterial, amount);
     }
 
-    protected FluidStack drainFluidFrom(Pair<Integer, OreDictMaterialStack> stackIdx, MaterialState state, int amount, boolean doDrain) {
-        FluidStack result = null;
-        long amountUnits = 0;
+    protected FluidStack takeFluid(Pair<Integer, OreDictMaterialStack> idxStack, int fluidAmount, boolean doDecrease) {
+        FluidStack tmp = OMStackToFluid(idxStack.getValue());
+        tmp.amount = fluidAmount;
+        OreDictMaterialStack tmp2 = fluidToOMStack(tmp);
 
-        OreDictMaterialStack stack = stackIdx.getValue();
+        OreDictMaterialStack stack = decreaseContent(idxStack, tmp2.mAmount, doDecrease);
+        FluidStack result = OMStackToFluid(stack);
+        if (!FL.Error.is(result.getFluid()))
+            return result;
 
-        switch (state) {
-            case LIQUID:
-                amountUnits = Math.min(stack.mAmount, UT.Code.units_(amount, stack.mMaterial.mLiquid.amount, U, false));
-                result = stack.mMaterial.liquid(amountUnits, false);
-                break;
-            case GAS_OR_PLASMA:
-                amountUnits = Math.min(stack.mAmount, UT.Code.units_(amount, stack.mMaterial.mGas.amount, U, false));
-                result = stack.mMaterial.gas(amountUnits, false);
-                break;
-        }
-
-        if (result == null || FL.Error.is(result)) {
-            return null;
-        }
-
-        if (doDrain)
-            decreaseContent(stackIdx, amountUnits);
-
-        return result;
+        return NF;
     }
 
     protected boolean doPour(boolean countFromBottom, ITileEntityMold mold, byte sideOfMold) {
@@ -778,7 +790,8 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
 
         if (stack != null) {
             long amount = mold.fillMold(stack.getValue(), currentTemperature, sideOfMold);
-            return decreaseContent(stack, amount);
+            decreaseContent(stack, amount, true);
+            return true;
         }
 
         return false;
@@ -801,80 +814,51 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
         return false;
     }
 
-    protected FluidStack drainGas(int amount, boolean doDrain) {
-        Pair<Integer, OreDictMaterialStack> stack = getStack(false, MaterialState.GAS_OR_PLASMA);
-        if (stack != null) {
-            return drainFluidFrom(stack, MaterialState.GAS_OR_PLASMA, amount, doDrain);
-        }
-        return NF;
-    }
+    protected int fill(FluidStack fluidStack, boolean doFill) {
+        OreDictMaterialStack matStack = fluidToOMStack(fluidStack);
 
-    protected FluidStack drainLiquid(byte side, int amount, boolean doDrain) {
-        Pair<Integer, OreDictMaterialStack> stack = null;
-        switch (getRelativeSide(side)) {
-            case SIDE_LEFT:  stack = getStack(false, MaterialState.LIQUID); break;
-            case SIDE_RIGHT: stack = getStack(true , MaterialState.LIQUID); break;
-        }
-        if (stack != null) {
-            return drainFluidFrom(stack, MaterialState.LIQUID, amount, doDrain);
-        }
-        return NF;
-    }
+        long availableSpace = MAX_UNITS * U;
 
-    protected int fill(byte side, FluidStack stack, boolean doFill) {
+        // calculate the amount of room left
+        for (OreDictMaterialStack stack : content) {
+            availableSpace -= stack.mAmount;
+        }
+        if (availableSpace == 0)
+            return 0;
 
+        matStack.mAmount = Math.min(availableSpace, matStack.mAmount);
+        FluidStack tmp = OMStackToFluid(matStack);
+
+        if (doFill && addMaterialStacks(Collections.singletonList(matStack), FL.temperature(fluidStack))) {
+            currentWeight = OM.weight(content);
+        }
+        return tmp.amount;
     }
 
     @Override
     public int fill(MultiTileEntityMultiBlockPart aPart, byte aSide, FluidStack aFluid, boolean aDoFill) {
-
-
-        return fill(aSide, aFluid, aDoFill);
+        return fill(aFluid, aDoFill);
     }
 
     @Override
     public FluidStack drain(MultiTileEntityMultiBlockPart aPart, byte aSide, FluidStack aFluid, boolean aDoDrain) {
-        OreDictMaterialStack mat = OreDictMaterial.FLUID_MAP.get(aFluid.getFluid().getName());
+        OreDictMaterialStack mat = fluidToOMStack(aFluid);
         if (mat == null) return NF;
 
-        Pair<Integer, OreDictMaterialStack> stack = null;
+        Pair<Integer, OreDictMaterialStack> idxStack = null;
 
         switch (getRelativeSide(aSide)) {
             case SIDE_LEFT:
-                stack = findStack(mat.mMaterial, true);
+                idxStack = findStack(mat.mMaterial, true);
                 break;
             case SIDE_RIGHT:
             case SIDE_TOP:
-                stack = findStack(mat.mMaterial, false);
+                idxStack = findStack(mat.mMaterial, false);
                 break;
         }
 
-        if (stack != null) {
-            FluidStack fluidStack = OMStackToFluid(stack.getValue());
-            if (fluidStack.isFluidEqual(aFluid)) {
-                fluidStack.amount = Math.min(fluidStack.amount, aFluid.amount);
-
-
-
-                return fluidStack;
-            }
-
-        }
-
-        int end = getRelativeSide(aSide) == SIDE_LEFT ? 1 : 0;
-
-        for (int i = 0; i < content.size() - end; i++) {
-            OreDictMaterialStack stack = content.get(i);
-            FluidStack fluid = OMStackToFluid(stack);
-            if (aFluid.isFluidEqual(fluid)) {
-                if (aDoDrain) {
-                    decreaseContent(i, )
-                } else {
-                    return fluid;
-                }
-
-                return aDoDrain ? drainFluidFrom(pair, state, fluid.amount, true) : fluid;
-            }
+        if (idxStack != null) {
+            return takeFluid(idxStack, aFluid.amount, aDoDrain);
         }
 
         return NF;
@@ -882,19 +866,22 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
 
     @Override
     public FluidStack drain(MultiTileEntityMultiBlockPart aPart, byte aSide, int aAmountToDrain, boolean aDoDrain) {
-        Pair<Integer, OreDictMaterialStack> stack = null;
+        Pair<Integer, OreDictMaterialStack> idxStack = null;
 
         switch (getRelativeSide(aSide)) {
             case SIDE_LEFT:
-                stack = getStack(false, MaterialState.LIQUID);
+                idxStack = getStack(false, MaterialState.LIQUID);
+                break;
             case SIDE_RIGHT:
-                stack = getStack(true, MaterialState.LIQUID);
+                idxStack = getStack(true, MaterialState.LIQUID);
+                break;
             case SIDE_TOP:
-                stack = getStack(false, MaterialState.GAS_OR_PLASMA);
+                idxStack = getStack(false, MaterialState.GAS_OR_PLASMA);
+                break;
         }
 
-        if (stack != null) {
-            //TODO
+        if (idxStack != null) {
+            return takeFluid(idxStack, aAmountToDrain, aDoDrain);
         }
 
         return NF;
@@ -902,8 +889,7 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
 
     @Override
     public boolean canFill(MultiTileEntityMultiBlockPart aPart, byte aSide, Fluid aFluid) {
-        return aPart.yCoord == yCoord + 3 &&
-
+        return aPart.yCoord == yCoord + 3 && fill(new FluidStack(aFluid, 1), false) > 0;
     }
 
     @Override
@@ -913,22 +899,41 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
 
     @Override
     public FluidStack nozzleDrain(byte aSide, int aMaxDrain, boolean aDoDrain) {
-        return drainGas(aMaxDrain, aDoDrain);
+        Pair<Integer, OreDictMaterialStack> idxStack = getStack(false, MaterialState.GAS_OR_PLASMA);
+        if (idxStack != null) {
+            return takeFluid(idxStack, aMaxDrain, aDoDrain);
+        }
+
+        return NF;
     }
 
     @Override
     public FluidStack tapDrain(byte aSide, int aMaxDrain, boolean aDoDrain) {
-        return drainLiquid(aSide, aMaxDrain, aDoDrain);
+        Pair<Integer, OreDictMaterialStack> idxStack = null;
+        switch (getRelativeSide(aSide)) {
+            case SIDE_LEFT:
+                idxStack = getStack(false, MaterialState.LIQUID);
+                break;
+            case SIDE_RIGHT:
+                idxStack = getStack(true, MaterialState.LIQUID);
+                break;
+        }
+
+        if (idxStack != null) {
+            return takeFluid(idxStack, aMaxDrain, aDoDrain);
+        }
+
+        return NF;
     }
 
     @Override
     public int capnozzleFill(byte aSide, FluidStack aFluid, boolean aDoFill) {
-        return fill(aSide, aFluid, aDoFill);
+        return fill(aFluid, aDoFill);
     }
 
     @Override
     public int funnelFill(byte aSide, FluidStack aFluid, boolean aDoFill) {
-        return fill(aSide, aFluid, aDoFill);
+        return fill(aFluid, aDoFill);
     }
 
     @Override
@@ -936,45 +941,35 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
         if (isClientSide()) return super.onToolClick2(tool, remainingDurability, toolQuality, player, chatReturn, playerInventory, isSneaking, stack, side, hitX, hitY, ditZ);
         if (tool.equals(TOOL_thermometer)) {if (chatReturn != null) chatReturn.add("Temperature: " + currentTemperature + "K"); return 10000;}
         if (tool.equals(TOOL_shovel) && checkStructure(false) && player instanceof EntityPlayer) {
-            OreDictMaterialStack toEmpty = null;
+            Pair<Integer, OreDictMaterialStack> toEmpty = null;
 
-            byte relative_side = FACING_ROTATIONS[mFacing][side];
-            switch (relative_side) {
+            switch (getRelativeSide(side)) {
                 case SIDE_LEFT: // shovel the topmost material
-                    for (OreDictMaterialStack matStack : content) {
-                        if (currentTemperature < matStack.mMaterial.mMeltingPoint) {
-                            toEmpty = matStack;
-                            break;
-                        }
-                    }
+                    toEmpty = getStack(false, MaterialState.SOLID);
                     break;
                 case SIDE_RIGHT: // shovel the bottom-most material
-                    ListIterator<OreDictMaterialStack> it = content.listIterator(content.size());
-                    while (it.hasPrevious()) {
-                        OreDictMaterialStack matStack = it.previous();
-                        if (currentTemperature < matStack.mMaterial.mMeltingPoint) {
-                            toEmpty = matStack;
-                            break;
-                        }
-                    }
+                    toEmpty = getStack(true, MaterialState.SOLID);
                     break;
             }
 
             if (toEmpty != null) {
-                if (toEmpty.mAmount < OP.scrapGt.mAmount) {
-                    toEmpty.mAmount = 0;
+                long amountAvailable = toEmpty.getValue().mAmount;
+                if (amountAvailable < OP.scrapGt.mAmount) {
+                    decreaseContent(toEmpty, amountAvailable, true);
                     ((EntityPlayer)player).addExhaustion(0.1F);
                     return 500;
                 }
-                ItemStack tOutputStack = OP.scrapGt.mat(toEmpty.mMaterial, UT.Code.bindStack(toEmpty.mAmount / OP.scrapGt.mAmount));
+
+                long amountToRemove = Math.min(OP.scrapGt.mAmount * 64, amountAvailable);
+                OreDictMaterialStack toEmptyStack = decreaseContent(toEmpty, amountToRemove, true);
+                ItemStack tOutputStack = OP.scrapGt.mat(toEmptyStack.mMaterial, toEmptyStack.mAmount / OP.scrapGt.mAmount);
+
                 if (tOutputStack == null) {
-                    toEmpty.mAmount = 0;
                     ((EntityPlayer)player).addExhaustion(0.1F);
                     return 500;
                 }
                 if (UT.Inventories.addStackToPlayerInventory((EntityPlayer)player, tOutputStack)) {
                     ((EntityPlayer)player).addExhaustion(0.1F * tOutputStack.stackSize);
-                    toEmpty.mAmount -= OP.scrapGt.mAmount * tOutputStack.stackSize;
                     return 1000L * tOutputStack.stackSize;
                 }
                 return 0;
