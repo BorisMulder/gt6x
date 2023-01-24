@@ -35,7 +35,6 @@ import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import gregapi.util.WD;
-import javafx.util.Pair;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -51,6 +50,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
 import org.altadoon.gt6x.common.ItemMaterialDisplay;
 import org.altadoon.gt6x.common.MTEx;
+import org.altadoon.gt6x.common.Pair;
 import org.altadoon.gt6x.features.metallurgy.gui.ContainerClientEAF;
 import org.altadoon.gt6x.features.metallurgy.gui.ContainerCommonEAF;
 
@@ -169,6 +169,7 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
 
     private boolean shouldBeAir(int i, int k) { return (i == 0 && Math.abs(k) != 2) || (k == 0 && Math.abs(i) != 2); }
 
+    //TODO pipes not connecting
     @Override
     public boolean checkStructure2() {
         int mteRegID = Block.getIdFromBlock(MTEx.gt6xMTEReg.mBlock);
@@ -459,7 +460,11 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
         boolean contentChanged = false;
 
         if (preferredEAFRecipe != null) {
+            StringBuilder buf = new StringBuilder();
+            buf.append("executing EAF recipe, inputs: \n");
+
             for (OreDictMaterialStack ingredient : preferredEAFRecipe.ingredients.getUndividedComponents()) {
+                buf.append(((double)ingredient.mAmount) / U).append(" units of ").append(ingredient.mMaterial.mNameInternal).append('\n');
                 for (OreDictMaterialStack tContent : content) {
                     if (tContent.mMaterial == ingredient.mMaterial) {
                         tContent.mAmount -= UT.Code.units_(maxConversions, U, ingredient.mAmount, T);
@@ -467,9 +472,14 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
                     }
                 }
             }
+
+            buf.append("outputs: \n");
             for (OreDictMaterialStack result : preferredEAFRecipe.results.getUndividedComponents()) {
+                buf.append(((double)result.mAmount) / U).append(" units of ").append(result.mMaterial.mNameInternal).append('\n');
                 OM.stack(result.mMaterial, preferredEAFRecipe.results.getCommonDivider() * maxConversions).addToList(content);
             }
+
+            LOG.debug(buf.toString());
             contentChanged = true;
         } else if (preferredAlloy != null && preferredRecipe != null) {
             for (OreDictMaterialStack tComponent : preferredRecipe.getUndividedComponents()) {
@@ -1058,15 +1068,11 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
     private final ItemStack[] clientGuiSlotContent = new ItemStack[GUI_SLOTS];
 
     @Override public ItemStack getStackInSlotGUI(int slot) {
-        LOG.debug("getStackInSlotGUI called from {} on slot {}", getSide(), slot);
-
         if (isServerSide()) {
             if (slot >= content.size())
                 return null;
 
             OreDictMaterialStack stack = content.get(slot);
-
-            LOG.debug("it contains a stack of {} units of {}", (double) stack.mAmount / U, stack.mMaterial.getLocal());
 
             if (currentTemperature >= stack.mMaterial.mMeltingPoint) {
                 FluidStack fluid = stack.mMaterial.fluid(currentTemperature, stack.mAmount, false);
@@ -1084,8 +1090,6 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
         if(stack == null) {
             return;
         }
-
-        LOG.debug("setInventorySlotContentsGUI called from {} on slot {} with a stack of {} {}", getSide(), slot, stack.stackSize, stack.getDisplayName());
 
         if (isClientSide()) {
             clientGuiSlotContent[slot] = stack;

@@ -98,9 +98,9 @@ public class ItemMaterialDisplay extends Item implements IItemGT {
             list.add(LH.Chat.BLINKING_RED + "CLIENTSIDE MATERIAL IS NULL!!!");
         }
 
-        if (mat.mAmount > 0) {
-            list.add(LH.Chat.BLUE + String.format("Content: %.3f Units of %s", (double)mat.mAmount / U, mat.mMaterial.getLocal()));
-        }
+        list.add(LH.Chat.BLUE + String.format("Content: %.3f Units of %s", (double)mat.mAmount / U, mat.mMaterial.getLocal()));
+        list.add(LH.Chat.YELLOW + mat.mMaterial.mTooltipChemical);
+
         if (temperature >= 0) {
             list.add(LH.Chat.GREEN + String.format("Temperature: %d K", temperature));
             list.add(LH.Chat.WHITE + "State: " + (
