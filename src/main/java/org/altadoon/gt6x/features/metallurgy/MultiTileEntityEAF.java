@@ -730,12 +730,16 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
         if (countFromBottom) {
             for (int i = content.size() - 1; i >= 0; i--) {
                 OreDictMaterialStack bottomStack = content.get(i);
-                if (hasState(bottomStack, state)) return new Pair<>(i, bottomStack);
+                if (hasState(bottomStack, state)) {
+                    return new Pair<>(i, bottomStack);
+                }
             }
         } else if (content.size() > 1) { // skip the bottom-most layer
             for (int i = 0; i < content.size() - 1; i++) {
                 OreDictMaterialStack topStack = content.get(i);
-                if (hasState(topStack, state)) return new Pair<>(i, topStack);
+                if (hasState(topStack, state)) {
+                    return new Pair<>(i, topStack);
+                }
             }
         } else if (state == MaterialState.GAS_OR_PLASMA && !content.isEmpty()) {
             OreDictMaterialStack topStack = content.get(0);
@@ -815,10 +819,10 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
     public boolean fillMoldAtSide(ITileEntityMold mold, byte sideOfMachine, byte sideOfMold) {
         if (checkStructure(false)) {
             switch (getRelativeSide(sideOfMachine)) {
-                case SIDE_LEFT: // pour the topmost material
-                    return doPour(false, mold, sideOfMold);
-                case SIDE_RIGHT: // pour the bottom-most material
+                case SIDE_LEFT: // pour the bottom-most material
                     return doPour(true, mold, sideOfMold);
+                case SIDE_RIGHT: // pour the top-most material
+                    return doPour(false, mold, sideOfMold);
             }
         }
         return false;
@@ -954,10 +958,10 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
             Pair<Integer, OreDictMaterialStack> toEmpty = null;
 
             switch (getRelativeSide(side)) {
-                case SIDE_LEFT: // shovel the topmost material
+                case SIDE_RIGHT: // shovel the topmost material
                     toEmpty = getStack(false, MaterialState.SOLID);
                     break;
-                case SIDE_RIGHT: // shovel the bottom-most material
+                case SIDE_LEFT: // shovel the bottom-most material
                     toEmpty = getStack(true, MaterialState.SOLID);
                     break;
             }

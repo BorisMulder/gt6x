@@ -99,7 +99,10 @@ public class ItemMaterialDisplay extends Item implements IItemGT {
         }
 
         list.add(LH.Chat.BLUE + String.format("Content: %.3f Units of %s", (double)mat.mAmount / U, mat.mMaterial.getLocal()));
-        list.add(LH.Chat.YELLOW + mat.mMaterial.mTooltipChemical);
+
+        if (mat.mMaterial.mTooltipChemical != null) {
+            list.add(LH.Chat.YELLOW + mat.mMaterial.mTooltipChemical);
+        }
 
         if (temperature >= 0) {
             list.add(LH.Chat.GREEN + String.format("Temperature: %d K", temperature));
@@ -116,7 +119,6 @@ public class ItemMaterialDisplay extends Item implements IItemGT {
         list.add(LH.Chat.WHITE + String.format("Density: %.3f g/cm\u00B3", mat.mMaterial.mGramPerCubicCentimeter));
     }
 
-    //TODO fix
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister aIconRegister) {
