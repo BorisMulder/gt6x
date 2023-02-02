@@ -117,6 +117,32 @@ public class ItemMaterialDisplay extends Item implements IItemGT {
         list.add(LH.Chat.WHITE + String.format("Boiling point: %d K", mat.mMaterial.mBoilingPoint));
         list.add(LH.Chat.WHITE + String.format("Weight: %.3f kg", OM.weight(Collections.singletonList(mat))));
         list.add(LH.Chat.WHITE + String.format("Density: %.3f g/cm\u00B3", mat.mMaterial.mGramPerCubicCentimeter));
+
+        if (mat.mMaterial.contains(TD.Properties.UNBURNABLE)) {
+            list.add(LH.Chat.GREEN + LH.get(LH.TOOLTIP_UNBURNABLE));
+        } else if (mat.mMaterial.contains(TD.Properties.FLAMMABLE)) {
+            if (mat.mMaterial.contains(TD.Properties.EXPLOSIVE)) {
+                list.add(LH.Chat.BLINKING_RED + LH.get(LH.TOOLTIP_FLAMMABLE_AND_EXPLOSIVE));
+            } else {
+                list.add(LH.Chat.RED + LH.get(LH.TOOLTIP_FLAMMABLE));
+            }
+        } else if (mat.mMaterial.contains(TD.Properties.EXPLOSIVE)) {
+            list.add(LH.Chat.RED + LH.get(LH.TOOLTIP_EXPLOSIVE));
+        }
+
+        if (mat.mMaterial.mOriginalMod == null) {
+            list.add(LH.Chat.BLUE + "Material from an Unknown Mod");
+        } else if (mat.mMaterial.mOriginalMod == MD.MC) {
+            list.add(LH.Chat.BLUE + "Vanilla Material");
+        } else if (mat.mMaterial.mOriginalMod == MD.GAPI) {
+            if (mat.mMaterial.mID > 0 && mat.mMaterial.mID < 8000) {
+                list.add(LH.Chat.BLUE + "Material from the Periodic Table of Elements");
+            } else {
+                list.add(LH.Chat.BLUE + "Random Material handled by Greg API");
+            }
+        } else {
+            list.add(LH.Chat.BLUE + "Material from " + mat.mMaterial.mOriginalMod.mName);
+        }
     }
 
     @Override

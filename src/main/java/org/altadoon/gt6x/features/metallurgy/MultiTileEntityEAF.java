@@ -19,7 +19,6 @@ import gregapi.render.BlockTextureDefault;
 import gregapi.render.BlockTextureMulti;
 import gregapi.render.IIconContainer;
 import gregapi.render.ITexture;
-import gregapi.tileentity.ITileEntityFunnelAccessible;
 import gregapi.tileentity.ITileEntityServerTickPost;
 import gregapi.tileentity.ITileEntityTapAccessible;
 import gregapi.tileentity.data.ITileEntityGibbl;
@@ -45,8 +44,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 import org.altadoon.gt6x.common.ItemMaterialDisplay;
 import org.altadoon.gt6x.common.MTEx;
@@ -60,7 +61,7 @@ import java.util.*;
 import static gregapi.data.CS.*;
 import static org.altadoon.gt6x.common.Log.LOG;
 
-public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implements ITileEntityCrucible, ITileEntityEnergy, ITileEntityWeight, ITileEntityTemperature, ITileEntityGibbl, ITileEntityMold, ITileEntityServerTickPost, ITileEntityEnergyDataCapacitor, IMultiBlockEnergy, IMultiBlockInventory, IMultiBlockFluidHandler, IFluidHandler, ITileEntityTapAccessible, ITileEntityFunnelAccessible {
+public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implements ITileEntityCrucible, ITileEntityEnergy, ITileEntityWeight, ITileEntityTemperature, ITileEntityMold, ITileEntityServerTickPost, ITileEntityEnergyDataCapacitor, IMultiBlockEnergy, IMultiBlockInventory, IMultiBlockFluidHandler, IFluidHandler, ITileEntityTapAccessible {
     private static final int GAS_RANGE = 5;
     private static final int FLAME_RANGE = 5;
     public static final long MAX_UNITS = 64*3;
@@ -169,7 +170,6 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
 
     private boolean shouldBeAir(int i, int k) { return (i == 0 && Math.abs(k) != 2) || (k == 0 && Math.abs(i) != 2); }
 
-    //TODO pipes not connecting
     @Override
     public boolean checkStructure2() {
         int mteRegID = Block.getIdFromBlock(MTEx.gt6xMTEReg.mBlock);
@@ -277,8 +277,7 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
         LH.add("gt6x.tooltip.multiblock.eaf.5", "Fourth layer: 3x3 of 8 Alumina Refractory Bricks, one block of Graphite Electrodes at the center.");
         LH.add("gt6x.tooltip.multiblock.eaf.6", "molten metal (or most dense liquid) out at the hole in the bottom layer to the right of the main");
         LH.add("gt6x.tooltip.multiblock.eaf.7", "slag (or least dense liquid) out at the hole in the second layer to the left of the main");
-        LH.add("gt6x.tooltip.multiblock.eaf.8", "Energy in at the electrode on the top, Items in and gases out at the top layer, fluids in at the third layer");
-        LH.add("gt6x.tooltip.multiblock.eaf.9", "Use Gibbl-o-meter to measure the total amount of gases inside");
+        LH.add("gt6x.tooltip.multiblock.eaf.8", "Energy in at the electrode on the top, Items in and gases out at the top layer");
     }
 
     @Override
@@ -591,32 +590,33 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
     }
 
     private boolean emitGases() {
-        boolean didEmit = false;
+        if (content.isEmpty())
+            return false;
 
-        if (!content.isEmpty()) {
-            int tX = getOffsetXN(mFacing, 2), tY = yCoord+4, tZ = getOffsetZN(mFacing, 2);
-            for (int i = -1; i <= 1; i++) for (int j = -1; j <= 1; j++) {
-                Pair<Integer, OreDictMaterialStack> idxStack = getStack(false, MaterialState.GAS_OR_PLASMA);
-                if (idxStack != null) {
-                    OreDictMaterialStack stack = idxStack.getValue();
-                    FluidStack gas = OMStackToFluid(stack);
-                    if (FL.Error.is(gas)) {
-                        return didEmit;
-                    }
+        int tX = getOffsetXN(mFacing, 2), tY = yCoord+3, tZ = getOffsetZN(mFacing, 2);
+        Pair<Integer, OreDictMaterialStack> idxStack = getStack(false, MaterialState.GAS_OR_PLASMA);
+        if (idxStack == null)
+            return false;
+        OreDictMaterialStack stack = idxStack.getValue();
+        FluidStack gas = OMStackToFluid(stack);
+        if (FL.Error.is(gas)) {
+            LOG.debug("No gas exists for material {}", stack.mMaterial.getLocal());
+            return false;
+        }
 
-                    DelegatorTileEntity<TileEntity> target = WD.te(worldObj, tX+i, tY, tZ+j, SIDE_BOTTOM, false);
-                    if (target.mTileEntity instanceof IFluidHandler && ((IFluidHandler)target.mTileEntity).canFill(target.getForgeSideOfTileEntity(), gas.getFluid())) {
-                        long transferred = FL.fill(target, gas, true);
-                        if (transferred > 0) {
-                            decreaseContent(idxStack, UT.Code.units_(transferred, 1000, U, true), true);
-                            didEmit = true;
-                        }
-                    }
+        for (int i = -1; i <= 1; i++) for (int j = -1; j <= 1; j++) {
+            DelegatorTileEntity<TileEntity> target = WD.te(worldObj, tX+i, tY, tZ+j, SIDE_BOTTOM, false);
+            if (target.mTileEntity instanceof IFluidHandler && ((IFluidHandler)target.mTileEntity).canFill(target.getForgeSideOfTileEntity(), gas.getFluid())) {
+                long transferred = FL.fill(target, gas, true);
+                if (transferred > 0) {
+                    decreaseContent(idxStack, UT.Code.units_(transferred, 1000, U, true), true);
+                    emitGases();
+                    return true;
                 }
             }
         }
 
-        return didEmit;
+        return false;
     }
 
     private boolean canAddNewStacks(List<OreDictMaterialStack> stacks) {
@@ -642,8 +642,6 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
             double crucibleWeight = OM.weight(content)+mMaterial.getWeight(U*100), stacksWeight = OM.weight(stacks);
             if (crucibleWeight+stacksWeight > 0) currentTemperature = temperature + (currentTemperature >temperature?+1:-1)*UT.Code.units(Math.abs(currentTemperature - temperature), (long)(crucibleWeight+stacksWeight), (long)crucibleWeight, false);
             for (OreDictMaterialStack stack : stacks) {
-                LOG.debug("trying to add {} units of {}", (double)stack.mAmount / U, stack.mMaterial.mNameInternal);
-
                 if (currentTemperature >= stack.mMaterial.mMeltingPoint) {
                     if (temperature <  stack.mMaterial.mMeltingPoint) {
                         OM.stack(stack.mMaterial.mTargetSmelting.mMaterial, UT.Code.units_(stack.mAmount, U, stack.mMaterial.mTargetSmelting.mAmount, F)).addToList(content);
@@ -661,30 +659,6 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
             return true;
         }
         return false;
-    }
-
-    @Override
-    public boolean isMoldInputSide(byte side) {
-        return SIDES_TOP[side] && checkStructure(false);
-    }
-
-    @Override
-    public long getMoldMaxTemperature() {
-        return getTemperatureMax(SIDE_INSIDE);
-    }
-
-    @Override
-    public long getMoldRequiredMaterialUnits() {
-        return 1;
-    }
-
-    @Override
-    public long fillMold(OreDictMaterialStack material, long temperature, byte side) {
-        if (isMoldInputSide(side)) {
-            if (addMaterialStacks(Collections.singletonList(material), temperature)) return material.mAmount;
-            if (material.mAmount > U && addMaterialStacks(Collections.singletonList(OM.stack(material.mMaterial, U)), temperature)) return U;
-        }
-        return 0;
     }
 
     @Override
@@ -815,6 +789,7 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
         return FACING_ROTATIONS[mFacing][side];
     }
 
+    // ITileEntityCrucible
     @Override
     public boolean fillMoldAtSide(ITileEntityMold mold, byte sideOfMachine, byte sideOfMold) {
         if (checkStructure(false)) {
@@ -828,89 +803,54 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
         return false;
     }
 
-    protected int fill(FluidStack fluidStack, boolean doFill) {
-        OreDictMaterialStack matStack = fluidToOMStack(fluidStack);
-
-        long availableSpace = MAX_UNITS * U;
-
-        // calculate the amount of room left
-        for (OreDictMaterialStack stack : content) {
-            availableSpace -= stack.mAmount;
-        }
-        if (availableSpace == 0)
-            return 0;
-
-        matStack.mAmount = Math.min(availableSpace, matStack.mAmount);
-        FluidStack tmp = OMStackToFluid(matStack);
-
-        if (doFill && addMaterialStacks(Collections.singletonList(matStack), FL.temperature(fluidStack))) {
-            currentWeight = OM.weight(content);
-        }
-        return tmp.amount;
+    // ITileEntityMold
+    @Override
+    public boolean isMoldInputSide(byte side) {
+        return SIDES_TOP[side] && checkStructure(false);
     }
 
     @Override
-    public int fill(MultiTileEntityMultiBlockPart aPart, byte aSide, FluidStack aFluid, boolean aDoFill) {
-        return fill(aFluid, aDoFill);
+    public long getMoldMaxTemperature() {
+        return getTemperatureMax(SIDE_INSIDE);
     }
 
     @Override
-    public FluidStack drain(MultiTileEntityMultiBlockPart aPart, byte aSide, FluidStack aFluid, boolean aDoDrain) {
-        OreDictMaterialStack mat = fluidToOMStack(aFluid);
-        if (mat == null) return NF;
-
-        Pair<Integer, OreDictMaterialStack> idxStack = null;
-
-        switch (getRelativeSide(aSide)) {
-            case SIDE_LEFT:
-                idxStack = findStack(mat.mMaterial, true);
-                break;
-            case SIDE_RIGHT:
-            case SIDE_TOP:
-                idxStack = findStack(mat.mMaterial, false);
-                break;
-        }
-
-        if (idxStack != null) {
-            return takeFluid(idxStack, aFluid.amount, aDoDrain);
-        }
-
-        return NF;
+    public long getMoldRequiredMaterialUnits() {
+        return 1;
     }
 
     @Override
-    public FluidStack drain(MultiTileEntityMultiBlockPart aPart, byte aSide, int aAmountToDrain, boolean aDoDrain) {
-        Pair<Integer, OreDictMaterialStack> idxStack = null;
-
-        switch (getRelativeSide(aSide)) {
-            case SIDE_LEFT:
-                idxStack = getStack(false, MaterialState.LIQUID);
-                break;
-            case SIDE_RIGHT:
-                idxStack = getStack(true, MaterialState.LIQUID);
-                break;
-            case SIDE_TOP:
-                idxStack = getStack(false, MaterialState.GAS_OR_PLASMA);
-                break;
+    public long fillMold(OreDictMaterialStack material, long temperature, byte side) {
+        if (isMoldInputSide(side)) {
+            if (addMaterialStacks(Collections.singletonList(material), temperature)) return material.mAmount;
+            if (material.mAmount > U && addMaterialStacks(Collections.singletonList(OM.stack(material.mMaterial, U)), temperature)) return U;
         }
-
-        if (idxStack != null) {
-            return takeFluid(idxStack, aAmountToDrain, aDoDrain);
-        }
-
-        return NF;
+        return 0;
     }
 
+    // IMultiBlockFluidHandler
     @Override
     public boolean canFill(MultiTileEntityMultiBlockPart aPart, byte aSide, Fluid aFluid) {
-        return aPart.yCoord == yCoord + 3 && fill(new FluidStack(aFluid, 1), false) > 0;
+        return false;
     }
 
     @Override
     public boolean canDrain(MultiTileEntityMultiBlockPart aPart, byte aSide, Fluid aFluid) {
-        return drain(aPart, aSide, new FluidStack(aFluid, 1), false) != null;
+        return false;
     }
 
+    @Override
+    public FluidTankInfo[] getTankInfo(MultiTileEntityMultiBlockPart aPart, byte aDirection) {
+        return L1_FLUIDTANKINFO_DUMMY;
+    }
+
+    // IFluidHandler
+    @Override
+    public FluidTankInfo[] getTankInfo(ForgeDirection aDirection) {
+        return L1_FLUIDTANKINFO_DUMMY;
+    }
+
+    // ITileEntityTapAccessible
     @Override
     public FluidStack nozzleDrain(byte aSide, int aMaxDrain, boolean aDoDrain) {
         Pair<Integer, OreDictMaterialStack> idxStack = getStack(false, MaterialState.GAS_OR_PLASMA);
@@ -925,10 +865,10 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
     public FluidStack tapDrain(byte aSide, int aMaxDrain, boolean aDoDrain) {
         Pair<Integer, OreDictMaterialStack> idxStack = null;
         switch (getRelativeSide(aSide)) {
-            case SIDE_LEFT:
+            case SIDE_RIGHT:
                 idxStack = getStack(false, MaterialState.LIQUID);
                 break;
-            case SIDE_RIGHT:
+            case SIDE_LEFT:
                 idxStack = getStack(true, MaterialState.LIQUID);
                 break;
         }
@@ -938,16 +878,6 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
         }
 
         return NF;
-    }
-
-    @Override
-    public int capnozzleFill(byte aSide, FluidStack aFluid, boolean aDoFill) {
-        return fill(aFluid, aDoFill);
-    }
-
-    @Override
-    public int funnelFill(byte aSide, FluidStack aFluid, boolean aDoFill) {
-        return fill(aFluid, aDoFill);
     }
 
     @Override
@@ -1061,6 +991,7 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
     @Override public Object getGUIServer2(int aGUIID, EntityPlayer aPlayer) {return new ContainerCommonEAF(aPlayer.inventory, this, aGUIID);}
 
     @Override public int getSizeInventoryGUI() {return GUI_SLOTS;}
+
     @Override public ItemStack decrStackSizeGUI(int aSlot, int aDecrement) {return null;}
     @Override public ItemStack getStackInSlotOnClosingGUI(int aSlot) {return null;}
     @Override public int getInventoryStackLimitGUI(int aSlot) {return getInventoryStackLimit();}
@@ -1081,7 +1012,7 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
             if (currentTemperature >= stack.mMaterial.mMeltingPoint) {
                 FluidStack fluid = stack.mMaterial.fluid(currentTemperature, stack.mAmount, false);
                 if (!FL.Error.is(fluid)) {
-                    return FL.display(fluid, true, false, false);
+                    return FL.display(fluid, true, false, true);
                 }
             }
             return ItemMaterialDisplay.display(stack, currentTemperature);
@@ -1103,49 +1034,34 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
 
     public static final List<TagData> ENERGYTYPES = new ArrayListNoNulls<>(false, TD.Energy.EU);
 
-    @Override public boolean isEnergyType(TagData aEnergyType, byte side, boolean aEmitting) {return !aEmitting && ENERGYTYPES.contains(aEnergyType);}
-    @Override public boolean isEnergyCapacitorType(TagData aEnergyType, byte side) {return ENERGYTYPES.contains(aEnergyType);}
-    @Override public boolean isEnergyAcceptingFrom(TagData aEnergyType, byte side, boolean aTheoretical) {return ENERGYTYPES.contains(aEnergyType);}
     @Override public long doInject(TagData aEnergyType, byte side, long aSize, long aAmount, boolean aDoInject) {
         if (aDoInject) {
             storedEnergy += Math.abs(aAmount * aSize);
         }
         return aAmount;
     }
+
+    // ITileEntityEnergy
+    @Override public boolean isEnergyType(TagData aEnergyType, byte side, boolean aEmitting) {return !aEmitting && ENERGYTYPES.contains(aEnergyType);}
+    @Override public boolean isEnergyCapacitorType(TagData aEnergyType, byte side) {return ENERGYTYPES.contains(aEnergyType);}
+    @Override public boolean isEnergyAcceptingFrom(TagData aEnergyType, byte side, boolean aTheoretical) {return ENERGYTYPES.contains(aEnergyType);}
     @Override public long getEnergyDemanded(TagData aEnergyType, byte side, long aSize) {return Long.MAX_VALUE - storedEnergy;}
     @Override public long getEnergySizeInputMin(TagData aEnergyType, byte side) {return 512;}
     @Override public long getEnergySizeInputRecommended(TagData aEnergyType, byte side) {return 512;}
     @Override public long getEnergySizeInputMax(TagData aEnergyType, byte side) {return Long.MAX_VALUE;}
     @Override public Collection<TagData> getEnergyTypes(byte side) {return ENERGYTYPES;}
 
+    // ITileEntityTemperature
     @Override
     public long getTemperatureValue(byte side) {
         return currentTemperature;
     }
-
     @Override
     public long getTemperatureMax(byte side) {
         return (mMaterial.mMeltingPoint);
     }
 
+    // ITileEntityWeight
     @Override
     public double getWeightValue(byte side) {return currentWeight;}
-
-    @Override
-    public long getGibblValue(byte side) {
-        long result = 0;
-
-        for (OreDictMaterialStack stack : content) {
-            if (currentTemperature >= stack.mMaterial.mBoilingPoint) {
-                result += UT.Code.units(stack.mAmount, U, 1000, true);
-            }
-        }
-
-        return result;
-    }
-
-    @Override
-    public long getGibblMax(byte side) {
-        return UT.Code.units(MAX_UNITS, 1, 1000, true);
-    }
 }

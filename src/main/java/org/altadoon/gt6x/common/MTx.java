@@ -329,7 +329,7 @@ public class MTx {
     FeS = dustdcmp(16076, "Ferrous Sulfide", SET_SHINY, 66, 66, 66, 255, "Iron(II) Sulfide")
             .uumMcfg(0, MT.Fe, U, MT.S, U)
             .heat(1467),
-    FeO = oredustdcmp(16077, "Wuestite", SET_DULL, 50, 50, 0, 255, "Ferrous Oxide", "Iron(II) Oxide")
+    FeO = oredustdcmp(16077, "Wuestite", SET_DULL, 50, 0, 0, 255, "Ferrous Oxide", "Iron(II) Oxide")
             .setMcfg(0, MT.Fe, U, MT.O, U)
             .heat(C+1377, C+3414)
             .setLocal("Wüstite"),
@@ -354,7 +354,7 @@ public class MTx {
     NH4VO3 = dustdcmp(16083, "Ammonium Metavanadate", SET_DULL, 255, 200, 150, 255)
             .uumMcfg(0, MT.N, U, MT.H, 4*U, MT.V, U, MT.O, 3*U)
             .heat(473),
-    // 16084 free
+    //TODO 16084 free
     CobaltBlue = dustdcmp(16085, "Cobalt Blue", SET_FINE, 0, 71, 171, 255, DYE_INDEX_Blue)
             .uumMcfg(0, MT.Co, U, MT.Al, 2*U, MT.O, 4*U)
             .heat((MT.Al2O3.mMeltingPoint + CoO.mMeltingPoint) / 2),
@@ -443,7 +443,7 @@ public class MTx {
     MgBlastFurnaceGas = registerGas(gasdcmp(16112, "Magnesium-Rich Blast Furnace Gas", 50, 20, 30, 200)
             .uumMcfg(0, MT.Mg, U, MT.CO2, 6*U)
             .heat(MT.Mg)),
-    Cementite = alloymachine(16113, "Cementite", SET_METALLIC, 50, 0, 0, "Iron Carbide")
+    Cementite = alloymachine(16113, "Cementite", SET_METALLIC, 50, 50, 0, "Iron Carbide")
             .uumMcfg(3, MT.Fe, 3*U, MT.C, U)
             .heat(MT.WroughtIron),
     MeteoricCementite = alloymachine(16114, "Meteoric Cementite", SET_METALLIC, 50, 50, 0, 255, "Meteoric Iron Carbide")
