@@ -23,11 +23,12 @@ public class EAFSmeltingRecipe {
     /** map of all recipes that have the key as result, except for byproducts such as slag */
     public static Map<OreDictMaterial, ArrayListNoNulls<EAFSmeltingRecipe>> SmeltsFrom = new HashMap<>();
 
-    public static Recipe.RecipeMap FakeRecipes = new Recipe.RecipeMap(null, "gt6x.recipe.eafsmelting", "Electric Arc Furnace", null, 0, 1, RES_PATH_GUI+"machines/Alloying", 12,12, 1, 0, 0, 0, 0, 1, "Temperature: ", 1, " K", true, true, false, true, false, true, true);
+    public static Recipe.RecipeMap FakeRecipes = new Recipe.RecipeMap(null, "gt6x.recipe.eafsmelting", "Electric Arc Furnace", null, 0, 1, RES_PATH_GUI+"machines/Alloying", 12,12, 1, 0, 0, 0, 0, 1, "Temperature: ", 1, " K", false, true, false, true, false, true, true);
 
     public long smeltingTemperature;
 
     public boolean exothermic;
+    public static long EXOTHERMIC_ENERGY_GAIN = 512; // GU/t
 
     public IOreDictConfigurationComponent ingredients;
     public IOreDictConfigurationComponent results;
@@ -103,10 +104,11 @@ public class EAFSmeltingRecipe {
         }
 
         if (doAdd) {
-            FakeRecipes.addFakeRecipe(F, dustInputs  .toArray(ZL_IS), outputs.toArray(ZL_IS), null, null, null, null, 0, 0, smeltingTemperature);
-            FakeRecipes.addFakeRecipe(F, ingotInputs .toArray(ZL_IS), outputs.toArray(ZL_IS), null, null, null, null, 0, 0, smeltingTemperature);
+            long energy_output = exothermic ? -EXOTHERMIC_ENERGY_GAIN : 0;
+            FakeRecipes.addFakeRecipe(F, dustInputs  .toArray(ZL_IS), outputs.toArray(ZL_IS), null, null, null, null, 0, energy_output, smeltingTemperature);
+            FakeRecipes.addFakeRecipe(F, ingotInputs .toArray(ZL_IS), outputs.toArray(ZL_IS), null, null, null, null, 0, energy_output, smeltingTemperature);
             if (addSpecial)
-                FakeRecipes.addFakeRecipe(F, specialInputs.toArray(ZL_IS), outputs.toArray(ZL_IS), null, null, null, null, 0, 0, smeltingTemperature);
+                FakeRecipes.addFakeRecipe(F, specialInputs.toArray(ZL_IS), outputs.toArray(ZL_IS), null, null, null, null, 0, energy_output, smeltingTemperature);
         }
     }
 }

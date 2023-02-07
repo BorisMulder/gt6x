@@ -21,7 +21,6 @@ import gregapi.render.IIconContainer;
 import gregapi.render.ITexture;
 import gregapi.tileentity.ITileEntityServerTickPost;
 import gregapi.tileentity.ITileEntityTapAccessible;
-import gregapi.tileentity.data.ITileEntityGibbl;
 import gregapi.tileentity.data.ITileEntityTemperature;
 import gregapi.tileentity.data.ITileEntityWeight;
 import gregapi.tileentity.delegate.DelegatorTileEntity;
@@ -429,13 +428,13 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
 
                             boolean cancel = false;
                             long nConversions = Long.MAX_VALUE;
-                            for (OreDictMaterialStack tComponent : neededStuff) {
-                                if (currentTemperature < tComponent.mMaterial.mMeltingPoint) nonMolten++;
+                            for (OreDictMaterialStack needed : neededStuff) {
+                                if (currentTemperature < needed.mMaterial.mMeltingPoint) nonMolten++;
 
                                 cancel = true;
-                                for (OreDictMaterialStack tContent : content) {
-                                    if (tContent.mMaterial == tComponent.mMaterial) {
-                                        nConversions = Math.min(nConversions, tContent.mAmount / tComponent.mAmount);
+                                for (OreDictMaterialStack contained : content) {
+                                    if (contained.mMaterial == needed.mMaterial) {
+                                        nConversions = Math.min(nConversions, contained.mAmount / needed.mAmount);
                                         cancel = false;
                                         break;
                                     }
@@ -461,6 +460,12 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
         if (preferredEAFRecipe != null) {
             StringBuilder buf = new StringBuilder();
             buf.append("executing EAF recipe, inputs: \n");
+
+            if (preferredEAFRecipe.exothermic) {
+                // execute the recipe one at a time
+                maxConversions = 1;
+                storedEnergy += EAFSmeltingRecipe.EXOTHERMIC_ENERGY_GAIN;
+            }
 
             for (OreDictMaterialStack ingredient : preferredEAFRecipe.ingredients.getUndividedComponents()) {
                 buf.append(((double)ingredient.mAmount) / U).append(" units of ").append(ingredient.mMaterial.mNameInternal).append('\n');
@@ -590,10 +595,6 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
     }
 
     private boolean emitGases() {
-        if (content.isEmpty())
-            return false;
-
-        int tX = getOffsetXN(mFacing, 2), tY = yCoord+3, tZ = getOffsetZN(mFacing, 2);
         Pair<Integer, OreDictMaterialStack> idxStack = getStack(false, MaterialState.GAS_OR_PLASMA);
         if (idxStack == null)
             return false;
@@ -604,6 +605,7 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
             return false;
         }
 
+        int tX = getOffsetXN(mFacing, 2), tY = yCoord+3, tZ = getOffsetZN(mFacing, 2);
         for (int i = -1; i <= 1; i++) for (int j = -1; j <= 1; j++) {
             DelegatorTileEntity<TileEntity> target = WD.te(worldObj, tX+i, tY, tZ+j, SIDE_BOTTOM, false);
             if (target.mTileEntity instanceof IFluidHandler && ((IFluidHandler)target.mTileEntity).canFill(target.getForgeSideOfTileEntity(), gas.getFluid())) {
