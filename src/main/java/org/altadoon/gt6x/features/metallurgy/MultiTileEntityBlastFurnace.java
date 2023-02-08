@@ -17,6 +17,7 @@ import gregapi.util.WD;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.IFluidHandler;
@@ -29,6 +30,14 @@ import static gregapi.data.CS.*;
 import static org.altadoon.gt6x.common.Log.LOG;
 
 public class MultiTileEntityBlastFurnace extends TileEntityBase10MultiBlockMachine implements ITileEntityCrucible {
+    private short partId = 60;
+
+    @Override
+    public void readFromNBT2(NBTTagCompound aNBT) {
+        super.readFromNBT2(aNBT);
+        if (aNBT.hasKey(NBT_DESIGN)) partId = aNBT.getShort(NBT_DESIGN);
+    }
+
     @Override
     public boolean checkStructure2() {
         int mteRegID = Block.getIdFromBlock(MTEx.gt6xMTEReg.mBlock);
@@ -57,7 +66,7 @@ public class MultiTileEntityBlastFurnace extends TileEntityBase10MultiBlockMachi
                         default: side_io = MultiTileEntityMultiBlockPart.NOTHING; break;
                     }
 
-                    if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX+i, tY+j, tZ+k, 60, mteRegID, design, side_io))
+                    if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX+i, tY+j, tZ+k, partId, mteRegID, design, side_io))
                         tSuccess = false;
                 }
             }
@@ -67,7 +76,7 @@ public class MultiTileEntityBlastFurnace extends TileEntityBase10MultiBlockMachi
     }
 
     static {
-        LH.add("gt6x.tooltip.multiblock.blastfurnace.1", "3x5x3 hollow of 41 Blast Furnace Parts (excl. main) with Air inside;");
+        LH.add("gt6x.tooltip.multiblock.blastfurnace.1", "3x5x3 hollow of the block you crafted this with (excl. main) with Air inside;");
         LH.add("gt6x.tooltip.multiblock.blastfurnace.2", "Main centered at bottom-side facing outwards.");
         LH.add("gt6x.tooltip.multiblock.blastfurnace.3", "Energy in from bottom side.");
         LH.add("gt6x.tooltip.multiblock.blastfurnace.4", "Molten metal out at right hole in bottom layer, crucible molds, crossings, pipes, etc. usable");
