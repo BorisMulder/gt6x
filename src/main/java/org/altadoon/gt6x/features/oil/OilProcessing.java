@@ -92,10 +92,10 @@ public class OilProcessing extends GT6XFeature {
         RM.Generifier.findRecipe(null, null, false, 0, null, FL.array(FL.Gas_Natural.make(1))).mEnabled = false;
 
         // olefins
-        RM.SteamCracking.addRecipe0(false, 16,  64*4, new long[]{100}, FL.array(FL.Steam.make(8192), MTx.Ethane.gas(320*U1000, true)), FL.array(FL.Methane.make(250), FL.Ethylene.make(60)), dustTiny.mat(MT.CoalCoke, 9));
-        RM.SteamCracking.addRecipe0(false, 16,  64*6, new long[]{100}, FL.array(FL.Steam.make(12288), FL.Propane.make(660)), FL.array(FL.Methane.make(450), FL.Ethylene.make(120), FL.Propylene.make(180)), dustTiny.mat(MT.CoalCoke, 9));
-        RM.SteamCracking.addRecipe0(false, 16,  64*5, new long[]{100}, FL.array(FL.Steam.make(10240), FL.Butane.make(560)), FL.array(FL.Methane.make(200), FL.Ethylene.make(180), FL.Propylene.make(180)), dustTiny.mat(MT.CoalCoke, 9));
-        RM.SteamCracking.addRecipe0(false, 16,  64, new long[]{100}, FL.array(FL.Steam.make(2048), MTx.NaphthaLowSulfur.liquid(U10, true)), FL.array(MTx.SCNaphtha.liquid(U10, false)), dustTiny.mat(MT.CoalCoke, 9));
+        RM.SteamCracking.addRecipe0(false, 16,  64*4, new long[]{100}, FL.array(FL.Steam.make(8192), MTx.Ethane.gas(320*U1000, true)), FL.array(FL.Methane.make(250), FL.Ethylene.make(60)), dustTiny.mat(MT.PetCoke, 9));
+        RM.SteamCracking.addRecipe0(false, 16,  64*6, new long[]{100}, FL.array(FL.Steam.make(12288), FL.Propane.make(660)), FL.array(FL.Methane.make(450), FL.Ethylene.make(120), FL.Propylene.make(180)), dustTiny.mat(MT.PetCoke, 9));
+        RM.SteamCracking.addRecipe0(false, 16,  64*5, new long[]{100}, FL.array(FL.Steam.make(10240), FL.Butane.make(560)), FL.array(FL.Methane.make(200), FL.Ethylene.make(180), FL.Propylene.make(180)), dustTiny.mat(MT.PetCoke, 9));
+        RM.SteamCracking.addRecipe0(false, 16,  64, new long[]{100}, FL.array(FL.Steam.make(2048), MTx.NaphthaLowSulfur.liquid(U10, true)), FL.array(MTx.SCNaphtha.liquid(U10, false)), dustTiny.mat(MT.PetCoke, 9));
 
         // syngas
         RM.SteamCracking.addRecipe0(false, 16,  375, new long[]{800}, FL.array(FL.Steam.make(300*(long)STEAM_PER_WATER), FL.Gas_Natural.make(500)), FL.array(MT.H.gas(540*U1000, false), MT.CO.gas(180*U1000, false)), dustTiny.mat(MT.PetCoke, 9));
@@ -107,10 +107,10 @@ public class OilProcessing extends GT6XFeature {
 
         for (Recipe recipe : RM.CatalyticCracking.mRecipeList) recipe.mEnabled = false;
 
-        RM.CatalyticCracking.addRecipe1(false, 16,  64, new long[]{1000}, dust.mat(MT.Al2O3, 0), FL.array(MTx.NaphthaLowSulfur.liquid(U10, true)), FL.array(FL.Petrol.make(75), MTx.FccOffgas.gas(25*U1000, false)), dustTiny.mat(MT.CoalCoke, 1));
-        RM.CatalyticCracking.addRecipe1(false, 16,  64, new long[]{1000}, dust.mat(MT.Al2O3, 0), FL.array(MTx.KerosineLowSulfur.liquid(U10, true)), FL.array(FL.Petrol.make(100), MTx.FccOffgas.gas(25*U1000, false)), dustTiny.mat(MT.CoalCoke, 1));
-        RM.CatalyticCracking.addRecipe1(false, 16,  64, new long[]{1000}, dust.mat(MT.Al2O3, 0), FL.array(MTx.DieselLowSulfur.liquid(U10, true)), FL.array(FL.Petrol.make(125), MTx.FccOffgas.gas(25*U1000, false)), dustTiny.mat(MT.CoalCoke, 1));
-        RM.CatalyticCracking.addRecipe1(false, 16,  64, new long[]{1000}, dust.mat(MT.Al2O3, 0), FL.array(MTx.FuelLowSulfur.liquid(U10, true)), FL.array(FL.Petrol.make(150), MTx.FccOffgas.gas(25*U1000, false)), dustTiny.mat(MT.CoalCoke, 1));
+        RM.CatalyticCracking.addRecipe1(false, 16,  64, new long[]{1000}, dust.mat(MT.Al2O3, 0), FL.array(MTx.NaphthaLowSulfur.liquid(U10, true)), FL.array(FL.Petrol.make(75), MTx.FccOffgas.gas(25*U1000, false)), dustTiny.mat(MT.PetCoke, 1));
+        RM.CatalyticCracking.addRecipe1(false, 16,  64, new long[]{1000}, dust.mat(MT.Al2O3, 0), FL.array(MTx.KerosineLowSulfur.liquid(U10, true)), FL.array(FL.Petrol.make(100), MTx.FccOffgas.gas(25*U1000, false)), dustTiny.mat(MT.PetCoke, 1));
+        RM.CatalyticCracking.addRecipe1(false, 16,  64, new long[]{1000}, dust.mat(MT.Al2O3, 0), FL.array(MTx.DieselLowSulfur.liquid(U10, true)), FL.array(FL.Petrol.make(125), MTx.FccOffgas.gas(25*U1000, false)), dustTiny.mat(MT.PetCoke, 1));
+        RM.CatalyticCracking.addRecipe1(false, 16,  64, new long[]{1000}, dust.mat(MT.Al2O3, 0), FL.array(MTx.FuelLowSulfur.liquid(U10, true)), FL.array(FL.Petrol.make(150), MTx.FccOffgas.gas(25*U1000, false)), dustTiny.mat(MT.PetCoke, 1));
     }
 
     private void changeElectrolysisRecipes() {

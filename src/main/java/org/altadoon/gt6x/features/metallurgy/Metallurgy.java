@@ -227,7 +227,7 @@ public class Metallurgy extends GT6XFeature {
         FluidStack blast = MTx.HotBlast.gas(U1000, true);
         cowperStove.addRecipe0(false, 16, 128, FL.Air.make(1000), FL.mul(blast, 1000), ZL_IS);
 
-        for (ItemStack coal : ST.array(dust.mat(MT.Charcoal, 1), dust.mat(MT.CoalCoke, 1), dust.mat(MT.LigniteCoke, 3), dust.mat(MT.C, 1), gem.mat(MT.Charcoal, 1), gem.mat(MT.CoalCoke, 1), gem.mat(MT.LigniteCoke, 3))) {
+        for (ItemStack coal : ST.array(dust.mat(MT.PetCoke, 1), dust.mat(MT.CoalCoke, 1), dust.mat(MT.LigniteCoke, 3), dust.mat(MT.C, 1), gem.mat(MT.PetCoke, 1), gem.mat(MT.CoalCoke, 1), gem.mat(MT.LigniteCoke, 3))) {
             // ore dusts (less efficent)
             blastFurnace.addRecipe(true, ST.array(dust.mat(MT.Fe2O3, 5), ST.mul(4, coal), dust.mat(MT.CaCO3, 1)), ZL_IS, null, null, FL.array(FL.Air.make  (7500)), FL.array(MT.PigIron.liquid(2*U, false), MTx.Slag.liquid(U, false), MTx.BlastFurnaceGas.gas(15*U, false)), 512, 8, 0);
             blastFurnace.addRecipe(true, ST.array(dust.mat(MT.Fe2O3, 5), ST.mul(3, coal), dust.mat(MT.CaCO3, 1)), ZL_IS, null, null, FL.array(FL.mul(blast, 7500)), FL.array(MT.PigIron.liquid(2*U, false), MTx.Slag.liquid(U, false), MTx.BlastFurnaceGas.gas(15*U, false)), 256, 8, 0);
@@ -361,7 +361,7 @@ public class Metallurgy extends GT6XFeature {
         sintering.addRecipeX(true, 64, 256, ST.array(dust.mat(MTx.MgO, 1), dust.mat(MT.Graphite, 1)), ingot.mat(MTx.MgOC, 2));
         sintering.addRecipeX(true, 96, 2048, ST.array(dust.mat(MT.Ad, 3), dust.mat(MT.Vb, 1)), ingot.mat(MT.Vibramantium, 4));
 
-        for (ItemStack coal : ST.array(dust.mat(MT.Charcoal, 1), dust.mat(MT.LigniteCoke, 3),  dust.mat(MT.CoalCoke, 1), dust.mat(MT.C, 1) )) {
+        for (ItemStack coal : ST.array(dust.mat(MT.PetCoke, 1), dust.mat(MT.LigniteCoke, 3),  dust.mat(MT.CoalCoke, 1), dust.mat(MT.C, 1) )) {
             sintering.addRecipe(true, ST.array(dust.mat(MT.W, 1), ST.copy(coal)), ST.array(ingot.mat(MT.TungstenCarbide, 2)), null, null, ZL_FS, ZL_FS, 334, 96, 0);
             sintering.addRecipe(true, ST.array(dust.mat(MT.Ta, 4), dust.mat(MT.Hf, 1), ST.mul(5, coal)), ST.array(ingot.mat(MT.Ta4HfC5, 10)), null, null, ZL_FS, ZL_FS, 1400, 96, 0);
             sintering.addRecipe(true, ST.array(dust.mat(MT.Ke, 6), dust.mat(MT.Nq, 2), ST.mul(1, coal)), ST.array(ingot.mat(MT.Trinaquadalloy, 9)), null, null, ZL_FS, ZL_FS, 1746, 96, 0);

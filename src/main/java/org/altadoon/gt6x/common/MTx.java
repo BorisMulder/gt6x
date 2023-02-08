@@ -466,6 +466,7 @@ public class MTx {
         MT.Ruby.uumMcfg(6, MT.Al2O3, 5*U, Cr2O3, U);
         MT.GreenSapphire.uumMcfg(6, MT.Al2O3, 5*U, MgO, U);
         MT.PurpleSapphire.uumMcfg(6, MT.Al2O3, 5*U, MT.V2O5, U);
+        MT.PetCoke.setMcfg(0, MT.C, U);
 
         FL.createMolten(RhodiumPotassiumSulfate.put(MELTING, MOLTEN), 1000);
         FL.createMolten(PbCl2.put(MELTING, MOLTEN), 1000);
