@@ -191,7 +191,7 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
                             design = 1;
                             side_io &= (MultiTileEntityMultiBlockPart.ONLY_CRUCIBLE & MultiTileEntityMultiBlockPart.ONLY_ITEM_FLUID_OUT);
                         }
-                        if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX+i, tY+j, tZ+k, 70, mteRegID, design, side_io)) {
+                        if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX+i, tY+j, tZ+k, 84, mteRegID, design, side_io)) {
                             tSuccess = false;
                         }
                         break;
@@ -211,14 +211,14 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
                                 design = 1;
                                 side_io &= (MultiTileEntityMultiBlockPart.ONLY_CRUCIBLE & MultiTileEntityMultiBlockPart.ONLY_ITEM_FLUID_OUT);
                             }
-                            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX+i, tY+j, tZ+k, 70, mteRegID, design, side_io)) {
+                            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX+i, tY+j, tZ+k, 84, mteRegID, design, side_io)) {
                                 tSuccess = false;
                             }
                         }
                         break;
                     case 2:
                         if (i == 0 && k == 0) {
-                            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX+i, tY+j, tZ+k, 68, mteRegID, design, side_io)) {
+                            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX+i, tY+j, tZ+k, 82, mteRegID, design, side_io)) {
                                 tSuccess = false;
                             }
                         } else if (shouldBeAir(i, k)) {
@@ -229,7 +229,7 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
                             }
                         } else {
                             side_io = MultiTileEntityMultiBlockPart.ONLY_FLUID_IN;
-                            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX+i, tY+j, tZ+k, 70, mteRegID, design, side_io)) {
+                            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX+i, tY+j, tZ+k, 84, mteRegID, design, side_io)) {
                                 tSuccess = false;
                             }
                         }
@@ -240,12 +240,12 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
                         } else if (i == 0 && k == 0) {
                             design = 1;
                             side_io = MultiTileEntityMultiBlockPart.ONLY_ENERGY_IN;
-                            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX + i, tY + j, tZ + k, 68, mteRegID, design, side_io)) {
+                            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX + i, tY + j, tZ + k, 82, mteRegID, design, side_io)) {
                                 tSuccess = false;
                             }
                         } else {
                             side_io = MultiTileEntityMultiBlockPart.ONLY_ITEM_IN & MultiTileEntityMultiBlockPart.ONLY_FLUID_OUT;
-                            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX + i, tY + j, tZ + k, 69, mteRegID, design, side_io)) {
+                            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX + i, tY + j, tZ + k, 65, mteRegID, design, side_io)) {
                                 tSuccess = false;
                             }
                         }
@@ -997,10 +997,6 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
     @Override public ItemStack decrStackSizeGUI(int aSlot, int aDecrement) {return null;}
     @Override public ItemStack getStackInSlotOnClosingGUI(int aSlot) {return null;}
     @Override public int getInventoryStackLimitGUI(int aSlot) {return getInventoryStackLimit();}
-
-    private String getSide() {
-        return isClientSide() ? "Client" : isServerSide() ? "Server" : "Unknown";
-    }
 
     private final ItemStack[] clientGuiSlotContent = new ItemStack[GUI_SLOTS];
 
