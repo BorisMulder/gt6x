@@ -456,7 +456,8 @@ public class MTx {
     MgOC = machine(16116, "MgO-C", SET_QUARTZ, 100, 100, 100, 255)
             .setMcfg(0, MgO, U, MT.Graphite, U)
             .heat(MgO),
-    HotBlast = registerGas(gas(16117, "Hot Blast", 225, 208, 245,  15, TRANSPARENT)
+    HotBlast = registerGas(gas(16117, "BlastHot", 225, 208, 245,  15, TRANSPARENT)
+            .setLocal("Hot Blast")
             .setMcfg( 0, MT.N,40*U, MT.O,11*U, MT.Ar, U))
     ;
 
