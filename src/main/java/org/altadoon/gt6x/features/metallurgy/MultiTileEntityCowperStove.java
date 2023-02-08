@@ -16,8 +16,8 @@ import org.altadoon.gt6x.common.MTEx;
 
 import java.util.List;
 
-import static gregapi.data.CS.SIDE_BOTTOM;
-import static gregapi.data.CS.SIDE_TOP;
+import static gregapi.data.CS.*;
+import static org.altadoon.gt6x.common.Log.LOG;
 
 public class MultiTileEntityCowperStove extends TileEntityBase10MultiBlockMachine {
     @Override
@@ -28,24 +28,28 @@ public class MultiTileEntityCowperStove extends TileEntityBase10MultiBlockMachin
         if (worldObj.blockExists(tX-1, tY, tZ-1) && worldObj.blockExists(tX+1, tY, tZ-1) && worldObj.blockExists(tX-1, tY, tZ+1) && worldObj.blockExists(tX+1, tY, tZ+1)) {
             boolean success = true;
 
-            for (int i = -1; i <= 1; i++)
-                for (int j = -1; j <= 1; j++) {
-                    if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX + i, tY, tZ + j, mteRegID, 65, 0, MultiTileEntityMultiBlockPart.ONLY_ENERGY_IN))
+            for (int i = -1; i <= 1; i++) for (int j = -1; j <= 1; j++) {
+                    if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX + i, tY, tZ + j, 65, mteRegID, 0, MultiTileEntityMultiBlockPart.ONLY_ENERGY_IN)) {
+                        LOG.debug("failed at {}, {}, {}", tX + i, tY, tZ + j);
                         success = false;
-                }
-            for (int i = -1; i <= 1; i++)
-                for (int j = -1; j <= 1; j++)
-                    for (int k = 1; k <= 2; k++) {
-                        if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX + i, tY + k, tZ + j, mteRegID, 64, 0, MultiTileEntityMultiBlockPart.ONLY_FLUID_IN))
-                            success = false;
                     }
-            for (int i = -1; i <= 1; i++)
-                for (int j = -1; j <= 1; j++) {
-                    if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX + i, tY + 3, tZ + j, mteRegID, (i == 0 && j == 0) ? 64 : 65, 0, MultiTileEntityMultiBlockPart.ONLY_FLUID_OUT))
-                        success = false;
                 }
-            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX, tY + 4, tZ, mteRegID, 65, 0, MultiTileEntityMultiBlockPart.ONLY_FLUID_OUT))
+            for (int i = -1; i <= 1; i++) for (int j = -1; j <= 1; j++) for (int k = 1; k <= 2; k++) {
+                if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX + i, tY + k, tZ + j, 64, mteRegID, 0, MultiTileEntityMultiBlockPart.ONLY_FLUID_IN)) {
+                    LOG.debug("failed at {}, {}, {}", tX + i, tY + k, tZ + j);
+                    success = false;
+                }
+            }
+            for (int i = -1; i <= 1; i++) for (int j = -1; j <= 1; j++) {
+                if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX + i, tY + 3, tZ + j, (i == 0 && j == 0) ? 64 : 65, mteRegID, 0, MultiTileEntityMultiBlockPart.ONLY_FLUID_OUT)) {
+                    LOG.debug("failed at {}, {}, {}", tX + i, tY, tZ + j);
+                    success = false;
+                }
+            }
+            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX, tY + 4, tZ, 65, mteRegID, 0, MultiTileEntityMultiBlockPart.ONLY_FLUID_OUT)) {
+                LOG.debug("failed at {}, {}, {}", tX, tY + 4, tZ);
                 success = false;
+            }
 
             return success;
         }
@@ -92,7 +96,7 @@ public class MultiTileEntityCowperStove extends TileEntityBase10MultiBlockMachin
 
     @Override
     public DelegatorTileEntity<TileEntity> getItemOutputTarget(byte aSide) {
-        return null;
+        return getAdjacentTileEntity(SIDE_BOTTOM);
     }
 
     @Override

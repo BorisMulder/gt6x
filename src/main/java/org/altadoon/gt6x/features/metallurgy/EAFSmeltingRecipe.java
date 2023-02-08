@@ -105,10 +105,11 @@ public class EAFSmeltingRecipe {
 
         if (doAdd) {
             long energy_output = exothermic ? -EXOTHERMIC_ENERGY_GAIN : 0;
-            FakeRecipes.addFakeRecipe(F, dustInputs  .toArray(ZL_IS), outputs.toArray(ZL_IS), null, null, null, null, 0, energy_output, smeltingTemperature);
-            FakeRecipes.addFakeRecipe(F, ingotInputs .toArray(ZL_IS), outputs.toArray(ZL_IS), null, null, null, null, 0, energy_output, smeltingTemperature);
+            long duration = exothermic ? 1 : 0;
+            FakeRecipes.addFakeRecipe(F, dustInputs  .toArray(ZL_IS), outputs.toArray(ZL_IS), null, null, null, null, duration, energy_output, smeltingTemperature);
+            FakeRecipes.addFakeRecipe(F, ingotInputs .toArray(ZL_IS), outputs.toArray(ZL_IS), null, null, null, null, duration, energy_output, smeltingTemperature);
             if (addSpecial)
-                FakeRecipes.addFakeRecipe(F, specialInputs.toArray(ZL_IS), outputs.toArray(ZL_IS), null, null, null, null, 0, energy_output, smeltingTemperature);
+                FakeRecipes.addFakeRecipe(F, specialInputs.toArray(ZL_IS), outputs.toArray(ZL_IS), null, null, null, null, duration, energy_output, smeltingTemperature);
         }
     }
 }

@@ -473,6 +473,8 @@ public class MTx {
         FL.createMolten(FerrousSlag.put(MELTING, MOLTEN), 144);
         FL.createMolten(FeCr2.put(MELTING, MOLTEN), 144);
 
+        HotBlast.mGas.getFluid().setTemperature(1650);
+
         OreDictManager.INSTANCE.addReRegistration("dustCobaltBlue", "dyeMixableBlue");
     }
 }
