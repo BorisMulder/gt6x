@@ -458,7 +458,16 @@ public class MTx {
             .heat(MgO),
     HotBlast = registerGas(gas(16117, "BlastHot", 225, 208, 245,  15, TRANSPARENT)
             .setLocal("Hot Blast")
-            .setMcfg( 0, MT.N,40*U, MT.O,11*U, MT.Ar, U))
+            .setMcfg( 0, MT.N,40*U, MT.O,11*U, MT.Ar, U)),
+    HBI = create( 16118, "Hot-Briquetted Iron", 150, 150, 150, 255)
+            .setMcfg( 0, SpongeIron, U)
+            .setTextures(SET_DULL)
+            .put(INGOTS)
+            .heat(SpongeIron)
+            .setPulver(SpongeIron, U),
+    ConverterSlag = dustdcmp(16119, "Converter Slag", SET_FLINT, 50, 50, 50, 255)
+            .put(INGOTS, MORTAR, BRITTLE, GEMS)
+            .heat(FerrousSlag)
     ;
 
     static {
