@@ -482,6 +482,7 @@ public class MTx {
         FL.createMolten(Slag.put(MELTING, MOLTEN), 144);
         FL.createMolten(FerrousSlag.put(MELTING, MOLTEN), 144);
         FL.createMolten(FeCr2.put(MELTING, MOLTEN), 144);
+        FL.createMolten(ConverterSlag.put(MELTING, MOLTEN), 144);
 
         HotBlast.mGas.getFluid().setTemperature(1650);
 
