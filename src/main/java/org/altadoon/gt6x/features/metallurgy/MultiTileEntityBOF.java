@@ -12,12 +12,15 @@ import gregapi.tileentity.multiblocks.ITileEntityMultiBlockController;
 import gregapi.tileentity.multiblocks.MultiTileEntityMultiBlockPart;
 import gregapi.tileentity.multiblocks.TileEntityBase10MultiBlockMachine;
 import gregapi.util.OM;
+import gregapi.util.UT;
 import gregapi.util.WD;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
 import org.altadoon.gt6x.common.MTEx;
 import org.altadoon.gt6x.common.MTx;
@@ -196,7 +199,16 @@ public class MultiTileEntityBOF extends TileEntityBase10MultiBlockMachine implem
     }
 
     @Override
-    public long fillMold(OreDictMaterialStack aMaterial, long aTemperature, byte aSide) {
-        return 0;
+    public long fillMold(OreDictMaterialStack material, long temperature, byte side) {
+        FluidStack fluid = material.mMaterial.fluid(temperature, material.mAmount, false);
+        if (fluid == null || FL.Error.is(fluid)) {
+            return 0;
+        }
+        int amount = this.fill(ForgeDirection.UP, fluid, true);
+        if (amount > 0) {
+            return UT.Code.units(amount, material.mMaterial.mLiquid.amount, material.mMaterial.mLiquidUnit, true);
+        } else {
+            return 0;
+        }
     }
 }
