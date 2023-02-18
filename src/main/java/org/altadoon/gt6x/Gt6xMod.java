@@ -2,6 +2,7 @@ package org.altadoon.gt6x;
 
 import org.altadoon.gt6x.common.*;
 import org.altadoon.gt6x.features.GT6XFeature;
+import org.altadoon.gt6x.features.basicchem.BasicChemistry;
 import org.altadoon.gt6x.features.oil.OilProcessing;
 import org.altadoon.gt6x.features.pgm.PgmProcessing;
 import org.altadoon.gt6x.features.metallurgy.Metallurgy;
@@ -48,6 +49,7 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 
 	@SuppressWarnings("unchecked")
 	private static final Class<? extends GT6XFeature>[] allFeatures = new Class[]{
+		BasicChemistry.class,
 		PgmProcessing.class,
 		OilProcessing.class,
 		Metallurgy.class,

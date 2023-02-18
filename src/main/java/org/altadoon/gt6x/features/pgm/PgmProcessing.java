@@ -234,36 +234,7 @@ public class PgmProcessing extends GT6XFeature {
         RM.Bath.addRecipe1(true, 0, 256, itemChances, crushedPurifiedTiny.mat(inputOre, 9), fluidInputs, fluidOutputs, itemOutputs);
     }
 
-    protected void addCommonRecipes() {
-        // (Na,K)2S2O7
-        RM.Drying.addRecipe1(true, 16, 100, dust.mat(MT.KHSO4, 2), ZL_FS, FL.array(MT.DistWater.liquid(U, false)), dust.mat(MT.K2S2O7, 1));
-        RM.Drying.addRecipe1(true, 16, 100, dust.mat(MT.NaHSO4, 2), ZL_FS, FL.array(MT.DistWater.liquid(U, false)), dust.mat(MT.Na2S2O7, 1));
-        RM.Smelter.addRecipe1(true, 16, 16, dust.mat(MT.K2S2O7, 1), ZL_FS, MT.K2S2O7.liquid(U, false), ZL_IS);
-        RM.Smelter.addRecipe1(true, 16, 16, dust.mat(MT.Na2S2O7, 1), ZL_FS, MT.Na2S2O7.liquid(U, false), ZL_IS);
-
-        // NH3 recipe
-        RM.Mixer.addRecipe1(true, 64, 50, dust.mat(MT.OREMATS.Magnetite, 0), FL.array(MT.H.gas(3*U, true), MT.N.gas(U, true)), FL.array(MT.NH3.gas(U, false)));
-        // NH4Cl recipe
-        RM.Mixer.addRecipe(true, ZL_IS, new ItemStack[]{ dust.mat(NH4Cl, 2) }, null, null, FL.array(MT.HCl.gas(U, false), MT.NH3.gas(U, false)), ZL_FS, 20,16,0);
-        // O3 recipe
-        RM.Lightning.addRecipe1(true, 64, 100, ST.tag(3), MT.O.gas(3*U, true),Ozone.gas(2*U, false), NI);
-
-        // Chalcocite stuff
-        for (String tOxygen : FluidsGT.OXYGEN) if (FL.exists(tOxygen)) {
-            RM.Roasting.addRecipe1(true, 16,  512, OM.dust(Chalcocite), FL.make(tOxygen, 667), MT.SO2.gas(3*U3, false), OM.dust(MT.Cu, 2*U3));
-        }
-        final long[] tChances = new long[] {8000};
-        for (String tAir : FluidsGT.AIR) if (FL.exists(tAir)) {
-            RM.Roasting.addRecipe1(true, 16,  512, tChances, OM.dust(Chalcocite), FL.make(tAir, 3000), MT.SO2.gas(3*U3, false), OM.dust(MT.Cu, 2*U3));
-        }
-        OreDictMaterial tMat = Chalcocite;
-        RM.Bath.addRecipe1(T,  0,  256, new long[] {10000, 5000, 5000, 5000, 5000, 5000}, crushedPurified    .mat(tMat, 1), FL.array(MT.H2SO4.fluid(7* U2, T)), FL.array(MT.BlueVitriol.fluid(3*U, F), MT.H.gas(U, F)), crushedCentrifuged.mat(tMat, 1), crushedCentrifugedTiny.mat(tMat, 2), crushedCentrifugedTiny.mat(tMat, 2), crushedCentrifugedTiny.mat(tMat, 2), crushedCentrifugedTiny.mat(tMat, 2), crushedCentrifugedTiny.mat(tMat, 2));
-        RM.Bath.addRecipe1(T,  0,  256, new long[] {10000, 5000, 5000, 5000, 5000, 5000}, crushedPurifiedTiny.mat(tMat, 9), FL.array(MT.H2SO4.fluid(7* U2, T)), FL.array(MT.BlueVitriol.fluid(3*U, F), MT.H.gas(U, F)), crushedCentrifuged.mat(tMat, 1), crushedCentrifugedTiny.mat(tMat, 2), crushedCentrifugedTiny.mat(tMat, 2), crushedCentrifugedTiny.mat(tMat, 2), crushedCentrifugedTiny.mat(tMat, 2), crushedCentrifugedTiny.mat(tMat, 2));
-
-    }
-
     public void addComplexRecipes() {
-        addCommonRecipes();
         // Pt/Pd separation
         RM.Bath.addRecipe1(true, 0, 200, dust.mat(NH4Cl, 20), PtPdLeachingSolution.liquid(95*U, false), PdChlorideSolution.liquid(70*U, false), dust.mat(AmmoniumHexachloroplatinate, 45));
         RM.Mixer.addRecipe0(true, 16, 100, FL.array(PdChlorideSolution.liquid(35*U, true), MT.NH3.gas(4*U, true)), FL.array(MT.H2O.liquid(8*3*U, false), MT.HCl.gas(4*2*U, false)), dust.mat(TetraamminepalladiumChloride, 7));
@@ -290,7 +261,6 @@ public class PgmProcessing extends GT6XFeature {
     }
 
     public void addSimpleRecipes() {
-        addCommonRecipes();
         RM.Electrolyzer.addRecipe1(true, 64, 200, ST.tag(0), FL.array(PtPdLeachingSolution.liquid(95*U, false)), FL.array(MT.HCl.gas(32*2*U, false), MT.H2O.liquid(4*3*U, false), MT.O.gas(6*2*U, false)), dustSmall.mat(MT.Pt, 5*4), dustSmall.mat(MT.Pd, 2*4));
         RM.Roasting.addRecipe1(true, 64, 250, dust.mat(PGMResidue, 4), FL.array(Ozone.gas(8 * U, true)), FL.array(RuOsO4.gas(10*U, false)), dust.mat(IrRhOxide, 6));
         RM.Distillery.addRecipe1(true, 64, 150, ST.tag(0), FL.array(RuOsO4.gas(10 * U, false)), FL.array(MT.O.gas(8*U, false)), dust.mat(MT.Os, 1), dust.mat(MT.Ru, 1));

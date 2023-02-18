@@ -467,7 +467,14 @@ public class MTx {
             .setPulver(SpongeIron, U),
     ConverterSlag = dustdcmp(16119, "Converter Slag", SET_FLINT, 50, 50, 50, 255)
             .put(INGOTS, MORTAR, BRITTLE, GEMS)
-            .heat(FerrousSlag)
+            .heat(FerrousSlag),
+    CalcinedDolomite = dustdcmp(16120, "Calcined Dolomite", SET_DULL, 200, 150, 150, 255)
+            .setMcfg(0, MT.Quicklime, U, MgO, U)
+            .heat((MT.Quicklime.mMeltingPoint + MgO.mMeltingPoint) / 2)
+            .put(CENTRIFUGE),
+    P2O5 = dustdcmp(16121, "Phosporus Pentoxide", SET_FINE, 150, 150, 50, 255)
+            .uumMcfg(0, MT.P, 2*U, MT.O, 5*U)
+            .heat(613, 613)
     ;
 
     static {
