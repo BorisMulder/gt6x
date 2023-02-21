@@ -42,6 +42,8 @@ public class MTx {
         MT.OREMATS.Wolframite.setLocal("Magnesium Tungstate").addSourceOf(MT.Mg);
         MT.OREMATS.Tungstate.setLocal("Lithium Tungstate");
         MT.OREMATS.Huebnerite.setLocal("Hübnerite");
+        MT.Apatite.setLocal("Chlorapatite");
+        MT.Phosphorite.setLocal("Fluorapatite");
 
         FL.createMolten(MT.K2S2O7.put(MELTING, MOLTEN), 1000);
         FL.createMolten(MT.Na2S2O7.put(MELTING, MOLTEN), 1000);
@@ -51,6 +53,7 @@ public class MTx {
         FL.createGas(MT.Zn.put(GASES));
         FL.createGas(MT.As.put(GASES));
         FL.createGas(MT.Mg.put(GASES));
+        FL.createGas(MT.P.put(GASES));
     }
 
     public static OreDictMaterial create(int aID, String name, long aR, long aG, long aB, long aA, Object... aRandomData) {
