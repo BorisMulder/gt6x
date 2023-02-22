@@ -558,7 +558,7 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
         if (emitGases())
             contentChanged = true;
 
-        if (currentTemperature > getTemperatureMax(SIDE_INSIDE)) {
+        if (currentTemperature > getTemperatureMax(SIDE_INSIDE)) { //TODO test
             UT.Sounds.send(SFX.MC_FIZZ, this);
             GarbageGT.trash(content);
             contentChanged = true;

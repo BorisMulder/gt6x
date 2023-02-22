@@ -30,9 +30,11 @@ public class MTx {
     static {
         // change some properties of vanilla GT6 materials
         MT.NH3    .uumMcfg(1, MT.N, U, MT.H, 3*U);
-        MT.PigIron.uumMcfg(5, MT.Fe, 5*U, MT.C, U).heat(MT.WroughtIron).qual(3, 6.0, 128, 2);
+        MT.PigIron.uumMcfg(5, MT.Fe, 5*U, MT.C, U).heat(MT.WroughtIron).qual(3, 4.0, 128, 2);
         MT.Steel  .uumMcfg(100, MT.Fe, 100*U, MT.C, U).heat(MT.WroughtIron);
         MT.Olivine.uumMcfg(0, MT.Mg, U, MT.Fe, U, MT.Si, U, MT.O, 4*U);
+
+        MT.WroughtIron.qual(3, 6.0, 640, 2);
 
         MT.As.heat(887, 887).remove(MELTING); MT.As.remove(MOLTEN);
 
@@ -53,7 +55,6 @@ public class MTx {
         FL.createGas(MT.Zn.put(GASES));
         FL.createGas(MT.As.put(GASES));
         FL.createGas(MT.Mg.put(GASES));
-        FL.createGas(MT.P.put(GASES));
     }
 
     public static OreDictMaterial create(int aID, String name, long aR, long aG, long aB, long aA, Object... aRandomData) {
@@ -475,9 +476,28 @@ public class MTx {
             .setMcfg(0, MT.Quicklime, U, MgO, U)
             .heat((MT.Quicklime.mMeltingPoint + MgO.mMeltingPoint) / 2)
             .put(CENTRIFUGE),
-    P2O5 = dustdcmp(16121, "Phosporus Pentoxide", SET_FINE, 150, 150, 50, 255)
+    P2O5 = dustdcmp(16121, "Phosphorus Pentoxide", SET_FINE, 150, 150, 50, 255)
             .uumMcfg(0, MT.P, 2*U, MT.O, 5*U)
-            .heat(613, 613)
+            .heat(613, 613),
+    P_CO_Gas = registerGas(gas(16122, "Phosphorus-CO Vapour", 100, 100, 0, 50)
+            .setMcfg(0, MT.P, U, MT.CO, 5*U)
+            .heat(MT.CO)),
+    HSST1 = alloymachine(16123, "HSS-T1", SET_METALLIC, 50, 50, 150)
+            .setMcfg(0, MT.Fe, 80*U, MT.C, 4*U, MT.W, 6*U, MT.Cr, 4*U, MT.V, U)
+            .heat(2086, MT.Fe.mBoilingPoint)
+            .qual(3, 12.0, 6144, 4),
+    HSSM2 = alloymachine(16123, "HSS-M2", SET_METALLIC, 100, 100, 150)
+            .setMcfg(0, MT.Fe, 80*U, MT.C, 4*U, MT.W, 2*U, MT.Cr, 4*U, MT.V, 2*U, MT.Mo, 2*U)
+            .heat(2075, MT.Fe.mBoilingPoint)
+            .qual(3, 12.0, 7168, 4),
+    Cement = dustdcmp(16124, "Cement", SET_STONE, 160, 160, 160, 255)
+            .heat(MT.Concrete),
+    Mortar = dustdcmp(16125, "Mortar", SET_FOOD, 160, 160, 160, 255)
+            .heat(Cement),
+    CaAlCement = dustdcmp(16126, "Calcium Aluminate Cement", SET_STONE, 200, 180, 160, 255)
+            .heat(MT.Ceramic),
+    RefractoryMortar = dustdcmp(16127, "Refractory Mortar", SET_FOOD, 200, 180, 160, 255)
+            .heat(CaAlCement)
     ;
 
     static {
@@ -495,6 +515,10 @@ public class MTx {
         FL.createMolten(ConverterSlag.put(MELTING, MOLTEN), 144);
 
         HotBlast.mGas.getFluid().setTemperature(1650);
+        BlastFurnaceGas.mGas.getFluid().setTemperature((int)MT.PigIron.mMeltingPoint);
+        ZnBlastFurnaceGas.mGas.getFluid().setTemperature((int)MT.Zn.mBoilingPoint);
+        MgBlastFurnaceGas.mGas.getFluid().setTemperature((int)MT.Mg.mBoilingPoint);
+        P_CO_Gas.mGas.getFluid().setTemperature(1700);
 
         OreDictManager.INSTANCE.addReRegistration("dustCobaltBlue", "dyeMixableBlue");
     }
