@@ -7,6 +7,7 @@ import gregapi.oredict.*;
 import gregapi.oredict.configurations.IOreDictConfigurationComponent;
 import gregapi.oredict.configurations.OreDictConfigurationComponent;
 import gregapi.recipes.Recipe;
+import gregapi.recipes.handlers.RecipeMapHandlerPrefixShredding;
 import gregapi.tileentity.machines.MultiTileEntityBasicMachine;
 import gregapi.tileentity.multiblocks.MultiTileEntityMultiBlockPart;
 import gregapi.util.OM;
@@ -359,22 +360,21 @@ public class Metallurgy extends GT6XFeature {
         sintering.addRecipeX(true, 16, 64  , ST.array(ST.tag(2), dust.mat(MT.Quicklime, 5), dust.mat(MT.Ash, 2)), clinker.mat(MTx.Cement, 7));
         sintering.addRecipeX(true, 16, 64  , ST.array(ST.tag(2), dust.mat(MT.Quicklime, 5), dust.mat(MT.OREMATS.Bauxite, 2)), clinker.mat(MTx.Cement, 7));
         sintering.addRecipeX(true, 16, 64  , ST.array(ST.tag(2), dust.mat(MT.Quicklime, 4), dust.mat(MT.STONES.Shale, 3)), clinker.mat(MTx.Cement, 7));
-        sintering.addRecipeX(true, 16, 128 , ST.array(ST.tag(2), dust.mat(MT.CaCO3, 25), dust.mat(MT.Clay, 4)), clinker.mat(MTx.Cement, 14));
-        sintering.addRecipeX(true, 16, 128 , ST.array(ST.tag(2), dust.mat(MT.CaCO3, 25), dust.mat(MT.Ash, 4)), clinker.mat(MTx.Cement, 14));
-        sintering.addRecipeX(true, 16, 128 , ST.array(ST.tag(2), dust.mat(MT.CaCO3, 25), dust.mat(MT.OREMATS.Bauxite, 4)), clinker.mat(MTx.Cement, 14));
-        sintering.addRecipeX(true, 16, 128 , ST.array(ST.tag(2), dust.mat(MT.CaCO3, 10), dust.mat(MT.STONES.Shale, 3)), clinker.mat(MTx.Cement, 7));
         sintering.addRecipeX(true, 16, 128 , ST.array(dust.mat(MT.OREMATS.Wollastonite, 7 ), dust.mat(MT.Quicklime, 5), dust.mat(MT.Clay, 2)), clinker.mat(MTx.Cement, 14));
         sintering.addRecipeX(true, 16, 128 , ST.array(dust.mat(MT.OREMATS.Wollastonite, 7 ), dust.mat(MT.Quicklime, 5), dust.mat(MT.Ash, 2)), clinker.mat(MTx.Cement, 14));
         sintering.addRecipeX(true, 16, 128 , ST.array(dust.mat(MT.OREMATS.Wollastonite, 7 ), dust.mat(MT.Quicklime, 5), dust.mat(MT.OREMATS.Bauxite, 2)), clinker.mat(MTx.Cement, 14));
         sintering.addRecipeX(true, 16, 128 , ST.array(dust.mat(MT.OREMATS.Wollastonite, 7 ), dust.mat(MT.Quicklime, 4), dust.mat(MT.STONES.Shale, 3)), clinker.mat(MTx.Cement, 14));
-        sintering.addRecipeX(true, 16, 256 , ST.array(dust.mat(MT.OREMATS.Wollastonite, 14), dust.mat(MT.CaCO3, 25), dust.mat(MT.Clay, 4)), clinker.mat(MTx.Cement, 28));
-        sintering.addRecipeX(true, 16, 256 , ST.array(dust.mat(MT.OREMATS.Wollastonite, 14), dust.mat(MT.CaCO3, 25), dust.mat(MT.Ash, 4)), clinker.mat(MTx.Cement, 28));
-        sintering.addRecipeX(true, 16, 256 , ST.array(dust.mat(MT.OREMATS.Wollastonite, 14), dust.mat(MT.CaCO3, 25), dust.mat(MT.OREMATS.Bauxite, 4)), clinker.mat(MTx.Cement, 28));
-        sintering.addRecipeX(true, 16, 128 , ST.array(dust.mat(MT.OREMATS.Wollastonite, 7 ), dust.mat(MT.CaCO3, 10), dust.mat(MT.STONES.Shale, 3)), clinker.mat(MTx.Cement, 14));
 
-        //TODO grind clinkers into dust
-        //TODO mix cement dust with gravel to concrete and with sand to mortar
-        //TODO make bricks with (refractory) mortar
+        for (OreDictMaterial calcite : ANY.Calcite.mToThis) {
+            sintering.addRecipeX(true, 16, 128 , ST.array(ST.tag(2), dust.mat(calcite, 25), dust.mat(MT.Clay, 4)), clinker.mat(MTx.Cement, 14));
+            sintering.addRecipeX(true, 16, 128 , ST.array(ST.tag(2), dust.mat(calcite, 25), dust.mat(MT.Ash, 4)), clinker.mat(MTx.Cement, 14));
+            sintering.addRecipeX(true, 16, 128 , ST.array(ST.tag(2), dust.mat(calcite, 25), dust.mat(MT.OREMATS.Bauxite, 4)), clinker.mat(MTx.Cement, 14));
+            sintering.addRecipeX(true, 16, 128 , ST.array(ST.tag(2), dust.mat(calcite, 10), dust.mat(MT.STONES.Shale, 3)), clinker.mat(MTx.Cement, 7));
+            sintering.addRecipeX(true, 16, 256 , ST.array(dust.mat(MT.OREMATS.Wollastonite, 14), dust.mat(calcite, 25), dust.mat(MT.Clay, 4)), clinker.mat(MTx.Cement, 28));
+            sintering.addRecipeX(true, 16, 256 , ST.array(dust.mat(MT.OREMATS.Wollastonite, 14), dust.mat(calcite, 25), dust.mat(MT.Ash, 4)), clinker.mat(MTx.Cement, 28));
+            sintering.addRecipeX(true, 16, 256 , ST.array(dust.mat(MT.OREMATS.Wollastonite, 14), dust.mat(calcite, 25), dust.mat(MT.OREMATS.Bauxite, 4)), clinker.mat(MTx.Cement, 28));
+            sintering.addRecipeX(true, 16, 128 , ST.array(dust.mat(MT.OREMATS.Wollastonite, 7 ), dust.mat(calcite, 10), dust.mat(MT.STONES.Shale, 3)), clinker.mat(MTx.Cement, 14));
+        }
 
         // BF Sinters
         for (ItemStack coal : ST.array(dust.mat(MT.PetCoke, 1), dust.mat(MT.LigniteCoke, 3),  dust.mat(MT.CoalCoke, 1), dust.mat(MT.C, 1) )) {
@@ -400,6 +400,28 @@ public class Metallurgy extends GT6XFeature {
             sintering.addRecipe(true, ST.array(dust.mat(MT.SiO2, 6), ST.mul(1, coal)), ST.array(sinter.mat(MT.SiO2, 8)), null, null, ZL_FS, ZL_FS, 32, 16, 0);
             sintering.addRecipe(true, ST.array(dust.mat(MTx.Sb2O3, 5), ST.mul(1, coal), dust.mat(MT.CaCO3, 1)), ST.array(sinter.mat(MTx.Sb2O3, 8)), null, null, ZL_FS, ZL_FS, 32, 16, 0);
         }
+
+        // Cement stuff
+        RM.Mortar.add(new RecipeMapHandlerPrefixShredding(clinker, 1, NF, 16, 0, 0, NF, dust , 1, NI, NI, true, false, false, null));
+        for (OreDictMaterial stone : ANY.Stone.mToThis) if (stone != MT.Concrete && stone != MTx.Cement && !stone.mReRegistrations.contains(ANY.Calcite)) for (FluidStack tWater : FL.waters(1000)) {
+            for (OreDictMaterial sand : ANY.SiO2.mToThis) {
+                RM.Mixer.addRecipeX(T, 16, 144, ST.array(ST.tag(4), blockDust.mat(stone, 3), OM.dust(sand, 18 * U), blockDust.mat(MTx.Cement, 1)), FL.mul(tWater, 9, 2, true), FL.Concrete.make(6 * 9 * L), ZL_IS);
+                RM.Mixer.addRecipeX(T, 16, 16 , ST.array(ST.tag(4), dust.mat(stone, 3), OM.dust(sand, 2 * U), dust.mat(MTx.Cement, 1)), FL.mul(tWater, 1, 2, true), FL.Concrete.make(6 * L), ZL_IS);
+            }
+            RM.Mixer.addRecipeX(T, 16, 144, ST.array(ST.tag(4), blockDust.mat(stone, 3), ST.make(Blocks.sand, 2, 0), blockDust.mat(MTx.Cement, 1)), FL.mul(tWater, 9, 2, true), FL.Concrete.make(6 * 9 * L), ZL_IS);
+        }
+        for (FluidStack tWater : FL.waters(1000)) {
+            for (OreDictMaterial sand : ANY.SiO2.mToThis) {
+                RM.Mixer.addRecipeX(T, 16, 144, ST.array(ST.tag(3), OM.dust(sand, 27 * U), blockDust.mat(MTx.Cement    , 1)                                        ), FL.mul(tWater, 9, 2, true), NF, dust.mat(MTx.Mortar          , 6 * 9));
+                RM.Mixer.addRecipeX(T, 16, 16 , ST.array(ST.tag(3), OM.dust(sand, 3  * U), dust     .mat(MTx.Cement    , 1)                                        ), FL.mul(tWater, 1, 2, true), NF, dust.mat(MTx.Mortar          , 6    ));
+                RM.Mixer.addRecipeX(T, 16, 144, ST.array(ST.tag(3), OM.dust(sand, 27 * U), blockDust.mat(MTx.CaAlCement, 1), dust    .mat(MT.Kaolinite, 1)), FL.mul(tWater, 9, 2, true), NF, dust.mat(MTx.RefractoryMortar, 6 * 9));
+                RM.Mixer.addRecipeX(T, 16, 16 , ST.array(ST.tag(3), OM.dust(sand, 3  * U), dust     .mat(MTx.CaAlCement, 1), dustTiny.mat(MT.Kaolinite, 1)), FL.mul(tWater, 1, 2, true), NF, dust.mat(MTx.RefractoryMortar, 6    ));
+            }
+            RM.Mixer.addRecipeX(T, 16, 144, ST.array(ST.tag(3), ST.make(Blocks.sand, 3, 0), blockDust.mat(MTx.Cement    , 1)                                    ), FL.mul(tWater, 9, 2, true), NF, dust.mat(MTx.Mortar          , 6 * 9));
+            RM.Mixer.addRecipeX(T, 16, 144, ST.array(ST.tag(3), ST.make(Blocks.sand, 3, 0), blockDust.mat(MTx.CaAlCement, 1), dust.mat(MT.Kaolinite, 1)), FL.mul(tWater, 9, 2, true), NF, dust.mat(MTx.RefractoryMortar, 6 * 9));
+        }
+
+        //TODO make bricks with (refractory) mortar
 
         // mixing from/to molten ferrochrome and steel
         for (String tIron : new String[] {"molten.iron", "molten.wroughtiron", "molten.meteoriciron", "molten.steel"}) {
@@ -600,6 +622,11 @@ public class Metallurgy extends GT6XFeature {
                     (r.mFluidInputs[0].getFluid().getName().equals("chlorine") && r.mOutputs[0].isItemEqual(dust.mat(MT.FeCl3, 4)) && r.mFluidOutputs.length == 0) ||
                     (r.mFluidInputs[0].getFluid().getName().equals("hydrochloricacid") && r.mOutputs[0].isItemEqual(dust.mat(MT.FeCl2, 3)) && r.mFluidOutputs.length == 1 && r.mFluidOutputs[0].getFluid().getName().equals("hydrogen"))
             )) { // fixes infinite silica from Fe -> FeCl2/FeCl3 -> Fe2O3 -> Fe + slag
+                r.mEnabled = false;
+            } else if (r.mOutputs.length == 1 && (
+                r.mOutputs[0].isItemEqual(dust.mat(MT.Concrete, 11)) ||
+                r.mOutputs[0].isItemEqual(blockDust.mat(MT.Concrete, 11))
+            )) { // need to make concrete from cement dust instead of concrete dust
                 r.mEnabled = false;
             }
         }
