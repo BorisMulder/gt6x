@@ -89,6 +89,13 @@ public class Metallurgy extends GT6XFeature {
         new PrefixItem(MOD_ID, MD.GT.mID, "gt6x.meta.sinter", sinter,
             MT.Empty, MT.Fe2O3, MT.OREMATS.Magnetite, MTx.FeO, MT.OREMATS.Garnierite, MT.OREMATS.Cassiterite, MT.OREMATS.Chromite, MTx.PbO, MTx.ZnO, MT.MnO2, MTx.Co3O4, MTx.CoO, MT.SiO2, MTx.Sb2O3
         );
+        clinker = OreDictPrefix.createPrefix("clinker")
+                .setCategoryName("Clinkers")
+                .setLocalItemName("", " Clinker")
+                .setMaterialStats(U);
+        new PrefixItem(MOD_ID, MD.GT.mID, "gt6x.meta.clinker", clinker,
+                MT.Empty, MTx.Cement, MTx.CaAlCement
+        );
     }
 
     private void changeMaterialProperties() {
