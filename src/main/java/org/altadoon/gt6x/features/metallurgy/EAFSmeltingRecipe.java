@@ -44,7 +44,7 @@ public class EAFSmeltingRecipe {
                 amount += stack.mAmount;
             }
             commonDivider = amount / U;
-            if (amount % U != 0) ERR.println("WARNING: EAF Recipe for'"+result.mMaterial.mNameInternal+"' has an Amount of " + amount + " Components and automatically generates a divider, that is leaving a tiny rest after the division, breaking some Material Amounts. Manual setting of Variables is required.");
+            if (amount % U != 0) ERR.println("WARNING: EAF Recipe for '"+result.mMaterial.mNameInternal+"' has an Amount of " + amount + " Components and automatically generates a divider, that is leaving a tiny rest after the division, breaking some Material Amounts. Manual setting of Variables is required.");
         }
 
         ArrayList<OreDictMaterialStack> allResults = new ArrayList<>(Arrays.asList(byProducts));

@@ -334,6 +334,7 @@ public class MTx {
             .uumMcfg(0, MT.Fe, U, MT.S, U)
             .heat(1467),
     FeO = oredustdcmp(16077, "Wuestite", SET_DULL, 50, 0, 0, 255, "Ferrous Oxide", "Iron(II) Oxide")
+            .put(INGOTS)
             .setMcfg(0, MT.Fe, U, MT.O, U)
             .heat(C+1377, C+3414)
             .setLocal("Wüstite"),
@@ -463,7 +464,8 @@ public class MTx {
     HotBlast = registerGas(gas(16117, "BlastHot", 225, 208, 245,  15, TRANSPARENT)
             .setLocal("Hot Blast")
             .setMcfg( 0, MT.N,40*U, MT.O,11*U, MT.Ar, U)),
-    HBI = create( 16118, "Hot-Briquetted Iron", 150, 150, 150, 255)
+    HBI = create( 16118, "HBI", 150, 150, 150, 255)
+            .setLocal("Hot-Briquetted Iron")
             .setMcfg( 0, SpongeIron, U)
             .setTextures(SET_DULL)
             .put(INGOTS)
@@ -480,23 +482,23 @@ public class MTx {
             .uumMcfg(0, MT.P, 2*U, MT.O, 5*U)
             .heat(613, 613),
     P_CO_Gas = registerGas(gas(16122, "Phosphorus-CO Vapour", 100, 100, 0, 50)
-            .setMcfg(0, MT.P, U, MT.CO, 5*U)
+            .setMcfg(0, MT.P, U, MT.CO, 5*U) //TODO not working
             .heat(MT.CO)),
     HSST1 = alloymachine(16123, "HSS-T1", SET_METALLIC, 50, 50, 150)
             .setMcfg(0, MT.Fe, 80*U, MT.C, 4*U, MT.W, 6*U, MT.Cr, 4*U, MT.V, U)
             .heat(2086, MT.Fe.mBoilingPoint)
             .qual(3, 12.0, 6144, 4),
-    HSSM2 = alloymachine(16123, "HSS-M2", SET_METALLIC, 100, 100, 150)
+    HSSM2 = alloymachine(16124, "HSS-M2", SET_METALLIC, 100, 100, 150)
             .setMcfg(0, MT.Fe, 80*U, MT.C, 4*U, MT.W, 2*U, MT.Cr, 4*U, MT.V, 2*U, MT.Mo, 2*U)
             .heat(2075, MT.Fe.mBoilingPoint)
             .qual(3, 12.0, 7168, 4),
-    Cement = dustdcmp(16124, "Cement", SET_STONE, 160, 160, 160, 255)
+    Cement = dustdcmp(16125, "Cement", SET_STONE, 160, 160, 160, 255)
             .heat(MT.Concrete),
-    Mortar = dustdcmp(16125, "Mortar", SET_FOOD, 160, 160, 160, 255)
+    Mortar = dustdcmp(16126, "Mortar", SET_FOOD, 160, 160, 160, 255)
             .heat(Cement),
-    CaAlCement = dustdcmp(16126, "Calcium Aluminate Cement", SET_STONE, 200, 180, 160, 255)
+    CaAlCement = dustdcmp(16127, "Calcium Aluminate Cement", SET_STONE, 200, 180, 160, 255)
             .heat(MT.Ceramic),
-    RefractoryMortar = dustdcmp(16127, "Refractory Mortar", SET_FOOD, 200, 180, 160, 255)
+    RefractoryMortar = dustdcmp(16128, "Refractory Mortar", SET_FOOD, 200, 180, 160, 255)
             .heat(CaAlCement)
     ;
 
