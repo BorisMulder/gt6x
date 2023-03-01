@@ -8,6 +8,7 @@ import gregapi.data.TC;
 import gregapi.oredict.OreDictManager;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.render.TextureSet;
+import net.minecraft.enchantment.Enchantment;
 import org.altadoon.gt6x.Gt6xMod;
 
 import static gregapi.data.CS.*;
@@ -33,6 +34,11 @@ public class MTx {
         MT.PigIron.uumMcfg(5, MT.Fe, 5*U, MT.C, U).heat(MT.WroughtIron).qual(3, 4.0, 128, 2);
         MT.Steel  .uumMcfg(100, MT.Fe, 100*U, MT.C, U).heat(MT.WroughtIron);
         MT.Olivine.uumMcfg(0, MT.Mg, U, MT.Fe, U, MT.Si, U, MT.O, 4*U);
+        MT.Apatite.uumMcfg( 0, MT.Ca, 5*U, MT.PO4, 3*5*U, MT.Cl, U).heat(1900).setLocal("Chlorapatite");
+        MT.Phosphorite.uumMcfg( 0, MT.Ca, 5*U, MT.PO4, 3*5*U, MT.F, U).heat(1900).setLocal("Fluorapatite");
+        for (OreDictMaterial phosphorus : new OreDictMaterial[] { MT.Phosphorus, MT.PhosphorusBlue, MT.PhosphorusRed, MT.PhosphorusWhite}) {
+            phosphorus.uumMcfg( 0, MT.Ca, 3*U, MT.PO4, 2*5*U).heat(1940);
+        }
 
         MT.WroughtIron.qual(3, 6.0, 640, 2);
 
@@ -44,8 +50,6 @@ public class MTx {
         MT.OREMATS.Wolframite.setLocal("Magnesium Tungstate").addSourceOf(MT.Mg);
         MT.OREMATS.Tungstate.setLocal("Lithium Tungstate");
         MT.OREMATS.Huebnerite.setLocal("Hübnerite");
-        MT.Apatite.setLocal("Chlorapatite");
-        MT.Phosphorite.setLocal("Fluorapatite");
 
         FL.createMolten(MT.K2S2O7.put(MELTING, MOLTEN), 1000);
         FL.createMolten(MT.Na2S2O7.put(MELTING, MOLTEN), 1000);
@@ -325,7 +329,7 @@ public class MTx {
             .uumMcfg(0, Cr2O3, U, MT.Na2CO3, U)
             .heat(Cr2O3),
     CrSlag = dustdcmp(16074, "Chromite Slag", SET_POWDER, 150, 150, 0, 255)
-            .setMcfg(0, Na2CrO4, 4*7*U, MT.OREMATS.Wollastonite, 5*U, MT.Fe2O3, 5*U)
+            .setMcfg(0, Na2CrO4, 4*7*U, MT.OREMATS.Wollastonite, 2*U, MT.Fe2O3, 5*U)
             .heat(Na2CrO4),
     Sb2O3 = dustdcmp(16075, "Antimony Trioxide", SET_FINE, 255, 200, 150, 255, "Antimony(III) Oxide")
             .uumMcfg(0, MT.Sb, 2*U, MT.O, 3*U)
@@ -346,6 +350,7 @@ public class MTx {
             .heat(774,1220),
     Wolframite = oredustdcmp(16080, "TrueWolframite", SET_METALLIC, 100, 100, 120, 255)
             .uumMcfg(0, MT.OREMATS.Ferberite, U, MT.OREMATS.Huebnerite, U)
+            .tooltip("(Fe, Mn)WO"+ NUM_SUB[3] + "O")
             .setLocal("Wolframite")
             .addSourceOf(MT.Fe, MT.W, MT.Mn)
             .qual(3),
@@ -359,7 +364,9 @@ public class MTx {
     NH4VO3 = dustdcmp(16083, "Ammonium Metavanadate", SET_DULL, 255, 200, 150, 255)
             .uumMcfg(0, MT.N, U, MT.H, 4*U, MT.V, U, MT.O, 3*U)
             .heat(473),
-    //TODO 16084 free
+    NH4ClSolution = registerLiquid(liquid(16084, "Ammonium Chloride Solution", 230, 230, 255, 255)
+            .uumMcfg(0, NH4Cl, 4*U, MT.H2O, 3*U)
+            .heat(MT.H2O)),
     CobaltBlue = dustdcmp(16085, "Cobalt Blue", SET_FINE, 0, 71, 171, 255, DYE_INDEX_Blue)
             .uumMcfg(0, MT.Co, U, MT.Al, 2*U, MT.O, 4*U)
             .heat((MT.Al2O3.mMeltingPoint + CoO.mMeltingPoint) / 2),
@@ -458,7 +465,7 @@ public class MTx {
             .setLocal("Impure Cementite")
             .setMcfg(0, Cementite, 8*3*U, FerrousSlag, 7*3*U)
             .heat(Cementite),
-    MgOC = machine(16116, "MgO-C", SET_QUARTZ, 100, 100, 100, 255)
+    MgOC = machine(16116, "MgO-C", SET_QUARTZ, 100, 100, 100, 255, UNBURNABLE)
             .setMcfg(0, MgO, U, MT.Graphite, U)
             .heat(MgO),
     HotBlast = registerGas(gas(16117, "BlastHot", 225, 208, 245,  15, TRANSPARENT)
@@ -488,7 +495,7 @@ public class MTx {
             .setMcfg(0, MT.Fe, 80*U, MT.C, 4*U, MT.W, 6*U, MT.Cr, 4*U, MT.V, U)
             .heat(2086, MT.Fe.mBoilingPoint)
             .qual(3, 12.0, 6144, 4),
-    HSSM2 = alloymachine(16124, "HSS-M2", SET_METALLIC, 100, 100, 150)
+    HSSM2 = alloymachine(16124, "HSS-M2", SET_METALLIC, 130, 130, 150)
             .setMcfg(0, MT.Fe, 80*U, MT.C, 4*U, MT.W, 2*U, MT.Cr, 4*U, MT.V, 2*U, MT.Mo, 2*U)
             .heat(2075, MT.Fe.mBoilingPoint)
             .qual(3, 12.0, 7168, 4),
@@ -517,11 +524,14 @@ public class MTx {
         FL.createMolten(ConverterSlag.put(MELTING, MOLTEN), 144);
 
         HotBlast.mGas.getFluid().setTemperature(1650);
-        BlastFurnaceGas.mGas.getFluid().setTemperature((int)MT.PigIron.mMeltingPoint);
+        BlastFurnaceGas.mGas.getFluid().setTemperature(1650);
         ZnBlastFurnaceGas.mGas.getFluid().setTemperature((int)MT.Zn.mBoilingPoint);
         MgBlastFurnaceGas.mGas.getFluid().setTemperature((int)MT.Mg.mBoilingPoint);
         P_CO_Gas.mGas.getFluid().setTemperature(1700);
 
         OreDictManager.INSTANCE.addReRegistration("dustCobaltBlue", "dyeMixableBlue");
+
+        HSST1.addEnchantmentForWeapons(Enchantment.sharpness, 4).addEnchantmentForAmmo(Enchantment.sharpness, 4).addEnchantmentForRanged(Enchantment.power, 4);
+        HSSM2.addEnchantmentForWeapons(Enchantment.sharpness, 4).addEnchantmentForAmmo(Enchantment.sharpness, 4).addEnchantmentForRanged(Enchantment.power, 4);
     }
 }

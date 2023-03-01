@@ -12,13 +12,11 @@ import gregapi.tileentity.multiblocks.ITileEntityMultiBlockController;
 import gregapi.tileentity.multiblocks.MultiTileEntityMultiBlockPart;
 import gregapi.tileentity.multiblocks.TileEntityBase10MultiBlockMachine;
 import gregapi.util.OM;
-import gregapi.util.UT;
 import gregapi.util.WD;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
@@ -31,7 +29,10 @@ import static gregapi.data.CS.*;
 import static gregapi.data.CS.SIDE_Z_NEG;
 import static org.altadoon.gt6x.common.Log.LOG;
 
-public class MultiTileEntityBOF extends TileEntityBase10MultiBlockMachine implements ITileEntityCrucible, ITileEntityMold {
+public class MultiTileEntityBOF extends TileEntityBase10MultiBlockMachine implements ITileEntityCrucible {
+    public static final int WALL_META = 86;
+    public static final int LANCE_META = 88;
+
     @Override
     public boolean checkStructure2() {
         int mteRegID = Block.getIdFromBlock(MTEx.gt6xMTEReg.mBlock);
@@ -45,7 +46,7 @@ public class MultiTileEntityBOF extends TileEntityBase10MultiBlockMachine implem
                 } else {
                     int side_io = MultiTileEntityMultiBlockPart.NOTHING;
                     int design = 0;
-                    int partMeta = 86;
+                    int partMeta = WALL_META; // Refractory lining
                     switch (j) {
                         case 1:
                             if ((i == 0 && (mFacing == SIDE_X_POS || mFacing == SIDE_X_NEG)) ||
@@ -57,11 +58,16 @@ public class MultiTileEntityBOF extends TileEntityBase10MultiBlockMachine implem
                             break;
                         case 2:
                             if (i == 0 && k == 0) {
-                                design = 1;
-                                partMeta = 88;
+                                design = 2;
+                                partMeta = LANCE_META; // Oxygen Lance
                                 side_io = MultiTileEntityMultiBlockPart.ONLY_FLUID_IN;
+                            } else if ((i == 0 && (mFacing == SIDE_X_POS || mFacing == SIDE_X_NEG)) ||
+                                       (k == 0 && (mFacing == SIDE_Z_POS || mFacing == SIDE_Z_NEG))
+                            ) {
+                                design = 3;
+                                side_io = MultiTileEntityMultiBlockPart.ONLY_ITEM_FLUID_IN;
                             } else {
-                                side_io = MultiTileEntityMultiBlockPart.ONLY_ITEM_IN & MultiTileEntityMultiBlockPart.ONLY_FLUID_OUT;
+                                side_io = MultiTileEntityMultiBlockPart.ONLY_FLUID_OUT;
                             }
                             break;
                     }
@@ -86,9 +92,9 @@ public class MultiTileEntityBOF extends TileEntityBase10MultiBlockMachine implem
         LH.add("gt6x.tooltip.multiblock.bof.1", "3x3x3 hollow of 24 Steel-lined MgO-C Walls (excl. main and top center) with Air inside;");
         LH.add("gt6x.tooltip.multiblock.bof.2", "Main centered at bottom-side facing outwards. Oxygen Lance centered at the top layer");
         LH.add("gt6x.tooltip.multiblock.bof.3", "Molten metal out at right hole in bottom layer, crucible molds, crossings, pipes, etc. usable");
-        LH.add("gt6x.tooltip.multiblock.bof.4", "Same for slag but at left hole, both liquid and solid");
-        LH.add("gt6x.tooltip.multiblock.bof.5", "Oxygen in at the Lance.");
-        LH.add("gt6x.tooltip.multiblock.bof.6", "Crucible flow in (with Faucet), Items in (not automatic; hoppers recommended) and gases out (automatic) at the top.");
+        LH.add("gt6x.tooltip.multiblock.bof.4", "Same for slag but at left hole. Does not automatically output molten metal and slag into pipes");
+        LH.add("gt6x.tooltip.multiblock.bof.5", "Oxygen in at the Lance. Items and other fluids in at the two large holes to the left and right of the lance");
+        LH.add("gt6x.tooltip.multiblock.bof.6", "Gases out at the other top walls (automatic).");
     }
 
     @Override
@@ -128,12 +134,14 @@ public class MultiTileEntityBOF extends TileEntityBase10MultiBlockMachine implem
 
         if (mFluidOutputTarget != null && mFluidOutputTarget.exists()) return mFluidOutputTarget;
 
-        int tX = getOffsetXN(mFacing), tY = yCoord+3, tZ = getOffsetZN(mFacing);
-        for (int i = -1; i <= 1; i++) for (int j = -1; j <= 1; j++) {
-            if (i == 0 && j == 0) continue;
-            DelegatorTileEntity<TileEntity> tTarget = WD.te(worldObj, tX+i, tY, tZ+j, SIDE_BOTTOM, false);
-            if (tTarget.mTileEntity instanceof IFluidHandler && ((IFluidHandler)tTarget.mTileEntity).canFill(tTarget.getForgeSideOfTileEntity(), aOutput)) {
-                return mFluidOutputTarget = new DelegatorTileEntity<>((IFluidHandler)tTarget.mTileEntity, tTarget);
+        int tX = getOffsetXN(mFacing), tY = yCoord + 3, tZ = getOffsetZN(mFacing);
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                if (i == 0 && j == 0) continue;
+                DelegatorTileEntity<TileEntity> tTarget = WD.te(worldObj, tX + i, tY, tZ + j, SIDE_BOTTOM, false);
+                if (tTarget.mTileEntity instanceof IFluidHandler && ((IFluidHandler) tTarget.mTileEntity).canFill(tTarget.getForgeSideOfTileEntity(), aOutput)) {
+                    return mFluidOutputTarget = new DelegatorTileEntity<>((IFluidHandler) tTarget.mTileEntity, tTarget);
+                }
             }
         }
         return mFluidOutputTarget = null;
@@ -172,41 +180,37 @@ public class MultiTileEntityBOF extends TileEntityBase10MultiBlockMachine implem
 
         for (FluidTankGT tTank : mTanksOutput) {
             Fluid tFluid = tTank.fluid();
+            if (tFluid == null) continue;
+
             if (FL.is(tFluid, "molten.converterslag") && relative_side == SIDE_LEFT) {
-                if (pour(aMold, aSideOfMold, tTank, MTx.Slag)) return true;
+                if (pour(aMold, aSideOfMold, tTank, MTx.ConverterSlag)) return true;
 
             } else if (!FL.is(tFluid, "molten.converterslag") && !tFluid.isGaseous() && relative_side == SIDE_RIGHT) {
                 OreDictMaterialStack tMaterial = OreDictMaterial.FLUID_MAP.get(tFluid.getName());
+                if (tMaterial == null) continue;
                 if (pour(aMold, aSideOfMold, tTank, tMaterial.mMaterial)) return true;
             }
         }
         return false;
     }
 
-    @Override
-    public boolean isMoldInputSide(byte aSide) {
-        return SIDES_TOP[aSide] && checkStructure(F);
-    }
-
-    @Override
-    public long getMoldMaxTemperature() {
-        return MTx.MgOC.mMeltingPoint;
-    }
-
-    @Override
-    public long getMoldRequiredMaterialUnits() {
-        return 1;
-    }
-
-    @Override
-    public long fillMold(OreDictMaterialStack material, long temperature, byte side) {
-        FluidStack fluid = material.mMaterial.fluid(temperature, material.mAmount, false);
-        if (fluid == null || FL.Error.is(fluid)) {
-            return 0;
+    private boolean isRightFluidInput(MultiTileEntityMultiBlockPart part, Fluid fluid) {
+        if (FL.Oxygen.is(fluid)) {
+            return part.blockMetadata == LANCE_META;
+        } else {
+            return part.blockMetadata == WALL_META;
         }
-        int amount = this.fill(ForgeDirection.UP, fluid, true);
-        if (amount > 0) {
-            return UT.Code.units(amount, material.mMaterial.mLiquid.amount, material.mMaterial.mLiquidUnit, true);
+    }
+
+    @Override
+    public boolean canFill(MultiTileEntityMultiBlockPart part, byte side, Fluid fluid) {
+        return isRightFluidInput(part, fluid) && super.canFill(part, side, fluid);
+    }
+
+    @Override
+    public int fill(MultiTileEntityMultiBlockPart part, byte side, FluidStack stack, boolean doFill) {
+        if (isRightFluidInput(part, stack.getFluid())) {
+            return super.fill(part, side, stack, doFill);
         } else {
             return 0;
         }

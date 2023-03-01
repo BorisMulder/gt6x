@@ -185,11 +185,14 @@ public class MultiTileEntityBlastFurnace extends TileEntityBase10MultiBlockMachi
 
         for (FluidTankGT tTank : mTanksOutput) {
             Fluid tFluid = tTank.fluid();
+            if (tFluid == null) continue;
+
             if (FL.is(tFluid, "molten.slag") && relative_side == SIDE_LEFT) {
                 if (pour(aMold, aSideOfMold, tTank, MTx.Slag)) return true;
 
             } else if (!FL.is(tFluid, "molten.slag") && !tFluid.isGaseous() && relative_side == SIDE_RIGHT) {
                 OreDictMaterialStack tMaterial = OreDictMaterial.FLUID_MAP.get(tFluid.getName());
+                if (tMaterial == null) continue;
                 if (pour(aMold, aSideOfMold, tTank, tMaterial.mMaterial)) return true;
             }
         }

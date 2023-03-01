@@ -298,7 +298,6 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
         tooltips.add(LH.Chat.DRED     + LH.get(LH.HAZARD_MELTDOWN) + " (" + getTemperatureMax(SIDE_ANY) + " K)");
         tooltips.add(LH.Chat.ORANGE   + LH.get(LH.TOOLTIP_ACIDPROOF));
         tooltips.add(LH.Chat.DGRAY    + LH.get(LH.TOOL_TO_REMOVE_SHOVEL));
-        tooltips.add(LH.Chat.DGRAY    + LH.get("gt6x.tooltip.multiblock.eaf.9"));
         super.addToolTips(tooltips, stack, modeF3_H);
     }
 

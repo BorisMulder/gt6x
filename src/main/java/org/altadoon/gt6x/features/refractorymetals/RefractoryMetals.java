@@ -18,6 +18,7 @@ import java.util.Objects;
 
 import static gregapi.data.CS.*;
 import static gregapi.data.OP.*;
+import static org.altadoon.gt6x.common.Log.LOG;
 
 public class RefractoryMetals extends GT6XFeature {
     public static final String FEATURE_NAME = "RFMProcessing";
@@ -184,27 +185,23 @@ public class RefractoryMetals extends GT6XFeature {
         // V
         RM.Bath.addRecipe1(true, 0, 512*3, dust.mat(MTx.Vanadinite, 21), FL.array(MT.SaltWater.liquid(4*6*U, true)), FL.array(MTx.NaVO3Solution.liquid(3*11*U, false)), dust.mat(MTx.PbCl2, 6), dust.mat(MTx.PbO, 3));
         RM.Bath.addRecipe1(true, 0, 512, dust.mat(MTx.NH4Cl, 2), MTx.NaVO3Solution.liquid(11*U, true), MT.SaltWater.liquid(8*U, false), dust.mat(MTx.NH4VO3, 5));
-        //TODO use thermolyzer
+        //TODO use thermolysis oven
         RM.Drying.addRecipe1(true, 16, 128, dust.mat(MTx.NH4VO3, 10), ZL_FS, FL.array(MT.NH3.gas(2*U, false), MT.H2O.liquid(U, false)), dust.mat(MT.V2O5, 7));
         RM.Bath.addRecipe1(true, 0, 512*3, dust.mat(MT.V2O5, 21), FL.array(MT.Al.liquid(10*U, true)), FL.array(MT.V.liquid(6*U, false), MT.Al2O3.liquid(25*U, false)));
 
         // Cr
         if (complexChromiumRefining) {
-            // we assume SiO2 is present in Chromite which comes out as slag. Part of it remains in the hematite which can be used in a blast furnace. 6 units of SiO2 are added to the left hand of the equation.
-            //TODO fix?
-            RM.Mixer.addRecipe(true, new ItemStack[]{OM.dust(MT.OREMATS.Chromite, 28*U), OM.dust(MT.CaCO3, 5*U2), OM.dust(MT.Na2CO3, 48*U)}, ST.array(dust.mat(MTx.CrSlag, 76)), null, null, FL.array(FL.Air.make(14*4000)), FL.array(MT.CO2.gas(10*3*U, false)), 3*512, 16, 0);
-            RM.Mixer.addRecipe(true, new ItemStack[]{OM.dust(MT.OREMATS.Chromite, 28*U), OM.dust(MT.CaCO3, 5*U2), OM.dust(MT.Na2CO3, 48*U)}, ST.array(dust.mat(MTx.CrSlag, 76)), null, null, FL.array(MT.O.gas(7*2*U, true)), FL.array(MT.CO2.gas(10*3*U, false)), 3*512, 16, 0);
+            // we assume SiO2 is present in Chromite which comes out as slag. Part of it remains in the hematite which can be used in a blast furnace.
+            RM.Mixer.addRecipeX(true, 16, 3*512, ST.array(OM.dust(MT.OREMATS.Chromite, 28*U), OM.dust(MT.CaCO3, 4*U), OM.dust(MT.Na2CO3, 48*U)), FL.array(FL.Air.make(14*4000)), FL.array(MT.CO2.gas(8*3*U + 4*3*U5, false)), dust.mat(MTx.CrSlag, 70));
+            RM.Mixer.addRecipeX(true, 16, 3*512, ST.array(OM.dust(MT.OREMATS.Chromite, 28*U), OM.dust(MT.CaCO3, 4*U), OM.dust(MT.Na2CO3, 48*U)), FL.array(MT.O.gas(7*2*U, true)), FL.array(MT.CO2.gas(8*3*U + 4*3*U5, false)), dust.mat(MTx.CrSlag, 70));
 
             for (FluidStack tWater : FL.waters(3000)) {
-                RM.Bath.addRecipe1(true, 0, 3*256, dust.mat(MTx.CrSlag, 76), FL.mul(tWater, 8), MTx.Na2CrO4Solution.liquid(8*10*U, false), dust.mat(MT.Fe2O3, 10), gem.mat(MTx.Slag, 10));
-                RM.Mixer.addRecipe1(true, 16, 3*32, dust.mat(MT.Na2CO3, 6), FL.array(FL.copy(tWater)), MTx.Na2CO3Solution.liquid(9*U, false), ZL_IS);
+                RM.Bath.addRecipe1(true, 0, 3*256, dust.mat(MTx.CrSlag, 35), FL.mul(tWater, 4), MTx.Na2CrO4Solution.liquid(4*10*U, false), dust.mat(MT.Fe2O3, 5), gem.mat(MTx.Slag, 2));
                 RM.Mixer.addRecipe0(true, 16, 3*128, FL.array(MTx.Na2CrO4Solution.liquid(20*U, true), MT.CO2.gas(6*U, true), FL.mul(tWater, 2)), MTx.DichromateSoda.liquid(32*U, true), ZL_IS);
                 RM.Bath.addRecipe1(true, 0, 64, dust.mat(MTx.CrSodaMixture, 11), tWater, MTx.Na2CO3Solution.liquid(9*U, false), dust.mat(MTx.Cr2O3, 5));
             }
             //TODO use thermolysis oven
             RM.Drying.addRecipe0(true, 16, 18000, FL.array(MTx.DichromateSoda.liquid(32*U, true)), FL.array(MTx.Na2CO3Solution.liquid(9*U, false), MT.DistWater.liquid(9*U, false), MT.CO2.gas(3*U, false)), dust.mat(MTx.Na2Cr2O7, 11));
-            // DO use dryer
-            RM.Drying.addRecipe0(true, 16, 6000, FL.array(MTx.Na2CO3Solution.liquid(9*U, false)), FL.array(MT.DistWater.liquid(3*U, false)), dust.mat(MT.Na2CO3, 6));
 
             for (ItemStack coal : new ItemStack[]{dust.mat(MT.Charcoal, 1), dust.mat(MT.LigniteCoke, 3), dust.mat(MT.CoalCoke, 1), dust.mat(MT.C, 1)}) {
                 RM.BurnMixer.addRecipe2(true, 16, 64, ST.mul(2, coal), dust.mat(MTx.Na2Cr2O7, 11), ZL_FS, MT.CO.gas(2*U, false), dust.mat(MTx.CrSodaMixture, 11));
@@ -213,9 +210,11 @@ public class RefractoryMetals extends GT6XFeature {
         }
 
         // Zr,Hf
-        for (ItemStack coal : new ItemStack[]{dust.mat(MT.Charcoal, 1), dust.mat(MT.LigniteCoke, 3), dust.mat(MT.CoalCoke, 1), dust.mat(MT.C, 1), dust.mat(MT.Graphite, 1)}) {
-            RM.BurnMixer.addRecipe2(true, 16, 256, ST.mul(2, coal), dust.mat(MT.Zircon, 12), FL.array(MT.Cl.gas(8*U, true), MT.CaCO3.liquid(10*U, true)), FL.array(MTx.ZrHfCl4.gas(10*U, false), MT.CO2.gas(12*U, false)), gem.mat(MTx.Slag, 10));
-            RM.BurnMixer.addRecipe2(true, 16, 256, coal, dust.mat(MT.Zircon, 6), FL.array(MT.Cl.gas(4*U, true), MT.CaCO3.liquid(5*U, true)), FL.array(MTx.ZrHfCl4.gas(5*U, false), MT.CO2.gas(6*U, false)), gem.mat(MTx.Slag, 5));
+        for (ItemStack coal : new ItemStack[]{dust.mat(MT.Charcoal, 1), dust.mat(MT.LigniteCoke, 3), dust.mat(MT.CoalCoke, 1), dust.mat(MT.PetCoke, 1), dust.mat(MT.C, 1), dust.mat(MT.Graphite, 1)}) {
+            RM.BurnMixer.addRecipeX(true, 16, 256, ST.array(ST.mul(2, coal), dust.mat(MT.Zircon, 12), dust.mat(MT.CaCO3, 10)), FL.array(MT.Cl.gas(8*U, true)), FL.array(MTx.ZrHfCl4.gas(10*U, false), MT.CO2.gas(12*U, false)), gem.mat(MTx.Slag, 10));
+            RM.BurnMixer.addRecipeX(true, 16, 192, ST.array(ST.mul(2, coal), dust.mat(MT.Zircon, 12), dust.mat(MT.Quicklime, 4)), FL.array(MT.Cl.gas(8*U, true)), FL.array(MTx.ZrHfCl4.gas(10*U, false), MT.CO2.gas(6*U, false)), gem.mat(MTx.Slag, 10));
+            RM.BurnMixer.addRecipeX(true, 16, 256, ST.array(coal, dust.mat(MT.Zircon, 6), dust.mat(MT.CaCO3, 5)), FL.array(MT.Cl.gas(4*U, true)), FL.array(MTx.ZrHfCl4.gas(5*U, false), MT.CO2.gas(6*U, false)), gem.mat(MTx.Slag, 5));
+            RM.BurnMixer.addRecipeX(true, 16, 192, ST.array(coal, dust.mat(MT.Zircon, 6), dust.mat(MT.Quicklime, 2)), FL.array(MT.Cl.gas(4*U, true)), FL.array(MTx.ZrHfCl4.gas(5*U, false), MT.CO2.gas(3*U, false)), gem.mat(MTx.Slag, 5));
         }
         RM.Distillery.addRecipe1(true, 64, 256, ST.tag(0), FL.array(MTx.ZrHfCl4.gas(5*U, true)), FL.array(MTx.ZrCl4.gas(49*U10, false), MTx.HfCl4.gas(U10, false)));
         RM.Bath.addRecipe1(true, 0, 512, OM.dust(MT.Na, U*4), MTx.ZrCl4.gas(5*U, T), NF, OM.dust(MT.Zr), OM.dust(MT.NaCl , U*2), OM.dust(MT.NaCl , U*2), OM.dust(MT.NaCl , U*2), OM.dust(MT.NaCl , U*2));
@@ -232,7 +231,7 @@ public class RefractoryMetals extends GT6XFeature {
                 RM.Mixer.addRecipe0(true, 16, 1024, FL.array(MTx.NbTaFMIBKSolution.liquid(76*U, true), MT.NH3.gas(10*U, true), FL.mul(tWater, 13)), FL.array(MTx.TaFMIBKSolution.liquid(58*U, false), MTx.NH4FSolution.liquid(10*6*U, false)), OM.dust(MT.Nb2O5, 7*U));
                 RM.Mixer.addRecipe0(true, 16, 1024, FL.array(MTx.TaFMIBKSolution.liquid(58*U, true), MT.NH3.gas(14*U, true), FL.mul(tWater, 19)), FL.array(MTx.MIBK.liquid(38*U, false), MTx.NH4FSolution.liquid(14*6*U, false)), OM.dust(MT.Ta2O5, 7*U));
             }
-            //TODO use thermolysis
+            //TODO use thermolysis oven
             RM.Drying.addRecipe0(true, 16, 6000, FL.array(MTx.NH4FSolution.liquid(6*U, true)), FL.array(MT.DistWater.liquid(3*U, false), MT.HF.gas(2*U, false), MT.NH3.gas(U, false)));
             RM.Mixer.addRecipe1(true, 16, 1024, dust.mat(MT.KF, 8), FL.array(MTx.TaFMIBKSolution.liquid(58*U, true)), FL.array(MTx.MIBK.liquid(38*U, false), MT.HF.gas(8*U, false)), OM.dust(MT.K2TaF7, 20*U));
             RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.Nb2O5, 7), MT.Ca.liquid(5*U, true), MT.Nb.liquid(2*U, false), dust.mat(MT.Quicklime, 10));
@@ -242,10 +241,8 @@ public class RefractoryMetals extends GT6XFeature {
     }
 
     private void changeRecipes() {
-        //TODO not working
         for (Recipe r : RM.CrystallisationCrucible.mRecipeList) {
-            if (r.mFluidInputs.length >= 1 && r.mFluidInputs[0].getFluid().getName().equals("molten.alumina") &&
-                r.mInputs.length == 1) {
+            if (r.mFluidInputs.length >= 2 && r.mFluidInputs[1].isFluidEqual(MT.Al2O3.mLiquid) && r.mInputs.length == 1) {
                 for (long amount : new long[] {2*U, 2*U3}) {
                     if (ST.equal(r.mInputs[0], OM.dust(MT.V,amount))) {
                         r.mInputs[0] = OM.dust(MT.V2O5,amount);
