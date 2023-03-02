@@ -457,14 +457,16 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
         boolean contentChanged = false;
 
         if (preferredEAFRecipe != null) {
-            StringBuilder buf = new StringBuilder();
-            buf.append("executing EAF recipe, inputs: \n");
-
             if (preferredEAFRecipe.exothermic) {
                 // execute the recipe one at a time
-                maxConversions = 1;
+                maxConversions = Math.min(maxConversions, U200); //TODO
                 storedEnergy += EAFSmeltingRecipe.EXOTHERMIC_ENERGY_GAIN;
             }
+
+            StringBuilder buf = new StringBuilder();
+            buf.append("executing EAF recipe ")
+               .append(maxConversions)
+               .append(" times, inputs: \\n\"");
 
             for (OreDictMaterialStack ingredient : preferredEAFRecipe.ingredients.getUndividedComponents()) {
                 buf.append(((double)ingredient.mAmount) / U).append(" units of ").append(ingredient.mMaterial.mNameInternal).append('\n');

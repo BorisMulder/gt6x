@@ -29,7 +29,9 @@ public class BasicChemistry extends GT6XFeature {
     public void configure(Config config) {}
 
     @Override
-    public void preInit() {}
+    public void preInit() {
+        changeMaterialProperties();
+    }
 
     @Override
     public void init() {}
@@ -44,6 +46,12 @@ public class BasicChemistry extends GT6XFeature {
 
     public void afterPostInit() {
         changeRecipes();
+    }
+
+    private void changeMaterialProperties() {
+        MT.Dolomite.setSmelting(MTx.CalcinedDolomite, 2*U5);
+        MT.CaCO3.setSmelting(MT.Quicklime, 2*U5);
+        MT.MgCO3.setSmelting(MTx.MgO, 2*U5);
     }
 
     protected void addRecipes() {

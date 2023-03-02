@@ -123,6 +123,9 @@ public class OilProcessing extends GT6XFeature {
     }
 
     private void addFuelValues() {
+        FM.Burn.addRecipe0(true, -64, 24, MTx.FccOffgas.gas(U200, true), FL.Water.make(6), FL.CarbonDioxide.make(3));
+        FM.Gas.addRecipe0(true, -64, 30, MTx.FccOffgas.gas(U200, true), FL.Water.make(6), FL.CarbonDioxide.make(3));
+
         FM.Burn.addRecipe0(true, -64, 25, MTx.Ethane.gas(U200, true), FL.Water.make(6), FL.CarbonDioxide.make(4));
         FM.Gas.addRecipe0(true, -64, 35, MTx.Ethane.gas(U200, true), FL.Water.make(6), FL.CarbonDioxide.make(4));
 
@@ -147,7 +150,7 @@ public class OilProcessing extends GT6XFeature {
         FM.Burn.addRecipe0(true, -64, 6, MTx.Toluene.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
         FM.Engine.addRecipe0(true, -64, 8, MTx.Toluene.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
 
-        FM.Burn.addRecipe0(true, - 16, 36, MTx.Synoil.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
+        FM.Burn.addRecipe0(true, -16, 36, MTx.Synoil.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
         FM.Burn.addRecipe0(true, -16, 4, MTx.Acetone.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
     }
 

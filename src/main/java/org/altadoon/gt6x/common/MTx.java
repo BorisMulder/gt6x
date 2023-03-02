@@ -88,8 +88,18 @@ public class MTx {
         return mat;
     }
 
+    public static OreDictMaterial registerLiquid(OreDictMaterial mat, int temperature) {
+        FL.create(mat.mNameInternal.toLowerCase(), mat.mTextureSetsBlock.get(IconsGT.INDEX_BLOCK_MOLTEN), mat.mNameLocal, mat, mat.mRGBaLiquid, STATE_LIQUID, 1000, temperature, null, null, 0);
+        return mat;
+    }
+
     public static OreDictMaterial registerGas(OreDictMaterial mat) {
         FL.createGas(mat);
+        return mat;
+    }
+
+    public static OreDictMaterial registerGas(OreDictMaterial mat, int temperature) {
+        FL.create(mat.mNameInternal.toLowerCase(), mat.mTextureSetsBlock.get(IconsGT.INDEX_BLOCK_GAS), mat.mNameLocal, mat, mat.mRGBaGas, STATE_GASEOUS, 1000, temperature, null, null, 0);
         return mat;
     }
 
@@ -272,10 +282,12 @@ public class MTx {
     BlastFurnaceGas = registerGas(gas(16056, "Blast Furnace Gas", 0, 20, 30, 200)
             .uumMcfg(0, MT.N, 11*U, MT.CO, 4*U, MT.CO2, 4*U, MT.H, U)
             .put(FLAMMABLE, CENTRIFUGE)
-            .heat(100, 200)),
+            .heat(100, 200),
+            1650),
     ZnBlastFurnaceGas = registerGas(gas(16057, "Zinc-Rich Blast Furnace Gas", 0, 20, 30, 200)
             .uumMcfg(0, MT.Zn, U, BlastFurnaceGas, 6*U)
-            .heat(MT.Zn)),
+            .heat(MT.Zn),
+            (int)MT.Zn.mBoilingPoint),
     PbO = dustdcmp(16058, "Lead Oxide", SET_DULL, 150, 130, 100, 255)
             .uumMcfg(1, MT.Pb, U, MT.O, U)
             .heat(1161, 1750)
@@ -454,7 +466,8 @@ public class MTx {
             .heat(MT.H2O),
     MgBlastFurnaceGas = registerGas(gasdcmp(16112, "Magnesium-Rich Blast Furnace Gas", 50, 20, 30, 200)
             .uumMcfg(0, MT.Mg, U, MT.CO2, 6*U)
-            .heat(MT.Mg)),
+            .heat(MT.Mg),
+            (int)MT.Mg.mBoilingPoint),
     Cementite = alloymachine(16113, "Cementite", SET_METALLIC, 50, 50, 0, "Iron Carbide")
             .uumMcfg(3, MT.Fe, 3*U, MT.C, U)
             .heat(MT.WroughtIron),
@@ -470,7 +483,8 @@ public class MTx {
             .heat(MgO),
     HotBlast = registerGas(gas(16117, "BlastHot", 225, 208, 245,  15, TRANSPARENT)
             .setLocal("Hot Blast")
-            .setMcfg( 0, MT.N,40*U, MT.O,11*U, MT.Ar, U)),
+            .setMcfg( 0, MT.Air, U),
+            1650),
     HBI = create( 16118, "HBI", 150, 150, 150, 255)
             .setLocal("Hot-Briquetted Iron")
             .setMcfg( 0, SpongeIron, U)
@@ -490,7 +504,8 @@ public class MTx {
             .heat(613, 613),
     P_CO_Gas = registerGas(gas(16122, "Phosphorus-CO Vapour", 100, 100, 0, 50)
             .setMcfg(0, MT.P, U, MT.CO, 5*U) //TODO not working
-            .heat(MT.CO)),
+            .heat(MT.CO),
+            1700),
     HSST1 = alloymachine(16123, "HSS-T1", SET_METALLIC, 50, 50, 150)
             .setMcfg(0, MT.Fe, 80*U, MT.C, 4*U, MT.W, 6*U, MT.Cr, 4*U, MT.V, U)
             .heat(2086, MT.Fe.mBoilingPoint)
@@ -522,12 +537,6 @@ public class MTx {
         FL.createMolten(FerrousSlag.put(MELTING, MOLTEN), 144);
         FL.createMolten(FeCr2.put(MELTING, MOLTEN), 144);
         FL.createMolten(ConverterSlag.put(MELTING, MOLTEN), 144);
-
-        HotBlast.mGas.getFluid().setTemperature(1650);
-        BlastFurnaceGas.mGas.getFluid().setTemperature(1650);
-        ZnBlastFurnaceGas.mGas.getFluid().setTemperature((int)MT.Zn.mBoilingPoint);
-        MgBlastFurnaceGas.mGas.getFluid().setTemperature((int)MT.Mg.mBoilingPoint);
-        P_CO_Gas.mGas.getFluid().setTemperature(1700);
 
         OreDictManager.INSTANCE.addReRegistration("dustCobaltBlue", "dyeMixableBlue");
 

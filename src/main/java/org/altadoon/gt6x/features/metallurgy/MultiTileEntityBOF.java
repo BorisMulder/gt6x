@@ -195,6 +195,7 @@ public class MultiTileEntityBOF extends TileEntityBase10MultiBlockMachine implem
     }
 
     private boolean isRightFluidInput(MultiTileEntityMultiBlockPart part, Fluid fluid) {
+        LOG.debug("trying to fill BOF with {} at part {} with meta {}", fluid.getName(), part.getTileEntityName(), part.blockMetadata);
         if (FL.Oxygen.is(fluid)) {
             return part.blockMetadata == LANCE_META;
         } else {
