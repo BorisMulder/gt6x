@@ -494,43 +494,43 @@ public class Metallurgy extends GT6XFeature {
         RM.Centrifuge.addRecipe0(true, 512, 128, new long[]{900, 1200, 3300, 1100, 600}, MTx.ConverterSlag.liquid(U, true), NF, dust.mat(MT.Quicklime, 4), dustSmall.mat(MTx.MgO, 4), dustSmall.mat(MT.OREMATS.Wollastonite, 4), dustSmall.mat(MTx.FeO, 4), dustSmall.mat(MTx.P2O5, 4));
 
         // EAF steelmaking
-        new EAFSmeltingRecipe(0, false, new OreDictMaterialStack[]{ OM.stack(MT .PigIron        , 1 *U), OM.stack(MT.Fe         , 19*U) }, MT.Steel.mMeltingPoint       , OM.stack(MT.Steel     , 20*U));
-        new EAFSmeltingRecipe(0, false, new OreDictMaterialStack[]{ OM.stack(MT .PigIron        , 1 *U), OM.stack(MT.WroughtIron, 19*U) }, MT.Steel.mMeltingPoint       , OM.stack(MT.Steel     , 20*U));
-        new EAFSmeltingRecipe(0, false, new OreDictMaterialStack[]{ OM.stack(MTx.Cementite      , 3 *U), OM.stack(MT.Fe         , 2 *U) }, MT.PigIron.mMeltingPoint     , OM.stack(MT.PigIron   , 5 *U));
-        new EAFSmeltingRecipe(0, false, new OreDictMaterialStack[]{ OM.stack(MTx.Cementite      , 3 *U), OM.stack(MT.WroughtIron, 2 *U) }, MT.PigIron.mMeltingPoint     , OM.stack(MT.PigIron   , 5 *U));
-        new EAFSmeltingRecipe(0, false, new OreDictMaterialStack[]{ OM.stack(MTx.ImpureCementite, 30*U), OM.stack(MT.Quicklime  , 15*U), OM.stack(MTx.MgO             , 4*U) }, MTx.FerrousSlag.mMeltingPoint, OM.stack(MTx.Cementite, 16*U), OM.stack(MTx.FeO, 5*U), OM.stack(MTx.ConverterSlag, 13*U));
-        new EAFSmeltingRecipe(0, false, new OreDictMaterialStack[]{ OM.stack(MTx.ImpureCementite, 30*U), OM.stack(MT.Quicklime  , 11*U), OM.stack(MTx.CalcinedDolomite, 8*U) }, MTx.FerrousSlag.mMeltingPoint, OM.stack(MTx.Cementite, 16*U), OM.stack(MTx.FeO, 5*U), OM.stack(MTx.ConverterSlag, 13*U));
-        new EAFSmeltingRecipe(0, false, new OreDictMaterialStack[]{ OM.stack(MTx.SpongeIron     , 30*U), OM.stack(MT.Quicklime  , 15*U), OM.stack(MTx.MgO             , 4*U) }, MTx.FerrousSlag.mMeltingPoint, OM.stack(MT.PigIron   , 16*U), OM.stack(MTx.FeO, 5*U), OM.stack(MTx.ConverterSlag, 13*U));
-        new EAFSmeltingRecipe(0, false, new OreDictMaterialStack[]{ OM.stack(MTx.SpongeIron     , 30*U), OM.stack(MT.Quicklime  , 11*U), OM.stack(MTx.CalcinedDolomite, 8*U) }, MTx.FerrousSlag.mMeltingPoint, OM.stack(MT.PigIron   , 16*U), OM.stack(MTx.FeO, 5*U), OM.stack(MTx.ConverterSlag, 13*U));
-        new EAFSmeltingRecipe(0, false, new OreDictMaterialStack[]{ OM.stack(MTx.FeO            , 2 *U), OM.stack(MTx.Cementite , 3 *U) }, MTx.FeO.mMeltingPoint        , OM.stack(MT.Fe        , 4 *U), OM.stack(MT.CO, 2*U));
-        new EAFSmeltingRecipe(0, false, new OreDictMaterialStack[]{ OM.stack(MTx.FeO            , 2 *U), OM.stack(MT.PigIron    , 5 *U) }, MTx.FeO.mMeltingPoint        , OM.stack(MT.Fe        , 6 *U), OM.stack(MT.CO, 2*U));
+        new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MT .PigIron        , 1 *U), OM.stack(MT.Fe         , 19*U) }, MT.Steel.mMeltingPoint       , OM.stack(MT.Steel     , 20*U));
+        new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MT .PigIron        , 1 *U), OM.stack(MT.WroughtIron, 19*U) }, MT.Steel.mMeltingPoint       , OM.stack(MT.Steel     , 20*U));
+        new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MTx.Cementite      , 3 *U), OM.stack(MT.Fe         , 2 *U) }, MT.PigIron.mMeltingPoint     , OM.stack(MT.PigIron   , 5 *U));
+        new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MTx.Cementite      , 3 *U), OM.stack(MT.WroughtIron, 2 *U) }, MT.PigIron.mMeltingPoint     , OM.stack(MT.PigIron   , 5 *U));
+        new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MTx.ImpureCementite, 30*U), OM.stack(MT.Quicklime  , 15*U), OM.stack(MTx.MgO             , 4*U) }, MTx.FerrousSlag.mMeltingPoint, OM.stack(MTx.Cementite, 16*U), OM.stack(MTx.FeO, 5*U), OM.stack(MTx.ConverterSlag, 13*U));
+        new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MTx.ImpureCementite, 30*U), OM.stack(MT.Quicklime  , 11*U), OM.stack(MTx.CalcinedDolomite, 8*U) }, MTx.FerrousSlag.mMeltingPoint, OM.stack(MTx.Cementite, 16*U), OM.stack(MTx.FeO, 5*U), OM.stack(MTx.ConverterSlag, 13*U));
+        new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MTx.SpongeIron     , 30*U), OM.stack(MT.Quicklime  , 15*U), OM.stack(MTx.MgO             , 4*U) }, MTx.FerrousSlag.mMeltingPoint, OM.stack(MT.PigIron   , 16*U), OM.stack(MTx.FeO, 5*U), OM.stack(MTx.ConverterSlag, 13*U));
+        new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MTx.SpongeIron     , 30*U), OM.stack(MT.Quicklime  , 11*U), OM.stack(MTx.CalcinedDolomite, 8*U) }, MTx.FerrousSlag.mMeltingPoint, OM.stack(MT.PigIron   , 16*U), OM.stack(MTx.FeO, 5*U), OM.stack(MTx.ConverterSlag, 13*U));
+        new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MTx.FeO            , 2 *U), OM.stack(MTx.Cementite , 3 *U) }, MTx.FeO.mMeltingPoint        , OM.stack(MT.Fe        , 4 *U), OM.stack(MT.CO, 2*U));
+        new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MTx.FeO            , 2 *U), OM.stack(MT.PigIron    , 5 *U) }, MTx.FeO.mMeltingPoint        , OM.stack(MT.Fe        , 6 *U), OM.stack(MT.CO, 2*U));
 
         // Aluminothermic reduction in EAF
         //TODO test if it melts most of them exactly
-        new EAFSmeltingRecipe(0, true, new OreDictMaterialStack[]{ OM.stack(MT.Al, 10*U), OM.stack(MT .V2O5 , 21*U) }, 600, OM.stack(MT.V , 6*U), OM.stack(MT.Al2O3, 25*U));
-        new EAFSmeltingRecipe(0, true, new OreDictMaterialStack[]{ OM.stack(MT.Al, 10*U), OM.stack(MT .Nb2O5, 21*U) }, 600, OM.stack(MT.Nb, 6*U), OM.stack(MT.Al2O3, 25*U));
-        new EAFSmeltingRecipe(0, true, new OreDictMaterialStack[]{ OM.stack(MT.Al, 10*U), OM.stack(MT .Ta2O5, 21*U) }, 600, OM.stack(MT.Ta, 6*U), OM.stack(MT.Al2O3, 25*U));
-        new EAFSmeltingRecipe(0, true, new OreDictMaterialStack[]{ OM.stack(MT.Al, 2 *U), OM.stack(MTx.Cr2O3, 5 *U) }, 600, OM.stack(MT.Cr, 2*U), OM.stack(MT.Al2O3, 5 *U));
-        new EAFSmeltingRecipe(0, true, new OreDictMaterialStack[]{ OM.stack(MT.Al, 2 *U), OM.stack(MTx.MoO3 , 4 *U) }, 600, OM.stack(MT.Mo, 1*U), OM.stack(MT.Al2O3, 5 *U));
-        new EAFSmeltingRecipe(0, true, new OreDictMaterialStack[]{ OM.stack(MT.Al, 2 *U), OM.stack(MT .WO3  , 4 *U) }, 600, OM.stack(MT.W , 1*U), OM.stack(MT.Al2O3, 5 *U));
-        new EAFSmeltingRecipe(0, true, new OreDictMaterialStack[]{ OM.stack(MT.Al, 4 *U), OM.stack(MT .MnO2 , 3 *U) }, 600, OM.stack(MT.Mn, 3*U), OM.stack(MT.Al2O3, 10*U));
-        new EAFSmeltingRecipe(0, true, new OreDictMaterialStack[]{ OM.stack(MT.Al, 2 *U), OM.stack(MT .Fe2O3, 5 *U) }, 600, OM.stack(MT.Fe, 2*U), OM.stack(MT.Al2O3, 5 *U));
-        new EAFSmeltingRecipe(0, true, new OreDictMaterialStack[]{ OM.stack(MT.Al, 8 *U), OM.stack(MTx.Co3O4, 21*U) }, 600, OM.stack(MT.Co, 9*U), OM.stack(MT.Al2O3, 20*U));
+        new EAFSmeltingRecipe(0, 10, new OreDictMaterialStack[]{ OM.stack(MT.Al, 10*U), OM.stack(MT .V2O5 , 21*U) }, 600, OM.stack(MT.V , 6*U), OM.stack(MT.Al2O3, 25*U));
+        new EAFSmeltingRecipe(0, 10, new OreDictMaterialStack[]{ OM.stack(MT.Al, 10*U), OM.stack(MT .Nb2O5, 21*U) }, 600, OM.stack(MT.Nb, 6*U), OM.stack(MT.Al2O3, 25*U));
+        new EAFSmeltingRecipe(0, 10, new OreDictMaterialStack[]{ OM.stack(MT.Al, 10*U), OM.stack(MT .Ta2O5, 21*U) }, 600, OM.stack(MT.Ta, 6*U), OM.stack(MT.Al2O3, 25*U));
+        new EAFSmeltingRecipe(0, 2, new OreDictMaterialStack[]{ OM.stack(MT.Al, 2 *U), OM.stack(MTx.Cr2O3, 5 *U) }, 600, OM.stack(MT.Cr, 2*U), OM.stack(MT.Al2O3, 5 *U));
+        new EAFSmeltingRecipe(0, 2, new OreDictMaterialStack[]{ OM.stack(MT.Al, 2 *U), OM.stack(MTx.MoO3 , 4 *U) }, 600, OM.stack(MT.Mo, 1*U), OM.stack(MT.Al2O3, 5 *U));
+        new EAFSmeltingRecipe(0, 2, new OreDictMaterialStack[]{ OM.stack(MT.Al, 2 *U), OM.stack(MT .WO3  , 4 *U) }, 600, OM.stack(MT.W , 1*U), OM.stack(MT.Al2O3, 5 *U));
+        new EAFSmeltingRecipe(0, 4, new OreDictMaterialStack[]{ OM.stack(MT.Al, 4 *U), OM.stack(MT .MnO2 , 3 *U) }, 600, OM.stack(MT.Mn, 3*U), OM.stack(MT.Al2O3, 10*U));
+        new EAFSmeltingRecipe(0, 2, new OreDictMaterialStack[]{ OM.stack(MT.Al, 2 *U), OM.stack(MT .Fe2O3, 5 *U) }, 600, OM.stack(MT.Fe, 2*U), OM.stack(MT.Al2O3, 5 *U));
+        new EAFSmeltingRecipe(0, 8, new OreDictMaterialStack[]{ OM.stack(MT.Al, 8 *U), OM.stack(MTx.Co3O4, 21*U) }, 600, OM.stack(MT.Co, 9*U), OM.stack(MT.Al2O3, 20*U));
 
         // Pure phosphorus production in EAF
-        new EAFSmeltingRecipe(0, false, new OreDictMaterialStack[]{ OM.stack(MT.Apatite, 2*7*U), OM.stack(MT.SiO2, 9*U), OM.stack(MT.C, 5*U) }, 1850, OM.stack(MTx.Slag, 3*5*U), OM.stack(MT.CaCl2, U), OM.stack(MTx.P_CO_Gas, 12*U));
-        new EAFSmeltingRecipe(0, false, new OreDictMaterialStack[]{ OM.stack(MT.Phosphorite, 2*7*U), OM.stack(MT.SiO2, 3*3*U), OM.stack(MT.C, 5*U) }, 1850, OM.stack(MTx.Slag, 3*5*U), OM.stack(MT.CaF2, U), OM.stack(MTx.P_CO_Gas, 12*U));
+        new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MT.Apatite, 2*7*U), OM.stack(MT.SiO2, 9*U), OM.stack(MT.C, 5*U) }, 1850, OM.stack(MTx.Slag, 3*5*U), OM.stack(MT.CaCl2, U), OM.stack(MTx.P_CO_Gas, 12*U));
+        new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MT.Phosphorite, 2*7*U), OM.stack(MT.SiO2, 3*3*U), OM.stack(MT.C, 5*U) }, 1850, OM.stack(MTx.Slag, 3*5*U), OM.stack(MT.CaF2, U), OM.stack(MTx.P_CO_Gas, 12*U));
         for (OreDictMaterial phosphorus : new OreDictMaterial[] { MT.Phosphorus, MT.PhosphorusBlue, MT.PhosphorusRed, MT.PhosphorusWhite}) {
-            new EAFSmeltingRecipe(0, false, new OreDictMaterialStack[]{ OM.stack(phosphorus, 13*U), OM.stack(MT.SiO2, 3*3*U), OM.stack(MT.C, 5*U) }, 1850, OM.stack(MTx.Slag, 3*5*U), OM.stack(MTx.P_CO_Gas, 12*U));
+            new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(phosphorus, 13*U), OM.stack(MT.SiO2, 3*3*U), OM.stack(MT.C, 5*U) }, 1850, OM.stack(MTx.Slag, 3*5*U), OM.stack(MTx.P_CO_Gas, 12*U));
         }
-        new EAFSmeltingRecipe(0, false, new OreDictMaterialStack[]{ OM.stack(MTx.P2O5, 7*U), OM.stack(MT.C, 5*U) }, 1850, OM.stack(MTx.P_CO_Gas, 12*U));
+        new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MTx.P2O5, 7*U), OM.stack(MT.C, 5*U) }, 1850, OM.stack(MTx.P_CO_Gas, 12*U));
 
         // HSS-T1
-        new EAFSmeltingRecipe(0, false, new OreDictMaterialStack[]{ OM.stack(MT.PigIron, 16*U), OM.stack(MT.Steel, 60*U), OM.stack(MT.W, 6*U), OM.stack(MT.Cr, 4*U), OM.stack(MT.VanadiumSteel, 5*U)  }, MTx.HSST1.mMeltingPoint, OM.stack(MTx.HSST1, 91*U));
-        new EAFSmeltingRecipe(0, false, new OreDictMaterialStack[]{ OM.stack(MT.PigIron, 16*U), OM.stack(MT.Steel, 58*U), OM.stack(MT.W, 6*U), OM.stack(MTx.FeCr2, 6*U), OM.stack(MT.VanadiumSteel, 5*U)  }, MTx.HSST1.mMeltingPoint, OM.stack(MTx.HSST1, 91*U));
+        new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MT.PigIron, 16*U), OM.stack(MT.Steel, 60*U), OM.stack(MT.W, 6*U), OM.stack(MT.Cr, 4*U), OM.stack(MT.VanadiumSteel, 5*U)  }, MTx.HSST1.mMeltingPoint, OM.stack(MTx.HSST1, 91*U));
+        new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MT.PigIron, 16*U), OM.stack(MT.Steel, 58*U), OM.stack(MT.W, 6*U), OM.stack(MTx.FeCr2, 6*U), OM.stack(MT.VanadiumSteel, 5*U)  }, MTx.HSST1.mMeltingPoint, OM.stack(MTx.HSST1, 91*U));
         // HSS-M2
-        new EAFSmeltingRecipe(0, false, new OreDictMaterialStack[]{ OM.stack(MT.PigIron, 8 *U), OM.stack(MT.Steel, 28*U), OM.stack(MT.W, U), OM.stack(MT.Cr, 2*U), OM.stack(MT.VanadiumSteel, 5*U), OM.stack(MT.Mo, U)  }, MTx.HSSM2.mMeltingPoint, OM.stack(MTx.HSSM2, 45*U));
-        new EAFSmeltingRecipe(0, false, new OreDictMaterialStack[]{ OM.stack(MT.PigIron, 8 *U), OM.stack(MT.Steel, 27*U), OM.stack(MT.W, U), OM.stack(MTx.FeCr2, 3*U), OM.stack(MT.VanadiumSteel, 5*U), OM.stack(MT.Mo, U)  }, MTx.HSSM2.mMeltingPoint, OM.stack(MTx.HSSM2, 45*U));
+        new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MT.PigIron, 8 *U), OM.stack(MT.Steel, 28*U), OM.stack(MT.W, U), OM.stack(MT.Cr, 2*U), OM.stack(MT.VanadiumSteel, 5*U), OM.stack(MT.Mo, U)  }, MTx.HSSM2.mMeltingPoint, OM.stack(MTx.HSSM2, 45*U));
+        new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MT.PigIron, 8 *U), OM.stack(MT.Steel, 27*U), OM.stack(MT.W, U), OM.stack(MTx.FeCr2, 3*U), OM.stack(MT.VanadiumSteel, 5*U), OM.stack(MT.Mo, U)  }, MTx.HSSM2.mMeltingPoint, OM.stack(MTx.HSSM2, 45*U));
     }
 
     private void addOverrideRecipes() {

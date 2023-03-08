@@ -459,7 +459,8 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
         if (preferredEAFRecipe != null) {
             if (preferredEAFRecipe.exothermic) {
                 // execute the recipe one at a time
-                maxConversions = Math.min(maxConversions, U200); //TODO
+                LOG.debug("maxConversions: {}", maxConversions);
+                maxConversions = Math.min(maxConversions, U / EAFSmeltingRecipe.DURATION_PER_FUEL / preferredEAFRecipe.fuelUnits); //TODO
                 storedEnergy += EAFSmeltingRecipe.EXOTHERMIC_ENERGY_GAIN;
             }
 
@@ -469,7 +470,7 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
                .append(" times, inputs: \\n\"");
 
             for (OreDictMaterialStack ingredient : preferredEAFRecipe.ingredients.getUndividedComponents()) {
-                buf.append(((double)ingredient.mAmount) / U).append(" units of ").append(ingredient.mMaterial.mNameInternal).append('\n');
+                buf.append(((double)ingredient.mAmount) / U * maxConversions).append(" ").append(ingredient.mMaterial.mNameInternal).append('\n');
                 for (OreDictMaterialStack tContent : content) {
                     if (tContent.mMaterial == ingredient.mMaterial) {
                         tContent.mAmount -= UT.Code.units_(maxConversions, U, ingredient.mAmount, T);
@@ -480,8 +481,8 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
 
             buf.append("outputs: \n");
             for (OreDictMaterialStack result : preferredEAFRecipe.results.getUndividedComponents()) {
-                buf.append(((double)result.mAmount) / U).append(" units of ").append(result.mMaterial.mNameInternal).append('\n');
-                OM.stack(result.mMaterial, preferredEAFRecipe.results.getCommonDivider() * maxConversions).addToList(content);
+                buf.append(((double)result.mAmount) / U * maxConversions).append(" ").append(result.mMaterial.mNameInternal).append('\n');
+                OM.stack(result.mMaterial, result.mAmount / U * maxConversions).addToList(content);
             }
 
             LOG.debug(buf.toString());
@@ -559,7 +560,7 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
         if (emitGases())
             contentChanged = true;
 
-        if (currentTemperature > getTemperatureMax(SIDE_INSIDE)) { //TODO test
+        if (currentTemperature > getTemperatureMax(SIDE_INSIDE)) {
             UT.Sounds.send(SFX.MC_FIZZ, this);
             GarbageGT.trash(content);
             contentChanged = true;
@@ -584,6 +585,7 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
                 worldObj.setBlock(xCenter+i, yCoord  , zCenter+j, Blocks.flowing_lava, 1, 3);
                 worldObj.setBlock(xCenter+i, yCoord+1, zCenter+j, Blocks.flowing_lava, 1, 3);
             }
+            currentTemperature = getTemperatureMax(SIDE_INSIDE);
         }
 
         if (hasNewContent || contentChanged) {

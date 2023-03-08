@@ -65,9 +65,9 @@ public class MultiTileEntityBOF extends TileEntityBase10MultiBlockMachine implem
                                        (k == 0 && (mFacing == SIDE_Z_POS || mFacing == SIDE_Z_NEG))
                             ) {
                                 design = 3;
-                                side_io = MultiTileEntityMultiBlockPart.ONLY_ITEM_FLUID_IN;
-                            } else {
                                 side_io = MultiTileEntityMultiBlockPart.ONLY_FLUID_OUT;
+                            } else {
+                                side_io = MultiTileEntityMultiBlockPart.ONLY_ITEM_FLUID_IN;
                             }
                             break;
                     }
@@ -93,8 +93,8 @@ public class MultiTileEntityBOF extends TileEntityBase10MultiBlockMachine implem
         LH.add("gt6x.tooltip.multiblock.bof.2", "Main centered at bottom-side facing outwards. Oxygen Lance centered at the top layer");
         LH.add("gt6x.tooltip.multiblock.bof.3", "Molten metal out at right hole in bottom layer, crucible molds, crossings, pipes, etc. usable");
         LH.add("gt6x.tooltip.multiblock.bof.4", "Same for slag but at left hole. Does not automatically output molten metal and slag into pipes");
-        LH.add("gt6x.tooltip.multiblock.bof.5", "Oxygen in at the Lance. Items and other fluids in at the two large holes to the left and right of the lance");
-        LH.add("gt6x.tooltip.multiblock.bof.6", "Gases out at the other top walls (automatic).");
+        LH.add("gt6x.tooltip.multiblock.bof.5", "Oxygen in at the Lance. Items and other fluids in at the top (not the holes)");
+        LH.add("gt6x.tooltip.multiblock.bof.6", "Gases out at the two large holes to the left and right of the lance (automatic).");
     }
 
     @Override
@@ -137,10 +137,13 @@ public class MultiTileEntityBOF extends TileEntityBase10MultiBlockMachine implem
         int tX = getOffsetXN(mFacing), tY = yCoord + 3, tZ = getOffsetZN(mFacing);
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
-                if (i == 0 && j == 0) continue;
-                DelegatorTileEntity<TileEntity> tTarget = WD.te(worldObj, tX + i, tY, tZ + j, SIDE_BOTTOM, false);
-                if (tTarget.mTileEntity instanceof IFluidHandler && ((IFluidHandler) tTarget.mTileEntity).canFill(tTarget.getForgeSideOfTileEntity(), aOutput)) {
-                    return mFluidOutputTarget = new DelegatorTileEntity<>((IFluidHandler) tTarget.mTileEntity, tTarget);
+                if ((i == 0 && j != 0 && (mFacing == SIDE_X_POS || mFacing == SIDE_X_NEG)) ||
+                    (j == 0 && i != 0 && (mFacing == SIDE_Z_POS || mFacing == SIDE_Z_NEG)))
+                {
+                    DelegatorTileEntity<TileEntity> tTarget = WD.te(worldObj, tX + i, tY, tZ + j, SIDE_BOTTOM, false);
+                    if (tTarget.mTileEntity instanceof IFluidHandler && ((IFluidHandler) tTarget.mTileEntity).canFill(tTarget.getForgeSideOfTileEntity(), aOutput)) {
+                        return mFluidOutputTarget = new DelegatorTileEntity<>((IFluidHandler) tTarget.mTileEntity, tTarget);
+                    }
                 }
             }
         }
@@ -195,11 +198,15 @@ public class MultiTileEntityBOF extends TileEntityBase10MultiBlockMachine implem
     }
 
     private boolean isRightFluidInput(MultiTileEntityMultiBlockPart part, Fluid fluid) {
-        LOG.debug("trying to fill BOF with {} at part {} with meta {}", fluid.getName(), part.getTileEntityName(), part.blockMetadata);
+        int x = getOffsetXN(mFacing), y = yCoord + 2, z = getOffsetZN(mFacing);
+
         if (FL.Oxygen.is(fluid)) {
-            return part.blockMetadata == LANCE_META;
+            return part.xCoord == x && part.yCoord == y && part.zCoord == z;
         } else {
-            return part.blockMetadata == WALL_META;
+            return part.yCoord == y && (
+                   (part.xCoord != x && (mFacing == SIDE_X_POS || mFacing == SIDE_X_NEG)) ||
+                   (part.zCoord != z && (mFacing == SIDE_Z_POS || mFacing == SIDE_Z_NEG))
+            );
         }
     }
 

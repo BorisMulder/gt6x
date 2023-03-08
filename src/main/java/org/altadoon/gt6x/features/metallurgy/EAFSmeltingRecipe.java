@@ -28,15 +28,25 @@ public class EAFSmeltingRecipe {
     public long smeltingTemperature;
 
     public boolean exothermic;
-    public static long EXOTHERMIC_ENERGY_GAIN = 512; // GU/t
+    public long fuelUnits;
+    public static final long EXOTHERMIC_ENERGY_GAIN = 512; // GU/t
+    /** amount of ticks one unit of fuel (e.g. Al, Ca, ...) will last */
+    public static final long DURATION_PER_FUEL = 32;
 
     public IOreDictConfigurationComponent ingredients;
     public IOreDictConfigurationComponent results;
 
+    public EAFSmeltingRecipe(long commonDivider, OreDictMaterialStack[] ingredients, long smeltingTemperature, OreDictMaterialStack result, OreDictMaterialStack... byProducts) {
+        this(commonDivider, 0, ingredients, smeltingTemperature, result, byProducts);
+    }
 
-    public EAFSmeltingRecipe(long commonDivider, boolean exothermic, OreDictMaterialStack[] ingredients, long smeltingTemperature, OreDictMaterialStack result, OreDictMaterialStack... byProducts) {
+    public EAFSmeltingRecipe(long commonDivider, long exothermicFuelUnits, OreDictMaterialStack[] ingredients, long smeltingTemperature, OreDictMaterialStack result, OreDictMaterialStack... byProducts) {
         if (ingredients.length == 0 || result == null)
             throw new IllegalArgumentException("EAF Recipe must have at least one input and output");
+
+        if (exothermicFuelUnits != 0 && (U / DURATION_PER_FUEL) % exothermicFuelUnits != 0) {
+            ERR.println("WARNING: EAF Recipe for '"+result.mMaterial.mNameInternal+"' has an amount of " + exothermicFuelUnits + " fuel units, which is not divisible by " + DURATION_PER_FUEL);
+        }
 
         if (commonDivider == 0) {
             long amount = 0;
@@ -44,7 +54,7 @@ public class EAFSmeltingRecipe {
                 amount += stack.mAmount;
             }
             commonDivider = amount / U;
-            if (amount % U != 0) ERR.println("WARNING: EAF Recipe for '"+result.mMaterial.mNameInternal+"' has an Amount of " + amount + " Components and automatically generates a divider, that is leaving a tiny rest after the division, breaking some Material Amounts. Manual setting of Variables is required.");
+            if (amount % U != 0) ERR.println("WARNING: EAF recipe for '"+result.mMaterial.mNameInternal+"' has an amount of " + amount + " components and automatically generates a divider, that is leaving a tiny rest after the division, breaking some material amounts. Manual setting of variables is required.");
         }
 
         ArrayList<OreDictMaterialStack> allResults = new ArrayList<>(Arrays.asList(byProducts));
@@ -52,7 +62,8 @@ public class EAFSmeltingRecipe {
         this.results = new OreDictConfigurationComponent(commonDivider, allResults.toArray(new OreDictMaterialStack[]{}));
         this.ingredients = new OreDictConfigurationComponent(commonDivider, ingredients);
         this.smeltingTemperature = smeltingTemperature;
-        this.exothermic = exothermic;
+        this.exothermic = exothermicFuelUnits > 0;
+        this.fuelUnits = exothermicFuelUnits;
 
         for(OreDictMaterialStack stack : this.ingredients.getComponents()) {
             if (SmeltsInto.containsKey(stack.mMaterial)) {
@@ -105,7 +116,7 @@ public class EAFSmeltingRecipe {
 
         if (doAdd) {
             long energy_output = exothermic ? -EXOTHERMIC_ENERGY_GAIN : 0;
-            long duration = exothermic ? 1 : 0;
+            long duration = exothermic ? DURATION_PER_FUEL * fuelUnits : 0;
             FakeRecipes.addFakeRecipe(F, dustInputs  .toArray(ZL_IS), outputs.toArray(ZL_IS), null, null, null, null, duration, energy_output, smeltingTemperature);
             FakeRecipes.addFakeRecipe(F, ingotInputs .toArray(ZL_IS), outputs.toArray(ZL_IS), null, null, null, null, duration, energy_output, smeltingTemperature);
             if (addSpecial)
