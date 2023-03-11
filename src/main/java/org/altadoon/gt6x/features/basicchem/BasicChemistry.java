@@ -69,8 +69,9 @@ public class BasicChemistry extends GT6XFeature {
         RM.Smelter.addRecipe1(true, 16, 16, dust.mat(MT.K2S2O7, 1), ZL_FS, MT.K2S2O7.liquid(U, false), ZL_IS);
         RM.Smelter.addRecipe1(true, 16, 16, dust.mat(MT.Na2S2O7, 1), ZL_FS, MT.Na2S2O7.liquid(U, false), ZL_IS);
 
-        // HCL to H + Cl (needed for some chains)
-        RM.Electrolyzer.addRecipe1(false, 64, 64, ST.tag(0), MT.HCl.gas(U, true), FL.array(MT.H.gas(U2, false), MT.Cl.gas(U2, false)));
+        // HF to H + F (needed for some chains)
+        RM.Electrolyzer.addRecipe2(true, 32, 256, ST.tag(1), dust.mat(MT.KF, 0), FL.array(MT.HF.gas(2*U, true)), FL.array(MT.F.gas(U, false), MT.H.gas(U, false)));
+
         // NH3 recipe
         RM.Mixer.addRecipe1(true, 64, 50, dust.mat(MT.OREMATS.Magnetite, 0), FL.array(MT.H.gas(3*U, true), MT.N.gas(U, true)), FL.array(MT.NH3.gas(U, false)));
         // Ammonium salts
@@ -136,6 +137,7 @@ public class BasicChemistry extends GT6XFeature {
         RM.Drying.addRecipe0(true, 16, 6000, MTx.Na2CO3Solution.liquid(9*U, false), MT.DistWater.liquid(3*U, false), dust.mat(MT.Na2CO3, 6));
 
         // TODO use thermolyzer
+        RM.Drying.addRecipe1(false, 64, 128, ST.tag(0), MT.HCl.gas(U, true), FL.array(MT.H.gas(U2, false), MT.Cl.gas(U2, false)));
         RM.Drying.addRecipe1(true, 16, 256, dust.mat(MT.CaCO3, 5), NF, MT.CO2.gas(3*U, false), dust.mat(MT.Quicklime, 2));
         RM.Drying.addRecipe1(true, 16, 256, dust.mat(MT.MgCO3, 5), NF, MT.CO2.gas(3*U, false), dust.mat(MTx.MgO, 2));
         //RM.Drying.addRecipe1(true, 16, 256, dust.mat(MT.Na2CO3, 6), NF, MT.CO2.gas(3*U, false), dust.mat(MTx.Na2O, 3));

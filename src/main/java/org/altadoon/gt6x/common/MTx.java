@@ -256,7 +256,7 @@ public class MTx {
             .uumMcfg(0, MT.C, 2*U, MT.H, U*4, MT.Cl, U*2)
             .heat( 238,  357)),
     PhosphoricAcid = registerLiquid(lqudaciddcmp(16051, "Phosphoric Acid", 150, 200, 0, 255)
-            .uumMcfg(0, MT.H, 3*U, MT.PO4, U)
+            .uumMcfg(0, MT.H, 3*U, MT.P, U, MT.O, 4*U)
             .heat(290, C + 212)),
     TNT = dustdcmp(16052, "Trinitrotoluene", SET_DULL, 225, 198, 153, 255)
             .uumMcfg(0, MT.C, 7*U, MT.H, 5*U, MT.N, 3*U, MT.O, 6*U)
@@ -280,7 +280,7 @@ public class MTx {
             .heat(1810, 3000)
             .setPulver(MT.OREMATS.Wollastonite, U),
     BlastFurnaceGas = registerGas(gas(16056, "Blast Furnace Gas", 0, 20, 30, 200)
-            .uumMcfg(0, MT.N, 11*U, MT.CO, 4*U, MT.CO2, 4*U, MT.H, U)
+            .uumMcfg(0, MT.N, 9*U, MT.CO, 4*U, MT.CO2, 6*U, MT.H, U)
             .put(FLAMMABLE, CENTRIFUGE)
             .heat(100, 200),
             1650),
@@ -499,7 +499,7 @@ public class MTx {
             .setMcfg(0, MT.Quicklime, U, MgO, U)
             .heat((MT.Quicklime.mMeltingPoint + MgO.mMeltingPoint) / 2)
             .put(CENTRIFUGE),
-    P2O5 = dustdcmp(16121, "Phosphorus Pentoxide", SET_FINE, 150, 150, 50, 255)
+    P2O5 = dustdcmp(16121, "Phosphorus Pentoxide", SET_FINE, 255, 255, 150, 255)
             .uumMcfg(0, MT.P, 2*U, MT.O, 5*U)
             .heat(613, 613),
     P_CO_Gas = registerGas(gas(16122, "Phosphorus-CO Vapour", 100, 100, 0, 50)

@@ -1023,10 +1023,6 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
     }
 
     @Override public void setInventorySlotContentsGUI(int slot, ItemStack stack) {
-        if(stack == null) {
-            return;
-        }
-
         if (isClientSide()) {
             clientGuiSlotContent[slot] = stack;
             mInventoryChanged = true;

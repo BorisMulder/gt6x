@@ -226,7 +226,7 @@ public class RefractoryMetals extends GT6XFeature {
         if (complexColtanRefining) {
             RM.Bath.addRecipe1(true, 0, 1024, OM.dust(MT.OREMATS.Coltan, 18*U), MT.HF.gas(28*2*U, true), MTx.ColtanFAqSolution.liquid(74*U, false), NI);
             RM.Mixer.addRecipe0(true, 16, 1024, FL.array(MTx.ColtanFAqSolution.liquid(74*U, true), MTx.MIBK.liquid(38*U, true)), FL.array(MTx.NbTaFMIBKSolution.liquid(76*U, false), MTx.FeMnF2Solution.liquid(36*U, false)));
-            RM.Electrolyzer.addRecipe1(true, 64, 1024, ST.tag(0), FL.array(MTx.FeMnF2Solution.liquid(36*U, true)), FL.array(MT.HF.gas(8*U, false), MT.H.gas(20*U, false), MT.O.gas(10*U, false)), OM.dust(MT.Fe, U), OM.dust(MT.Mn, U));
+            RM.Electrolyzer.addRecipe1(true, 64, 256, ST.tag(0), FL.array(MTx.FeMnF2Solution.liquid(36*U4, true)), FL.array(MT.HF.gas(2*U, false), MT.H2O.liquid(2*3*U, false), MT.O.gas(U2, false)), OM.dust(MT.Fe, U4), OM.dust(MT.Mn, U4));
             for (FluidStack tWater : FL.waters(3000)) {
                 RM.Mixer.addRecipe0(true, 16, 1024, FL.array(MTx.NbTaFMIBKSolution.liquid(76*U, true), MT.NH3.gas(10*U, true), FL.mul(tWater, 13)), FL.array(MTx.TaFMIBKSolution.liquid(58*U, false), MTx.NH4FSolution.liquid(10*6*U, false)), OM.dust(MT.Nb2O5, 7*U));
                 RM.Mixer.addRecipe0(true, 16, 1024, FL.array(MTx.TaFMIBKSolution.liquid(58*U, true), MT.NH3.gas(14*U, true), FL.mul(tWater, 19)), FL.array(MTx.MIBK.liquid(38*U, false), MTx.NH4FSolution.liquid(14*6*U, false)), OM.dust(MT.Ta2O5, 7*U));

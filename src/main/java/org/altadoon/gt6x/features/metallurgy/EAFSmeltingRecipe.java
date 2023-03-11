@@ -31,7 +31,7 @@ public class EAFSmeltingRecipe {
     public long fuelUnits;
     public static final long EXOTHERMIC_ENERGY_GAIN = 512; // GU/t
     /** amount of ticks one unit of fuel (e.g. Al, Ca, ...) will last */
-    public static final long DURATION_PER_FUEL = 32;
+    public static final long DURATION_PER_FUEL = 72;
 
     public IOreDictConfigurationComponent ingredients;
     public IOreDictConfigurationComponent results;
