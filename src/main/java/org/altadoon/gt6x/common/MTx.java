@@ -1,10 +1,7 @@
 package org.altadoon.gt6x.common;
 
 import gregapi.code.TagData;
-import gregapi.data.FL;
-import gregapi.data.MD;
-import gregapi.data.MT;
-import gregapi.data.TC;
+import gregapi.data.*;
 import gregapi.oredict.OreDictManager;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.render.TextureSet;
@@ -39,6 +36,10 @@ public class MTx {
         for (OreDictMaterial phosphorus : new OreDictMaterial[] { MT.Phosphorus, MT.PhosphorusBlue, MT.PhosphorusRed, MT.PhosphorusWhite}) {
             phosphorus.uumMcfg( 0, MT.Ca, 3*U, MT.PO4, 2*5*U).heat(1940);
         }
+        for (OreDictMaterial clay : ANY.Clay.mToThis) {
+            clay.heat(1550);
+        }
+        MT.Kaolinite.heat(2000);
 
         MT.WroughtIron.qual(3, 6.0, 640, 2);
 
@@ -521,7 +522,20 @@ public class MTx {
     CaAlCement = dustdcmp(16127, "Calcium Aluminate Cement", SET_STONE, 200, 180, 160, 255)
             .heat(MT.Ceramic),
     RefractoryMortar = dustdcmp(16128, "Refractory Mortar", SET_FOOD, 200, 180, 160, 255)
-            .heat(CaAlCement)
+            .heat(CaAlCement),
+    RefractoryCeramic = dustdcmp(16129, "Refractory Ceramic", SET_ROUGH, 255, 235, 200, 255)
+            .uumMcfg(0, MT.Clay, 2*U, MT.Graphite, U)
+            .heat(2100),
+    Firebrick = create(16130, "Fire Brick", 255, 235, 200, 255, MORTAR, BRITTLE)
+            .setMcfg(0, RefractoryCeramic, U)
+            .setAllToTheOutputOf(RefractoryCeramic)
+            .heat(RefractoryCeramic)
+            .setTextures(SET_ROUGH)
+            .put(INGOTS),
+    Fireclay = oredustdcmp(16131, "Fire Clay", SET_ROUGH, 255, 235, 200, 255, MORTAR)
+            .uumMcfg(2, RefractoryCeramic, 2*U, MT.H2O, U)
+            .heat(RefractoryCeramic)
+            .setSmelting(RefractoryCeramic, U)
     ;
 
     static {

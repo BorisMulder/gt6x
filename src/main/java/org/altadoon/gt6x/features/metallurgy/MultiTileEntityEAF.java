@@ -48,7 +48,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
-import org.altadoon.gt6x.common.ItemMaterialDisplay;
+import org.altadoon.gt6x.common.items.ItemMaterialDisplay;
 import org.altadoon.gt6x.common.MTEx;
 import org.altadoon.gt6x.common.Pair;
 import org.altadoon.gt6x.features.metallurgy.gui.ContainerClientEAF;

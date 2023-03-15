@@ -1,4 +1,4 @@
-package org.altadoon.gt6x.common;
+package org.altadoon.gt6x.common.items;
 
 import codechicken.nei.NEIClientConfig;
 import codechicken.nei.NEIClientUtils;
@@ -32,8 +32,6 @@ import java.util.List;
 import static gregapi.data.CS.*;
 
 public class ItemMaterialDisplay extends Item implements IItemGT {
-    public static final ItemMaterialDisplay INSTANCE = new ItemMaterialDisplay();
-    public static final ItemStack STACK = ST.amount(1, ST.make(INSTANCE, 1, 0));
     //TODO fix
     private IIcon icon;
 
@@ -52,15 +50,13 @@ public class ItemMaterialDisplay extends Item implements IItemGT {
     }
 
     public static ItemStack display(OreDictMaterialStack OMStack, long temperature) {
-        ItemStack rStack = ST.copyAmountAndMeta(1, OMStack.mMaterial.mID, OM.get_(STACK));
-        if (rStack == null) return null;
+        ItemStack stack = ILx.Display_OMStack.getWithMeta(1, OMStack.mMaterial.mID);
+        if (stack == null) return null;
         NBTTagCompound tNBT = UT.NBT.makeShort("m", OMStack.mMaterial.mID);
         if (OMStack.mAmount != 0) UT.NBT.setNumber(tNBT, "a", OMStack.mAmount);
         UT.NBT.setNumber(tNBT, "T", temperature);
-        return UT.NBT.set(rStack, tNBT);
+        return UT.NBT.set(stack, tNBT);
     }
-
-    public static void touch() {}
 
     protected ItemMaterialDisplay() {
         super();
