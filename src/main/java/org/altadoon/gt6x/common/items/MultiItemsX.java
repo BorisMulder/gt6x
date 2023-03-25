@@ -1,9 +1,11 @@
 package org.altadoon.gt6x.common.items;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import gregapi.data.*;
-import gregapi.item.ItemFluidDisplay;
 import gregapi.item.multiitem.MultiItemRandom;
 import gregapi.oredict.OreDictItemData;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import org.altadoon.gt6x.common.MTx;
 
 import static gregapi.data.CS.*;
@@ -13,8 +15,8 @@ import static gregapi.data.OP.ingot;
 public class MultiItemsX extends MultiItemRandom {
     public static MultiItemsX instance;
 
-    public MultiItemsX(String aModID, String aUnlocalized) {
-        super(aModID, aUnlocalized);
+    public MultiItemsX(String modID, String unlocalized) {
+        super(modID, unlocalized);
     }
 
     @Override

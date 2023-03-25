@@ -366,13 +366,16 @@ public class Metallurgy extends GT6XFeature {
         RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MTx.PbO, 1), FL.array(MT.H.gas(2 * U, true)), FL.array(MT.H2O.liquid(3 * U, false), MT.Pb.liquid(U, false)));
 
         // Fire clay
+
         for (OreDictMaterial clay : ANY.Clay.mToThis) {
-            RM.Mixer.addRecipe2(true, 16, 64, gem .mat(clay, 2), dust.mat(MT.Graphite, 1), ILx.Fireclay_Ball.get(1));
-            RM.Mixer.addRecipe2(true, 16, 64, dust.mat(clay, 2), dust.mat(MT.Graphite, 1), dust.mat(MTx.Fireclay, 3));
+            RM.Mixer.addRecipe2(true, 16, 192, dust.mat(clay, 2), dust.mat(MT.Graphite, 1), dust.mat(MTx.Fireclay, 3));
         }
         for (FluidStack water : FL.waters(125, 100)) {
+            for (ItemStack clay : ST.array(ST.make(Items.clay_ball, 2, 0), IL.Clay_Ball_Blue.get(2), IL.Clay_Ball_Brown.get(2), IL.Clay_Ball_Red.get(2), IL.Clay_Ball_White.get(2), IL.Clay_Ball_Yellow.get(2))) {
+                RM.Mixer.addRecipe2(true, 16, 192, clay, dust.mat(MT.Graphite, 1), FL.mul(water, 5), NF, ILx.Fireclay_Ball.get(3));
+            }
             RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.RefractoryCeramic, 1), FL.mul(water, 5), NF, ILx.Fireclay_Ball.get(1));
-            RM.Bath.addRecipe1(true, 0, 16, dust.mat(MTx.Fireclay, 1), water, NF, ILx.Fireclay_Ball.get(1));
+            RM.Bath.addRecipe1(true, 0, 64, dust.mat(MTx.Fireclay, 1), water, NF, ILx.Fireclay_Ball.get(1));
         }
         RM.Furnace.addRecipe1(true, 16, 64, dust.mat(MTx.Fireclay, 1), ingot.mat(MTx.Firebrick, 1));
 
@@ -654,7 +657,7 @@ public class Metallurgy extends GT6XFeature {
             IL.Ceramic_Nugget_Mold_Raw,
             IL.Ceramic_Billet_Mold_Raw,
         }) {
-            OreDictManager.INSTANCE.setItemData(mold.get(1), new OreDictItemData(MTx.RefractoryCeramic, U*5));
+            OreDictManager.INSTANCE.setItemData(mold.get(1), new OreDictItemData(MTx.Fireclay, U*5));
             overrideGT6SingleShapelessCraftingRecipe(mold.get(1), ILx.Fireclay_Ball.get(5));
         }
     }
