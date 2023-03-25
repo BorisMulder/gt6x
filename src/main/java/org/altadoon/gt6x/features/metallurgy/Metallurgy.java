@@ -18,7 +18,6 @@ import gregapi.util.UT;
 import gregtech.tileentity.tools.*;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.FluidStack;
@@ -69,6 +68,7 @@ public class Metallurgy extends GT6XFeature {
     @Override
     public void afterPreInit() {
         changeAlloySmeltingRecipes();
+        changePrefixNames();
     }
 
     @Override
@@ -199,6 +199,12 @@ public class Metallurgy extends GT6XFeature {
         MT.Angmallen.addAlloyingRecipe(new OreDictConfigurationComponent(2, OM.stack(MT.Steel, U), OM.stack(MT.Au, U)));
 
         MT.SiC.addAlloyingRecipe(new OreDictConfigurationComponent(2, OM.stack(MT.SiO2, 3*U), OM.stack(MT.C, 2*U)));
+    }
+
+    private void changePrefixNames() {
+        LH.add("oredict." + ingot.dat(MTx.Firebrick) + ".name", "Fire Brick");
+        LH.add("oredict." + ingot.dat(MTx.MgOC) + ".name", MTx.MgOC.getLocal() + " Brick");
+        LH.add("oredict." + ingot.dat(MTx.HBI) + ".name", MTx.HBI.getLocal());
     }
 
     private void addMTEs() {
@@ -366,7 +372,6 @@ public class Metallurgy extends GT6XFeature {
         RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MTx.PbO, 1), FL.array(MT.H.gas(2 * U, true)), FL.array(MT.H2O.liquid(3 * U, false), MT.Pb.liquid(U, false)));
 
         // Fire clay
-
         for (OreDictMaterial clay : ANY.Clay.mToThis) {
             RM.Mixer.addRecipe2(true, 16, 192, dust.mat(clay, 2), dust.mat(MT.Graphite, 1), dust.mat(MTx.Fireclay, 3));
         }
@@ -617,6 +622,7 @@ public class Metallurgy extends GT6XFeature {
 
     private void changeCraftingRecipes() {
         overrideGT6ShapedCraftingRecipe(MTEx.gt6Registry.getItem(18000), "MBM", "B B", "MBM", 'B', ingot.mat(MTx.Firebrick, 1), 'M', OM.dust(MTx.RefractoryMortar));
+        OreDictManager.INSTANCE.setItemData(MTEx.gt6Registry.getItem(18000), new OreDictItemData(MTx.Firebrick, 4*U));
         changeClayCruciblePart(IL.Ceramic_Tap_Raw, IL.Ceramic_Tap, 3,"CCR", "kC ", "   ");
         changeClayCruciblePart(IL.Ceramic_Funnel_Raw, IL.Ceramic_Funnel, 3,"CRC", "kC ", "   ");
         changeClayCruciblePart(IL.Ceramic_Crucible_Raw, IL.Ceramic_Crucible, 7,"CkC", "CRC", "CCC");

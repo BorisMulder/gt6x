@@ -1,11 +1,8 @@
 package org.altadoon.gt6x.common.items;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import gregapi.data.*;
 import gregapi.item.multiitem.MultiItemRandom;
 import gregapi.oredict.OreDictItemData;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import org.altadoon.gt6x.common.MTx;
 
 import static gregapi.data.CS.*;
