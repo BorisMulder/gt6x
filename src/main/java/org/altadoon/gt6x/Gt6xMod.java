@@ -9,6 +9,7 @@ import org.altadoon.gt6x.features.oil.OilProcessing;
 import org.altadoon.gt6x.features.pgm.PgmProcessing;
 import org.altadoon.gt6x.features.metallurgy.Metallurgy;
 import org.altadoon.gt6x.features.refractorymetals.RefractoryMetals;
+import org.altadoon.gt6x.features.verticalmixers.VerticalMixers;
 
 import java.util.ArrayList;
 
@@ -56,6 +57,7 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 		OilProcessing.class,
 		Metallurgy.class,
 		RefractoryMetals.class,
+		VerticalMixers.class
 	};
 	private final ArrayList<GT6XFeature> enabledFeatures;
 
