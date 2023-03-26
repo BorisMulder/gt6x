@@ -12,11 +12,13 @@ public class ContainerCommonEAF extends ContainerCommon {
 
     @Override
     public int addSlots(InventoryPlayer aPlayerInventory) {
-        for (int x = 0, i = 0; x < 2; x++)
-            for (int y = 0; y < 6; y++)
-                addSlotToContainer(new Slot_Holo(mTileEntity, mOffset+i++, 8 + (63+18) * x, 18 + y * 18, false, false, 1));
+        int i = 0;
 
-        return 18+18*6+13;
+        for (int y = 0; y < 2; y++)
+            for (int x = 0; x < 9; x++)
+                addSlotToContainer(new Slot_Holo(mTileEntity, mOffset+i++, 8 + 18 * x, 18 + x * 3 + y * 47, false, false, 1));
+
+        return 139;
     }
 
     @Override public int getSlotCount() { return MultiTileEntityEAF.GUI_SLOTS; }

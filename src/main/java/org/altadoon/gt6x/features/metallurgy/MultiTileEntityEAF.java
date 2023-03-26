@@ -66,7 +66,7 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
     public static final long MAX_UNITS = 64*3;
     private static final long KG_PER_ENERGY = 75;
 
-    public static final int GUI_SLOTS = 12;
+    public static final int GUI_SLOTS = 18;
 
     protected boolean isActive = false;
     protected byte cooldown = 100;

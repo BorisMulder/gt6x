@@ -335,7 +335,7 @@ public class MTx {
     Na2CO3Solution = registerLiquid(lquddcmp(16071, "Sodium Carbonate Solution", 100, 100, 255, 255)
             .uumMcfg(0, MT.Na2CO3, 6*U, MT.H2O, 3*U)
             .heat(MT.H2O)),
-    Cr2O3 = dustdcmp(16072, "Chromium(III) Oxide", SET_DULL, 100, 255, 100, 255, "Chromia")
+    Cr2O3 = dustdcmp(16072, "Chromia", SET_DULL, 100, 255, 100, 255, "Chromium(III) Oxide")
             .uumMcfg(0, MT.Cr, 2*U, MT.O, 3*U)
             .heat(2708, 4270),
     CrSodaMixture = dustdcmp(16073, "Chromia-Soda Mixture", SET_POWDER, 50, 200, 50, 255)

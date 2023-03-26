@@ -68,7 +68,6 @@ public class Metallurgy extends GT6XFeature {
     @Override
     public void afterPreInit() {
         changeAlloySmeltingRecipes();
-        changePrefixNames();
     }
 
     @Override
@@ -85,6 +84,7 @@ public class Metallurgy extends GT6XFeature {
     @Override
     public void postInit() {
         addRecipes();
+        changePrefixNames();
     }
 
     @Override
@@ -430,7 +430,6 @@ public class Metallurgy extends GT6XFeature {
         }
 
         // Cement
-        //TODO craft refractory cement in mixing bowl
         sintering.addRecipeX(true, 16, 128 , ST.array(ST.tag(2), dust.mat(MT.Quicklime, 1), dust.mat(MT.Al2O3, 2)), clinker.mat(MTx.CaAlCement, 3));
         sintering.addRecipeX(true, 16, 64  , ST.array(ST.tag(2), dust.mat(MT.Quicklime, 5), dust.mat(MT.Ash, 2)), clinker.mat(MTx.Cement, 7));
         sintering.addRecipeX(true, 16, 64  , ST.array(ST.tag(2), dust.mat(MT.Quicklime, 5), dust.mat(MT.OREMATS.Bauxite, 2)), clinker.mat(MTx.Cement, 7));
@@ -621,7 +620,7 @@ public class Metallurgy extends GT6XFeature {
     }
 
     private void changeCraftingRecipes() {
-        overrideGT6ShapedCraftingRecipe(MTEx.gt6Registry.getItem(18000), "MBM", "B B", "MBM", 'B', ingot.mat(MTx.Firebrick, 1), 'M', OM.dust(MTx.RefractoryMortar));
+        overrideGT6ShapedCraftingRecipe(MTEx.gt6Registry.getItem(18000), "MBM", "B B", "MBM", 'B', ingot.mat(MTx.Firebrick, 1), 'M', OM.dust(MTx.Mortar));
         OreDictManager.INSTANCE.setItemData(MTEx.gt6Registry.getItem(18000), new OreDictItemData(MTx.Firebrick, 4*U));
         changeClayCruciblePart(IL.Ceramic_Tap_Raw, IL.Ceramic_Tap, 3,"CCR", "kC ", "   ");
         changeClayCruciblePart(IL.Ceramic_Funnel_Raw, IL.Ceramic_Funnel, 3,"CRC", "kC ", "   ");
