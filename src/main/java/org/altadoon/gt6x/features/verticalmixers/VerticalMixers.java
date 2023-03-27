@@ -22,23 +22,14 @@ public class VerticalMixers extends GT6XFeature {
     }
 
     @Override
-    public void configure(Config config) {
-
-    }
+    public void configure(Config config) {}
 
     @Override
-    public void preInit() {
-
-    }
+    public void preInit() {}
 
     @Override
     public void init() {
-        registerMachines();
-    }
-
-    private static void registerMachines() {
-        Class<? extends TileEntity> aClass = MultiTileEntityBasicMachine.class;
-        OreDictMaterial mat;
+        Class<? extends TileEntity> aClass;OreDictMaterial mat;
 
         /* RU */
         aClass = MultiTileEntityBasicMachine.class;
@@ -80,7 +71,5 @@ public class VerticalMixers extends GT6XFeature {
     }
 
     @Override
-    public void postInit() {
-
-    }
+    public void postInit() {}
 }
