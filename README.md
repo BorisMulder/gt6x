@@ -1,4 +1,4 @@
-# Gregtech 6 Mod Workspace
+# Gregtech 6x Mod Workspace
 
 This is a pre-built workspace that is convenient to build on top of to make mods for [Gregtech 6](https://gregtech.overminddl1.com/com/gregoriust/gregtech/gregtech_1.7.10/index.html) for MC 1.7.10.
 
