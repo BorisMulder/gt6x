@@ -3,6 +3,7 @@ package org.altadoon.gt6x.common.items;
 import gregapi.api.Abstract_Mod;
 import gregapi.code.IItemContainer;
 import gregapi.code.TagData;
+import gregapi.data.MT;
 import gregapi.item.IItemEnergy;
 import gregapi.oredict.OreDictItemData;
 import gregapi.util.OM;
@@ -22,9 +23,44 @@ public class ILx implements IItemContainer {
     public static ILx Display_OMStack = new ILx("Display_OMStack");
     public static ILx Fireclay_Ball = new ILx("Fireclay_Ball");
 
+    public static final int CIRCUIT_TIERS = 10;
+    public static final String[] CIRCUIT_TIER_NAMES = new String[] {
+            MT.Primitive.getLocal(),
+            MT.Basic.getLocal(),
+            MT.Good.getLocal(),
+            MT.Advanced.getLocal(),
+            MT.Elite.getLocal(),
+            MT.Master.getLocal(),
+            MT.Ultimate.getLocal(),
+            MT.Quantum.getLocal(),
+            MT.Superconductor.getLocal(),
+            MT.Infinite.getLocal(),
+    };
+    public static final String[] CIRCUIT_SIZE_NAMES = new String[] {
+            "Circuit",
+            "Small Circuit",
+            "Tiny Circuit",
+            "Fine Circuit",
+            "Microchip",
+            "Nanochip",
+            "Picochip", // from here on, it is unused for now, but just uses SI prefixes
+            "Femtochip",
+            "Attochip",
+            "Zeptochip"
+    };
+    public static ILx[][] Microchips = new ILx[CIRCUIT_TIERS][CIRCUIT_TIERS];
+
     public String name;
     private ItemStack mStack;
     private boolean mHasNotBeenSet = T;
+
+    static {
+        for (int tier = 0; tier < CIRCUIT_TIERS; tier++) {
+            for (int size = 0; size < CIRCUIT_TIERS; size++) {
+                Microchips[tier][size] = new ILx(CIRCUIT_SIZE_NAMES[size] + "_" + CIRCUIT_TIER_NAMES[tier]);
+            }
+        }
+    }
 
     public ILx(String name) {
         this.name = name;
