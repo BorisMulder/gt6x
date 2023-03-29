@@ -1,4 +1,4 @@
-package org.altadoon.gt6x.features.metallurgy;
+package org.altadoon.gt6x.features.metallurgy.multiblocks;
 
 import gregapi.data.*;
 import gregapi.fluid.FluidTankGT;
@@ -30,7 +30,7 @@ import static gregapi.data.CS.*;
 import static org.altadoon.gt6x.common.Log.LOG;
 
 public class MultiTileEntityBlastFurnace extends TileEntityBase10MultiBlockMachine implements ITileEntityCrucible {
-    private short partId = 60;
+    private int partId = MTEx.IDs.BFPartIron.get();
 
     @Override
     public void readFromNBT2(NBTTagCompound aNBT) {

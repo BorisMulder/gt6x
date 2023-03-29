@@ -5,6 +5,7 @@ import org.altadoon.gt6x.common.items.ItemMaterialDisplay;
 import org.altadoon.gt6x.common.items.MultiItemsX;
 import org.altadoon.gt6x.features.GT6XFeature;
 import org.altadoon.gt6x.features.basicchem.BasicChemistry;
+import org.altadoon.gt6x.features.ceramics.Ceramics;
 import org.altadoon.gt6x.features.oil.OilProcessing;
 import org.altadoon.gt6x.features.pgm.PgmProcessing;
 import org.altadoon.gt6x.features.metallurgy.Metallurgy;
@@ -53,9 +54,10 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 	@SuppressWarnings("unchecked")
 	private static final Class<? extends GT6XFeature>[] allFeatures = new Class[]{
 		BasicChemistry.class,
-		PgmProcessing.class,
-		OilProcessing.class,
+		Ceramics.class,
 		Metallurgy.class,
+		OilProcessing.class,
+		PgmProcessing.class,
 		RefractoryMetals.class,
 		VerticalMixers.class
 	};
@@ -78,6 +80,7 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 	public void onModPreInit2(cpw.mods.fml.common.event.FMLPreInitializationEvent aEvent) {
 		MTEx.touch();
 		MTx.touch();
+		RMx.init();
 		MultiItemsX.instance = new MultiItemsX(MOD_ID, "gt6x.multiitems");
 
 		for (GT6XFeature feature : enabledFeatures) {

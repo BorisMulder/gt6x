@@ -1,4 +1,4 @@
-package org.altadoon.gt6x.features.metallurgy;
+package org.altadoon.gt6x.features.metallurgy.multiblocks;
 
 import gregapi.GT_API;
 import gregapi.GT_API_Proxy;
@@ -51,6 +51,7 @@ import net.minecraftforge.fluids.IFluidHandler;
 import org.altadoon.gt6x.common.items.ItemMaterialDisplay;
 import org.altadoon.gt6x.common.MTEx;
 import org.altadoon.gt6x.common.Pair;
+import org.altadoon.gt6x.features.metallurgy.utils.EAFSmeltingRecipe;
 import org.altadoon.gt6x.features.metallurgy.gui.ContainerClientEAF;
 import org.altadoon.gt6x.features.metallurgy.gui.ContainerCommonEAF;
 
@@ -191,7 +192,7 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
                             design = 1;
                             side_io &= (MultiTileEntityMultiBlockPart.ONLY_CRUCIBLE & MultiTileEntityMultiBlockPart.ONLY_ITEM_FLUID_OUT);
                         }
-                        if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX+i, tY+j, tZ+k, 84, mteRegID, design, side_io)) {
+                        if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX+i, tY+j, tZ+k, MTEx.IDs.MgOCBricks.get(), mteRegID, design, side_io)) {
                             tSuccess = false;
                         }
                         break;
@@ -211,14 +212,14 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
                                 design = 1;
                                 side_io &= (MultiTileEntityMultiBlockPart.ONLY_CRUCIBLE & MultiTileEntityMultiBlockPart.ONLY_ITEM_FLUID_OUT);
                             }
-                            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX+i, tY+j, tZ+k, 84, mteRegID, design, side_io)) {
+                            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX+i, tY+j, tZ+k, MTEx.IDs.MgOCBricks.get(), mteRegID, design, side_io)) {
                                 tSuccess = false;
                             }
                         }
                         break;
                     case 2:
                         if (i == 0 && k == 0) {
-                            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX+i, tY+j, tZ+k, 82, mteRegID, design, side_io)) {
+                            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX+i, tY+j, tZ+k, MTEx.IDs.EAFElectrodes.get(), mteRegID, design, side_io)) {
                                 tSuccess = false;
                             }
                         } else if (shouldBeAir(i, k)) {
@@ -229,7 +230,7 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
                             }
                         } else {
                             side_io = MultiTileEntityMultiBlockPart.ONLY_FLUID_IN;
-                            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX+i, tY+j, tZ+k, 84, mteRegID, design, side_io)) {
+                            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX+i, tY+j, tZ+k, MTEx.IDs.MgOCBricks.get(), mteRegID, design, side_io)) {
                                 tSuccess = false;
                             }
                         }
@@ -240,12 +241,12 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
                         } else if (i == 0 && k == 0) {
                             design = 1;
                             side_io = MultiTileEntityMultiBlockPart.ONLY_ENERGY_IN;
-                            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX + i, tY + j, tZ + k, 82, mteRegID, design, side_io)) {
+                            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX + i, tY + j, tZ + k, MTEx.IDs.EAFElectrodes.get(), mteRegID, design, side_io)) {
                                 tSuccess = false;
                             }
                         } else {
                             side_io = MultiTileEntityMultiBlockPart.ONLY_ITEM_IN & MultiTileEntityMultiBlockPart.ONLY_FLUID_OUT;
-                            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX + i, tY + j, tZ + k, 65, mteRegID, design, side_io)) {
+                            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX + i, tY + j, tZ + k, MTEx.IDs.AluminaBricks.get(), mteRegID, design, side_io)) {
                                 tSuccess = false;
                             }
                         }

@@ -516,15 +516,16 @@ public class MTx {
             .heat(2075, MT.Fe.mBoilingPoint)
             .qual(3, 12.0, 7168, 4),
     Cement = dustdcmp(16125, "Cement", SET_STONE, 160, 160, 160, 255)
-            .heat(MT.Concrete),
+            .heat(1550+C)
+            .setSmelting(MT.Stone, U2),
     Mortar = dustdcmp(16126, "Mortar", SET_FOOD, 160, 160, 160, 255)
             .heat(Cement),
-    CaAlCement = dustdcmp(16127, "Calcium Aluminate Cement", SET_STONE, 200, 180, 160, 255)
-            .heat(MT.Ceramic),
+    CaAlCement = dustdcmp(16127, "Refractory Cement", SET_STONE, 200, 180, 160, 255)
+            .heat(MT.Al2O3),
     RefractoryMortar = dustdcmp(16128, "Refractory Mortar", SET_FOOD, 200, 180, 160, 255)
             .heat(CaAlCement),
     RefractoryCeramic = dustdcmp(16129, "Refractory Ceramic", SET_ROUGH, 255, 235, 200, 255)
-            .uumMcfg(0, MT.Clay, 2*U, MT.Graphite, U)
+            .uumMcfg(0, MT.Ceramic, 2*U, MT.Graphite, U)
             .heat(2100),
     Firebrick = create(16130, "Fire Brick", 255, 235, 200, 255, MORTAR, BRITTLE)
             .setMcfg(0, RefractoryCeramic, U)
@@ -532,7 +533,7 @@ public class MTx {
             .heat(RefractoryCeramic)
             .setTextures(SET_ROUGH)
             .put(INGOTS),
-    Fireclay = oredustdcmp(16131, "Fire Clay", SET_ROUGH, 255, 235, 200, 255, MORTAR)
+    Fireclay = oredustdcmp(16131, "Fireclay", SET_ROUGH, 255, 235, 200, 255, MORTAR)
             .uumMcfg(2, RefractoryCeramic, 2*U, MT.H2O, U)
             .heat(RefractoryCeramic)
             .setSmelting(RefractoryCeramic, U)

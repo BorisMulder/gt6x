@@ -15,8 +15,8 @@ import gregapi.util.UT;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
-import org.altadoon.gt6x.features.metallurgy.EAFSmeltingRecipe;
-import org.altadoon.gt6x.features.metallurgy.MultiTileEntityEAF;
+import org.altadoon.gt6x.features.metallurgy.utils.EAFSmeltingRecipe;
+import org.altadoon.gt6x.features.metallurgy.multiblocks.MultiTileEntityEAF;
 
 import java.awt.*;
 import java.util.List;

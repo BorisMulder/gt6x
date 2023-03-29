@@ -1,4 +1,4 @@
-package org.altadoon.gt6x.features.metallurgy;
+package org.altadoon.gt6x.features.metallurgy.utils;
 
 import gregapi.code.ICondition;
 import gregapi.data.CS;

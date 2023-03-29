@@ -1,4 +1,4 @@
-package org.altadoon.gt6x.features.metallurgy;
+package org.altadoon.gt6x.features.metallurgy.multiblocks;
 
 import gregapi.data.LH;
 import gregapi.tileentity.delegate.DelegatorTileEntity;
@@ -29,24 +29,24 @@ public class MultiTileEntityCowperStove extends TileEntityBase10MultiBlockMachin
             boolean success = true;
 
             for (int i = -1; i <= 1; i++) for (int j = -1; j <= 1; j++) {
-                    if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX + i, tY, tZ + j, 65, mteRegID, 0, MultiTileEntityMultiBlockPart.ONLY_ENERGY_IN)) {
+                    if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX + i, tY, tZ + j, MTEx.IDs.AluminaBricks.get(), mteRegID, 0, MultiTileEntityMultiBlockPart.ONLY_ENERGY_IN)) {
                         LOG.debug("failed at {}, {}, {}", tX + i, tY, tZ + j);
                         success = false;
                     }
                 }
             for (int i = -1; i <= 1; i++) for (int j = -1; j <= 1; j++) for (int k = 1; k <= 2; k++) {
-                if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX + i, tY + k, tZ + j, 64, mteRegID, 0, MultiTileEntityMultiBlockPart.ONLY_FLUID_IN)) {
+                if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX + i, tY + k, tZ + j, MTEx.IDs.AluminaCheckerBricks.get(), mteRegID, 0, MultiTileEntityMultiBlockPart.ONLY_FLUID_IN)) {
                     LOG.debug("failed at {}, {}, {}", tX + i, tY + k, tZ + j);
                     success = false;
                 }
             }
             for (int i = -1; i <= 1; i++) for (int j = -1; j <= 1; j++) {
-                if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX + i, tY + 3, tZ + j, (i == 0 && j == 0) ? 64 : 65, mteRegID, 0, MultiTileEntityMultiBlockPart.ONLY_FLUID_OUT)) {
+                if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX + i, tY + 3, tZ + j, (i == 0 && j == 0) ? MTEx.IDs.AluminaCheckerBricks.get() : MTEx.IDs.AluminaBricks.get(), mteRegID, 0, MultiTileEntityMultiBlockPart.ONLY_FLUID_OUT)) {
                     LOG.debug("failed at {}, {}, {}", tX + i, tY, tZ + j);
                     success = false;
                 }
             }
-            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX, tY + 4, tZ, 65, mteRegID, 0, MultiTileEntityMultiBlockPart.ONLY_FLUID_OUT)) {
+            if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX, tY + 4, tZ, MTEx.IDs.AluminaBricks.get(), mteRegID, 0, MultiTileEntityMultiBlockPart.ONLY_FLUID_OUT)) {
                 LOG.debug("failed at {}, {}, {}", tX, tY + 4, tZ);
                 success = false;
             }
