@@ -3,7 +3,7 @@ package org.altadoon.gt6x.features.metallurgy.gui;
 import gregapi.gui.ContainerCommon;
 import gregapi.gui.Slot_Holo;
 import net.minecraft.entity.player.InventoryPlayer;
-import org.altadoon.gt6x.features.metallurgy.MultiTileEntityEAF;
+import org.altadoon.gt6x.features.metallurgy.multiblocks.MultiTileEntityEAF;
 
 public class ContainerCommonEAF extends ContainerCommon {
     public ContainerCommonEAF(InventoryPlayer aInventoryPlayer, MultiTileEntityEAF aTileEntity, int aGUIID) {

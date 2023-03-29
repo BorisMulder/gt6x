@@ -1,4 +1,4 @@
-package org.altadoon.gt6x.features.metallurgy;
+package org.altadoon.gt6x.features.metallurgy.multiblocks;
 
 import gregapi.data.FL;
 import gregapi.data.LH;
@@ -30,9 +30,6 @@ import static gregapi.data.CS.SIDE_Z_NEG;
 import static org.altadoon.gt6x.common.Log.LOG;
 
 public class MultiTileEntityBOF extends TileEntityBase10MultiBlockMachine implements ITileEntityCrucible {
-    public static final int WALL_META = 86;
-    public static final int LANCE_META = 88;
-
     @Override
     public boolean checkStructure2() {
         int mteRegID = Block.getIdFromBlock(MTEx.gt6xMTEReg.mBlock);
@@ -46,7 +43,7 @@ public class MultiTileEntityBOF extends TileEntityBase10MultiBlockMachine implem
                 } else {
                     int side_io = MultiTileEntityMultiBlockPart.NOTHING;
                     int design = 0;
-                    int partMeta = WALL_META; // Refractory lining
+                    int partMeta = MTEx.IDs.BOFWall.get();
                     switch (j) {
                         case 1:
                             if ((i == 0 && (mFacing == SIDE_X_POS || mFacing == SIDE_X_NEG)) ||
@@ -59,7 +56,7 @@ public class MultiTileEntityBOF extends TileEntityBase10MultiBlockMachine implem
                         case 2:
                             if (i == 0 && k == 0) {
                                 design = 2;
-                                partMeta = LANCE_META; // Oxygen Lance
+                                partMeta = MTEx.IDs.BOFLance.get();
                                 side_io = MultiTileEntityMultiBlockPart.ONLY_FLUID_IN;
                             } else if ((i == 0 && (mFacing == SIDE_X_POS || mFacing == SIDE_X_NEG)) ||
                                        (k == 0 && (mFacing == SIDE_Z_POS || mFacing == SIDE_Z_NEG))

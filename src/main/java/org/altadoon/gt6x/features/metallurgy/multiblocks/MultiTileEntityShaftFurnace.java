@@ -1,4 +1,4 @@
-package org.altadoon.gt6x.features.metallurgy;
+package org.altadoon.gt6x.features.metallurgy.multiblocks;
 
 import gregapi.data.LH;
 import gregapi.tileentity.delegate.DelegatorTileEntity;
@@ -48,7 +48,7 @@ public class MultiTileEntityShaftFurnace extends TileEntityBase10MultiBlockMachi
                         case 5:
                             side_io = MultiTileEntityMultiBlockPart.ONLY_ITEM_IN & MultiTileEntityMultiBlockPart.ONLY_FLUID_OUT;
                     }
-                    if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX+i, tY+j, tZ+k, 80, mteRegID, 0, side_io)) tSuccess = false;
+                    if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, tX+i, tY+j, tZ+k, MTEx.IDs.SiCBricks.get(), mteRegID, 0, side_io)) tSuccess = false;
                 }
             }
             return tSuccess;

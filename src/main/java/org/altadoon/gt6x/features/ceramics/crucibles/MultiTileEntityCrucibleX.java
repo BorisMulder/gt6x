@@ -1,4 +1,4 @@
-package org.altadoon.gt6x.features.metallurgy.crucibles;
+package org.altadoon.gt6x.features.ceramics.crucibles;
 
 import net.minecraft.block.Block;
 import org.altadoon.gt6x.common.MTEx;
@@ -8,6 +8,6 @@ import org.altadoon.gt6x.common.MTEx;
  */
 public class MultiTileEntityCrucibleX extends gregtech.tileentity.multiblocks.MultiTileEntityCrucible {
     @Override public String getTileEntityName() {return "gt6x.multitileentity.multiblock.crucible";}
-    @Override public short getMultiTileEntityRegistryID() { return (short) Block.getIdFromBlock(MTEx.gt6xMTEReg.mBlock); }
+    @Override public short getMultiTileEntityRegistryID() { return (short) MTEx.gt6xMTERegId; }
     @Override public long getTemperatureMax(byte aSide) { return mMaterial.mMeltingPoint;}
 }
