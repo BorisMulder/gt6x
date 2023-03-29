@@ -23,10 +23,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
-import org.altadoon.gt6x.common.Config;
-import org.altadoon.gt6x.common.MTEx;
-import org.altadoon.gt6x.common.MTx;
-import org.altadoon.gt6x.common.RMx;
+import org.altadoon.gt6x.common.*;
 import org.altadoon.gt6x.common.items.ILx;
 import org.altadoon.gt6x.features.GT6XFeature;
 import org.altadoon.gt6x.features.ceramics.crucibles.MultiTileEntityCrucibleX;
@@ -204,31 +201,11 @@ public class Ceramics extends GT6XFeature {
         }
     }
 
-    private void overrideGT6ShapedCraftingRecipe(ItemStack output, Object... recipe) {
-        CR.BUFFER.removeIf(r -> ST.equal(r.getRecipeOutput(), output));
-        CR.shaped(output, CR.DEF_REM, recipe);
-    }
-
-    private void overrideGT6SingleShapelessCraftingRecipe(ItemStack input, ItemStack output) {
-        CR.BUFFER.removeIf(r ->  {
-            if (r instanceof AdvancedCraftingShapeless) {
-                AdvancedCraftingShapeless sl = (AdvancedCraftingShapeless)r;
-                ArrayList<Object> inputs = sl.getInput();
-                return inputs.size() == 1 &&
-                        inputs.get(0) instanceof ItemStack &&
-                        ST.equal((ItemStack) inputs.get(0), input);
-            } else {
-                return false;
-            }
-        });
-        CR.shapeless(output, CR.DEF_REM, new Object[] { input });
-    }
-
     private void changeClayCruciblePart(IL raw_part, IL baked_part, long clayCount, String recipeA, String recipeB, String recipeC) {
         OreDictManager.INSTANCE.setItemData(raw_part.get(1), new OreDictItemData(MTx.Fireclay, U*clayCount));
         OreDictManager.INSTANCE.setItemData(baked_part.get(1), new OreDictItemData(MTx.RefractoryCeramic, U*clayCount));
-        overrideGT6ShapedCraftingRecipe(raw_part.get(1), recipeA, recipeB, recipeC, 'C', ILx.Fireclay_Ball.get(1), 'R', OreDictToolNames.rollingpin);
-        overrideGT6SingleShapelessCraftingRecipe(raw_part.get(1), ILx.Fireclay_Ball.get(clayCount));
+        CRx.overrideGT6ShapedCraftingRecipe(raw_part.get(1), recipeA, recipeB, recipeC, 'C', ILx.Fireclay_Ball.get(1), 'R', OreDictToolNames.rollingpin);
+        CRx.overrideGT6SingleShapelessCraftingRecipe(raw_part.get(1), ILx.Fireclay_Ball.get(clayCount));
     }
 
     private void changeCraftingRecipes() {
@@ -236,10 +213,10 @@ public class Ceramics extends GT6XFeature {
         CR.shaped(ST.make(Blocks.brick_block, 1, 0), CR.DEF_REM, "BMB", "M M", "BMB", 'B', ST.make(Items.brick, 1, 0), 'M', OM.dust(MTx.Mortar));
         CR.shaped(ST.make(Blocks.nether_brick, 1, 0), CR.DEF_REM, "BMB", "M M", "BMB", 'B', ST.make(Items.netherbrick, 1, 0), 'M', OM.dust(MTx.Mortar));
 
-        overrideGT6ShapedCraftingRecipe(MTEx.gt6Registry.getItem(1199), "BBB", "BBB", "BFB", 'B', OP.ingot.dat(MTx.Firebrick), 'F', OD.craftingFirestarter);
+        CRx.overrideGT6ShapedCraftingRecipe(MTEx.gt6Registry.getItem(1199), "BBB", "BBB", "BFB", 'B', OP.ingot.dat(MTx.Firebrick), 'F', OD.craftingFirestarter);
         OreDictManager.INSTANCE.setItemData(MTEx.gt6Registry.getItem(1199), new OreDictItemData(MTx.Firebrick, 8*U));
 
-        overrideGT6ShapedCraftingRecipe(MTEx.gt6Registry.getItem(18000), "MBM", "B B", "MBM", 'B', ingot.mat(MTx.Firebrick, 1), 'M', OM.dust(MTx.Mortar));
+        CRx.overrideGT6ShapedCraftingRecipe(MTEx.gt6Registry.getItem(18000), "MBM", "B B", "MBM", 'B', ingot.mat(MTx.Firebrick, 1), 'M', OM.dust(MTx.Mortar));
         OreDictManager.INSTANCE.setItemData(MTEx.gt6Registry.getItem(18000), new OreDictItemData(MTx.Firebrick, 4*U));
 
         // Crucible parts
@@ -284,7 +261,7 @@ public class Ceramics extends GT6XFeature {
                 IL.Ceramic_Billet_Mold_Raw,
         }) {
             OreDictManager.INSTANCE.setItemData(mold.get(1), new OreDictItemData(MTx.Fireclay, U*5));
-            overrideGT6SingleShapelessCraftingRecipe(mold.get(1), ILx.Fireclay_Ball.get(5));
+            CRx.overrideGT6SingleShapelessCraftingRecipe(mold.get(1), ILx.Fireclay_Ball.get(5));
         }
     }
 
