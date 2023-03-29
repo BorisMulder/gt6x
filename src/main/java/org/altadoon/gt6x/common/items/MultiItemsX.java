@@ -16,6 +16,10 @@ public class MultiItemsX extends MultiItemRandom {
         super(modID, unlocalized);
     }
 
+    public static void init(String modID) {
+        instance = new MultiItemsX(modID, "multiitems");
+    }
+
     @Override
     public void addItems() {
         ILx.Display_OMStack.set(new ItemMaterialDisplay());

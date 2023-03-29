@@ -222,7 +222,7 @@ public class MTx {
             .uumMcfg(0, MT.C, U*3, MT.H, U*5, MT.Cl, U, MT.O, U)
             .heat(248, 391)
             .put(FLAMMABLE)),
-    Epoxy = plastic( 16041, "Epoxy", SET_DULL, 120, 255, 100, 255)
+    Epoxy = plastic( 16041, "Epoxy", SET_DULL, 9, 86, 0, 255)
             .uumMcfg(0, MT.C, U*21, MT.H, U*24, MT.O, U*4)
             .heat(400),
     VinylChloride = registerGas(gasdcmp(16042, "Vinyl Chloride", 150, 255, 150, 50)
