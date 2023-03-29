@@ -2,10 +2,11 @@ package org.altadoon.gt6x;
 
 import org.altadoon.gt6x.common.*;
 import org.altadoon.gt6x.common.items.MultiItemsX;
+import org.altadoon.gt6x.common.items.Tools;
 import org.altadoon.gt6x.features.GT6XFeature;
 import org.altadoon.gt6x.features.basicchem.BasicChemistry;
 import org.altadoon.gt6x.features.ceramics.Ceramics;
-import org.altadoon.gt6x.features.electronics.MultiItemsElectronics;
+import org.altadoon.gt6x.features.electronics.Electronics;
 import org.altadoon.gt6x.features.oil.OilProcessing;
 import org.altadoon.gt6x.features.pgm.PgmProcessing;
 import org.altadoon.gt6x.features.metallurgy.Metallurgy;
@@ -55,11 +56,12 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 	private static final Class<? extends GT6XFeature>[] allFeatures = new Class[]{
 		BasicChemistry.class,
 		Ceramics.class,
+		Electronics.class,
 		Metallurgy.class,
 		OilProcessing.class,
 		PgmProcessing.class,
 		RefractoryMetals.class,
-		VerticalMixers.class
+		VerticalMixers.class,
 	};
 	private final ArrayList<GT6XFeature> enabledFeatures;
 
@@ -81,8 +83,8 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 		MTEx.touch();
 		MTx.touch();
 		RMx.init();
-		MultiItemsX.instance = new MultiItemsX(MOD_ID, "gt6x.multiitems");
-		MultiItemsElectronics.instance = new MultiItemsElectronics(MOD_ID, "gt6x.multiitemselectronics");
+		MultiItemsX.init(MOD_ID);
+		Tools.init(MOD_ID);
 
 		for (GT6XFeature feature : enabledFeatures) {
 			feature.preInit();

@@ -49,11 +49,6 @@ public class ILx implements IItemContainer {
             "Zeptochip"
     };
     public static ILx[][] Microchips = new ILx[CIRCUIT_TIERS][CIRCUIT_TIERS];
-
-    public String name;
-    private ItemStack mStack;
-    private boolean mHasNotBeenSet = T;
-
     static {
         for (int tier = 0; tier < CIRCUIT_TIERS; tier++) {
             for (int size = 0; size < CIRCUIT_TIERS; size++) {
@@ -61,6 +56,22 @@ public class ILx implements IItemContainer {
             }
         }
     }
+
+    public static ILx Electrode_Molybdenum = new ILx("Electrode_Molybdenum");
+    public static ILx Electrode_Tungsten = new ILx("Electrode_Tungsten");
+    public static ILx ElectronTube_Molybdenum = new ILx("ElectronTube_Molybdenum");
+    public static ILx ElectronTube_Tungsten = new ILx("ElectronTube_Tungsten");
+    public static ILx Transistor_ThroughHole = new ILx("Transistor_ThroughHole");
+    public static ILx Capacitor_ThroughHole = new ILx("Capacitor_ThroughHole");
+    public static ILx Resistor_ThroughHole = new ILx("Resistor_ThroughHole");
+    public static ILx Transistor_SMD = new ILx("Transistor_SMD");
+    public static ILx Capacitor_SMD = new ILx("Capacitor_SMD");
+    public static ILx Resistor_SMD = new ILx("Resistor_SMD");
+
+
+    public String name;
+    private ItemStack mStack;
+    private boolean mHasNotBeenSet = T;
 
     public ILx(String name) {
         this.name = name;
