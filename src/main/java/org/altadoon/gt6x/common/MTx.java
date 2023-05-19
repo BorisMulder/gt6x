@@ -28,6 +28,7 @@ public class MTx {
     static {
         // change some properties of vanilla GT6 materials
         MT.NH3    .uumMcfg(1, MT.N, U, MT.H, 3*U);
+        MT.Ethanol.setMcfg(0, MT.C, 2*U, MT.H, 6*U, MT.O, U);
         MT.PigIron.uumMcfg(5, MT.Fe, 5*U, MT.C, U).heat(MT.WroughtIron).qual(3, 4.0, 128, 2);
         MT.Steel  .uumMcfg(100, MT.Fe, 100*U, MT.C, U).heat(MT.WroughtIron);
         MT.Olivine.uumMcfg(0, MT.Mg, U, MT.Fe, U, MT.Si, U, MT.O, 4*U);
@@ -536,7 +537,16 @@ public class MTx {
     Fireclay = oredustdcmp(16131, "Fireclay", SET_ROUGH, 255, 235, 200, 255, MORTAR)
             .uumMcfg(2, RefractoryCeramic, 2*U, MT.H2O, U)
             .heat(RefractoryCeramic)
-            .setSmelting(RefractoryCeramic, U)
+            .setSmelting(RefractoryCeramic, U),
+    Methanol = registerLiquid(lquddcmp(16132, "Methanol", 255, 240, 240, 200)
+            .setMcfg(0, MT.C, U, MT.H, 4*U, MT.O, U)
+            .heat(175, 338)
+            .put(FLAMMABLE)),
+    Formaldehyde = registerGas(gasdcmp(16133, "Formaldehyde", 200, 255, 255, 100, "Methanal")
+            .setMcfg(0, MT.C, U, MT.H, 2*U, MT.O, U)
+            .heat(181, 254)),
+    PF = plastic(16144, "Phenol Formaldehyde Resin", SET_DULL, 136, 73, 7, 255)
+            .heat(600, 600)
     ;
 
     static {
