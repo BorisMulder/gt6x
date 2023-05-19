@@ -149,6 +149,10 @@ public class BasicChemistry extends GT6XFeature {
         RM.Drying.addRecipe1(true, 16, 6000, dust.mat(MT.OREMATS.YellowLimonite, 8), NF, MT.DistWater.liquid(3*U, false), dust.mat(MT.Fe2O3, 5));
         RM.Drying.addRecipe1(true, 512, 128, dust.mat(MT.SiC, 2), NF, MT.Si.liquid(U, false), dust.mat(MT.Graphite, 1));
         RM.Drying.addRecipe1(true, 16, 512, dust.mat(MT.Dolomite, 10), NF, MT.CO2.gas(6*U, false), dust.mat(MTx.CalcinedDolomite, 4));
+
+        // Methanol and Formaldehyde
+        RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.Cu, 0), dust.mat(MTx.ZnO, 0), FL.array(MT.CO.gas(2*U, true), MT.H.gas(4*U, true)), FL.array(MTx.Methanol.liquid(6*U, false)));
+        RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.Fe2O3, 0), dust.mat(MTx.MoO3, 0), FL.array(MTx.Methanol.liquid(6*U, true), MT.O.gas(U, true)), FL.array(MTx.Formaldehyde.gas(4*U, false), MT.H2O.liquid(3*U, false)));
     }
 
     private void addOverrideRecipes() {
