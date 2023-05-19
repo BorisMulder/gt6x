@@ -111,6 +111,7 @@ public class BasicChemistry extends GT6XFeature {
         for (FluidStack tWater : FL.waters(3000)) {
             RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.CaCl2, 3), FL.array(tWater, MT.CO2.gas(3*U, true)), FL.array(MT.HCl.gas(4*U, false)), dust.mat(MT.CaCO3, 5));
             RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.Quicklime, 2), tWater, NF, dust.mat(MTx.CaOH2, 5));
+
             // dissolve salts
             RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.CaCl2, 3), tWater, MTx.CaCl2Solution.liquid(6*U, false), NI);
             RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.MgCl2, 3), tWater, MTx.MgCl2Solution.liquid(6*U, false), NI);
@@ -120,6 +121,7 @@ public class BasicChemistry extends GT6XFeature {
         }
 
         RM.Mixer.addRecipe2(true, 16, 128, ST.tag(3), dust.mat(MT.FeCl2, 6), FL.array(MT.H2O.liquid(6*U, true), MT.O.gas(U, true)), FL.array(MT.HCl.gas(8*U, false)), dust.mat(MT.Fe2O3, 5));
+        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.FeCl2, 3), MT.Cl.gas(U, true), NF, dust.mat(MT.FeCl3, 4));
         RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.CaOH2, 5), MT.CO2.gas(3*U, true), MT.H2O.liquid(3*U, false), dust.mat(MT.CaCO3, 5));
         RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.MgOH2, 5), MT.CO2.gas(6*U, true), MTx.MgHCO3.liquid(11*U, false), NI);
         RM.Mixer.addRecipe0(true, 16, 64, FL.array(MTx.CaCl2Solution.liquid(6*U, true), MT.CO2.gas(3*U, true)), FL.array(MT.HCl.gas(4*U, false)), dust.mat(MT.CaCO3, 5));
