@@ -150,6 +150,9 @@ public class OilProcessing extends GT6XFeature {
         FM.Burn.addRecipe0(true, -64, 6, MTx.Toluene.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
         FM.Engine.addRecipe0(true, -64, 8, MTx.Toluene.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
 
+        FM.Burn.addRecipe0(true, -8,  5, MTx.Methanol.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
+        FM.Engine.addRecipe0(true, -8,  7, MTx.Methanol.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
+
         FM.Burn.addRecipe0(true, -16, 36, MTx.Synoil.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
         FM.Burn.addRecipe0(true, -16, 4, MTx.Acetone.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
     }
@@ -188,10 +191,11 @@ public class OilProcessing extends GT6XFeature {
         // Rubber
         RM.Mixer.addRecipe1(true, 16,  16, dust.mat(MT.MgCl2, 0), FL.array(MT.TiCl4.liquid(U1000, true), MTx.Isoprene.liquid(U10, false)), ZL_FS, dust.mat(MT.Rubber, 1));
 
-        // BPA
+        // BPA, PF
         RM.Mixer.addRecipe0(true, 16,  64*3, FL.array(MT.Propylene.gas(9*U, true), MTx.Benzene.liquid(12*U, true), MTx.PhosphoricAcid.liquid(3*U1000, true)), FL.array(MTx.Cumene.liquid(21*U, false)));
         RM.Mixer.addRecipe0(true, 16,  64*3, FL.array(MTx.Cumene.fluid(21*U, true), MT.O.gas(2*U, true)), FL.array(MTx.Acetone.liquid(10*U, false)), dust.mat(MTx.Phenol, 13));
-        RM.Mixer.addRecipe1(true, 16,  64, dust.mat(MTx.Phenol, 26), FL.array(MTx.Acetone.fluid(10*U, true), MT.H2SO4.liquid(U1000, true)), MT.H2O.liquid(3*U, false), dust.mat(MTx.BPA, 33));
+        RM.Mixer.addRecipe1(true, 16,  512, dust.mat(MTx.Phenol, 26), FL.array(MTx.Acetone.fluid(10*U, true), MT.H2SO4.liquid(U1000, true)), MT.H2O.liquid(3*U, false), dust.mat(MTx.BPA, 33));
+        RM.Mixer.addRecipe2(true, 16,  512, dust.mat(MT.NaOH, 0), dust.mat(MTx.Phenol, 26), MTx.Formaldehyde.gas(8*U, true), MT.H2O.liquid(3*U, false), dust.mat(MTx.PF, 31));
 
         // ECH
         RM.Mixer.addRecipe0(true, 16,  64, FL.array(MT.Propylene.gas(9*U, true), MT.Cl.gas(2*U, true)), FL.array(MTx.AllylChloride.liquid(9*U, false), MT.HCl.gas(2*U, false)));
