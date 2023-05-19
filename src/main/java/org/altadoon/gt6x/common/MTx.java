@@ -545,8 +545,14 @@ public class MTx {
     Formaldehyde = registerGas(gasdcmp(16133, "Formaldehyde", 200, 255, 255, 100, "Methanal")
             .setMcfg(0, MT.C, U, MT.H, 2*U, MT.O, U)
             .heat(181, 254)),
-    PF = plastic(16144, "Phenol Formaldehyde Resin", SET_DULL, 136, 73, 7, 255)
-            .heat(600, 600)
+    PF = plastic(16134, "Phenol Formaldehyde Resin", SET_DULL, 136, 73, 7, 255)
+            .heat(600, 600),
+    CuCl2 = dustdcmp(16135, "Cupric Chloride", SET_DULL, 184, 135, 0, 255, ELECTROLYSER)
+            .uumMcfg(0, MT.Cu, U, MT.Cl, 2*U)
+            .heat(771, 1266),
+    CuFeClSolution = registerLiquid(lquddcmp(16136, "Cupric-Ferrous Chloride Solution", 66, 245, 206, 255)
+            .setMcfg(0, MTx.CuCl2, 3*U, MT.FeCl2, 6*U, MT.H2O, 9*U)
+            .heat(MT.H2O))
     ;
 
     static {
@@ -558,10 +564,12 @@ public class MTx {
 
         FL.createMolten(RhodiumPotassiumSulfate.put(MELTING, MOLTEN), 1000);
         FL.createMolten(PbCl2.put(MELTING, MOLTEN), 1000);
+        FL.createMolten(CuCl2.put(MELTING, MOLTEN), 1000);
         FL.createMolten(Slag.put(MELTING, MOLTEN), 144);
         FL.createMolten(FerrousSlag.put(MELTING, MOLTEN), 144);
         FL.createMolten(FeCr2.put(MELTING, MOLTEN), 144);
         FL.createMolten(ConverterSlag.put(MELTING, MOLTEN), 144);
+        FL.createMolten(Epoxy.put(MELTING, MOLTEN), 144);
 
         OreDictManager.INSTANCE.addReRegistration("dustCobaltBlue", "dyeMixableBlue");
 

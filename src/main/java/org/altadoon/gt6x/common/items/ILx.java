@@ -67,6 +67,28 @@ public class ILx implements IItemContainer {
     public static ILx Transistor_SMD = new ILx("Transistor_SMD");
     public static ILx Capacitor_SMD = new ILx("Capacitor_SMD");
     public static ILx Resistor_SMD = new ILx("Resistor_SMD");
+    public static ILx PlatinumBushing = new ILx("PlatinumBushing");
+    public static ILx GlassFibres = new ILx("GlassFibres");
+
+    // Boards
+    public static ILx PF_Board = new ILx("PF_Board");
+    public static ILx FRE_Board = new ILx("FRE_Board");
+    public static ILx CCL = new ILx("CCL");
+    public static ILx CCL_SMALL = new ILx("CCL_SMALL");
+    public static ILx CCL_TINY = new ILx("CCL_TINY");
+    public static ILx GCL = new ILx("GCL");
+    public static ILx GCL_SMALL = new ILx("GCL_SMALL");
+    public static ILx GCL_TINY = new ILx("GCL_TINY");
+    public static ILx PCL = new ILx("PCL");
+    public static ILx PCL_SMALL = new ILx("PCL_SMALL");
+    public static ILx PCL_TINY = new ILx("PCL_TINY");
+    public static ILx Circuit_Plate_Copper_Small = new ILx("Circuit_Plate_Copper_Small");
+    public static ILx Circuit_Plate_Copper_Tiny = new ILx("Circuit_Plate_Copper_Tiny");
+    public static ILx Circuit_Plate_Gold_Small = new ILx("Circuit_Plate_Gold_Small");
+    public static ILx Circuit_Plate_Gold_Tiny = new ILx("Circuit_Plate_Gold_Tiny");
+    public static ILx Circuit_Plate_Platinum_Small = new ILx("Circuit_Plate_Platinum_Small");
+    public static ILx Circuit_Plate_Platinum_Tiny = new ILx("Circuit_Plate_Platinum_Tiny");
+    public static ILx EtchMask_Trace = new ILx("EtchMask_Trace");
 
 
     public String name;
