@@ -25,6 +25,14 @@ public class MTx {
 
     public static final TagData POLYMER = TagData.createTagData("PROPERTIES.Polymer", "Polymer");
 
+    private static void addMolten(OreDictMaterial mat, long litersPerUnit) {
+        FL.createMolten(mat.put(MELTING, MOLTEN), litersPerUnit);
+    }
+
+    private static void addVapour(OreDictMaterial mat) {
+        FL.createGas(mat.put(GASES));
+    }
+
     static {
         // change some properties of vanilla GT6 materials
         MT.NH3    .uumMcfg(1, MT.N, U, MT.H, 3*U);
@@ -53,14 +61,15 @@ public class MTx {
         MT.OREMATS.Tungstate.setLocal("Lithium Tungstate");
         MT.OREMATS.Huebnerite.setLocal("Hübnerite");
 
-        FL.createMolten(MT.K2S2O7.put(MELTING, MOLTEN), 1000);
-        FL.createMolten(MT.Na2S2O7.put(MELTING, MOLTEN), 1000);
-        FL.createMolten(MT.Quicklime.put(MELTING, MOLTEN), 1000);
-        FL.createMolten(MT.Nb.put(MELTING, MOLTEN), 1000);
+        addMolten(MT.K2S2O7, 1000);
+        addMolten(MT.Na2S2O7, 1000);
+        addMolten(MT.Quicklime, 1000);
+        addMolten(MT.Ga, 144);
+        addMolten(MT.Nb, 1000);
 
-        FL.createGas(MT.Zn.put(GASES));
-        FL.createGas(MT.As.put(GASES));
-        FL.createGas(MT.Mg.put(GASES));
+        addVapour(MT.Zn.put(GASES));
+        addVapour(MT.As.put(GASES));
+        addVapour(MT.Mg.put(GASES));
     }
 
     public static OreDictMaterial create(int aID, String name, long aR, long aG, long aB, long aA, Object... aRandomData) {
@@ -552,7 +561,74 @@ public class MTx {
             .heat(771, 1266),
     CuFeClSolution = registerLiquid(lquddcmp(16136, "Cupric-Ferrous Chloride Solution", 66, 245, 206, 255)
             .setMcfg(0, MTx.CuCl2, 3*U, MT.FeCl2, 6*U, MT.H2O, 9*U)
-            .heat(MT.H2O))
+            .heat(MT.H2O)),
+    Silane = registerGas(gasdcmp(16137, "Silane", 150, 150, 150, 100)
+            .uumMcfg(0, MT.Si, U, MT.H, 4*U)
+            .heat(88, 161)),
+    Germane = registerGas(gasdcmp(16138, "Germane", 200, 200, 220, 100)
+            .uumMcfg(0, MT.Ge, U, MT.H, 4*U)
+            .heat(108, 185)),
+    Arsine = registerGas(gasdcmp(16139, "Arsine", 255, 200, 255, 100, "Arsane")
+            .uumMcfg(0, MT.As, U, MT.H, 3*U)
+            .heat(162, 211)),
+    Phosphine = registerGas(gasdcmp(16140, "Phosphine", 255, 220, 150, 100, "Phosphane")
+            .uumMcfg(0, MT.P, U, MT.H, 3*U)
+            .heat(140, 185)),
+    Mg2Si = alloymachine(16141, "Magnesium Silicide", SET_METALLIC, 102, 0, 102)
+            .uumAloy(0, MT.Mg, 2*U, MT.Si, U)
+            .heat(1375),
+    CdS = oredustdcmp(16142, "Cadmium Sulfide", SET_DULL, 255, 204, 0, 255, "Greenockite", "Hawleyite")
+            .setMcfg(0, MT.Cd, U, MT.S, U)
+            .heat(1250, 1250),
+    CdO = dustdcmp(16143, "Cadmium Oxide", SET_DULL, 128, 43, 0, 255)
+            .setMcfg(0, MT.Cd, U, MT.O, U)
+            .heat(1220, 1832),
+    CdSO4Solution = registerLiquid(lqudaciddcmp(16144, "Cadmium Sulfate", 255, 153, 102, 255)
+            .setMcfg(0, MT.Cd, U, MT.S, U, MT.O, 4*U)
+            .heat(1270)),
+    Na3PO4 = dustdcmp(16145, "Sodium Phosphate", SET_DULL, 255, 255, 255, 255, "Trisodium Phosphate")
+            .setMcfg(0, MT.Na, 3*U, MT.P, U, MT.O, 4*U)
+            .heat(1856),
+    ZnNO3 = dustdcmp(16146, "Zinc Nitrate", SET_DULL, 255, 200, 255, 255)
+            .setMcfg(0, MT.Zn, U, MT.N, 2*U, MT.O, 6*U)
+            .tooltip("Zn(NO" + NUM_SUB[3] + ")" + NUM_SUB[2])
+            .heat(383)
+            .setSmelting(MTx.ZnO, 2*U9),
+    GaAs = dustdcmp(16147, "Gallium Arsenide", SET_METALLIC, 96, 96, 120, 255)
+            .uumMcfg(0, MT.Ga, U, MT.As, U)
+            .heat(1511),
+    SiGe = alloymachine(16148, "Silicon-Germanium", SET_METALLIC, 174, 174, 183, 255)
+            .uumMcfg(0, MT.Si, U, MT.Ge, U)
+            .heat(MT.Ge),
+    LiH = dustdcmp(16149, "Lithium Hydride", SET_QUARTZ, 0, 153, 153, 255)
+            .setMcfg(0, MT.Li, U, MT.H, U)
+            .heat(961, 1220)
+            .put(GEMS),
+    LiF = dustdcmp(16150, "Lithium Fluoride", SET_DULL, 235, 255, 200, 255)
+            .setMcfg(0, MT.Li, U, MT.H, U)
+            .heat(1118, 1949)
+            .put(ELECTROLYSER),
+    BF3 = registerGas(gasdcmp(16151, "Boron Trifluoride", 255, 250, 180, 50, "Trifluoroborane")
+            .setMcfg(0, MT.B, U, MT.F, 3*U)
+            .heat(146, 173)),
+    B2O3 = dustdcmp(16152, "Boron Trioxide", SET_DULL, 255, 230, 230, 255, "Diboron Trioxide")
+            .setMcfg(0, MT.B, 2*U, MT.O, 3*U)
+            .heat(723, 2130),
+    Diborane = registerGas(gasdcmp(16153, "Diborane", 255, 255, 255, 100)
+            .setMcfg(0, MT.B, 2*U, MT.H, 6*U)
+            .heat(108, 181)),
+    LiBF4 = dustdcmp(16154, "Lithium Tetrafluoroborate", SET_SHINY, 255, 255, 255, 255)
+            .setMcfg(0, MT.Li, U, MT.B, U, MT.F, 4*U)
+            .heat(570),
+    SiGeH8 = registerGas(gasdcmp(16155, "Silane-Germane Mixture", 175, 175, 185, 100)
+            .setMcfg(0, Silane, U, Germane, U)
+            .heat(Germane)),
+    Na2O = dustdcmp(16156, "Sodium Oxide", SET_DULL, 255, 255, 200, 255)
+            .setMcfg(0, MT.Na, 2*U, MT.O, U)
+            .heat(1405, 2220),
+    NaGaO2 = dustdcmp(16157, "Sodium Gallate", SET_DULL, 50, 0, 150, 255)
+            .setMcfg(0, MT.Na, U, MT.Ga, U, MT.O, 2*U)
+            .heat(MT.NaAlO2)
     ;
 
     static {
@@ -562,18 +638,22 @@ public class MTx {
         MT.PurpleSapphire.uumMcfg(6, MT.Al2O3, 5*U, MT.V2O5, U);
         MT.PetCoke.setMcfg(0, MT.C, U);
 
-        FL.createMolten(RhodiumPotassiumSulfate.put(MELTING, MOLTEN), 1000);
-        FL.createMolten(PbCl2.put(MELTING, MOLTEN), 1000);
-        FL.createMolten(CuCl2.put(MELTING, MOLTEN), 1000);
-        FL.createMolten(Slag.put(MELTING, MOLTEN), 144);
-        FL.createMolten(FerrousSlag.put(MELTING, MOLTEN), 144);
-        FL.createMolten(FeCr2.put(MELTING, MOLTEN), 144);
-        FL.createMolten(ConverterSlag.put(MELTING, MOLTEN), 144);
-        FL.createMolten(Epoxy.put(MELTING, MOLTEN), 144);
+        addMolten(RhodiumPotassiumSulfate, 1000);
+        addMolten(PbCl2, 1000);
+        addMolten(CuCl2, 1000);
+        addMolten(Slag, 144);
+        addMolten(FerrousSlag, 144);
+        addMolten(FeCr2, 144);
+        addMolten(ConverterSlag, 144);
+        addMolten(Epoxy, 144);
+        addMolten(LiF, 1000);
+        addMolten(SiGe, 144);
 
         OreDictManager.INSTANCE.addReRegistration("dustCobaltBlue", "dyeMixableBlue");
 
         HSST1.addEnchantmentForWeapons(Enchantment.sharpness, 4).addEnchantmentForAmmo(Enchantment.sharpness, 4).addEnchantmentForRanged(Enchantment.power, 4);
         HSSM2.addEnchantmentForWeapons(Enchantment.sharpness, 4).addEnchantmentForAmmo(Enchantment.sharpness, 4).addEnchantmentForRanged(Enchantment.power, 4);
+
+        OP.bouleGt.forceItemGeneration(GaAs, SiGe);
     }
 }

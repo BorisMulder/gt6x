@@ -1,10 +1,14 @@
 package org.altadoon.gt6x.features.electronics;
 
 import gregapi.data.*;
+import gregapi.item.prefixitem.PrefixItem;
 import gregapi.oredict.OreDictItemData;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.oredict.OreDictPrefix;
+import gregapi.recipes.Recipe;
+import gregapi.recipes.handlers.RecipeMapHandlerPrefix;
 import gregapi.util.CR;
+import gregapi.util.OM;
 import gregapi.util.ST;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -19,9 +23,13 @@ import org.altadoon.gt6x.features.GT6XFeature;
 import org.altadoon.gt6x.features.electronics.tools.SolderingIron;
 
 import static gregapi.data.CS.*;
+import static gregapi.data.OP.*;
+import static org.altadoon.gt6x.Gt6xMod.MOD_ID;
 
 public class Electronics extends GT6XFeature {
     public static final String FEATURE_NAME = "Electronics";
+
+    public OreDictPrefix polyGem = null;
 
     @Override
     public String name() {
@@ -35,6 +43,7 @@ public class Electronics extends GT6XFeature {
 
     @Override
     public void preInit() {
+        createPrefixes();
         MultiItemsElectronics.instance = new MultiItemsElectronics(Gt6xMod.MOD_ID, "multiitemselectronics");
         Tools.addRefillable(SolderingIron.ID, OreDictToolNames.solderingiron, "Soldering Iron", "Joins together items using a solder (a filler metal)", new SolderingIron(), OreDictToolNames.solderingiron, new OreDictItemData(MT.StainlessSteel, 3*U2, MT.Wood, U2));
     }
@@ -47,6 +56,22 @@ public class Electronics extends GT6XFeature {
     @Override
     public void postInit() {
         addRecipes();
+    }
+
+    @Override
+    public void afterPostInit() {
+        changeRecipes();
+    }
+
+    private void createPrefixes() {
+        polyGem = OreDictPrefix.createPrefix("polyGem")
+                .setCategoryName("polyGems")
+                .setLocalItemName("Polycrystalline ", "")
+                .setMaterialStats(U)
+                .add(TD.Prefix.RECYCLABLE);
+        new PrefixItem(MOD_ID, MD.GT.mID, "gt6x.meta.polyGem", polyGem,
+                MT.Empty, MT.Si, MT.Ge, MTx.GaAs, MTx.SiGe
+        );
     }
 
     private void addRecipes() {
@@ -116,13 +141,36 @@ public class Electronics extends GT6XFeature {
 
         RM.Mixer.addRecipe1(true, 16, 64*9, OP.dust.mat(MT.Fe, 1), MTx.CuFeClSolution.liquid(18*U, true), MTx.FeCl2Solution.liquid(18*U, false), OP.dust.mat(MT.Cu, 1));
 
+        /// Semiconductors
+
+        // Hydrides & Polycrystallines
+        RM.Electrolyzer.addRecipe2(true, 32, 256, OP.rod.mat(MT.Ge, 1), OM.dust(MT.Mo, U3), FL.Water.make(3000), MTx.Germane.gas(5*U2, false), OM.dust(MTx.MoO3, 4*U3));
+        RM.Electrolyzer.addRecipe2(true, 32, 256, OP.rod.mat(MT.Ge, 1), OM.dust(MT.Cd, U), FL.Water.make(3000), MTx.Germane.gas(5*U2, false), OM.dust(MTx.CdO, 2*U));
+        RM.Bath.addRecipe1(true, 0, 256, dust.mat(MTx.Mg2Si, 3), MT.HCl.gas(8*U, true), MTx.Silane.gas(5*U, false), dust.mat(MT.MgCl2, 6));
+        RM.Mixer.addRecipe0(true, 16, 64, FL.array(MTx.Silane.gas(U, true), MTx.Germane.gas(U, true)), FL.array(MTx.SiGeH8.gas(2*U, false)));
+
+        //TODO use thermolyzer
+        RM.Drying.addRecipe1(true, 16, 64000, ST.tag(0), MTx.Germane.gas(5*U, true), MT.H.gas(4*U, false), polyGem.mat(MT.Ge, 1));
+        RM.Drying.addRecipe1(true, 16, 64000, ST.tag(0), MTx.Silane.gas(5*U, true), MT.H.gas(4*U, false), polyGem.mat(MT.Si, 1));
+        RM.Drying.addRecipe1(true, 16, 64000, ST.tag(0), MTx.SiGeH8.gas(5*U, true), MT.H.gas(4*U, false), polyGem.mat(MTx.SiGe, 1));
+
+        RM.CrystallisationCrucible.addRecipe1(true, 16, 18000, ST.tag(0), FL.array(MT.Ga.liquid(U2, true), MT.As.gas(U2, true)), ZL_FS, polyGem.mat(MTx.GaAs, 1));
+        RM.CrystallisationCrucible.addRecipe1(true, 16, 72000, plateGemTiny.mat(MTx.GaAs, 1), FL.array(MT.Ga.liquid(35*U18, true), MT.As.gas(35*U18, true)), ZL_FS, bouleGt.mat(MTx.GaAs, 1));
+        RM.CrystallisationCrucible.addRecipe1(true, 16, 72000, plateGemTiny.mat(MTx.SiGe, 1), FL.array(MTx.SiGe.liquid(35*U9, true)), ZL_FS, bouleGt.mat(MTx.SiGe, 1));
+
+        RM.Cutter.add(new RecipeMapHandlerPrefix(polyGem, 1, NF, 16, 256, 0, NF, plateGemTiny, 6, ST.tag(1), NI, true, true, false, null));
+
         // components
-        for (OreDictMaterial coal : ANY.Coal.mToThis) {
-            CR.shaped(ILx.Resistor_ThroughHole.get(2), CR.DEF_REV, " W ", "iPC", " W ", 'W', OP.wireFine.dat(MT.Cu), 'P', OP.plateGemTiny.dat(MT.Ceramic), 'C', OP.dustTiny.dat(coal));
-            CR.shaped(ILx.Resistor_ThroughHole.get(2), CR.DEF_REV, " W ", "iPC", " W ", 'W', OP.wireFine.dat(MT.Brass), 'P', OP.plateGemTiny.dat(MT.Ceramic), 'C', OP.dustTiny.dat(coal));
-        }
+        CR.shaped(ILx.Resistor_ThroughHole.get(2), CR.DEF_REV, " W ", "iPC", " W ", 'W', OP.wireFine.dat(MT.Cu), 'P', OP.plateGemTiny.dat(MT.Ceramic), 'C', OP.dustTiny.dat(ANY.Coal));
+        CR.shaped(ILx.Resistor_ThroughHole.get(2), CR.DEF_REV, " W ", "iPC", " W ", 'W', OP.wireFine.dat(MT.Brass), 'P', OP.plateGemTiny.dat(MT.Ceramic), 'C', OP.dustTiny.dat(ANY.Coal));
+
         CR.shaped(ILx.Capacitor_ThroughHole.get(2), CR.DEF_REV, " i ", "PC ", "W W", 'W', OP.wireFine.dat(MT.Cu), 'C', OP.plateGemTiny.dat(MT.Ceramic), 'P', OP.plateTiny.dat(MT.Paper));
         CR.shaped(ILx.Capacitor_ThroughHole.get(2), CR.DEF_REV, " i ", "PC ", "W W", 'W', OP.wireFine.dat(MT.Brass), 'C', OP.plateGemTiny.dat(MT.Ceramic), 'P', OP.plateTiny.dat(MT.Paper));
+
+        CR.shaped(ILx.Transistor_ThroughHole.get(2), CR.DEF_REV, " P ", "iS ", "WWW", 'W', OP.wireFine.dat(MT.Cu), 'S', OP.plateGemTiny.dat(MT.Si), 'P', OP.plateTiny.dat(MT.Plastic));
+        CR.shaped(ILx.Transistor_ThroughHole.get(2), CR.DEF_REV, " P ", "iS ", "WWW", 'W', OP.wireFine.dat(MT.Brass), 'S', OP.plateGemTiny.dat(MT.Si), 'P', OP.plateTiny.dat(MT.Plastic));
+        CR.shaped(ILx.Transistor_ThroughHole.get(2), CR.DEF_REV, " P ", "iS ", "WWW", 'W', OP.wireFine.dat(MT.Cu), 'S', OP.plateGemTiny.dat(MT.Ge), 'P', OP.plateTiny.dat(MT.Plastic));
+        CR.shaped(ILx.Transistor_ThroughHole.get(2), CR.DEF_REV, " P ", "iS ", "WWW", 'W', OP.wireFine.dat(MT.Brass), 'S', OP.plateGemTiny.dat(MT.Ge), 'P', OP.plateTiny.dat(MT.Plastic));
 
         //TODO doping, dicing, wafers, ...
 
@@ -131,5 +179,17 @@ public class Electronics extends GT6XFeature {
         CR.shaped(IL.Circuit_Basic    .get(1), CR.DEF_REM, "iT ", "CBR", "   ", 'B', IL.Circuit_Plate_Copper.get(1), 'E', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME);
         CR.shaped(IL.Circuit_Good     .get(1), CR.DEF_REM, "iT ", "CBR", " T ", 'B', IL.Circuit_Plate_Copper.get(1), 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME);
         CR.shaped(IL.Circuit_Advanced .get(1), CR.DEF_REM, "TiT", "CBR", "T T", 'B', IL.Circuit_Plate_Gold  .get(1), 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME);
+    }
+
+    private void changeRecipes() {
+        for (Recipe r : RM.CrystallisationCrucible.mRecipeList) {
+            if (ST.equal(r.mInputs[0], OM.dust(MT.Ge, U9))) {
+                r.mInputs[0] = plateGemTiny.mat(MT.Ge, 1);
+            } else if (ST.equal(r.mInputs[0], OM.dust(MT.Si, U9))) {
+                r.mInputs[0] = plateGemTiny.mat(MT.Si, 1);
+            } else if (ST.equal(r.mInputs[0], OM.dust(MT.Ge, U)) || ST.equal(r.mInputs[0], OM.dust(MT.Si, U))) {
+                r.mEnabled = false;
+            }
+        }
     }
 }

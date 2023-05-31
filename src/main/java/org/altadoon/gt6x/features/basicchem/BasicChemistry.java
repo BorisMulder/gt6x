@@ -155,6 +155,23 @@ public class BasicChemistry extends GT6XFeature {
         // Methanol and Formaldehyde
         RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.Cu, 0), dust.mat(MTx.ZnO, 0), FL.array(MT.CO.gas(2*U, true), MT.H.gas(4*U, true)), FL.array(MTx.Methanol.liquid(6*U, false)));
         RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.Fe2O3, 0), dust.mat(MTx.MoO3, 0), FL.array(MTx.Methanol.liquid(6*U, true), MT.O.gas(U, true)), FL.array(MTx.Formaldehyde.gas(4*U, false), MT.H2O.liquid(3*U, false)));
+
+        // Phosphine and Na2O
+        RM.Mixer.addRecipe2(true, 16, 3*64, dust.mat(MT.P, 8), dust.mat(MT.NaOH, 27), FL.Water.make(9000), MTx.Phosphine.gas(20*U, false), dust.mat(MTx.Na3PO4, 24));
+        // TODO use thermolyzer
+        RM.Drying.addRecipe1(true, 16, 256, dust.mat(MTx.Na3PO4, 16), dust.mat(MTx.Na2O, 9), dust.mat(MTx.P2O5, 7));
+        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.Na2O, 3), FL.Water.make(3000), NF, dust.mat(MT.NaOH, 6));
+
+        // Arsine, Zinc Nitrate
+        RM.Bath.addRecipe2(true, 0, 3*5*64, dust.mat(MTx.As2O3, 5), dust.mat(MT.Zn, 6), FL.array(MT.HNO3.liquid(60*U, true)), FL.array(FL.Water.make(9000), MTx.Arsine.gas(8*U, false)), dust.mat(MTx.ZnNO3, 54));
+        RM.Drying.addRecipe1(true, 16, 512, dust.mat(MTx.ZnNO3, 9), ZL_FS, FL.array(MT.NO2.gas(6*U, false), MT.O.gas(U, false)), dust.mat(MTx.ZnO, 2));
+
+        // Borane and LiH
+        RM.Drying.addRecipe1(true, 16, 18000, dust.mat(MT.BoricAcid, 14), NF, FL.DistW.make(9000), dust.mat(MTx.B2O3, 5));
+        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MTx.B2O3, 5), MT.HF.gas(12*U, true), FL.Water.make(9000), dust.mat(MTx.BF3, 8));
+        RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MT.Li, 1), MT.H.gas(U, true), NF, dust.mat(MTx.LiH, 2));
+        RM.Mixer.addRecipe1(true, 16, 512, dust.mat(MTx.LiH, 12), MTx.BF3.gas(32*U, true), MTx.Diborane.gas(8*U, false), dust.mat(MTx.LiBF4, 36));
+        RM.Drying.addRecipe1(true, 16, 512, dust.mat(MTx.LiBF4, 6), NF, MTx.BF3.gas(4*U, false), dust.mat(MTx.LiF, 2));
     }
 
     private void addOverrideRecipes() {
