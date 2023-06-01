@@ -589,9 +589,11 @@ public class MTx {
     Na3PO4 = dustdcmp(16145, "Sodium Phosphate", SET_DULL, 255, 255, 255, 255, "Trisodium Phosphate")
             .setMcfg(0, MT.Na, 3*U, MT.P, U, MT.O, 4*U)
             .heat(1856),
-    Zn3As2 = dustdcmp(16146, "Zinc Arsenide", SET_ROUGH, 77, 77, 77, 255)
-            .setMcfg(0, MT.Zn, 3*U, MT.As, 2*U)
-            .heat(1288),
+    ZnNO3 = dustdcmp(16146, "Zinc Nitrate", SET_DULL, 255, 200, 255, 255)
+            .setMcfg(0, MT.Zn, U, MT.N, 2*U, MT.O, 6*U)
+            .tooltip("Zn(NO" + NUM_SUB[3] + ")" + NUM_SUB[2])
+            .heat(383)
+            .setSmelting(MTx.ZnO, 2*U9),
     GaAs = dustdcmp(16147, "Gallium Arsenide", SET_METALLIC, 96, 96, 120, 255)
             .uumMcfg(0, MT.Ga, U, MT.As, U)
             .heat(1511),
@@ -615,10 +617,16 @@ public class MTx {
     Diborane = registerGas(gasdcmp(16153, "Diborane", 255, 255, 255, 100)
             .setMcfg(0, MT.B, 2*U, MT.H, 6*U)
             .heat(108, 181)),
-    SiGeH8 = registerGas(gasdcmp(16154, "Silane-Germane Mixture", 175, 175, 185, 100)
+    LiBF4 = dustdcmp(16154, "Lithium Tetrafluoroborate", SET_SHINY, 255, 255, 255, 255)
+            .setMcfg(0, MT.Li, U, MT.B, U, MT.F, 4*U)
+            .heat(570),
+    SiGeH8 = registerGas(gasdcmp(16155, "Silane-Germane Mixture", 175, 175, 185, 100)
             .setMcfg(0, Silane, U, Germane, U)
             .heat(Germane)),
-    NaGaO2 = dustdcmp(16155, "Sodium Gallate", SET_DULL, 50, 0, 150, 255)
+    Na2O = dustdcmp(16156, "Sodium Oxide", SET_DULL, 255, 255, 200, 255)
+            .setMcfg(0, MT.Na, 2*U, MT.O, U)
+            .heat(1405, 2220),
+    NaGaO2 = dustdcmp(16157, "Sodium Gallate", SET_DULL, 50, 0, 150, 255)
             .setMcfg(0, MT.Na, U, MT.Ga, U, MT.O, 2*U)
             .heat(MT.NaAlO2)
     ;
