@@ -332,6 +332,15 @@ public class Metallurgy extends GT6XFeature {
         RMx.Thermolysis.addRecipe1(true, 16, 256, dust.mat(MTx.HgO, 1), ZL_FS, FL.array(MT.Hg.liquid(U2, false), MT.O.gas(U2, false)));
         RMx.Thermolysis.addRecipe1(true, 16, 256, dust.mat(MT.OREMATS.Smithsonite, 5), ZL_FS, FL.array(MT.CO2.gas(3*U, false)), dust.mat(MTx.ZnO, 1));
 
+        // Bayer waste products processing
+        RM.Centrifuge.addRecipe1(true, 16, 256, new long[] {10000, 3000, 2000, 1000, 1000, 500, 50}, dust.mat(MTx.RedMud, 1), dustTiny.mat(MT.Fe2O3, 9), dustTiny.mat(MT.Sodalite, 9), dustTiny.mat(MT.OREMATS.Wollastonite, 9), dustTiny.mat(MT.TiO2, 9), dustTiny.mat(MT.AlO3H3, 9), dustTiny.mat(MTx.Sc2O3, 9));
+        RM.Bath.addRecipe1(true, 0, 256, dust.mat(MTx.Sc2O3, 5), MT.HF.gas(12*U, true), MT.H2O.liquid(9*U, false), dust.mat(MTx.ScF3, 8));
+
+        RM.Drying.addRecipe0(true, 16, 6000, MTx.BayerLiquor.liquid(6*U, true), FL.DistW.make(3000), dust.mat(MT.NaOH, 3));
+        RM.Electrolyzer.addRecipe1(true, 64, 512, ST.tag(1), FL.array(MTx.BayerLiquor.liquid(24*U, true), MT.Hg.liquid(9*U, true)), FL.array(MTx.GaAmalgam.liquid(10*U, false), MT.H.gas(5*U, false), FL.Water.make(4500)), dust.mat(MT.NaOH, 12), OM.dust(MT.V2O5, 7*U2));
+        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.NaOH, 3), FL.array(MTx.GaAmalgam.liquid(10*U, true), FL.Water.make(4500), FL.Oxygen.make(1500)), FL.array(MT.Hg.liquid(9*U, false)), dust.mat(MTx.NaGaOH4, 10));
+        RM.Electrolyzer.addRecipe1(true, 64, 512, dust.mat(MTx.NaGaOH4, 10), ZL_FS, FL.array(FL.Water.make(4500), FL.Oxygen.make(1500)), dust.mat(MT.Ga, 1), dust.mat(MT.NaOH, 3));
+
         // Sintering dusts into chunks
         RMx.sintering.add(new RecipeMapHandlerPrefixSintering(dust,      1, NF, 16, 0, 0, NF, ingot , 1, ST.tag(1), NI, true, false, false, lowHeatSintering));
         RMx.sintering.add(new RecipeMapHandlerPrefixSintering(dustSmall, 1, NF, 16, 0, 0, NF, chunk , 1, ST.tag(1), NI, true, false, false, lowHeatSintering));
@@ -460,6 +469,18 @@ public class Metallurgy extends GT6XFeature {
         new EAFSmeltingRecipe(0, 2, new OreDictMaterialStack[]{ OM.stack(MT.Al, 2 *U), OM.stack(MT .Fe2O3, 5 *U) }, 600, OM.stack(MT.Fe, 2*U), OM.stack(MT.Al2O3, 5 *U));
         new EAFSmeltingRecipe(0, 8, new OreDictMaterialStack[]{ OM.stack(MT.Al, 8 *U), OM.stack(MTx.Co3O4, 21*U) }, 600, OM.stack(MT.Co, 9*U), OM.stack(MT.Al2O3, 20*U));
 
+        // Calcinothermic reduction in EAF
+        new EAFSmeltingRecipe(0, 5, new OreDictMaterialStack[]{ OM.stack(MT.Ca, 5*U), OM.stack(MT .V2O5 , 7*U) }, 600, OM.stack(MT.V , 2*U), OM.stack(MT.Quicklime, 10*U));
+        new EAFSmeltingRecipe(0, 5, new OreDictMaterialStack[]{ OM.stack(MT.Ca, 5*U), OM.stack(MT .Nb2O5, 7*U) }, 600, OM.stack(MT.Nb, 2*U), OM.stack(MT.Quicklime, 10*U));
+        new EAFSmeltingRecipe(0, 5, new OreDictMaterialStack[]{ OM.stack(MT.Ca, 5*U), OM.stack(MT .Ta2O5, 7*U) }, 600, OM.stack(MT.Ta, 2*U), OM.stack(MT.Quicklime, 10*U));
+        new EAFSmeltingRecipe(0, 3, new OreDictMaterialStack[]{ OM.stack(MT.Ca, 3*U), OM.stack(MTx.Cr2O3, 5*U) }, 600, OM.stack(MT.Cr, 2*U), OM.stack(MT.Quicklime, 6 *U));
+        new EAFSmeltingRecipe(0, 3, new OreDictMaterialStack[]{ OM.stack(MT.Ca, 3*U), OM.stack(MTx.MoO3 , 4*U) }, 600, OM.stack(MT.Mo, 1*U), OM.stack(MT.Quicklime, 6 *U));
+        new EAFSmeltingRecipe(0, 3, new OreDictMaterialStack[]{ OM.stack(MT.Ca, 3*U), OM.stack(MT .WO3  , 4*U) }, 600, OM.stack(MT.W , 1*U), OM.stack(MT.Quicklime, 6 *U));
+        new EAFSmeltingRecipe(0, 2, new OreDictMaterialStack[]{ OM.stack(MT.Ca, 2*U), OM.stack(MT .MnO2 , 3*U) }, 600, OM.stack(MT.Mn, 1*U), OM.stack(MT.Quicklime, 4 *U));
+        new EAFSmeltingRecipe(0, 3, new OreDictMaterialStack[]{ OM.stack(MT.Ca, 3*U), OM.stack(MT .Fe2O3, 5*U) }, 600, OM.stack(MT.Fe, 2*U), OM.stack(MT.Quicklime, 6 *U));
+        new EAFSmeltingRecipe(0, 4, new OreDictMaterialStack[]{ OM.stack(MT.Ca, 4*U), OM.stack(MTx.Co3O4, 7*U) }, 600, OM.stack(MT.Co, 3*U), OM.stack(MT.Quicklime, 8 *U));
+        new EAFSmeltingRecipe(0, 3, new OreDictMaterialStack[]{ OM.stack(MT.Ca, 3*U), OM.stack(MTx.ScF3 , 8*U) }, 600, OM.stack(MT.Sc, 2*U), OM.stack(MT.CaF2     , 9 *U));
+
         // Pure phosphorus production in EAF
         new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MT.Apatite, 2*7*U), OM.stack(MT.SiO2, 9*U), OM.stack(MT.C, 5*U) }, 1850, OM.stack(MTx.Slag, 3*5*U), OM.stack(MT.CaCl2, U), OM.stack(MTx.P_CO_Gas, 12*U));
         new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MT.Phosphorite, 2*7*U), OM.stack(MT.SiO2, 3*3*U), OM.stack(MT.C, 5*U) }, 1850, OM.stack(MTx.Slag, 3*5*U), OM.stack(MT.CaF2, U), OM.stack(MTx.P_CO_Gas, 12*U));
@@ -510,7 +531,7 @@ public class Metallurgy extends GT6XFeature {
 
         final long[] tChances = new long[]{8000, 8000, 8000};
 
-        for (String tAir : FluidsGT.AIR)
+        for (String tAir : FluidsGT.AIR) {
             if (FL.exists(tAir)) {
                 RM.Roasting.addRecipe1(true, 16, 512, tChances, OM.dust(MT.OREMATS.Realgar), FL.make(tAir, 4000), MT.SO2.gas(3 * U2, false), OM.dust(MTx.As2O3, 5 * U4));
                 RM.Roasting.addRecipe1(true, 16, 512, tChances, OM.dust(MT.OREMATS.Stibnite), FL.make(tAir, 6000), MT.SO2.gas(9 * U5, false), OM.dust(MTx.Sb2O3, U));
@@ -526,10 +547,31 @@ public class Metallurgy extends GT6XFeature {
                 RM.Roasting.addRecipe1(true, 16, 512, tChances, OM.dust(MT.OREMATS.Kesterite), FL.make(tAir, 4000), MT.SO2.gas(12 * U8, false), OM.dust(MT.Cu, 2 * U8), OM.dust(MTx.ZnO, U8), OM.dust(MT.OREMATS.Cassiterite, U8));
                 RM.Roasting.addRecipe1(true, 16, 512, tChances, OM.dust(MT.OREMATS.Cinnabar), FL.make(tAir, 4000), MT.SO2.gas(3 * U2, false), OM.dust(MTx.HgO, U));
                 RM.Roasting.addRecipe1(true, 16, 512, tChances, OM.dust(MTx.FeS), FL.make(tAir, 4000), MT.SO2.gas(3 * U2, false), OM.dust(MT.Fe2O3, 5 * U4));
-                RM.Roasting.addRecipe1(true, 16, 512, tChances, OP.dust.mat(MT.OREMATS.Magnetite          , 7), FL.make(tAir, 2000), NF, OM.dust(MT.Fe2O3, 15*U2));
-                RM.Roasting.addRecipe1(true, 16, 512, tChances, OP.dust.mat(MT.OREMATS.GraniticMineralSand, 7), FL.make(tAir, 2000), NF, OM.dust(MT.Fe2O3, 15*U2));
-                RM.Roasting.addRecipe1(true, 16, 512, tChances, OP.dust.mat(MT.OREMATS.BasalticMineralSand, 7), FL.make(tAir, 2000), NF, OM.dust(MT.Fe2O3, 15*U2));
+                RM.Roasting.addRecipe1(true, 16, 512, tChances, OP.dust.mat(MT.OREMATS.Magnetite, 7), FL.make(tAir, 2000), NF, OM.dust(MT.Fe2O3, 15 * U2));
+                RM.Roasting.addRecipe1(true, 16, 512, tChances, OP.dust.mat(MT.OREMATS.GraniticMineralSand, 7), FL.make(tAir, 2000), NF, OM.dust(MT.Fe2O3, 15 * U2));
+                RM.Roasting.addRecipe1(true, 16, 512, tChances, OP.dust.mat(MT.OREMATS.BasalticMineralSand, 7), FL.make(tAir, 2000), NF, OM.dust(MT.Fe2O3, 15 * U2));
             }
+        }
+
+        // Advanced Bayer
+        // 2*Bauxite is interpreted as AlO(OH), so the equation is AlO(OH) + (Na,K)OH -> (Na,K)AlO2 + H2O
+        RM.Autoclave.addRecipe2(true,  0, 1500, OP.dust     .mat(MT.OREMATS.Bauxite, 1), OP.dustSmall.mat(MT.KOH , 6), FL.Steam.make(48000), FL.DistW.make(300+ 750), OP.dust.mat(MT.KAlO2 , 2), crushedCentrifuged.mat(MTx.RedMud, 1));
+        RM.Autoclave.addRecipe2(true,  0, 1500, OP.dustSmall.mat(MT.OREMATS.Bauxite, 4), OP.dustSmall.mat(MT.KOH , 6), FL.Steam.make(48000), FL.DistW.make(300+ 750), OP.dust.mat(MT.KAlO2 , 2), crushedCentrifuged.mat(MTx.RedMud, 1));
+        RM.Autoclave.addRecipe2(true,  0, 1500, OP.dustTiny .mat(MT.OREMATS.Bauxite, 9), OP.dustSmall.mat(MT.KOH , 6), FL.Steam.make(48000), FL.DistW.make(300+ 750), OP.dust.mat(MT.KAlO2 , 2), crushedCentrifuged.mat(MTx.RedMud, 1));
+        RM.Autoclave.addRecipe2(true,  0, 3000, OP.dust     .mat(MT.OREMATS.Bauxite, 2), OP.dust     .mat(MT.KOH , 3), FL.Steam.make(96000), FL.DistW.make(600+1500), OP.dust.mat(MT.KAlO2 , 4), crushedCentrifuged.mat(MTx.RedMud, 1));
+        RM.Autoclave.addRecipe2(true,  0, 3000, OP.dustSmall.mat(MT.OREMATS.Bauxite, 8), OP.dust     .mat(MT.KOH , 3), FL.Steam.make(96000), FL.DistW.make(600+1500), OP.dust.mat(MT.KAlO2 , 4), crushedCentrifuged.mat(MTx.RedMud, 1));
+        RM.Autoclave.addRecipe2(true,  0, 3000, OP.dustTiny .mat(MT.OREMATS.Bauxite,18), OP.dust     .mat(MT.KOH , 3), FL.Steam.make(96000), FL.DistW.make(600+1500), OP.dust.mat(MT.KAlO2 , 4), crushedCentrifuged.mat(MTx.RedMud, 1));
+        RM.Autoclave.addRecipe2(true,  0, 1500, OP.dust     .mat(MT.OREMATS.Bauxite, 1), OP.dustSmall.mat(MT.NaOH, 6), FL.Steam.make(48000), FL.DistW.make(300+ 750), OP.dust.mat(MT.NaAlO2, 2), crushedCentrifuged.mat(MTx.RedMud, 1));
+        RM.Autoclave.addRecipe2(true,  0, 1500, OP.dustSmall.mat(MT.OREMATS.Bauxite, 4), OP.dustSmall.mat(MT.NaOH, 6), FL.Steam.make(48000), FL.DistW.make(300+ 750), OP.dust.mat(MT.NaAlO2, 2), crushedCentrifuged.mat(MTx.RedMud, 1));
+        RM.Autoclave.addRecipe2(true,  0, 1500, OP.dustTiny .mat(MT.OREMATS.Bauxite, 9), OP.dustSmall.mat(MT.NaOH, 6), FL.Steam.make(48000), FL.DistW.make(300+ 750), OP.dust.mat(MT.NaAlO2, 2), crushedCentrifuged.mat(MTx.RedMud, 1));
+        RM.Autoclave.addRecipe2(true,  0, 3000, OP.dust     .mat(MT.OREMATS.Bauxite, 2), OP.dust     .mat(MT.NaOH, 3), FL.Steam.make(96000), FL.DistW.make(600+1500), OP.dust.mat(MT.NaAlO2, 4), crushedCentrifuged.mat(MTx.RedMud, 1));
+        RM.Autoclave.addRecipe2(true,  0, 3000, OP.dustSmall.mat(MT.OREMATS.Bauxite, 8), OP.dust     .mat(MT.NaOH, 3), FL.Steam.make(96000), FL.DistW.make(600+1500), OP.dust.mat(MT.NaAlO2, 4), crushedCentrifuged.mat(MTx.RedMud, 1));
+        RM.Autoclave.addRecipe2(true,  0, 3000, OP.dustTiny .mat(MT.OREMATS.Bauxite,18), OP.dust     .mat(MT.NaOH, 3), FL.Steam.make(96000), FL.DistW.make(600+1500), OP.dust.mat(MT.NaAlO2, 4), crushedCentrifuged.mat(MTx.RedMud, 1));
+
+        for (FluidStack water : FL.waters(1000)) {
+            RM.Bath.addRecipe1(true, 0, 2048, OP.dust.mat(MT.KAlO2, 4), FL.mul(water, 6), NF, OP.dust.mat(MT.AlO3H3, 4), OP.dust.mat(MT.AlO3H3, 3), OP.dust.mat(MT.KOH, 3));
+            RM.Bath.addRecipe1(true, 0, 2048, OP.dust.mat(MT.NaAlO2, 4), FL.mul(water, 9), MTx.BayerLiquor.liquid(6*U, false), OP.dust.mat(MT.AlO3H3, 7));
+        }
 
         RM.Sifting          .addRecipe1(true, 16, 144, new long[]{7500, 5000, 2500, 2500, 2500}, ST.make(BlocksGT.Sands, 1, 0), dust.mat(MT.STONES.Deepslate   , 3), dust.mat(MT.RedSand, 3), nugget.mat(MT.MnO2, 6), nugget.mat(MT.OREMATS.Cassiterite, 12), nugget.mat(MTx.ZnO, 3));
         RM.MagneticSeparator.addRecipe1(true, 16, 144, new long[]{7500, 5000, 2500, 2500, 2500}, ST.make(BlocksGT.Sands, 1, 0), dust.mat(MT.STONES.Deepslate   , 3), dust.mat(MT.RedSand, 6), dustTiny.mat(MT.MnO2, 12), dustTiny.mat(MT.OREMATS.Cassiterite, 6), dustTiny.mat(MTx.ZnO, 6));
