@@ -626,9 +626,26 @@ public class MTx {
     Na2O = dustdcmp(16156, "Sodium Oxide", SET_DULL, 255, 255, 200, 255)
             .setMcfg(0, MT.Na, 2*U, MT.O, U)
             .heat(1405, 2220),
-    NaGaO2 = dustdcmp(16157, "Sodium Gallate", SET_DULL, 50, 0, 150, 255)
-            .setMcfg(0, MT.Na, U, MT.Ga, U, MT.O, 2*U)
-            .heat(MT.NaAlO2)
+    //TODO 16157 free
+    RedMud = oredustdcmp(16158, "Red Mud", SET_ROUGH, 179, 62, 30, 255)
+            .heat(MT.Fe2O3),
+    Sc2O3 = dustdcmp(16159, "Scandium(III) Oxide", SET_POWDER, 255, 255, 255, 255)
+            .setMcfg(0, MT.Sc, 2*U, MT.O, 3*U)
+            .heat(2758),
+    ScF3 = dustdcmp(16160, "Scandium Fluoride", SET_POWDER, 200, 255, 200, 255)
+            .setMcfg(0, MT.Sc, U, MT.F, 3*U)
+            .heat(1825, 1880),
+    NaGaOH4 = dustdcmp(16161, "Sodium Gallate", SET_DULL, 50, 0, 150, 255)
+            .setMcfg(0, MT.Na, U, MT.Ga, U, MT.O, 4*U, MT.H, 4*U)
+            .heat(MT.NaAlO2),
+    Na3VO4 = create(16162, "Sodium Orthovanadate", 255, 255, 255, 0)
+            .setMcfg(0, MT.Na, 3*U, MT.V, U, MT.O, 4*U),
+    BayerLiquor = registerLiquid(lquddcmp(16163, "Bayer Liquor", 200, 50, 0, 255)
+            .setMcfg(0, NaGaOH4, 10*U, Na3VO4, 8*U, MT.H2O, 6*U) // used in place of 4x NaOH.H2O, but Ga and V are added for free and some H's and O's are removed/added
+            .heat(MT.H2O)),
+    GaAmalgam = registerLiquid(lquddcmp(16164, "Gallium Amalgam", 200, 0, 180, 255)
+            .setMcfg(0, MT.Hg, 9*U, MT.Ga, U)
+            .heat(MT.Hg))
     ;
 
     static {
