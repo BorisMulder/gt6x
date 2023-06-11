@@ -12,6 +12,7 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import org.altadoon.gt6x.common.Config;
@@ -210,6 +211,18 @@ public class OilProcessing extends GT6XFeature {
         RM.Mixer.addRecipe0(true, 32, 64*3, FL.array(MTx.Toluene.liquid(15*U, true), MT.HNO3.liquid(15*U, true), MT.H2SO4.liquid(21*U, true)), FL.array(MT.H2O.liquid(9*U, false), MT.H2SO4.liquid(21*U, true)), dust.mat(MTx.TNT, 21));
         RM.Boxinator.addRecipe2(true, 16, 20, ST.make(Items.paper, 1, 0), dust.mat(MTx.TNT, 1), ST.make(Blocks.tnt, 1, 0));
 
+        // ANFO
+        RM.Mixer.addRecipe1(true, 16, 64 , dust.mat(MTx.NH4NO3, 3), FL.Fuel.make(180), NF, dust.mat(MTx.ANFO, 3));
+
+        RM.Press.addRecipeX(true, 16, 16 , ST.array(ST.tag(1), dust     .mat(MTx.ANFO , 1), ST.make(Items.string                                    , 1, W)), IL.Dynamite       .get(1));
+        RM.Press.addRecipeX(true, 16, 16 , ST.array(ST.tag(1), dust     .mat(MTx.ANFO , 1), ST.make((Item)plantGtFiber.mRegisteredPrefixItems.get(0), 1, W)), IL.Dynamite       .get(1));
+        RM.Press.addRecipeX(true, 16, 144, ST.array(ST.tag(1), blockDust.mat(MTx.ANFO , 1), ST.make(Items.string                                    , 9, W)), IL.Dynamite       .get(9));
+        RM.Press.addRecipeX(true, 16, 144, ST.array(ST.tag(1), blockDust.mat(MTx.ANFO , 1), ST.make((Item)plantGtFiber.mRegisteredPrefixItems.get(0), 9, W)), IL.Dynamite       .get(9));
+        RM.Press.addRecipeX(true, 16, 64 , ST.array(ST.tag(2), dust     .mat(MTx.ANFO , 2), ST.make(Items.string                                    , 1, W)), IL.Dynamite_Strong.get(1));
+        RM.Press.addRecipeX(true, 16, 64 , ST.array(ST.tag(2), dust     .mat(MTx.ANFO , 2), ST.make((Item)plantGtFiber.mRegisteredPrefixItems.get(0), 1, W)), IL.Dynamite_Strong.get(1));
+        RM.Press.addRecipeX(true, 16, 576, ST.array(ST.tag(2), blockDust.mat(MTx.ANFO , 2), ST.make(Items.string                                    , 9, W)), IL.Dynamite_Strong.get(9));
+        RM.Press.addRecipeX(true, 16, 576, ST.array(ST.tag(2), blockDust.mat(MTx.ANFO , 2), ST.make((Item)plantGtFiber.mRegisteredPrefixItems.get(0), 9, W)), IL.Dynamite_Strong.get(9));
+
         // Hydrodealkylation of toluene in case you don't need TNT
         RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.Cr, 0), FL.array(MTx.Toluene.liquid(15*U, true), MT.H.gas(2*U, true)), FL.array(MTx.Benzene.liquid(12*U, false), MT.CH4.gas(5*U, false)));
         RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.Mo, 0), FL.array(MTx.Toluene.liquid(15*U, true), MT.H.gas(2*U, true)), FL.array(MTx.Benzene.liquid(12*U, false), MT.CH4.gas(5*U, false)));
@@ -249,13 +262,13 @@ public class OilProcessing extends GT6XFeature {
         for (OreDictPrefix tPrefix : OreDictPrefix.VALUES) if (tPrefix != null && tPrefix.containsAny(TD.Prefix.EXTRUDER_FODDER, TD.Prefix.INGOT_BASED, TD.Prefix.GEM_BASED, TD.Prefix.DUST_BASED) && U % tPrefix.mAmount == 0) {
             ItemStack pvcStack = tPrefix.mat(MTx.PVC, U / tPrefix.mAmount);
             if (pvcStack != null && pvcStack.stackSize * 6 <= pvcStack.getMaxStackSize()) {
-                RM.Extruder.addRecipe2(T, F, F, F, T, EUt, durationPerUnit, ST.mul_( 6, pvcStack), IL.Shape_Extruder_Cell.get(0), ST.amount(1, pvcCan));
-                RM.Extruder.addRecipe2(T, F, F, F, T, EUt, durationPerUnit, ST.mul_( 6, pvcStack), IL.Shape_SimpleEx_Cell.get(0), ST.amount(1, pvcCan));
+                RM.Extruder.addRecipe2(true, false, false, false, true, EUt, durationPerUnit, ST.mul_( 6, pvcStack), IL.Shape_Extruder_Cell.get(0), ST.amount(1, pvcCan));
+                RM.Extruder.addRecipe2(true, false, false, false, true, EUt, durationPerUnit, ST.mul_( 6, pvcStack), IL.Shape_SimpleEx_Cell.get(0), ST.amount(1, pvcCan));
             }
             ItemStack ptfeStack = tPrefix.mat(MTx.PTFE, U / tPrefix.mAmount);
             if (ptfeStack != null && ptfeStack.stackSize * 6 <= ptfeStack.getMaxStackSize()) {
-                RM.Extruder.addRecipe2(T, F, F, F, T, EUt, durationPerUnit, ST.mul_( 6, ptfeStack), IL.Shape_Extruder_Cell.get(0), ST.amount(1, ptfeCan));
-                RM.Extruder.addRecipe2(T, F, F, F, T, EUt, durationPerUnit, ST.mul_( 6, ptfeStack), IL.Shape_SimpleEx_Cell.get(0), ST.amount(1, ptfeCan));
+                RM.Extruder.addRecipe2(true, false, false, false, true, EUt, durationPerUnit, ST.mul_( 6, ptfeStack), IL.Shape_Extruder_Cell.get(0), ST.amount(1, ptfeCan));
+                RM.Extruder.addRecipe2(true, false, false, false, true, EUt, durationPerUnit, ST.mul_( 6, ptfeStack), IL.Shape_SimpleEx_Cell.get(0), ST.amount(1, ptfeCan));
             }
         }
 

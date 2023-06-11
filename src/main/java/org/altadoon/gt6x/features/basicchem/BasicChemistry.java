@@ -78,6 +78,7 @@ public class BasicChemistry extends GT6XFeature {
         // Ammonium salts
         RM.Mixer.addRecipe0(true, 16, 20, FL.array(MT.HCl.gas(U, false), MT.NH3.gas(U, false)), ZL_FS, dust.mat(MTx.NH4Cl, 2));
         RM.Mixer.addRecipe0(true, 16, 128, FL.array(MT.H2SO4.liquid(7*U, true), MT.NH3.gas(2*U, true)), ZL_FS, dust.mat(MTx.NH4SO4, 9));
+        RM.Mixer.addRecipe0(true, 16, 128, FL.array(MT.HNO3.liquid(5*U, true), MT.NH3.gas(U, true)), ZL_FS, dust.mat(MTx.NH4NO3, 6));
 
         // O3 recipe
         RM.Lightning.addRecipe1(true, 64, 100, ST.tag(3), MT.O.gas(3*U, true), MTx.Ozone.gas(2*U, false), NI);
@@ -151,6 +152,7 @@ public class BasicChemistry extends GT6XFeature {
         RMx.Thermolysis.addRecipe1(true, 16, 128, dust.mat(MT.OREMATS.YellowLimonite, 8), NF, MT.H2O.liquid(3*U, false), dust.mat(MT.Fe2O3, 5));
         RMx.Thermolysis.addRecipe1(true, 512, 128, dust.mat(MT.SiC, 2), NF, MT.Si.liquid(U, false), dust.mat(MT.Graphite, 1));
         RMx.Thermolysis.addRecipe1(true, 16, 512, dust.mat(MT.Dolomite, 10), NF, MT.CO2.gas(6*U, false), dust.mat(MTx.CalcinedDolomite, 4));
+        RMx.Thermolysis.addRecipe1(true, 16, 128, dust.mat(MTx.NH4NO3, 6), NF, FL.array(FL.Water.make(6000), MT.N.gas(2*U, false), MT.O.gas(U, false)));
 
         // Methanol and Formaldehyde
         RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.Cu, 0), dust.mat(MTx.ZnO, 0), FL.array(MT.CO.gas(2*U, true), MT.H.gas(4*U, true)), FL.array(MTx.Methanol.liquid(6*U, false)));
