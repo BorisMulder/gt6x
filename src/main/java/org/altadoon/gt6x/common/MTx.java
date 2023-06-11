@@ -645,7 +645,16 @@ public class MTx {
             .heat(MT.H2O)),
     GaAmalgam = registerLiquid(lquddcmp(16164, "Gallium Amalgam", 200, 0, 180, 255)
             .setMcfg(0, MT.Hg, 9*U, MT.Ga, U)
-            .heat(MT.Hg))
+            .heat(MT.Hg)),
+    NH4NO3 = dustdcmp(16165, "Ammonium Nitrate", SET_SHARDS, 255, 255, 255, 255)
+            .setMcfg(0, MT.NH3, U, MT.H, U, MT.N, U, MT.O, 3*U)
+            .tooltip("NH" + NUM_SUB[4] + "NO" + NUM_SUB[3])
+            .heat(443, 483)
+            .put(FLAMMABLE, EXPLOSIVE),
+    ANFO = dustdcmp(16166, "ANFO", SET_ROUGH, 255, 200, 200, 255)
+            .setMcfg(0, NH4NO3, 18*U, MT.Fuel, U)
+            .heat(NH4NO3)
+            .put(FLAMMABLE, EXPLOSIVE)
     ;
 
     static {
