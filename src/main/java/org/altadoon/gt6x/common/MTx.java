@@ -92,7 +92,15 @@ public class MTx {
     public static OreDictMaterial machine(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, Object... aRandomData) { return create(aID, aNameOreDict, aR, aG, aB , 255, aRandomData).setTextures(aSets).put(DECOMPOSABLE, G_INGOT_MACHINE, SMITHABLE, MELTING, EXTRUDER); }
     public static OreDictMaterial alloymachine(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, Object... aRandomData) { return machine(aID, aNameOreDict, aSets, aR, aG, aB , aRandomData).put(ALLOY); }
     public static OreDictMaterial plastic(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, long aA, Object... aRandomData) { return create(aID, aNameOreDict, aR, aG, aB , aA, aRandomData).setTextures(aSets).put(G_INGOT_MACHINE, MELTING, EXTRUDER, EXTRUDER_SIMPLE, MORTAR, FURNACE, POLYMER); }
-
+    public static OreDictMaterial dopedSemiconductor(int aID, String aNameOreDict, OreDictMaterial mainMaterial, Object... aRandomData) {
+        OreDictMaterial mat = dustdcmp(aID, aNameOreDict, SET_COPPER, 0, 0, 0, 0, aRandomData)
+            .setMcfg(0, mainMaterial, U)
+            .setPulver(mainMaterial, U).setSmelting(mainMaterial, U)
+            .steal(mainMaterial)
+            .stealLooks(mainMaterial);
+        OP.bouleGt.forceItemGeneration(mat);
+        return mat;
+    }
 
     public static OreDictMaterial registerLiquid(OreDictMaterial mat) {
         FL.createLiquid(mat);
@@ -654,7 +662,12 @@ public class MTx {
     ANFO = dustdcmp(16166, "ANFO", SET_ROUGH, 255, 200, 200, 255)
             .setMcfg(0, NH4NO3, 18*U, MT.Fuel, U)
             .heat(NH4NO3)
-            .put(FLAMMABLE, EXPLOSIVE)
+            .put(FLAMMABLE, EXPLOSIVE),
+    PDopedSi = dopedSemiconductor(16167, "P-Doped Silicon", MT.Si),
+    NDopedSi = dopedSemiconductor(16168, "N-Doped Silicon", MT.Si),
+    PDopedSiGe = dopedSemiconductor(16169, "P-Doped Silicon-Germanium", SiGe),
+    NDopedSiGe = dopedSemiconductor(16170, "N-Doped Silicon-Germanium", SiGe),
+    NDopedGaAs = dopedSemiconductor(16171, "N-Doped Gallium Arsenide", GaAs)
     ;
 
     static {
