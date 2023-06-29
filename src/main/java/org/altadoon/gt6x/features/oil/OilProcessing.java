@@ -169,6 +169,12 @@ public class OilProcessing extends GT6XFeature {
         RM.DistillationTower.addRecipe0(false, 64, 64, FL.array(MTx.SCNaphtha.liquid(U10, true)), FL.array(FL.Methane.make(25), FL.Ethylene.make(50), MTx.Ethane.liquid(20*U1000, false), FL.Propylene.make(40), MTx.Benzene.liquid(15*U1000, false), MTx.Toluene.liquid(10*U1000, false), MTx.Isoprene.liquid(10*U1000, false)));
         RM.DistillationTower.addRecipe0(false, 64, 64, FL.array(MTx.FccOffgas.gas(U10, true)), FL.array(FL.Methane.make(20), FL.Ethylene.make(12), MTx.Ethane.liquid(10*U1000, false), FL.Propylene.make(8), FL.Propane.make(30), FL.Butane.make(20)));
 
+        // distillation of creosote and some derivatives
+        RM.DistillationTower.addRecipe0(false, 64, 32, new long[] {500}, FL.array(FL.Oil_Creosote.make(100)), FL.array(MTx.Benzene.liquid(3*U1000, false), MTx.Toluene.liquid(2*U1000, false), MTx.Phenol.liquid(18*U1000, false), MTx.Naphthalene.liquid(9*U1000, false), MTx.Anthracene.liquid(18*U1000, false)), dustTiny.mat(MT.Asphalt, 9));
+        RM.Bath.addRecipe1(true, 16, 256, dust.mat(MTx.CrO3, 8*U), MTx.Anthracene.liquid(24*U, true), FL.Water.make(3000), dust.mat(MTx.Anthraquinone, 24), dustSmall.mat(MTx.Cr2O3, 20));
+        RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MTx.Anthraquinone, 0), FL.array(MT.H.gas(2*U, true), MT.O.gas(2*U, true)), FL.array(MT.H2O2.liquid(4*U, false)));
+        //TODO https://en.wikipedia.org/wiki/Anthraquinone_dyes
+
         // Desulfurisation
         RM.Mixer.addRecipe1(true, 16, 20, dust.mat(MT.OREMATS.Molybdenite, 0), FL.array(MT.H.gas(U1000*2, true), MTx.Naphtha.liquid(U10, true)), FL.array(MT.H2S.gas(U1000*3, false), MTx.NaphthaLowSulfur.liquid(U1000*99, false)));
         RM.Mixer.addRecipe1(true, 16, 20, dust.mat(MT.OREMATS.Molybdenite, 0), FL.array(MT.H.gas(U1000*2, true), MT.Kerosine.liquid(U10, true)), FL.array(MT.H2S.gas(U1000*3, false), MTx.KerosineLowSulfur.liquid(U1000*99, false)));
@@ -179,24 +185,25 @@ public class OilProcessing extends GT6XFeature {
         RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.FeCl3, 0), FL.array(MT.Ethylene.gas(6*U, true), MT.Cl.gas(2*U, true)), FL.array(MTx.EthyleneDichloride.liquid(8*U, false)));
         //TODO use thermolyzer
         RM.Distillery.addRecipe1(true, 16, 128, ST.tag(0), MTx.EthyleneDichloride.liquid(8*U, true), FL.array(MTx.VinylChloride.gas(6*U, false), MT.HCl.gas(2*U, false)));
-        RM.Mixer.addRecipe1(true, 16,  16, dust.mat(MT.OREMATS.Galena, 0), FL.array(MTx.VinylChloride.gas(U10, false)), ZL_FS, dust.mat(MTx.PVC, 1));
+        RM.Mixer.addRecipe1(true, 16,  16, dust.mat(MT.OREMATS.Galena, 0), FL.array(MTx.VinylChloride.gas(U10, false)), ZL_FS, dust.mat(MT.PVC, 1));
 
         // PTFE
         RM.Mixer.addRecipe0(true, 16, 64, FL.array(MT.CH4.gas(5*U, true), MT.Cl.gas(6*U, true)), FL.array(MTx.CHCl3.liquid(5*U, false), MT.HCl.gas(6*U, false)));
         RM.Mixer.addRecipe0(true, 16, 64, FL.array(MTx.CHCl3.liquid(5*U, true), MT.HF.gas(4*U, true)), FL.array(MTx.CHClF2.gas(5*U, false), MT.HCl.gas(4*U, false)));
         //TODO use thermolyzer
         RM.Distillery.addRecipe1(true, 16, 128, ST.tag(0), MTx.CHClF2.gas(10*U, true), FL.array(MTx.C2F4.gas(6*U, false), MT.HCl.gas(4*U, false)));
-        RM.Mixer.addRecipe1(true, 16,  16, dust.mat(MT.KSO4, 0), FL.array(MTx.C2F4.gas(U10, false)), ZL_FS, dust.mat(MTx.PTFE, 1));
-        RM.Mixer.addRecipe1(true, 16,  16, dust.mat(MT.NaSO4, 0), FL.array(MTx.C2F4.gas(U10, false)), ZL_FS, dust.mat(MTx.PTFE, 1));
+        RM.Mixer.addRecipe1(true, 16,  16, dust.mat(MT.KSO4, 0), FL.array(MTx.C2F4.gas(U10, false)), ZL_FS, dust.mat(MT.PTFE, 1));
+        RM.Mixer.addRecipe1(true, 16,  16, dust.mat(MT.NaSO4, 0), FL.array(MTx.C2F4.gas(U10, false)), ZL_FS, dust.mat(MT.PTFE, 1));
 
         // Rubber
         RM.Mixer.addRecipe1(true, 16,  16, dust.mat(MT.MgCl2, 0), FL.array(MT.TiCl4.liquid(U1000, true), MTx.Isoprene.liquid(U10, false)), ZL_FS, dust.mat(MT.Rubber, 1));
 
-        // BPA, PF
+        // BPA, PF, Bakelite
         RM.Mixer.addRecipe0(true, 16,  64*3, FL.array(MT.Propylene.gas(9*U, true), MTx.Benzene.liquid(12*U, true), MTx.PhosphoricAcid.liquid(3*U1000, true)), FL.array(MTx.Cumene.liquid(21*U, false)));
         RM.Mixer.addRecipe0(true, 16,  64*3, FL.array(MTx.Cumene.fluid(21*U, true), MT.O.gas(2*U, true)), FL.array(MTx.Acetone.liquid(10*U, false)), dust.mat(MTx.Phenol, 13));
         RM.Mixer.addRecipe1(true, 16,  512, dust.mat(MTx.Phenol, 26), FL.array(MTx.Acetone.fluid(10*U, true), MT.H2SO4.liquid(U1000, true)), MT.H2O.liquid(3*U, false), dust.mat(MTx.BPA, 33));
         RM.Mixer.addRecipe2(true, 16,  512, dust.mat(MT.NaOH, 0), dust.mat(MTx.Phenol, 26), MTx.Formaldehyde.gas(8*U, true), MT.H2O.liquid(3*U, false), dust.mat(MTx.PF, 31));
+        RM.Autoclave.addRecipe1(true, 16, 500, dust.mat(MTx.PF, 1), FL.Steam.make(16000), FL.DistW.make(100), chunkGt.mat(MT.Bakelite, 4));
 
         // ECH
         RM.Mixer.addRecipe0(true, 16,  64, FL.array(MT.Propylene.gas(9*U, true), MT.Cl.gas(2*U, true)), FL.array(MTx.AllylChloride.liquid(9*U, false), MT.HCl.gas(2*U, false)));
@@ -260,12 +267,12 @@ public class OilProcessing extends GT6XFeature {
         // extruder recipes for cans
         final long EUt = 16, durationPerUnit = 64*6;
         for (OreDictPrefix tPrefix : OreDictPrefix.VALUES) if (tPrefix != null && tPrefix.containsAny(TD.Prefix.EXTRUDER_FODDER, TD.Prefix.INGOT_BASED, TD.Prefix.GEM_BASED, TD.Prefix.DUST_BASED) && U % tPrefix.mAmount == 0) {
-            ItemStack pvcStack = tPrefix.mat(MTx.PVC, U / tPrefix.mAmount);
+            ItemStack pvcStack = tPrefix.mat(MT.PVC, U / tPrefix.mAmount);
             if (pvcStack != null && pvcStack.stackSize * 6 <= pvcStack.getMaxStackSize()) {
                 RM.Extruder.addRecipe2(true, false, false, false, true, EUt, durationPerUnit, ST.mul_( 6, pvcStack), IL.Shape_Extruder_Cell.get(0), ST.amount(1, pvcCan));
                 RM.Extruder.addRecipe2(true, false, false, false, true, EUt, durationPerUnit, ST.mul_( 6, pvcStack), IL.Shape_SimpleEx_Cell.get(0), ST.amount(1, pvcCan));
             }
-            ItemStack ptfeStack = tPrefix.mat(MTx.PTFE, U / tPrefix.mAmount);
+            ItemStack ptfeStack = tPrefix.mat(MT.PTFE, U / tPrefix.mAmount);
             if (ptfeStack != null && ptfeStack.stackSize * 6 <= ptfeStack.getMaxStackSize()) {
                 RM.Extruder.addRecipe2(true, false, false, false, true, EUt, durationPerUnit, ST.mul_( 6, ptfeStack), IL.Shape_Extruder_Cell.get(0), ST.amount(1, ptfeCan));
                 RM.Extruder.addRecipe2(true, false, false, false, true, EUt, durationPerUnit, ST.mul_( 6, ptfeStack), IL.Shape_SimpleEx_Cell.get(0), ST.amount(1, ptfeCan));
@@ -276,16 +283,16 @@ public class OilProcessing extends GT6XFeature {
 
     private void addMTEs() {
         // pipes
-        MultiTileEntityPipeFluid.addFluidPipes(MTEx.IDs.PVCTubes.get(), 0, 200, true, true, false, true, false, false, true, MTEx.gt6xMTEReg, MTEx.PlasticBlock, gregapi.tileentity.connectors.MultiTileEntityPipeFluid.class, MTx.PVC.mMeltingPoint, MTx.PVC);
-        MultiTileEntityPipeFluid.addFluidPipes(MTEx.IDs.PTFETubes.get(), 0, 1000, true, true, false, true, false, false, true, MTEx.gt6xMTEReg, MTEx.PlasticBlock, gregapi.tileentity.connectors.MultiTileEntityPipeFluid.class, MTx.PTFE.mMeltingPoint, MTx.PTFE);
+        MultiTileEntityPipeFluid.addFluidPipes(MTEx.IDs.PVCTubes.get(), 0, 200, true, true, false, true, false, false, true, MTEx.gt6xMTEReg, MTEx.PlasticBlock, gregapi.tileentity.connectors.MultiTileEntityPipeFluid.class, MT.PVC.mMeltingPoint, MT.PVC);
+        MultiTileEntityPipeFluid.addFluidPipes(MTEx.IDs.PTFETubes.get(), 0, 1000, true, true, false, true, false, false, true, MTEx.gt6xMTEReg, MTEx.PlasticBlock, gregapi.tileentity.connectors.MultiTileEntityPipeFluid.class, MT.PTFE.mMeltingPoint, MT.PTFE);
 
         // PVC can
-        pvcCan = MTEx.gt6xMTEReg.add("PVC Canister", "Fluid Containers", MTEx.IDs.PVCCan.get(), 32719, MultiTileEntityBarrelPlasticAdvanced.class, 0, 16, MTEx.PlasticBlock, gregapi.util.UT.NBT.make(NBT_MATERIAL, MTx.PVC, gregapi.data.CS.NBT_HARDNESS, 1.0F, gregapi.data.CS.NBT_RESISTANCE, 3.0F, NBT_TANK_CAPACITY, 64000L, NBT_PLASMAPROOF, false, NBT_GASPROOF, true, NBT_ACIDPROOF, true));
-        OM.data(pvcCan, new OreDictItemData(MTx.PVC, U*6));
+        pvcCan = MTEx.gt6xMTEReg.add("PVC Canister", "Fluid Containers", MTEx.IDs.PVCCan.get(), 32719, MultiTileEntityBarrelPlasticAdvanced.class, 0, 16, MTEx.PlasticBlock, gregapi.util.UT.NBT.make(NBT_MATERIAL, MT.PVC, gregapi.data.CS.NBT_HARDNESS, 1.0F, gregapi.data.CS.NBT_RESISTANCE, 3.0F, NBT_TANK_CAPACITY, 64000L, NBT_PLASMAPROOF, false, NBT_GASPROOF, true, NBT_ACIDPROOF, true));
+        OM.data(pvcCan, new OreDictItemData(MT.PVC, U*6));
 
         // PTFE can
-        ptfeCan = MTEx.gt6xMTEReg.add("PTFE Canister", "Fluid Containers", MTEx.IDs.PTFECan.get(), 32719, MultiTileEntityBarrelPlasticAdvanced.class, 0, 16, MTEx.PlasticBlock, gregapi.util.UT.NBT.make(NBT_MATERIAL, MTx.PTFE, gregapi.data.CS.NBT_HARDNESS, 1.0F, gregapi.data.CS.NBT_RESISTANCE, 3.0F, NBT_TANK_CAPACITY, 256000L, NBT_PLASMAPROOF, false, NBT_GASPROOF, true, NBT_ACIDPROOF, true));
-        OM.data(ptfeCan, new OreDictItemData(MTx.PTFE, U*6));
+        ptfeCan = MTEx.gt6xMTEReg.add("PTFE Canister", "Fluid Containers", MTEx.IDs.PTFECan.get(), 32719, MultiTileEntityBarrelPlasticAdvanced.class, 0, 16, MTEx.PlasticBlock, gregapi.util.UT.NBT.make(NBT_MATERIAL, MT.PTFE, gregapi.data.CS.NBT_HARDNESS, 1.0F, gregapi.data.CS.NBT_RESISTANCE, 3.0F, NBT_TANK_CAPACITY, 256000L, NBT_PLASMAPROOF, false, NBT_GASPROOF, true, NBT_ACIDPROOF, true));
+        OM.data(ptfeCan, new OreDictItemData(MT.PTFE, U*6));
 
         // Hydro cracker
         Class<? extends TileEntity> aClass = MultiTileEntityBasicMachine.class;
