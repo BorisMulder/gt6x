@@ -87,7 +87,7 @@ public class MultiItemsElectronics extends MultiItemRandom {
         ILx.PlatinumBushing.set(addItem(201, "Platinum Bushing", "Basically a very expensive cheese grater"), new OreDictItemData(MT.Pt, U));
         BooksGT.BOOK_REGISTER.put(new ItemStackContainer(ILx.PlatinumBushing.get(1)), (byte)45);
 
-        ILx.EtchMask_Trace.set(addItem(202, "Etching Mask (Circuit Trace)", "Protects your PCB from etch"), new OreDictItemData(MTx.PVC, U));
+        ILx.EtchMask_Trace.set(addItem(202, "Etching Mask (Circuit Trace)", "Protects your PCB from etch"), new OreDictItemData(MT.PVC, U));
         BooksGT.BOOK_REGISTER.put(new ItemStackContainer(ILx.EtchMask_Trace.get(1)), (byte)45);
     }
 }

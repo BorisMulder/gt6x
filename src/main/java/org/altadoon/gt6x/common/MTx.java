@@ -56,6 +56,10 @@ public class MTx {
 
         MT.Plastic.put(POLYMER);
         MT.Rubber.put(POLYMER);
+        MT.Teflon.put(POLYMER, PIPES).uumMcfg(0, MT.C, U, MT.F, 2*U)
+                .heat(C+327).setRGBa(200, 255, 255, 255);
+        MT.PVC.put(POLYMER, PIPES).uumMcfg(0, MT.C, 2*U, MT.H, 3*U, MT.Cl, U)
+                .heat(C+100).setRGBa(125, 125, 125, 255);
 
         MT.OREMATS.Wolframite.setLocal("Magnesium Tungstate").addSourceOf(MT.Mg);
         MT.OREMATS.Tungstate.setLocal("Lithium Tungstate");
@@ -221,7 +225,7 @@ public class MTx {
     Cumene = registerLiquid(lqudflam( 16034, "Cumene", 200, 150, 100, 255)
             .uumMcfg(0, MT.C, U*9, MT.H, U*12)
             .heat(177, 425)),
-    Phenol = dustdcmp( 16035, "Phenol", SET_CUBE_SHINY, 200, 150, 100, 255)
+    Phenol = dustdcmp( 16035, "Phenol", SET_CUBE_SHINY, 200, 150, 100, 255, INGOTS)
             .uumMcfg(0, MT.C, U*6, MT.H, U*6, MT.O, U)
             .heat(314, 455),
     Acetone = registerLiquid(lqudflam( 16036, "Acetone", 200, 150, 100, 255)
@@ -247,11 +251,12 @@ public class MTx {
             .uumMcfg(0, MT.C, 2*U, MT.H, U*3, MT.Cl, U)
             .heat(119, 260)
             .put(FLAMMABLE)),
-    PVC = plastic( 16043, "PVC", SET_DULL, 125, 125, 125, 255)
+    //TODO 16043 free
+    /*PVC = plastic( 16043, "PVC", SET_DULL, 125, 125, 125, 255)
             .setLocal("Polyvinyl Chloride")
             .uumMcfg(0, MT.C, 2*U, MT.H, U*3, MT.Cl, U)
             .heat(C+100)
-            .put(PIPES),
+            .put(PIPES),*/
     CHCl3 = registerLiquid(lquddcmp( 16044, "Chloroform", 150, 255, 200, 255)
             .uumMcfg(0, MT.C, U, MT.H, U, MT.Cl, U*3)
             .heat(210, 334)),
@@ -261,11 +266,12 @@ public class MTx {
     C2F4 = registerGas(gasdcmp( 16046, "Tetrafluoroethylene", 150, 255, 255, 255)
             .uumMcfg(0, MT.C, U*2, MT.F, U*4)
             .heat(131, 197)),
-    PTFE = plastic( 16047, "PTFE", SET_DULL, 200, 255, 255, 255)
+    //TODO 16047 free
+    /*PTFE = plastic( 16047, "PTFE", SET_DULL, 200, 255, 255, 255)
             .setLocal("Polytetrafluoroethylene")
             .uumMcfg(0, MT.C, U*2, MT.F, U*4)
             .heat(C+327)
-            .put(PIPES),
+            .put(PIPES),*/
     Synoil = registerLiquid(lqudflam( 16048, "Synthetic Oil", 210, 210, 0, 255)
             .heat(100, 400)),
     SCNaphtha = registerLiquid(lqudflam( 16049, "Steam-Cracked Naphtha", 255, 255, 100, 255)
@@ -634,7 +640,9 @@ public class MTx {
     Na2O = dustdcmp(16156, "Sodium Oxide", SET_DULL, 255, 255, 200, 255)
             .setMcfg(0, MT.Na, 2*U, MT.O, U)
             .heat(1405, 2220),
-    //TODO 16157 free
+    CrO3 = dustdcmp(16157, "Chromium(VI) Oxide", SET_ROUGH, 105, 31, 42, 255)
+            .setMcfg(0, MT.Cr, U, MT.O, 3*U)
+            .heat(470, 523),
     RedMud = oredustdcmp(16158, "Red Mud", SET_ROUGH, 179, 62, 30, 255)
             .heat(MT.Fe2O3),
     Sc2O3 = dustdcmp(16159, "Scandium(III) Oxide", SET_POWDER, 255, 255, 255, 255)
@@ -667,7 +675,17 @@ public class MTx {
     NDopedSi = dopedSemiconductor(16168, "N-Doped Silicon", MT.Si),
     PDopedSiGe = dopedSemiconductor(16169, "P-Doped Silicon-Germanium", SiGe),
     NDopedSiGe = dopedSemiconductor(16170, "N-Doped Silicon-Germanium", SiGe),
-    NDopedGaAs = dopedSemiconductor(16171, "N-Doped Gallium Arsenide", GaAs)
+    NDopedGaAs = dopedSemiconductor(16171, "N-Doped Gallium Arsenide", GaAs),
+    Naphthalene = dustdcmp(16172, "Naphthalene", SET_DULL, 255, 255, 255, 255, INGOTS)
+            .setMcfg(0, MT.C, 10*U, MT.H, 8*U)
+            .heat(351, 424)
+            .put(FLAMMABLE),
+    Anthracene = dustdcmp(16173, "Anthracene", SET_SHINY, 225, 255, 150, 255, INGOTS)
+            .setMcfg(0, MT.C, 14*U, MT.H, 10*U)
+            .heat(489, 614),
+    Anthraquinone = dustdcmp(16174, "Anthraquinone", SET_SHINY, 225, 255, 0, 255)
+            .setMcfg(0, MT.C, 14*U, MT.H, 8*U, MT.O, 2*U)
+            .heat(558, 650)
     ;
 
     static {
@@ -684,6 +702,9 @@ public class MTx {
         addMolten(FerrousSlag, 144);
         addMolten(FeCr2, 144);
         addMolten(ConverterSlag, 144);
+        addMolten(Phenol, 144);
+        addMolten(Naphthalene, 144);
+        addMolten(Anthracene, 144);
         addMolten(Epoxy, 144);
         addMolten(LiF, 1000);
         addMolten(SiGe, 144);
