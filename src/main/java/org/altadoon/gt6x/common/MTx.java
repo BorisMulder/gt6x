@@ -60,10 +60,13 @@ public class MTx {
                 .heat(C+327).setRGBa(200, 255, 255, 255);
         MT.PVC.put(POLYMER, PIPES).uumMcfg(0, MT.C, 2*U, MT.H, 3*U, MT.Cl, U)
                 .heat(C+100).setRGBa(125, 125, 125, 255);
+        MT.Indigo.uumMcfg(0, MT.C, 16*U, MT.H, 10*U, MT.N, 2*U, MT.O, 2*U)
+                .heat(391).setRGBa(75, 0, 130, 255);
 
         MT.OREMATS.Wolframite.setLocal("Magnesium Tungstate").addSourceOf(MT.Mg);
         MT.OREMATS.Tungstate.setLocal("Lithium Tungstate");
         MT.OREMATS.Huebnerite.setLocal("Hübnerite");
+        MT.Glyceryl.setLocal("Nitroglycerin");
 
         addMolten(MT.K2S2O7, 1000);
         addMolten(MT.Na2S2O7, 1000);
@@ -387,7 +390,7 @@ public class MTx {
             .heat(774,1220),
     Wolframite = oredustdcmp(16080, "TrueWolframite", SET_METALLIC, 100, 100, 120, 255)
             .uumMcfg(0, MT.OREMATS.Ferberite, U, MT.OREMATS.Huebnerite, U)
-            .tooltip("(Fe, Mn)WO"+ NUM_SUB[3] + "O")
+            .tooltip("(Fe, Mn)WO"+ NUM_SUB[4])
             .setLocal("Wolframite")
             .addSourceOf(MT.Fe, MT.W, MT.Mn)
             .qual(3),
@@ -685,7 +688,82 @@ public class MTx {
             .heat(489, 614),
     Anthraquinone = dustdcmp(16174, "Anthraquinone", SET_SHINY, 225, 255, 0, 255)
             .setMcfg(0, MT.C, 14*U, MT.H, 8*U, MT.O, 2*U)
-            .heat(558, 650)
+            .heat(558, 650),
+    AnthraquinoneDisulfonicAcid = dustdcmp(16175, "Anthraquinone Disulfonic Acid", SET_DULL, 255, 200, 0, 255)
+            .setMcfg(0, MT.C, 14*U, MT.H, 8*U, MT.S, 2*U, MT.O, 8*U)
+            .heat(211+C, 498+C),
+    Diaminoanthraquinone = dustdcmp(16176, "Diaminoanthraquinone", SET_DULL, 150, 0, 0, 255)
+            .setMcfg(0, MT.C, 14*U, MT.H, 10*U, MT.N, 2*U, MT.O, 2*U)
+            .heat(Anthraquinone),
+    Chlorotoluene = dustdcmp(16177, "Monochlorotoluene", SET_DULL, 255, 255, 255, 255)
+            .setMcfg(0, MT.C, 6*U, MT.H, 8*U, MT.Cl, U)
+            .heat(280, 435),
+    Nitrobenzene = registerLiquid(lquddcmp(16178, "Nitrobenzene", 225, 225, 0, 200)
+            .setMcfg(0, MT.C, 6*U, MT.H, 5*U, MT.N, U, MT.O, 2*U)
+            .heat(279, 484)),
+    Aniline = registerLiquid(lqudaciddcmp(16179, "Aniline", 255, 255, 255, 200)
+            .setMcfg(0, MT.C, 6*U, MT.H, 7*U, MT.N, U)
+            .heat(267, 457)),
+    BenzenediazoniumChloride = dustdcmp(16180, "Benzenediazonium Chloride", SET_CUBE, 255, 255, 255, 255, "Phenyldiazonium Chloride")
+            .setMcfg(0, MT.C, 6*U, MT.H, 5*U, MT.N, 2*U, MT.Cl, U)
+            .heat(191+C, 229+C),
+    Nitronaphthalene = dustdcmp(16181, "Nitronaphthalene", SET_DULL, 255, 255, 102, 255)
+            .setMcfg(0, MT.C, 10*U, MT.H, 7*U, MT.N, U, MT.O, 2*U)
+            .heat(325, 400)
+            .put(FLAMMABLE),
+    Aminonaphthalene = dustdcmp(16182, "Aminonaphthalene", SET_DULL, 255, 255, 102, 255)
+            .setMcfg(0, MT.C, 10*U, MT.H, 9*U, MT.N, U)
+            .heat(325, 400)
+            .put(FLAMMABLE),
+    NaphthaleneSulfonicAcid = dustdcmp(16183, "Naphthalene sulfonic acid", SET_DULL, 255, 255, 255, 255)
+            .setMcfg(0, MT.C, 10*U, MT.H, 8*U, MT.S, U, MT.O, 3*U)
+            .heat(412),
+    Naphthol = dustdcmp(16184, "Naphthol", SET_DULL, 255, 255, 255, 255)
+            .setMcfg(0, MT.C, 10*U, MT.H, 8*U, MT.O, U)
+            .heat(368, 552),
+    DNP = dustdcmp(16185, "2,4-Dinitrophenol", SET_DULL, 255, 255, 210, 255, "DNP")
+            .setMcfg(0, MT.C, 6*U, MT.H, 4*U, MT.N, 2*U, MT.O, 5*U)
+            .heat(381)
+            .put(EXPLOSIVE),
+    QuinizarineGreen = dustdcmp(16186, "Quinizarine Green", SET_DULL, 60, 134, 57, 255)
+            .uumMcfg(0, MT.C, 28*U, MT.H, 22*U, MT.N, 2*U, MT.O, 2*U)
+            .heat(493),
+    AlizarinRed = dustdcmp(16187, "Alizarin Red", SET_DULL, 186, 24, 47, 255)
+            .uumMcfg(0, MT.C, 14*U, MT.H, 8*U, MT.O, 4*U)
+            .heat(562, 703),
+    SolventYellow = dustdcmp(16188, "Solvent Yellow", SET_DULL, 200, 200, 10, 255)
+            .heat(124+C, 172+C),
+    OrganolBrown = dustdcmp(16189, "Organol Brown", SET_DULL, 153, 51, 0, 255)
+            .uumMcfg(0, MT.C, 16*U, MT.H, 12*U, MT.N, 2*U, MT.O, U)
+            .heat(124+C, 172+C),
+    SulfurBlack = dustdcmp(16190, "Sulfur Black", SET_DULL, 25, 25, 25, 255)
+            .uumMcfg(0, MT.C, 24*U, MT.H, 16*U, MT.N, 6*U, MT.O, 8*U, MT.S, 8*U)
+            .heat(450),
+    SudanI = dustdcmp(16191, "Sudan I", SET_DULL, 249, 146, 69, 255)
+            .uumMcfg(0, MT.C, 16*U, MT.H, 12*U, MT.N, 2*U, MT.O, U)
+            .heat(131+C),
+    NPhenylGlycine = dustdcmp(16192, "N-Phenylglycine", SET_CUBE, 255, 255, 255, 255, "Anilinoacetic Acid")
+            .setMcfg(0, MT.C, 8*U, MT.H, 9*U, MT.N, U, MT.O, 2*U)
+            .heat(400),
+    N2O3 = registerLiquid(lquddcmp(16193, "Dinitrogen Trioxide", 0, 0, 150, 200))
+            .setMcfg(0, MT.N, 2*U, MT.O, 3*U)
+            .heat(172, 276),
+    HNO2 = registerLiquid(lqudaciddcmp(16194, "Nitrous Acid", 0, 0, 200, 200))
+            .setMcfg(0, MT.H, U, MT.N, U, MT.O, 2*U)
+            .heat(200, 400),
+    HCN = registerLiquid(lqudaciddcmp(16195, "Hydrogen Cyanide", 255, 255, 255, 200, FLAMMABLE)
+            .uumMcfg(0, MT.H, U, MT.C, U, MT.N, U)
+            .heat(260, 299)),
+    NH4SO4Solution = registerLiquid(lquddcmp(16196, "Ammonium Sulfate Solution", 255, 255, 230, 200))
+            .setMcfg(0, NH4SO4, 15*U, MT.H2O, 6*U)
+            .heat(200, 400),
+    NaOHSolution = registerLiquid(lquddcmp(16197, "Sodium Hydroxide Solution", 0, 0, 0, 0)
+            .stealLooks(MT.NaOH)
+            .uumMcfg(0, MT.NaOH, U, MT.H2O, U)
+            .heat(200, 400)),
+    DiluteH2SO4 = registerLiquid(lqudaciddcmp(16192, "Dilute Sulfuric Acid", 255, 192, 128, 200))
+            .setMcfg(0, MT.H2SO4, 7*U, MT.H2O, 6*U)
+            .heat(MT.H2SO4)
     ;
 
     static {
@@ -695,9 +773,9 @@ public class MTx {
         MT.PurpleSapphire.uumMcfg(6, MT.Al2O3, 5*U, MT.V2O5, U);
         MT.PetCoke.setMcfg(0, MT.C, U);
 
-        addMolten(RhodiumPotassiumSulfate, 1000);
-        addMolten(PbCl2, 1000);
-        addMolten(CuCl2, 1000);
+        addMolten(RhodiumPotassiumSulfate, 144);
+        addMolten(PbCl2, 144);
+        addMolten(CuCl2, 144);
         addMolten(Slag, 144);
         addMolten(FerrousSlag, 144);
         addMolten(FeCr2, 144);
@@ -706,10 +784,17 @@ public class MTx {
         addMolten(Naphthalene, 144);
         addMolten(Anthracene, 144);
         addMolten(Epoxy, 144);
-        addMolten(LiF, 1000);
+        addMolten(LiF, 144);
         addMolten(SiGe, 144);
 
         OreDictManager.INSTANCE.addReRegistration("dustCobaltBlue", "dyeMixableBlue");
+        OreDictManager.INSTANCE.addReRegistration("dustIndigo", "dyeMixableBlue");
+        OreDictManager.INSTANCE.addReRegistration("dustQuinizarineGreen", "dyeMixableGreen");
+        OreDictManager.INSTANCE.addReRegistration("dustAlizarinRed", "dyeMixableRed");
+        OreDictManager.INSTANCE.addReRegistration("dustSolventYellow", "dyeMixableYellow");
+        OreDictManager.INSTANCE.addReRegistration("dustOrganolBrown", "dyeMixableBrown");
+        OreDictManager.INSTANCE.addReRegistration("dustSulfurBlack", "dyeMixableBlack");
+        OreDictManager.INSTANCE.addReRegistration("dustSudanI", "dyeMixableOrange");
 
         HSST1.addEnchantmentForWeapons(Enchantment.sharpness, 4).addEnchantmentForAmmo(Enchantment.sharpness, 4).addEnchantmentForRanged(Enchantment.power, 4);
         HSSM2.addEnchantmentForWeapons(Enchantment.sharpness, 4).addEnchantmentForAmmo(Enchantment.sharpness, 4).addEnchantmentForRanged(Enchantment.power, 4);
