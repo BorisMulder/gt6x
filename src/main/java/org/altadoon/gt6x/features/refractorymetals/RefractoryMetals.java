@@ -207,7 +207,7 @@ public class RefractoryMetals extends GT6XFeature {
             }
             RM.Bath.addRecipe1(true, 0, 512, dust.mat(MTx.Cr2O3, 5), MT.Al.liquid(2*U, true), MT.Cr.liquid(2*U, false), dust.mat(MT.Al2O3, 5));
 
-            RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.Na2Cr2O7, 11), MT.H2SO4.liquid(7*U, true), FL.Water.make(3000), dust.mat(MTx.CrO3, 8), dust.mat(MT.Na2SO4, 7));
+            RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.Na2Cr2O7, 11), MT.H2SO4.liquid(7*U, true), MTx.Na2SO4Solution.liquid(10*U, false), dust.mat(MTx.CrO3, 8));
             RM.Drying.addRecipe1(true, 16, 256, dust.mat(MTx.CrO3, 8), NF, FL.Oxygen.make(3000), dust.mat(MTx.Cr2O3, 5));
             RM.Autoclave.addRecipe2(true, 0, 500, dust.mat(MTx.CrO3, 4), dust.mat(MTx.Cr2O3, 5), FL.Steam.make(16000), FL.DistW.make(100), dust.mat(MT.CrO2, 9));
         }

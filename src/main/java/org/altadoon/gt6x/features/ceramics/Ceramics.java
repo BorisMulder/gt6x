@@ -1,5 +1,6 @@
 package org.altadoon.gt6x.features.ceramics;
 
+import gregapi.code.ICondition;
 import gregapi.data.*;
 import gregapi.item.prefixitem.PrefixItem;
 import gregapi.oredict.OreDictItemData;
@@ -7,7 +8,6 @@ import gregapi.oredict.OreDictManager;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.oredict.OreDictPrefix;
 import gregapi.oredict.configurations.OreDictConfigurationComponent;
-import gregapi.recipes.AdvancedCraftingShapeless;
 import gregapi.recipes.Recipe;
 import gregapi.recipes.handlers.RecipeMapHandlerPrefixShredding;
 import gregapi.tileentity.multiblocks.MultiTileEntityMultiBlockPart;
@@ -74,10 +74,10 @@ public class Ceramics extends GT6XFeature {
                 .setCategoryName("Clinkers")
                 .setLocalItemName("", " Clinker")
                 .setMaterialStats(U)
-                .add(TD.Prefix.RECYCLABLE);
-        new PrefixItem(MOD_ID, MD.GT.mID, "gt6x.meta.clinker", clinker,
-                MT.Empty, MTx.Cement, MTx.CaAlCement
-        );
+                .add(TD.Prefix.RECYCLABLE)
+                .setCondition(ICondition.FALSE)
+                .forceItemGeneration(MTx.Cement, MTx.CaAlCement);
+        PrefixItem item = new PrefixItem(MOD_ID, MD.GT.mID, "gt6x.meta.clinker" , clinker); if (COMPAT_FR != null) COMPAT_FR.addToBackpacks("builder", ST.make(item, 1, W));
     }
 
     private void addAlloyingRecipes() {
