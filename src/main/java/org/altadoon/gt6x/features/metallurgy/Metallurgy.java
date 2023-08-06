@@ -339,8 +339,9 @@ public class Metallurgy extends GT6XFeature {
 
         RM.Drying.addRecipe0(true, 16, 6000, MTx.BayerLiquor.liquid(6*U, true), FL.DistW.make(3000), dust.mat(MT.NaOH, 3));
         RM.Electrolyzer.addRecipe1(true, 64, 512, ST.tag(1), FL.array(MTx.BayerLiquor.liquid(24*U, true), MT.Hg.liquid(9*U, true)), FL.array(MTx.GaAmalgam.liquid(10*U, false), MT.H.gas(5*U, false), FL.Water.make(4500)), dust.mat(MT.NaOH, 12), OM.dust(MT.V2O5, 7*U2));
+        //TODO not working
         RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.NaOH, 3), FL.array(MTx.GaAmalgam.liquid(10*U, true), FL.Water.make(4500), FL.Oxygen.make(1500)), FL.array(MT.Hg.liquid(9*U, false)), dust.mat(MTx.NaGaOH4, 10));
-        RM.Electrolyzer.addRecipe1(true, 64, 512, dust.mat(MTx.NaGaOH4, 10), ZL_FS, FL.array(FL.Water.make(4500), FL.Oxygen.make(1500)), dust.mat(MT.Ga, 1), dust.mat(MT.NaOH, 3));
+        RM.Electrolyzer.addRecipe2(true, 64, 512, ST.tag(1), dust.mat(MTx.NaGaOH4, 10), ZL_FS, FL.array(FL.Water.make(4500), FL.Oxygen.make(1500)), dust.mat(MT.Ga, 1), dust.mat(MT.NaOH, 3));
 
         // Sintering dusts into chunks
         RMx.sintering.add(new RecipeMapHandlerPrefixSintering(dust,      1, NF, 16, 0, 0, NF, ingot , 1, ST.tag(1), NI, true, false, false, lowHeatSintering));

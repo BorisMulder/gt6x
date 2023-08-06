@@ -100,12 +100,14 @@ public class MTx {
     public static OreDictMaterial alloymachine(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, Object... aRandomData) { return machine(aID, aNameOreDict, aSets, aR, aG, aB , aRandomData).put(ALLOY); }
     public static OreDictMaterial plastic(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, long aA, Object... aRandomData) { return create(aID, aNameOreDict, aR, aG, aB , aA, aRandomData).setTextures(aSets).put(G_INGOT_MACHINE, MELTING, EXTRUDER, EXTRUDER_SIMPLE, MORTAR, FURNACE, POLYMER); }
     public static OreDictMaterial dopedSemiconductor(int aID, String aNameOreDict, OreDictMaterial mainMaterial, Object... aRandomData) {
-        OreDictMaterial mat = dustdcmp(aID, aNameOreDict, SET_COPPER, 0, 0, 0, 0, aRandomData)
+        OreDictMaterial mat = create(aID, aNameOreDict, 0, 0, 0, 0, aRandomData)
             .setMcfg(0, mainMaterial, U)
             .setPulver(mainMaterial, U).setSmelting(mainMaterial, U)
             .steal(mainMaterial)
             .stealLooks(mainMaterial);
         OP.bouleGt.forceItemGeneration(mat);
+        OP.plateGem.forceItemGeneration(mat);
+        OP.plateGemTiny.forceItemGeneration(mat);
         return mat;
     }
 
@@ -611,7 +613,7 @@ public class MTx {
             .tooltip("Zn(NO" + NUM_SUB[3] + ")" + NUM_SUB[2])
             .heat(383)
             .setSmelting(MTx.ZnO, 2*U9),
-    GaAs = dustdcmp(16147, "Gallium Arsenide", SET_METALLIC, 96, 96, 120, 255)
+    GaAs = alloymachine(16147, "Gallium Arsenide", SET_METALLIC, 96, 96, 120, 255)
             .uumMcfg(0, MT.Ga, U, MT.As, U)
             .heat(1511),
     SiGe = alloymachine(16148, "Silicon-Germanium", SET_METALLIC, 174, 174, 183, 255)
@@ -721,9 +723,10 @@ public class MTx {
     Naphthol = dustdcmp(16184, "Naphthol", SET_DULL, 255, 255, 255, 255)
             .setMcfg(0, MT.C, 10*U, MT.H, 8*U, MT.O, U)
             .heat(368, 552),
-    DNP = dustdcmp(16185, "2,4-Dinitrophenol", SET_DULL, 255, 255, 210, 255, "DNP")
+    DNP = dustdcmp(16185, "DNP", SET_DULL, 255, 255, 210, 255, "Dinitrophenol")
             .setMcfg(0, MT.C, 6*U, MT.H, 4*U, MT.N, 2*U, MT.O, 5*U)
             .heat(381)
+            .setLocal("2,4-Dinitrophenol")
             .put(EXPLOSIVE),
     Nitronaphthol = dustdcmp(16186, "Nitronaphthol", SET_DULL, 249, 255, 69, 255)
             .setMcfg(0, MT.C, 10*U, MT.H, 7*U, MT.N, U, MT.O, 3*U)
@@ -755,7 +758,7 @@ public class MTx {
             .setMcfg(0, MT.N, 2*U, MT.O, 3*U)
             .heat(172, 276),
     HNO2 = registerLiquid(lqudaciddcmp(16196, "Nitrous Acid", 0, 0, 200, 200))
-            .setMcfg(0, MT.H, U, MT.N, U, MT.O, 2*U)
+            .uumMcfg(0, MT.H, U, MT.N, U, MT.O, 2*U)
             .heat(200, 400),
     HCN = registerLiquid(lqudaciddcmp(16197, "Hydrogen Cyanide", 255, 255, 255, 200, FLAMMABLE)
             .uumMcfg(0, MT.H, U, MT.C, U, MT.N, U)
@@ -765,12 +768,16 @@ public class MTx {
             .heat(200, 400),
     NaOHSolution = registerLiquid(lquddcmp(16199, "Sodium Hydroxide Solution", 0, 0, 0, 0)
             .stealLooks(MT.NaOH)
-            .uumMcfg(0, MT.NaOH, U, MT.H2O, U)
+            .setMcfg(0, MT.NaOH, U, MT.H2O, U)
             .heat(200, 400)),
     DiluteH2SO4 = registerLiquid(lqudaciddcmp(16200, "Dilute Sulfuric Acid", 255, 192, 128, 200))
-            .setMcfg(0, MT.H2SO4, 7*U, MT.H2O, 6*U)
+            .setMcfg(0, MT.H2SO4, 7*U, MT.H2O, 3*U)
             .heat(MT.H2SO4),
     DnqNovolacResist = registerLiquid(lquddcmp(16201, "DNQ-Novolac Photoresist", 100, 100, 0, 200)
+            .heat(200, 400)),
+    Na2SO4Solution = registerLiquid(lquddcmp(16202, "Sodium Sulfate Solution", 0, 0, 0, 200)
+            .stealLooks(MT.Na2SO4)
+            .setMcfg(0, MT.Na2SO4, 7*U, MT.H2O, 3*U)
             .heat(200, 400))
     ;
 
@@ -794,6 +801,9 @@ public class MTx {
         addMolten(Epoxy, 144);
         addMolten(LiF, 144);
         addMolten(SiGe, 144);
+        addMolten(GaAs, 144);
+
+        OP.bouleGt.forceItemGeneration(GaAs, SiGe);
 
         OreDictManager.INSTANCE.addReRegistration("dustCobaltBlue", "dyeMixableBlue");
         OreDictManager.INSTANCE.addReRegistration("dustIndigo", "dyeMixableBlue");
@@ -806,7 +816,5 @@ public class MTx {
 
         HSST1.addEnchantmentForWeapons(Enchantment.sharpness, 4).addEnchantmentForAmmo(Enchantment.sharpness, 4).addEnchantmentForRanged(Enchantment.power, 4);
         HSSM2.addEnchantmentForWeapons(Enchantment.sharpness, 4).addEnchantmentForAmmo(Enchantment.sharpness, 4).addEnchantmentForRanged(Enchantment.power, 4);
-
-        OP.bouleGt.forceItemGeneration(GaAs, SiGe);
     }
 }

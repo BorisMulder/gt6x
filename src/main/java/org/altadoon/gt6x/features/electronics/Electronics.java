@@ -1,5 +1,6 @@
 package org.altadoon.gt6x.features.electronics;
 
+import gregapi.code.ICondition;
 import gregapi.data.*;
 import gregapi.item.prefixitem.PrefixItem;
 import gregapi.oredict.OreDictItemData;
@@ -24,6 +25,8 @@ import org.altadoon.gt6x.features.electronics.tools.SolderingIron;
 
 import static gregapi.data.CS.*;
 import static gregapi.data.OP.*;
+import static gregapi.data.TD.Atomic.ANTIMATTER;
+import static gregapi.data.TD.Compounds.COATED;
 import static org.altadoon.gt6x.Gt6xMod.MOD_ID;
 
 public class Electronics extends GT6XFeature {
@@ -101,7 +104,7 @@ public class Electronics extends GT6XFeature {
         for (OreDictPrefix tPrefix : OreDictPrefix.VALUES) if (tPrefix != null && tPrefix.containsAny(TD.Prefix.EXTRUDER_FODDER, TD.Prefix.INGOT_BASED, TD.Prefix.GEM_BASED, TD.Prefix.DUST_BASED) && U % tPrefix.mAmount == 0) {
             ItemStack stack = tPrefix.mat(MT.Glass, U / tPrefix.mAmount);
             if (stack != null && stack.stackSize <= stack.getMaxStackSize()) {
-                RM.Extruder.addRecipe2(true, false, false, false, true, EUt, durationPerUnit, stack, ILx.PlatinumBushing.get(0), ILx.GlassFibres.get(1));
+                RM.Extruder.addRecipe2(true, false, false, false, true, EUt, durationPerUnit, stack, ILx.PlatinumBushing.get(0), ILx.GlassFibres.get(8));
             }
         }
 
@@ -144,8 +147,8 @@ public class Electronics extends GT6XFeature {
         /// Semiconductors
 
         // Hydrides & Polycrystallines
-        RM.Electrolyzer.addRecipe2(true, 32, 256, OP.rod.mat(MT.Ge, 1), OM.dust(MT.Mo, U3), FL.Water.make(3000), MTx.Germane.gas(5*U2, false), OM.dust(MTx.MoO3, 4*U3));
-        RM.Electrolyzer.addRecipe2(true, 32, 256, OP.rod.mat(MT.Ge, 1), OM.dust(MT.Cd, U), FL.Water.make(3000), MTx.Germane.gas(5*U2, false), OM.dust(MTx.CdO, 2*U));
+        RM.Electrolyzer.addRecipe2(true, 32, 256, OP.stick.mat(MT.Ge, 1), OM.dust(MT.Mo, U3), FL.Water.make(3000), MTx.Germane.gas(5*U2, false), OM.dust(MTx.MoO3, 4*U3));
+        RM.Electrolyzer.addRecipe2(true, 32, 256, OP.stick.mat(MT.Ge, 1), OM.dust(MT.Cd, U), FL.Water.make(3000), MTx.Germane.gas(5*U2, false), OM.dust(MTx.CdO, 2*U));
         RM.Bath.addRecipe1(true, 0, 256, dust.mat(MTx.Mg2Si, 3), MT.HCl.gas(8*U, true), MTx.Silane.gas(5*U, false), dust.mat(MT.MgCl2, 6));
         RM.Mixer.addRecipe0(true, 16, 64, FL.array(MTx.Silane.gas(U, true), MTx.Germane.gas(U, true)), FL.array(MTx.SiGeH8.gas(2*U, false)));
 
@@ -155,7 +158,14 @@ public class Electronics extends GT6XFeature {
         RM.Drying.addRecipe1(true, 16, 64000, ST.tag(0), MTx.SiGeH8.gas(5*U, true), MT.H.gas(4*U, false), polyGem.mat(MTx.SiGe, 1));
         RM.CrystallisationCrucible.addRecipe1(true, 16, 18000, ST.tag(0), FL.array(MT.Ga.liquid(U2, true), MT.As.gas(U2, true)), ZL_FS, polyGem.mat(MTx.GaAs, 1));
 
-        RM.Cutter.add(new RecipeMapHandlerPrefix(polyGem, 1, NF, 16, 256, 0, NF, plateGemTiny, 6, ST.tag(1), NI, true, true, false, null));
+        FluidStack[] cuttingFluids = FL.array(FL.Water.make(1000), FL.SpDew.make(1000), FL.DistW.make(1000), FL.Lubricant.make(1000), FL.LubRoCant.make(1000));
+        long[] cuttingMultiplier = new long[] {4, 4, 3, 1, 1};
+        @SuppressWarnings({"unchecked", "rawtypes"})
+        ICondition cuttingCondition = new ICondition.And(ANTIMATTER.NOT, COATED.NOT);
+
+        for (int i = 0; i < 4; i++) if (cuttingFluids[i] != null) {
+            RM.Cutter.add(new RecipeMapHandlerPrefix(polyGem, 1, FL.mul(cuttingFluids[i], cuttingMultiplier[i] * 16, 1000, true), 64, cuttingMultiplier[i] * 8, 0, NF, plateGemTiny, 6, NI, NI, true, true, false, cuttingCondition));
+        }
 
         // Boules
         for (FluidStack inertGas : FL.array(MT.He.gas(U, true), MT.Ne.gas(U, true), MT.Ar.gas(U, true), MT.Kr.gas(U, true), MT.Xe.gas(U, true), MT.Rn.gas(U, true))) if (inertGas != null) {

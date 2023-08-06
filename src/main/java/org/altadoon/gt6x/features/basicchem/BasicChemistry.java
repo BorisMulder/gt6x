@@ -128,6 +128,7 @@ public class BasicChemistry extends GT6XFeature {
             RM.Mixer.addRecipe1(true, 16, 384, dust.mat(MTx.NH4SO4, 15), FL.mul(water, 2), MTx.NH4SO4Solution.liquid(21*U, false), NI);
             RM.Mixer.addRecipe2(true, 16, 192, ST.tag(2), dust.mat(MT.FeCl2, 3), water, MTx.FeCl2Solution.liquid(6*U, false), NI);
             RM.Mixer.addRecipe1(true, 16, 192, dust.mat(MT.Na2CO3, 6), water, MTx.Na2CO3Solution.liquid(9*U, false), NI);
+            RM.Mixer.addRecipe1(true, 16, 192, dust.mat(MT.Na2SO4, 7), water, MTx.Na2SO4Solution.liquid(10*U, false), NI);
             RM.Mixer.addRecipe1(true, 16, 192, ST.tag(2), FL.array(MT.H2SO4.liquid(7*U, true), water), FL.array(MTx.DiluteH2SO4.liquid(10*U, false)));
         }
 
@@ -151,6 +152,7 @@ public class BasicChemistry extends GT6XFeature {
         RM.Drying.addRecipe0(true, 16, 6000 , MTx.NH4ClSolution .liquid(7 *U, true ), MT.DistWater.liquid(3*U, false), dust.mat(MTx.NH4Cl, 4));
         RM.Drying.addRecipe0(true, 16, 12000, MTx.NH4SO4Solution.liquid(21*U, true ), MT.DistWater.liquid(6*U, false), dust.mat(MTx.NH4SO4, 15));
         RM.Drying.addRecipe0(true, 16, 6000 , MTx.Na2CO3Solution.liquid(9 *U, false), MT.DistWater.liquid(3*U, false), dust.mat(MT.Na2CO3, 6));
+        RM.Drying.addRecipe0(true, 16, 6000 , MTx.Na2SO4Solution.liquid(10*U, false), MT.DistWater.liquid(3*U, false), dust.mat(MT.Na2SO4, 7));
         RM.Drying.addRecipe0(true, 16, 6000 , FL.array(MTx.DiluteH2SO4.liquid(10*U, true)), FL.array(MT.DistWater.liquid(3*U, false), MT.H2SO4.liquid(7*U, false)));
         RM.Distillery.addRecipe1(true, 16, 6000, ST.tag(0), FL.array(MTx.DiluteH2SO4.liquid(10*U, true)), FL.array(MT.DistWater.liquid(3*U, false), MT.H2SO4.liquid(7*U, false)));
 
