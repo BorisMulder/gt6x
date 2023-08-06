@@ -72,8 +72,17 @@ public class BasicChemistry extends GT6XFeature {
         // (Na,K)2S2O7
         RMx.Thermolysis.addRecipe1(true, 16, 100, dust.mat(MT.KHSO4, 2), ZL_FS, FL.array(MT.H2O.liquid(U, false)), dust.mat(MT.K2S2O7, 1));
         RMx.Thermolysis.addRecipe1(true, 16, 100, dust.mat(MT.NaHSO4, 2), ZL_FS, FL.array(MT.H2O.liquid(U, false)), dust.mat(MT.Na2S2O7, 1));
-        RM.Smelter.addRecipe1(true, 16, 16, dust.mat(MT.K2S2O7, 1), ZL_FS, MT.K2S2O7.liquid(U, false), ZL_IS);
-        RM.Smelter.addRecipe1(true, 16, 16, dust.mat(MT.Na2S2O7, 1), ZL_FS, MT.Na2S2O7.liquid(U, false), ZL_IS);
+
+        RM.Smelter.addRecipe1(true, 16, 144, blockDust.mat(MT.K2S2O7, 1), ZL_FS, MT.K2S2O7.liquid(9*U, false), ZL_IS);
+        RM.Smelter.addRecipe1(true, 16, 16 , dust     .mat(MT.K2S2O7, 1), ZL_FS, MT.K2S2O7.liquid(U, false), ZL_IS);
+        RM.Smelter.addRecipe1(true, 16, 4  , dustSmall.mat(MT.K2S2O7, 1), ZL_FS, MT.K2S2O7.liquid(U4, false), ZL_IS);
+        RM.Smelter.addRecipe1(true, 16, 2  , dustTiny .mat(MT.K2S2O7, 1), ZL_FS, MT.K2S2O7.liquid(U9, false), ZL_IS);
+        RM.Smelter.addRecipe1(true, 16, 1  , dustDiv72.mat(MT.K2S2O7, 1), ZL_FS, MT.K2S2O7.liquid(U72, false), ZL_IS);
+        RM.Smelter.addRecipe1(true, 16, 144, blockDust.mat(MT.Na2S2O7, 1), ZL_FS, MT.Na2S2O7.liquid(9*U, false), ZL_IS);
+        RM.Smelter.addRecipe1(true, 16, 16 , dust     .mat(MT.Na2S2O7, 1), ZL_FS, MT.Na2S2O7.liquid(U, false), ZL_IS);
+        RM.Smelter.addRecipe1(true, 16, 4  , dustSmall.mat(MT.Na2S2O7, 1), ZL_FS, MT.Na2S2O7.liquid(U4, false), ZL_IS);
+        RM.Smelter.addRecipe1(true, 16, 2  , dustTiny .mat(MT.Na2S2O7, 1), ZL_FS, MT.Na2S2O7.liquid(U9, false), ZL_IS);
+        RM.Smelter.addRecipe1(true, 16, 1  , dustDiv72.mat(MT.Na2S2O7, 1), ZL_FS, MT.Na2S2O7.liquid(U72, false), ZL_IS);
 
         // HF to H + F (needed for some chains)
         RM.Electrolyzer.addRecipe2(true, 32, 256, ST.tag(1), dust.mat(MT.KF, 0), FL.array(MT.HF.gas(2*U, true)), FL.array(MT.F.gas(U, false), MT.H.gas(U, false)));
@@ -85,8 +94,9 @@ public class BasicChemistry extends GT6XFeature {
         RM.Mixer.addRecipe0(true, 16, 128, FL.array(MT.H2SO4.liquid(7*U, true), MT.NH3.gas(2*U, true)), ZL_FS, dust.mat(MTx.NH4SO4, 9));
         RM.Mixer.addRecipe0(true, 16, 128, FL.array(MT.HNO3.liquid(5*U, true), MT.NH3.gas(U, true)), ZL_FS, dust.mat(MTx.NH4NO3, 6));
 
-        // HCN
+        // HCN, Phosgene
         RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MT.Pt, 0), FL.array(MT.CH4.gas(5*U, true), MT.NH3.gas(U, true), MT.O.gas(3*U, true)), FL.array(MTx.HCN.liquid(3*U, false), MT.H2O.liquid(9*U, false)));
+        RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MT.C, 0), FL.array(MT.CO.gas(2*U, true), MT.Cl.gas(2*U, true)), MTx.Phosgene.gas(4*U, false), NI);
 
         // O3
         RM.Lightning.addRecipe1(true, 64, 100, ST.tag(3), MT.O.gas(3*U, true), MTx.Ozone.gas(2*U, false), NI);
@@ -129,7 +139,9 @@ public class BasicChemistry extends GT6XFeature {
             RM.Mixer.addRecipe1(true, 16, 384, dust.mat(MTx.NH4SO4, 15), FL.mul(water, 2), MTx.NH4SO4Solution.liquid(21*U, false), NI);
             RM.Mixer.addRecipe2(true, 16, 192, ST.tag(2), dust.mat(MT.FeCl2, 3), water, MTx.FeCl2Solution.liquid(6*U, false), NI);
             RM.Mixer.addRecipe1(true, 16, 192, dust.mat(MT.Na2CO3, 6), water, MTx.Na2CO3Solution.liquid(9*U, false), NI);
+            RM.Mixer.addRecipe1(true, 16, 192, dust.mat(MT.Na2SO4, 7), water, MTx.Na2SO4Solution.liquid(10*U, false), NI);
             RM.Mixer.addRecipe1(true, 16, 192, ST.tag(2), FL.array(MT.H2SO4.liquid(7*U, true), water), FL.array(MTx.DiluteH2SO4.liquid(10*U, false)));
+            RM.Mixer.addRecipe0(true, 16, 128, FL.array(MTx.Phosgene.gas(4*U, true), water), FL.array(MT.CO2.gas(3*U, false), MT.HCl.gas(4*U, false)));
         }
 
         RM.Mixer.addRecipe2(true, 16, 128, ST.tag(3), dust.mat(MT.FeCl2, 6), FL.array(MT.H2O.liquid(6*U, true), MT.O.gas(U, true)), FL.array(MT.HCl.gas(8*U, false)), dust.mat(MT.Fe2O3, 5));
@@ -152,6 +164,7 @@ public class BasicChemistry extends GT6XFeature {
         RM.Drying.addRecipe0(true, 16, 6000 , MTx.NH4ClSolution .liquid(7 *U, true ), MT.DistWater.liquid(3*U, false), dust.mat(MTx.NH4Cl, 4));
         RM.Drying.addRecipe0(true, 16, 12000, MTx.NH4SO4Solution.liquid(21*U, true ), MT.DistWater.liquid(6*U, false), dust.mat(MTx.NH4SO4, 15));
         RM.Drying.addRecipe0(true, 16, 6000 , MTx.Na2CO3Solution.liquid(9 *U, false), MT.DistWater.liquid(3*U, false), dust.mat(MT.Na2CO3, 6));
+        RM.Drying.addRecipe0(true, 16, 6000 , MTx.Na2SO4Solution.liquid(10*U, false), MT.DistWater.liquid(3*U, false), dust.mat(MT.Na2SO4, 7));
         RM.Drying.addRecipe0(true, 16, 6000 , FL.array(MTx.DiluteH2SO4.liquid(10*U, true)), FL.array(MT.DistWater.liquid(3*U, false), MT.H2SO4.liquid(7*U, false)));
         RM.Distillery.addRecipe1(true, 16, 6000, ST.tag(0), FL.array(MTx.DiluteH2SO4.liquid(10*U, true)), FL.array(MT.DistWater.liquid(3*U, false), MT.H2SO4.liquid(7*U, false)));
 
@@ -176,7 +189,8 @@ public class BasicChemistry extends GT6XFeature {
         RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.Fe2O3, 0), dust.mat(MTx.MoO3, 0), FL.array(MTx.Methanol.liquid(6*U, true), MT.O.gas(U, true)), FL.array(MTx.Formaldehyde.gas(4*U, false), MT.H2O.liquid(3*U, false)));
 
         // Phosphine and Na2O
-        RM.Mixer.addRecipe2(true, 16, 3*64, dust.mat(MT.P, 8), dust.mat(MT.NaOH, 27), FL.Water.make(9000), MTx.Phosphine.gas(20*U, false), dust.mat(MTx.Na3PO4, 24));
+        RM.Mixer.addRecipeX(true, 16, 3*64, ST.array(ST.tag(3), dust.mat(MT.P, 8), dust.mat(MT.NaOH, 27)), FL.Water.make(9000), MTx.Phosphine.gas(20*U, false), dust.mat(MTx.Na3PO4, 24));
+        RM.Mixer.addRecipeX(true, 16, 3*64, ST.array(ST.tag(3), dust.mat(MT.P, 8)), FL.array(MTx.NaOHSolution.liquid(54*U, true)), FL.array(FL.Water.make(18000), MTx.Phosphine.gas(20*U, false)), dust.mat(MTx.Na3PO4, 24));
         // TODO use thermolyzer
         RM.Drying.addRecipe1(true, 16, 256, dust.mat(MTx.Na3PO4, 16), dust.mat(MTx.Na2O, 9), dust.mat(MTx.P2O5, 7));
         RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.NaOH, 3), dust.mat(MT.Na, 1), NF, MT.H.gas(U, false), dust.mat(MTx.Na2O, 3));
@@ -184,11 +198,12 @@ public class BasicChemistry extends GT6XFeature {
 
         // Arsine, Zinc Nitrate
         RM.Bath.addRecipe2(true, 0, 3*5*64, dust.mat(MTx.As2O3, 5), dust.mat(MT.Zn, 6), FL.array(MT.HNO3.liquid(60*U, true)), FL.array(FL.Water.make(9000), MTx.Arsine.gas(8*U, false)), dust.mat(MTx.ZnNO3, 54));
+        // TODO use thermolyzer
         RM.Drying.addRecipe1(true, 16, 512, dust.mat(MTx.ZnNO3, 9), ZL_FS, FL.array(MT.NO2.gas(6*U, false), MT.O.gas(U, false)), dust.mat(MTx.ZnO, 2));
 
         // Borane and LiH
         RM.Drying.addRecipe1(true, 16, 18000, dust.mat(MT.BoricAcid, 14), NF, FL.DistW.make(9000), dust.mat(MTx.B2O3, 5));
-        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MTx.B2O3, 5), MT.HF.gas(12*U, true), FL.Water.make(9000), dust.mat(MTx.BF3, 8));
+        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MTx.B2O3, 5), MT.HF.gas(12*U, true), FL.array(FL.Water.make(9000), MTx.BF3.gas(8*U, false)));
         RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MT.Li, 1), MT.H.gas(U, true), NF, dust.mat(MTx.LiH, 2));
         RM.Mixer.addRecipe1(true, 16, 512, dust.mat(MTx.LiH, 12), MTx.BF3.gas(32*U, true), MTx.Diborane.gas(8*U, false), dust.mat(MTx.LiBF4, 36));
         RM.Drying.addRecipe1(true, 16, 512, dust.mat(MTx.LiBF4, 6), NF, MTx.BF3.gas(4*U, false), dust.mat(MTx.LiF, 2));

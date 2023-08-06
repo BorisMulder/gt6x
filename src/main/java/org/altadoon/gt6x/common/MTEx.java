@@ -89,6 +89,13 @@ public class MTEx {
         ThermolysisOven2(321),
         ThermolysisOven3(322),
         ThermolysisOven4(323),
+
+        // Electronics: 400-420
+        Photolithography1(400),
+        Photolithography2(401),
+        Photolithography3(402),
+        Photolithography4(403),
+        Photolithography5(404),
         ;
 
         private final int id;

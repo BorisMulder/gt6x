@@ -57,9 +57,13 @@ public class MTx {
         MT.Plastic.put(POLYMER);
         MT.Rubber.put(POLYMER);
         MT.Teflon.put(POLYMER, PIPES).uumMcfg(0, MT.C, U, MT.F, 2*U)
-                .heat(C+327).setRGBa(200, 255, 255, 255);
+                .heat(C+327).setRGBa(200, 255, 255, 255)
+                .hide(false);
         MT.PVC.put(POLYMER, PIPES).uumMcfg(0, MT.C, 2*U, MT.H, 3*U, MT.Cl, U)
-                .heat(C+100).setRGBa(125, 125, 125, 255);
+                .heat(C+100).setRGBa(125, 125, 125, 255)
+                .hide(false);
+        MT.Polycarbonate.uumMcfg( 0, MT.C, 16*U, MT.H, 18*U, MT.O, 3*U)
+                        .setLocal("Polycarbonate");
         MT.Indigo.uumMcfg(0, MT.C, 16*U, MT.H, 10*U, MT.N, 2*U, MT.O, 2*U)
                 .heat(391).setRGBa(75, 0, 130, 255);
 
@@ -67,6 +71,7 @@ public class MTx {
         MT.OREMATS.Tungstate.setLocal("Lithium Tungstate");
         MT.OREMATS.Huebnerite.setLocal("Hübnerite");
         MT.Glyceryl.setLocal("Nitroglycerin");
+        MT.H3BO3.setLocal("Boric Acid");
 
         addMolten(MT.K2S2O7, 1000);
         addMolten(MT.Na2S2O7, 1000);
@@ -100,12 +105,14 @@ public class MTx {
     public static OreDictMaterial alloymachine(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, Object... aRandomData) { return machine(aID, aNameOreDict, aSets, aR, aG, aB , aRandomData).put(ALLOY); }
     public static OreDictMaterial plastic(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, long aA, Object... aRandomData) { return create(aID, aNameOreDict, aR, aG, aB , aA, aRandomData).setTextures(aSets).put(G_INGOT_MACHINE, MELTING, EXTRUDER, EXTRUDER_SIMPLE, MORTAR, FURNACE, POLYMER); }
     public static OreDictMaterial dopedSemiconductor(int aID, String aNameOreDict, OreDictMaterial mainMaterial, Object... aRandomData) {
-        OreDictMaterial mat = dustdcmp(aID, aNameOreDict, SET_COPPER, 0, 0, 0, 0, aRandomData)
+        OreDictMaterial mat = create(aID, aNameOreDict, 0, 0, 0, 0, aRandomData)
             .setMcfg(0, mainMaterial, U)
             .setPulver(mainMaterial, U).setSmelting(mainMaterial, U)
             .steal(mainMaterial)
             .stealLooks(mainMaterial);
         OP.bouleGt.forceItemGeneration(mat);
+        OP.plateGem.forceItemGeneration(mat);
+        OP.plateGemTiny.forceItemGeneration(mat);
         return mat;
     }
 
@@ -254,12 +261,14 @@ public class MTx {
             .uumMcfg(0, MT.C, 2*U, MT.H, U*3, MT.Cl, U)
             .heat(119, 260)
             .put(FLAMMABLE)),
-    //TODO 16043 free
     /*PVC = plastic( 16043, "PVC", SET_DULL, 125, 125, 125, 255)
             .setLocal("Polyvinyl Chloride")
             .uumMcfg(0, MT.C, 2*U, MT.H, U*3, MT.Cl, U)
             .heat(C+100)
             .put(PIPES),*/
+    Phosgene = registerGas(gasdcmp(16043, "Phosgene", 255, 255, 255, 50, "Carbonyl Dichloride")
+            .setMcfg(0, MT.C, U, MT.O, U, MT.Cl, 2*U)
+            .heat(155, 281)),
     CHCl3 = registerLiquid(lquddcmp( 16044, "Chloroform", 150, 255, 200, 255)
             .uumMcfg(0, MT.C, U, MT.H, U, MT.Cl, U*3)
             .heat(210, 334)),
@@ -531,7 +540,7 @@ public class MTx {
             .uumMcfg(0, MT.P, 2*U, MT.O, 5*U)
             .heat(613, 613),
     P_CO_Gas = registerGas(gas(16122, "Phosphorus-CO Vapour", 100, 100, 0, 50)
-            .setMcfg(0, MT.P, U, MT.CO, 5*U) //TODO not working
+            .setMcfg(0, MT.P, U, MT.CO, 5*U) //TODO formula not working
             .heat(MT.CO),
             1700),
     HSST1 = alloymachine(16123, "HSS-T1", SET_METALLIC, 50, 50, 150)
@@ -611,18 +620,18 @@ public class MTx {
             .tooltip("Zn(NO" + NUM_SUB[3] + ")" + NUM_SUB[2])
             .heat(383)
             .setSmelting(MTx.ZnO, 2*U9),
-    GaAs = dustdcmp(16147, "Gallium Arsenide", SET_METALLIC, 96, 96, 120, 255)
+    GaAs = alloymachine(16147, "Gallium Arsenide", SET_METALLIC, 96, 96, 120, 255)
             .uumMcfg(0, MT.Ga, U, MT.As, U)
             .heat(1511),
     SiGe = alloymachine(16148, "Silicon-Germanium", SET_METALLIC, 174, 174, 183, 255)
-            .uumMcfg(0, MT.Si, U, MT.Ge, U)
+            .uumAloy(0, MT.Si, U, MT.Ge, U)
             .heat(MT.Ge),
     LiH = dustdcmp(16149, "Lithium Hydride", SET_QUARTZ, 0, 153, 153, 255)
             .setMcfg(0, MT.Li, U, MT.H, U)
             .heat(961, 1220)
             .put(GEMS),
     LiF = dustdcmp(16150, "Lithium Fluoride", SET_DULL, 235, 255, 200, 255)
-            .setMcfg(0, MT.Li, U, MT.H, U)
+            .setMcfg(0, MT.Li, U, MT.F, U)
             .heat(1118, 1949)
             .put(ELECTROLYSER),
     BF3 = registerGas(gasdcmp(16151, "Boron Trifluoride", 255, 250, 180, 50, "Trifluoroborane")
@@ -660,7 +669,6 @@ public class MTx {
     Na3VO4 = create(16162, "Sodium Orthovanadate", 255, 255, 255, 0)
             .setMcfg(0, MT.Na, 3*U, MT.V, U, MT.O, 4*U),
     BayerLiquor = registerLiquid(lquddcmp(16163, "Bayer Liquor", 200, 50, 0, 255)
-            .setMcfg(0, NaGaOH4, 10*U, Na3VO4, 8*U, MT.H2O, 6*U) // used in place of 4x NaOH.H2O, but Ga and V are added for free and some H's and O's are removed/added
             .heat(MT.H2O)),
     GaAmalgam = registerLiquid(lquddcmp(16164, "Gallium Amalgam", 200, 0, 180, 255)
             .setMcfg(0, MT.Hg, 9*U, MT.Ga, U)
@@ -679,13 +687,13 @@ public class MTx {
     PDopedSiGe = dopedSemiconductor(16169, "P-Doped Silicon-Germanium", SiGe),
     NDopedSiGe = dopedSemiconductor(16170, "N-Doped Silicon-Germanium", SiGe),
     NDopedGaAs = dopedSemiconductor(16171, "N-Doped Gallium Arsenide", GaAs),
-    Naphthalene = dustdcmp(16172, "Naphthalene", SET_DULL, 255, 255, 255, 255, INGOTS)
+    Naphthalene = registerLiquid(lquddcmp(16172, "Naphthalene", 255, 255, 255, 255)
             .setMcfg(0, MT.C, 10*U, MT.H, 8*U)
             .heat(351, 424)
-            .put(FLAMMABLE),
-    Anthracene = dustdcmp(16173, "Anthracene", SET_SHINY, 225, 255, 150, 255, INGOTS)
+            .put(FLAMMABLE)),
+    Anthracene = registerLiquid(lquddcmp(16173, "Anthracene", 225, 255, 150, 255)
             .setMcfg(0, MT.C, 14*U, MT.H, 10*U)
-            .heat(489, 614),
+            .heat(489, 614)),
     Anthraquinone = dustdcmp(16174, "Anthraquinone", SET_SHINY, 225, 255, 0, 255)
             .setMcfg(0, MT.C, 14*U, MT.H, 8*U, MT.O, 2*U)
             .heat(558, 650),
@@ -713,7 +721,7 @@ public class MTx {
             .put(FLAMMABLE),
     Aminonaphthalene = dustdcmp(16182, "Aminonaphthalene", SET_DULL, 255, 255, 102, 255)
             .setMcfg(0, MT.C, 10*U, MT.H, 9*U, MT.N, U)
-            .heat(325, 400)
+            .heat(320, 400)
             .put(FLAMMABLE),
     NaphthaleneSulfonicAcid = dustdcmp(16183, "Naphthalene sulfonic acid", SET_DULL, 255, 255, 255, 255)
             .setMcfg(0, MT.C, 10*U, MT.H, 8*U, MT.S, U, MT.O, 3*U)
@@ -721,49 +729,68 @@ public class MTx {
     Naphthol = dustdcmp(16184, "Naphthol", SET_DULL, 255, 255, 255, 255)
             .setMcfg(0, MT.C, 10*U, MT.H, 8*U, MT.O, U)
             .heat(368, 552),
-    DNP = dustdcmp(16185, "2,4-Dinitrophenol", SET_DULL, 255, 255, 210, 255, "DNP")
+    DNP = dustdcmp(16185, "DNP", SET_DULL, 255, 255, 210, 255, "Dinitrophenol")
             .setMcfg(0, MT.C, 6*U, MT.H, 4*U, MT.N, 2*U, MT.O, 5*U)
             .heat(381)
+            .setLocal("2,4-Dinitrophenol")
             .put(EXPLOSIVE),
-    QuinizarineGreen = dustdcmp(16186, "Quinizarine Green", SET_DULL, 60, 134, 57, 255)
-            .uumMcfg(0, MT.C, 28*U, MT.H, 22*U, MT.N, 2*U, MT.O, 2*U)
-            .heat(493),
-    AlizarinRed = dustdcmp(16187, "Alizarin Red", SET_DULL, 186, 24, 47, 255)
-            .uumMcfg(0, MT.C, 14*U, MT.H, 8*U, MT.O, 4*U)
-            .heat(562, 703),
-    SolventYellow = dustdcmp(16188, "Solvent Yellow", SET_DULL, 200, 200, 10, 255)
-            .heat(124+C, 172+C),
-    OrganolBrown = dustdcmp(16189, "Organol Brown", SET_DULL, 153, 51, 0, 255)
-            .uumMcfg(0, MT.C, 16*U, MT.H, 12*U, MT.N, 2*U, MT.O, U)
-            .heat(124+C, 172+C),
-    SulfurBlack = dustdcmp(16190, "Sulfur Black", SET_DULL, 25, 25, 25, 255)
-            .uumMcfg(0, MT.C, 24*U, MT.H, 16*U, MT.N, 6*U, MT.O, 8*U, MT.S, 8*U)
-            .heat(450),
-    SudanI = dustdcmp(16191, "Sudan I", SET_DULL, 249, 146, 69, 255)
-            .uumMcfg(0, MT.C, 16*U, MT.H, 12*U, MT.N, 2*U, MT.O, U)
-            .heat(131+C),
-    NPhenylGlycine = dustdcmp(16192, "N-Phenylglycine", SET_CUBE, 255, 255, 255, 255, "Anilinoacetic Acid")
+    Nitronaphthol = dustdcmp(16186, "Nitronaphthol", SET_DULL, 249, 255, 69, 255)
+            .setMcfg(0, MT.C, 10*U, MT.H, 7*U, MT.N, U, MT.O, 3*U)
+            .heat(380),
+    Aminonaphthol = dustdcmp(16187, "Aminonaphthol", SET_DULL, 210, 255, 210, 255)
+            .setMcfg(0, MT.C, 10*U, MT.H, 9*U, MT.N, U, MT.O, U)
+            .heat(375),
+    DNQ = dustdcmp(16188, "Diazonaphthoquinone", SET_FINE, 150, 50, 180, 250, "DNQ")
+            .uumMcfg(0, MT.C, 10*U, MT.H, 6*U, MT.N, 2*U, MT.O, U)
+            .heat(400),
+    NPhenylGlycine = dustdcmp(16189, "N-Phenylglycine", SET_CUBE, 255, 255, 255, 255, "Anilinoacetic Acid")
             .setMcfg(0, MT.C, 8*U, MT.H, 9*U, MT.N, U, MT.O, 2*U)
             .heat(400),
-    N2O3 = registerLiquid(lquddcmp(16193, "Dinitrogen Trioxide", 0, 0, 150, 200))
+    QuinizarineGreen = dustdcmp(16190, "Quinizarine Green", SET_DULL, 60, 134, 57, 255)
+            .uumMcfg(0, MT.C, 28*U, MT.H, 22*U, MT.N, 2*U, MT.O, 2*U)
+            .heat(493),
+    AlizarinRed = dustdcmp(16191, "Alizarin Red", SET_DULL, 186, 24, 47, 255)
+            .uumMcfg(0, MT.C, 14*U, MT.H, 8*U, MT.O, 4*U)
+            .heat(562, 703),
+    SolventYellow = dustdcmp(16192, "Solvent Yellow", SET_DULL, 200, 200, 10, 255)
+            .heat(124+C, 172+C),
+    OrganolBrown = dustdcmp(16193, "Organol Brown", SET_DULL, 153, 51, 0, 255)
+            .uumMcfg(0, MT.C, 16*U, MT.H, 12*U, MT.N, 2*U, MT.O, U)
+            .heat(124+C, 172+C),
+    SulfurBlack = dustdcmp(16194, "Sulfur Black", SET_DULL, 25, 25, 25, 255)
+            .uumMcfg(0, MT.C, 24*U, MT.H, 16*U, MT.N, 6*U, MT.O, 8*U, MT.S, 8*U)
+            .heat(450),
+    N2O3 = registerLiquid(lquddcmp(16195, "Dinitrogen Trioxide", 0, 0, 150, 200))
             .setMcfg(0, MT.N, 2*U, MT.O, 3*U)
             .heat(172, 276),
-    HNO2 = registerLiquid(lqudaciddcmp(16194, "Nitrous Acid", 0, 0, 200, 200))
-            .setMcfg(0, MT.H, U, MT.N, U, MT.O, 2*U)
+    HNO2 = registerLiquid(lqudaciddcmp(16196, "Nitrous Acid", 0, 0, 200, 200))
+            .uumMcfg(0, MT.H, U, MT.N, U, MT.O, 2*U)
             .heat(200, 400),
-    HCN = registerLiquid(lqudaciddcmp(16195, "Hydrogen Cyanide", 255, 255, 255, 200, FLAMMABLE)
+    HCN = registerLiquid(lqudaciddcmp(16197, "Hydrogen Cyanide", 255, 255, 255, 200, FLAMMABLE)
             .uumMcfg(0, MT.H, U, MT.C, U, MT.N, U)
             .heat(260, 299)),
-    NH4SO4Solution = registerLiquid(lquddcmp(16196, "Ammonium Sulfate Solution", 255, 255, 230, 200))
+    NH4SO4Solution = registerLiquid(lquddcmp(16198, "Ammonium Sulfate Solution", 255, 255, 230, 200))
             .setMcfg(0, NH4SO4, 15*U, MT.H2O, 6*U)
             .heat(200, 400),
-    NaOHSolution = registerLiquid(lquddcmp(16197, "Sodium Hydroxide Solution", 0, 0, 0, 0)
+    NaOHSolution = registerLiquid(lquddcmp(16199, "Sodium Hydroxide Solution", 0, 0, 0, 0)
             .stealLooks(MT.NaOH)
-            .uumMcfg(0, MT.NaOH, U, MT.H2O, U)
+            .setMcfg(0, MT.NaOH, U, MT.H2O, U)
             .heat(200, 400)),
-    DiluteH2SO4 = registerLiquid(lqudaciddcmp(16192, "Dilute Sulfuric Acid", 255, 192, 128, 200))
-            .setMcfg(0, MT.H2SO4, 7*U, MT.H2O, 6*U)
-            .heat(MT.H2SO4)
+    DiluteH2SO4 = registerLiquid(lqudaciddcmp(16200, "Dilute Sulfuric Acid", 255, 192, 128, 200))
+            .setMcfg(0, MT.H2SO4, 7*U, MT.H2O, 3*U)
+            .heat(MT.H2SO4),
+    DnqNovolacResist = registerLiquid(lquddcmp(16201, "DNQ-Novolac Photoresist", 100, 100, 0, 200)
+            .heat(200, 400)),
+    Na2SO4Solution = registerLiquid(lquddcmp(16202, "Sodium Sulfate Solution", 0, 0, 0, 200)
+            .stealLooks(MT.Na2SO4)
+            .setMcfg(0, MT.Na2SO4, 7*U, MT.H2O, 3*U)
+            .heat(200, 400)),
+    ArF = registerGas(gasdcmp(16203, "Argon-Fluorine Mixture", 64, 255, 0, 200)
+            .setMcfg(0, MT.Ar, U, MT.F, U)
+            .heat(MT.Ar)),
+    KrF = registerGas(gasdcmp(16203, "Krypton-Fluorine Mixture", 192, 255, 128, 200)
+            .setMcfg(0, MT.Kr, U, MT.F, U)
+            .heat(MT.Kr))
     ;
 
     static {
@@ -781,11 +808,12 @@ public class MTx {
         addMolten(FeCr2, 144);
         addMolten(ConverterSlag, 144);
         addMolten(Phenol, 144);
-        addMolten(Naphthalene, 144);
-        addMolten(Anthracene, 144);
         addMolten(Epoxy, 144);
         addMolten(LiF, 144);
         addMolten(SiGe, 144);
+        addMolten(GaAs, 144);
+
+        OP.bouleGt.forceItemGeneration(GaAs, SiGe);
 
         OreDictManager.INSTANCE.addReRegistration("dustCobaltBlue", "dyeMixableBlue");
         OreDictManager.INSTANCE.addReRegistration("dustIndigo", "dyeMixableBlue");
@@ -798,7 +826,5 @@ public class MTx {
 
         HSST1.addEnchantmentForWeapons(Enchantment.sharpness, 4).addEnchantmentForAmmo(Enchantment.sharpness, 4).addEnchantmentForRanged(Enchantment.power, 4);
         HSSM2.addEnchantmentForWeapons(Enchantment.sharpness, 4).addEnchantmentForAmmo(Enchantment.sharpness, 4).addEnchantmentForRanged(Enchantment.power, 4);
-
-        OP.bouleGt.forceItemGeneration(GaAs, SiGe);
     }
 }

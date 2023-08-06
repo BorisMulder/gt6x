@@ -89,6 +89,10 @@ public class ILx implements IItemContainer {
     public static ILx Circuit_Plate_Platinum_Small = new ILx("Circuit_Plate_Platinum_Small");
     public static ILx Circuit_Plate_Platinum_Tiny = new ILx("Circuit_Plate_Platinum_Tiny");
     public static ILx EtchMask_Trace = new ILx("EtchMask_Trace");
+    public static ILx Comp_Laser_Gas_N = new ILx("Comp_Laser_Gas_N");
+    public static ILx Comp_Laser_Gas_KrF = new ILx("Comp_Laser_Gas_KrF");
+    public static ILx Comp_Laser_Gas_ArF = new ILx("Comp_Laser_Gas_ArF");
+    public static ILx Comp_Laser_Molten_Sn = new ILx("Comp_Laser_Molten_Sn");
 
 
     public String name;

@@ -228,9 +228,9 @@ public class MultiItemRefillableTool extends MultiItem implements IFluidContaine
     public Pair<ItemStack, ItemStack> addTool(short id, String english, String tooltip, IFluidFillableToolStats toolStats, Object... randomParameters) {
         if (tooltip == null) tooltip = "";
         if (id >= 0 && id < Short.MAX_VALUE - 1 && isUsableMeta(id)) {
-            LH.add(getUnlocalizedName() + "." +  id    + ".name"       , english);
+            LH.add(getUnlocalizedName() + "." +  id                    , english);
             LH.add(getUnlocalizedName() + "." +  id    + ".tooltip"    , tooltip);
-            LH.add(getUnlocalizedName() + "." + (id+1) + ".name"       , english + " (Empty)");
+            LH.add(getUnlocalizedName() + "." + (id+1)                 , english + " (Empty)");
             LH.add(getUnlocalizedName() + "." + (id+1) + ".tooltip"    , "You need to fill it with fluid (e.g. at a tap or crucible)");
             this.toolStats.put(id   , toolStats);
             this.toolStats.put((short) (id+1), toolStats);

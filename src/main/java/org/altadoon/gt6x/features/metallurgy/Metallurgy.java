@@ -88,10 +88,11 @@ public class Metallurgy extends GT6XFeature {
     private void createPrefixes() {
         sinter = OreDictPrefix.createPrefix("sinter")
             .setCategoryName("Sinters")
-            .setLocalItemName("", " Sinter");
-        new PrefixItem(MOD_ID, MD.GT.mID, "gt6x.meta.sinter", sinter,
-            MT.Empty, MT.Fe2O3, MT.OREMATS.Magnetite, MTx.FeO, MT.OREMATS.Garnierite, MT.OREMATS.Cassiterite, MT.OREMATS.Chromite, MTx.PbO, MTx.ZnO, MT.MnO2, MTx.Co3O4, MTx.CoO, MT.SiO2, MTx.Sb2O3
-        );
+            .setLocalItemName("", " Sinter")
+            .setCondition(ICondition.FALSE)
+            .setMaterialStats(-1, U)
+            .forceItemGeneration(MT.Fe2O3, MT.OREMATS.Magnetite, MTx.FeO, MT.OREMATS.Garnierite, MT.OREMATS.Cassiterite, MT.OREMATS.Chromite, MTx.PbO, MTx.ZnO, MT.MnO2, MTx.Co3O4, MTx.CoO, MT.SiO2, MTx.Sb2O3);
+        PrefixItem item = new PrefixItem(MOD_ID, MD.GT.mID, "gt6x.meta.sinter" , sinter); if (COMPAT_FR != null) COMPAT_FR.addToBackpacks("miner", ST.make(item, 1, W));
     }
 
     private void changeMaterialProperties() {
@@ -298,12 +299,17 @@ public class Metallurgy extends GT6XFeature {
         // Wrought Iron
         RM.Anvil.addRecipe2(false, 64, 192, scrapGt.mat(MTx.SpongeIron, 9), scrapGt.mat(MTx.SpongeIron, 9), ingot.mat(MT.WroughtIron, 1), scrapGt.mat(MTx.FerrousSlag, 8));
 
-        // Precipitation of Zn, As, Mg, P gases
-        RM.Freezer.addRecipe1(true, 16, 48, ST.tag(0), MT.Zn.gas(U, true), NF, OM.dust(MT.Zn, U)); // from 1180 to 300
-        RM.Freezer.addRecipe1(true, 16, 32, ST.tag(0), MT.As.gas(U, true), NF, OM.dust(MT.As, U)); // from 887 to 300
-        RM.Freezer.addRecipe1(true, 16, 64, ST.tag(0), MT.Mg.gas(U, true), NF, OM.dust(MT.Mg, U)); // from 1378 to 300
+        // Sublimation/Precipitation of Zn, As, Mg, P gases
+        RM.Smelter.addRecipe1(true, 16, 144, blockDust.mat(MT.As, 1), ZL_FS, MT.As.gas(9*U, false), ZL_IS);
+        RM.Smelter.addRecipe1(true, 16, 16,  dust.mat(MT.As, 1), ZL_FS, MT.As.gas(U, false), ZL_IS);
+        RM.Smelter.addRecipe1(true, 16, 4,   dustSmall.mat(MT.As, 1), ZL_FS, MT.As.gas(U4, false), ZL_IS);
+        RM.Smelter.addRecipe1(true, 16, 2,   dustTiny.mat(MT.As, 1), ZL_FS, MT.As.gas(U9, false), ZL_IS);
+        RM.Smelter.addRecipe1(true, 16, 1,   dustDiv72.mat(MT.As, 1), ZL_FS, MT.As.gas(U72, false), ZL_IS);
+        RM.Freezer.addRecipe1(true, 16, 48, ST.tag(0), MT.Zn.gas(U, true), NF, OM.ingot(MT.Zn, U)); // from 1180 to 300
+        RM.Freezer.addRecipe1(true, 16, 32, ST.tag(0), MT.As.gas(U, true), NF, OM.ingot(MT.As, U)); // from 887 to 300
+        RM.Freezer.addRecipe1(true, 16, 64, ST.tag(0), MT.Mg.gas(U, true), NF, OM.ingot(MT.Mg, U)); // from 1378 to 300
         RM.Bath   .addRecipe1(true, 0, 512, ST.tag(0), MT.Zn.gas(U, true), MT.Zn.liquid(U, false), NI); // from 1180 to 692
-        RM.Bath   .addRecipe1(true, 0, 512, ST.tag(0), MT.As.gas(U, true), NF, OM.dust(MT.As, U)); // from 887 to 300
+        RM.Bath   .addRecipe1(true, 0, 512, ST.tag(0), MT.As.gas(U, true), NF, OM.ingot(MT.As, U)); // from 887 to 300
         RM.Bath   .addRecipe1(true, 0, 512, ST.tag(0), MT.Mg.gas(U, true), MT.Mg.liquid(U, false), NI); // from 1378 to 922
         RM.Bath   .addRecipe1(true, 0, 128, ST.tag(0), FL.array(MTx.ZnBlastFurnaceGas.gas(7*U, true)), FL.array(MT.Zn.liquid(U, false), MTx.BlastFurnaceGas.gas(6*U, false)));
         RM.Bath   .addRecipe1(true, 0, 128, ST.tag(0), FL.array(MTx.MgBlastFurnaceGas.gas(7*U, true)), FL.array(MT.Mg.liquid(U, false), MT.CO2.gas(6*U, false)));
@@ -338,8 +344,9 @@ public class Metallurgy extends GT6XFeature {
 
         RM.Drying.addRecipe0(true, 16, 6000, MTx.BayerLiquor.liquid(6*U, true), FL.DistW.make(3000), dust.mat(MT.NaOH, 3));
         RM.Electrolyzer.addRecipe1(true, 64, 512, ST.tag(1), FL.array(MTx.BayerLiquor.liquid(24*U, true), MT.Hg.liquid(9*U, true)), FL.array(MTx.GaAmalgam.liquid(10*U, false), MT.H.gas(5*U, false), FL.Water.make(4500)), dust.mat(MT.NaOH, 12), OM.dust(MT.V2O5, 7*U2));
-        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.NaOH, 3), FL.array(MTx.GaAmalgam.liquid(10*U, true), FL.Water.make(4500), FL.Oxygen.make(1500)), FL.array(MT.Hg.liquid(9*U, false)), dust.mat(MTx.NaGaOH4, 10));
-        RM.Electrolyzer.addRecipe1(true, 64, 512, dust.mat(MTx.NaGaOH4, 10), ZL_FS, FL.array(FL.Water.make(4500), FL.Oxygen.make(1500)), dust.mat(MT.Ga, 1), dust.mat(MT.NaOH, 3));
+        //TODO not working
+        RM.Mixer.addRecipe0(true, 16, 192, FL.array(MTx.GaAmalgam.liquid(10*U, true), MTx.NaOHSolution.liquid(6*U, true), FL.Water.make(1500), FL.Oxygen.make(1500)), FL.array(MT.Hg.liquid(9*U, false)), dust.mat(MTx.NaGaOH4, 10));
+        RM.Electrolyzer.addRecipe2(true, 64, 512, ST.tag(1), dust.mat(MTx.NaGaOH4, 10), ZL_FS, FL.array(FL.Water.make(1500), FL.Oxygen.make(1500), MTx.NaOHSolution.liquid(6*U, false)), dust.mat(MT.Ga, 1));
 
         // Sintering dusts into chunks
         RMx.sintering.add(new RecipeMapHandlerPrefixSintering(dust,      1, NF, 16, 0, 0, NF, ingot , 1, ST.tag(1), NI, true, false, false, lowHeatSintering));
@@ -568,6 +575,7 @@ public class Metallurgy extends GT6XFeature {
         RM.Autoclave.addRecipe2(true,  0, 3000, OP.dustSmall.mat(MT.OREMATS.Bauxite, 8), OP.dust     .mat(MT.NaOH, 3), FL.Steam.make(96000), FL.DistW.make(600+1500), OP.dust.mat(MT.NaAlO2, 4), crushedCentrifuged.mat(MTx.RedMud, 1));
         RM.Autoclave.addRecipe2(true,  0, 3000, OP.dustTiny .mat(MT.OREMATS.Bauxite,18), OP.dust     .mat(MT.NaOH, 3), FL.Steam.make(96000), FL.DistW.make(600+1500), OP.dust.mat(MT.NaAlO2, 4), crushedCentrifuged.mat(MTx.RedMud, 1));
 
+        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.NaAlO2, 12), FL.array(MT.HF.gas(12*U, true)), FL.array(MT.Na3AlF6.liquid(10*U, false), MT.H2O.liquid(9*U, false)), dust.mat(MT.Al2O3, 5));
         for (FluidStack water : FL.waters(1000)) {
             RM.Bath.addRecipe1(true, 0, 2048, OP.dust.mat(MT.KAlO2, 4), FL.mul(water, 6), NF, OP.dust.mat(MT.AlO3H3, 4), OP.dust.mat(MT.AlO3H3, 3), OP.dust.mat(MT.KOH, 3));
             RM.Bath.addRecipe1(true, 0, 2048, OP.dust.mat(MT.NaAlO2, 4), FL.mul(water, 9), MTx.BayerLiquor.liquid(6*U, false), OP.dust.mat(MT.AlO3H3, 7));
