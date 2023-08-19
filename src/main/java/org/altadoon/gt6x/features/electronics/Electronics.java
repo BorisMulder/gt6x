@@ -158,7 +158,7 @@ public class Electronics extends GT6XFeature {
         RM.Drying.addRecipe1(true, 16, 64000, ST.tag(0), MTx.SiGeH8.gas(5*U, true), MT.H.gas(4*U, false), polyGem.mat(MTx.SiGe, 1));
         RM.CrystallisationCrucible.addRecipe1(true, 16, 1800, ST.tag(0), FL.array(MT.Ga.liquid(U2, true), MT.As.gas(U2, true)), ZL_FS, polyGem.mat(MTx.GaAs, 1));
 
-        //TODO not working
+        //TODO fix lazy generation
         FluidStack[] cuttingFluids = FL.array(FL.Water.make(1000), FL.SpDew.make(1000), FL.DistW.make(1000), FL.Lubricant.make(1000), FL.LubRoCant.make(1000));
         long[] cuttingMultiplier = new long[] {4, 4, 3, 1, 1};
         @SuppressWarnings({"unchecked", "rawtypes"})
@@ -166,29 +166,33 @@ public class Electronics extends GT6XFeature {
 
         for (int i = 0; i < 4; i++) if (cuttingFluids[i] != null) {
             RM.Cutter.add(new RecipeMapHandlerPrefix(polyGem , 1, FL.mul(cuttingFluids[i], cuttingMultiplier[i] * 16, 1000, true), 64, cuttingMultiplier[i] * 4 * 16, 0, NF, plateGemTiny, 6, NI, NI, false, true, false, cuttingCondition));
-            RM.Cutter.add(new RecipeMapHandlerPrefix(plateGem, 1, FL.mul(cuttingFluids[i], cuttingMultiplier[i] * 16, 1000, true), 32, cuttingMultiplier[i] * 4 * 16, 0, NF, plateGemTiny, 8, NI, NI, F, T, F, cuttingCondition));
         }
 
+        RM.Mixer.addRecipe1(true, 16, 2  , ST.tag(2), FL.array(FL.make_("molten.silicon", 1), FL.make_("molten.germanium",1)), FL.make_("molten.silicongermanium", 2), ZL_IS);
+        RM.Mixer.addRecipe1(true, 16, 288, ST.tag(2), FL.array(FL.make_("molten.gallium", 144), MT.As.gas(U, true)), FL.make_("molten.galliumarsenide", 288), ZL_IS);
+
         // Boules
-        for (FluidStack inertGas : FL.array(MT.He.gas(U, true), MT.Ne.gas(U, true), MT.Ar.gas(U, true), MT.Kr.gas(U, true), MT.Xe.gas(U, true), MT.Rn.gas(U, true))) if (inertGas != null) {
+        for (FluidStack nobleGas : FL.array(MT.He.gas(U, true), MT.Ne.gas(U, true), MT.Ar.gas(U, true), MT.Kr.gas(U, true), MT.Xe.gas(U, true), MT.Rn.gas(U, true))) if (nobleGas != null) {
             // i-type semiconductors
-            RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.GaAs, 1), FL.array(MT.Ga.liquid(35*U18, true), MT.As.gas(35*U18, true)), ZL_FS, bouleGt.mat(MTx.GaAs, 1));
-            RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.SiGe, 1), FL.array(FL.mul(inertGas, 1), MTx.SiGe.liquid(35*U9, true)), ZL_FS, bouleGt.mat(MTx.SiGe, 1));
-            RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGem    .mat(MTx.SiGe, 1), FL.array(FL.mul(inertGas, 9), MTx.SiGe.liquid(35*U , true)), ZL_FS, bouleGt.mat(MTx.SiGe, 9));
+            RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.GaAs, 1), FL.array(FL.mul(nobleGas, 1), MT .Ga  .liquid(35*U18, true), MT.As.gas(35*U18, true)), ZL_FS, bouleGt.mat(MTx.GaAs, 1));
+            RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.GaAs, 1), FL.array(FL.mul(nobleGas, 9), MT .Ga  .liquid(35*U2 , true), MT.As.gas(35*U2, true)), ZL_FS, bouleGt.mat(MTx.GaAs, 9));
+            RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.SiGe, 1), FL.array(FL.mul(nobleGas, 1), MTx.SiGe.liquid(35*U9, true)), ZL_FS, bouleGt.mat(MTx.SiGe, 1));
+            RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.SiGe, 1), FL.array(FL.mul(nobleGas, 9), MTx.SiGe.liquid(35*U , true)), ZL_FS, bouleGt.mat(MTx.SiGe, 9));
 
             // n-type semiconductors
-            RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MT. Si  , 1), FL.array(FL.mul(inertGas, 1), MT. Si  .liquid(35*U9, true), MTx.Phosphine.gas(U18, true)), NF, bouleGt.mat(MTx.NDopedSi  , 1));
-            RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MT. Si  , 1), FL.array(FL.mul(inertGas, 9), MT. Si  .liquid(35*U , true), MTx.Phosphine.gas(U2 , true)), NF, bouleGt.mat(MTx.NDopedSi  , 9));
-            RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.SiGe, 1), FL.array(FL.mul(inertGas, 1), MTx.SiGe.liquid(35*U9, true), MTx.Phosphine.gas(U18, true)), NF, bouleGt.mat(MTx.NDopedSiGe, 1));
-            RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.SiGe, 1), FL.array(FL.mul(inertGas, 9), MTx.SiGe.liquid(35*U , true), MTx.Phosphine.gas(U2 , true)), NF, bouleGt.mat(MTx.NDopedSiGe, 9));
-            RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.GaAs, 1), FL.array(FL.mul(inertGas, 1), MTx.GaAs.liquid(35*U9, true), MTx.Silane   .gas(5*U72, true)), NF, bouleGt.mat(MTx.NDopedGaAs, 1));
-            RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.GaAs, 1), FL.array(FL.mul(inertGas, 9), MTx.GaAs.liquid(35*U , true), MTx.Silane   .gas(5*U8 , true)), NF, bouleGt.mat(MTx.NDopedGaAs, 9));
+            RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MT. Si  , 1), FL.array(FL.mul(nobleGas, 1), MT. Si  .liquid(35*U9, true), MTx.Phosphine.gas(U18, true)), NF, bouleGt.mat(MTx.NDopedSi  , 1));
+            RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MT. Si  , 1), FL.array(FL.mul(nobleGas, 9), MT. Si  .liquid(35*U , true), MTx.Phosphine.gas(U2 , true)), NF, bouleGt.mat(MTx.NDopedSi  , 9));
+            //TODO not working. Ambiguous?
+            RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.SiGe, 1), FL.array(FL.mul(nobleGas, 1), MTx.SiGe.liquid(35*U9, true), MTx.Phosphine.gas(U18, true)), NF, bouleGt.mat(MTx.NDopedSiGe, 1));
+            RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.SiGe, 1), FL.array(FL.mul(nobleGas, 9), MTx.SiGe.liquid(35*U , true), MTx.Phosphine.gas(U2 , true)), NF, bouleGt.mat(MTx.NDopedSiGe, 9));
+            RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.GaAs, 1), FL.array(FL.mul(nobleGas, 1), MTx.GaAs.liquid(35*U9, true), MTx.Silane   .gas(5*U72, true)), NF, bouleGt.mat(MTx.NDopedGaAs, 1));
+            RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.GaAs, 1), FL.array(FL.mul(nobleGas, 9), MTx.GaAs.liquid(35*U , true), MTx.Silane   .gas(5*U8 , true)), NF, bouleGt.mat(MTx.NDopedGaAs, 9));
 
             // p-type semiconductors
-            RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MT .Si  , 1), FL.array(FL.mul(inertGas, 1), MT. Si  .liquid(35*U9, true), MTx.Diborane .gas(U18, true)), NF, bouleGt.mat(MTx.PDopedSi  , 1));
-            RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MT .Si  , 1), FL.array(FL.mul(inertGas, 9), MT .Si  .liquid(35*U , true), MTx.Diborane .gas(U2 , true)), NF, bouleGt.mat(MTx.PDopedSi  , 9));
-            RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.SiGe, 1), FL.array(FL.mul(inertGas, 1), MTx.SiGe.liquid(35*U9, true), MTx.Diborane .gas(U18, true)), NF, bouleGt.mat(MTx.PDopedSiGe, 1));
-            RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.SiGe, 1), FL.array(FL.mul(inertGas, 9), MTx.SiGe.liquid(35*U , true), MTx.Diborane .gas(U2 , true)), NF, bouleGt.mat(MTx.PDopedSiGe, 9));
+            RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MT .Si  , 1), FL.array(FL.mul(nobleGas, 1), MT. Si  .liquid(35*U9, true), MTx.Diborane .gas(U18, true)), NF, bouleGt.mat(MTx.PDopedSi  , 1));
+            RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MT .Si  , 1), FL.array(FL.mul(nobleGas, 9), MT .Si  .liquid(35*U , true), MTx.Diborane .gas(U2 , true)), NF, bouleGt.mat(MTx.PDopedSi  , 9));
+            RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.SiGe, 1), FL.array(FL.mul(nobleGas, 1), MTx.SiGe.liquid(35*U9, true), MTx.Diborane .gas(U18, true)), NF, bouleGt.mat(MTx.PDopedSiGe, 1));
+            RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.SiGe, 1), FL.array(FL.mul(nobleGas, 9), MTx.SiGe.liquid(35*U , true), MTx.Diborane .gas(U2 , true)), NF, bouleGt.mat(MTx.PDopedSiGe, 9));
         }
 
         // Photoresist

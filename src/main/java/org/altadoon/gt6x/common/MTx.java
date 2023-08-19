@@ -57,9 +57,13 @@ public class MTx {
         MT.Plastic.put(POLYMER);
         MT.Rubber.put(POLYMER);
         MT.Teflon.put(POLYMER, PIPES).uumMcfg(0, MT.C, U, MT.F, 2*U)
-                .heat(C+327).setRGBa(200, 255, 255, 255);
+                .heat(C+327).setRGBa(200, 255, 255, 255)
+                .hide(false);
         MT.PVC.put(POLYMER, PIPES).uumMcfg(0, MT.C, 2*U, MT.H, 3*U, MT.Cl, U)
-                .heat(C+100).setRGBa(125, 125, 125, 255);
+                .heat(C+100).setRGBa(125, 125, 125, 255)
+                .hide(false);
+        MT.Polycarbonate.uumMcfg( 0, MT.C, 16*U, MT.H, 18*U, MT.O, 3*U)
+                        .setLocal("Polycarbonate");
         MT.Indigo.uumMcfg(0, MT.C, 16*U, MT.H, 10*U, MT.N, 2*U, MT.O, 2*U)
                 .heat(391).setRGBa(75, 0, 130, 255);
 
@@ -257,12 +261,14 @@ public class MTx {
             .uumMcfg(0, MT.C, 2*U, MT.H, U*3, MT.Cl, U)
             .heat(119, 260)
             .put(FLAMMABLE)),
-    //TODO 16043 free
     /*PVC = plastic( 16043, "PVC", SET_DULL, 125, 125, 125, 255)
             .setLocal("Polyvinyl Chloride")
             .uumMcfg(0, MT.C, 2*U, MT.H, U*3, MT.Cl, U)
             .heat(C+100)
             .put(PIPES),*/
+    Phosgene = registerGas(gasdcmp(16043, "Phosgene", 255, 255, 255, 50, "Carbonyl Dichloride")
+            .setMcfg(0, MT.C, U, MT.O, U, MT.Cl, 2*U)
+            .heat(155, 281)),
     CHCl3 = registerLiquid(lquddcmp( 16044, "Chloroform", 150, 255, 200, 255)
             .uumMcfg(0, MT.C, U, MT.H, U, MT.Cl, U*3)
             .heat(210, 334)),
@@ -534,7 +540,7 @@ public class MTx {
             .uumMcfg(0, MT.P, 2*U, MT.O, 5*U)
             .heat(613, 613),
     P_CO_Gas = registerGas(gas(16122, "Phosphorus-CO Vapour", 100, 100, 0, 50)
-            .setMcfg(0, MT.P, U, MT.CO, 5*U) //TODO not working
+            .setMcfg(0, MT.P, U, MT.CO, 5*U) //TODO formula not working
             .heat(MT.CO),
             1700),
     HSST1 = alloymachine(16123, "HSS-T1", SET_METALLIC, 50, 50, 150)
