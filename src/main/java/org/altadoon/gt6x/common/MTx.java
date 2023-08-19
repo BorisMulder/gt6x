@@ -67,6 +67,7 @@ public class MTx {
         MT.OREMATS.Tungstate.setLocal("Lithium Tungstate");
         MT.OREMATS.Huebnerite.setLocal("Hübnerite");
         MT.Glyceryl.setLocal("Nitroglycerin");
+        MT.H3BO3.setLocal("Boric Acid");
 
         addMolten(MT.K2S2O7, 1000);
         addMolten(MT.Na2S2O7, 1000);
@@ -617,14 +618,14 @@ public class MTx {
             .uumMcfg(0, MT.Ga, U, MT.As, U)
             .heat(1511),
     SiGe = alloymachine(16148, "Silicon-Germanium", SET_METALLIC, 174, 174, 183, 255)
-            .uumMcfg(0, MT.Si, U, MT.Ge, U)
+            .uumAloy(0, MT.Si, U, MT.Ge, U)
             .heat(MT.Ge),
     LiH = dustdcmp(16149, "Lithium Hydride", SET_QUARTZ, 0, 153, 153, 255)
             .setMcfg(0, MT.Li, U, MT.H, U)
             .heat(961, 1220)
             .put(GEMS),
     LiF = dustdcmp(16150, "Lithium Fluoride", SET_DULL, 235, 255, 200, 255)
-            .setMcfg(0, MT.Li, U, MT.H, U)
+            .setMcfg(0, MT.Li, U, MT.F, U)
             .heat(1118, 1949)
             .put(ELECTROLYSER),
     BF3 = registerGas(gasdcmp(16151, "Boron Trifluoride", 255, 250, 180, 50, "Trifluoroborane")
@@ -662,7 +663,6 @@ public class MTx {
     Na3VO4 = create(16162, "Sodium Orthovanadate", 255, 255, 255, 0)
             .setMcfg(0, MT.Na, 3*U, MT.V, U, MT.O, 4*U),
     BayerLiquor = registerLiquid(lquddcmp(16163, "Bayer Liquor", 200, 50, 0, 255)
-            .setMcfg(0, NaGaOH4, 10*U, Na3VO4, 8*U, MT.H2O, 6*U) // used in place of 4x NaOH.H2O, but Ga and V are added for free and some H's and O's are removed/added
             .heat(MT.H2O)),
     GaAmalgam = registerLiquid(lquddcmp(16164, "Gallium Amalgam", 200, 0, 180, 255)
             .setMcfg(0, MT.Hg, 9*U, MT.Ga, U)
@@ -681,13 +681,13 @@ public class MTx {
     PDopedSiGe = dopedSemiconductor(16169, "P-Doped Silicon-Germanium", SiGe),
     NDopedSiGe = dopedSemiconductor(16170, "N-Doped Silicon-Germanium", SiGe),
     NDopedGaAs = dopedSemiconductor(16171, "N-Doped Gallium Arsenide", GaAs),
-    Naphthalene = dustdcmp(16172, "Naphthalene", SET_DULL, 255, 255, 255, 255, INGOTS)
+    Naphthalene = registerLiquid(lquddcmp(16172, "Naphthalene", 255, 255, 255, 255)
             .setMcfg(0, MT.C, 10*U, MT.H, 8*U)
             .heat(351, 424)
-            .put(FLAMMABLE),
-    Anthracene = dustdcmp(16173, "Anthracene", SET_SHINY, 225, 255, 150, 255, INGOTS)
+            .put(FLAMMABLE)),
+    Anthracene = registerLiquid(lquddcmp(16173, "Anthracene", 225, 255, 150, 255)
             .setMcfg(0, MT.C, 14*U, MT.H, 10*U)
-            .heat(489, 614),
+            .heat(489, 614)),
     Anthraquinone = dustdcmp(16174, "Anthraquinone", SET_SHINY, 225, 255, 0, 255)
             .setMcfg(0, MT.C, 14*U, MT.H, 8*U, MT.O, 2*U)
             .heat(558, 650),
@@ -796,8 +796,6 @@ public class MTx {
         addMolten(FeCr2, 144);
         addMolten(ConverterSlag, 144);
         addMolten(Phenol, 144);
-        addMolten(Naphthalene, 144);
-        addMolten(Anthracene, 144);
         addMolten(Epoxy, 144);
         addMolten(LiF, 144);
         addMolten(SiGe, 144);
