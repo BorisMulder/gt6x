@@ -2,7 +2,6 @@ package org.altadoon.gt6x.features.metallurgy;
 
 import gregapi.code.ICondition;
 import gregapi.data.*;
-import gregapi.item.prefixitem.PrefixItem;
 import gregapi.oredict.*;
 import gregapi.oredict.configurations.IOreDictConfigurationComponent;
 import gregapi.oredict.configurations.OreDictConfigurationComponent;
@@ -32,7 +31,6 @@ import static gregapi.data.OP.*;
 import static gregapi.data.TD.Atomic.ANTIMATTER;
 import static gregapi.data.TD.Processing.EXTRUDER;
 import static gregapi.oredict.OreDictMaterialCondition.fullforge;
-import static org.altadoon.gt6x.Gt6xMod.MOD_ID;
 
 public class Metallurgy extends GT6XFeature {
     public static final String FEATURE_NAME = "Metallurgy";
@@ -88,10 +86,9 @@ public class Metallurgy extends GT6XFeature {
     private void createPrefixes() {
         sinter = OreDictPrefix.createPrefix("sinter")
             .setCategoryName("Sinters")
-            .setLocalItemName("", " Sinter");
-        new PrefixItem(MOD_ID, MD.GT.mID, "gt6x.meta.sinter", sinter,
-            MT.Empty, MT.Fe2O3, MT.OREMATS.Magnetite, MTx.FeO, MT.OREMATS.Garnierite, MT.OREMATS.Cassiterite, MT.OREMATS.Chromite, MTx.PbO, MTx.ZnO, MT.MnO2, MTx.Co3O4, MTx.CoO, MT.SiO2, MTx.Sb2O3
-        );
+            .setLocalItemName("", " Sinter")
+            .setCondition(ICondition.FALSE)
+            .forceItemGeneration(MT.Fe2O3, MT.OREMATS.Magnetite, MTx.FeO, MT.OREMATS.Garnierite, MT.OREMATS.Cassiterite, MT.OREMATS.Chromite, MTx.PbO, MTx.ZnO, MT.MnO2, MTx.Co3O4, MTx.CoO, MT.SiO2, MTx.Sb2O3);
     }
 
     private void changeMaterialProperties() {
