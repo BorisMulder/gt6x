@@ -75,7 +75,7 @@ public class Ceramics extends GT6XFeature {
                 .setMaterialStats(U)
                 .add(TD.Prefix.RECYCLABLE)
                 .setCondition(ICondition.FALSE)
-                .forceItemGeneration(MT.Si, MTx.Cement, MTx.CaAlCement);
+                .forceItemGeneration(MTx.Cement, MTx.CaAlCement);
     }
 
     private void addAlloyingRecipes() {
