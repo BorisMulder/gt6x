@@ -784,7 +784,13 @@ public class MTx {
     Na2SO4Solution = registerLiquid(lquddcmp(16202, "Sodium Sulfate Solution", 0, 0, 0, 200)
             .stealLooks(MT.Na2SO4)
             .setMcfg(0, MT.Na2SO4, 7*U, MT.H2O, 3*U)
-            .heat(200, 400))
+            .heat(200, 400)),
+    ArF = registerGas(gasdcmp(16203, "Argon-Fluorine Mixture", 64, 255, 0, 200)
+            .setMcfg(0, MT.Ar, U, MT.F, U)
+            .heat(MT.Ar)),
+    KrF = registerGas(gasdcmp(16203, "Krypton-Fluorine Mixture", 192, 255, 128, 200)
+            .setMcfg(0, MT.Kr, U, MT.F, U)
+            .heat(MT.Kr))
     ;
 
     static {
