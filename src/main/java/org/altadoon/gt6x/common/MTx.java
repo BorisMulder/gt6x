@@ -7,6 +7,7 @@ import gregapi.oredict.OreDictMaterial;
 import gregapi.render.TextureSet;
 import net.minecraft.enchantment.Enchantment;
 import org.altadoon.gt6x.Gt6xMod;
+import org.altadoon.gt6x.features.electronics.Electronics;
 
 import static gregapi.data.CS.*;
 import static gregapi.data.TD.Atomic.CHALCOGEN;
@@ -113,6 +114,7 @@ public class MTx {
         OP.bouleGt.forceItemGeneration(mat);
         OP.plateGem.forceItemGeneration(mat);
         OP.plateGemTiny.forceItemGeneration(mat);
+        Electronics.oxidizedWafer.forceItemGeneration(mat);
         return mat;
     }
 
@@ -623,7 +625,7 @@ public class MTx {
     GaAs = alloymachine(16147, "Gallium Arsenide", SET_METALLIC, 96, 96, 120, 255)
             .uumMcfg(0, MT.Ga, U, MT.As, U)
             .heat(1511),
-    SiGe = alloymachine(16148, "Silicon-Germanium", SET_METALLIC, 174, 174, 183, 255)
+    SiGe = alloymachine(16148, "Silicon-Germanium", SET_METALLIC, 136, 136, 146, 255)
             .uumAloy(0, MT.Si, U, MT.Ge, U)
             .heat(MT.Ge),
     LiH = dustdcmp(16149, "Lithium Hydride", SET_QUARTZ, 0, 153, 153, 255)
@@ -686,7 +688,9 @@ public class MTx {
     NDopedSi = dopedSemiconductor(16168, "N-Doped Silicon", MT.Si),
     PDopedSiGe = dopedSemiconductor(16169, "P-Doped Silicon-Germanium", SiGe),
     NDopedSiGe = dopedSemiconductor(16170, "N-Doped Silicon-Germanium", SiGe),
-    NDopedGaAs = dopedSemiconductor(16171, "N-Doped Gallium Arsenide", GaAs),
+    AuGe = alloymachine(16171, "Gold-Germanium", SET_COPPER, 227, 182, 59)
+            .uumAloy(0, MT.Au, U, MT.Ge, U)
+            .heat(365 + C, (MT.Ge.mBoilingPoint + MT.Au.mBoilingPoint) / 2),
     Naphthalene = registerLiquid(lquddcmp(16172, "Naphthalene", 255, 255, 255, 255)
             .setMcfg(0, MT.C, 10*U, MT.H, 8*U)
             .heat(351, 424)
@@ -779,18 +783,42 @@ public class MTx {
     DiluteH2SO4 = registerLiquid(lqudaciddcmp(16200, "Dilute Sulfuric Acid", 255, 192, 128, 200))
             .setMcfg(0, MT.H2SO4, 7*U, MT.H2O, 3*U)
             .heat(MT.H2SO4),
-    DnqNovolacResist = registerLiquid(lquddcmp(16201, "DNQ-Novolac Photoresist", 100, 100, 0, 200)
+    DnqNovolacResist = registerLiquid(lquddcmp(16201, "DNQ-Novolac Photoresist", 84, 145, 84, 200)
             .heat(200, 400)),
     Na2SO4Solution = registerLiquid(lquddcmp(16202, "Sodium Sulfate Solution", 0, 0, 0, 200)
             .stealLooks(MT.Na2SO4)
             .setMcfg(0, MT.Na2SO4, 7*U, MT.H2O, 3*U)
             .heat(200, 400)),
-    ArF = registerGas(gasdcmp(16203, "Argon-Fluorine Mixture", 64, 255, 0, 200)
+    ArF = registerGas(gasdcmp(16203, "Argon-Fluorine", 64, 255, 0, 200)
             .setMcfg(0, MT.Ar, U, MT.F, U)
             .heat(MT.Ar)),
-    KrF = registerGas(gasdcmp(16203, "Krypton-Fluorine Mixture", 192, 255, 128, 200)
+    KrF = registerGas(gasdcmp(16204, "Krypton-Fluorine", 192, 255, 128, 200)
             .setMcfg(0, MT.Kr, U, MT.F, U)
-            .heat(MT.Kr))
+            .heat(MT.Kr)),
+    CeO2 = dustdcmp(16205, "Cerium(IV) Oxide", SET_DULL, 255, 255, 204, 255)
+            .setMcfg(0, MT.Ce, U, MT.O, 2*U)
+            .heat(2670, 3770),
+    NitratoCericAcid = registerLiquid(lqudaciddcmp(16206, "Nitrato Ceric Acid", 255, 100, 0, 255)
+            .setMcfg(0, MT.H, 2*U, MT.Ce, U, MT.N, 6*U, MT.O, 18*U)
+            .tooltip("H" + NUM_SUB[2] + "Ce(" + "NO" + NUM_SUB[3] + ")" + NUM_SUB[6])
+            .heat(200, 400)),
+    CAN = dustdcmp(16207, "CAN", SET_CUBE, 255, 50, 0, 255)
+            .setLocal("Ceric Ammonium Nitrate")
+            .setMcfg(0, MT.Ce, U, MT.N, 8*U, MT.H, 8*U, MT.O, 18*U)
+            .tooltip("(NH" + NUM_SUB[4] + ")" + NUM_SUB[2] + "Ce(" + "NO" + NUM_SUB[3] + ")" + NUM_SUB[6])
+            .heat(380),
+    ChromeEtch = registerLiquid(lqudaciddcmp(16208, "Chromium Etchant", 255, 150, 0, 255)
+            .setMcfg(0, MT.HNO3, U, CAN, U)
+            .heat(MT.HNO3)),
+    CrNO3Solution = registerLiquid(lqudaciddcmp(16209, "Chromium Nitrate-Cerous Ammonium Nitrate Solution", 50, 0, 50, 255)
+            .tooltip("Cr(NO" + NUM_SUB[3] + ")" + NUM_SUB[3] + " + 3 (NH" + NUM_SUB[4] + ")" + NUM_SUB[2] + "Ce(" + "NO" + NUM_SUB[3] + ")" + NUM_SUB[5] + " + n HNO" + NUM_SUB[3])
+            .heat(200, 400)),
+    CCl4 = registerLiquid(lquddcmp(16210, "Tetrachloromethane", 200, 255, 200, 200)
+            .setMcfg(0, MT.C, U, MT.Cl, 4*U)
+            .heat(250, 350)),
+    CF4 = registerGas(gasdcmp(16211, "Tetrafluoromethane", 200, 255, 255, 200)
+            .setMcfg(0, MT.C, U, MT.F, 4*U)
+            .heat(89, 145))
     ;
 
     static {

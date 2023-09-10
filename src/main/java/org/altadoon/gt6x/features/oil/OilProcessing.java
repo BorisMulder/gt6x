@@ -195,6 +195,10 @@ public class OilProcessing extends GT6XFeature {
         RM.Mixer.addRecipe1(true, 16,  16, dust.mat(MT.KSO4, 0), FL.array(MTx.C2F4.gas(U10, false)), ZL_FS, dust.mat(MT.PTFE, 1));
         RM.Mixer.addRecipe1(true, 16,  16, dust.mat(MT.NaSO4, 0), FL.array(MTx.C2F4.gas(U10, false)), ZL_FS, dust.mat(MT.PTFE, 1));
 
+        // Carbon Tetrafluoride
+        RM.Mixer.addRecipe0(true, 16, 64, FL.array(MTx.CHCl3.liquid(5*U, true), MT.Cl.gas(2*U, true)), FL.array(MTx.CCl4.liquid(5*U, false), MT.HCl.gas(2*U, false)));
+        RM.Mixer.addRecipe0(true, 16, 64, FL.array(MTx.CCl4.liquid(5*U, true), MT.HF.gas(8*U, true)), FL.array(MTx.CF4.gas(5*U, false), MT.HCl.gas(8*U, false)));
+
         // Rubber
         RM.Mixer.addRecipe1(true, 16,  16, dust.mat(MT.MgCl2, 0), FL.array(MT.TiCl4.liquid(U1000, true), MTx.Isoprene.liquid(U10, false)), ZL_FS, dust.mat(MT.Rubber, 1));
 
