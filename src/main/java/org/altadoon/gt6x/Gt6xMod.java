@@ -11,6 +11,7 @@ import org.altadoon.gt6x.features.electronics.Electronics;
 import org.altadoon.gt6x.features.oil.OilProcessing;
 import org.altadoon.gt6x.features.pgm.PgmProcessing;
 import org.altadoon.gt6x.features.metallurgy.Metallurgy;
+import org.altadoon.gt6x.features.ree.REEProcessing;
 import org.altadoon.gt6x.features.refractorymetals.RefractoryMetals;
 import org.altadoon.gt6x.features.thermoven.ThermoOven;
 import org.altadoon.gt6x.features.verticalmixers.VerticalMixers;
@@ -59,6 +60,7 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 		Metallurgy.class,
 		OilProcessing.class,
 		PgmProcessing.class,
+		REEProcessing.class,
 		RefractoryMetals.class,
 		ThermoOven.class,
 		VerticalMixers.class,
