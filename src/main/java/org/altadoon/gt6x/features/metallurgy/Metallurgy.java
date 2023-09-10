@@ -2,6 +2,7 @@ package org.altadoon.gt6x.features.metallurgy;
 
 import gregapi.code.ICondition;
 import gregapi.data.*;
+import gregapi.item.prefixitem.PrefixItem;
 import gregapi.oredict.*;
 import gregapi.oredict.configurations.IOreDictConfigurationComponent;
 import gregapi.oredict.configurations.OreDictConfigurationComponent;
@@ -31,6 +32,7 @@ import static gregapi.data.OP.*;
 import static gregapi.data.TD.Atomic.ANTIMATTER;
 import static gregapi.data.TD.Processing.EXTRUDER;
 import static gregapi.oredict.OreDictMaterialCondition.fullforge;
+import static org.altadoon.gt6x.Gt6xMod.MOD_ID;
 
 public class Metallurgy extends GT6XFeature {
     public static final String FEATURE_NAME = "Metallurgy";
@@ -88,7 +90,9 @@ public class Metallurgy extends GT6XFeature {
             .setCategoryName("Sinters")
             .setLocalItemName("", " Sinter")
             .setCondition(ICondition.FALSE)
+            .setMaterialStats(-1, U)
             .forceItemGeneration(MT.Fe2O3, MT.OREMATS.Magnetite, MTx.FeO, MT.OREMATS.Garnierite, MT.OREMATS.Cassiterite, MT.OREMATS.Chromite, MTx.PbO, MTx.ZnO, MT.MnO2, MTx.Co3O4, MTx.CoO, MT.SiO2, MTx.Sb2O3);
+        PrefixItem item = new PrefixItem(MOD_ID, MD.GT.mID, "gt6x.meta.sinter" , sinter); if (COMPAT_FR != null) COMPAT_FR.addToBackpacks("miner", ST.make(item, 1, W));
     }
 
     private void changeMaterialProperties() {
@@ -572,6 +576,7 @@ public class Metallurgy extends GT6XFeature {
         RM.Autoclave.addRecipe2(true,  0, 3000, OP.dustSmall.mat(MT.OREMATS.Bauxite, 8), OP.dust     .mat(MT.NaOH, 3), FL.Steam.make(96000), FL.DistW.make(600+1500), OP.dust.mat(MT.NaAlO2, 4), crushedCentrifuged.mat(MTx.RedMud, 1));
         RM.Autoclave.addRecipe2(true,  0, 3000, OP.dustTiny .mat(MT.OREMATS.Bauxite,18), OP.dust     .mat(MT.NaOH, 3), FL.Steam.make(96000), FL.DistW.make(600+1500), OP.dust.mat(MT.NaAlO2, 4), crushedCentrifuged.mat(MTx.RedMud, 1));
 
+        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.NaAlO2, 12), FL.array(MT.HF.gas(12*U, true)), FL.array(MT.Na3AlF6.liquid(10*U, false), MT.H2O.liquid(9*U, false)), dust.mat(MT.Al2O3, 5));
         for (FluidStack water : FL.waters(1000)) {
             RM.Bath.addRecipe1(true, 0, 2048, OP.dust.mat(MT.KAlO2, 4), FL.mul(water, 6), NF, OP.dust.mat(MT.AlO3H3, 4), OP.dust.mat(MT.AlO3H3, 3), OP.dust.mat(MT.KOH, 3));
             RM.Bath.addRecipe1(true, 0, 2048, OP.dust.mat(MT.NaAlO2, 4), FL.mul(water, 9), MTx.BayerLiquor.liquid(6*U, false), OP.dust.mat(MT.AlO3H3, 7));
