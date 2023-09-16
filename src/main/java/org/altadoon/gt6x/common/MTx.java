@@ -7,6 +7,7 @@ import gregapi.oredict.OreDictMaterial;
 import gregapi.render.TextureSet;
 import net.minecraft.enchantment.Enchantment;
 import org.altadoon.gt6x.Gt6xMod;
+import org.altadoon.gt6x.features.electronics.Electronics;
 
 import static gregapi.data.CS.*;
 import static gregapi.data.TD.Atomic.CHALCOGEN;
@@ -113,6 +114,7 @@ public class MTx {
         OP.bouleGt.forceItemGeneration(mat);
         OP.plateGem.forceItemGeneration(mat);
         OP.plateGemTiny.forceItemGeneration(mat);
+        Electronics.oxidizedWafer.forceItemGeneration(mat);
         return mat;
     }
 
@@ -623,7 +625,7 @@ public class MTx {
     GaAs = alloymachine(16147, "Gallium Arsenide", SET_METALLIC, 96, 96, 120, 255)
             .uumMcfg(0, MT.Ga, U, MT.As, U)
             .heat(1511),
-    SiGe = alloymachine(16148, "Silicon-Germanium", SET_METALLIC, 174, 174, 183, 255)
+    SiGe = alloymachine(16148, "Silicon-Germanium", SET_METALLIC, 136, 136, 146, 255)
             .uumAloy(0, MT.Si, U, MT.Ge, U)
             .heat(MT.Ge),
     LiH = dustdcmp(16149, "Lithium Hydride", SET_QUARTZ, 0, 153, 153, 255)

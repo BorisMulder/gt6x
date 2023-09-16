@@ -36,7 +36,20 @@ import static org.altadoon.gt6x.Gt6xMod.MOD_ID;
 public class Electronics extends GT6XFeature {
     public static final String FEATURE_NAME = "Electronics";
 
-    public OreDictPrefix polyGem = null;
+    public static OreDictPrefix polyGem = OreDictPrefix.createPrefix("polyGem")
+        .setCategoryName("polyGems")
+        .setLocalItemName("Polycrystalline ", "")
+        .setMaterialStats(U)
+        .add(TD.Prefix.RECYCLABLE)
+        .setCondition(ICondition.FALSE)
+        .forceItemGeneration(MT.Si, MT.Ge, MTx.GaAs, MTx.SiGe);
+    public static OreDictPrefix oxidizedWafer = OreDictPrefix.createPrefix("oxidizedWafer")
+        .setCategoryName("oxidizedWafers")
+        .setLocalItemName("Oxidized ", " Wafer")
+        .setMaterialStats(U)
+        .add(TD.Prefix.RECYCLABLE)
+        .setCondition(ICondition.FALSE)
+        .forceItemGeneration(MT.Si, MT.Ge, MTx.GaAs, MTx.SiGe);
 
     public Recipe.RecipeMap photolithography = null;
 
@@ -74,14 +87,8 @@ public class Electronics extends GT6XFeature {
     }
 
     private void createPrefixes() {
-        polyGem = OreDictPrefix.createPrefix("polyGem")
-                .setCategoryName("polyGems")
-                .setLocalItemName("Polycrystalline ", "")
-                .setMaterialStats(U)
-                .add(TD.Prefix.RECYCLABLE)
-                .setCondition(ICondition.FALSE)
-                .forceItemGeneration(MT.Si, MT.Ge, MTx.GaAs, MTx.SiGe);
         new PrefixItem(MOD_ID, MD.GT.mID, "gt6x.meta.polyGem" , polyGem);
+        new PrefixItem(MOD_ID, MD.GT.mID, "gt6x.meta.oxidizedWafer" , oxidizedWafer);
     }
 
     private void addRecipeMaps() {
@@ -250,14 +257,17 @@ public class Electronics extends GT6XFeature {
         CR.shaped(ILx.Photomask_PMOS_IC.get(1), CR.DEF_REV, " k ", " M ", "   ", 'M', ILx.Photomask_Raw.get(1));
         //TODO pattern other masks using PL?
 
+        // Wafer oxidation
+        RM.Roasting.add(new RecipeMapHandlerPrefix(plateGem, 1, MT.O.gas(U10, true), 16, 1024, 0, NF, oxidizedWafer, 1, NI, NI, false, false, false, cuttingCondition));
+
         // PL
-        photolithography.addRecipe2(false, 32  , 1024, plateGem.mat(MTx.PDopedSi, 1), ILx.Photomask_PMOS_IC.get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafer_Patterned_PMOS_IC.get(1));
-        photolithography.addRecipe2(false, 128 , 1024, plateGem.mat(MTx.NDopedSi, 1), ILx.Photomask_NMOS_IC.get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafer_Patterned_NMOS_IC.get(1));
-        photolithography.addRecipe2(false, 512 , 1024, plateGem.mat(MTx.PDopedSiGe, 1), ILx.Photomask_CMOS_IC_1.get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafer_Patterned_CMOS_IC_1.get(1));
+        photolithography.addRecipe2(false, 32  , 1024, oxidizedWafer.mat(MTx.PDopedSi, 1), ILx.Photomask_PMOS_IC.get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafer_Patterned_PMOS_IC.get(1));
+        photolithography.addRecipe2(false, 128 , 1024, oxidizedWafer.mat(MTx.NDopedSi, 1), ILx.Photomask_NMOS_IC.get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafer_Patterned_NMOS_IC.get(1));
+        photolithography.addRecipe2(false, 512 , 1024, oxidizedWafer.mat(MTx.PDopedSiGe, 1), ILx.Photomask_CMOS_IC_1.get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafer_Patterned_CMOS_IC_1.get(1));
         photolithography.addRecipe2(false, 512 , 1024, ILx.Wafer_Doped_CMOS_IC_1.get(1), ILx.Photomask_CMOS_IC_2.get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafer_Patterned_CMOS_IC_2.get(1));
-        photolithography.addRecipe2(false, 2048, 1024, plateGem.mat(MTx.NDopedSiGe, 1), ILx.Photomask_CMOS_SOC_1.get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafer_Patterned_CMOS_SOC_1.get(1));
+        photolithography.addRecipe2(false, 2048, 1024, oxidizedWafer.mat(MTx.NDopedSiGe, 1), ILx.Photomask_CMOS_SOC_1.get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafer_Patterned_CMOS_SOC_1.get(1));
         photolithography.addRecipe2(false, 2048, 1024, ILx.Wafer_Doped_CMOS_SOC_1.get(1), ILx.Photomask_CMOS_SOC_2.get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafer_Patterned_CMOS_SOC_2.get(1));
-        photolithography.addRecipe2(false, 128 , 1024, plateGem.mat(MTx.NDopedGaAs, 1), ILx.Photomask_MOSFET.get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafer_Patterned_MOSFET.get(1));
+        photolithography.addRecipe2(false, 128 , 1024, oxidizedWafer.mat(MTx.NDopedGaAs, 1), ILx.Photomask_MOSFET.get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafer_Patterned_MOSFET.get(1));
 
         // Development
         RM.Bath.addRecipe1(false, 0, 1024, ILx.Wafer_Patterned_PMOS_IC   .get(1), MTx.NaOHSolution.liquid(U10, true), NF, ILx.Wafer_Developed_PMOS_IC   .get(1));
