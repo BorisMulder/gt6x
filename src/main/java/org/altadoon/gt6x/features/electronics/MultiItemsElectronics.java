@@ -164,7 +164,7 @@ public class MultiItemsElectronics extends MultiItemRandom {
         ILx.Die_NMOS_IC.set(addItem(361, "NMOS IC Die", tooltip, new OreDictItemData(MT .Si  , U20)));
         ILx.Die_CMOS_IC.set(addItem(363, "CMOS IC Die", tooltip, new OreDictItemData(MTx.SiGe, U20)));
         ILx.Die_SOC    .set(addItem(365, "SOC Die"    , tooltip, new OreDictItemData(MTx.SiGe, U20)));
-        ILx.Die_MOSFET .set(addItem(366, "MOSFET Die" , tooltip, new OreDictItemData(MTx.GaAs, U64)));
+        ILx.Die_MOSFET .set(addItem(366, "MOSFET" , "Metal-oxide-semiconductor field-effect transistor, " + tooltip, new OreDictItemData(MTx.GaAs, U64)));
 
         tooltip = "Integrated Circuit";
         ILx.PMOS_IC.set(addItem(370, "IC (Elite) "  , tooltip));
