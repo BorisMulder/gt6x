@@ -5,7 +5,6 @@ import gregapi.data.*;
 import gregapi.item.multiitem.MultiItemRandom;
 import gregapi.oredict.OreDictItemData;
 import gregapi.oredict.OreDictManager;
-import gregapi.util.CR;
 import gregapi.util.OM;
 import net.minecraft.item.ItemStack;
 import org.altadoon.gt6x.common.MTx;
@@ -106,7 +105,9 @@ public class MultiItemsElectronics extends MultiItemRandom {
         ILx.Photomask_CMOS_IC_2 .set(addItem(224, "Photomask (CMOS IC, stage II)" , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
         ILx.Photomask_CMOS_SOC_1.set(addItem(225, "Photomask (CMOS SOC, stage I)" , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
         ILx.Photomask_CMOS_SOC_2.set(addItem(226, "Photomask (CMOS SOC, stage II)", tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_MOSFET    .set(addItem(227, "Photomask (MOSFET)"            , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
+        ILx.Photomask_MESFET    .set(addItem(227, "Photomask (MESFET)"            , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
+
+        ILx.Wafer_GaAs_SiN_layered.set(addItem(299, "SiN-capped GaN wafer", "Gallium Arsenide Wafer (with Si" + NUM_SUB[3] + "N" + NUM_SUB[4] + " film cap layer", new OreDictItemData(MTx.GaAs, U)));
 
         // Wafers, ICs, etc.
         tooltip = "Needs developer";
@@ -116,7 +117,7 @@ public class MultiItemsElectronics extends MultiItemRandom {
         ILx.Wafer_Patterned_CMOS_IC_2 .set(addItem(303, "CMOS IC Wafer (patterned, stage II)" , tooltip, new OreDictItemData(MTx.SiGe, U)));
         ILx.Wafer_Patterned_CMOS_SOC_1.set(addItem(304, "CMOS SOC Wafer (patterned, stage I)" , tooltip, new OreDictItemData(MTx.SiGe, U)));
         ILx.Wafer_Patterned_CMOS_SOC_2.set(addItem(305, "CMOS SOC Wafer (patterned, stage II)", tooltip, new OreDictItemData(MTx.SiGe, U)));
-        ILx.Wafer_Patterned_MOSFET    .set(addItem(306, "MOSFET Wafer (patterned)"            , tooltip, new OreDictItemData(MTx.GaAs, U)));
+        ILx.Wafer_Patterned_MESFET    .set(addItem(306, "MESFET Wafer (patterned)"            , tooltip, new OreDictItemData(MTx.GaAs, U)));
 
         tooltip = "Ready to be etched";
         ILx.Wafer_Developed_PMOS_IC   .set(addItem(310, "PMOS IC Wafer (developed)"           , tooltip, new OreDictItemData(MT .Si  , U)));
@@ -125,7 +126,7 @@ public class MultiItemsElectronics extends MultiItemRandom {
         ILx.Wafer_Developed_CMOS_IC_2 .set(addItem(313, "CMOS IC Wafer (developed, stage II)" , tooltip, new OreDictItemData(MTx.SiGe, U)));
         ILx.Wafer_Developed_CMOS_SOC_1.set(addItem(314, "CMOS SOC Wafer (developed, stage I)" , tooltip, new OreDictItemData(MTx.SiGe, U)));
         ILx.Wafer_Developed_CMOS_SOC_2.set(addItem(315, "CMOS SOC Wafer (developed, stage II)", tooltip, new OreDictItemData(MTx.SiGe, U)));
-        ILx.Wafer_Developed_MOSFET    .set(addItem(316, "MOSFET Wafer (developed)"            , tooltip, new OreDictItemData(MTx.GaAs, U)));
+        ILx.Wafer_Developed_MESFET    .set(addItem(316, "MESFET Wafer (developed)"            , tooltip, new OreDictItemData(MTx.GaAs, U)));
 
         tooltip = "Could use some extra dopant";
         ILx.Wafer_Etched_PMOS_IC   .set(addItem(320, "PMOS IC Wafer (etched)"           , tooltip, new OreDictItemData(MT .Si  , U)));
@@ -134,15 +135,16 @@ public class MultiItemsElectronics extends MultiItemRandom {
         ILx.Wafer_Etched_CMOS_IC_2 .set(addItem(323, "CMOS IC Wafer (etched, stage II)" , tooltip, new OreDictItemData(MTx.SiGe, U)));
         ILx.Wafer_Etched_CMOS_SOC_1.set(addItem(324, "CMOS SOC Wafer (etched, stage I)" , tooltip, new OreDictItemData(MTx.SiGe, U)));
         ILx.Wafer_Etched_CMOS_SOC_2.set(addItem(325, "CMOS SOC Wafer (etched, stage II)", tooltip, new OreDictItemData(MTx.SiGe, U)));
-        ILx.Wafer_Etched_MOSFET    .set(addItem(326, "MOSFET Wafer (etched)"            , tooltip, new OreDictItemData(MTx.GaAs, U)));
+        ILx.Wafer_Etched_MESFET    .set(addItem(326, "MESFET Wafer (etched)"            , tooltip, new OreDictItemData(MTx.GaAs, U)));
 
         tooltip = "Needs conductive metal layer";
         ILx.Wafer_Doped_PMOS_IC   .set(addItem(330, "PMOS IC Wafer (doped)"         , tooltip, new OreDictItemData(MT .Si  , U)));
         ILx.Wafer_Doped_NMOS_IC   .set(addItem(331, "NMOS IC Wafer (doped)"         , tooltip, new OreDictItemData(MT .Si  , U)));
         ILx.Wafer_Doped_CMOS_IC_2 .set(addItem(333, "CMOS IC Wafer (pnp-junctions)" , tooltip, new OreDictItemData(MTx.SiGe, U)));
         ILx.Wafer_Doped_CMOS_SOC_2.set(addItem(335, "CMOS SOC Wafer (npn-junctions)", tooltip, new OreDictItemData(MTx.SiGe, U)));
+        ILx.Wafer_Doped_MESFET    .set(addItem(336, "MESFET Wafer (doped)"          , tooltip, new OreDictItemData(MTx.GaAs, U)));
 
-        tooltip = "Needs junctions";
+        tooltip = "Needs additional oxide layer";
         ILx.Wafer_Doped_CMOS_IC_1 .set(addItem(332, "CMOS IC Wafer (p-wells)"       , tooltip, new OreDictItemData(MTx.SiGe, U)));
         ILx.Wafer_Doped_CMOS_SOC_1.set(addItem(334, "CMOS SOC Wafer (n-wells)"      , tooltip, new OreDictItemData(MTx.SiGe, U)));
 
@@ -152,19 +154,26 @@ public class MultiItemsElectronics extends MultiItemRandom {
         ILx.Wafer_Metal_CMOS_IC .set(addItem(343, "CMOS IC Wafer (metal-layer)" , tooltip, new OreDictItemData(MTx.SiGe, U)));
         ILx.Wafer_Metal_CMOS_SOC.set(addItem(345, "CMOS SOC Wafer (metal-layer)", tooltip, new OreDictItemData(MTx.SiGe, U)));
 
+        tooltip = "Needs junctions";
+        ILx.Wafer_Oxidized_CMOS_IC_1 .set(addItem(342, "CMOS IC Oxidized Wafer (p-wells)" , tooltip, new OreDictItemData(MTx.SiGe, U)));
+        ILx.Wafer_Oxidized_CMOS_SOC_1.set(addItem(344, "CMOS SOC Oxidized Wafer (n-wells)", tooltip, new OreDictItemData(MTx.SiGe, U)));
+
+        ILx.Wafer_Metal1_MESFET.set(addItem(346, "MESFET Wafer (metal 1-layer)", "Needs Schottky Gate Metal Layer", new OreDictItemData(MTx.GaAs, U)));
+        ILx.Wafer_Metal2_MESFET.set(addItem(354, "MESFET Wafer (metal 2-layer)", "Needs cleaning", new OreDictItemData(MTx.GaAs, U)));
+
         tooltip = "Interconnected, can be diced";
-        ILx.Wafer_PMOS_IC.set(addItem(350, "PMOS IC Wafer"    , tooltip, new OreDictItemData(MT .Si  , U)));
-        ILx.Wafer_NMOS_IC.set(addItem(351, "NMOS IC Wafer"    , tooltip, new OreDictItemData(MT .Si  , U)));
-        ILx.Wafer_CMOS_IC.set(addItem(353, "CMOS IC Wafer"    , tooltip, new OreDictItemData(MTx.SiGe, U)));
-        ILx.Wafer_SOC    .set(addItem(355, "SOC Wafer"        , tooltip, new OreDictItemData(MTx.SiGe, U)));
-        ILx.Wafer_MOSFET .set(addItem(356, "MOSFET Wafer", "Can be diced", new OreDictItemData(MTx.GaAs, U)));
+        ILx.Wafer_PMOS_IC.set(addItem(350, "PMOS IC Wafer", tooltip, new OreDictItemData(MT .Si  , U)));
+        ILx.Wafer_NMOS_IC.set(addItem(351, "NMOS IC Wafer", tooltip, new OreDictItemData(MT .Si  , U)));
+        ILx.Wafer_CMOS_IC.set(addItem(353, "CMOS IC Wafer", tooltip, new OreDictItemData(MTx.SiGe, U)));
+        ILx.Wafer_SOC    .set(addItem(355, "SOC Wafer"    , tooltip, new OreDictItemData(MTx.SiGe, U)));
+        ILx.Wafer_MESFET .set(addItem(356, "MESFET Wafer" , "Can be diced", new OreDictItemData(MTx.GaAs, U)));
 
         tooltip = "Needs bonding & packaging";
-        ILx.Die_PMOS_IC.set(addItem(360, "PMOS IC Die", tooltip, new OreDictItemData(MT .Si  , U20)));
-        ILx.Die_NMOS_IC.set(addItem(361, "NMOS IC Die", tooltip, new OreDictItemData(MT .Si  , U20)));
-        ILx.Die_CMOS_IC.set(addItem(363, "CMOS IC Die", tooltip, new OreDictItemData(MTx.SiGe, U20)));
-        ILx.Die_SOC    .set(addItem(365, "SOC Die"    , tooltip, new OreDictItemData(MTx.SiGe, U20)));
-        ILx.Die_MOSFET .set(addItem(366, "MOSFET" , "Metal-oxide-semiconductor field-effect transistor, " + tooltip, new OreDictItemData(MTx.GaAs, U64)));
+        ILx.Die_PMOS_IC.set(addItem(360, "PMOS IC Die", tooltip, new OreDictItemData(MT .Si  , U16)));
+        ILx.Die_NMOS_IC.set(addItem(361, "NMOS IC Die", tooltip, new OreDictItemData(MT .Si  , U16)));
+        ILx.Die_CMOS_IC.set(addItem(363, "CMOS IC Die", tooltip, new OreDictItemData(MTx.SiGe, U16)));
+        ILx.Die_SOC    .set(addItem(365, "SOC Die"    , tooltip, new OreDictItemData(MTx.SiGe, U16)));
+        ILx.Die_MESFET .set(addItem(366, "MESFET" , "Metal-semiconductor field-effect transistor, " + tooltip, new OreDictItemData(MTx.GaAs, U64)));
 
         tooltip = "Integrated Circuit";
         ILx.PMOS_IC.set(addItem(370, "IC (Elite) "  , tooltip));

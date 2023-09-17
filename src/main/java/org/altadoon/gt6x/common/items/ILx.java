@@ -101,7 +101,7 @@ public class ILx implements IItemContainer {
     public static ILx Photomask_CMOS_IC_2 = new ILx("Photomask_CMOS_IC_2");
     public static ILx Photomask_CMOS_SOC_1 = new ILx("Photomask_CMOS_SOC_1");
     public static ILx Photomask_CMOS_SOC_2 = new ILx("Photomask_CMOS_SOC_2");
-    public static ILx Photomask_MOSFET = new ILx("Photomask_MOSFET");
+    public static ILx Photomask_MESFET = new ILx("Photomask_MESFET");
 
     public static ILx Wafer_Patterned_PMOS_IC = new ILx("Wafer_Patterned_PMOS_IC");
     public static ILx Wafer_Developed_PMOS_IC = new ILx("Wafer_Developed_PMOS_IC");
@@ -125,6 +125,7 @@ public class ILx implements IItemContainer {
     public static ILx Wafer_Developed_CMOS_IC_1 = new ILx("Wafer_Developed_CMOS_IC_1");
     public static ILx Wafer_Etched_CMOS_IC_1 = new ILx("Wafer_Etched_CMOS_IC_1");
     public static ILx Wafer_Doped_CMOS_IC_1 = new ILx("Wafer_Doped_CMOS_IC_1");
+    public static ILx Wafer_Oxidized_CMOS_IC_1 = new ILx("Wafer_Oxidized_CMOS_IC_1");
     public static ILx Wafer_Patterned_CMOS_IC_2 = new ILx("Wafer_Patterned_CMOS_IC_2");
     public static ILx Wafer_Developed_CMOS_IC_2 = new ILx("Wafer_Developed_CMOS_IC_2");
     public static ILx Wafer_Etched_CMOS_IC_2 = new ILx("Wafer_Etched_CMOS_IC_2");
@@ -138,6 +139,7 @@ public class ILx implements IItemContainer {
     public static ILx Wafer_Developed_CMOS_SOC_1 = new ILx("Wafer_Developed_CMOS_SOC_1");
     public static ILx Wafer_Etched_CMOS_SOC_1 = new ILx("Wafer_Etched_CMOS_SOC_1");
     public static ILx Wafer_Doped_CMOS_SOC_1 = new ILx("Wafer_Doped_CMOS_SOC_1");
+    public static ILx Wafer_Oxidized_CMOS_SOC_1 = new ILx("Wafer_Oxidized_CMOS_SOC_1");
     public static ILx Wafer_Patterned_CMOS_SOC_2 = new ILx("Wafer_Patterned_CMOS_SOC_2");
     public static ILx Wafer_Developed_CMOS_SOC_2 = new ILx("Wafer_Developed_CMOS_SOC_2");
     public static ILx Wafer_Etched_CMOS_SOC_2 = new ILx("Wafer_Etched_CMOS_SOC_2");
@@ -147,11 +149,15 @@ public class ILx implements IItemContainer {
     public static ILx Die_SOC = new ILx("Die_SOC");
     public static ILx SOC = new ILx("SOC");
 
-    public static ILx Wafer_Patterned_MOSFET = new ILx("Wafer_Patterned_MOSFET");
-    public static ILx Wafer_Developed_MOSFET = new ILx("Wafer_Developed_MOSFET");
-    public static ILx Wafer_Etched_MOSFET = new ILx("Wafer_Etched_MOSFET");
-    public static ILx Wafer_MOSFET = new ILx("Wafer_MOSFET");
-    public static ILx Die_MOSFET = new ILx("Die_MOSFET");
+    public static ILx Wafer_GaAs_SiN_layered = new ILx("Wafer_GaAs_SiN_layered");
+    public static ILx Wafer_Patterned_MESFET = new ILx("Wafer_Patterned_MESFET");
+    public static ILx Wafer_Developed_MESFET = new ILx("Wafer_Developed_MESFET");
+    public static ILx Wafer_Etched_MESFET = new ILx("Wafer_Etched_MESFET");
+    public static ILx Wafer_Doped_MESFET = new ILx("Wafer_Doped_MESFET");
+    public static ILx Wafer_Metal1_MESFET = new ILx("Wafer_Metal1_MESFET");
+    public static ILx Wafer_Metal2_MESFET = new ILx("Wafer_Metal2_MESFET");
+    public static ILx Wafer_MESFET = new ILx("Wafer_MESFET");
+    public static ILx Die_MESFET = new ILx("Die_MESFET");
 
 
     public String name;

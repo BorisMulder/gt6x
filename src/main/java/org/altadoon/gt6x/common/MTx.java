@@ -688,7 +688,9 @@ public class MTx {
     NDopedSi = dopedSemiconductor(16168, "N-Doped Silicon", MT.Si),
     PDopedSiGe = dopedSemiconductor(16169, "P-Doped Silicon-Germanium", SiGe),
     NDopedSiGe = dopedSemiconductor(16170, "N-Doped Silicon-Germanium", SiGe),
-    NDopedGaAs = dopedSemiconductor(16171, "N-Doped Gallium Arsenide", GaAs),
+    AuGe = alloymachine(16171, "Gold-Germanium", SET_COPPER, 227, 182, 59)
+            .uumAloy(0, MT.Au, U, MT.Ge, U)
+            .heat(365 + C, (MT.Ge.mBoilingPoint + MT.Au.mBoilingPoint) / 2),
     Naphthalene = registerLiquid(lquddcmp(16172, "Naphthalene", 255, 255, 255, 255)
             .setMcfg(0, MT.C, 10*U, MT.H, 8*U)
             .heat(351, 424)
