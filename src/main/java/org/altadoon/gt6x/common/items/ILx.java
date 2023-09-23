@@ -94,6 +94,7 @@ public class ILx implements IItemContainer {
     public static ILx Comp_Laser_Gas_ArF = new ILx("Comp_Laser_Gas_ArF");
     public static ILx Comp_Laser_Molten_Sn = new ILx("Comp_Laser_Molten_Sn");
 
+    public static ILx EtchMask_Photomask_PMOS_IC = new ILx("EtchMask_Photomask_PMOS_IC");
     public static ILx Photomask_Raw = new ILx("Photomask_Raw");
     public static ILx Photomask_PMOS_IC = new ILx("Photomask_PMOS_IC");
     public static ILx Photomask_NMOS_IC = new ILx("Photomask_NMOS_IC");

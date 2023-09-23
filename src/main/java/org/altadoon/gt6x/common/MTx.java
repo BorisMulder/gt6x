@@ -789,12 +789,36 @@ public class MTx {
             .stealLooks(MT.Na2SO4)
             .setMcfg(0, MT.Na2SO4, 7*U, MT.H2O, 3*U)
             .heat(200, 400)),
-    ArF = registerGas(gasdcmp(16203, "Argon-Fluorine Mixture", 64, 255, 0, 200)
+    ArF = registerGas(gasdcmp(16203, "Argon-Fluorine", 64, 255, 0, 200)
             .setMcfg(0, MT.Ar, U, MT.F, U)
             .heat(MT.Ar)),
-    KrF = registerGas(gasdcmp(16203, "Krypton-Fluorine Mixture", 192, 255, 128, 200)
+    KrF = registerGas(gasdcmp(16204, "Krypton-Fluorine", 192, 255, 128, 200)
             .setMcfg(0, MT.Kr, U, MT.F, U)
-            .heat(MT.Kr))
+            .heat(MT.Kr)),
+    CeO2 = dustdcmp(16205, "Cerium(IV) Oxide", SET_DULL, 255, 255, 204, 255)
+            .setMcfg(0, MT.Ce, U, MT.O, 2*U)
+            .heat(2670, 3770),
+    NitratoCericAcid = registerLiquid(lqudaciddcmp(16206, "Nitrato Ceric Acid", 255, 100, 0, 255)
+            .setMcfg(0, MT.H, 2*U, MT.Ce, U, MT.N, 6*U, MT.O, 18*U)
+            .tooltip("H" + NUM_SUB[2] + "Ce(" + "NO" + NUM_SUB[3] + ")" + NUM_SUB[6])
+            .heat(200, 400)),
+    CAN = dustdcmp(16207, "CAN", SET_CUBE, 255, 50, 0, 255)
+            .setLocal("Ceric Ammonium Nitrate")
+            .setMcfg(0, MT.Ce, U, MT.N, 8*U, MT.H, 8*U, MT.O, 18*U)
+            .tooltip("(NH" + NUM_SUB[4] + ")" + NUM_SUB[2] + "Ce(" + "NO" + NUM_SUB[3] + ")" + NUM_SUB[6])
+            .heat(380),
+    ChromeEtch = registerLiquid(lqudaciddcmp(16208, "Chromium Etchant", 255, 150, 0, 255)
+            .setMcfg(0, MT.HNO3, U, CAN, U)
+            .heat(MT.HNO3)),
+    CrNO3Solution = registerLiquid(lqudaciddcmp(16209, "Chromium Nitrate-Cerous Ammonium Nitrate Solution", 50, 0, 50, 255)
+            .tooltip("Cr(NO" + NUM_SUB[3] + ")" + NUM_SUB[3] + " + 3 (NH" + NUM_SUB[4] + ")" + NUM_SUB[2] + "Ce(" + "NO" + NUM_SUB[3] + ")" + NUM_SUB[5] + " + n HNO" + NUM_SUB[3])
+            .heat(200, 400)),
+    CCl4 = registerLiquid(lquddcmp(16210, "Tetrachloromethane", 200, 255, 200, 200)
+            .setMcfg(0, MT.C, U, MT.Cl, 4*U)
+            .heat(250, 350)),
+    CF4 = registerGas(gasdcmp(16211, "Tetrafluoromethane", 200, 255, 255, 200)
+            .setMcfg(0, MT.C, U, MT.F, 4*U)
+            .heat(89, 145))
     ;
 
     static {

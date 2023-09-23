@@ -88,8 +88,10 @@ public class MultiItemsElectronics extends MultiItemRandom {
         ILx.PlatinumBushing.set(addItem(201, "Platinum Bushing", "Basically a very expensive cheese grater"), new OreDictItemData(MT.Pt, U));
         BooksGT.BOOK_REGISTER.put(new ItemStackContainer(ILx.PlatinumBushing.get(1)), (byte)45);
 
-        ILx.EtchMask_Trace.set(addItem(202, "Etching Mask (Circuit Trace)", "Protects your PCB from etch"), new OreDictItemData(MT.PVC, U));
+        ILx.EtchMask_Trace.set(addItem(202, "Etching Mask (Circuit Trace)", "Protects parts of your PCB from etch"), new OreDictItemData(MT.PVC, U));
         BooksGT.BOOK_REGISTER.put(new ItemStackContainer(ILx.EtchMask_Trace.get(1)), (byte)45);
+        ILx.EtchMask_Photomask_PMOS_IC.set(addItem(203, "Etching Mask (PMOS IC Photomask)", "Protects parts of your photomask from etch"), new OreDictItemData(MT.PVC, U));
+        BooksGT.BOOK_REGISTER.put(new ItemStackContainer(ILx.EtchMask_Photomask_PMOS_IC.get(1)), (byte)45);
 
         ILx.Comp_Laser_Gas_N    .set(addItem(210, "Nitrogen Laser Emitter"        , "Purpose: Near-UV Optical Appliances"   , TC.stack(TC.LUX, 2), TC.stack(TC.AER     , 1), OM.data(IL.Comp_Laser_Gas_Empty.get(1))));
         ILx.Comp_Laser_Gas_KrF  .set(addItem(211, "Krypton Fluoride Laser Emitter", "Purpose: Middle-UV Optical Appliances" , TC.stack(TC.LUX, 2), TC.stack(TC.AER     , 1), OM.data(IL.Comp_Laser_Gas_Empty.get(1))));
@@ -99,15 +101,15 @@ public class MultiItemsElectronics extends MultiItemRandom {
         // Photomasks
         ILx.Photomask_Raw.set(addItem(220, "Raw Photomask", "Needs Design", new OreDictItemData(MT.Glass, U, MT.Cr, U)));
         tooltip = "Used in Photolithography";
-        ILx.Photomask_PMOS_IC   .set(addItem(221, "Photomask (PMOS IC)"           , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_NMOS_IC   .set(addItem(222, "Photomask (NMOS IC)"           , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_CMOS_IC_1 .set(addItem(223, "Photomask (CMOS IC, stage I)"  , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_CMOS_IC_2 .set(addItem(224, "Photomask (CMOS IC, stage II)" , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_CMOS_SOC_1.set(addItem(225, "Photomask (CMOS SOC, stage I)" , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_CMOS_SOC_2.set(addItem(226, "Photomask (CMOS SOC, stage II)", tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_MESFET    .set(addItem(227, "Photomask (MESFET)"            , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
+        ILx.Photomask_PMOS_IC   .set(addItem(221, "Photomask (PMOS IC)"           , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
+        ILx.Photomask_NMOS_IC   .set(addItem(222, "Photomask (NMOS IC)"           , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
+        ILx.Photomask_CMOS_IC_1 .set(addItem(223, "Photomask (CMOS IC, stage I)"  , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
+        ILx.Photomask_CMOS_IC_2 .set(addItem(224, "Photomask (CMOS IC, stage II)" , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
+        ILx.Photomask_CMOS_SOC_1.set(addItem(225, "Photomask (CMOS SOC, stage I)" , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
+        ILx.Photomask_CMOS_SOC_2.set(addItem(226, "Photomask (CMOS SOC, stage II)", tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
+        ILx.Photomask_MESFET    .set(addItem(227, "Photomask (MESFET)"            , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
 
-        ILx.Wafer_GaAs_SiN_layered.set(addItem(299, "SiN-capped GaN wafer", "Gallium Arsenide Wafer (with Si" + NUM_SUB[3] + "N" + NUM_SUB[4] + " film cap layer", new OreDictItemData(MTx.GaAs, U)));
+        ILx.Wafer_GaAs_SiN_layered.set(addItem(299, "SiN-capped GaN wafer", "Gallium Arsenide Wafer with Silicon Nitride cap layer", new OreDictItemData(MTx.GaAs, U)));
 
         // Wafers, ICs, etc.
         tooltip = "Needs developer";

@@ -249,8 +249,17 @@ public class Electronics extends GT6XFeature {
         CR.shaped(ILx.Transistor_ThroughHole.get(2), CR.DEF_REV, " P ", "iS ", "WWW", 'W', OP.wireFine.dat(MT.Cu), 'S', OP.plateGemTiny.dat(MT.Ge), 'P', OP.plateTiny.dat(MT.Plastic));
         CR.shaped(ILx.Transistor_ThroughHole.get(2), CR.DEF_REV, " P ", "iS ", "WWW", 'W', OP.wireFine.dat(MT.Brass), 'S', OP.plateGemTiny.dat(MT.Ge), 'P', OP.plateTiny.dat(MT.Plastic));
 
+        // Chrome Etching
+        RM.Mixer.addRecipe0(true, 16, 64, FL.array(MTx.NitratoCericAcid.liquid(U, true), MT.NH3.gas(2*U, true)), ZL_FS, dust.mat(MTx.CAN, 1));
+        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.CAN, 1), MT.HNO3.liquid(5*U, true), MTx.ChromeEtch.liquid(6*U, false), NI);
+        //TODO use Thermolyzer
+        RM.Drying.addRecipe0(true, 16, 1024, FL.array(MTx.CrNO3Solution.liquid(14*U, true)), FL.array(MT.H2O.liquid(3*U, false), MT.NO.gas(4*U, false)), dust.mat(MTx.Cr2O3, 5), dust.mat(MTx.CAN, 2));
+
+        // Photomasks
         RM.Laminator.addRecipe2(true, 16, 128, plate.mat(MT.Glass, 1), plate.mat(MT.Cr, 1), ILx.Photomask_Raw.get(1));
-        CR.shaped(ILx.Photomask_PMOS_IC.get(1), CR.DEF_REV, " k ", " M ", "   ", 'M', ILx.Photomask_Raw.get(1));
+
+        CR.shaped(ILx.EtchMask_Photomask_PMOS_IC.get(1), CR.DEF_REV, "   ", " Px", "   ", 'P', OP.plate.mat(MT.PVC, 1));
+        RM.Bath.addRecipe2(false, 0, 256, ILx.Photomask_Raw.get(1), ILx.EtchMask_Photomask_PMOS_IC.get(0), MTx.ChromeEtch.liquid(3*U, true), MTx.CrNO3Solution.liquid(7*U2, false), ILx.Photomask_PMOS_IC.get(1));
         //TODO pattern other masks using PL?
 
         // Wafer oxidation
