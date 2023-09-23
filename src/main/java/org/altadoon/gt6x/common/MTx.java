@@ -783,7 +783,7 @@ public class MTx {
     DiluteH2SO4 = registerLiquid(lqudaciddcmp(16200, "Dilute Sulfuric Acid", 255, 192, 128, 200))
             .setMcfg(0, MT.H2SO4, 7*U, MT.H2O, 3*U)
             .heat(MT.H2SO4),
-    DnqNovolacResist = registerLiquid(lquddcmp(16201, "DNQ-Novolac Photoresist", 100, 100, 0, 200)
+    DnqNovolacResist = registerLiquid(lquddcmp(16201, "DNQ-Novolac Photoresist", 84, 145, 84, 200)
             .heat(200, 400)),
     Na2SO4Solution = registerLiquid(lquddcmp(16202, "Sodium Sulfate Solution", 0, 0, 0, 200)
             .stealLooks(MT.Na2SO4)
