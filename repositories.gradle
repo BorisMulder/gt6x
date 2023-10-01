@@ -1,0 +1,20 @@
+// Add any additional repositories for your dependencies here
+
+repositories {
+    maven {
+        name = "gt"
+        url = "http://gregtech.mechaenetia.com/"
+    }
+    maven {
+        name 'GTNH Maven'
+        url 'http://jenkins.usrv.eu:8081/nexus/content/groups/public/'
+        allowInsecureProtocol
+    }
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+    }
+    maven {
+        url "https://cursemaven.com"
+    }
+}
