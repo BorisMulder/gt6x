@@ -3,6 +3,7 @@ package org.altadoon.gt6x.features.basicchem;
 import gregapi.data.FL;
 import gregapi.data.MT;
 import gregapi.data.RM;
+import gregapi.data.TD;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.recipes.Recipe;
 import gregapi.util.OM;
@@ -52,6 +53,7 @@ public class BasicChemistry extends GT6XFeature {
         MT.Dolomite.setSmelting(MTx.CalcinedDolomite, 2*U5);
         MT.CaCO3.setSmelting(MT.Quicklime, 2*U5);
         MT.MgCO3.setSmelting(MTx.MgO, 2*U5);
+        MT.H3BO3.remove(TD.Processing.ELECTROLYSER);
     }
 
     protected void addRecipes() {
@@ -62,6 +64,7 @@ public class BasicChemistry extends GT6XFeature {
         RM.Mixer.addRecipe1(true, 16,  16, dust.mat(MT.Phosphorite, 9), FL.array(MT.H2SO4.liquid(5*7*U, true)), FL.array(MTx.PhosphoricAcid.liquid(12*U, false), MT.HF.gas(U*2, false)), dust.mat(MT.CaSO4, 30));
         RM.Mixer.addRecipe1(true, 16,  16, dust.mat(MT.Apatite, 9), FL.array(MT.H2SO4.liquid(5*7*U, true)), FL.array(MTx.PhosphoricAcid.liquid(12*U, false), MT.HCl.gas(U*2, false)), dust.mat(MT.CaSO4, 30));
         RM.Mixer.addRecipe1(true, 16,  16, dust.mat(MTx.P2O5, 7), FL.array(MT.H2O.liquid(3*3*U, true)), FL.array(MTx.PhosphoricAcid.liquid(16*U, false)));
+        RM.Bath.addRecipe1(true, 0, 256, dust.mat(MT.NaOH, 9), MTx.PhosphoricAcid.liquid(8*U, true), MT.H2O.liquid(9*U, false), dust.mat(MTx.Na3PO4, 8));
 
         // Nitrous Acid
         RM.CryoMixer.addRecipe1(true, 16, 64, ST.tag(2), FL.array(MT.NO.gas(2*U, true), MT.NO2.gas(3*U, true)), FL.array(MTx.N2O3.liquid(5*U, false)));
@@ -188,17 +191,28 @@ public class BasicChemistry extends GT6XFeature {
         RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.Fe2O3, 0), dust.mat(MTx.MoO3, 0), FL.array(MTx.Methanol.liquid(6*U, true), MT.O.gas(U, true)), FL.array(MTx.Formaldehyde.gas(4*U, false), MT.H2O.liquid(3*U, false)));
 
         // Phosphine and Na2O
-        RM.Mixer.addRecipeX(true, 16, 3*64, ST.array(ST.tag(3), dust.mat(MT.P, 8), dust.mat(MT.NaOH, 27)), FL.Water.make(9000), MTx.Phosphine.gas(20*U, false), dust.mat(MTx.Na3PO4, 24));
-        RM.Mixer.addRecipeX(true, 16, 3*64, ST.array(ST.tag(3), dust.mat(MT.P, 8)), FL.array(MTx.NaOHSolution.liquid(54*U, true)), FL.array(FL.Water.make(18000), MTx.Phosphine.gas(20*U, false)), dust.mat(MTx.Na3PO4, 24));
+        RM.Mixer.addRecipeX(true, 16, 3*64, ST.array(ST.tag(3), dust.mat(MT.P, 8), dust.mat(MT.NaOH, 27)), FL.Water.make(9000), MTx.PH3.gas(20*U, false), dust.mat(MTx.Na3PO4, 24));
+        RM.Mixer.addRecipeX(true, 16, 3*64, ST.array(ST.tag(3), dust.mat(MT.P, 8)), FL.array(MTx.NaOHSolution.liquid(54*U, true)), FL.array(FL.Water.make(18000), MTx.PH3.gas(20*U, false)), dust.mat(MTx.Na3PO4, 24));
         // TODO use thermolyzer
         RM.Drying.addRecipe1(true, 16, 256, dust.mat(MTx.Na3PO4, 16), dust.mat(MTx.Na2O, 9), dust.mat(MTx.P2O5, 7));
         RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.NaOH, 3), dust.mat(MT.Na, 1), NF, MT.H.gas(U, false), dust.mat(MTx.Na2O, 3));
         RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.Na2O, 3), FL.Water.make(3000), NF, dust.mat(MT.NaOH, 6));
 
         // Arsine, Zinc Nitrate
-        RM.Bath.addRecipe2(true, 0, 3*5*64, dust.mat(MTx.As2O3, 5), dust.mat(MT.Zn, 6), FL.array(MT.HNO3.liquid(60*U, true)), FL.array(FL.Water.make(9000), MTx.Arsine.gas(8*U, false)), dust.mat(MTx.ZnNO3, 54));
+        RM.Bath.addRecipe2(true, 0, 3*5*64, dust.mat(MTx.As2O3, 5), dust.mat(MT.Zn, 6), FL.array(MT.HNO3.liquid(60*U, true)), FL.array(FL.Water.make(9000), MTx.AsH3.gas(8*U, false)), dust.mat(MTx.ZnNO3, 54));
         // TODO use thermolyzer
         RM.Drying.addRecipe1(true, 16, 512, dust.mat(MTx.ZnNO3, 9), ZL_FS, FL.array(MT.NO2.gas(6*U, false), MT.O.gas(U, false)), dust.mat(MTx.ZnO, 2));
+
+        // SiF4, H3AsO3
+        // TODO use thermolyzer
+        RM.Drying.addRecipe0(true, 16, 512, FL.array(MT.H2SiF6.liquid(9*U10, true)), FL.array(MTx.SiF4.gas(5*U10, false), MT.HF.gas(4*U10, false)), NI);
+        RM.Mixer.addRecipe0(true, 16, 5*128, FL.array(MTx.SiF4.gas(5*U, true), MT.HF.gas(4*U, true)), FL.array(MT.H2SiF6.liquid(9*U, false)));
+        for (FluidStack water : FL.waters(9000)) {
+            RM.Mixer.addRecipe1(true, 16, 1024, dust.mat(MTx.As2O3, 5), water, MTx.H3AsO3.liquid(14*U, false), NI);
+            RM.Mixer.addRecipe0(true, 16, 5*128, FL.array(MTx.AsF3.liquid(4*U, true), water), FL.array(MTx.H3AsO3.liquid(7*U, false), MT.HF.gas(6*U, false)));
+        }
+        // TODO use thermolyzer
+        RM.Drying.addRecipe0(true, 16, 18000, MTx.H3AsO3.liquid(14*U, false), FL.Water.make(9000), dust.mat(MTx.As2O3, 5));
 
         // Borane and LiH
         RM.Drying.addRecipe1(true, 16, 18000, dust.mat(MT.BoricAcid, 14), NF, FL.DistW.make(9000), dust.mat(MTx.B2O3, 5));

@@ -84,12 +84,18 @@ public class MTEx {
         VertMixerElectric4(313),
         VertMixerElectric5(314),
 
-        // Electronics: 400-420
+        // Electronics: 400-499
         Photolithography1(400),
         Photolithography2(401),
         Photolithography3(402),
         Photolithography4(403),
         Photolithography5(404),
+        IonBombardment1(410),
+        IonBombardment2(411),
+        IonBombardment3(412),
+        IonBombardment4(413),
+        IonBombardment5(414),
+        YAlOTubes(420), // 420-439
         ;
 
         private final int id;
