@@ -24,13 +24,10 @@ import static gregapi.data.CS.GT;
  */
 @cpw.mods.fml.common.Mod(modid= Gt6xMod.MOD_ID, name= Gt6xMod.MOD_NAME, version= Gt6xMod.VERSION, dependencies="required-after:gregapi_post;after:"+ CS.ModIDs.GT)
 public final class Gt6xMod extends gregapi.api.Abstract_Mod {
-	/** Your Mod-ID has to be LOWERCASE and without Spaces. Uppercase Chars and Spaces can create problems with Resource Packs. This is a vanilla forge "Issue". */
-	public static final String MOD_ID = Log.MOD_ID;
-	/** This is your Mods Name */
-	public static final String MOD_NAME = "GregTech 6 eXtended";
-	/** This is your Mods Version */
-	public static final String VERSION = "0.0-gt6.15.05-MC1710";
-	/** Contains a ModData Object for ID and Name. Doesn't have to be changed. */
+	public static final String MOD_ID = "GRADLETOKEN_MODID";
+	public static final String MOD_NAME = "GRADLETOKEN_MODNAME";
+	public static final String VERSION = "GRADLETOKEN_VERSION";
+	public static final String GROUPNAME = "GRADLETOKEN_GROUPNAME";
 	public static gregapi.code.ModData MOD_DATA = new gregapi.code.ModData(MOD_ID, MOD_NAME);
 
 	@cpw.mods.fml.common.SidedProxy(modId = MOD_ID, clientSide = "gregapi.api.example.Example_Proxy_Client", serverSide = "gregapi.api.example.Example_Proxy_Server")
