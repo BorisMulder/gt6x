@@ -34,6 +34,10 @@ public class MTx {
         FL.createGas(mat.put(GASES));
     }
 
+    private static void addPlasma(OreDictMaterial mat) {
+        FL.createPlasma(mat.put(PLASMA));
+    }
+
     static {
         // change some properties of vanilla GT6 materials
         MT.NH3    .uumMcfg(1, MT.N, U, MT.H, 3*U);
@@ -484,6 +488,7 @@ public class MTx {
             .heat(MT.H2O)),
     Fayalite = dustdcmp(16106, "Fayalite", SET_DULL, 100, 50, 0, 255)
             .setMcfg(0, FeO, 4*U, MT.SiO2, 3*U)
+            .tooltip("Fe" + NUM_SUB[2] + "SiO" + NUM_SUB[4])
             .heat(C + 1205),
     FerrousSlag = create( 16107, "Ferrous Slag", 255, 200, 180, 255)
             .setMcfg(0, Fayalite, U)
@@ -590,16 +595,16 @@ public class MTx {
     CuFeClSolution = registerLiquid(lquddcmp(16136, "Cupric-Ferrous Chloride Solution", 66, 245, 206, 255)
             .setMcfg(0, MTx.CuCl2, 3*U, MT.FeCl2, 6*U, MT.H2O, 9*U)
             .heat(MT.H2O)),
-    Silane = registerGas(gasdcmp(16137, "Silane", 150, 150, 150, 100)
+    SiH4 = registerGas(gasdcmp(16137, "Silane", 150, 150, 150, 100)
             .uumMcfg(0, MT.Si, U, MT.H, 4*U)
             .heat(88, 161)),
-    Germane = registerGas(gasdcmp(16138, "Germane", 200, 200, 220, 100)
+    GeH4 = registerGas(gasdcmp(16138, "Germane", 200, 200, 220, 100)
             .uumMcfg(0, MT.Ge, U, MT.H, 4*U)
             .heat(108, 185)),
-    Arsine = registerGas(gasdcmp(16139, "Arsine", 255, 200, 255, 100, "Arsane")
+    AsH3 = registerGas(gasdcmp(16139, "Arsine", 255, 200, 255, 100, "Arsane")
             .uumMcfg(0, MT.As, U, MT.H, 3*U)
             .heat(162, 211)),
-    Phosphine = registerGas(gasdcmp(16140, "Phosphine", 255, 220, 150, 100, "Phosphane")
+    PH3 = registerGas(gasdcmp(16140, "Phosphine", 255, 220, 150, 100, "Phosphane")
             .uumMcfg(0, MT.P, U, MT.H, 3*U)
             .heat(140, 185)),
     Mg2Si = alloymachine(16141, "Magnesium Silicide", SET_METALLIC, 102, 0, 102)
@@ -649,8 +654,8 @@ public class MTx {
             .setMcfg(0, MT.Li, U, MT.B, U, MT.F, 4*U)
             .heat(570),
     SiGeH8 = registerGas(gasdcmp(16155, "Silane-Germane Mixture", 175, 175, 185, 100)
-            .setMcfg(0, Silane, U, Germane, U)
-            .heat(Germane)),
+            .setMcfg(0, SiH4, U, GeH4, U)
+            .heat(GeH4)),
     Na2O = dustdcmp(16156, "Sodium Oxide", SET_DULL, 255, 255, 200, 255)
             .setMcfg(0, MT.Na, 2*U, MT.O, U)
             .heat(1405, 2220),
@@ -818,7 +823,22 @@ public class MTx {
             .heat(250, 350)),
     CF4 = registerGas(gasdcmp(16211, "Tetrafluoromethane", 200, 255, 255, 200)
             .setMcfg(0, MT.C, U, MT.F, 4*U)
-            .heat(89, 145))
+            .heat(89, 145)),
+    Y2O3 = dustdcmp(16212, "Yttria", SET_SHINY, 255, 255, 255, 255, GEMS)
+            .setMcfg(0, MT.Y, 2*U, MT.O, 3*U)
+            .heat(2698, 4570),
+    YAlO3 = machine(16213, "Yttria-Alumina", SET_DULL, 200, 255, 255, PIPES)
+            .setMcfg(0, MT.Al2O3, U, Y2O3, U)
+            .heat(Y2O3),
+    SiF4 = registerGas(gasdcmp(16214, "Tetrafluorosilane", 50, 50, 100, 200)
+            .uumMcfg(0, MT.Si, U, MT.F, 4*U)
+            .heat(178, 182)),
+    AsF3 = registerLiquid(lquddcmp(16215, "Arsenic Trifluoride", 100, 130, 100, 250)
+            .setMcfg(0, MT.As, U, MT.F, 3*U)
+            .heat(265, 334)),
+    H3AsO3 = registerLiquid(lqudaciddcmp(16216, "Arsenous Acid", 150, 200, 175, 255)
+            .setMcfg(0, MT.H, 3*U, MT.As, U, MT.O, 3*U)
+            .heat(200, 400))
     ;
 
     static {
@@ -840,6 +860,8 @@ public class MTx {
         addMolten(LiF, 144);
         addMolten(SiGe, 144);
         addMolten(GaAs, 144);
+
+        addPlasma(CF4);
 
         OP.bouleGt.forceItemGeneration(GaAs, SiGe);
 
