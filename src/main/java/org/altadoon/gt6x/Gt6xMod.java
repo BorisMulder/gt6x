@@ -1,5 +1,6 @@
 package org.altadoon.gt6x;
 
+import gregapi.data.CS;
 import org.altadoon.gt6x.common.*;
 import org.altadoon.gt6x.common.items.ItemMaterialDisplay;
 import org.altadoon.gt6x.common.items.MultiItemsX;
@@ -21,7 +22,7 @@ import static gregapi.data.CS.GT;
  *
  * The main mod class for GT6X
  */
-@cpw.mods.fml.common.Mod(modid= Gt6xMod.MOD_ID, name= Gt6xMod.MOD_NAME, version= Gt6xMod.VERSION, dependencies="required-after:gregapi_post")
+@cpw.mods.fml.common.Mod(modid= Gt6xMod.MOD_ID, name= Gt6xMod.MOD_NAME, version= Gt6xMod.VERSION, dependencies="required-after:gregapi_post;after:"+ CS.ModIDs.GT)
 public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 	/** Your Mod-ID has to be LOWERCASE and without Spaces. Uppercase Chars and Spaces can create problems with Resource Packs. This is a vanilla forge "Issue". */
 	public static final String MOD_ID = Log.MOD_ID;
