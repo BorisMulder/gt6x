@@ -299,7 +299,8 @@ public class Metallurgy extends GT6XFeature {
         // Wrought Iron
         RM.Anvil.addRecipe2(false, 64, 192, scrapGt.mat(MTx.SpongeIron, 9), scrapGt.mat(MTx.SpongeIron, 9), ingot.mat(MT.WroughtIron, 1), scrapGt.mat(MTx.FerrousSlag, 8));
 
-        // Sublimation/Precipitation of Zn, As, Mg, P gases
+        // Sublimation/Precipitation of Al, Zn, As, Mg, P gases
+        RM.Smelter.addRecipe0(false, 16, 8, MT.Al.liquid(U1000, true), MT.Al.gas(U1000, false), ZL_IS);
         RM.Smelter.addRecipe1(true, 16, 144, blockDust.mat(MT.As, 1), ZL_FS, MT.As.gas(9*U, false), ZL_IS);
         RM.Smelter.addRecipe1(true, 16, 16,  dust.mat(MT.As, 1), ZL_FS, MT.As.gas(U, false), ZL_IS);
         RM.Smelter.addRecipe1(true, 16, 4,   dustSmall.mat(MT.As, 1), ZL_FS, MT.As.gas(U4, false), ZL_IS);
@@ -324,6 +325,20 @@ public class Metallurgy extends GT6XFeature {
         RM.Bath.addRecipe1(true, 0, 256, dust.mat(MT.OREMATS.Cassiterite, 1), FL.array(MT.HCl.gas(8*U, true)), FL.array(MT.StannicChloride.liquid(5*U, false), MT.H2O.liquid(6*U, false)));
         RM.Bath.addRecipe1(true, 0, 256, dust.mat(MTx.Fayalite, 7), MT.HCl.gas(8*U, true), MTx.FeCl2Solution.liquid(12*U, false), dust.mat(MT.SiO2, 3));
         RM.Bath.addRecipe1(true, 0, 256, dust.mat(MT.Olivine, 7), FL.array(MT.HCl.gas(8*U, true)), FL.array(MTx.FeCl2Solution.liquid(6*U, false), MTx.MgCl2Solution.liquid(6*U, false)), dust.mat(MT.SiO2, 3));
+
+        // Gold Cyanidation
+        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.Au, 2), FL.array(MTx.NaCNSolution.liquid(24*U, true), MT.O.gas(U, true)), FL.array(MTx.NaAuC2N2.liquid(12*U, false), MTx.NaOHSolution.liquid(12*U, false)));
+        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.Au, 2), FL.array(MTx.KCNSolution.liquid(24*U, true), MT.O.gas(U, true)), FL.array(MTx.KAuC2N2.liquid(12*U, false), MTx.KOHSolution.liquid(12*U, false)));
+
+        RM.Bath.addRecipe1(true,  0,  256, new long[] {10000, 5000, 5000, 5000, 5000, 5000}, crushedPurified    .mat(MT.Au, 1), FL.array(MTx.NaCNSolution.liquid(6*U, true)), FL.array(MTx.NaAuC2N2.liquid(3*U, false), MTx.NaOHSolution.liquid(3*U, false), MT.H2O.liquid(3*U4, false)), crushedCentrifuged.mat(MT.Au, 1), crushedCentrifugedTiny.mat(MT.Au, 2), crushedCentrifugedTiny.mat(MT.Au, 2), crushedCentrifugedTiny.mat(MT.Au, 2), crushedCentrifugedTiny.mat(MT.Au, 2), crushedCentrifugedTiny.mat(MT.Au, 2));
+        RM.Bath.addRecipe1(true,  0,  256, new long[] {10000, 5000, 5000, 5000, 5000, 5000}, crushedPurifiedTiny.mat(MT.Au, 9), FL.array(MTx.NaCNSolution.liquid(6*U, true)), FL.array(MTx.NaAuC2N2.liquid(3*U, false), MTx.NaOHSolution.liquid(3*U, false), MT.H2O.liquid(3*U4, false)), crushedCentrifuged.mat(MT.Au, 1), crushedCentrifugedTiny.mat(MT.Au, 2), crushedCentrifugedTiny.mat(MT.Au, 2), crushedCentrifugedTiny.mat(MT.Au, 2), crushedCentrifugedTiny.mat(MT.Au, 2), crushedCentrifugedTiny.mat(MT.Au, 2));
+        RM.Bath.addRecipe1(true,  0,  256, new long[] {10000, 5000, 5000, 5000, 5000, 5000}, crushedPurified    .mat(MT.Au, 1), FL.array(MTx.KCNSolution .liquid(6*U, true)), FL.array(MTx.KAuC2N2 .liquid(3*U, false), MTx.KOHSolution .liquid(3*U, false), MT.H2O.liquid(3*U4, false)), crushedCentrifuged.mat(MT.Au, 1), crushedCentrifugedTiny.mat(MT.Au, 2), crushedCentrifugedTiny.mat(MT.Au, 2), crushedCentrifugedTiny.mat(MT.Au, 2), crushedCentrifugedTiny.mat(MT.Au, 2), crushedCentrifugedTiny.mat(MT.Au, 2));
+        RM.Bath.addRecipe1(true,  0,  256, new long[] {10000, 5000, 5000, 5000, 5000, 5000}, crushedPurifiedTiny.mat(MT.Au, 9), FL.array(MTx.KCNSolution .liquid(6*U, true)), FL.array(MTx.KAuC2N2 .liquid(3*U, false), MTx.KOHSolution .liquid(3*U, false), MT.H2O.liquid(3*U4, false)), crushedCentrifuged.mat(MT.Au, 1), crushedCentrifugedTiny.mat(MT.Au, 2), crushedCentrifugedTiny.mat(MT.Au, 2), crushedCentrifugedTiny.mat(MT.Au, 2), crushedCentrifugedTiny.mat(MT.Au, 2), crushedCentrifugedTiny.mat(MT.Au, 2));
+
+        for (FluidStack water : FL.waters(6000)) {
+            RM.Electrolyzer.addRecipe1(true, 32, 64, ST.tag(0), FL.array(MTx.NaAuC2N2.liquid(6*U, true), water), FL.array(MTx.HCN.gas(6*U, false), MT.H.gas(U, false), MT.O.gas(U, false)), dust.mat(MT.Au, 1), dust.mat(MT.NaOH, 3));
+            RM.Electrolyzer.addRecipe1(true, 32, 64, ST.tag(0), FL.array(MTx.KAuC2N2 .liquid(6*U, true), water), FL.array(MTx.HCN.gas(6*U, false), MT.H.gas(U, false), MT.O.gas(U, false)), dust.mat(MT.Au, 1), dust.mat(MT.KOH , 3));
+        }
 
         // Reduction of As, Sb, Pb
         RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MTx.As2O3, 5), dust.mat(MT.Zn, 3), ZL_FS, FL.array(MT.As.gas(2*U, false)), dust.mat(MTx.ZnO, 3));
