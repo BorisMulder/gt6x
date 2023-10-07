@@ -258,6 +258,7 @@ public class PgmProcessing extends GT6XFeature {
         RM.Bath.addRecipe1(true, 0, 100, dust.mat(NH4Cl, 4), FL.array(ChlororuthenicAcid.liquid(15*U, true)), FL.array(MT.H2O.liquid(6*U, false), MT.HCl.gas(4*U, false)), dust.mat(AmmoniumHexachlororuthenate, 9));
         RM.Roasting.addRecipe1(true, 64, 150, dust.mat(AmmoniumHexachlororuthenate, 9), MT.H.gas(4*U, true), MT.HCl.gas(8*U, false), dust.mat(NH4Cl, 4), dust.mat(MT.Ru, 1));
         RM.Roasting.addRecipe1(true, 64, 150, dust.mat(OsO4, 5), MT.H.gas(8*U, true), MT.H2O.liquid(12*U, false), dust.mat(MT.Os, 1));
+        RM.Mixer.addRecipe0(true, 16, 150, FL.array(RuO4.gas(5*U, true), MT.H.gas(8*U, true)), MT.H2O.liquid(12*U, false), dust.mat(MT.Ru, 1));
     }
 
     public void addSimpleRecipes() {
