@@ -1,12 +1,13 @@
 package org.altadoon.gt6x;
 
+import cpw.mods.fml.common.event.FMLInitializationEvent;
 import gregapi.data.CS;
 import org.altadoon.gt6x.common.*;
-import org.altadoon.gt6x.common.items.ItemMaterialDisplay;
 import org.altadoon.gt6x.common.items.MultiItemsX;
 import org.altadoon.gt6x.features.GT6XFeature;
 import org.altadoon.gt6x.features.basicchem.BasicChemistry;
 import org.altadoon.gt6x.features.ceramics.Ceramics;
+import org.altadoon.gt6x.features.meotorite.Meteor;
 import org.altadoon.gt6x.features.oil.OilProcessing;
 import org.altadoon.gt6x.features.pgm.PgmProcessing;
 import org.altadoon.gt6x.features.metallurgy.Metallurgy;
@@ -57,7 +58,7 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 		OilProcessing.class,
 		PgmProcessing.class,
 		RefractoryMetals.class,
-		VerticalMixers.class
+		VerticalMixers.class, Meteor.class
 	};
 	private final ArrayList<GT6XFeature> enabledFeatures;
 
@@ -87,7 +88,7 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 	}
 
 	@Override
-	public void onModInit2(cpw.mods.fml.common.event.FMLInitializationEvent aEvent) {
+	public void onModInit2(FMLInitializationEvent aEvent) {
 		for (GT6XFeature feature : enabledFeatures) {
 			feature.init();
 		}
