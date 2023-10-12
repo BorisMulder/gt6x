@@ -1,4 +1,4 @@
-package org.altadoon.gt6x.features.meotorite;
+package org.altadoon.gt6x.features.worldgen;
 
 import gregapi.data.MT;
 import gregapi.util.WD;
@@ -39,7 +39,7 @@ public class WorldgenMeteor extends WorldgenObject {
 
 	@Override
 	public boolean generate(World aWorld, Chunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, BiomeGenBase[][] aBiomes, Set<String> aBiomeNames) {
-		if (aRandom.nextInt(50) == 0 || ((aDimType==DIM_MOON||aDimType==DIM_MARS||aDimType==DIM_ASTEROIDS)&&aRandom.nextInt(10)==0)) {
+		if (aRandom.nextInt(50) == 0 || ((aDimType==DIM_MOON||aDimType==DIM_MARS||aDimType==DIM_ASTEROIDS||aDimType==DIM_PLANETS)&&aRandom.nextInt(10)==0)) {
 			int radius = 3 + aRandom.nextInt(7);
 			int centerX = aMinX + aRandom.nextInt(15);
 			int centerZ = aMinZ + aRandom.nextInt(15);
