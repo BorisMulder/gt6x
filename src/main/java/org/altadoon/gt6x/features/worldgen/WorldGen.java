@@ -13,7 +13,7 @@ public class WorldGen extends GT6XFeature {
 
 	@Override
 	public void configure(Config config) {
-		enableMeteorite = config.cfg.get("Meteor","enable", enableMeteorite).getBoolean();
+		enableMeteorite = config.cfg.get("meotorite","enable", enableMeteorite).getBoolean();
 	}
 
 	@Override
