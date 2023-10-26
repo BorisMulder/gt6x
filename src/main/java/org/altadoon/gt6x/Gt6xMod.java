@@ -29,6 +29,7 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 	public static final String MOD_NAME = "GRADLETOKEN_MODNAME";
 	public static final String VERSION = "GRADLETOKEN_VERSION";
 	public static final String GROUPNAME = "GRADLETOKEN_GROUPNAME";
+	public static Gt6xMod instance;
 	public static gregapi.code.ModData MOD_DATA = new gregapi.code.ModData(MOD_ID, MOD_NAME);
 
 	@cpw.mods.fml.common.SidedProxy(modId = MOD_ID, clientSide = "gregapi.api.example.Example_Proxy_Client", serverSide = "gregapi.api.example.Example_Proxy_Server")
@@ -59,6 +60,8 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 		PgmProcessing.class,
 		RefractoryMetals.class,
 		VerticalMixers.class, WorldGen.class
+		VerticalMixers.class,
+		WorldGen.class,
 	};
 	private final ArrayList<GT6XFeature> enabledFeatures;
 
