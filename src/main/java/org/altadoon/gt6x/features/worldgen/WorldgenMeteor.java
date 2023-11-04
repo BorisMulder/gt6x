@@ -41,13 +41,13 @@ public class WorldgenMeteor extends WorldgenObject {
 
 	@SafeVarargs
 	public WorldgenMeteor(String aName, Block aMainBlock, Block aCrust, boolean aDefault, List<WorldgenObject>... aLists) {
-		this(aName,aMainBlock, aDefault, aLists);
+		this(aName, aMainBlock, aDefault, aLists);
 		crustBlock = aCrust;
 	}
 
 	@Override
 	public boolean generate(World aWorld, Chunk aChunk, int aDimType, int aMinX, int aMinZ, int aMaxX, int aMaxZ, Random aRandom, BiomeGenBase[][] aBiomes, Set<String> aBiomeNames) {
-		if (aRandom.nextInt(50) == 0 || ((aDimType==DIM_MOON||aDimType==DIM_MARS||aDimType==DIM_ASTEROIDS||aDimType==DIM_PLANETS)&&aRandom.nextInt(10)==0)) {
+		if (aRandom.nextInt(50) == 0 || ((aDimType == DIM_MOON || aDimType == DIM_MARS || aDimType == DIM_ASTEROIDS || aDimType == DIM_PLANETS) && aRandom.nextInt(10) == 0)) {
 			int radius = 3 + aRandom.nextInt(7);
 			int centerX = aMinX + aRandom.nextInt(15);
 			int centerZ = aMinZ + aRandom.nextInt(15);
@@ -94,7 +94,7 @@ public class WorldgenMeteor extends WorldgenObject {
 							if (WD.bedrock(aWorld, x, y, z)) continue; // dont replace bedrock duh
 							boolean edge = false;
 							for (byte l = 0; l < 6; l++) if (!WD.obstructed(aWorld, x, y, z, l)) edge = true;
-							if(edge) WD.set(aWorld,x,y,z,crustBlock,0,0);
+							if (edge) WD.set(aWorld, x, y, z, crustBlock, 0, 0);
 							else WD.set(aWorld, x, y, z, baseBlock, 0, 0, T);
 							if (aRandom.nextInt(4) == 0) WD.setSmallOre(aWorld, x, y, z, MT.MeteoricIron);
 							else if (aRandom.nextInt(5) == 0) WD.setSmallOre(aWorld, x, y, z, MT.Ni);
