@@ -100,6 +100,19 @@ public class WorldgenMeteor extends WorldgenObject {
 							else if (aRandom.nextInt(5) == 0) WD.setSmallOre(aWorld, x, y, z, MT.Ni);
 							else if (aRandom.nextInt(8) == 0) WD.setOre(aWorld, x, y, z, MT.MeteoricIron);
 							else if (aRandom.nextInt(20) == 0) WD.setOre(aWorld, x, y, z, MT.Ir);
+
+							if ((x == centerX) && (y == centerY) && (z == centerZ)) {
+								// center for spawning loots and what not
+								if ((radius > 2)) // default core is lava!
+									WD.set(aWorld, x, y, z, Blocks.lava, W, 2);
+								if ((radius > 2) && aRandom.nextInt(2) == 0)
+									WD.set(aWorld, x, y, z, OP.blockPlate.mat(MT.MeteoricIron, 1));
+								if ((radius > 2) && aRandom.nextInt(3) == 0)
+									WD.set(aWorld, x, y, z, OP.blockPlate.mat(MT.DamascusSteel, 1));
+								if ((radius > 2) && aRandom.nextInt(5) == 0)
+									WD.set(aWorld, x, y, z, OP.blockPlate.mat(MT.DuraniumAlloy, 1));
+
+							}
 						}
 					}
 				}
