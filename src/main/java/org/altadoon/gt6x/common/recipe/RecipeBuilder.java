@@ -1,6 +1,7 @@
 package org.altadoon.gt6x.common.recipe;
 
 import gregapi.data.FL;
+import gregapi.oredict.OreDictManager;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.oredict.OreDictPrefix;
 import gregapi.recipes.Recipe;
@@ -16,6 +17,9 @@ import java.util.List;
 
 import static gregapi.data.CS.*;
 
+/**
+ *
+ */
 public class RecipeBuilder {
 
 	List<RecipeBuilderInternal> builderList = new ArrayList<>();
@@ -68,11 +72,10 @@ public class RecipeBuilder {
 	}
 
 	/**
-	 * @param aStacks an OreDictionary List of Items
+	 * @param aStacks gets the first OreDictionary List of Items
 	 */
-	@Deprecated()
 	public RecipeBuilder output(List<ItemStack> aStacks){
-		return item(aStacks,false);
+		return item(aStacks.get(0),false,-1);
 	}
 
 	public RecipeBuilder item(ItemStack aStack,boolean isInput,int aChance){
@@ -83,6 +86,34 @@ public class RecipeBuilder {
 		return item(aStack,isInput,-1);
 	}
 
+	public RecipeBuilder item(Item aItem,  boolean isInput) {
+		return item(aItem, W, isInput);
+	}
+
+	public RecipeBuilder item(Item aItem, short aMeta, boolean isInput) {
+		return item(aItem, 1, aMeta, isInput);
+	}
+
+	public RecipeBuilder input(Item aItem,  short aMeta) {
+		return input(aItem, 1, aMeta);
+	}
+
+	public RecipeBuilder input(Item aItem, int aSize, short aMeta) {
+		return item(aItem, aSize, aMeta, true);
+	}
+
+	public RecipeBuilder output(Item aItem,  short aMeta) {
+		return output(aItem, 1, aMeta);
+	}
+
+	public RecipeBuilder output(Item aItem, int aSize, short aMeta) {
+		return item(aItem, aSize, aMeta, false);
+	}
+
+	public RecipeBuilder item(Item aItem, int aSize, short aMeta, boolean isInput){
+		return item(ST.make(aItem,aSize,aMeta),isInput);
+	}
+
 	public RecipeBuilder input(ItemStack aStack){
 		return item(aStack,true);
 	}
@@ -91,8 +122,17 @@ public class RecipeBuilder {
 		return item(aStack,false);
 	}
 
+	public RecipeBuilder input(OreDictPrefix aPrefix, OreDictMaterial aMaterial) {
+		return input(aPrefix, aMaterial, 1);
+	}
+
 	public RecipeBuilder input(OreDictPrefix aPrefix, OreDictMaterial aMaterial, int aAmount){
 		return item(aPrefix,aMaterial,aAmount,true,true,-1);
+	}
+
+	//TODO: fixone item sometimes randomally get stackSize of 1 while rest are correct
+	public RecipeBuilder output(OreDictPrefix aPrefix, OreDictMaterial aMaterial) {
+		return output(aPrefix, aMaterial, 1);
 	}
 
 	//TODO: fixone item sometimes randomally get stackSize of 1 while rest are correct
@@ -100,42 +140,47 @@ public class RecipeBuilder {
 		return item(aPrefix,aMaterial,aAmount,false,false,-1);
 	}
 
-	public RecipeBuilder input(OreDictPrefix aPrefix, OreDictMaterial aMaterial, int aAmount,boolean aUseOreDict){
+	public RecipeBuilder input(OreDictPrefix aPrefix, OreDictMaterial aMaterial,  boolean aUseOreDict) {
+		return input(aPrefix, aMaterial, 1, aUseOreDict);
+	}
+
+	public RecipeBuilder input(OreDictPrefix aPrefix, OreDictMaterial aMaterial, int aAmount, boolean aUseOreDict){
 		return item(aPrefix,aMaterial,aAmount,true,aUseOreDict,-1);
 	}
 
-//	@Deprecated()
-//	public RecipeBuilder output(OreDictPrefix aPrefix, OreDictMaterial aMaterial, int aAmount,boolean aUseOreDict){
-//		return item(aPrefix,aMaterial,aAmount,false,aUseOreDict,-1);
-//	}
+	public RecipeBuilder input(String aOreDictionary) {
+		return input(aOreDictionary, 1);
+	}
 
-	public RecipeBuilder input(String aOreDictionary,int aAmount){
+	public RecipeBuilder input(String aOreDictionary, int aAmount){
 		return item(aOreDictionary,aAmount,true,-1);
-	}
-	@Deprecated()
-	public RecipeBuilder output(String aOreDictionary,int aAmount){
-		return item(aOreDictionary,aAmount,false,-1);
-	}
-	@Deprecated()
-	public RecipeBuilder chancedOutput(String aOreDictionary,int aAmount, int aChances){
-		return item(aOreDictionary,aAmount,false,aChances);
 	}
 
 	/**
-	 * @param aStacks oreDict Output, this is one item in a recipe!
-	 * @param aChance anything less than 0 is considered 100%
-	 */
-	@Deprecated()
-	public RecipeBuilder chancedOutput(List<ItemStack> aStacks, int aChance){
-		return item(aStacks,false,aChance);
+     * @param aOreDictionary gets the first item of the ore dictionary
+     */
+	public RecipeBuilder output(String aOreDictionary) {
+		return output(aOreDictionary, 1);
 	}
+
+	/**
+	 * @param aOreDictionary  gets the first item of the ore dictionary
+	 */
+	public RecipeBuilder output(String aOreDictionary, int aAmount){
+		return output(ST.amount(aAmount,OreDictManager.getOres(aOreDictionary,false).get(0)));
+	}
+
 
 	public RecipeBuilder chancedOutput(ItemStack aStack, int aChances){
-		List<ItemStack> aStacks = new ArrayList<>();aStacks.add(aStack); return chancedOutput(aStacks,aChances);
+		return item(aStack,false,aChances);
 	}
 
-	public RecipeBuilder chancedOutput(OreDictPrefix aPrefix,OreDictMaterial aMaterial,int aAmount, int aChances){
-		return item(aPrefix,aMaterial,aAmount,false,false,aChances);
+	public RecipeBuilder chancedOutput(OreDictPrefix aPrefix,OreDictMaterial aMaterial, int aChances) {
+		return chancedOutput(aPrefix, aMaterial, 1, aChances);
+	}
+
+	public RecipeBuilder chancedOutput(OreDictPrefix aPrefix, OreDictMaterial aMaterial, int aAmount, int aChances){
+		return chancedOutput(aPrefix.mat(aMaterial,aAmount),aChances);
 	}
 
 	public RecipeBuilder notConsumed(OreDictPrefix aPrefix,OreDictMaterial aMaterial){
@@ -143,6 +188,7 @@ public class RecipeBuilder {
 	}
 
 	@Deprecated
+	// FIXME: OreDicts dont work in not consumption
 	public RecipeBuilder notConsumed(String aOreDict){
 		return input(aOreDict,0);
 	}
