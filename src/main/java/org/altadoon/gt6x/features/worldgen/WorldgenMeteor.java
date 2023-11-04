@@ -1,6 +1,9 @@
 package org.altadoon.gt6x.features.worldgen;
 
+import appeng.api.AEApi;
+import gregapi.data.MD;
 import gregapi.data.MT;
+import gregapi.data.OP;
 import gregapi.util.WD;
 import gregapi.worldgen.WorldgenObject;
 import net.minecraft.block.Block;
@@ -22,13 +25,18 @@ public class WorldgenMeteor extends WorldgenObject {
 	@SafeVarargs
 	public WorldgenMeteor(String aName, boolean aDefault, List<WorldgenObject>... aLists) {
 		super(aName, aDefault, aLists);
+		if (MD.AE.mLoaded) {
+			crustBlock = AEApi.instance().definitions().blocks().skyStone().maybeBlock().or(BlocksGT.GraniteBlack);
+			if (crustBlock == BlocksGT.GraniteBlack)
+				System.out.println("> ERROR, AE is present but SkyStone is not accessible.");
+		}
 	}
 
 	@SafeVarargs
 	public WorldgenMeteor(String aName, Block aMainBlock, boolean aDefault, List<WorldgenObject>... aLists) {
 		this(aName, aDefault, aLists);
 		baseBlock = aMainBlock;
-		crustBlock = baseBlock;
+//		crustBlock = baseBlock;
 	}
 
 	@SafeVarargs
