@@ -186,7 +186,7 @@ public class RefractoryMetals extends GT6XFeature {
         // V
         RM.Bath.addRecipe1(true, 0, 512*3, dust.mat(MTx.Vanadinite, 21), FL.array(MT.SaltWater.liquid(4*6*U, true)), FL.array(MTx.NaVO3Solution.liquid(3*11*U, false)), dust.mat(MTx.PbCl2, 6), dust.mat(MTx.PbO, 3));
         RM.Bath.addRecipe1(true, 0, 512, dust.mat(MTx.NH4Cl, 2), MTx.NaVO3Solution.liquid(11*U, true), MT.SaltWater.liquid(8*U, false), dust.mat(MTx.NH4VO3, 5));
-        RMx.Thermolysis.addRecipe1(true, 16, 128, dust.mat(MTx.NH4VO3, 10), ZL_FS, FL.array(MT.NH3.gas(2*U, false), MT.H2O.liquid(U, false)), dust.mat(MT.V2O5, 7));
+        RMx.Thermolysis.addRecipe1(true, 16, 128, dust.mat(MTx.NH4VO3, 10), ZL_FS, FL.array(MT.NH3.gas(2*U, false), MT.H2O.liquid(3*U, false)), dust.mat(MT.V2O5, 7));
         RM.Bath.addRecipe1(true, 0, 512*3, dust.mat(MT.V2O5, 21), FL.array(MT.Al.liquid(10*U, true)), FL.array(MT.V.liquid(6*U, false), MT.Al2O3.liquid(25*U, false)));
 
         // Cr
@@ -231,8 +231,8 @@ public class RefractoryMetals extends GT6XFeature {
             RM.Mixer.addRecipe0(true, 16, 1024, FL.array(MTx.ColtanFAqSolution.liquid(74*U, true), MTx.MIBK.liquid(38*U, true)), FL.array(MTx.NbTaFMIBKSolution.liquid(76*U, false), MTx.FeMnF2Solution.liquid(36*U, false)));
             RM.Electrolyzer.addRecipe1(true, 64, 256, ST.tag(0), FL.array(MTx.FeMnF2Solution.liquid(36*U4, true)), FL.array(MT.HF.gas(2*U, false), MT.H2O.liquid(2*3*U, false), MT.O.gas(U2, false)), OM.dust(MT.Fe, U4), OM.dust(MT.Mn, U4));
             for (FluidStack tWater : FL.waters(3000)) {
-                RM.Mixer.addRecipe0(true, 16, 1024, FL.array(MTx.NbTaFMIBKSolution.liquid(76*U, true), MT.NH3.gas(10*U, true), FL.mul(tWater, 13)), FL.array(MTx.TaFMIBKSolution.liquid(58*U, false), MTx.NH4FSolution.liquid(10*6*U, false)), OM.dust(MT.Nb2O5, 7*U));
-                RM.Mixer.addRecipe0(true, 16, 1024, FL.array(MTx.TaFMIBKSolution.liquid(58*U, true), MT.NH3.gas(14*U, true), FL.mul(tWater, 19)), FL.array(MTx.MIBK.liquid(38*U, false), MTx.NH4FSolution.liquid(14*6*U, false)), OM.dust(MT.Ta2O5, 7*U));
+                RM.Mixer.addRecipe0(true, 16, 1024, FL.array(MTx.NbTaFMIBKSolution.liquid(76*U, true), MT.NH3.gas(10*U, true), FL.mul(tWater, 13)), FL.array(MTx.TaFMIBKSolution.liquid(58*U, false), MTx.NH4FSolution.liquid(10*5*U, false)), OM.dust(MT.Nb2O5, 7*U));
+                RM.Mixer.addRecipe0(true, 16, 1024, FL.array(MTx.TaFMIBKSolution.liquid(58*U, true), MT.NH3.gas(14*U, true), FL.mul(tWater, 19)), FL.array(MTx.MIBK.liquid(38*U, false), MTx.NH4FSolution.liquid(14*5*U, false)), OM.dust(MT.Ta2O5, 7*U));
             }
             RMx.Thermolysis.addRecipe0(true, 16, 128, FL.array(MTx.NH4FSolution.liquid(6*U, true)), FL.array(MT.H2O.liquid(3*U, false), MT.HF.gas(2*U, false), MT.NH3.gas(U, false)));
             RM.Mixer.addRecipe1(true, 16, 1024, dust.mat(MT.KF, 8), FL.array(MTx.TaFMIBKSolution.liquid(58*U, true)), FL.array(MTx.MIBK.liquid(38*U, false), MT.HF.gas(8*U, false)), OM.dust(MT.K2TaF7, 20*U));

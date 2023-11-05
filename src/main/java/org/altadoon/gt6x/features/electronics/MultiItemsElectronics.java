@@ -31,8 +31,7 @@ public class MultiItemsElectronics extends MultiItemRandom {
         // tier 0 (primitive) and 7+ (quantum) are currently not used.
         for (int tier = 1; tier < 7; tier++) {
             // size 0 are normal circuit boards, which are already in GT6, so we start from 1.
-            for (int size = 1; size < 4; size++) {
-
+            for (int size = 1; size < 3; size++) {
                 ILx.PCBs[tier][size].set(addItem(
                         tier + 10 * size, ILx.CIRCUIT_SIZE_NAMES[size] + " T" + tier + " (" + ILx.CIRCUIT_TIER_NAMES[tier] + ")", null, MT.DATA.CIRCUITS[tier], OD_CIRCUITS[tier], TC.stack(TC.COGNITIO, 2)
                 ));
@@ -110,27 +109,27 @@ public class MultiItemsElectronics extends MultiItemRandom {
         ILx.Photomask_Patterned_PMOS_IC   .set(addItem(221, "Photomask (PMOS IC, patterned)"          , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
         ILx.Photomask_Patterned_NMOS_IC   .set(addItem(226, "Photomask (NMOS IC, patterned)"          , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
         ILx.Photomask_Patterned_CMOS_IC_1 .set(addItem(231, "Photomask (CMOS IC, stage I, patterned)" , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_Patterned_CMOS_IC_2 .set(addItem(236, "Photomask (PMOS IC, stage II, patterned)", tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_Patterned_CMOS_SOC_1.set(addItem(241, "Photomask (PMOS IC, stage I, patterned)" , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_Patterned_CMOS_SOC_2.set(addItem(246, "Photomask (PMOS IC, stage II, patterned)", tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
+        ILx.Photomask_Patterned_CMOS_IC_2 .set(addItem(236, "Photomask (CMOS IC, stage II, patterned)", tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
+        ILx.Photomask_Patterned_CMOS_SOC_1.set(addItem(241, "Photomask (CMOS SOC, stage I, patterned)" , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
+        ILx.Photomask_Patterned_CMOS_SOC_2.set(addItem(246, "Photomask (CMOS SOC, stage II, patterned)", tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
         ILx.Photomask_Patterned_MESFET    .set(addItem(251, "Photomask (MESFET, patterned)"           , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
 
         tooltip = "Ready to be etched";
         ILx.Photomask_Developed_PMOS_IC   .set(addItem(222, "Photomask (PMOS IC, developed)"          , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_Patterned_NMOS_IC   .set(addItem(227, "Photomask (NMOS IC, developed)"          , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_Patterned_CMOS_IC_1 .set(addItem(232, "Photomask (CMOS IC, stage I, developed)" , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_Patterned_CMOS_IC_2 .set(addItem(237, "Photomask (PMOS IC, stage II, developed)", tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_Patterned_CMOS_SOC_1.set(addItem(242, "Photomask (PMOS IC, stage I, developed)" , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_Patterned_CMOS_SOC_2.set(addItem(247, "Photomask (PMOS IC, stage II, developed)", tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_Patterned_MESFET    .set(addItem(252, "Photomask (MESFET, developed)"           , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
+        ILx.Photomask_Developed_NMOS_IC   .set(addItem(227, "Photomask (NMOS IC, developed)"          , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
+        ILx.Photomask_Developed_CMOS_IC_1 .set(addItem(232, "Photomask (CMOS IC, stage I, developed)" , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
+        ILx.Photomask_Developed_CMOS_IC_2 .set(addItem(237, "Photomask (CMOS IC, stage II, developed)", tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
+        ILx.Photomask_Developed_CMOS_SOC_1.set(addItem(242, "Photomask (CMOS SOC, stage I, developed)" , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
+        ILx.Photomask_Developed_CMOS_SOC_2.set(addItem(247, "Photomask (CMOS SOC, stage II, developed)", tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
+        ILx.Photomask_Developed_MESFET    .set(addItem(252, "Photomask (MESFET, developed)"           , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
 
         tooltip = "Needs cleaning";
         ILx.Photomask_Etched_PMOS_IC   .set(addItem(223, "Photomask (PMOS IC, etched)"          , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
         ILx.Photomask_Etched_NMOS_IC   .set(addItem(228, "Photomask (NMOS IC, etched)"          , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
         ILx.Photomask_Etched_CMOS_IC_1 .set(addItem(233, "Photomask (CMOS IC, stage I, etched)" , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
-        ILx.Photomask_Etched_CMOS_IC_2 .set(addItem(238, "Photomask (PMOS IC, stage II, etched)", tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
-        ILx.Photomask_Etched_CMOS_SOC_1.set(addItem(243, "Photomask (PMOS IC, stage I, etched)" , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
-        ILx.Photomask_Etched_CMOS_SOC_2.set(addItem(248, "Photomask (PMOS IC, stage II, etched)", tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
+        ILx.Photomask_Etched_CMOS_IC_2 .set(addItem(238, "Photomask (CMOS IC, stage II, etched)", tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
+        ILx.Photomask_Etched_CMOS_SOC_1.set(addItem(243, "Photomask (CMOS SOC, stage I, etched)" , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
+        ILx.Photomask_Etched_CMOS_SOC_2.set(addItem(248, "Photomask (CMOS SOC, stage II, etched)", tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
         ILx.Photomask_Etched_MESFET    .set(addItem(253, "Photomask (MESFET, etched)"           , tooltip, new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
 
         tooltip = "Used in Photolithography";

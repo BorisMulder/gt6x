@@ -26,5 +26,6 @@ public class MultiItemsX extends MultiItemRandom {
         ILx.Fireclay_Ball.set(addItem(0, "Fireclay", "Fire-proof clay", TC.stack(TC.TERRA, 1), new OreDictItemData(MTx.Fireclay, U))); if (COMPAT_FR != null) COMPAT_FR.addToBackpacks("digger", last());
         RM.add_smelting(ILx.Fireclay_Ball.get(1), OP.ingot.mat(MTx.Firebrick, 1), false, false, false);
         RM.add_smelting(dust.mat(MTx.Fireclay, 1), ingot.mat(MTx.Firebrick, 1));
+        ILx.Rosin.set(addItem(1, "Rosin", "Solid Conifer Resin", TC.stack(TC.ARBOR, 1))); if (COMPAT_FR != null) COMPAT_FR.addToBackpacks("forester", last());
     }
 }
