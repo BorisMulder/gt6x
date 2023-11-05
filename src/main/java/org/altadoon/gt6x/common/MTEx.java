@@ -102,7 +102,19 @@ public class MTEx {
         IonBombardment4(413),
         IonBombardment5(414),
         YAlOTubes(420), // 420-439
+        Soldering1(440),
+        Soldering2(441),
+        Soldering3(442),
+        Soldering4(443),
+        Soldering5(444),
         ;
+
+        public static final IDs[] Hydrocracker = { null, Hydrocracker1, Hydrocracker2, Hydrocracker3, Hydrocracker4 };
+        public static final IDs[] VertMixer = { null, VertMixer1, VertMixer2, VertMixer3, VertMixer4 };
+        public static final IDs[] VertMixerElectric = { null, VertMixerElectric1, VertMixerElectric2, VertMixerElectric3, VertMixerElectric4, VertMixerElectric5 };
+        public static final IDs[] Photolithography = { null, Photolithography1, Photolithography2, Photolithography3, Photolithography4, Photolithography5 };
+        public static final IDs[] IonBombardment = { null, IonBombardment1, IonBombardment2, IonBombardment3, IonBombardment4, IonBombardment5 };
+        public static final IDs[] Soldering = { null, Soldering1, Soldering2, Soldering3, Soldering4, Soldering5 };
 
         private final int id;
 
@@ -114,6 +126,10 @@ public class MTEx {
             return id;
         }
     }
+
+    public static final float[] HARDNESS_KINETIC = { 6.0F, 7.0F, 6.0F, 9.0F, 12.5F };
+    public static final float[] HARDNESS_HEAT = { 4.0F, 6.0F, 4.0F, 9.0F, 12.5F };
+    public static final float[] HARDNESS_ELECTRIC = { 4.0F, 4.0F, 4.0F, 4.0F, 4.0F, 4.0F };
 
     public void disableGT6MTE(short id) {
         if (gt6Registry.mRegistry.containsKey(id)) {

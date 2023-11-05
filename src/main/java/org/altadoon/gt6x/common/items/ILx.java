@@ -209,6 +209,7 @@ public class ILx implements IItemContainer {
     public static ILx Wafer_MESFET = new ILx("Wafer_MESFET");
     public static ILx Die_MESFET = new ILx("Die_MESFET");
 
+    public static ILx Rosin = new ILx("Rosin");
 
     public String name;
     private ItemStack mStack;
