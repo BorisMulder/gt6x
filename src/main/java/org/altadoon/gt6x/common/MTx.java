@@ -54,10 +54,11 @@ public class MTx {
             clay.heat(1550);
         }
         MT.Kaolinite.heat(2000);
+        MT.As.heat(887, 887).remove(MELTING); MT.As.remove(MOLTEN);
 
         MT.WroughtIron.qual(3, 6.0, 640, 2);
 
-        MT.As.heat(887, 887).remove(MELTING); MT.As.remove(MOLTEN);
+        MT.AquaRegia.setRGBa(255, 150, 64, 255);
 
         MT.Plastic.put(POLYMER);
         MT.Rubber.put(POLYMER);

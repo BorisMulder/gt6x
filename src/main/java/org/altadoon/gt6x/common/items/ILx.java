@@ -3,6 +3,7 @@ package org.altadoon.gt6x.common.items;
 import gregapi.api.Abstract_Mod;
 import gregapi.code.IItemContainer;
 import gregapi.code.TagData;
+import gregapi.data.IL;
 import gregapi.data.MT;
 import gregapi.item.IItemEnergy;
 import gregapi.oredict.OreDictItemData;
@@ -40,19 +41,27 @@ public class ILx implements IItemContainer {
             "Circuit",
             "Small Circuit",
             "Tiny Circuit",
+            // from here on, it is unused for now, and at some point uses SI prefixes
             "Fine Circuit",
             "Microchip",
             "Nanochip",
-            "Picochip", // from here on, it is unused for now, but just uses SI prefixes
+            "Picochip",
             "Femtochip",
             "Attochip",
             "Zeptochip"
     };
-    public static ILx[][] Microchips = new ILx[CIRCUIT_TIERS][CIRCUIT_TIERS];
+
+    private static final IL[] GT6Circuits = new IL[] {IL.Circuit_Primitive, IL.Circuit_Basic, IL.Circuit_Good, IL.Circuit_Advanced, IL.Circuit_Elite, IL.Circuit_Master, IL.Circuit_Ultimate};
+
+    public static IItemContainer[][] PCBs = new IItemContainer[CIRCUIT_TIERS][CIRCUIT_TIERS];
     static {
         for (int tier = 0; tier < CIRCUIT_TIERS; tier++) {
-            for (int size = 0; size < CIRCUIT_TIERS; size++) {
-                Microchips[tier][size] = new ILx(CIRCUIT_SIZE_NAMES[size] + "_" + CIRCUIT_TIER_NAMES[tier]);
+            if (tier < GT6Circuits.length) {
+                PCBs[tier][0] = GT6Circuits[tier];
+            }
+
+            for (int size = 1; size < CIRCUIT_TIERS; size++) {
+                PCBs[tier][size] = new ILx(CIRCUIT_SIZE_NAMES[size] + "_" + CIRCUIT_TIER_NAMES[tier]);
             }
         }
     }
@@ -89,6 +98,9 @@ public class ILx implements IItemContainer {
     public static ILx Circuit_Plate_Platinum_Small = new ILx("Circuit_Plate_Platinum_Small");
     public static ILx Circuit_Plate_Platinum_Tiny = new ILx("Circuit_Plate_Platinum_Tiny");
     public static ILx EtchMask_Trace = new ILx("EtchMask_Trace");
+    public static ILx EtchMask_Trace_Small = new ILx("EtchMask_Trace_Small");
+    public static ILx EtchMask_Trace_Tiny = new ILx("EtchMask_Trace_Tiny");
+
     public static ILx Comp_Laser_Gas_N = new ILx("Comp_Laser_Gas_N");
     public static ILx Comp_Laser_Gas_KrF = new ILx("Comp_Laser_Gas_KrF");
     public static ILx Comp_Laser_Gas_ArF = new ILx("Comp_Laser_Gas_ArF");
