@@ -4,7 +4,6 @@ import gregapi.data.*;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.oredict.OreDictPrefix;
 import gregapi.recipes.Recipe;
-import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.worldgen.StoneLayer;
 import gregapi.worldgen.StoneLayerOres;
@@ -92,6 +91,7 @@ public class PgmProcessing extends GT6XFeature {
             for (OreDictMaterial tMat : new OreDictMaterial[] {MT.Pt, MT.OREMATS.Cooperite, MT.OREMATS.Sperrylite}) {
                 addPtGroupLeachingRecipeComplex(tMat);
             }
+            disableElectrolysis();
         }
     }
 
@@ -238,6 +238,7 @@ public class PgmProcessing extends GT6XFeature {
     public void addComplexRecipes() {
         // Pt/Pd separation
         RM.Bath.addRecipe1(true, 0, 200, dust.mat(NH4Cl, 20), PtPdLeachingSolution.liquid(95*U, false), PdChlorideSolution.liquid(70*U, false), dust.mat(AmmoniumHexachloroplatinate, 45));
+        RM.Bath.addRecipe1(true, 0, 200, dust.mat(NH4Cl, 4), MT.ChloroplatinicAcid.liquid(9*U, true), MT.HCl.gas(2, false), dust.mat(AmmoniumHexachloroplatinate, 9));
         RM.Mixer.addRecipe0(true, 16, 100, FL.array(PdChlorideSolution.liquid(35*U, true), MT.NH3.gas(4*U, true)), FL.array(MT.H2O.liquid(8*3*U, false), MT.HCl.gas(4*2*U, false)), dust.mat(TetraamminepalladiumChloride, 7));
         RMx.Thermolysis.addRecipe1(true, 16, 50, dust.mat(AmmoniumHexachloroplatinate, 9), NF, MT.Cl.gas(4*U, false), dust.mat(NH4Cl, 4), dust.mat(MT.Pt, 1));
         RMx.Thermolysis.addRecipe1(true, 16, 50, dust.mat(TetraamminepalladiumChloride, 7), ZL_FS, FL.array(MT.Cl.gas(2*U, false), MT.NH3.gas(4*U, false)), dust.mat(MT.Pd, 1));
@@ -266,5 +267,13 @@ public class PgmProcessing extends GT6XFeature {
         RM.Roasting.addRecipe1(true, 64, 250, dust.mat(PGMResidue, 4), FL.array(Ozone.gas(8 * U, true)), FL.array(RuOsO4.gas(10*U, false)), dust.mat(IrRhOxide, 6));
         RM.Distillery.addRecipe1(true, 64, 150, ST.tag(0), FL.array(RuOsO4.gas(10 * U, false)), FL.array(MT.O.gas(8*U, false)), dust.mat(MT.Os, 1), dust.mat(MT.Ru, 1));
         RM.Roasting.addRecipe1(true, 64, 150, dust.mat(IrRhOxide, 6), MT.H.gas(8*U, true), MT.H2O.liquid(12*U, false), dust.mat(MT.Rh, 1), dust.mat(MT.Ir, 1));
+    }
+
+    private void disableElectrolysis() {
+        for (Recipe r : RM.Electrolyzer.mRecipeList) {
+            if (r.mFluidInputs.length >= 1 && (r.mFluidInputs[0].isFluidEqual(MT.ChloroplatinicAcid.mLiquid))) {
+                r.mEnabled = false;
+            }
+        }
     }
 }
