@@ -32,11 +32,11 @@ public class MTx {
     }
 
     private static void addVapour(OreDictMaterial mat) {
-        FL.createGas(mat.put(GASES));
+        FL.createVapour(mat.put(VAPORS));
     }
 
     private static void addPlasma(OreDictMaterial mat) {
-        FL.createPlasma(mat.put(PLASMA));
+        FLx.createPlasma(mat.put(PLASMA));
     }
 
     static {
@@ -163,7 +163,7 @@ public class MTx {
     NH4 = create(16001, "Ammonium", 0, 100, 255, 255)
             .setMcfg(1, MT.N, U, MT.H, 4*U),
     AmmoniumHexachloroplatinate = dustdcmp(16002, "Ammonium Hexachloroplatinate", SET_FINE, 255, 220, 10, 255)
-            .uumMcfg(0, NH4, U*2, MT.Pt, U, MT.Cl, U*6)
+            .setMcfg(0, NH4, U*2, MT.Pt, U, MT.Cl, U*6)
             .heat(653)
             .tooltip("(NH" + NUM_SUB[4] + ")" + NUM_SUB[2] + "PtCl" + NUM_SUB[6]),
     PalladiumChloride = dustdcmp(16003, "Palladium Chloride", SET_FINE, 90, 70, 50, 255)
@@ -204,12 +204,12 @@ public class MTx {
             .uumMcfg(0, MT.H, U*2, MT.Ru, U, MT.Cl, U*6, MT.H2O, U*6)
             .heat( 200,  400)),
     AmmoniumHexachlororuthenate = dustdcmp(16015,  "Ammonium Hexachlororuthenate", SET_FINE, 255, 120, 10, 255)
-            .uumMcfg(0, NH4, U*2, MT.Ru, U, MT.Cl, U*6)
+            .setMcfg(0, NH4, U*2, MT.Ru, U, MT.Cl, U*6)
             .tooltip("(NH" + NUM_SUB[4] + ")" + NUM_SUB[2] + "RuCl" + NUM_SUB[6]),
     IrRhOxide = dustdcmp(16016,  "Iridium-Rhodium Oxide Mixture", SET_FINE, 200, 200, 200, 255)
             .uumMcfg(0, MT.Ir, U, MT.Rh, U, MT.O, U*8),
     NH4Cl = dustdcmp(16017, "Ammonium Chloride", SET_CUBE, 250, 250, 250, 255)
-            .uumMcfg(0, NH4, U, MT.Cl, U)
+            .setMcfg(0, NH4, U, MT.Cl, U)
             .tooltip("NH" + NUM_SUB[4] + "Cl")
             .heat(338+C, 520+C ),
     RhodiumPotassiumSulfate = dustdcmp(16018, "Rhodium-Potassium Sulfate Mixture", SET_CUBE_SHINY, 255, 100, 150, 255)
@@ -421,7 +421,7 @@ public class MTx {
             .uumMcfg(0, MT.Na, U, MT.V, U, MT.O, 3*U, MT.H2O, 6*U)
             .heat(MT.H2O)),
     NH4VO3 = dustdcmp(16083, "Ammonium Metavanadate", SET_DULL, 255, 200, 150, 255)
-            .uumMcfg(0, NH4, U, MT.V, U, MT.O, 3*U)
+            .setMcfg(0, NH4, U, MT.V, U, MT.O, 3*U)
             .tooltip("NH" + NUM_SUB[4] + "VO" + NUM_SUB[3])
             .heat(473),
     NH4ClSolution = simpleSolution(16084, "Ammonium Chloride Solution", 230, 230, 255, 255, NH4Cl, 3),
@@ -429,7 +429,7 @@ public class MTx {
             .uumMcfg(0, MT.Co, U, MT.Al, 2*U, MT.O, 4*U)
             .heat((MT.Al2O3.mMeltingPoint + CoO.mMeltingPoint) / 2),
     NH4SO4 = dustdcmp(16086, "Ammonium Sulfate", SET_CUBE, 255, 255, 230, 255)
-            .uumMcfg(0, NH4, 2*U, MT.S, U, MT.O, 4*U)
+            .setMcfg(0, NH4, 2*U, MT.S, U, MT.O, 4*U)
             .tooltip("(NH" + NUM_SUB[4] + ")" + NUM_SUB[2] + "SO" + NUM_SUB[4])
             .heat(508),
     SeO2 = dustdcmp(16087, "Selenium Dioxide", SET_QUARTZ, 255, 200, 240, 255)
@@ -456,7 +456,7 @@ public class MTx {
     H2TaF7 = create(16093, "Hydrogen Heptafluorotantalate", 255, 0, 255, 255)
             .uumMcfg(0, MT.H, 2*U, MT.Ta, U, MT.F, 7*U),
     NH4F = dustdcmp(16094, "Ammonium Fluoride", SET_DULL, 50, 255, 255, 255)
-            .uumMcfg(1, NH4, U, MT.F, U)
+            .setMcfg(1, NH4, U, MT.F, U)
             .tooltip("NH" + NUM_SUB[4] + "F")
             .heat(373, 373),
     H2NbOF5 = create(16095, "Hydrogen Pentafluorooxoniobate", 255, 0, 255, 255)
@@ -819,7 +819,7 @@ public class MTx {
             .heat(250, 350)),
     CF4 = registerGas(gasdcmp(16211, "Tetrafluoromethane", 200, 255, 255, 200)
             .setMcfg(0, MT.C, U, MT.F, 4*U)
-            .heat(89, 145, 373)),
+            .heat(89, 145, 310)),
     Y2O3 = dustdcmp(16212, "Yttria", SET_SHINY, 255, 255, 255, 255, GEMS)
             .setMcfg(0, MT.Y, 2*U, MT.O, 3*U)
             .heat(2698, 4570),
@@ -840,7 +840,7 @@ public class MTx {
             .heat(MT.H2O)),
     NF3 = registerGas(gasdcmp(16218, "Nitrogen Trifluoride", 0, 240, 255, 200)
             .setMcfg(1, MT.N, U, MT.F, 3*U)
-            .heat(66, 144, 500)),
+            .heat(66, 144, 310)),
     NH4SiF6 = dustdcmp(16219, "Ammonium Hexafluorosilicate", SET_CUBE, 245, 225, 65, 255)
             .setMcfg(0, NH4, 2*U, MT.Si, U, MT.F, 6*U)
             .tooltip("(NH" + NUM_SUB[4] + ")" + NUM_SUB[2] + "SiF" + NUM_SUB[6])
@@ -897,7 +897,10 @@ public class MTx {
             .uumMcfg(0, MT.C, 3*U, MT.H, 8*U, MT.O, U)
             .heat(184, 356)),
     SolderingPaste = registerLiquid(lquddcmp(16240, "Solder Paste", 255, 180, 0, 255)
-            .heat(Isopropanol))
+            .heat(Isopropanol)),
+    SF6 = registerGas(gasdcmp(16241, "Sulfur Hexafluoride", 240, 255, 200, 150)
+            .uumMcfg(1, MT.S, U, MT.F, 6*U)
+            .heat(209, 222, 310))
     ;
 
     static {
@@ -922,6 +925,7 @@ public class MTx {
 
         addPlasma(CF4);
         addPlasma(NF3);
+        addPlasma(SF6);
 
         OP.bouleGt.forceItemGeneration(GaAs, SiGe);
         OP.plate.forceItemGeneration(MT.Al2O3);

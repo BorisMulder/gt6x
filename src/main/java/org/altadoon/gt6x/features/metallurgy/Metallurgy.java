@@ -200,10 +200,10 @@ public class Metallurgy extends GT6XFeature {
         mat = MT.Al2O3;          MTEx.gt6xMTEReg.add("Cowper Stove"                           , "Multiblock Machines", MTEx.IDs.CowperStove  .get(), 17101, MultiTileEntityCowperStove   .class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  8.0F, NBT_RESISTANCE,  8.0F, NBT_TEXTURE, "cowperstove"      , NBT_INPUT, 32, NBT_INPUT_MIN, 16, NBT_INPUT_MAX, 64, NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, cowperStove, NBT_TANK_SIDE_AUTO_OUT, SIDE_TOP, NBT_PARALLEL, 64, NBT_PARALLEL_DURATION, true), "IPI", "PSP", "wIh", 'I', ingot.dat(mat), 'P', pipeMedium.dat(MT.StainlessSteel), 'S', MTEx.gt6xMTEReg.getItem(MTEx.IDs.AluminaCheckerBricks.get()));
 
         Class<? extends TileEntity> aClass = MultiTileEntityBasicMachine.class;
-        mat = MT.DATA.Heat_T[1]; MTEx.gt6xMTEReg.add("Sintering Oven ("+mat.getLocal()+")"    , "Basic Machines"     , MTEx.IDs.Sintering1   .get(), 20001, aClass                             , mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  6.0F, NBT_RESISTANCE,  6.0F, NBT_INPUT,   32, NBT_TEXTURE, "sinteringoven", NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, RMx.sintering, NBT_INV_SIDE_IN, SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_ENERGY_ACCEPTED_SIDES, SBIT_D), "wUh", "PMP", "BCB", 'M', casingMachineDouble.dat(mat), 'C', plateDouble   .dat(ANY.Cu), 'P', plate.dat(MT.Ceramic), 'B', Blocks.brick_block, 'U', MTEx.gt6Registry.getItem(1005));
-        mat = MT.DATA.Heat_T[2]; MTEx.gt6xMTEReg.add("Sintering Oven ("+mat.getLocal()+")"    , "Basic Machines"     , MTEx.IDs.Sintering2   .get(), 20001, aClass                             , mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  4.0F, NBT_RESISTANCE,  4.0F, NBT_INPUT,  128, NBT_TEXTURE, "sinteringoven", NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, RMx.sintering, NBT_INV_SIDE_IN, SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_ENERGY_ACCEPTED_SIDES, SBIT_D), "wPh", "PMP", "BCB", 'M', casingMachineDouble.dat(mat), 'C', plateTriple   .dat(ANY.Cu), 'P', plateTriple.dat(MT.Ta     ), 'B', Blocks.brick_block);
-        mat = MT.DATA.Heat_T[3]; MTEx.gt6xMTEReg.add("Sintering Oven ("+mat.getLocal()+")"    , "Basic Machines"     , MTEx.IDs.Sintering3   .get(), 20001, aClass                             , mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  9.0F, NBT_RESISTANCE,  9.0F, NBT_INPUT,  512, NBT_TEXTURE, "sinteringoven", NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, RMx.sintering, NBT_INV_SIDE_IN, SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_ENERGY_ACCEPTED_SIDES, SBIT_D), "wPh", "PMP", "BCB", 'M', casingMachineDouble.dat(mat), 'C', plateQuadruple.dat(ANY.Cu), 'P', plateTriple.dat(MT.W      ), 'B', Blocks.brick_block);
-        mat = MT.DATA.Heat_T[4]; MTEx.gt6xMTEReg.add("Sintering Oven ("+mat.getLocal()+")"    , "Basic Machines"     , MTEx.IDs.Sintering4   .get(), 20001, aClass                             , mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, 12.5F, NBT_RESISTANCE, 12.5F, NBT_INPUT, 2048, NBT_TEXTURE, "sinteringoven", NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, RMx.sintering, NBT_INV_SIDE_IN, SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_ENERGY_ACCEPTED_SIDES, SBIT_D), "wPh", "PMP", "BCB", 'M', casingMachineDouble.dat(mat), 'C', plateQuintuple.dat(ANY.Cu), 'P', plateTriple.dat(MT.Ta4HfC5), 'B', Blocks.brick_block);
+        mat = MT.DATA.Heat_T[1]; MTEx.gt6xMTEReg.add("Sintering Oven ("+mat.getLocal()+")"    , "Basic Machines"     , MTEx.IDs.Sintering1   .get(), 20001, aClass                             , mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  6.0F, NBT_RESISTANCE,  6.0F, NBT_INPUT,   32, NBT_TEXTURE, "sinteringoven", NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, RMx.Sintering, NBT_INV_SIDE_IN, SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_ENERGY_ACCEPTED_SIDES, SBIT_D), "wUh", "PMP", "BCB", 'M', casingMachineDouble.dat(mat), 'C', plateDouble   .dat(ANY.Cu), 'P', plate.dat(MT.Ceramic), 'B', Blocks.brick_block, 'U', MTEx.gt6Registry.getItem(1005));
+        mat = MT.DATA.Heat_T[2]; MTEx.gt6xMTEReg.add("Sintering Oven ("+mat.getLocal()+")"    , "Basic Machines"     , MTEx.IDs.Sintering2   .get(), 20001, aClass                             , mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  4.0F, NBT_RESISTANCE,  4.0F, NBT_INPUT,  128, NBT_TEXTURE, "sinteringoven", NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, RMx.Sintering, NBT_INV_SIDE_IN, SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_ENERGY_ACCEPTED_SIDES, SBIT_D), "wPh", "PMP", "BCB", 'M', casingMachineDouble.dat(mat), 'C', plateTriple   .dat(ANY.Cu), 'P', plateTriple.dat(MT.Ta     ), 'B', Blocks.brick_block);
+        mat = MT.DATA.Heat_T[3]; MTEx.gt6xMTEReg.add("Sintering Oven ("+mat.getLocal()+")"    , "Basic Machines"     , MTEx.IDs.Sintering3   .get(), 20001, aClass                             , mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  9.0F, NBT_RESISTANCE,  9.0F, NBT_INPUT,  512, NBT_TEXTURE, "sinteringoven", NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, RMx.Sintering, NBT_INV_SIDE_IN, SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_ENERGY_ACCEPTED_SIDES, SBIT_D), "wPh", "PMP", "BCB", 'M', casingMachineDouble.dat(mat), 'C', plateQuadruple.dat(ANY.Cu), 'P', plateTriple.dat(MT.W      ), 'B', Blocks.brick_block);
+        mat = MT.DATA.Heat_T[4]; MTEx.gt6xMTEReg.add("Sintering Oven ("+mat.getLocal()+")"    , "Basic Machines"     , MTEx.IDs.Sintering4   .get(), 20001, aClass                             , mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, 12.5F, NBT_RESISTANCE, 12.5F, NBT_INPUT, 2048, NBT_TEXTURE, "sinteringoven", NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, RMx.Sintering, NBT_INV_SIDE_IN, SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_ENERGY_ACCEPTED_SIDES, SBIT_D), "wPh", "PMP", "BCB", 'M', casingMachineDouble.dat(mat), 'C', plateQuintuple.dat(ANY.Cu), 'P', plateTriple.dat(MT.Ta4HfC5), 'B', Blocks.brick_block);
 
         mat = MT.SiC;            MTEx.gt6xMTEReg.add("Shaft Furnace"                          , "Multiblock Machines", MTEx.IDs.ShaftFurnace .get(), 17101, MultiTileEntityShaftFurnace  .class, mat.mToolQuality, 16, MTEx.StoneBlock  , UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  6.0F, NBT_RESISTANCE,  6.0F, NBT_TEXTURE, "shaftfurnace"     , NBT_INPUT, 64, NBT_INPUT_MIN, 64, NBT_INPUT_MAX, 1024, NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_RECIPEMAP, directReduction, NBT_TANK_SIDE_AUTO_OUT, SIDE_TOP, NBT_CHEAP_OVERCLOCKING, true), "IPI", "PSP", "wIh", 'I', plate.dat(mat), 'P', pipeMedium.dat(MT.StainlessSteel), 'S', MTEx.gt6xMTEReg.getItem(MTEx.IDs.SiCWall.get()));
 
@@ -300,7 +300,7 @@ public class Metallurgy extends GT6XFeature {
         RM.Anvil.addRecipe2(false, 64, 192, scrapGt.mat(MTx.SpongeIron, 9), scrapGt.mat(MTx.SpongeIron, 9), ingot.mat(MT.WroughtIron, 1), scrapGt.mat(MTx.FerrousSlag, 8));
 
         // Sublimation/Precipitation of Al, Zn, As, Mg, P gases
-        RM.Smelter.addRecipe0(false, 16, 8, MT.Al.liquid(U1000, true), MT.Al.gas(U1000, false), ZL_IS);
+        RM.Smelter.addRecipe0(false, 16, 8, MT.Al.liquid(U144, true), MT.Al.gas(U144, false), ZL_IS);
         RM.Smelter.addRecipe1(true, 16, 144, blockDust.mat(MT.As, 1), ZL_FS, MT.As.gas(9*U, false), ZL_IS);
         RM.Smelter.addRecipe1(true, 16, 16,  dust.mat(MT.As, 1), ZL_FS, MT.As.gas(U, false), ZL_IS);
         RM.Smelter.addRecipe1(true, 16, 4,   dustSmall.mat(MT.As, 1), ZL_FS, MT.As.gas(U4, false), ZL_IS);
@@ -308,10 +308,12 @@ public class Metallurgy extends GT6XFeature {
         RM.Smelter.addRecipe1(true, 16, 1,   dustDiv72.mat(MT.As, 1), ZL_FS, MT.As.gas(U72, false), ZL_IS);
         RM.Freezer.addRecipe1(true, 16, 48, ST.tag(0), MT.Zn.gas(U, true), NF, OM.ingot(MT.Zn, U)); // from 1180 to 300
         RM.Freezer.addRecipe1(true, 16, 32, ST.tag(0), MT.As.gas(U, true), NF, OM.ingot(MT.As, U)); // from 887 to 300
+        RM.Freezer.addRecipe1(true, 16, 144,ST.tag(0), MT.Al.gas(U, true), NF, OM.ingot(MT.Al, U)); // from 2792 to 300
         RM.Freezer.addRecipe1(true, 16, 64, ST.tag(0), MT.Mg.gas(U, true), NF, OM.ingot(MT.Mg, U)); // from 1378 to 300
-        RM.Bath   .addRecipe1(true, 0, 512, ST.tag(0), MT.Zn.gas(U, true), MT.Zn.liquid(U, false), NI); // from 1180 to 692
-        RM.Bath   .addRecipe1(true, 0, 512, ST.tag(0), MT.As.gas(U, true), NF, OM.ingot(MT.As, U)); // from 887 to 300
-        RM.Bath   .addRecipe1(true, 0, 512, ST.tag(0), MT.Mg.gas(U, true), MT.Mg.liquid(U, false), NI); // from 1378 to 922
+        RM.Bath   .addRecipe1(true, 0, 256, ST.tag(0), MT.Zn.gas(U, true), MT.Zn.liquid(U, false), NI); // from 1180 to 692
+        RM.Bath   .addRecipe1(true, 0, 256, ST.tag(0), MT.As.gas(U, true), NF, OM.ingot(MT.As, U)); // from 887 to 300
+        RM.Bath   .addRecipe1(true, 0, 256, ST.tag(0), MT.Mg.gas(U, true), MT.Mg.liquid(U, false), NI); // from 1378 to 922
+        RM.Bath   .addRecipe1(true, 0, 512, ST.tag(0), MT.Al.gas(U, true), MT.Al.liquid(U, false), NI); // from 2792 to 933
         RM.Bath   .addRecipe1(true, 0, 128, ST.tag(0), FL.array(MTx.ZnBlastFurnaceGas.gas(7*U, true)), FL.array(MT.Zn.liquid(U, false), MTx.BlastFurnaceGas.gas(6*U, false)));
         RM.Bath   .addRecipe1(true, 0, 128, ST.tag(0), FL.array(MTx.MgBlastFurnaceGas.gas(7*U, true)), FL.array(MT.Mg.liquid(U, false), MT.CO2.gas(6*U, false)));
         RM.Bath   .addRecipe1(true, 0, 256, ST.tag(0), FL.array(MTx.P_CO_Gas.gas(6*U, true)), FL.array(MT.CO.gas(5*U, false)), dust.mat(MT.P, 1));
@@ -364,40 +366,40 @@ public class Metallurgy extends GT6XFeature {
         RM.Electrolyzer.addRecipe2(true, 64, 512, ST.tag(1), dust.mat(MTx.NaGaOH4, 10), ZL_FS, FL.array(FL.Water.make(1500), FL.Oxygen.make(1500), MTx.NaOHSolution.liquid(6*U, false)), dust.mat(MT.Ga, 1));
 
         // Sintering dusts into chunks
-        RMx.sintering.add(new RecipeMapHandlerPrefixSintering(dust,      1, NF, 16, 0, 0, NF, ingot , 1, ST.tag(1), NI, true, false, false, lowHeatSintering));
-        RMx.sintering.add(new RecipeMapHandlerPrefixSintering(dustSmall, 1, NF, 16, 0, 0, NF, chunk , 1, ST.tag(1), NI, true, false, false, lowHeatSintering));
-        RMx.sintering.add(new RecipeMapHandlerPrefixSintering(dustTiny,  1, NF, 16, 0, 0, NF, nugget, 1, ST.tag(1), NI, true, false, false, lowHeatSintering));
-        RMx.sintering.add(new RecipeMapHandlerPrefixSintering(dust,      1, NF, 96, 0, 0, NF, ingot , 1, ST.tag(1), NI, true, false, false, highHeatSintering));
-        RMx.sintering.add(new RecipeMapHandlerPrefixSintering(dustSmall, 1, NF, 96, 0, 0, NF, chunk , 1, ST.tag(1), NI, true, false, false, highHeatSintering));
-        RMx.sintering.add(new RecipeMapHandlerPrefixSintering(dustTiny,  1, NF, 96, 0, 0, NF, nugget, 1, ST.tag(1), NI, true, false, false, highHeatSintering));
+        RMx.Sintering.add(new RecipeMapHandlerPrefixSintering(dust,      1, NF, 16, 0, 0, NF, ingot , 1, ST.tag(1), NI, true, false, false, lowHeatSintering));
+        RMx.Sintering.add(new RecipeMapHandlerPrefixSintering(dustSmall, 1, NF, 16, 0, 0, NF, chunk , 1, ST.tag(1), NI, true, false, false, lowHeatSintering));
+        RMx.Sintering.add(new RecipeMapHandlerPrefixSintering(dustTiny,  1, NF, 16, 0, 0, NF, nugget, 1, ST.tag(1), NI, true, false, false, lowHeatSintering));
+        RMx.Sintering.add(new RecipeMapHandlerPrefixSintering(dust,      1, NF, 96, 0, 0, NF, ingot , 1, ST.tag(1), NI, true, false, false, highHeatSintering));
+        RMx.Sintering.add(new RecipeMapHandlerPrefixSintering(dustSmall, 1, NF, 96, 0, 0, NF, chunk , 1, ST.tag(1), NI, true, false, false, highHeatSintering));
+        RMx.Sintering.add(new RecipeMapHandlerPrefixSintering(dustTiny,  1, NF, 96, 0, 0, NF, nugget, 1, ST.tag(1), NI, true, false, false, highHeatSintering));
 
         // misc sintering
-        RMx.sintering.addRecipeX(true, 16, 64  , ST.array(ST.tag(2), dust.mat(MTx.CoO, 2), dust.mat(MT.Al2O3, 5)), dust.mat(MTx.CobaltBlue, 7));
-        RMx.sintering.addRecipeX(true, 96, 2048, ST.array(ST.tag(2), dust.mat(MT.Ad, 3), dust.mat(MT.Vb, 1)), ingot.mat(MT.Vibramantium, 4));
+        RMx.Sintering.addRecipeX(true, 16, 64  , ST.array(ST.tag(2), dust.mat(MTx.CoO, 2), dust.mat(MT.Al2O3, 5)), dust.mat(MTx.CobaltBlue, 7));
+        RMx.Sintering.addRecipeX(true, 96, 2048, ST.array(ST.tag(2), dust.mat(MT.Ad, 3), dust.mat(MT.Vb, 1)), ingot.mat(MT.Vibramantium, 4));
 
         // BF Sinters and carbides
         for (ItemStack coal : ST.array(dust.mat(MT.PetCoke, 1), dust.mat(MT.LigniteCoke, 3),  dust.mat(MT.CoalCoke, 1), dust.mat(MT.C, 1) )) {
-            RMx.sintering.addRecipeX(true, 96, 334, ST.array(ST.tag(2), dust.mat(MT.W, 1), ST.copy(coal)), ingot.mat(MT.TungstenCarbide, 2));
-            RMx.sintering.addRecipeX(true, 96, 1400, ST.array(ST.tag(3), dust.mat(MT.Ta, 4), dust.mat(MT.Hf, 1), ST.mul(5, coal)), ingot.mat(MT.Ta4HfC5, 10));
-            RMx.sintering.addRecipeX(true, 96, 1746, ST.array(ST.tag(3), dust.mat(MT.Ke, 6), dust.mat(MT.Nq, 2), ST.mul(1, coal)), ingot.mat(MT.Trinaquadalloy, 9));
+            RMx.Sintering.addRecipeX(true, 96, 334, ST.array(ST.tag(2), dust.mat(MT.W, 1), ST.copy(coal)), ingot.mat(MT.TungstenCarbide, 2));
+            RMx.Sintering.addRecipeX(true, 96, 1400, ST.array(ST.tag(3), dust.mat(MT.Ta, 4), dust.mat(MT.Hf, 1), ST.mul(5, coal)), ingot.mat(MT.Ta4HfC5, 10));
+            RMx.Sintering.addRecipeX(true, 96, 1746, ST.array(ST.tag(3), dust.mat(MT.Ke, 6), dust.mat(MT.Nq, 2), ST.mul(1, coal)), ingot.mat(MT.Trinaquadalloy, 9));
 
-            RMx.sintering.addRecipeX(true, 16, 32, ST.array(ST.tag(3), dust.mat(MT.Fe2O3                      , 5 ), ST.mul(1, coal), dust.mat(MT.CaCO3, 1)), sinter.mat(MT.Fe2O3, 8));
-            RMx.sintering.addRecipeX(true, 16, 32, ST.array(ST.tag(3), dust.mat(MTx.FeO                       , 4 ), ST.mul(1, coal), dust.mat(MT.CaCO3, 1)), sinter.mat(MTx.FeO, 8));
-            RMx.sintering.addRecipeX(true, 16, 96, ST.array(ST.tag(3), dust.mat(MT.OREMATS.Magnetite          , 14), ST.mul(3, coal), dust.mat(MT.CaCO3, 3)), sinter.mat(MT.OREMATS.Magnetite, 24));
-            RMx.sintering.addRecipeX(true, 16, 96, ST.array(ST.tag(3), dust.mat(MT.OREMATS.BasalticMineralSand, 14), ST.mul(3, coal), dust.mat(MT.CaCO3, 3)), sinter.mat(MT.OREMATS.Magnetite, 24));
-            RMx.sintering.addRecipeX(true, 16, 96, ST.array(ST.tag(3), dust.mat(MT.OREMATS.GraniticMineralSand, 14), ST.mul(3, coal), dust.mat(MT.CaCO3, 3)), sinter.mat(MT.OREMATS.Magnetite, 24));
-            RMx.sintering.addRecipeX(true, 16, 32, ST.array(ST.tag(3), dust.mat(MT.OREMATS.YellowLimonite     , 8 ), ST.mul(1, coal), dust.mat(MT.CaCO3, 1)), sinter.mat(MT.Fe2O3, 8));
-            RMx.sintering.addRecipeX(true, 16, 32, ST.array(ST.tag(3), dust.mat(MT.OREMATS.BrownLimonite      , 8 ), ST.mul(1, coal), dust.mat(MT.CaCO3, 1)), sinter.mat(MT.Fe2O3, 8));
-            RMx.sintering.addRecipeX(true, 16, 32, ST.array(ST.tag(3), dust.mat(MT.OREMATS.Garnierite         , 2 ), ST.mul(1, coal), dust.mat(MT.CaCO3, 1)), sinter.mat(MT.OREMATS.Garnierite, 8));
-            RMx.sintering.addRecipeX(true, 16, 32, ST.array(ST.tag(3), dust.mat(MT.OREMATS.Cassiterite        , 2 ), ST.mul(1, coal), dust.mat(MT.CaCO3, 1)), sinter.mat(MT.OREMATS.Cassiterite, 8));
-            RMx.sintering.addRecipeX(true, 16, 96, ST.array(ST.tag(3), dust.mat(MT.OREMATS.Chromite           , 14), ST.mul(3, coal), dust.mat(MT.CaCO3, 3)), sinter.mat(MT.OREMATS.Chromite, 24));
-            RMx.sintering.addRecipeX(true, 16, 32, ST.array(ST.tag(3), dust.mat(MTx.PbO                       , 2 ), ST.mul(1, coal), dust.mat(MT.CaCO3, 1)), sinter.mat(MTx.PbO, 8));
-            RMx.sintering.addRecipeX(true, 16, 32, ST.array(ST.tag(3), dust.mat(MTx.ZnO                       , 2 ), ST.mul(1, coal), dust.mat(MT.CaCO3, 1)), sinter.mat(MTx.ZnO, 8));
-            RMx.sintering.addRecipeX(true, 16, 32, ST.array(ST.tag(3), dust.mat(MT.MnO2                       , 2 ), ST.mul(1, coal), dust.mat(MT.CaCO3, 1)), sinter.mat(MT.MnO2, 8));
-            RMx.sintering.addRecipeX(true, 16, 32, ST.array(ST.tag(3), dust.mat(MTx.CoO                       , 4 ), ST.mul(1, coal), dust.mat(MT.CaCO3, 1)), sinter.mat(MTx.CoO, 8));
-            RMx.sintering.addRecipeX(true, 16, 96, ST.array(ST.tag(3), dust.mat(MTx.Co3O4                     , 14), ST.mul(3, coal), dust.mat(MT.CaCO3, 3)), sinter.mat(MTx.Co3O4, 24));
-            RMx.sintering.addRecipeX(true, 16, 32, ST.array(ST.tag(3), dust.mat(MTx.Sb2O3                     , 5 ), ST.mul(1, coal), dust.mat(MT.CaCO3, 1)), sinter.mat(MTx.Sb2O3, 8));
-            RMx.sintering.addRecipeX(true, 16, 32, ST.array(ST.tag(2), dust.mat(MT.SiO2                       , 6 ), ST.mul(1, coal)), sinter.mat(MT.SiO2, 8));
+            RMx.Sintering.addRecipeX(true, 16, 32, ST.array(ST.tag(3), dust.mat(MT.Fe2O3                      , 5 ), ST.mul(1, coal), dust.mat(MT.CaCO3, 1)), sinter.mat(MT.Fe2O3, 8));
+            RMx.Sintering.addRecipeX(true, 16, 32, ST.array(ST.tag(3), dust.mat(MTx.FeO                       , 4 ), ST.mul(1, coal), dust.mat(MT.CaCO3, 1)), sinter.mat(MTx.FeO, 8));
+            RMx.Sintering.addRecipeX(true, 16, 96, ST.array(ST.tag(3), dust.mat(MT.OREMATS.Magnetite          , 14), ST.mul(3, coal), dust.mat(MT.CaCO3, 3)), sinter.mat(MT.OREMATS.Magnetite, 24));
+            RMx.Sintering.addRecipeX(true, 16, 96, ST.array(ST.tag(3), dust.mat(MT.OREMATS.BasalticMineralSand, 14), ST.mul(3, coal), dust.mat(MT.CaCO3, 3)), sinter.mat(MT.OREMATS.Magnetite, 24));
+            RMx.Sintering.addRecipeX(true, 16, 96, ST.array(ST.tag(3), dust.mat(MT.OREMATS.GraniticMineralSand, 14), ST.mul(3, coal), dust.mat(MT.CaCO3, 3)), sinter.mat(MT.OREMATS.Magnetite, 24));
+            RMx.Sintering.addRecipeX(true, 16, 32, ST.array(ST.tag(3), dust.mat(MT.OREMATS.YellowLimonite     , 8 ), ST.mul(1, coal), dust.mat(MT.CaCO3, 1)), sinter.mat(MT.Fe2O3, 8));
+            RMx.Sintering.addRecipeX(true, 16, 32, ST.array(ST.tag(3), dust.mat(MT.OREMATS.BrownLimonite      , 8 ), ST.mul(1, coal), dust.mat(MT.CaCO3, 1)), sinter.mat(MT.Fe2O3, 8));
+            RMx.Sintering.addRecipeX(true, 16, 32, ST.array(ST.tag(3), dust.mat(MT.OREMATS.Garnierite         , 2 ), ST.mul(1, coal), dust.mat(MT.CaCO3, 1)), sinter.mat(MT.OREMATS.Garnierite, 8));
+            RMx.Sintering.addRecipeX(true, 16, 32, ST.array(ST.tag(3), dust.mat(MT.OREMATS.Cassiterite        , 2 ), ST.mul(1, coal), dust.mat(MT.CaCO3, 1)), sinter.mat(MT.OREMATS.Cassiterite, 8));
+            RMx.Sintering.addRecipeX(true, 16, 96, ST.array(ST.tag(3), dust.mat(MT.OREMATS.Chromite           , 14), ST.mul(3, coal), dust.mat(MT.CaCO3, 3)), sinter.mat(MT.OREMATS.Chromite, 24));
+            RMx.Sintering.addRecipeX(true, 16, 32, ST.array(ST.tag(3), dust.mat(MTx.PbO                       , 2 ), ST.mul(1, coal), dust.mat(MT.CaCO3, 1)), sinter.mat(MTx.PbO, 8));
+            RMx.Sintering.addRecipeX(true, 16, 32, ST.array(ST.tag(3), dust.mat(MTx.ZnO                       , 2 ), ST.mul(1, coal), dust.mat(MT.CaCO3, 1)), sinter.mat(MTx.ZnO, 8));
+            RMx.Sintering.addRecipeX(true, 16, 32, ST.array(ST.tag(3), dust.mat(MT.MnO2                       , 2 ), ST.mul(1, coal), dust.mat(MT.CaCO3, 1)), sinter.mat(MT.MnO2, 8));
+            RMx.Sintering.addRecipeX(true, 16, 32, ST.array(ST.tag(3), dust.mat(MTx.CoO                       , 4 ), ST.mul(1, coal), dust.mat(MT.CaCO3, 1)), sinter.mat(MTx.CoO, 8));
+            RMx.Sintering.addRecipeX(true, 16, 96, ST.array(ST.tag(3), dust.mat(MTx.Co3O4                     , 14), ST.mul(3, coal), dust.mat(MT.CaCO3, 3)), sinter.mat(MTx.Co3O4, 24));
+            RMx.Sintering.addRecipeX(true, 16, 32, ST.array(ST.tag(3), dust.mat(MTx.Sb2O3                     , 5 ), ST.mul(1, coal), dust.mat(MT.CaCO3, 1)), sinter.mat(MTx.Sb2O3, 8));
+            RMx.Sintering.addRecipeX(true, 16, 32, ST.array(ST.tag(2), dust.mat(MT.SiO2                       , 6 ), ST.mul(1, coal)), sinter.mat(MT.SiO2, 8));
         }
 
         // mixing from/to molten ferrochrome and steel
