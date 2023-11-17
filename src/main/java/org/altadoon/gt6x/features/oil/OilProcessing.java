@@ -243,7 +243,7 @@ public class OilProcessing extends GT6XFeature {
         // Isopropyl Alcohol
         RM.Mixer.addRecipe1(true, 16, 200, dust.mat(MT.Ni, 0), FL.array(MTx.Acetone.liquid(10*U, true), MT.H.gas(2*U, true)), FL.array(MTx.Isopropanol.liquid(12*U, false)));
         for (FluidStack water : FL.waters(3000)) {
-            RM.Mixer.addRecipe1(true, 16, 200, dust.mat(MT.Al2O3, 0), FL.array(MT.Propylene.liquid(9 * U, true), water), FL.array(MTx.Isopropanol.liquid(12 * U, false)));
+            RM.Mixer.addRecipe1(true, 16, 200, dust.mat(MT.Al2O3, 0), FL.array(MT.Propylene.gas(9 * U, true), water), FL.array(MTx.Isopropanol.liquid(12 * U, false)));
         }
 
         // Hydrodealkylation of toluene in case you don't need it

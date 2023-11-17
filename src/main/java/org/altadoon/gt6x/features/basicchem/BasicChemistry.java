@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import org.altadoon.gt6x.common.Config;
+import org.altadoon.gt6x.common.FLx;
 import org.altadoon.gt6x.common.MTx;
 import org.altadoon.gt6x.common.RMx;
 import org.altadoon.gt6x.common.items.ILx;
@@ -36,7 +37,6 @@ public class BasicChemistry extends GT6XFeature {
 
     @Override
     public void preInit() {
-        createFluids();
         changeMaterialProperties();
     }
 
@@ -53,15 +53,6 @@ public class BasicChemistry extends GT6XFeature {
 
     public void afterPostInit() {
         changeRecipes();
-    }
-
-    public static Fluid Varnish = null;
-
-    private void createFluids() {
-        if (!FL.Resin       .exists()) FL.create("resin"      , "Resin"       , null, 1).setDensity(900);
-        if (!FL.Resin_Spruce.exists()) FL.create("spruceresin", "Spruce Resin", null, 1).setDensity(900);
-        if (!FL.Turpentine  .exists()) FL.create("turpentine" , "Turpentine"  , null, 1);
-        Varnish = FL.create("varnish" , "Varnish", null, 1);
     }
 
     private void changeMaterialProperties() {
@@ -275,15 +266,16 @@ public class BasicChemistry extends GT6XFeature {
                 RM.Mixer.addRecipe0(true, 16, 16, FL.array(FL.mul(dye, 3, 2, true), FL.Turpentine.make(20)), FL.mul(DYE_FLUIDS_CHEMICAL[i], 2), ZL_IS);
             }
         }
-        RM.Mixer.addRecipe1(true, 16, 64, ILx.Rosin.get(1), MT.Ethanol.liquid(U10, true), FL.make(Varnish, 100), NI);
+        RM.Mixer.addRecipe1(true, 16, 64, ILx.Rosin.get(1), MT.Ethanol.liquid(U10, true), FL.make(FLx.Varnish, 100), NI);
 
         // Wood treating
+        @SuppressWarnings({"unchecked", "rawtypes"})
         ICondition condition = new ICondition.Nor(PREFIX_UNUSED, PLANT_DROP, IS_CONTAINER, DUST_BASED, ORE, ORE_PROCESSING_BASED, scrapGt, ingotHot);
         for (OreDictMaterial mat : ANY.WoodUntreated.mToThis) {
-            RM.Bath.add(new RecipeMapHandlerMaterial(mat, MTx.Epoxy.liquid(U12, true), 0, 144, NF, MT.WoodPolished, NI, T, condition));
-            RM.Bath.add(new RecipeMapHandlerMaterial(mat, FL.Resin_Spruce.make(12), 0, 144, NF, MT.WoodPolished, NI, T, condition));
-            RM.Bath.add(new RecipeMapHandlerMaterial(mat, FL.Resin       .make(12), 0, 144, NF, MT.WoodPolished, NI, T, condition));
-            RM.Bath.add(new RecipeMapHandlerMaterial(mat, FL.make(Varnish, 12), 0, 144, NF, MT.WoodPolished, NI, T, condition));
+            RM.Bath.add(new RecipeMapHandlerMaterial(mat, MTx.Epoxy.liquid(U12, true), 0, 144, NF, MT.WoodTreated, NI, T, condition));
+            RM.Bath.add(new RecipeMapHandlerMaterial(mat, FL.Resin_Spruce.make(12), 0, 144, NF, MT.WoodTreated, NI, T, condition));
+            RM.Bath.add(new RecipeMapHandlerMaterial(mat, FL.Resin       .make(12), 0, 144, NF, MT.WoodTreated, NI, T, condition));
+            RM.Bath.add(new RecipeMapHandlerMaterial(mat, FL.make(FLx.Varnish, 12), 0, 144, NF, MT.WoodTreated, NI, T, condition));
         }
     }
 

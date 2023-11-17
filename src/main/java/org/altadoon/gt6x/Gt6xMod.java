@@ -108,6 +108,7 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 	}
 
 	private void prePreInit() {
+		FLx.init();
 		for (GT6XFeature feature : enabledFeatures) {
 			feature.beforePreInit();
 		}
