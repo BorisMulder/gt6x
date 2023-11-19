@@ -2,6 +2,7 @@ package org.altadoon.gt6x;
 
 import gregapi.data.CS;
 import org.altadoon.gt6x.common.*;
+import org.altadoon.gt6x.common.items.MultiItemBottlesX;
 import org.altadoon.gt6x.common.items.MultiItemsX;
 import org.altadoon.gt6x.common.items.Tools;
 import org.altadoon.gt6x.features.GT6XFeature;
@@ -86,6 +87,7 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 		MTx.touch();
 		RMx.init();
 		MultiItemsX.init(MOD_ID);
+		MultiItemBottlesX.init(MOD_ID);
 		Tools.init(MOD_ID);
 
 		for (GT6XFeature feature : enabledFeatures) {
