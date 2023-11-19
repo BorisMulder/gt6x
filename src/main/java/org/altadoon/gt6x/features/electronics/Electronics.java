@@ -21,17 +21,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.FluidStack;
 import org.altadoon.gt6x.Gt6xMod;
-import org.altadoon.gt6x.common.Config;
-import org.altadoon.gt6x.common.MTEx;
-import org.altadoon.gt6x.common.MTx;
-import org.altadoon.gt6x.common.RMx;
+import org.altadoon.gt6x.common.*;
 import org.altadoon.gt6x.common.items.ILx;
 import org.altadoon.gt6x.common.items.Tools;
 import org.altadoon.gt6x.features.GT6XFeature;
 import org.altadoon.gt6x.features.electronics.tools.SolderingIron;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 
 import static gregapi.data.CS.*;
@@ -115,7 +111,7 @@ public class Electronics extends GT6XFeature {
         mat = MT.DATA.Electric_T[2]; MTEx.gt6xMTEReg.add("Photolithography Machine (N-UV)", "Basic Machines", MTEx.IDs.Photolithography[2].get(), 20001, aClass, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, MTEx.HARDNESS_ELECTRIC[2], NBT_RESISTANCE, MTEx.HARDNESS_ELECTRIC[2], NBT_INPUT, V[2], NBT_TEXTURE, "photolithography", NBT_ENERGY_ACCEPTED, TD.Energy.LU, NBT_RECIPEMAP, Photolithography, NBT_INV_SIDE_IN, SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_TANK_SIDE_IN, SBIT_D, NBT_TANK_SIDE_AUTO_IN, SIDE_BOTTOM, NBT_TANK_SIDE_OUT, SBIT_R, NBT_ENERGY_ACCEPTED_SIDES, SBIT_U), "ELP", "FMF", "OBC", 'P', OD_CIRCUITS[4], 'F', plate   .dat(MT.Ag   ), 'E', ILx.Comp_Laser_Gas_N    , 'O', gearGtSmall.dat(mat), 'M', OP.casingMachineDouble.dat(mat), 'L', DYE_OREDICTS_LENS[DYE_INDEX_Purple], 'B', bolt.dat(mat), 'C', IL.CONVEYERS[2]);
         mat = MT.DATA.Electric_T[3]; MTEx.gt6xMTEReg.add("Photolithography Machine (M-UV)", "Basic Machines", MTEx.IDs.Photolithography[3].get(), 20001, aClass, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, MTEx.HARDNESS_ELECTRIC[3], NBT_RESISTANCE, MTEx.HARDNESS_ELECTRIC[3], NBT_INPUT, V[3], NBT_TEXTURE, "photolithography", NBT_ENERGY_ACCEPTED, TD.Energy.LU, NBT_RECIPEMAP, Photolithography, NBT_INV_SIDE_IN, SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_TANK_SIDE_IN, SBIT_D, NBT_TANK_SIDE_AUTO_IN, SIDE_BOTTOM, NBT_TANK_SIDE_OUT, SBIT_R, NBT_ENERGY_ACCEPTED_SIDES, SBIT_U), "ELP", "FMF", "OBC", 'P', OD_CIRCUITS[5], 'F', plate   .dat(MT.Al   ), 'E', ILx.Comp_Laser_Gas_KrF  , 'O', gearGtSmall.dat(mat), 'M', OP.casingMachineDouble.dat(mat), 'L', DYE_OREDICTS_LENS[DYE_INDEX_Purple], 'B', bolt.dat(mat), 'C', IL.CONVEYERS[3]);
         mat = MT.DATA.Electric_T[4]; MTEx.gt6xMTEReg.add("Photolithography Machine (F-UV)", "Basic Machines", MTEx.IDs.Photolithography[4].get(), 20001, aClass, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, MTEx.HARDNESS_ELECTRIC[4], NBT_RESISTANCE, MTEx.HARDNESS_ELECTRIC[4], NBT_INPUT, V[4], NBT_TEXTURE, "photolithography", NBT_ENERGY_ACCEPTED, TD.Energy.LU, NBT_RECIPEMAP, Photolithography, NBT_INV_SIDE_IN, SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_TANK_SIDE_IN, SBIT_D, NBT_TANK_SIDE_AUTO_IN, SIDE_BOTTOM, NBT_TANK_SIDE_OUT, SBIT_R, NBT_ENERGY_ACCEPTED_SIDES, SBIT_U), "ELP", "FMF", "OBC", 'P', OD_CIRCUITS[6], 'F', plate   .dat(MT.Mo   ), 'E', ILx.Comp_Laser_Gas_ArF  , 'O', gearGtSmall.dat(mat), 'M', OP.casingMachineDouble.dat(mat), 'L', DYE_OREDICTS_LENS[DYE_INDEX_Purple], 'B', bolt.dat(mat), 'C', IL.CONVEYERS[4]);
-        mat = MT.DATA.Electric_T[5]; MTEx.gt6xMTEReg.add("Photolithography Machine (E-UV)", "Basic Machines", MTEx.IDs.Photolithography[5].get(), 20001, aClass, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, MTEx.HARDNESS_ELECTRIC[5], NBT_RESISTANCE, MTEx.HARDNESS_ELECTRIC[5], NBT_INPUT, V[5], NBT_TEXTURE, "photolithography", NBT_ENERGY_ACCEPTED, TD.Energy.LU, NBT_RECIPEMAP, Photolithography, NBT_INV_SIDE_IN, SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_TANK_SIDE_IN, SBIT_D, NBT_TANK_SIDE_AUTO_IN, SIDE_BOTTOM, NBT_TANK_SIDE_OUT, SBIT_R, NBT_ENERGY_ACCEPTED_SIDES, SBIT_U), "ELP", "FMF", "OBC", 'P', ILx.SOC       , 'F', plateGem.dat(MT.Si   ), 'E', ILx.Comp_Laser_Molten_Sn, 'O', gearGtSmall.dat(mat), 'M', OP.casingMachineDouble.dat(mat), 'L', DYE_OREDICTS_LENS[DYE_INDEX_Purple], 'B', bolt.dat(mat), 'C', IL.CONVEYERS[5]);
+        mat = MT.DATA.Electric_T[5]; MTEx.gt6xMTEReg.add("Photolithography Machine (E-UV)", "Basic Machines", MTEx.IDs.Photolithography[5].get(), 20001, aClass, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, MTEx.HARDNESS_ELECTRIC[5], NBT_RESISTANCE, MTEx.HARDNESS_ELECTRIC[5], NBT_INPUT, V[5], NBT_TEXTURE, "photolithography", NBT_ENERGY_ACCEPTED, TD.Energy.LU, NBT_RECIPEMAP, Photolithography, NBT_INV_SIDE_IN, SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_TANK_SIDE_IN, SBIT_D, NBT_TANK_SIDE_AUTO_IN, SIDE_BOTTOM, NBT_TANK_SIDE_OUT, SBIT_R, NBT_ENERGY_ACCEPTED_SIDES, SBIT_U), "ELP", "FMF", "OBC", 'P', ILx.CPU       , 'F', plateGem.dat(MT.Si   ), 'E', ILx.Comp_Laser_Molten_Sn, 'O', gearGtSmall.dat(mat), 'M', OP.casingMachineDouble.dat(mat), 'L', DYE_OREDICTS_LENS[DYE_INDEX_Purple], 'B', bolt.dat(mat), 'C', IL.CONVEYERS[5]);
 
         for (int tier = 1; tier < 6; tier++) {
             mat = MT.DATA.Electric_T[tier]; MTEx.gt6xMTEReg.add("Ion Acceleration Chamber (" + mat.getLocal() + ")", "Basic Machines", MTEx.IDs.IonBombardment[tier].get(), 20001, aClass, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, MTEx.HARDNESS_ELECTRIC[tier], NBT_RESISTANCE, MTEx.HARDNESS_ELECTRIC[tier], NBT_INPUT, V[tier], NBT_TEXTURE, "ionbombardment", NBT_ENERGY_ACCEPTED, TD.Energy.MU, NBT_RECIPEMAP, IonBombardment, NBT_INV_SIDE_IN, SBIT_U|SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_D|SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_TANK_SIDE_IN, SBIT_U|SBIT_L, NBT_TANK_SIDE_AUTO_IN, SIDE_TOP   , NBT_TANK_SIDE_OUT, SBIT_D|SBIT_R, NBT_TANK_SIDE_AUTO_OUT, SIDE_BOTTOM, NBT_ENERGY_ACCEPTED_SIDES, SBIT_B, NBT_PARALLEL, 2 << tier , NBT_PARALLEL_DURATION, T),"TPT","wMh","TST", 'M', OP.casingMachine.dat(mat), 'S', OP.plate.dat(mat), 'T', OP.screw.dat(mat), 'P', pipe.dat(MTx.YAlO3));
@@ -151,8 +147,9 @@ public class Electronics extends GT6XFeature {
         // soldering iron
         CR.shaped(Tools.refillableMetaTool.make(SolderingIron.ID_EMPTY), CR.DEF_MIR, "Ph ", "fC ", " sS", 'P', OP.pipeTiny.mat(MT.StainlessSteel, 1), 'C', OP.plateCurved.mat(MT.StainlessSteel, 1), 'S', OD.stickAnyWood);
 
-        // soldering paste
+        // pastes
         RM.Mixer.addRecipe2(true, 16, 64, ILx.Rosin.get(1), dust.mat(MT.SolderingAlloy, 2), MTx.Isopropanol.liquid(2*U, true), MTx.SolderingPaste.liquid(4*U, false), NI);
+        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.ZnO, 1), MTx.Epoxy.liquid(U, true), FL.make(FLx.ThermalPaste, 288), NI);
 
         // glass fibres
         CR.shaped(ILx.PlatinumBushing.get(1), CR.DEF_REV, " e ", " P ", "   ", 'P', OP.plate.mat(MT.Pt, 1));
@@ -319,8 +316,8 @@ public class Electronics extends GT6XFeature {
             addListener(DYE_OREDICTS_LENS[DYE_INDEX_Cyan]     , lens -> Photolithography.addRecipe2(false, 128 , 2000, ILx.Photomask_Raw.get(1), ST.amount(0, lens.mStack), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Photomask_Patterned_NMOS_IC.get(1)));
             addListener(DYE_OREDICTS_LENS[DYE_INDEX_Pink]     , lens -> Photolithography.addRecipe2(false, 512 , 2000, ILx.Photomask_Raw.get(1), ST.amount(0, lens.mStack), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Photomask_Patterned_CMOS_IC_1.get(1)));
             addListener(DYE_OREDICTS_LENS[DYE_INDEX_Blue]     , lens -> Photolithography.addRecipe2(false, 512 , 2000, ILx.Photomask_Raw.get(1), ST.amount(0, lens.mStack), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Photomask_Patterned_CMOS_IC_2.get(1)));
-            addListener(DYE_OREDICTS_LENS[DYE_INDEX_Red]      , lens -> Photolithography.addRecipe2(false, 2048, 2000, ILx.Photomask_Raw.get(1), ST.amount(0, lens.mStack), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Photomask_Patterned_CMOS_SOC_1.get(1)));
-            addListener(DYE_OREDICTS_LENS[DYE_INDEX_Purple]   , lens -> Photolithography.addRecipe2(false, 2048, 2000, ILx.Photomask_Raw.get(1), ST.amount(0, lens.mStack), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Photomask_Patterned_CMOS_SOC_2.get(1)));
+            addListener(DYE_OREDICTS_LENS[DYE_INDEX_Red]      , lens -> Photolithography.addRecipe2(false, 2048, 2000, ILx.Photomask_Raw.get(1), ST.amount(0, lens.mStack), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Photomask_Patterned_VLSI_1    .get(1)));
+            addListener(DYE_OREDICTS_LENS[DYE_INDEX_Purple]   , lens -> Photolithography.addRecipe2(false, 2048, 2000, ILx.Photomask_Raw.get(1), ST.amount(0, lens.mStack), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Photomask_Patterned_VLSI_2    .get(1)));
             addListener(DYE_OREDICTS_LENS[DYE_INDEX_Yellow]   , lens -> Photolithography.addRecipe2(false, 128 , 2000, ILx.Photomask_Raw.get(1), ST.amount(0, lens.mStack), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Photomask_Patterned_MESFET.get(1)));
         }});
 
@@ -333,29 +330,29 @@ public class Electronics extends GT6XFeature {
         RM.Bath.addRecipe1(false, 0, 128, ILx.Photomask_Patterned_CMOS_IC_1 .get(1), MTx.Na2CO3Solution.liquid(U10, true), NF, ILx.Photomask_Developed_CMOS_IC_1 .get(1));
         RM.Bath.addRecipe1(false, 0, 128, ILx.Photomask_Patterned_CMOS_IC_2 .get(1), MTx.NaOHSolution  .liquid(U10, true), NF, ILx.Photomask_Developed_CMOS_IC_2 .get(1));
         RM.Bath.addRecipe1(false, 0, 128, ILx.Photomask_Patterned_CMOS_IC_2 .get(1), MTx.Na2CO3Solution.liquid(U10, true), NF, ILx.Photomask_Developed_CMOS_IC_2 .get(1));
-        RM.Bath.addRecipe1(false, 0, 128, ILx.Photomask_Patterned_CMOS_SOC_1.get(1), MTx.NaOHSolution  .liquid(U10, true), NF, ILx.Photomask_Developed_CMOS_SOC_1.get(1));
-        RM.Bath.addRecipe1(false, 0, 128, ILx.Photomask_Patterned_CMOS_SOC_1.get(1), MTx.Na2CO3Solution.liquid(U10, true), NF, ILx.Photomask_Developed_CMOS_SOC_1.get(1));
-        RM.Bath.addRecipe1(false, 0, 128, ILx.Photomask_Patterned_CMOS_SOC_2.get(1), MTx.NaOHSolution  .liquid(U10, true), NF, ILx.Photomask_Developed_CMOS_SOC_2.get(1));
-        RM.Bath.addRecipe1(false, 0, 128, ILx.Photomask_Patterned_CMOS_SOC_2.get(1), MTx.Na2CO3Solution.liquid(U10, true), NF, ILx.Photomask_Developed_CMOS_SOC_2.get(1));
+        RM.Bath.addRecipe1(false, 0, 128, ILx.Photomask_Patterned_VLSI_1    .get(1), MTx.NaOHSolution  .liquid(U10, true), NF, ILx.Photomask_Developed_VLSI_1    .get(1));
+        RM.Bath.addRecipe1(false, 0, 128, ILx.Photomask_Patterned_VLSI_1    .get(1), MTx.Na2CO3Solution.liquid(U10, true), NF, ILx.Photomask_Developed_VLSI_1    .get(1));
+        RM.Bath.addRecipe1(false, 0, 128, ILx.Photomask_Patterned_VLSI_2    .get(1), MTx.NaOHSolution  .liquid(U10, true), NF, ILx.Photomask_Developed_VLSI_2    .get(1));
+        RM.Bath.addRecipe1(false, 0, 128, ILx.Photomask_Patterned_VLSI_2    .get(1), MTx.Na2CO3Solution.liquid(U10, true), NF, ILx.Photomask_Developed_VLSI_2    .get(1));
         RM.Bath.addRecipe1(false, 0, 128, ILx.Photomask_Patterned_MESFET    .get(1), MTx.NaOHSolution  .liquid(U10, true), NF, ILx.Photomask_Developed_MESFET    .get(1));
         RM.Bath.addRecipe1(false, 0, 128, ILx.Photomask_Patterned_MESFET    .get(1), MTx.Na2CO3Solution.liquid(U10, true), NF, ILx.Photomask_Developed_MESFET    .get(1));
 
         // Etching
-        RM.Bath.addRecipe1(false, 0, 128, ILx.Photomask_Developed_PMOS_IC   .get(1), MTx.ChromeEtch.liquid(3*U, true), MTx.CrNO3Solution.liquid(7*U2, false), ILx.Photomask_Etched_PMOS_IC.get(1));
-        RM.Bath.addRecipe1(false, 0, 128, ILx.Photomask_Developed_NMOS_IC   .get(1), MTx.ChromeEtch.liquid(3*U, true), MTx.CrNO3Solution.liquid(7*U2, false), ILx.Photomask_Etched_NMOS_IC.get(1));
+        RM.Bath.addRecipe1(false, 0, 128, ILx.Photomask_Developed_PMOS_IC   .get(1), MTx.ChromeEtch.liquid(3*U, true), MTx.CrNO3Solution.liquid(7*U2, false), ILx.Photomask_Etched_PMOS_IC  .get(1));
+        RM.Bath.addRecipe1(false, 0, 128, ILx.Photomask_Developed_NMOS_IC   .get(1), MTx.ChromeEtch.liquid(3*U, true), MTx.CrNO3Solution.liquid(7*U2, false), ILx.Photomask_Etched_NMOS_IC  .get(1));
         RM.Bath.addRecipe1(false, 0, 128, ILx.Photomask_Developed_CMOS_IC_1 .get(1), MTx.ChromeEtch.liquid(3*U, true), MTx.CrNO3Solution.liquid(7*U2, false), ILx.Photomask_Etched_CMOS_IC_1.get(1));
         RM.Bath.addRecipe1(false, 0, 128, ILx.Photomask_Developed_CMOS_IC_2 .get(1), MTx.ChromeEtch.liquid(3*U, true), MTx.CrNO3Solution.liquid(7*U2, false), ILx.Photomask_Etched_CMOS_IC_2.get(1));
-        RM.Bath.addRecipe1(false, 0, 128, ILx.Photomask_Developed_CMOS_SOC_1.get(1), MTx.ChromeEtch.liquid(3*U, true), MTx.CrNO3Solution.liquid(7*U2, false), ILx.Photomask_Etched_CMOS_SOC_1.get(1));
-        RM.Bath.addRecipe1(false, 0, 128, ILx.Photomask_Developed_CMOS_SOC_2.get(1), MTx.ChromeEtch.liquid(3*U, true), MTx.CrNO3Solution.liquid(7*U2, false), ILx.Photomask_Etched_CMOS_SOC_2.get(1));
-        RM.Bath.addRecipe1(false, 0, 128, ILx.Photomask_Developed_MESFET    .get(1), MTx.ChromeEtch.liquid(3*U, true), MTx.CrNO3Solution.liquid(7*U2, false), ILx.Photomask_Etched_MESFET.get(1));
+        RM.Bath.addRecipe1(false, 0, 128, ILx.Photomask_Developed_VLSI_1    .get(1), MTx.ChromeEtch.liquid(3*U, true), MTx.CrNO3Solution.liquid(7*U2, false), ILx.Photomask_Etched_VLSI_1   .get(1));
+        RM.Bath.addRecipe1(false, 0, 128, ILx.Photomask_Developed_VLSI_2    .get(1), MTx.ChromeEtch.liquid(3*U, true), MTx.CrNO3Solution.liquid(7*U2, false), ILx.Photomask_Etched_VLSI_2   .get(1));
+        RM.Bath.addRecipe1(false, 0, 128, ILx.Photomask_Developed_MESFET    .get(1), MTx.ChromeEtch.liquid(3*U, true), MTx.CrNO3Solution.liquid(7*U2, false), ILx.Photomask_Etched_MESFET   .get(1));
 
         // Cleaning
         RM.Bath.addRecipe1(false, 0, 256, ILx.Photomask_Etched_PMOS_IC   .get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Photomask_PMOS_IC.get(1));
         RM.Bath.addRecipe1(false, 0, 256, ILx.Photomask_Etched_NMOS_IC   .get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Photomask_NMOS_IC.get(1));
         RM.Bath.addRecipe1(false, 0, 256, ILx.Photomask_Etched_CMOS_IC_1 .get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Photomask_CMOS_IC_1.get(1));
         RM.Bath.addRecipe1(false, 0, 256, ILx.Photomask_Etched_CMOS_IC_2 .get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Photomask_CMOS_IC_2.get(1));
-        RM.Bath.addRecipe1(false, 0, 256, ILx.Photomask_Etched_CMOS_SOC_1.get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Photomask_CMOS_SOC_1.get(1));
-        RM.Bath.addRecipe1(false, 0, 256, ILx.Photomask_Etched_CMOS_SOC_2.get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Photomask_CMOS_SOC_2.get(1));
+        RM.Bath.addRecipe1(false, 0, 256, ILx.Photomask_Etched_VLSI_1    .get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Photomask_VLSI_1    .get(1));
+        RM.Bath.addRecipe1(false, 0, 256, ILx.Photomask_Etched_VLSI_2    .get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Photomask_VLSI_2    .get(1));
         RM.Bath.addRecipe1(false, 0, 256, ILx.Photomask_Etched_MESFET    .get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Photomask_MESFET.get(1));
 
         /// Wafers
@@ -363,7 +360,7 @@ public class Electronics extends GT6XFeature {
         //TODO not showing up with NEI recipes
         RM.Roasting.add(new RecipeMapHandlerPrefix(plateGem, 1, MT.O.gas(U10, true), 16, 128, 0, NF, oxidizedWafer, 1, NI, NI, true, false, false, cuttingCondition));
         RM.Roasting.addRecipe1(true, 16, 256, ILx.Wafer_Cleaned_CMOS_IC_1.get(1), MT.O.gas(U10, true), NF, ILx.Wafer_Oxidized_CMOS_IC_1.get(1));
-        RM.Roasting.addRecipe1(true, 16, 256, ILx.Wafer_Cleaned_CMOS_SOC_1.get(1), MT.O.gas(U10, true), NF, ILx.Wafer_Oxidized_CMOS_SOC_1.get(1));
+        RM.Roasting.addRecipe1(true, 16, 256, ILx.Wafer_Cleaned_VLSI_1   .get(1), MT.O.gas(U10, true), NF, ILx.Wafer_Oxidized_VLSI_1.get(1));
 
         // SiN CVD on GaAs Wafer
         //TODO use Thermolyzer
@@ -374,8 +371,8 @@ public class Electronics extends GT6XFeature {
         Photolithography.addRecipe2(false, 128 , 1024, oxidizedWafer.mat(MTx.NDopedSi, 1), ILx.Photomask_NMOS_IC.get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafer_Patterned_NMOS_IC.get(1));
         Photolithography.addRecipe2(false, 512 , 1024, oxidizedWafer.mat(MTx.NDopedSiGe, 1), ILx.Photomask_CMOS_IC_1.get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafer_Patterned_CMOS_IC_1.get(1));
         Photolithography.addRecipe2(false, 512 , 1024, ILx.Wafer_Oxidized_CMOS_IC_1.get(1), ILx.Photomask_CMOS_IC_2.get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafer_Patterned_CMOS_IC_2.get(1));
-        Photolithography.addRecipe2(false, 2048, 1024, oxidizedWafer.mat(MTx.PDopedSiGe, 1), ILx.Photomask_CMOS_SOC_1.get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafer_Patterned_CMOS_SOC_1.get(1));
-        Photolithography.addRecipe2(false, 2048, 1024, ILx.Wafer_Oxidized_CMOS_SOC_1.get(1), ILx.Photomask_CMOS_SOC_2.get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafer_Patterned_CMOS_SOC_2.get(1));
+        Photolithography.addRecipe2(false, 2048, 1024, oxidizedWafer.mat(MTx.PDopedSiGe, 1), ILx.Photomask_VLSI_1    .get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafer_Patterned_VLSI_1    .get(1));
+        Photolithography.addRecipe2(false, 2048, 1024, ILx.Wafer_Oxidized_VLSI_1    .get(1), ILx.Photomask_VLSI_2    .get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafer_Patterned_VLSI_2    .get(1));
         Photolithography.addRecipe2(false, 128 , 1024, ILx.Wafer_GaAs_SiN_layered.get(1), ILx.Photomask_MESFET.get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafer_Patterned_MESFET.get(1));
 
         // Development
@@ -387,21 +384,21 @@ public class Electronics extends GT6XFeature {
         RM.Bath.addRecipe1(false, 0, 128, ILx.Wafer_Patterned_CMOS_IC_1 .get(1), MTx.Na2CO3Solution.liquid(U10, true), NF, ILx.Wafer_Developed_CMOS_IC_1 .get(1));
         RM.Bath.addRecipe1(false, 0, 128, ILx.Wafer_Patterned_CMOS_IC_2 .get(1), MTx.NaOHSolution  .liquid(U10, true), NF, ILx.Wafer_Developed_CMOS_IC_2 .get(1));
         RM.Bath.addRecipe1(false, 0, 128, ILx.Wafer_Patterned_CMOS_IC_2 .get(1), MTx.Na2CO3Solution.liquid(U10, true), NF, ILx.Wafer_Developed_CMOS_IC_2 .get(1));
-        RM.Bath.addRecipe1(false, 0, 128, ILx.Wafer_Patterned_CMOS_SOC_1.get(1), MTx.NaOHSolution  .liquid(U10, true), NF, ILx.Wafer_Developed_CMOS_SOC_1.get(1));
-        RM.Bath.addRecipe1(false, 0, 128, ILx.Wafer_Patterned_CMOS_SOC_1.get(1), MTx.Na2CO3Solution.liquid(U10, true), NF, ILx.Wafer_Developed_CMOS_SOC_1.get(1));
-        RM.Bath.addRecipe1(false, 0, 128, ILx.Wafer_Patterned_CMOS_SOC_2.get(1), MTx.NaOHSolution  .liquid(U10, true), NF, ILx.Wafer_Developed_CMOS_SOC_2.get(1));
-        RM.Bath.addRecipe1(false, 0, 128, ILx.Wafer_Patterned_CMOS_SOC_2.get(1), MTx.Na2CO3Solution.liquid(U10, true), NF, ILx.Wafer_Developed_CMOS_SOC_2.get(1));
+        RM.Bath.addRecipe1(false, 0, 128, ILx.Wafer_Patterned_VLSI_1    .get(1), MTx.NaOHSolution  .liquid(U10, true), NF, ILx.Wafer_Developed_VLSI_1    .get(1));
+        RM.Bath.addRecipe1(false, 0, 128, ILx.Wafer_Patterned_VLSI_1    .get(1), MTx.Na2CO3Solution.liquid(U10, true), NF, ILx.Wafer_Developed_VLSI_1    .get(1));
+        RM.Bath.addRecipe1(false, 0, 128, ILx.Wafer_Patterned_VLSI_2    .get(1), MTx.NaOHSolution  .liquid(U10, true), NF, ILx.Wafer_Developed_VLSI_2    .get(1));
+        RM.Bath.addRecipe1(false, 0, 128, ILx.Wafer_Patterned_VLSI_2    .get(1), MTx.Na2CO3Solution.liquid(U10, true), NF, ILx.Wafer_Developed_VLSI_2    .get(1));
         RM.Bath.addRecipe1(false, 0, 128, ILx.Wafer_Patterned_MESFET    .get(1), MTx.NaOHSolution  .liquid(U10, true), NF, ILx.Wafer_Developed_MESFET    .get(1));
         RM.Bath.addRecipe1(false, 0, 128, ILx.Wafer_Patterned_MESFET    .get(1), MTx.Na2CO3Solution.liquid(U10, true), NF, ILx.Wafer_Developed_MESFET    .get(1));
 
         // Oxide Layer Etching
         RM.Bath       .addRecipe1(false, 0, 128, ILx.Wafer_Developed_PMOS_IC   .get(1), FL.array(MT. HF .gas   (12*U1000, true)), FL.array(MT.H2SiF6.liquid(9*U1000, false), MT.H2O.liquid(6*U1000, false)), ILx.Wafer_Etched_PMOS_IC.get(1));
-        IonBombardment.addRecipe1(true, 16, 128, ILx.Wafer_Developed_NMOS_IC   .get(1), FL.array(MTx.CF4.plasma(15*U1000, true)), FL.array(MTx.SiF4.gas(15*U1000, false), MT.CO2.gas(9*U1000, false)), ILx.Wafer_Etched_NMOS_IC.get(1));
+        IonBombardment.addRecipe1(true, 16, 128, ILx.Wafer_Developed_NMOS_IC   .get(1), FL.array(MTx.CF4.plasma(15*U1000, true)), FL.array(MTx.SiF4.gas(15*U1000, false), MT.CO2.gas(9*U1000, false)), ILx.Wafer_Etched_NMOS_IC  .get(1));
         IonBombardment.addRecipe1(true, 16, 128, ILx.Wafer_Developed_CMOS_IC_1 .get(1), FL.array(MTx.CF4.plasma(15*U1000, true)), FL.array(MTx.SiF4.gas(15*U1000, false), MT.CO2.gas(9*U1000, false)), ILx.Wafer_Etched_CMOS_IC_1.get(1));
         IonBombardment.addRecipe1(true, 16, 128, ILx.Wafer_Developed_CMOS_IC_2 .get(1), FL.array(MTx.CF4.plasma(15*U1000, true)), FL.array(MTx.SiF4.gas(15*U1000, false), MT.CO2.gas(9*U1000, false)), ILx.Wafer_Etched_CMOS_IC_2.get(1));
-        IonBombardment.addRecipe1(true, 16, 128, ILx.Wafer_Developed_CMOS_SOC_1.get(1), FL.array(MTx.CF4.plasma(15*U1000, true)), FL.array(MTx.SiF4.gas(15*U1000, false), MT.CO2.gas(9*U1000, false)), ILx.Wafer_Etched_CMOS_SOC_1.get(1));
-        IonBombardment.addRecipe1(true, 16, 128, ILx.Wafer_Developed_CMOS_SOC_2.get(1), FL.array(MTx.CF4.plasma(15*U1000, true)), FL.array(MTx.SiF4.gas(15*U1000, false), MT.CO2.gas(9*U1000, false)), ILx.Wafer_Etched_CMOS_SOC_2.get(1));
-        IonBombardment.addRecipe1(true, 16, 128, ILx.Wafer_Developed_MESFET    .get(1), FL.array(MTx.NF3.plasma(16*U1000, true)), FL.array(MTx.SiF4.gas(15*U1000, false), MT.N.gas(8*U1000, false)), ILx.Wafer_Etched_MESFET.get(1));
+        IonBombardment.addRecipe1(true, 16, 128, ILx.Wafer_Developed_VLSI_1    .get(1), FL.array(MTx.CF4.plasma(15*U1000, true)), FL.array(MTx.SiF4.gas(15*U1000, false), MT.CO2.gas(9*U1000, false)), ILx.Wafer_Etched_VLSI_1   .get(1));
+        IonBombardment.addRecipe1(true, 16, 128, ILx.Wafer_Developed_VLSI_2    .get(1), FL.array(MTx.CF4.plasma(15*U1000, true)), FL.array(MTx.SiF4.gas(15*U1000, false), MT.CO2.gas(9*U1000, false)), ILx.Wafer_Etched_VLSI_2   .get(1));
+        IonBombardment.addRecipe1(true, 16, 128, ILx.Wafer_Developed_MESFET    .get(1), FL.array(MTx.NF3.plasma(16*U1000, true)), FL.array(MTx.SiF4.gas(15*U1000, false), MT.N  .gas(8*U1000, false)), ILx.Wafer_Etched_MESFET   .get(1));
 
         // Post-growth doping
         IonBombardment.addRecipe1(true, 16, 128, ILx.Wafer_Etched_PMOS_IC   .get(1), MTx.PH3 .gas(32*U1000, true), MTx.SiH4.gas(30*U1000, false), ILx.Wafer_Doped_PMOS_IC.get(1));
@@ -410,30 +407,30 @@ public class Electronics extends GT6XFeature {
         IonBombardment.addRecipe1(true, 16, 128, ILx.Wafer_Etched_CMOS_IC_1 .get(1), MTx.BF3 .gas(32*U1000, true), MTx.SiF4.gas(30*U1000, false), ILx.Wafer_Doped_CMOS_IC_1.get(1));
         IonBombardment.addRecipe1(true, 16, 128, ILx.Wafer_Etched_CMOS_IC_2 .get(1), MTx.PH3 .gas(32*U1000, true), MTx.SiH4.gas(30*U1000, false), ILx.Wafer_Doped_CMOS_IC_2.get(1));
         IonBombardment.addRecipe1(true, 16, 128, ILx.Wafer_Etched_CMOS_IC_2 .get(1), MTx.AsH3.gas(32*U1000, true), MTx.SiH4.gas(30*U1000, false), ILx.Wafer_Doped_CMOS_IC_2.get(1));
-        IonBombardment.addRecipe1(true, 16, 128, ILx.Wafer_Etched_CMOS_SOC_1.get(1), MTx.PH3 .gas(32*U1000, true), MTx.SiH4.gas(30*U1000, false), ILx.Wafer_Doped_CMOS_SOC_1.get(1));
-        IonBombardment.addRecipe1(true, 16, 128, ILx.Wafer_Etched_CMOS_SOC_1.get(1), MTx.AsH3.gas(32*U1000, true), MTx.SiH4.gas(30*U1000, false), ILx.Wafer_Doped_CMOS_SOC_1.get(1));
-        IonBombardment.addRecipe1(true, 16, 128, ILx.Wafer_Etched_CMOS_SOC_2.get(1), MTx.BF3 .gas(32*U1000, true), MTx.SiF4.gas(30*U1000, false), ILx.Wafer_Doped_CMOS_SOC_2.get(1));
+        IonBombardment.addRecipe1(true, 16, 128, ILx.Wafer_Etched_VLSI_1    .get(1), MTx.PH3 .gas(32*U1000, true), MTx.SiH4.gas(30*U1000, false), ILx.Wafer_Doped_VLSI_1    .get(1));
+        IonBombardment.addRecipe1(true, 16, 128, ILx.Wafer_Etched_VLSI_1    .get(1), MTx.AsH3.gas(32*U1000, true), MTx.SiH4.gas(30*U1000, false), ILx.Wafer_Doped_VLSI_1    .get(1));
+        IonBombardment.addRecipe1(true, 16, 128, ILx.Wafer_Etched_VLSI_2    .get(1), MTx.BF3 .gas(32*U1000, true), MTx.SiF4.gas(30*U1000, false), ILx.Wafer_Doped_VLSI_2    .get(1));
         IonBombardment.addRecipe1(true, 16, 128, ILx.Wafer_Etched_MESFET    .get(1), MTx.SiF4.gas(30*U1000, true), MTx.AsF3.liquid(32*U1000, false), ILx.Wafer_Doped_MESFET.get(1));
 
         // Photoresist cleaning
-        RM.Bath.addRecipe1(true, 0, 128, ILx.Wafer_Doped_PMOS_IC   .get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafer_Cleaned_PMOS_IC.get(1));
-        RM.Bath.addRecipe1(true, 0, 128, ILx.Wafer_Doped_NMOS_IC   .get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafer_Cleaned_NMOS_IC.get(1));
+        RM.Bath.addRecipe1(true, 0, 128, ILx.Wafer_Doped_PMOS_IC   .get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafer_Cleaned_PMOS_IC  .get(1));
+        RM.Bath.addRecipe1(true, 0, 128, ILx.Wafer_Doped_NMOS_IC   .get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafer_Cleaned_NMOS_IC  .get(1));
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafer_Doped_CMOS_IC_1 .get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafer_Cleaned_CMOS_IC_1.get(1));
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafer_Doped_CMOS_IC_2 .get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafer_Cleaned_CMOS_IC_2.get(1));
-        RM.Bath.addRecipe1(true, 0, 128, ILx.Wafer_Doped_CMOS_SOC_1.get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafer_Cleaned_CMOS_SOC_1.get(1));
-        RM.Bath.addRecipe1(true, 0, 128, ILx.Wafer_Doped_CMOS_SOC_2.get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafer_Cleaned_CMOS_SOC_2.get(1));
-        RM.Bath.addRecipe1(true, 0, 128, ILx.Wafer_Metal2_MESFET   .get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafer_MESFET.get(1));
+        RM.Bath.addRecipe1(true, 0, 128, ILx.Wafer_Doped_VLSI_1    .get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafer_Cleaned_VLSI_1   .get(1));
+        RM.Bath.addRecipe1(true, 0, 128, ILx.Wafer_Doped_VLSI_2    .get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafer_Cleaned_VLSI_2   .get(1));
+        RM.Bath.addRecipe1(true, 0, 128, ILx.Wafer_Metal2_MESFET   .get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafer_MESFET           .get(1));
 
         // Metallization (using physical vapour deposition or electroplating)
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafer_Cleaned_PMOS_IC.get(1), MT.Al.gas(U4, true), NF, ILx.Wafer_Metal_PMOS_IC.get(1));
-        RM.Bath.addRecipe1(true, 0, 128, ILx.Wafer_Metal1_MESFET.get(1), MT.Al.gas(U4, true), NF, ILx.Wafer_Metal2_MESFET.get(1));
+        RM.Bath.addRecipe1(true, 0, 128, ILx.Wafer_Metal1_MESFET  .get(1), MT.Al.gas(U4, true), NF, ILx.Wafer_Metal2_MESFET.get(1));
 
         for (FluidStack water : FL.waters(1000)) {
             RM.Electrolyzer.addRecipe1(true, 32, 16, ILx.Wafer_Cleaned_NMOS_IC.get(1), FL.array(MT.BlueVitriol.liquid(3*U2, true), water), FL.array(MT.H2SO4.liquid(7*U4, false), MT.O.gas(U4, false)), ILx.Wafer_Metal_NMOS_IC.get(1));
             RM.Electrolyzer.addRecipe1(true, 32, 22, ILx.Wafer_Doped_MESFET.get(1), FL.array(MTx.NaAuC2N2.liquid(3*U2, true), FL.mul(water, 3, 2, true)), FL.array(MTx.HCN.gas(3*U2, false), MT.H.gas(U4, false), MT.O.gas(U4, false)), ILx.Wafer_Metal1_MESFET.get(1), dustSmall.mat(MT.NaOH, 3));
         }
         RM.Electrolyzer.addRecipe1(true, 64, 32, ILx.Wafer_Cleaned_CMOS_IC_2.get(1), FL.array(MTx.RuElectrolyte.liquid(20*U8, true)), FL.array(MT.NH3.gas(4*U8, false), MT.Cl.gas(8*U8, false), MT.H2O.liquid(6*U8, false)), ILx.Wafer_Metal_CMOS_IC.get(1));
-        RM.Electrolyzer.addRecipe1(true, 64, 32, ILx.Wafer_Cleaned_CMOS_SOC_2.get(1), FL.array(MTx.RuElectrolyte.liquid(20*U8, true)), FL.array(MT.NH3.gas(4*U8, false), MT.Cl.gas(8*U8, false), MT.H2O.liquid(6*U8, false)), ILx.Wafer_Metal_CMOS_SOC.get(1));
+        RM.Electrolyzer.addRecipe1(true, 64, 32, ILx.Wafer_Cleaned_VLSI_2   .get(1), FL.array(MTx.RuElectrolyte.liquid(20*U8, true)), FL.array(MT.NH3.gas(4*U8, false), MT.Cl.gas(8*U8, false), MT.H2O.liquid(6*U8, false)), ILx.Wafer_Metal_VLSI.get(1));
 
         // Metal etching
         RM.Mixer.addRecipe0(true, 16, 64, FL.array(MT.HNO3.liquid(U10, true), MTx.H3PO4.liquid(16*U10, true)), MTx.AlEtch.liquid(17*U10, false), NI);
@@ -442,14 +439,14 @@ public class Electronics extends GT6XFeature {
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafer_Metal_NMOS_IC.get(1), MTx.FeCl3Solution.liquid(17*U8, true), MTx.CuFeClSolution.liquid(18*U8, false), ILx.Wafer_NMOS_IC.get(1));
 
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafer_Metal_CMOS_IC.get(1), MTx.Ozone.gas(U3, true), MTx.RuO4.gas(5*U8, false), ILx.Wafer_CMOS_IC.get(1));
-        RM.Bath.addRecipe1(true, 0, 128, ILx.Wafer_Metal_CMOS_SOC.get(1), MTx.Ozone.gas(U3, true), MTx.RuO4.gas(5*U8, false), ILx.Wafer_SOC.get(1));
+        RM.Bath.addRecipe1(true, 0, 128, ILx.Wafer_Metal_VLSI   .get(1), MTx.Ozone.gas(U3, true), MTx.RuO4.gas(5*U8, false), ILx.Wafer_VLSI   .get(1));
 
         // Dicing
         for (int i = 0; i < 4; i++) if (cuttingFluids[i] != null) {
             RM.Cutter.addRecipe1(true, 16, cuttingMultiplier[i] * 64, ILx.Wafer_PMOS_IC.get(1), FL.mul(cuttingFluids[i], cuttingMultiplier[i] * 16, 1000, true), NF, ILx.Die_PMOS_IC.get(16));
             RM.Cutter.addRecipe1(true, 16, cuttingMultiplier[i] * 64, ILx.Wafer_NMOS_IC.get(1), FL.mul(cuttingFluids[i], cuttingMultiplier[i] * 16, 1000, true), NF, ILx.Die_NMOS_IC.get(16));
             RM.Cutter.addRecipe1(true, 16, cuttingMultiplier[i] * 64, ILx.Wafer_CMOS_IC.get(1), FL.mul(cuttingFluids[i], cuttingMultiplier[i] * 16, 1000, true), NF, ILx.Die_CMOS_IC.get(16));
-            RM.Cutter.addRecipe1(true, 16, cuttingMultiplier[i] * 64, ILx.Wafer_SOC    .get(1), FL.mul(cuttingFluids[i], cuttingMultiplier[i] * 16, 1000, true), NF, ILx.Die_SOC    .get(16));
+            RM.Cutter.addRecipe1(true, 16, cuttingMultiplier[i] * 64, ILx.Wafer_VLSI   .get(1), FL.mul(cuttingFluids[i], cuttingMultiplier[i] * 16, 1000, true), NF, ILx.Die_VLSI   .get(16));
             RM.Cutter.addRecipe1(true, 16, cuttingMultiplier[i] * 64, ILx.Wafer_MESFET .get(1), FL.mul(cuttingFluids[i], cuttingMultiplier[i] * 16, 1000, true), NF, ILx.Die_MESFET .get(64));
         }
 
@@ -457,10 +454,12 @@ public class Electronics extends GT6XFeature {
         RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Au, 1), ILx.Die_PMOS_IC.get(4)), ILx.PMOS_IC.get(4));
         RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Al, 1), ILx.Die_NMOS_IC.get(4)), ILx.NMOS_IC.get(4));
         RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Al, 1), ILx.Die_CMOS_IC.get(4)), ILx.CMOS_IC.get(4));
-        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Al, 1), ILx.Die_SOC    .get(4)), ILx.SOC.get(4));
+        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Al, 1), ILx.Die_VLSI    .get(4)), ILx.CPU.get(4));
         RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), foil.mat(MT.Cu, 1), ILx.Die_MESFET .get(16)), ILx.Transistor_SMD.get(16));
         RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), foil.mat(MT.Cu, 1), ILx.Capacitor_Tantalum.get(16)), ILx.Capacitor_SMD.get(16));
         RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), foil.mat(MT.Sn, 1), ILx.Resistor_Metal_Film.get(1)), ILx.Resistor_SMD.get(16));
+
+        CR.shapeless(ILx.CPU.get(1), new Object[]{ IL.Processor_Crystal_Empty.get(1), ILx.Thermal_Paste.get(1), ILx.CPU.get(1) });
 
         // hand-soldering PCBs
         CR.shaped(ILx.PCBs[1][0].get(1), CR.DEF_REM, "iE ", "CBR", "   ", 'B', IL .Circuit_Plate_Copper        .get(1), 'E', MultiItemsElectronics.ELECTRONTUBE_NAME, 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME);
@@ -514,7 +513,10 @@ public class Electronics extends GT6XFeature {
         List<ItemStack> circuit_plates = Arrays.asList(IL.Circuit_Plate_Copper.get(1), IL.Circuit_Plate_Gold.get(1), IL.Circuit_Plate_Platinum.get(1));
         List<ItemStack> circuit_wires = Arrays.asList(IL.Circuit_Wire_Copper.get(1), IL.Circuit_Wire_Gold.get(1), IL.Circuit_Wire_Platinum.get(1));
 
-        CR.BUFFER.removeIf(r -> ST.equal(r.getRecipeOutput(), IL.Circuit_Wire_Copper.get(1)));
+        CR.BUFFER.removeIf(r ->
+            ST.equal(r.getRecipeOutput(), IL.Circuit_Wire_Copper.get(1)) ||
+            ST.equal(r.getRecipeOutput(), IL.Processor_Crystal_Empty.get(1))
+        );
 
         for (Recipe r : RM.Bath.mRecipeList) {
             if (r.mOutputs.length < 1) continue;

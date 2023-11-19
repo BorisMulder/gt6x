@@ -131,15 +131,15 @@ public class ILx implements IItemContainer {
     public static ILx Photomask_Etched_CMOS_IC_2 = new ILx("Photomask_Etched_CMOS_IC_2");
     public static ILx Photomask_CMOS_IC_2 = new ILx("Photomask_CMOS_IC_2");
 
-    public static ILx Photomask_Patterned_CMOS_SOC_1 = new ILx("Photomask_Patterned_CMOS_SOC_1");
-    public static ILx Photomask_Developed_CMOS_SOC_1 = new ILx("Photomask_Developed_CMOS_SOC_1");
-    public static ILx Photomask_Etched_CMOS_SOC_1 = new ILx("Photomask_Etched_CMOS_SOC_1");
-    public static ILx Photomask_CMOS_SOC_1 = new ILx("Photomask_CMOS_SOC_1");
+    public static ILx Photomask_Patterned_VLSI_1 = new ILx("Photomask_Patterned_VLSI_1");
+    public static ILx Photomask_Developed_VLSI_1 = new ILx("Photomask_Developed_VLSI_1");
+    public static ILx Photomask_Etched_VLSI_1 = new ILx("Photomask_Etched_VLSI_1");
+    public static ILx Photomask_VLSI_1 = new ILx("Photomask_VLSI_1");
 
-    public static ILx Photomask_Patterned_CMOS_SOC_2 = new ILx("Photomask_Patterned_CMOS_SOC_2");
-    public static ILx Photomask_Developed_CMOS_SOC_2 = new ILx("Photomask_Developed_CMOS_SOC_2");
-    public static ILx Photomask_Etched_CMOS_SOC_2 = new ILx("Photomask_Etched_CMOS_SOC_2");
-    public static ILx Photomask_CMOS_SOC_2 = new ILx("Photomask_CMOS_SOC_2");
+    public static ILx Photomask_Patterned_VLSI_2 = new ILx("Photomask_Patterned_VLSI_2");
+    public static ILx Photomask_Developed_VLSI_2 = new ILx("Photomask_Developed_VLSI_2");
+    public static ILx Photomask_Etched_VLSI_2 = new ILx("Photomask_Etched_VLSI_2");
+    public static ILx Photomask_VLSI_2 = new ILx("Photomask_VLSI_2");
 
     public static ILx Photomask_Patterned_MESFET = new ILx("Photomask_Patterned_MESFET");
     public static ILx Photomask_Developed_MESFET = new ILx("Photomask_Developed_MESFET");
@@ -183,21 +183,21 @@ public class ILx implements IItemContainer {
     public static ILx Die_CMOS_IC = new ILx("Die_CMOS_IC");
     public static ILx CMOS_IC = new ILx("CMOS_IC");
 
-    public static ILx Wafer_Patterned_CMOS_SOC_1 = new ILx("Wafer_Patterned_CMOS_SOC_1");
-    public static ILx Wafer_Developed_CMOS_SOC_1 = new ILx("Wafer_Developed_CMOS_SOC_1");
-    public static ILx Wafer_Etched_CMOS_SOC_1 = new ILx("Wafer_Etched_CMOS_SOC_1");
-    public static ILx Wafer_Doped_CMOS_SOC_1 = new ILx("Wafer_Doped_CMOS_SOC_1");
-    public static ILx Wafer_Cleaned_CMOS_SOC_1 = new ILx("Wafer_Cleaned_CMOS_SOC_1");
-    public static ILx Wafer_Oxidized_CMOS_SOC_1 = new ILx("Wafer_Oxidized_CMOS_SOC_1");
-    public static ILx Wafer_Patterned_CMOS_SOC_2 = new ILx("Wafer_Patterned_CMOS_SOC_2");
-    public static ILx Wafer_Developed_CMOS_SOC_2 = new ILx("Wafer_Developed_CMOS_SOC_2");
-    public static ILx Wafer_Etched_CMOS_SOC_2 = new ILx("Wafer_Etched_CMOS_SOC_2");
-    public static ILx Wafer_Doped_CMOS_SOC_2 = new ILx("Wafer_Doped_CMOS_SOC_2");
-    public static ILx Wafer_Cleaned_CMOS_SOC_2 = new ILx("Wafer_Cleaned_CMOS_SOC_2");
-    public static ILx Wafer_Metal_CMOS_SOC = new ILx("Wafer_Metal_CMOS_SOC");
-    public static ILx Wafer_SOC = new ILx("Wafer_SOC");
-    public static ILx Die_SOC = new ILx("Die_SOC");
-    public static ILx SOC = new ILx("SOC");
+    public static ILx Wafer_Patterned_VLSI_1 = new ILx("Wafer_Patterned_VLSI_1");
+    public static ILx Wafer_Developed_VLSI_1 = new ILx("Wafer_Developed_VLSI_1");
+    public static ILx Wafer_Etched_VLSI_1 = new ILx("Wafer_Etched_VLSI_1");
+    public static ILx Wafer_Doped_VLSI_1 = new ILx("Wafer_Doped_VLSI_1");
+    public static ILx Wafer_Cleaned_VLSI_1 = new ILx("Wafer_Cleaned_VLSI_1");
+    public static ILx Wafer_Oxidized_VLSI_1 = new ILx("Wafer_Oxidized_VLSI_1");
+    public static ILx Wafer_Patterned_VLSI_2 = new ILx("Wafer_Patterned_VLSI_2");
+    public static ILx Wafer_Developed_VLSI_2 = new ILx("Wafer_Developed_VLSI_2");
+    public static ILx Wafer_Etched_VLSI_2 = new ILx("Wafer_Etched_VLSI_2");
+    public static ILx Wafer_Doped_VLSI_2 = new ILx("Wafer_Doped_VLSI_2");
+    public static ILx Wafer_Cleaned_VLSI_2 = new ILx("Wafer_Cleaned_VLSI_2");
+    public static ILx Wafer_Metal_VLSI = new ILx("Wafer_Metal_VLSI");
+    public static ILx Wafer_VLSI = new ILx("Wafer_VLSI");
+    public static ILx Die_VLSI = new ILx("Die_VLSI");
+    public static ILx CPU = new ILx("CPU");
 
     public static ILx Wafer_GaAs_SiN_layered = new ILx("Wafer_GaAs_SiN_layered");
     public static ILx Wafer_Patterned_MESFET = new ILx("Wafer_Patterned_MESFET");
@@ -210,6 +210,8 @@ public class ILx implements IItemContainer {
     public static ILx Die_MESFET = new ILx("Die_MESFET");
 
     public static ILx Rosin = new ILx("Rosin");
+
+    public static ILx Thermal_Paste = new ILx("Thermal_Paste");
 
     public String name;
     private ItemStack mStack;
@@ -319,7 +321,7 @@ public class ILx implements IItemContainer {
         return ST.amount(aAmount, OM.get_(mStack));
     }
 
-    @SuppressWarnings("deprecation") @Override
+    @Override
     public ItemStack getWildcard(long aAmount, Object... aReplacements) {
         return wild(aAmount, aReplacements);
     }
@@ -401,6 +403,6 @@ public class ILx implements IItemContainer {
         return this;
     }
 
-    @SuppressWarnings("deprecation") @Override public Item getItem() {return item();}
-    @SuppressWarnings("deprecation") @Override public Block getBlock() {return block();}
+    @Override public Item getItem() {return item();}
+    @Override public Block getBlock() {return block();}
 }

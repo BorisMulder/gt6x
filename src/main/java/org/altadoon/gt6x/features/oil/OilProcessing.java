@@ -218,8 +218,8 @@ public class OilProcessing extends GT6XFeature {
         RM.Mixer.addRecipe0(true, 16,  64, FL.array(MTx.Dichloropropanol.liquid(12*U, true), MTx.NaOHSolution.liquid(6*U, true)), FL.array(MTx.ECH.liquid(10*U, false), MT.SaltWater.liquid(8*U, false)));
 
         // Epoxy
-        RM.Mixer.addRecipe2(true, 16,  64, dust.mat(MT.NaOH, 6), dust.mat(MTx.BPA, 33), FL.array(MTx.ECH.liquid(20*U, true), MT.H2O.liquid(U*6, true)), FL.array(MT.SaltWater.liquid(16*U, false)), dust.mat(MTx.Epoxy, 49));
-        RM.Mixer.addRecipe1(true, 16,  64, dust.mat(MTx.BPA, 33), FL.array(MTx.ECH.liquid(20*U, true), MTx.NaOHSolution.liquid(U*12, true)), FL.array(MT.SaltWater.liquid(16*U, false)), dust.mat(MTx.Epoxy, 49));
+        RM.Mixer.addRecipe2(true, 16,  64, dust.mat(MT.NaOH, 6), dust.mat(MTx.BPA, 33), FL.array(MTx.ECH.liquid(20*U, true), MT.H2O.liquid(U*6, true)), FL.array(MT.SaltWater.liquid(16*U, false), MTx.Epoxy.liquid(49*U, false)));
+        RM.Mixer.addRecipe1(true, 16,  64, dust.mat(MTx.BPA, 33), FL.array(MTx.ECH.liquid(20*U, true), MTx.NaOHSolution.liquid(U*12, true)), FL.array(MT.SaltWater.liquid(16*U, false), MTx.Epoxy.liquid(49*U, false)));
 
         // TNT
         RM.Mixer.addRecipe0(true, 32, 64*3, FL.array(MTx.Toluene.liquid(15*U, true), MT.HNO3.liquid(15*U, true), MT.H2SO4.liquid(21*U, true)), MTx.DiluteH2SO4.liquid(30*U, false), dust.mat(MTx.TNT, 21));
