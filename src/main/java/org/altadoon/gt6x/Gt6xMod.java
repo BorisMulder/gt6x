@@ -59,9 +59,8 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 		OilProcessing.class,
 		PgmProcessing.class,
 		RefractoryMetals.class,
-		VerticalMixers.class, WorldGen.class
 		VerticalMixers.class,
-		WorldGen.class,
+		WorldGen.class
 	};
 	private final ArrayList<GT6XFeature> enabledFeatures;
 
