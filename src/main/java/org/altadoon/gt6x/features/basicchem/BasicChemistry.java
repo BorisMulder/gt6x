@@ -218,8 +218,12 @@ public class BasicChemistry extends GT6XFeature {
         RMx.Thermolysis.addRecipe1(true, 16, 128, dust.mat(MTx.NH4SO4, 21), NF, FL.array(FL.Water.make(18000), MT.N.gas(2*U, false), MT.NH3.gas(4*U, false), MT.SO2.gas(9*U, false)));
 
         // Methanol and Formaldehyde
-        RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.Cu, 0), dust.mat(MTx.ZnO, 0), FL.array(MT.CO.gas(2*U, true), MT.H.gas(4*U, true)), FL.array(MTx.Methanol.liquid(6*U, false)));
+        RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.Cu, 0), dust.mat(MTx.ZnO, 0), FL.array(MT.CO .gas(2*U, true), MT.H.gas(4*U, true)), FL.array(MTx.Methanol.liquid(6*U, false)));
+        RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.Cu, 0), dust.mat(MTx.ZnO, 0), FL.array(MT.CO2.gas(3*U, true), MT.H.gas(6*U, true)), FL.array(MTx.Methanol.liquid(6*U, false), MT.H2O.liquid(3*U, false)));
         RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.Fe2O3, 0), dust.mat(MTx.MoO3, 0), FL.array(MTx.Methanol.liquid(6*U, true), MT.O.gas(U, true)), FL.array(MTx.Formaldehyde.gas(4*U, false), MT.H2O.liquid(3*U, false)));
+
+        // Ethylene from ethanol
+        RM.Mixer.addRecipe0(true, 16, 32, FL.array(MT.Ethanol.liquid(3*U10, true), MT.H2SO4.liquid(U1000, true)), FL.array(MT.Ethylene.gas(2*U10, false), MT.H2O.liquid(U10, false)));
 
         // Phosphine and Na2O
         RM.Mixer.addRecipeX(true, 16, 3*64, ST.array(ST.tag(3), dust.mat(MT.P, 8), dust.mat(MT.NaOH, 27)), FL.Water.make(9000), MTx.PH3.gas(20*U, false), dust.mat(MTx.Na3PO4, 24));
@@ -277,6 +281,13 @@ public class BasicChemistry extends GT6XFeature {
             RM.Bath.add(new RecipeMapHandlerMaterial(mat, FL.Resin       .make(12), 0, 144, NF, MT.WoodTreated, NI, T, condition));
             RM.Bath.add(new RecipeMapHandlerMaterial(mat, FL.make(FLx.Varnish, 12), 0, 144, NF, MT.WoodTreated, NI, T, condition));
         }
+
+        // Methanol from biomass
+        RM.DistillationTower.addRecipe0(false, 64,  16, FL.array(FL.Biomass   .make( 80)), FL.array(FL.Reikanol.make(20, FL.BioEthanol), MT.Glycerol.liquid(U50, false), MTx.Methanol.liquid(U50, false), FL.Methane.make(4), FL.DistW.make(30)), ZL_IS);
+        RM.DistillationTower.addRecipe0(false, 64,  16, FL.array(FL.BiomassIC2.make( 80)), FL.array(FL.Reikanol.make(20, FL.BioEthanol), MT.Glycerol.liquid(U50, false), MTx.Methanol.liquid(U50, false), FL.Methane.make(4), FL.DistW.make(30)), ZL_IS);
+
+        RM.Distillery       .addRecipe1(true, 16,  24, ST.tag(2), FL.Biomass   .make( 40), MTx.Methanol.liquid(U50, false), FL.DistW.make(20));
+        RM.Distillery       .addRecipe1(true, 16,  24, ST.tag(2), FL.BiomassIC2.make( 40), MTx.Methanol.liquid(U50, false), FL.DistW.make(20));
     }
 
     private void changeRecipes() {

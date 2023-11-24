@@ -66,7 +66,7 @@ public class OilProcessing extends GT6XFeature {
     public void configure(Config config) {}
 
     private void addRecipeMaps() {
-        hydroCracking = new Recipe.RecipeMap(null, "gt6x.recipe.hydrocracking", "Hydrocracking", null, 0, 1, RES_PATH_GUI+"machines/HydroCracking", 1, 3, 0, 2, 9, 1, 2, 1, "", 1, "", T, T, T, T, F, T, T);
+        hydroCracking = new Recipe.RecipeMap(null, "gt6x.recipe.hydrocracking", "Hydrocracking", null, 0, 1, RES_PATH_GUI+"machines/HydroCracking", 1, 3, 0, 2, 9, 1, 2, 1, "", 1, "", true, true, true, true, false, true, true);
     }
 
     private void changeDTowerRecipes() {
@@ -102,8 +102,8 @@ public class OilProcessing extends GT6XFeature {
         RM.SteamCracking.addRecipe0(false, 16,  64, new long[]{100}, FL.array(FL.Steam.make(2048), MTx.NaphthaLowSulfur.liquid(U10, true)), FL.array(MTx.SCNaphtha.liquid(U10, false)), dustTiny.mat(MT.PetCoke, 9));
 
         // syngas
-        RM.SteamCracking.addRecipe0(false, 16,  375, new long[]{800}, FL.array(FL.Steam.make(300*(long)STEAM_PER_WATER), FL.Gas_Natural.make(500)), FL.array(MT.H.gas(540*U1000, false), MT.CO.gas(180*U1000, false)), dustTiny.mat(MT.PetCoke, 9));
-        RM.SteamCracking.addRecipe0(false, 16,  375, FL.array(FL.Steam.make(300*(long)STEAM_PER_WATER), FL.Methane.make(500)), FL.array(MT.H.gas(600*U1000, false), MT.CO.gas(200*U1000, false)), ZL_IS);
+        RM.SteamCracking.addRecipe1(false, 16,  375, new long[]{800}, dust.mat(MT.Ni, 0), FL.array(FL.Steam.make(300*(long)STEAM_PER_WATER), FL.Gas_Natural.make(500)), FL.array(MT.H.gas(540*U1000, false), MT.CO.gas(180*U1000, false)), dustTiny.mat(MT.PetCoke, 9));
+        RM.SteamCracking.addRecipe1(false, 16,  375,                  dust.mat(MT.Ni, 0), FL.array(FL.Steam.make(300*(long)STEAM_PER_WATER), FL.Methane    .make(500)), FL.array(MT.H.gas(600*U1000, false), MT.CO.gas(200*U1000, false)), ZL_IS);
         for (OreDictMaterial coal : new OreDictMaterial[] { MT.Coal, MT.Charcoal, MT.CoalCoke, MT.C, MT.Graphite }) { // for some reason ANY does not work here
             // runs as long as a boiler @256 steam/t needs to run to produce an equal amount of steam
             RM.SteamCracking.addRecipe1(false, 16,  1875, dust.mat(coal, 1), FL.array(FL.Steam.make(3000*(long)STEAM_PER_WATER)), FL.array(MT.H.gas(U*2, false), MT.CO.gas(U*2, false)), ZL_IS);
@@ -173,7 +173,8 @@ public class OilProcessing extends GT6XFeature {
         RM.DistillationTower.addRecipe0(false, 64, 64, FL.array(MTx.FccOffgas.gas(U10, true)), FL.array(FL.Methane.make(20), FL.Ethylene.make(12), MTx.Ethane.liquid(10*U1000, false), FL.Propylene.make(8), FL.Propane.make(30), FL.Butane.make(20)));
 
         // distillation of creosote
-        RM.DistillationTower.addRecipe0(false, 64, 32, new long[] {500}, FL.array(FL.Oil_Creosote.make(50)), FL.array(MTx.Benzene.liquid(3*U1000, false), MTx.Toluene.liquid(2*U1000, false), MTx.Phenol.liquid(18*U144, false), MTx.Naphthalene.liquid(9*U1000, false), MTx.Anthracene.liquid(18*U1000, false)), dustTiny.mat(MT.Asphalt, 9));
+        RM.DistillationTower.addRecipe0(false, 64, 32, new long[] {500}, FL.array(FL.Oil_Creosote.make(50)), FL.array(MTx.Benzene.liquid(3*U1000, false), MTx.Toluene.liquid(2*U1000, false), MTx.Phenol.liquid(18*U144, false), MTx.Naphthalene.liquid(12*U1000, false), MTx.Anthracene.liquid(15*U1000, false)), dustTiny.mat(MT.Asphalt, 9));
+        RM.Distillery.addRecipe1(false, 16, 32, ST.tag(0), FL.array(FL.Oil_Creosote.make(50)), FL.array(MTx.Phenol.liquid(18*U144, false), MTx.Naphthalene.liquid(12*U1000, false)));
 
         // Desulfurisation
         RM.Mixer.addRecipe1(true, 16, 20, dust.mat(MT.OREMATS.Molybdenite, 0), FL.array(MT.H.gas(U1000*2, true), MTx.Naphtha.liquid(U10, true)), FL.array(MT.H2S.gas(U1000*3, false), MTx.NaphthaLowSulfur.liquid(U1000*99, false)));
