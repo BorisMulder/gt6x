@@ -899,7 +899,10 @@ public class MTx {
             .heat(Isopropanol)),
     SF6 = registerGas(gasdcmp(16241, "Sulfur Hexafluoride", 240, 255, 200, 150)
             .uumMcfg(1, MT.S, U, MT.F, 6*U)
-            .heat(209, 222, 310))
+            .heat(209, 222, 310)),
+    AlPO4Solution = registerLiquid(lquddcmp(16242, "Aluminium Phosphate Solution", 200, 225, 255, 200)
+            .setMcfg(0, AlPO4, 6*U, MT.HNO3, 5*U)
+            .heat(MT.H2O))
     ;
 
     static {

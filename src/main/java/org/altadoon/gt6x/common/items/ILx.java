@@ -21,9 +21,6 @@ import static gregapi.data.CS.ERR;
 // well let's reinvent the wheel, but don't use enums since they cannot be extended
 // "yes i made a mistake, you gotta deal with it" - Greg, March 15, 2023
 public class ILx implements IItemContainer {
-    public static ILx Display_OMStack = new ILx("Display_OMStack");
-    public static ILx Fireclay_Ball = new ILx("Fireclay_Ball");
-
     public static final int CIRCUIT_TIERS = 10;
     public static final String[] CIRCUIT_TIER_NAMES = new String[] {
             MT.Primitive.getLocal(),
@@ -66,152 +63,184 @@ public class ILx implements IItemContainer {
         }
     }
 
-    public static ILx Electrode_Molybdenum = new ILx("Electrode_Molybdenum");
-    public static ILx Electrode_Tungsten = new ILx("Electrode_Tungsten");
-    public static ILx ElectronTube_Molybdenum = new ILx("ElectronTube_Molybdenum");
-    public static ILx ElectronTube_Tungsten = new ILx("ElectronTube_Tungsten");
-    public static ILx Transistor_ThroughHole = new ILx("Transistor_ThroughHole");
-    public static ILx Capacitor_ThroughHole = new ILx("Capacitor_ThroughHole");
-    public static ILx Resistor_ThroughHole = new ILx("Resistor_ThroughHole");
-    public static ILx Transistor_SMD = new ILx("Transistor_SMD");
-    public static ILx Capacitor_SMD = new ILx("Capacitor_SMD");
-    public static ILx Resistor_SMD = new ILx("Resistor_SMD");
-    public static ILx PlatinumBushing = new ILx("PlatinumBushing");
-    public static ILx GlassFibres = new ILx("GlassFibres");
+    public static ILx
+            Display_OMStack = new ILx("Display_OMStack"),
+            Fireclay_Ball = new ILx("Fireclay_Ball"),
+            Electrode_Molybdenum = new ILx("Electrode_Molybdenum"),
+            Electrode_Tungsten = new ILx("Electrode_Tungsten"),
+            ElectronTube_Molybdenum = new ILx("ElectronTube_Molybdenum"),
+            ElectronTube_Tungsten = new ILx("ElectronTube_Tungsten"),
+            Transistor_ThroughHole = new ILx("Transistor_ThroughHole"),
+            Capacitor_ThroughHole = new ILx("Capacitor_ThroughHole"),
+            Resistor_ThroughHole = new ILx("Resistor_ThroughHole"),
+            Transistor_SMD = new ILx("Transistor_SMD"),
+            Capacitor_SMD = new ILx("Capacitor_SMD"),
+            Resistor_SMD = new ILx("Resistor_SMD"),
+            PlatinumBushing = new ILx("PlatinumBushing"),
+            GlassFibres = new ILx("GlassFibres"),
 
-    // Boards
-    public static ILx PF_Board = new ILx("PF_Board");
-    public static ILx FRE_Board = new ILx("FRE_Board");
-    public static ILx CCL = new ILx("CCL");
-    public static ILx CCL_SMALL = new ILx("CCL_SMALL");
-    public static ILx CCL_TINY = new ILx("CCL_TINY");
-    public static ILx GCL = new ILx("GCL");
-    public static ILx GCL_SMALL = new ILx("GCL_SMALL");
-    public static ILx GCL_TINY = new ILx("GCL_TINY");
-    public static ILx PCL = new ILx("PCL");
-    public static ILx PCL_SMALL = new ILx("PCL_SMALL");
-    public static ILx PCL_TINY = new ILx("PCL_TINY");
-    public static ILx Circuit_Plate_Copper_Small = new ILx("Circuit_Plate_Copper_Small");
-    public static ILx Circuit_Plate_Copper_Tiny = new ILx("Circuit_Plate_Copper_Tiny");
-    public static ILx Circuit_Plate_Gold_Small = new ILx("Circuit_Plate_Gold_Small");
-    public static ILx Circuit_Plate_Gold_Tiny = new ILx("Circuit_Plate_Gold_Tiny");
-    public static ILx Circuit_Plate_Platinum_Small = new ILx("Circuit_Plate_Platinum_Small");
-    public static ILx Circuit_Plate_Platinum_Tiny = new ILx("Circuit_Plate_Platinum_Tiny");
-    public static ILx EtchMask_Trace = new ILx("EtchMask_Trace");
-    public static ILx EtchMask_Trace_Small = new ILx("EtchMask_Trace_Small");
-    public static ILx EtchMask_Trace_Tiny = new ILx("EtchMask_Trace_Tiny");
+            // Boards
+            FR1_Board = new ILx("FR1_Board"),
+            FR4_Board = new ILx("FR4_Board"),
+            CCL = new ILx("CCL"),
+            CCL_SMALL = new ILx("CCL_SMALL"),
+            CCL_TINY = new ILx("CCL_TINY"),
+            GCL = new ILx("GCL"),
+            GCL_SMALL = new ILx("GCL_SMALL"),
+            GCL_LONG = new ILx("GCL_LONG"),
+            GCL_TINY = new ILx("GCL_TINY"),
+            PCL = new ILx("PCL"),
+            PCL_SMALL = new ILx("PCL_SMALL"),
+            PCL_TINY = new ILx("PCL_TINY"),
+            Circuit_Plate_Copper_Small = new ILx("Circuit_Plate_Copper_Small"),
+            Circuit_Plate_Copper_Tiny = new ILx("Circuit_Plate_Copper_Tiny"),
+            Circuit_Plate_Gold_Small = new ILx("Circuit_Plate_Gold_Small"),
+            Circuit_Plate_Gold_RAM = new ILx("Circuit_Plate_Gold_RAM"),
+            Circuit_Plate_Gold_Tiny = new ILx("Circuit_Plate_Gold_Tiny"),
+            Circuit_Plate_Platinum_Small = new ILx("Circuit_Plate_Platinum_Small"),
+            Circuit_Plate_Platinum_Tiny = new ILx("Circuit_Plate_Platinum_Tiny"),
+            EtchMask_Trace = new ILx("EtchMask_Trace"),
+            EtchMask_Trace_Small = new ILx("EtchMask_Trace_Small"),
+            EtchMask_Trace_Tiny = new ILx("EtchMask_Trace_Tiny"),
+            EtchMask_Trace_RAM = new ILx("EtchMask_Trace_RAM"),
 
-    public static ILx Comp_Laser_Gas_N = new ILx("Comp_Laser_Gas_N");
-    public static ILx Comp_Laser_Gas_KrF = new ILx("Comp_Laser_Gas_KrF");
-    public static ILx Comp_Laser_Gas_ArF = new ILx("Comp_Laser_Gas_ArF");
-    public static ILx Comp_Laser_Molten_Sn = new ILx("Comp_Laser_Molten_Sn");
+            Comp_Laser_Gas_N = new ILx("Comp_Laser_Gas_N"),
+            Comp_Laser_Gas_KrF = new ILx("Comp_Laser_Gas_KrF"),
+            Comp_Laser_Gas_ArF = new ILx("Comp_Laser_Gas_ArF"),
+            Comp_Laser_Molten_Sn = new ILx("Comp_Laser_Molten_Sn"),
 
-    public static ILx Capacitor_Tantalum = new ILx("Capacitor_Tantalum");
-    public static ILx Resistor_Metal_Film = new ILx("Resistor_Metal_Film");
+            Capacitor_Tantalum = new ILx("Capacitor_Tantalum"),
+            Resistor_Metal_Film = new ILx("Resistor_Metal_Film"),
 
-    public static ILx Photomask_Raw = new ILx("Photomask_Raw");
+            Photomask_Raw = new ILx("Photomask_Raw"),
 
-    public static ILx Photomask_Patterned_PMOS_IC = new ILx("Photomask_Patterned_PMOS_IC");
-    public static ILx Photomask_Developed_PMOS_IC = new ILx("Photomask_Developed_PMOS_IC");
-    public static ILx Photomask_Etched_PMOS_IC = new ILx("Photomask_Etched_PMOS_IC");
-    public static ILx Photomask_PMOS_IC = new ILx("Photomask_PMOS_IC");
+            Photomask_Patterned_PMOS_IC = new ILx("Photomask_Patterned_PMOS_IC"),
+            Photomask_Developed_PMOS_IC = new ILx("Photomask_Developed_PMOS_IC"),
+            Photomask_Etched_PMOS_IC = new ILx("Photomask_Etched_PMOS_IC"),
+            Photomask_PMOS_IC = new ILx("Photomask_PMOS_IC"),
 
-    public static ILx Photomask_Patterned_NMOS_IC = new ILx("Photomask_Patterned_NMOS_IC");
-    public static ILx Photomask_Developed_NMOS_IC = new ILx("Photomask_Developed_NMOS_IC");
-    public static ILx Photomask_Etched_NMOS_IC = new ILx("Photomask_Etched_NMOS_IC");
-    public static ILx Photomask_NMOS_IC = new ILx("Photomask_NMOS_IC");
+            Photomask_Patterned_NMOS_IC = new ILx("Photomask_Patterned_NMOS_IC"),
+            Photomask_Developed_NMOS_IC = new ILx("Photomask_Developed_NMOS_IC"),
+            Photomask_Etched_NMOS_IC = new ILx("Photomask_Etched_NMOS_IC"),
+            Photomask_NMOS_IC = new ILx("Photomask_NMOS_IC"),
 
-    public static ILx Photomask_Patterned_CMOS_IC_1 = new ILx("Photomask_Patterned_CMOS_IC_1");
-    public static ILx Photomask_Developed_CMOS_IC_1 = new ILx("Photomask_Developed_CMOS_IC_1");
-    public static ILx Photomask_Etched_CMOS_IC_1 = new ILx("Photomask_Etched_CMOS_IC_1");
-    public static ILx Photomask_CMOS_IC_1 = new ILx("Photomask_CMOS_IC_1");
+            Photomask_Patterned_CMOS_IC_1 = new ILx("Photomask_Patterned_CMOS_IC_1"),
+            Photomask_Developed_CMOS_IC_1 = new ILx("Photomask_Developed_CMOS_IC_1"),
+            Photomask_Etched_CMOS_IC_1 = new ILx("Photomask_Etched_CMOS_IC_1"),
+            Photomask_CMOS_IC_1 = new ILx("Photomask_CMOS_IC_1"),
 
-    public static ILx Photomask_Patterned_CMOS_IC_2 = new ILx("Photomask_Patterned_CMOS_IC_2");
-    public static ILx Photomask_Developed_CMOS_IC_2 = new ILx("Photomask_Developed_CMOS_IC_2");
-    public static ILx Photomask_Etched_CMOS_IC_2 = new ILx("Photomask_Etched_CMOS_IC_2");
-    public static ILx Photomask_CMOS_IC_2 = new ILx("Photomask_CMOS_IC_2");
+            Photomask_Patterned_CMOS_IC_2 = new ILx("Photomask_Patterned_CMOS_IC_2"),
+            Photomask_Developed_CMOS_IC_2 = new ILx("Photomask_Developed_CMOS_IC_2"),
+            Photomask_Etched_CMOS_IC_2 = new ILx("Photomask_Etched_CMOS_IC_2"),
+            Photomask_CMOS_IC_2 = new ILx("Photomask_CMOS_IC_2"),
 
-    public static ILx Photomask_Patterned_VLSI_1 = new ILx("Photomask_Patterned_VLSI_1");
-    public static ILx Photomask_Developed_VLSI_1 = new ILx("Photomask_Developed_VLSI_1");
-    public static ILx Photomask_Etched_VLSI_1 = new ILx("Photomask_Etched_VLSI_1");
-    public static ILx Photomask_VLSI_1 = new ILx("Photomask_VLSI_1");
+            Photomask_Patterned_VLSI_1 = new ILx("Photomask_Patterned_VLSI_1"),
+            Photomask_Developed_VLSI_1 = new ILx("Photomask_Developed_VLSI_1"),
+            Photomask_Etched_VLSI_1 = new ILx("Photomask_Etched_VLSI_1"),
+            Photomask_VLSI_1 = new ILx("Photomask_VLSI_1"),
 
-    public static ILx Photomask_Patterned_VLSI_2 = new ILx("Photomask_Patterned_VLSI_2");
-    public static ILx Photomask_Developed_VLSI_2 = new ILx("Photomask_Developed_VLSI_2");
-    public static ILx Photomask_Etched_VLSI_2 = new ILx("Photomask_Etched_VLSI_2");
-    public static ILx Photomask_VLSI_2 = new ILx("Photomask_VLSI_2");
+            Photomask_Patterned_VLSI_2 = new ILx("Photomask_Patterned_VLSI_2"),
+            Photomask_Developed_VLSI_2 = new ILx("Photomask_Developed_VLSI_2"),
+            Photomask_Etched_VLSI_2 = new ILx("Photomask_Etched_VLSI_2"),
+            Photomask_VLSI_2 = new ILx("Photomask_VLSI_2"),
 
-    public static ILx Photomask_Patterned_MESFET = new ILx("Photomask_Patterned_MESFET");
-    public static ILx Photomask_Developed_MESFET = new ILx("Photomask_Developed_MESFET");
-    public static ILx Photomask_Etched_MESFET = new ILx("Photomask_Etched_MESFET");
-    public static ILx Photomask_MESFET = new ILx("Photomask_MESFET");
+            Photomask_Patterned_MESFET = new ILx("Photomask_Patterned_MESFET"),
+            Photomask_Developed_MESFET = new ILx("Photomask_Developed_MESFET"),
+            Photomask_Etched_MESFET = new ILx("Photomask_Etched_MESFET"),
+            Photomask_MESFET = new ILx("Photomask_MESFET"),
 
+            Photomask_Patterned_DRAM_1 = new ILx("Photomask_Patterned_DRAM_1"),
+            Photomask_Developed_DRAM_1 = new ILx("Photomask_Developed_DRAM_1"),
+            Photomask_Etched_DRAM_1 = new ILx("Photomask_Etched_DRAM_1"),
+            Photomask_DRAM_1 = new ILx("Photomask_DRAM_1"),
 
-    public static ILx Wafer_Patterned_PMOS_IC = new ILx("Wafer_Patterned_PMOS_IC");
-    public static ILx Wafer_Developed_PMOS_IC = new ILx("Wafer_Developed_PMOS_IC");
-    public static ILx Wafer_Etched_PMOS_IC = new ILx("Wafer_Etched_PMOS_IC");
-    public static ILx Wafer_Doped_PMOS_IC = new ILx("Wafer_Doped_PMOS_IC");
-    public static ILx Wafer_Cleaned_PMOS_IC = new ILx("Wafer_Cleaned_PMOS_IC");
-    public static ILx Wafer_Metal_PMOS_IC = new ILx("Wafer_Metal_PMOS_IC");
-    public static ILx Wafer_PMOS_IC = new ILx("Wafer_PMOS_IC");
-    public static ILx Die_PMOS_IC = new ILx("Die_PMOS_IC");
-    public static ILx PMOS_IC = new ILx("PMOS_IC");
+            Photomask_Patterned_DRAM_2 = new ILx("Photomask_Patterned_DRAM_2"),
+            Photomask_Developed_DRAM_2 = new ILx("Photomask_Developed_DRAM_2"),
+            Photomask_Etched_DRAM_2 = new ILx("Photomask_Etched_DRAM_2"),
+            Photomask_DRAM_2 = new ILx("Photomask_DRAM_2"),
 
-    public static ILx Wafer_Patterned_NMOS_IC = new ILx("Wafer_Patterned_NMOS_IC");
-    public static ILx Wafer_Developed_NMOS_IC = new ILx("Wafer_Developed_NMOS_IC");
-    public static ILx Wafer_Etched_NMOS_IC = new ILx("Wafer_Etched_NMOS_IC");
-    public static ILx Wafer_Doped_NMOS_IC = new ILx("Wafer_Doped_NMOS_IC");
-    public static ILx Wafer_Cleaned_NMOS_IC = new ILx("Wafer_Cleaned_NMOS_IC");
-    public static ILx Wafer_Metal_NMOS_IC = new ILx("Wafer_Metal_NMOS_IC");
-    public static ILx Wafer_NMOS_IC = new ILx("Wafer_NMOS_IC");
-    public static ILx Die_NMOS_IC = new ILx("Die_NMOS_IC");
-    public static ILx NMOS_IC = new ILx("NMOS_IC");
+            Wafer_Patterned_PMOS_IC = new ILx("Wafer_Patterned_PMOS_IC"),
+            Wafer_Developed_PMOS_IC = new ILx("Wafer_Developed_PMOS_IC"),
+            Wafer_Etched_PMOS_IC = new ILx("Wafer_Etched_PMOS_IC"),
+            Wafer_Doped_PMOS_IC = new ILx("Wafer_Doped_PMOS_IC"),
+            Wafer_Cleaned_PMOS_IC = new ILx("Wafer_Cleaned_PMOS_IC"),
+            Wafer_Metal_PMOS_IC = new ILx("Wafer_Metal_PMOS_IC"),
+            Wafer_PMOS_IC = new ILx("Wafer_PMOS_IC"),
+            Die_PMOS_IC = new ILx("Die_PMOS_IC"),
+            PMOS_IC = new ILx("PMOS_IC"),
 
-    public static ILx Wafer_Patterned_CMOS_IC_1 = new ILx("Wafer_Patterned_CMOS_IC_1");
-    public static ILx Wafer_Developed_CMOS_IC_1 = new ILx("Wafer_Developed_CMOS_IC_1");
-    public static ILx Wafer_Etched_CMOS_IC_1 = new ILx("Wafer_Etched_CMOS_IC_1");
-    public static ILx Wafer_Doped_CMOS_IC_1 = new ILx("Wafer_Doped_CMOS_IC_1");
-    public static ILx Wafer_Cleaned_CMOS_IC_1 = new ILx("Wafer_Cleaned_CMOS_IC_1");
-    public static ILx Wafer_Oxidized_CMOS_IC_1 = new ILx("Wafer_Oxidized_CMOS_IC_1");
-    public static ILx Wafer_Patterned_CMOS_IC_2 = new ILx("Wafer_Patterned_CMOS_IC_2");
-    public static ILx Wafer_Developed_CMOS_IC_2 = new ILx("Wafer_Developed_CMOS_IC_2");
-    public static ILx Wafer_Etched_CMOS_IC_2 = new ILx("Wafer_Etched_CMOS_IC_2");
-    public static ILx Wafer_Doped_CMOS_IC_2 = new ILx("Wafer_Doped_CMOS_IC_2");
-    public static ILx Wafer_Cleaned_CMOS_IC_2 = new ILx("Wafer_Cleaned_CMOS_IC_2");
-    public static ILx Wafer_Metal_CMOS_IC = new ILx("Wafer_Metal_CMOS_IC");
-    public static ILx Wafer_CMOS_IC = new ILx("Wafer_CMOS_IC");
-    public static ILx Die_CMOS_IC = new ILx("Die_CMOS_IC");
-    public static ILx CMOS_IC = new ILx("CMOS_IC");
+            Wafer_Patterned_NMOS_IC = new ILx("Wafer_Patterned_NMOS_IC"),
+            Wafer_Developed_NMOS_IC = new ILx("Wafer_Developed_NMOS_IC"),
+            Wafer_Etched_NMOS_IC = new ILx("Wafer_Etched_NMOS_IC"),
+            Wafer_Doped_NMOS_IC = new ILx("Wafer_Doped_NMOS_IC"),
+            Wafer_Cleaned_NMOS_IC = new ILx("Wafer_Cleaned_NMOS_IC"),
+            Wafer_Metal_NMOS_IC = new ILx("Wafer_Metal_NMOS_IC"),
+            Wafer_NMOS_IC = new ILx("Wafer_NMOS_IC"),
+            Die_NMOS_IC = new ILx("Die_NMOS_IC"),
+            NMOS_IC = new ILx("NMOS_IC"),
 
-    public static ILx Wafer_Patterned_VLSI_1 = new ILx("Wafer_Patterned_VLSI_1");
-    public static ILx Wafer_Developed_VLSI_1 = new ILx("Wafer_Developed_VLSI_1");
-    public static ILx Wafer_Etched_VLSI_1 = new ILx("Wafer_Etched_VLSI_1");
-    public static ILx Wafer_Doped_VLSI_1 = new ILx("Wafer_Doped_VLSI_1");
-    public static ILx Wafer_Cleaned_VLSI_1 = new ILx("Wafer_Cleaned_VLSI_1");
-    public static ILx Wafer_Oxidized_VLSI_1 = new ILx("Wafer_Oxidized_VLSI_1");
-    public static ILx Wafer_Patterned_VLSI_2 = new ILx("Wafer_Patterned_VLSI_2");
-    public static ILx Wafer_Developed_VLSI_2 = new ILx("Wafer_Developed_VLSI_2");
-    public static ILx Wafer_Etched_VLSI_2 = new ILx("Wafer_Etched_VLSI_2");
-    public static ILx Wafer_Doped_VLSI_2 = new ILx("Wafer_Doped_VLSI_2");
-    public static ILx Wafer_Cleaned_VLSI_2 = new ILx("Wafer_Cleaned_VLSI_2");
-    public static ILx Wafer_Metal_VLSI = new ILx("Wafer_Metal_VLSI");
-    public static ILx Wafer_VLSI = new ILx("Wafer_VLSI");
-    public static ILx Die_VLSI = new ILx("Die_VLSI");
-    public static ILx CPU = new ILx("CPU");
+            Wafer_Patterned_CMOS_IC_1 = new ILx("Wafer_Patterned_CMOS_IC_1"),
+            Wafer_Developed_CMOS_IC_1 = new ILx("Wafer_Developed_CMOS_IC_1"),
+            Wafer_Etched_CMOS_IC_1 = new ILx("Wafer_Etched_CMOS_IC_1"),
+            Wafer_Doped_CMOS_IC_1 = new ILx("Wafer_Doped_CMOS_IC_1"),
+            Wafer_Cleaned_CMOS_IC_1 = new ILx("Wafer_Cleaned_CMOS_IC_1"),
+            Wafer_Oxidized_CMOS_IC_1 = new ILx("Wafer_Oxidized_CMOS_IC_1"),
+            Wafer_Patterned_CMOS_IC_2 = new ILx("Wafer_Patterned_CMOS_IC_2"),
+            Wafer_Developed_CMOS_IC_2 = new ILx("Wafer_Developed_CMOS_IC_2"),
+            Wafer_Etched_CMOS_IC_2 = new ILx("Wafer_Etched_CMOS_IC_2"),
+            Wafer_Doped_CMOS_IC_2 = new ILx("Wafer_Doped_CMOS_IC_2"),
+            Wafer_Cleaned_CMOS_IC_2 = new ILx("Wafer_Cleaned_CMOS_IC_2"),
+            Wafer_Metal_CMOS_IC = new ILx("Wafer_Metal_CMOS_IC"),
+            Wafer_CMOS_IC = new ILx("Wafer_CMOS_IC"),
+            Die_CMOS_IC = new ILx("Die_CMOS_IC"),
+            CMOS_IC = new ILx("CMOS_IC"),
 
-    public static ILx Wafer_GaAs_SiN_layered = new ILx("Wafer_GaAs_SiN_layered");
-    public static ILx Wafer_Patterned_MESFET = new ILx("Wafer_Patterned_MESFET");
-    public static ILx Wafer_Developed_MESFET = new ILx("Wafer_Developed_MESFET");
-    public static ILx Wafer_Etched_MESFET = new ILx("Wafer_Etched_MESFET");
-    public static ILx Wafer_Doped_MESFET = new ILx("Wafer_Doped_MESFET");
-    public static ILx Wafer_Metal1_MESFET = new ILx("Wafer_Metal1_MESFET");
-    public static ILx Wafer_Metal2_MESFET = new ILx("Wafer_Metal2_MESFET");
-    public static ILx Wafer_MESFET = new ILx("Wafer_MESFET");
-    public static ILx Die_MESFET = new ILx("Die_MESFET");
+            Wafer_Patterned_VLSI_1 = new ILx("Wafer_Patterned_VLSI_1"),
+            Wafer_Developed_VLSI_1 = new ILx("Wafer_Developed_VLSI_1"),
+            Wafer_Etched_VLSI_1 = new ILx("Wafer_Etched_VLSI_1"),
+            Wafer_Doped_VLSI_1 = new ILx("Wafer_Doped_VLSI_1"),
+            Wafer_Cleaned_VLSI_1 = new ILx("Wafer_Cleaned_VLSI_1"),
+            Wafer_Oxidized_VLSI_1 = new ILx("Wafer_Oxidized_VLSI_1"),
+            Wafer_Patterned_VLSI_2 = new ILx("Wafer_Patterned_VLSI_2"),
+            Wafer_Developed_VLSI_2 = new ILx("Wafer_Developed_VLSI_2"),
+            Wafer_Etched_VLSI_2 = new ILx("Wafer_Etched_VLSI_2"),
+            Wafer_Doped_VLSI_2 = new ILx("Wafer_Doped_VLSI_2"),
+            Wafer_Cleaned_VLSI_2 = new ILx("Wafer_Cleaned_VLSI_2"),
+            Wafer_Metal_VLSI = new ILx("Wafer_Metal_VLSI"),
+            Wafer_VLSI = new ILx("Wafer_VLSI"),
+            Die_VLSI = new ILx("Die_VLSI"),
+            CPU = new ILx("CPU"),
 
-    public static ILx Rosin = new ILx("Rosin");
+            Wafer_GaAs_SiN_layered = new ILx("Wafer_GaAs_SiN_layered"),
+            Wafer_Patterned_MESFET = new ILx("Wafer_Patterned_MESFET"),
+            Wafer_Developed_MESFET = new ILx("Wafer_Developed_MESFET"),
+            Wafer_Etched_MESFET = new ILx("Wafer_Etched_MESFET"),
+            Wafer_Doped_MESFET = new ILx("Wafer_Doped_MESFET"),
+            Wafer_Metal1_MESFET = new ILx("Wafer_Metal1_MESFET"),
+            Wafer_Metal2_MESFET = new ILx("Wafer_Metal2_MESFET"),
+            Wafer_MESFET = new ILx("Wafer_MESFET"),
+            Die_MESFET = new ILx("Die_MESFET"),
 
-    public static ILx Thermal_Paste = new ILx("Thermal_Paste");
+            Wafer_Patterned_DRAM_1 = new ILx("Wafer_Patterned_DRAM_1"),
+            Wafer_Developed_DRAM_1 = new ILx("Wafer_Developed_DRAM_1"),
+            Wafer_Etched_DRAM_1 = new ILx("Wafer_Etched_DRAM_1"),
+            Wafer_Doped_DRAM_1 = new ILx("Wafer_Doped_DRAM_1"),
+            Wafer_Cleaned_DRAM_1 = new ILx("Wafer_Cleaned_DRAM_1"),
+            Wafer_Oxidized_DRAM_1 = new ILx("Wafer_Oxidized_DRAM_1"),
+            Wafer_Patterned_DRAM_2 = new ILx("Wafer_Patterned_DRAM_2"),
+            Wafer_Developed_DRAM_2 = new ILx("Wafer_Developed_DRAM_2"),
+            Wafer_Etched_DRAM_2 = new ILx("Wafer_Etched_DRAM_2"),
+            Wafer_Doped_DRAM_2 = new ILx("Wafer_Doped_DRAM_2"),
+            Wafer_Cleaned_DRAM_2 = new ILx("Wafer_Cleaned_DRAM_2"),
+            Wafer_Metal_DRAM = new ILx("Wafer_Metal_DRAM"),
+            Wafer_DRAM = new ILx("Wafer_DRAM"),
+            Die_DRAM = new ILx("Die_DRAM"),
+            Chip_DRAM = new ILx("Chip_DRAM"),
+            RAM_Stick = new ILx("RAM_Stick"),
+
+            Rosin = new ILx("Rosin"),
+
+            Thermal_Paste = new ILx("Thermal_Paste");
 
     public String name;
     private ItemStack mStack;
