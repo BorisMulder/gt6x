@@ -690,7 +690,7 @@ public class MTx {
             .heat(443, 483)
             .put(FLAMMABLE, EXPLOSIVE),
     ANFO = dustdcmp(16166, "ANFO", SET_ROUGH, 255, 200, 200, 255)
-            .setMcfg(0, NH4NO3, 18*U, MT.Fuel, U)
+            .setMcfg(0, NH4NO3, 10*U, MT.Fuel, U)
             .heat(NH4NO3)
             .put(FLAMMABLE, EXPLOSIVE),
     PDopedSi = dopedSemiconductor(16167, "P-Doped Silicon", MT.Si),

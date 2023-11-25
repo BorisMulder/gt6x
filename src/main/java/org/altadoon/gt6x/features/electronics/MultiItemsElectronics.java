@@ -254,9 +254,16 @@ public class MultiItemsElectronics extends MultiItemRandom {
         ILx.PMOS_IC.set(addItem(308, "IC (Elite) "  , tooltip, IC_NAME));
         ILx.NMOS_IC.set(addItem(318, "IC (Master)"  , tooltip, IC_NAME));
         ILx.CMOS_IC.set(addItem(334, "IC (Ultimate)", tooltip, IC_NAME));
-        ILx.CPU.set(addItem(354, "CPU", "Central Processing Unit"));
         ILx.Chip_DRAM.set(addItem(384, "DRAM chip", "Dynamic Random Access Memory chip"));
-        ILx.RAM_Stick.set(addItem(385, "RAM stick", "A computer's memory module"));
 
+        // Computer parts
+        ILx.CPU.set(addItem(354, "CPU", "Central Processing Unit"));
+        ILx.RAM_Stick.set(addItem(385, "RAM stick", "A computer's memory module"));
+        ILx.Al_Disk.set(addItem(386, "Aluminium Disk", "", new OreDictItemData(MT.Al, U12)));
+        ILx.Hard_Disk.set(addItem(387, "Hard Disk", "A HDD Platter", new OreDictItemData(MT.Al, U12, MTx.CoPtCr, U24)));
+        ILx.HDD.set(addItem(388, "Hard Disk Drive", "Stores Data"));
+        ILx.CPU_Fan.set(addItem(389, "Computer Fan", "For preventing overheating your computer"));
+        ILx.Motherboard.set(addItem(390, "Motherboard", "Used to mount and connect computer parts"));
+        ILx.MoBoAssembly.set(addItem(391, "Motherboard-CPU-RAM Assembly", "Heart of a computer"));
     }
 }

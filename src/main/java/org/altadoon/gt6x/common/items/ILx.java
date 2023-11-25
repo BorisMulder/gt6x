@@ -240,7 +240,14 @@ public class ILx implements IItemContainer {
 
             Rosin = new ILx("Rosin"),
 
-            Thermal_Paste = new ILx("Thermal_Paste");
+            Thermal_Paste = new ILx("Thermal_Paste"),
+
+            Al_Disk = new ILx("Al_Disk"),
+            Hard_Disk = new ILx("Hard_Disk"),
+            HDD = new ILx("HDD"),
+            Motherboard = new ILx("MoBo"),
+            CPU_Fan = new ILx("CPU_Fan"),
+            MoBoAssembly = new ILx("MoBoAssembly");
 
     public String name;
     private ItemStack mStack;

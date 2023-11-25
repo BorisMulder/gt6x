@@ -227,7 +227,7 @@ public class OilProcessing extends GT6XFeature {
         RM.Boxinator.addRecipe2(true, 16, 20, ST.make(Items.paper, 1, 0), dust.mat(MTx.TNT, 1), ST.make(Blocks.tnt, 1, 0));
 
         // ANFO
-        RM.Mixer.addRecipe1(true, 16, 64 , dust.mat(MTx.NH4NO3, 3), FL.Fuel.make(180), NF, dust.mat(MTx.ANFO, 3));
+        RM.Mixer.addRecipe1(true, 16, 64 , dust.mat(MTx.NH4NO3, 1), FL.Fuel.make(100), NF, dust.mat(MTx.ANFO, 1));
 
         RM.Press.addRecipeX(true, 16, 16 , ST.array(ST.tag(1), dust     .mat(MTx.ANFO , 1), ST.make(Items.string                                    , 1, W)), IL.Dynamite       .get(1));
         RM.Press.addRecipeX(true, 16, 16 , ST.array(ST.tag(1), dust     .mat(MTx.ANFO , 1), ST.make((Item)plantGtFiber.mRegisteredPrefixItems.get(0), 1, W)), IL.Dynamite       .get(1));

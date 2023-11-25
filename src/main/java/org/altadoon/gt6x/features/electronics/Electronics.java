@@ -35,6 +35,7 @@ import static gregapi.data.OP.*;
 import static gregapi.data.TD.Atomic.ANTIMATTER;
 import static gregapi.data.TD.Compounds.COATED;
 import static org.altadoon.gt6x.Gt6xMod.MOD_ID;
+import static org.altadoon.gt6x.features.electronics.MultiItemsElectronics.IC_NAME;
 
 public class Electronics extends GT6XFeature {
     public static final String FEATURE_NAME = "Electronics";
@@ -98,7 +99,7 @@ public class Electronics extends GT6XFeature {
 
     private void addRecipeMaps() {
         Photolithography = new Recipe.RecipeMap(null, "gt6x.recipe.photolithography", "Photolithography", null, 0, 1, RES_PATH_GUI+"machines/Photolithography", 2, 1, 2, 1, 1, 1, 2, 1, "", 1, "", true, true, true, true, false, true, true);
-        IonBombardment = new Recipe.RecipeMap(null, "gt6x.recipe.ionbombardment", "Ion Acceleration", null, 0, 1, RES_PATH_GUI+"machines/IonBombardment", 1, 1, 1, 1, 2, 1, 2, 1, "", 1, "", true, true, true, true, false, true, true);
+        IonBombardment = new Recipe.RecipeMap(null, "gt6x.recipe.ionbombardment", "Ion Acceleration", null, 0, 1, RES_PATH_GUI+"machines/IonBombardment", 2, 1, 1, 1, 2, 1, 2, 1, "", 1, "", true, true, true, true, false, true, true);
         Soldering = new Recipe.RecipeMap(null, "gt6x.recipe.soldering", "Soldering Machine", null, 0, 1, RES_PATH_GUI+"machines/Soldering", 9, 1, 1, 1, 0, 1, 2, 1, "", 1, "", true, true, true, true, false, true, true);
     }
 
@@ -486,20 +487,20 @@ public class Electronics extends GT6XFeature {
         RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), foil.mat(MT.Sn, 1), ILx.Resistor_Metal_Film.get(1)), ILx.Resistor_SMD.get(16));
 
         // hand-soldering PCBs
-        CR.shaped(ILx.PCBs[1][0].get(1), CR.DEF_REM, "iE ", "CBR", "   ", 'B', IL .Circuit_Plate_Copper        .get(1), 'E', MultiItemsElectronics.ELECTRONTUBE_NAME, 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME);
-        CR.shaped(ILx.PCBs[1][0].get(1), CR.DEF_REM, "iT ", "CBR", "   ", 'B', IL .Circuit_Plate_Copper        .get(1), 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME);
-        CR.shaped(ILx.PCBs[1][1].get(1), CR.DEF_REM, "iT ", "CBR", "   ", 'B', ILx.Circuit_Plate_Copper_Small  .get(1), 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME);
-        CR.shaped(ILx.PCBs[2][0].get(1), CR.DEF_REM, "iT ", "CBR", " T ", 'B', IL .Circuit_Plate_Copper        .get(1), 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME);
-        CR.shaped(ILx.PCBs[2][1].get(1), CR.DEF_REM, "iI ", "CBR", " T ", 'B', ILx.Circuit_Plate_Copper_Small  .get(1), 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME, 'I', ILx.PMOS_IC.get(1));
-        CR.shaped(ILx.PCBs[3][0].get(1), CR.DEF_REM, "TiT", "CBR", "T T", 'B', IL .Circuit_Plate_Gold          .get(1), 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME);
-        CR.shaped(ILx.PCBs[3][1].get(1), CR.DEF_REM, "iI ", "CBR", " T ", 'B', ILx.Circuit_Plate_Gold_Small    .get(1), 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME, 'I', ILx.PMOS_IC.get(1));
-        CR.shaped(ILx.PCBs[4][0].get(1), CR.DEF_REM, "iI ", "CBR", " T ", 'B', IL .Circuit_Plate_Gold          .get(1), 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME, 'I', ILx.PMOS_IC.get(1));
-        CR.shaped(ILx.PCBs[4][1].get(1), CR.DEF_REM, "iI ", "CBR", " T ", 'B', ILx.Circuit_Plate_Gold_Small    .get(1), 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME, 'I', ILx.NMOS_IC.get(1));
-        CR.shaped(ILx.PCBs[5][0].get(1), CR.DEF_REM, "iI ", "CBR", " T ", 'B', IL .Circuit_Plate_Platinum      .get(1), 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME, 'I', ILx.NMOS_IC.get(1));
-        CR.shaped(ILx.PCBs[5][1].get(1), CR.DEF_REM, "iI ", "CBR", " T ", 'B', ILx.Circuit_Plate_Platinum_Small.get(1), 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME, 'I', ILx.CMOS_IC.get(1));
-        CR.shaped(ILx.PCBs[6][0].get(1), CR.DEF_REM, "iI ", "CBR", " T ", 'B', IL .Circuit_Plate_Platinum      .get(1), 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME, 'I', ILx.CMOS_IC.get(1));
+        CR.shaped(ILx.PCBs[1][0].get(1), CR.DEF_REM, "iE ", "CBR", "   ", 'B', IL .Circuit_Plate_Copper        , 'E', MultiItemsElectronics.ELECTRONTUBE_NAME, 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME);
+        CR.shaped(ILx.PCBs[1][0].get(1), CR.DEF_REM, "iT ", "CBR", "   ", 'B', IL .Circuit_Plate_Copper        , 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME);
+        CR.shaped(ILx.PCBs[1][1].get(1), CR.DEF_REM, "iT ", "CBR", "   ", 'B', ILx.Circuit_Plate_Copper_Small  , 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME);
+        CR.shaped(ILx.PCBs[2][0].get(1), CR.DEF_REM, "iT ", "CBR", " T ", 'B', IL .Circuit_Plate_Copper        , 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME);
+        CR.shaped(ILx.PCBs[2][1].get(1), CR.DEF_REM, "iI ", "CBR", " T ", 'B', ILx.Circuit_Plate_Copper_Small  , 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME, 'I', ILx.PMOS_IC);
+        CR.shaped(ILx.PCBs[3][0].get(1), CR.DEF_REM, "TiT", "CBR", "T T", 'B', IL .Circuit_Plate_Gold          , 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME);
+        CR.shaped(ILx.PCBs[3][1].get(1), CR.DEF_REM, "iI ", "CBR", " T ", 'B', ILx.Circuit_Plate_Gold_Small    , 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME, 'I', ILx.PMOS_IC);
+        CR.shaped(ILx.PCBs[4][0].get(1), CR.DEF_REM, "iI ", "CBR", " T ", 'B', IL .Circuit_Plate_Gold          , 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME, 'I', ILx.PMOS_IC);
+        CR.shaped(ILx.PCBs[4][1].get(1), CR.DEF_REM, "iI ", "CBR", " T ", 'B', ILx.Circuit_Plate_Gold_Small    , 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME, 'I', ILx.NMOS_IC);
+        CR.shaped(ILx.PCBs[5][0].get(1), CR.DEF_REM, "iI ", "CBR", " T ", 'B', IL .Circuit_Plate_Platinum      , 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME, 'I', ILx.NMOS_IC);
+        CR.shaped(ILx.PCBs[5][1].get(1), CR.DEF_REM, "iI ", "CBR", " T ", 'B', ILx.Circuit_Plate_Platinum_Small, 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME, 'I', ILx.CMOS_IC);
+        CR.shaped(ILx.PCBs[6][0].get(1), CR.DEF_REM, "iI ", "CBR", " T ", 'B', IL .Circuit_Plate_Platinum      , 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME, 'I', ILx.CMOS_IC);
 
-        CR.shaped(ILx.RAM_Stick.get(1), CR.DEF_REM, "RCR", "RCR", "iPI", 'R', ILx.Chip_DRAM.get(1), 'C', MultiItemsElectronics.CAPACITOR_NAME, 'P', ILx.Circuit_Plate_Gold_RAM.get(1), 'I', MultiItemsElectronics.IC_NAME);
+        CR.shaped(ILx.RAM_Stick.get(1), CR.DEF_REM, "RCR", "RCR", "iPI", 'R', ILx.Chip_DRAM, 'C', MultiItemsElectronics.CAPACITOR_NAME, 'P', ILx.Circuit_Plate_Gold_RAM, 'I', IC_NAME);
 
         // auto-soldering
         Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(1), IL .Circuit_Plate_Copper        .get(1), ILx.Transistor_SMD.get(1), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[1][0].get(1));
@@ -524,6 +525,14 @@ public class Electronics extends GT6XFeature {
         Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(8), ILx.Circuit_Plate_Gold_RAM      .get(1), ILx.Chip_DRAM.get(4), ILx.Capacitor_SMD.get(2), ILx.PMOS_IC.get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.RAM_Stick.get(1));
         Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(8), ILx.Circuit_Plate_Gold_RAM      .get(1), ILx.Chip_DRAM.get(4), ILx.Capacitor_SMD.get(2), ILx.NMOS_IC.get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.RAM_Stick.get(1));
         Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(8), ILx.Circuit_Plate_Gold_RAM      .get(1), ILx.Chip_DRAM.get(4), ILx.Capacitor_SMD.get(2), ILx.CMOS_IC.get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.RAM_Stick.get(1));
+
+        // Computer Parts
+        RM.Lathe.addRecipe1(true, 16, 16, plateTiny.mat(MT.Al, 1), ILx.Al_Disk.get(1), dustDiv72.mat(MT.Al, 2));
+        IonBombardment.addRecipe2(true, 16, 64, foil.mat(MTx.CoPtCr, 1), ILx.Al_Disk.get(1), MT.Ar.gas(U10, true), NF, ILx.Hard_Disk.get(1));
+        CR.shaped(ILx.HDD.get(1), CR.DEF_REV, "MDD", "CDD", "PSB", 'M', bolt.mat(MT.SteelMagnetic, 1), 'C', casingSmall.mat(MT.Al, 1), 'D', ILx.Hard_Disk, 'P', OD_CIRCUITS[2], 'S', IL.MOTORS[0], 'B', bolt.mat(MT.Ti, 1));
+        CR.shaped(ILx.Motherboard.get(1), CR.DEF, "ISC", "WCi", "IPB", 'I', IC_NAME, 'S', IL.Processor_Crystal_Empty, 'C', casingSmall.mat(MT.PVC, 1), 'W', cableGt08.mat(MT.Cu, 1), 'P', IL.Circuit_Plate_Platinum, 'B', IL.Battery_LiCoO2_Cell_Filled);
+        CR.shaped(ILx.CPU_Fan.get(1), CR.DEF_REV, "PFL", "CMC", " RW", 'P', casingSmall.mat(MT.PVC, 1), 'F', rotor.mat(MT.PVC, 1), 'L', OD.itemLubricant, 'C', casingSmall.mat(MT.StainlessSteel, 1), 'M', IL.MOTORS[1], 'W', cableGt02.mat(MT.Cu, 1), 'R', ring.mat(MT.PVC, 1));
+        CR.shaped(ILx.MoBoAssembly.get(1), CR.DEF, "SFS", "RCP", "MES", 'S', screw.mat(MT.StainlessSteel, 1), 'F', ILx.CPU_Fan, 'R', ILx.RAM_Stick, 'C', ILx.CPU, 'P', ILx.Thermal_Paste, 'M', ILx.Motherboard, 'E', IL.Processor_Crystal_Empty);
     }
 
     private void changeRecipes() {
@@ -537,7 +546,7 @@ public class Electronics extends GT6XFeature {
             }
         }
 
-        // Disable old ways of crafting circuits
+        // Disable old ways of crafting circuits & computers
         List<ItemStack> circuit_boards = Arrays.asList(IL.Circuit_Board_Basic.get(1), IL.Circuit_Board_Good.get(1), IL.Circuit_Board_Advanced.get(1), IL.Circuit_Board_Elite.get(1), IL.Circuit_Board_Master.get(1), IL.Circuit_Board_Ultimate.get(1));
         List<ItemStack> circuit_parts = Arrays.asList(IL.Circuit_Part_Basic.get(1), IL.Circuit_Part_Good.get(1), IL.Circuit_Part_Advanced.get(1), IL.Circuit_Part_Elite.get(1), IL.Circuit_Part_Master.get(1), IL.Circuit_Part_Ultimate.get(1));
         List<ItemStack> circuit_plates = Arrays.asList(IL.Circuit_Plate_Copper.get(1), IL.Circuit_Plate_Gold.get(1), IL.Circuit_Plate_Platinum.get(1));
@@ -545,7 +554,12 @@ public class Electronics extends GT6XFeature {
 
         CR.BUFFER.removeIf(r ->
             ST.equal(r.getRecipeOutput(), IL.Circuit_Wire_Copper.get(1)) ||
-            ST.equal(r.getRecipeOutput(), IL.Processor_Crystal_Empty.get(1))
+            ST.equal(r.getRecipeOutput(), IL.Processor_Crystal_Empty.get(1)) ||
+            ST.equal(r.getRecipeOutput(), MTEx.gt6Registry.getItem(18200)) ||
+            ST.equal(r.getRecipeOutput(), MTEx.gt6Registry.getItem(18201)) ||
+            ST.equal(r.getRecipeOutput(), MTEx.gt6Registry.getItem(18202)) ||
+            ST.equal(r.getRecipeOutput(), MTEx.gt6Registry.getItem(18203)) ||
+            ST.equal(r.getRecipeOutput(), MTEx.gt6Registry.getItem(18204))
         );
 
         for (Recipe r : RM.Bath.mRecipeList) {
@@ -565,5 +579,12 @@ public class Electronics extends GT6XFeature {
         circuit_boards.forEach(ST::hide);
         circuit_parts.forEach(ST::hide);
         circuit_wires.forEach(ST::hide);
+
+        //TODO Mobo/CPU/Ram combo
+        CR.shaped(MTEx.gt6Registry.getItem(18200), CR.DEF_REM, "TFM", "RMP", "RCH",  'R', ILx.RAM_Stick, 'F', ILx.CPU_Fan, 'M', ILx.Motherboard, 'S', IL.Processor_Crystal_Empty, 'P', ILx.Thermal_Paste, 'C', ILx.CPU, 'H', ILx.HDD, 'T', MTEx.gt6Registry.getItem(10041));
+        CR.shaped(MTEx.gt6Registry.getItem(18201), CR.DEF_REM, "FTF", "CPC", "SMS",  'F', ILx.CPU_Fan, 'M', ILx.Motherboard, 'S', IL.Processor_Crystal_Empty, 'P', ILx.Thermal_Paste, 'C', ILx.CPU, 'T', MTEx.gt6Registry.getItem(10041));
+        CR.shaped(MTEx.gt6Registry.getItem(18202), CR.DEF_REM, "TFM", "RCP", "RSH",  'R', ILx.RAM_Stick, 'F', ILx.CPU_Fan, 'M', ILx.Motherboard, 'S', IL.Processor_Crystal_Empty, 'P', ILx.Thermal_Paste, 'C', ILx.CPU, 'H', ILx.HDD, 'T', MTEx.gt6Registry.getItem(10041));
+        CR.shaped(MTEx.gt6Registry.getItem(18203), CR.DEF_REM, "TFH", "RCP", "MSH",  'R', ILx.RAM_Stick, 'F', ILx.CPU_Fan, 'M', ILx.Motherboard, 'S', IL.Processor_Crystal_Empty, 'P', ILx.Thermal_Paste, 'C', ILx.CPU, 'H', ILx.HDD, 'T', MTEx.gt6Registry.getItem(10041));
+        CR.shaped(MTEx.gt6Registry.getItem(18204), CR.DEF_REM, "RFM", "RCP", "RST",  'R', ILx.RAM_Stick, 'F', ILx.CPU_Fan, 'M', ILx.Motherboard, 'S', IL.Processor_Crystal_Empty, 'P', ILx.Thermal_Paste, 'C', ILx.CPU, 'H', ILx.HDD, 'T', MTEx.gt6Registry.getItem(10041));
     }
 }
