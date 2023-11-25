@@ -360,9 +360,12 @@ public class Metallurgy extends GT6XFeature {
         RM.Bath.addRecipe1(true, 0, 256, dust.mat(MTx.Sc2O3, 5), MT.HF.gas(12*U, true), MT.H2O.liquid(9*U, false), dust.mat(MTx.ScF3, 8));
 
         RM.Drying.addRecipe0(true, 16, 6000, MTx.BayerLiquor.liquid(6*U, true), FL.DistW.make(3000), dust.mat(MT.NaOH, 3));
-        RM.Electrolyzer.addRecipe1(true, 64, 512, ST.tag(1), FL.array(MTx.BayerLiquor.liquid(24*U, true), MT.Hg.liquid(9*U, true)), FL.array(MTx.GaAmalgam.liquid(10*U, false), MT.H.gas(5*U, false), FL.Water.make(4500)), dust.mat(MT.NaOH, 12), OM.dust(MT.V2O5, 7*U2));
-        //TODO not working
-        RM.Mixer.addRecipe0(true, 16, 192, FL.array(MTx.GaAmalgam.liquid(10*U, true), MTx.NaOHSolution.liquid(6*U, true), FL.Water.make(1500), FL.Oxygen.make(1500)), FL.array(MT.Hg.liquid(9*U, false)), dust.mat(MTx.NaGaOH4, 10));
+        RM.Electrolyzer.addRecipe1(true, 64, 512, new long[] {10000, 2500}, ST.tag(1), FL.array(MTx.BayerLiquor.liquid(24*U, true), MT.Hg.liquid(9*U, true)), FL.array(MTx.GaAmalgam.liquid(10*U, false), MT.H.gas(5*U, false), FL.Water.make(4500)), dust.mat(MT.NaOH, 12), OM.dust(MT.V2O5, 14*U));
+
+        for (FluidStack water : FL.waters(1500)) {
+            RM.Mixer.addRecipe0(true, 16, 192, FL.array(MTx.GaAmalgam.liquid(10*U, true), MTx.NaOHSolution.liquid(6*U, true), water, FL.Oxygen.make(1500)), FL.array(MT.Hg.liquid(9*U, false)), dust.mat(MTx.NaGaOH4, 10));
+            RM.Mixer.addRecipe1(true, 16, 192, dust.mat(MT.NaOH, 3), FL.array(MTx.GaAmalgam.liquid(10*U, true), FL.mul(water, 3), FL.Oxygen.make(1500)), FL.array(MT.Hg.liquid(9*U, false)), dust.mat(MTx.NaGaOH4, 10));
+        }
         RM.Electrolyzer.addRecipe2(true, 64, 512, ST.tag(1), dust.mat(MTx.NaGaOH4, 10), ZL_FS, FL.array(FL.Water.make(1500), FL.Oxygen.make(1500), MTx.NaOHSolution.liquid(6*U, false)), dust.mat(MT.Ga, 1));
 
         // Sintering dusts into chunks
