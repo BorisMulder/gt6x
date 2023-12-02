@@ -110,8 +110,18 @@ public class BasicChemistry extends GT6XFeature {
         // HF to H + F (needed for some chains)
         RM.Electrolyzer.addRecipe2(true, 32, 256, ST.tag(1), dust.mat(MT.KF, 0), FL.array(MT.HF.gas(2*U, true)), FL.array(MT.F.gas(U, false), MT.H.gas(U, false)));
 
-        // NH3 recipe
-        RM.Mixer.addRecipe1(true, 64, 50, dust.mat(MT.OREMATS.Magnetite, 0), FL.array(MT.H.gas(3*U, true), MT.N.gas(U, true)), FL.array(MT.NH3.gas(U, false)));
+        // Cheap Nitrogen from air
+        for (OreDictMaterial coke : new OreDictMaterial[]{ MT.C, MT.CoalCoke, MT.Charcoal }) {
+            RM.BurnMixer.addRecipe1(true, 16, 100, OM.dust(coke, U), FL.array(FL.Air       .make(4000)), FL.array(MT.N.gas(20*U7, false), MT.CO.gas(2*U, false)));
+            RM.BurnMixer.addRecipe1(true, 16, 100, OM.dust(coke, U), FL.array(FL.Air_Nether.make(4000)), FL.array(MT.N.gas(20*U7, false), MT.CO.gas(2*U, false)));
+            RM.BurnMixer.addRecipe1(true, 16, 100, OM.dust(coke, U), FL.array(FL.Air_End   .make(4000)), FL.array(MT.N.gas(20*U7, false), MT.CO.gas(2*U, false)));
+        }
+
+        // Haber-Bosch process
+        RM.Mixer.addRecipe1(true, 64, 50, dust.mat(MT.Fe, 0), FL.array(MT.H.gas(3*U, true), MT.N.gas(U, true)), FL.array(MT.NH3.gas(U, false)));
+
+        // Ostwald Process
+        RM.Mixer.addRecipe1(true, 16, 500, dust.mat(MT.Pt, 0), FL.array(MT.NH3.gas(4*U, true), MT.O.gas(10*U, true)), FL.array(MT.NO.gas(8*U, false), MT.H2O.liquid(18*U, false)));
 
         // Ammonium salts
         RM.Mixer.addRecipe0(true, 16, 20, FL.array(MT.HCl.gas(2*U, false), MT.NH3.gas(U, false)), ZL_FS, dust.mat(MTx.NH4Cl, 2));
