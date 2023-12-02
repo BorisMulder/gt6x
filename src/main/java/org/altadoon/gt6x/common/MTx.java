@@ -902,7 +902,14 @@ public class MTx {
             .heat(209, 222, 310)),
     AlPO4Solution = registerLiquid(lquddcmp(16242, "Aluminium Phosphate Solution", 200, 225, 255, 200)
             .setMcfg(0, AlPO4, 6*U, MT.HNO3, 5*U)
-            .heat(MT.H2O))
+            .heat(MT.H2O)),
+    CoPtCr = alloymachine(16243, "Cobalt-Platinum-Chromium", SET_COPPER, 145, 163, 243)
+            .uumAloy(0, MT.Co, 5*U, MT.Pt, U, MT.Cr, 3*U)
+            .heat(1880, 3300),
+    Hydroxyapatite = oredustdcmp(16244, "Hydroxyapatite", SET_DIAMOND, 150, 150, 80, 255)
+            .uumMcfg(0, MT.Ca, 5*U, MT.PO4, 3*U, MT.O, U, MT.H, U)
+            .heat(MT.Apatite)
+            .setOreMultiplier(4)
     ;
 
     static {
