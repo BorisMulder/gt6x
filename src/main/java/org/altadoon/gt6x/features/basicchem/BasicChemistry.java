@@ -8,8 +8,11 @@ import gregapi.recipes.Recipe;
 import gregapi.recipes.handlers.RecipeMapHandlerMaterial;
 import gregapi.util.OM;
 import gregapi.util.ST;
+import gregapi.worldgen.StoneLayer;
+import gregapi.worldgen.StoneLayerOres;
+import gregapi.worldgen.WorldgenObject;
+import gregapi.worldgen.WorldgenOresLarge;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import org.altadoon.gt6x.common.Config;
 import org.altadoon.gt6x.common.FLx;
@@ -18,10 +21,13 @@ import org.altadoon.gt6x.common.RMx;
 import org.altadoon.gt6x.common.items.ILx;
 import org.altadoon.gt6x.features.GT6XFeature;
 
+import java.util.ListIterator;
+
 import static gregapi.data.CS.*;
 import static gregapi.data.OP.*;
 import static gregapi.data.TD.Prefix.*;
 import static gregapi.data.TD.Prefix.ORE_PROCESSING_BASED;
+import static org.altadoon.gt6x.common.MTx.Chalcocite;
 
 /**
  * This feature contains some basic chemistry recipes shared by other features. Disabling this makes some items uncraftable.
@@ -38,10 +44,13 @@ public class BasicChemistry extends GT6XFeature {
     @Override
     public void preInit() {
         changeMaterialProperties();
+        changeByProducts();
     }
 
     @Override
-    public void init() {}
+    public void init() {
+        addWorldgen();
+    }
 
     @Override
     public void beforePostInit() {
@@ -49,7 +58,10 @@ public class BasicChemistry extends GT6XFeature {
     }
 
     @Override
-    public void postInit() { addRecipes(); }
+    public void postInit() {
+        addRecipes();
+        overrideWorldgen();
+    }
 
     public void afterPostInit() {
         changeRecipes();
@@ -62,6 +74,26 @@ public class BasicChemistry extends GT6XFeature {
         MT.H3BO3.remove(TD.Processing.ELECTROLYSER);
     }
 
+    private void changeByProducts() {
+        for (OreDictMaterial mat : new OreDictMaterial[] { MT.Apatite, MT.Phosphorite, MT.Phosphorus, MT.PhosphorusBlue, MT.PhosphorusRed, MT.PhosphorusWhite }) {
+            ListIterator<OreDictMaterial> it = mat.mByProducts.listIterator();
+            while (it.hasNext()) {
+                OreDictMaterial byproduct = it.next();
+                if (byproduct.mID == MT.PO4.mID) {
+                    it.set(MTx.Hydroxyapatite);
+                }
+            }
+        }
+
+        MTx.Hydroxyapatite.addOreByProducts(MT.Apatite, MT.Phosphorite, MT.FluoriteYellow);
+    }
+
+    private void addWorldgen() {
+        new WorldgenOresLarge("ore.large.apatite2", true, true, 40, 60, 60, 3, 16,
+                MT.Apatite, MTx.Hydroxyapatite, MT.Phosphorite, MT.Apatite,
+                ORE_OVERWORLD, ORE_A97, ORE_ENVM, ORE_CW2_AquaCavern, ORE_CW2_Caveland, ORE_CW2_Cavenia, ORE_CW2_Cavern, ORE_CW2_Caveworld, ORE_EREBUS, ORE_ATUM, ORE_BETWEENLANDS);
+    }
+
     protected void addRecipes() {
         addSolutionRecipes();
 
@@ -71,6 +103,7 @@ public class BasicChemistry extends GT6XFeature {
         }
         RM.Bath.addRecipe1(true, 0, 128, dust.mat(MT.Phosphorite, 9), FL.array(MT.H2SO4.liquid(5*7*U, true)), FL.array(MTx.H3PO4.liquid(12*U, false), MT.HF.gas(U*2, false)), dust.mat(MT.CaSO4, 30));
         RM.Bath.addRecipe1(true, 0, 128, dust.mat(MT.Apatite, 9), FL.array(MT.H2SO4.liquid(5*7*U, true)), FL.array(MTx.H3PO4.liquid(12*U, false), MT.HCl.gas(U*2, false)), dust.mat(MT.CaSO4, 30));
+        RM.Bath.addRecipe1(true, 0, 128, dust.mat(MTx.Hydroxyapatite, 10), FL.array(MT.H2SO4.liquid(5*7*U, true)), FL.array(MTx.H3PO4.liquid(12*U, false), MT.H2O.liquid(U*3, false)), dust.mat(MT.CaSO4, 30));
         RM.Bath.addRecipe1(true, 0, 128, dust.mat(MTx.P2O5, 7), FL.array(MT.H2O.liquid(3*3*U, true)), FL.array(MTx.H3PO4.liquid(16*U, false)));
         RM.Bath.addRecipe1(true, 0, 256, dust.mat(MT.NaOH, 9), MTx.H3PO4.liquid(8*U, true), MT.H2O.liquid(9*U, false), dust.mat(MTx.Na3PO4, 8));
         RM.Bath.addRecipe1(true, 0, 256, dust.mat(MT.Al2O3, 5), MTx.H3PO4.liquid(16*U, true), MT.H2O.liquid(9*U, false), dust.mat(MTx.AlPO4, 12));
@@ -298,6 +331,24 @@ public class BasicChemistry extends GT6XFeature {
 
         RM.Distillery       .addRecipe1(true, 16,  24, ST.tag(2), FL.Biomass   .make( 40), MTx.Methanol.liquid(U50, false), FL.DistW.make(20));
         RM.Distillery       .addRecipe1(true, 16,  24, ST.tag(2), FL.BiomassIC2.make( 40), MTx.Methanol.liquid(U50, false), FL.DistW.make(20));
+    }
+
+    private void overrideWorldgen() {
+        for (StoneLayer layer : StoneLayer.LAYERS) {
+            if (layer.mStone == BlocksGT.Granite) {
+                for (StoneLayerOres ores : layer.mOres) {
+                    if (ores.mMaterial.mID == MT.PO4.mID || ores.mMaterial.mID == MT.PhosphorusRed.mID)
+                        ores.mMaterial = MTx.Hydroxyapatite;
+                }
+            }
+        }
+
+        // remove old apatite vein since it is not possible to change the layers as they are final
+        for (WorldgenObject obj : CS.ORE_OVERWORLD) {
+            if (obj.mName.equals("ore.large.apatite")) {
+                obj.mEnabled = false;
+            }
+        }
     }
 
     private void changeRecipes() {

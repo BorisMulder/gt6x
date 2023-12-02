@@ -509,8 +509,9 @@ public class Metallurgy extends GT6XFeature {
         new EAFSmeltingRecipe(0, 3, new OreDictMaterialStack[]{ OM.stack(MT.Ca, 3*U), OM.stack(MTx.ScF3 , 8*U) }, 600, OM.stack(MT.Sc, 2*U), OM.stack(MT.CaF2     , 9 *U));
 
         // Pure phosphorus production in EAF
-        new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MT.Apatite, 2*7*U), OM.stack(MT.SiO2, 9*U), OM.stack(MT.C, 5*U) }, 1850, OM.stack(MTx.Slag, 3*5*U), OM.stack(MT.CaCl2, U), OM.stack(MTx.P_CO_Gas, 12*U));
-        new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MT.Phosphorite, 2*7*U), OM.stack(MT.SiO2, 3*3*U), OM.stack(MT.C, 5*U) }, 1850, OM.stack(MTx.Slag, 3*5*U), OM.stack(MT.CaF2, U), OM.stack(MTx.P_CO_Gas, 12*U));
+        new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MT.Apatite, 2*3*U), OM.stack(MT.SiO2, 9*U), OM.stack(MT.C, 5*U) }, 1850, OM.stack(MTx.Slag, 3*5*U), OM.stack(MT.CaCl2, U), OM.stack(MTx.P_CO_Gas, 12*U));
+        new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MTx.Hydroxyapatite, 2*10*U), OM.stack(MT.SiO2, 9*3*U), OM.stack(MT.C, 15*U) }, 1850, OM.stack(MTx.Slag, 9*5*U), OM.stack(MTx.CaOH2, 5*U), OM.stack(MTx.P_CO_Gas, 36*U));
+        new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MT.Phosphorite, 2*3*U), OM.stack(MT.SiO2, 9*U), OM.stack(MT.C, 5*U) }, 1850, OM.stack(MTx.Slag, 3*5*U), OM.stack(MT.CaF2, U), OM.stack(MTx.P_CO_Gas, 12*U));
         for (OreDictMaterial phosphorus : new OreDictMaterial[] { MT.Phosphorus, MT.PhosphorusBlue, MT.PhosphorusRed, MT.PhosphorusWhite}) {
             new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(phosphorus, 13*U), OM.stack(MT.SiO2, 3*3*U), OM.stack(MT.C, 5*U) }, 1850, OM.stack(MTx.Slag, 3*5*U), OM.stack(MTx.P_CO_Gas, 12*U));
         }
