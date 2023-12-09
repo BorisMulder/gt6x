@@ -342,7 +342,7 @@ public class MTx {
             .uumMcfg(1, MT.Pb, U, MT.O, U)
             .heat(1161, 1750)
             .setSmelting(MT.Pb, 3*U4),
-    ZnO = dustdcmp(16059, "Zinc Oxide", SET_DULL, 255, 230, 240, 255)
+    ZnO = oredustdcmp(16059, "Zinc Oxide", SET_DULL, 255, 180, 100, 255)
             .uumMcfg(1, MT.Zn, U, MT.O, U)
             .heat(2247, 2630)
             .setSmelting(MT.Zn, 3*U4),
@@ -619,9 +619,10 @@ public class MTx {
     CdO = dustdcmp(16143, "Cadmium Oxide", SET_DULL, 128, 43, 0, 255)
             .setMcfg(0, MT.Cd, U, MT.O, U)
             .heat(1220, 1832),
-    CdSO4Solution = registerLiquid(lqudaciddcmp(16144, "Cadmium Sulfate Solution", 255, 153, 102, 255)
+    CdSO4 = oredustdcmp(16144, "Cadmium Sulfate", SET_CUBE, 255, 153, 102, 255)
             .setMcfg(0, MT.Cd, U, MT.S, U, MT.O, 4*U)
-            .heat(MT.H2O)),
+            .heat(1270)
+            .setSmelting(CdO, U3),
     Na3PO4 = dustdcmp(16145, "Sodium Phosphate", SET_DULL, 255, 255, 255, 255, "Trisodium Phosphate")
             .setMcfg(0, MT.Na, 3*U, MT.P, U, MT.O, 4*U)
             .heat(1856),

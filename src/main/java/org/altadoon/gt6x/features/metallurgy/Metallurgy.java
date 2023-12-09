@@ -135,7 +135,7 @@ public class Metallurgy extends GT6XFeature {
                 } else if (byproduct.mID == MT.Co.mID) {
                     it.set(MT.OREMATS.Cobaltite);
                 } else if (byproduct.mID == MT.Cd.mID) {
-                    it.set(MTx.CdS);
+                    it.remove();
                 }
             }
         }
@@ -291,9 +291,9 @@ public class Metallurgy extends GT6XFeature {
         blastFurnace.addRecipeX(true, 8, 384, ST.array(dust.mat(MTx.MgO, 4), dust.mat(MT.Quicklime, 2), dust.mat(MT.Si, 1)), ZL_FS, FL.array(MT.Mg.gas(2*U, false), MTx.Slag.liquid(5*U, false)));
 
         // blast furnace gases
-        RM.CryoDistillationTower.addRecipe0(true, 64,  128, FL.array(MTx.BlastFurnaceGas.gas(4*U10, true)), FL.array(MT.N.gas(177*U1000, false), MT.CO.gas(4*20*U1000, T), MT.CO2.gas(4*30*U1000, T), MT.H.gas(4*5*U1000, T), MT.He.gas(U1000, T), MT.Ne.gas(U1000, T), MT.Ar.gas(U1000, T)));
+        RM.CryoDistillationTower.addRecipe0(true, 64,  128, FL.array(MTx.BlastFurnaceGas.gas(4*U10, true)), FL.array(MT.N.gas(177*U1000, false), MT.CO.gas(4*20*U1000, true), MT.CO2.gas(4*30*U1000, true), MT.H.gas(4*5*U1000, true), MT.He.gas(U1000, true), MT.Ne.gas(U1000, true), MT.Ar.gas(U1000, true)));
         FM.Burn.addRecipe0(true, -16, 1, MTx.BlastFurnaceGas.gas(3*U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
-        RM.Distillery.addRecipe1(true, 16, 64, ST.tag(0), FL.array(MTx.ZnBlastFurnaceGas.gas(7*U, true)), FL.array(MT.Zn.gas(U, false), MTx.BlastFurnaceGas.gas(6*U, false)));
+        RM.Distillery.addRecipe1(true, 16, 64, ST.tag(0), FL.array(MTx.ZnBlastFurnaceGas.gas(7*U, true)), FL.array(MT.Cd.liquid(U9, false), MTx.BlastFurnaceGas.gas(6*U, false)), dust.mat(MT.Zn, 1));
         RM.Distillery.addRecipe1(true, 16, 64, ST.tag(0), FL.array(MTx.MgBlastFurnaceGas.gas(7*U, true)), FL.array(MT.Mg.gas(U, false), MT.CO2.gas(6*U, false)));
 
         // Wrought Iron
@@ -320,7 +320,8 @@ public class Metallurgy extends GT6XFeature {
 
         // Acidic leaching for electrowinning
         RM.Bath.addRecipe1(true, 0, 256, dust.mat(MTx.ZnO, 1), FL.array(MT.H2SO4.liquid(7*U, true)), FL.array(MT.WhiteVitriol.liquid(6*U, false), MT.H2O.liquid(3*U, false)));
-        RM.Bath.addRecipe1(true, 0, 256, dust.mat(MTx.CdO, 1), FL.array(MT.H2SO4.liquid(7*U, true)), FL.array(MTx.CdSO4Solution.liquid(6*U, false), MT.H2O.liquid(3*U, false)));
+        RM.Bath.addRecipe1(true, 0, 256, dust.mat(MTx.CdO, 2), FL.array(MT.H2SO4.liquid(7*U, true)), FL.array(MT.H2O.liquid(3*U, false)), dust.mat(MTx.CdSO4, 6));
+        RM.Bath.addRecipe1(true, 0, 256, dust.mat(MTx.CdSO4, 6), FL.array(MT.H2S.gas(3*U, true)), FL.array(MT.H2SO4.liquid(7*U, false)), dust.mat(MTx.CdS, 2));
         RM.Bath.addRecipe1(true, 0, 256, dust.mat(MT.OREMATS.Garnierite, 1), FL.array(MT.H2SO4.liquid(7*U, true)), FL.array(MT.CyanVitriol.liquid(6*U, false), MT.H2O.liquid(3*U, false)));
         RM.Bath.addRecipe1(true, 0, 256, dust.mat(MTx.CoO, 2), FL.array(MT.H2SO4.liquid(7*U, true)), FL.array(MT.RedVitriol.liquid(6*U, false), MT.H2O.liquid(3*U, false)));
         RM.Bath.addRecipe1(true, 0, 256, dust.mat(MT.MnO2, 1), FL.array(MT.H2SO4.liquid(7*U, true)), FL.array(MT.GrayVitriol.liquid(6*U, false), MT.H2O.liquid(3*U, false), MT.O.gas(U, false)));
@@ -604,6 +605,11 @@ public class Metallurgy extends GT6XFeature {
             RM.Bath.addRecipe1(true, 0, 2048, OP.dust.mat(MT.NaAlO2, 4), FL.mul(water, 9), MTx.BayerLiquor.liquid(6*U, false), OP.dust.mat(MT.AlO3H3, 7));
         }
 
+        for (OreDictMaterial mat : new OreDictMaterial[] {MT.Zn, MT.OREMATS.Sphalerite, MT.OREMATS.Smithsonite, MTx.ZnO}) {
+            RM.Bath.addRecipe1(true, 0,  256, new long[] {10000, 5000, 5000, 5000, 5000, 5000}, crushedPurified    .mat(mat, 1), FL.array(MT.H2SO4.fluid(7* U2, true)), FL.array(MT.WhiteVitriol.fluid(3*U, false), MT.H.gas(U, false)), crushedCentrifuged.mat(mat, 1), crushedCentrifugedTiny.mat(MTx.CdSO4, 2), crushedCentrifugedTiny.mat(MTx.CdSO4, 2), crushedCentrifugedTiny.mat(MTx.CdSO4, 2), crushedCentrifugedTiny.mat(MTx.CdSO4, 2), crushedCentrifugedTiny.mat(MTx.CdSO4, 2));
+            RM.Bath.addRecipe1(true, 0,  256, new long[] {10000, 5000, 5000, 5000, 5000, 5000}, crushedPurifiedTiny.mat(mat, 9), FL.array(MT.H2SO4.fluid(7* U2, true)), FL.array(MT.WhiteVitriol.fluid(3*U, false), MT.H.gas(U, false)), crushedCentrifuged.mat(mat, 1), crushedCentrifugedTiny.mat(MTx.CdSO4, 2), crushedCentrifugedTiny.mat(MTx.CdSO4, 2), crushedCentrifugedTiny.mat(MTx.CdSO4, 2), crushedCentrifugedTiny.mat(MTx.CdSO4, 2), crushedCentrifugedTiny.mat(MTx.CdSO4, 2));
+        }
+
         RM.Sifting          .addRecipe1(true, 16, 144, new long[]{7500, 5000, 2500, 2500, 2500}, ST.make(BlocksGT.Sands, 1, 0), dust.mat(MT.STONES.Deepslate   , 3), dust.mat(MT.RedSand, 3), nugget.mat(MT.MnO2, 6), nugget.mat(MT.OREMATS.Cassiterite, 12), nugget.mat(MTx.ZnO, 3));
         RM.MagneticSeparator.addRecipe1(true, 16, 144, new long[]{7500, 5000, 2500, 2500, 2500}, ST.make(BlocksGT.Sands, 1, 0), dust.mat(MT.STONES.Deepslate   , 3), dust.mat(MT.RedSand, 6), dustTiny.mat(MT.MnO2, 12), dustTiny.mat(MT.OREMATS.Cassiterite, 6), dustTiny.mat(MTx.ZnO, 6));
         RM.Centrifuge       .addRecipe1(true, 16, 288, new long[]{7500, 5000, 2500, 2500, 2500}, ST.make(BlocksGT.Sands, 1, 0), dust.mat(MT.STONES.Deepslate   , 6), dust.mat(MT.RedSand, 3), dustTiny.mat(MT.V2O5, 12), dustTiny.mat(MT.OREMATS.Cassiterite, 6), dustTiny.mat(MTx.ZnO, 3));
@@ -652,7 +658,7 @@ public class Metallurgy extends GT6XFeature {
         }
         for (FluidStack tWater : FL.waters(3000)) {
             RM.Electrolyzer.addRecipe2(true, 64, 128, dust.mat(MTx.NH4SO4, 7), dust.mat(MTx.SeO2, 3), FL.array(MT.GrayVitriol.liquid(6 * U, true), tWater), FL.array(MT.H2SO4.liquid(14 * U, false), MT.NH3.gas(2 * U, false), MT.O.gas(3 * U, false)), dust.mat(MT.Mn, 1), dust.mat(MT.Se, 1));
-            RM.Electrolyzer.addRecipe1(true, 64, 128, ST.tag(0), FL.array(MTx.CdSO4Solution.liquid(6 * U, true), tWater), FL.array(MT.H2SO4.liquid(7 * U, false), MT.O.gas(U, false)), dust.mat(MT.Cd, 1));
+            RM.Electrolyzer.addRecipe1(true, 64, 128, dust.mat(MTx.CdSO4, 6), FL.array(tWater), FL.array(MT.H2SO4.liquid(7 * U, false), MT.O.gas(U, false)), dust.mat(MT.Cd, 1));
         }
         RM.Electrolyzer.addRecipe1(true, 64, 128, dust.mat(MTx.SeO2, 3), FL.array(MT.GrayVitriol.liquid(6 * U, true), MTx.NH4SO4Solution.liquid(10*U, true)), FL.array(MT.H2SO4.liquid(14 * U, false), MT.NH3.gas(2 * U, false), MT.O.gas(3 * U, false)), dust.mat(MT.Mn, 1), dust.mat(MT.Se, 1));
 
@@ -691,6 +697,6 @@ public class Metallurgy extends GT6XFeature {
                 , IL.Bottle_Empty.getWithName(1, "Rightclick the crucible with an empty bottle")
                 , ST.make(MTEx.gt6Registry.getItem(1199), "Heat up the crucible using a Burning Box")
                 , ST.make(Blocks.redstone_ore, 1, 0, "Using a Club to mine vanilla Redstone Ore gives Cinnabar")
-        ), ST.array(IL.Bottle_Mercury.get(1), ST.make(ingot.mat(MT.Hg, 1), "Pouring this into molds only works with additional cooling!"), ST.make(nugget.mat(MT.Hg, 1), "Pouring this into molds only works with additional cooling!")), null, ZL_LONG, FL.array(MT.Hg.liquid(1, T)), FL.array(MT.Hg.liquid(1, T)), 0, 0, 0);
+        ), ST.array(IL.Bottle_Mercury.get(1), ST.make(ingot.mat(MT.Hg, 1), "Pouring this into molds only works with additional cooling!"), ST.make(nugget.mat(MT.Hg, 1), "Pouring this into molds only works with additional cooling!")), null, ZL_LONG, FL.array(MT.Hg.liquid(1, true)), FL.array(MT.Hg.liquid(1, true)), 0, 0, 0);
     }
 }
