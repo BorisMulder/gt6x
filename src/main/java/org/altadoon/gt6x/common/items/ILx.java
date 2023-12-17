@@ -85,6 +85,7 @@ public class ILx implements IItemContainer {
             CCL = new ILx("CCL"),
             CCL_SMALL = new ILx("CCL_SMALL"),
             CCL_TINY = new ILx("CCL_TINY"),
+            CCL_LONG = new ILx("CCL_LONG"),
             GCL = new ILx("GCL"),
             GCL_SMALL = new ILx("GCL_SMALL"),
             GCL_LONG = new ILx("GCL_LONG"),
@@ -92,17 +93,20 @@ public class ILx implements IItemContainer {
             PCL = new ILx("PCL"),
             PCL_SMALL = new ILx("PCL_SMALL"),
             PCL_TINY = new ILx("PCL_TINY"),
+            PCL_LONG = new ILx("PCL_LONG"),
             Circuit_Plate_Copper_Small = new ILx("Circuit_Plate_Copper_Small"),
+            Circuit_Plate_Copper_Long = new ILx("Circuit_Plate_Copper_Long"),
             Circuit_Plate_Copper_Tiny = new ILx("Circuit_Plate_Copper_Tiny"),
             Circuit_Plate_Gold_Small = new ILx("Circuit_Plate_Gold_Small"),
-            Circuit_Plate_Gold_RAM = new ILx("Circuit_Plate_Gold_RAM"),
+            Circuit_Plate_Gold_Long = new ILx("Circuit_Plate_Gold_Long"),
             Circuit_Plate_Gold_Tiny = new ILx("Circuit_Plate_Gold_Tiny"),
             Circuit_Plate_Platinum_Small = new ILx("Circuit_Plate_Platinum_Small"),
+            Circuit_Plate_Platinum_Long = new ILx("Circuit_Plate_Platinum_Long"),
             Circuit_Plate_Platinum_Tiny = new ILx("Circuit_Plate_Platinum_Tiny"),
             EtchMask_Trace = new ILx("EtchMask_Trace"),
+            EtchMask_Trace_Long = new ILx("EtchMask_Trace_Long"),
             EtchMask_Trace_Small = new ILx("EtchMask_Trace_Small"),
             EtchMask_Trace_Tiny = new ILx("EtchMask_Trace_Tiny"),
-            EtchMask_Trace_RAM = new ILx("EtchMask_Trace_RAM"),
 
             Comp_Laser_Gas_N = new ILx("Comp_Laser_Gas_N"),
             Comp_Laser_Gas_KrF = new ILx("Comp_Laser_Gas_KrF"),
@@ -113,141 +117,64 @@ public class ILx implements IItemContainer {
             Resistor_Metal_Film = new ILx("Resistor_Metal_Film"),
 
             Photomask_Raw = new ILx("Photomask_Raw"),
-
-            Photomask_Patterned_PMOS_IC = new ILx("Photomask_Patterned_PMOS_IC"),
-            Photomask_Developed_PMOS_IC = new ILx("Photomask_Developed_PMOS_IC"),
-            Photomask_Etched_PMOS_IC = new ILx("Photomask_Etched_PMOS_IC"),
-            Photomask_PMOS_IC = new ILx("Photomask_PMOS_IC"),
-
-            Photomask_Patterned_NMOS_IC = new ILx("Photomask_Patterned_NMOS_IC"),
-            Photomask_Developed_NMOS_IC = new ILx("Photomask_Developed_NMOS_IC"),
-            Photomask_Etched_NMOS_IC = new ILx("Photomask_Etched_NMOS_IC"),
-            Photomask_NMOS_IC = new ILx("Photomask_NMOS_IC"),
-
-            Photomask_Patterned_CMOS_IC_1 = new ILx("Photomask_Patterned_CMOS_IC_1"),
-            Photomask_Developed_CMOS_IC_1 = new ILx("Photomask_Developed_CMOS_IC_1"),
-            Photomask_Etched_CMOS_IC_1 = new ILx("Photomask_Etched_CMOS_IC_1"),
-            Photomask_CMOS_IC_1 = new ILx("Photomask_CMOS_IC_1"),
-
-            Photomask_Patterned_CMOS_IC_2 = new ILx("Photomask_Patterned_CMOS_IC_2"),
-            Photomask_Developed_CMOS_IC_2 = new ILx("Photomask_Developed_CMOS_IC_2"),
-            Photomask_Etched_CMOS_IC_2 = new ILx("Photomask_Etched_CMOS_IC_2"),
-            Photomask_CMOS_IC_2 = new ILx("Photomask_CMOS_IC_2"),
-
-            Photomask_Patterned_VLSI_1 = new ILx("Photomask_Patterned_VLSI_1"),
-            Photomask_Developed_VLSI_1 = new ILx("Photomask_Developed_VLSI_1"),
-            Photomask_Etched_VLSI_1 = new ILx("Photomask_Etched_VLSI_1"),
-            Photomask_VLSI_1 = new ILx("Photomask_VLSI_1"),
-
-            Photomask_Patterned_VLSI_2 = new ILx("Photomask_Patterned_VLSI_2"),
-            Photomask_Developed_VLSI_2 = new ILx("Photomask_Developed_VLSI_2"),
-            Photomask_Etched_VLSI_2 = new ILx("Photomask_Etched_VLSI_2"),
-            Photomask_VLSI_2 = new ILx("Photomask_VLSI_2"),
-
-            Photomask_Patterned_MESFET = new ILx("Photomask_Patterned_MESFET"),
-            Photomask_Developed_MESFET = new ILx("Photomask_Developed_MESFET"),
-            Photomask_Etched_MESFET = new ILx("Photomask_Etched_MESFET"),
-            Photomask_MESFET = new ILx("Photomask_MESFET"),
-
-            Photomask_Patterned_DRAM_1 = new ILx("Photomask_Patterned_DRAM_1"),
-            Photomask_Developed_DRAM_1 = new ILx("Photomask_Developed_DRAM_1"),
-            Photomask_Etched_DRAM_1 = new ILx("Photomask_Etched_DRAM_1"),
-            Photomask_DRAM_1 = new ILx("Photomask_DRAM_1"),
-
-            Photomask_Patterned_DRAM_2 = new ILx("Photomask_Patterned_DRAM_2"),
-            Photomask_Developed_DRAM_2 = new ILx("Photomask_Developed_DRAM_2"),
-            Photomask_Etched_DRAM_2 = new ILx("Photomask_Etched_DRAM_2"),
-            Photomask_DRAM_2 = new ILx("Photomask_DRAM_2"),
-
-            Wafer_Patterned_PMOS_IC = new ILx("Wafer_Patterned_PMOS_IC"),
-            Wafer_Developed_PMOS_IC = new ILx("Wafer_Developed_PMOS_IC"),
-            Wafer_Etched_PMOS_IC = new ILx("Wafer_Etched_PMOS_IC"),
-            Wafer_Doped_PMOS_IC = new ILx("Wafer_Doped_PMOS_IC"),
-            Wafer_Cleaned_PMOS_IC = new ILx("Wafer_Cleaned_PMOS_IC"),
-            Wafer_Metal_PMOS_IC = new ILx("Wafer_Metal_PMOS_IC"),
-            Wafer_PMOS_IC = new ILx("Wafer_PMOS_IC"),
-            Die_PMOS_IC = new ILx("Die_PMOS_IC"),
-            PMOS_IC = new ILx("PMOS_IC"),
-
-            Wafer_Patterned_NMOS_IC = new ILx("Wafer_Patterned_NMOS_IC"),
-            Wafer_Developed_NMOS_IC = new ILx("Wafer_Developed_NMOS_IC"),
-            Wafer_Etched_NMOS_IC = new ILx("Wafer_Etched_NMOS_IC"),
-            Wafer_Doped_NMOS_IC = new ILx("Wafer_Doped_NMOS_IC"),
-            Wafer_Cleaned_NMOS_IC = new ILx("Wafer_Cleaned_NMOS_IC"),
-            Wafer_Metal_NMOS_IC = new ILx("Wafer_Metal_NMOS_IC"),
-            Wafer_NMOS_IC = new ILx("Wafer_NMOS_IC"),
-            Die_NMOS_IC = new ILx("Die_NMOS_IC"),
-            NMOS_IC = new ILx("NMOS_IC"),
-
-            Wafer_Patterned_CMOS_IC_1 = new ILx("Wafer_Patterned_CMOS_IC_1"),
-            Wafer_Developed_CMOS_IC_1 = new ILx("Wafer_Developed_CMOS_IC_1"),
-            Wafer_Etched_CMOS_IC_1 = new ILx("Wafer_Etched_CMOS_IC_1"),
-            Wafer_Doped_CMOS_IC_1 = new ILx("Wafer_Doped_CMOS_IC_1"),
-            Wafer_Cleaned_CMOS_IC_1 = new ILx("Wafer_Cleaned_CMOS_IC_1"),
-            Wafer_Oxidized_CMOS_IC_1 = new ILx("Wafer_Oxidized_CMOS_IC_1"),
-            Wafer_Patterned_CMOS_IC_2 = new ILx("Wafer_Patterned_CMOS_IC_2"),
-            Wafer_Developed_CMOS_IC_2 = new ILx("Wafer_Developed_CMOS_IC_2"),
-            Wafer_Etched_CMOS_IC_2 = new ILx("Wafer_Etched_CMOS_IC_2"),
-            Wafer_Doped_CMOS_IC_2 = new ILx("Wafer_Doped_CMOS_IC_2"),
-            Wafer_Cleaned_CMOS_IC_2 = new ILx("Wafer_Cleaned_CMOS_IC_2"),
-            Wafer_Metal_CMOS_IC = new ILx("Wafer_Metal_CMOS_IC"),
-            Wafer_CMOS_IC = new ILx("Wafer_CMOS_IC"),
-            Die_CMOS_IC = new ILx("Die_CMOS_IC"),
-            CMOS_IC = new ILx("CMOS_IC"),
-
-            Wafer_Patterned_VLSI_1 = new ILx("Wafer_Patterned_VLSI_1"),
-            Wafer_Developed_VLSI_1 = new ILx("Wafer_Developed_VLSI_1"),
-            Wafer_Etched_VLSI_1 = new ILx("Wafer_Etched_VLSI_1"),
-            Wafer_Doped_VLSI_1 = new ILx("Wafer_Doped_VLSI_1"),
-            Wafer_Cleaned_VLSI_1 = new ILx("Wafer_Cleaned_VLSI_1"),
-            Wafer_Oxidized_VLSI_1 = new ILx("Wafer_Oxidized_VLSI_1"),
-            Wafer_Patterned_VLSI_2 = new ILx("Wafer_Patterned_VLSI_2"),
-            Wafer_Developed_VLSI_2 = new ILx("Wafer_Developed_VLSI_2"),
-            Wafer_Etched_VLSI_2 = new ILx("Wafer_Etched_VLSI_2"),
-            Wafer_Doped_VLSI_2 = new ILx("Wafer_Doped_VLSI_2"),
-            Wafer_Cleaned_VLSI_2 = new ILx("Wafer_Cleaned_VLSI_2"),
-            Wafer_Metal_VLSI = new ILx("Wafer_Metal_VLSI"),
-            Wafer_VLSI = new ILx("Wafer_VLSI"),
-            Die_VLSI = new ILx("Die_VLSI"),
-            CPU = new ILx("CPU"),
-
             Wafer_GaAs_SiN_layered = new ILx("Wafer_GaAs_SiN_layered"),
-            Wafer_Patterned_MESFET = new ILx("Wafer_Patterned_MESFET"),
-            Wafer_Developed_MESFET = new ILx("Wafer_Developed_MESFET"),
-            Wafer_Etched_MESFET = new ILx("Wafer_Etched_MESFET"),
-            Wafer_Doped_MESFET = new ILx("Wafer_Doped_MESFET"),
-            Wafer_Metal1_MESFET = new ILx("Wafer_Metal1_MESFET"),
-            Wafer_Metal2_MESFET = new ILx("Wafer_Metal2_MESFET"),
-            Wafer_MESFET = new ILx("Wafer_MESFET"),
-            Die_MESFET = new ILx("Die_MESFET"),
-
-            Wafer_Patterned_DRAM_1 = new ILx("Wafer_Patterned_DRAM_1"),
-            Wafer_Developed_DRAM_1 = new ILx("Wafer_Developed_DRAM_1"),
-            Wafer_Etched_DRAM_1 = new ILx("Wafer_Etched_DRAM_1"),
-            Wafer_Doped_DRAM_1 = new ILx("Wafer_Doped_DRAM_1"),
-            Wafer_Cleaned_DRAM_1 = new ILx("Wafer_Cleaned_DRAM_1"),
-            Wafer_Oxidized_DRAM_1 = new ILx("Wafer_Oxidized_DRAM_1"),
-            Wafer_Patterned_DRAM_2 = new ILx("Wafer_Patterned_DRAM_2"),
-            Wafer_Developed_DRAM_2 = new ILx("Wafer_Developed_DRAM_2"),
-            Wafer_Etched_DRAM_2 = new ILx("Wafer_Etched_DRAM_2"),
-            Wafer_Doped_DRAM_2 = new ILx("Wafer_Doped_DRAM_2"),
-            Wafer_Cleaned_DRAM_2 = new ILx("Wafer_Cleaned_DRAM_2"),
-            Wafer_Metal_DRAM = new ILx("Wafer_Metal_DRAM"),
-            Wafer_DRAM = new ILx("Wafer_DRAM"),
-            Die_DRAM = new ILx("Die_DRAM"),
-            Chip_DRAM = new ILx("Chip_DRAM"),
-            RAM_Stick = new ILx("RAM_Stick"),
 
             Rosin = new ILx("Rosin"),
 
             Thermal_Paste = new ILx("Thermal_Paste"),
-
             Al_Disk = new ILx("Al_Disk"),
             Hard_Disk = new ILx("Hard_Disk"),
-            HDD = new ILx("HDD"),
             Motherboard = new ILx("MoBo"),
             CPU_Fan = new ILx("CPU_Fan"),
-            MoBoAssembly = new ILx("MoBoAssembly");
+            ComputerCase = new ILx("ComputerCase");
+
+    // Photomasks & Wafers
+    public static final int NUM_WAFER_TIERS = 3; // PMOS, NMOS, CMOS
+    public static final int NUM_WAFER_TYPES = 6; // IC, CPU, RAM, GPU, Flash, FET
+    public static final int NUM_WAFER_STAGES_SINGLE = 8; // PL, Dev, Etch, Dope, Clean, Metal, Etch, Die
+    public static final int NUM_WAFER_STAGES_DOUBLE = 14; // PL, Dev, Etch, Dope, Clean, Ox, PL2, Dev, Etch, Dope, Clean, Metal, Etch, Die
+    public static final int NUM_WAFER_STAGES_MESFET = 8; // PL, Dev, Etch, Dope, Metal1, Metal2, Clean, Die
+    public static final int NUM_PHOTOMASK_STAGES = 4; // PL, Dev, Etch, Clean
+
+    public static IItemContainer[] ICs = new IItemContainer[NUM_WAFER_TIERS];
+    public static IItemContainer[][][][] Photomasks = new IItemContainer[NUM_WAFER_TYPES][NUM_WAFER_TIERS][2][NUM_PHOTOMASK_STAGES];
+    public static IItemContainer[][][] Wafers = new IItemContainer[NUM_WAFER_TYPES][NUM_WAFER_TIERS][NUM_WAFER_STAGES_DOUBLE];
+    static {
+        for (int tier = 0; tier < NUM_WAFER_TIERS; tier++) {
+            ICs[tier] = new ILx(String.format("IC_%d", tier));
+        }
+        for (int type = 0; type < NUM_WAFER_TYPES; type++) for (int tier = 0; tier < NUM_WAFER_TIERS; tier++) {
+            for (int plStage = 0; plStage < 2; plStage++) for (int stage = 0; stage < NUM_PHOTOMASK_STAGES; stage++) {
+                Photomasks[type][tier][plStage][stage] = new ILx(String.format("Photomask_Type%d_Tier%d_Stage%d_%d", type, tier, plStage, stage));
+            }
+            for (int stage = 0; stage < NUM_WAFER_STAGES_DOUBLE; stage++) {
+                Wafers[type][tier][stage] = new ILx(String.format("Wafer_Type%d_Tier%d_Stage%d", type, tier, stage));
+            }
+        }
+    }
+
+    // Computer tiers
+    public static final int NUM_COMPUTER_TIERS = NUM_WAFER_TIERS;
+
+    public static IItemContainer[] CPUs = new IItemContainer[NUM_COMPUTER_TIERS];
+    public static IItemContainer[] DRAMChips = new IItemContainer[NUM_COMPUTER_TIERS];
+    public static IItemContainer[] RAMSticks = new IItemContainer[NUM_COMPUTER_TIERS];
+    public static IItemContainer[] GPUChips = new IItemContainer[NUM_COMPUTER_TIERS];
+    public static IItemContainer[] GPUs = new IItemContainer[NUM_COMPUTER_TIERS];
+    public static IItemContainer[] HDDs = new IItemContainer[NUM_COMPUTER_TIERS];
+    public static IItemContainer[] PCs = new IItemContainer[NUM_COMPUTER_TIERS];
+
+    static {
+        for (int tier = 0; tier < NUM_COMPUTER_TIERS; tier++) {
+            CPUs[tier] = new ILx(String.format("CPU_%d", tier));
+            DRAMChips[tier] = new ILx(String.format("DRAM_Chip_%d", tier));
+            RAMSticks[tier] = new ILx(String.format("RAM_Stick_%d", tier));
+            GPUChips[tier] = new ILx(String.format("GPU_Chip_%d", tier));
+            GPUs[tier] = new ILx(String.format("GPU_%d", tier));
+            HDDs[tier] = new ILx(String.format("HDD_%d", tier));
+            PCs[tier] = new ILx(String.format("PC_%d", tier));
+        }
+    }
 
     public String name;
     private ItemStack mStack;

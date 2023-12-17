@@ -100,7 +100,7 @@ dependencies {
     //compileOnly "io.netty-opis:Netty-opis:4.0.23" // Needed for dev opis because it doesn't know how to specify dependencies properly
     //compileOnly "inventorytweaks:InventoryTweaks:1.59-dev:deobf"
     //compileOnly "java.moze_intel:ProjectE:1.7.10-PE1.10.1:dev"
-    //compileOnly "li.cil.oc:OpenComputers:MC1.7.10-1.7.2.1204:dev"
+    compileOnly "li.cil.oc:OpenComputers:MC1.7.10-1.7.2.1204:dev"
     //compileOnly "mcp.mobius.opis:Opis:1.2.5_1.7.10:dev"
     //compileOnly "mcp.mobius.waila:Waila:1.5.10_1.7.10:dev"
     //compileOnly "mcp.mobius.waila:Waila:1.5.11-RC2-NONEI_1.7.10:dev"

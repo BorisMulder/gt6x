@@ -34,7 +34,7 @@ public class MultiItemsElectronics extends MultiItemRandom {
             // size 0 are normal circuit boards, which are already in GT6, so we start from 1.
             for (int size = 1; size < 3; size++) {
                 ILx.PCBs[tier][size].set(addItem(
-                        tier + 10 * size, ILx.CIRCUIT_SIZE_NAMES[size] + " T" + tier + " (" + ILx.CIRCUIT_TIER_NAMES[tier] + ")", null, MT.DATA.CIRCUITS[tier], OD_CIRCUITS[tier], TC.stack(TC.COGNITIO, 2)
+                    tier + 10 * size, ILx.CIRCUIT_SIZE_NAMES[size] + " T" + tier + " (" + ILx.CIRCUIT_TIER_NAMES[tier] + ")", null, MT.DATA.CIRCUITS[tier], OD_CIRCUITS[tier], TC.stack(TC.COGNITIO, 2)
                 ));
             }
         }
@@ -50,6 +50,9 @@ public class MultiItemsElectronics extends MultiItemRandom {
         ILx.Capacitor_ThroughHole.set(addItem(111, "Through-Hole Capacitor", tooltip, CAPACITOR_NAME));
         ILx.Transistor_ThroughHole.set(addItem(112, "Through-Hole Transistor", tooltip, TRANSISTOR_NAME));
 
+        ILx.Capacitor_Tantalum.set(addItem(117, "Tantalum Capacitor", "Accumulates Charge"));
+        ILx.Resistor_Metal_Film.set(addItem(116, "Metal Film Resistor Board", "Needs Overcoat, Plating and Dicing"));
+
         tooltip = "Surface-Mounted Devices are smaller and can be soldered by hand or using machines";
         ILx.Resistor_SMD.set(addItem(120, "SMD-Resistor", tooltip, RESISTOR_NAME));
         ILx.Capacitor_SMD.set(addItem(121, "SMD-Capacitor", tooltip, CAPACITOR_NAME));
@@ -63,6 +66,7 @@ public class MultiItemsElectronics extends MultiItemRandom {
         ILx.CCL      .set(addItem(140, "Copper-Clad Laminate"        , tooltip), new OreDictItemData(MT.Cu, U));
         ILx.CCL_SMALL.set(addItem(141, "Copper-Clad Laminate (Small)", tooltip), new OreDictItemData(MT.Cu, U2));
         ILx.CCL_TINY .set(addItem(142, "Copper-Clad Laminate (Tiny)" , tooltip), new OreDictItemData(MT.Cu, U4));
+        ILx.CCL_LONG .set(addItem(143, "Copper-Clad Laminate (Long)" , tooltip), new OreDictItemData(MT.Cu, U2));
         ILx.GCL      .set(addItem(150, "Gold-Clad Laminate"        , tooltip), new OreDictItemData(MT.Au, U, MTx.Epoxy, U));
         ILx.GCL_SMALL.set(addItem(151, "Gold-Clad Laminate (Small)", tooltip), new OreDictItemData(MT.Au, U2, MTx.Epoxy, U2));
         ILx.GCL_TINY .set(addItem(152, "Gold-Clad Laminate (Tiny)" , tooltip), new OreDictItemData(MT.Au, U4, MTx.Epoxy, U4));
@@ -70,22 +74,24 @@ public class MultiItemsElectronics extends MultiItemRandom {
         ILx.PCL      .set(addItem(160, "Platinum-Clad Laminate"        , tooltip), new OreDictItemData(MT.Pt, U, MTx.Epoxy, U));
         ILx.PCL_SMALL.set(addItem(161, "Platinum-Clad Laminate (Small)", tooltip), new OreDictItemData(MT.Pt, U2, MTx.Epoxy, U2));
         ILx.PCL_TINY .set(addItem(162, "Platinum-Clad Laminate (Tiny)" , tooltip), new OreDictItemData(MT.Pt, U4, MTx.Epoxy, U4));
+        ILx.PCL_LONG .set(addItem(163, "Platinum-Clad Laminate (Long)" , tooltip), new OreDictItemData(MT.Pt, U2, MTx.Epoxy, U2));
 
-        tooltip = "You need to solder components onto it";
+        tooltip = "Components can be soldered onto this";
         ItemStack board;
         board = IL.Circuit_Plate_Copper.get(1); OreDictManager.INSTANCE.setItemData(board, new OreDictItemData(MT.Cu, U2)); LH.add(getUnlocalizedName(board) + ".tooltip", tooltip);
         ILx.Circuit_Plate_Copper_Small.set(addItem(170, "Small Circuit Plate (Copper)", tooltip), new OreDictItemData(MT.Cu, U4));
         ILx.Circuit_Plate_Copper_Tiny.set(addItem(171, "Tiny Circuit Plate (Copper)", tooltip), new OreDictItemData(MT.Cu, U8));
-        board = IL.Circuit_Plate_Gold.get(1); OreDictManager.INSTANCE.setItemData(board, new OreDictItemData(MT.Au, U2, MTx.Epoxy, U)); LH.add(getUnlocalizedName(board) + ".tooltip", tooltip);
-        ILx.Circuit_Plate_Gold_Small.set(addItem(172, "Small Circuit Plate (Gold)", tooltip), new OreDictItemData(MT.Au, U4, MTx.Epoxy, U2));
-        ILx.Circuit_Plate_Gold_Tiny.set(addItem(173, "Tiny Circuit Plate (Gold)", tooltip), new OreDictItemData(MT.Cu, U8, MTx.Epoxy, U4));
-        board = IL.Circuit_Plate_Platinum.get(1); OreDictManager.INSTANCE.setItemData(board, new OreDictItemData(MT.Pt, U2, MTx.Epoxy, U)); LH.add(getUnlocalizedName(board) + ".tooltip", tooltip);
-        ILx.Circuit_Plate_Platinum_Small.set(addItem(174, "Small Circuit Plate (Platinum)", tooltip), new OreDictItemData(MT.Pt, U4, MTx.Epoxy, U2));
-        ILx.Circuit_Plate_Platinum_Tiny.set(addItem(175, "Tiny Circuit Plate (Platinum)", tooltip), new OreDictItemData(MT.Pt, U8, MTx.Epoxy, U4));
-        ILx.Circuit_Plate_Gold_RAM.set(addItem(176, "RAM Circuit Plate (Gold)", tooltip), new OreDictItemData(MT.Au, U4, MTx.Epoxy, U2));
+        ILx.Circuit_Plate_Copper_Long.set(addItem(172, "Expansion Card Base (Copper)", tooltip), new OreDictItemData(MT.Cu, U4));
 
-        ILx.Capacitor_Tantalum.set(addItem(180, "Tantalum Capacitor", "Accumulates Charge"));
-        ILx.Resistor_Metal_Film.set(addItem(181, "Metal Film Resistor Board", "Needs Overcoat, Plating and Dicing"));
+        board = IL.Circuit_Plate_Gold.get(1); OreDictManager.INSTANCE.setItemData(board, new OreDictItemData(MT.Au, U2, MTx.Epoxy, U)); LH.add(getUnlocalizedName(board) + ".tooltip", tooltip);
+        ILx.Circuit_Plate_Gold_Small.set(addItem(180, "Small Circuit Plate (Gold)", tooltip), new OreDictItemData(MT.Au, U4, MTx.Epoxy, U2));
+        ILx.Circuit_Plate_Gold_Tiny.set(addItem(181, "Tiny Circuit Plate (Gold)", tooltip), new OreDictItemData(MT.Cu, U8, MTx.Epoxy, U4));
+        ILx.Circuit_Plate_Gold_Long.set(addItem(182, "Expansion Card Base (Gold)", tooltip), new OreDictItemData(MT.Au, U4, MTx.Epoxy, U2));
+
+        board = IL.Circuit_Plate_Platinum.get(1); OreDictManager.INSTANCE.setItemData(board, new OreDictItemData(MT.Pt, U2, MTx.Epoxy, U)); LH.add(getUnlocalizedName(board) + ".tooltip", tooltip);
+        ILx.Circuit_Plate_Platinum_Small.set(addItem(190, "Small Circuit Plate (Platinum)", tooltip), new OreDictItemData(MT.Pt, U4, MTx.Epoxy, U2));
+        ILx.Circuit_Plate_Platinum_Tiny.set(addItem(191, "Tiny Circuit Plate (Platinum)", tooltip), new OreDictItemData(MT.Pt, U8, MTx.Epoxy, U4));
+        ILx.Circuit_Plate_Platinum_Long.set(addItem(192, "Expansion Card Base (Platinum)", tooltip), new OreDictItemData(MT.Pt, U4, MTx.Epoxy, U2));
 
         ILx.GlassFibres.set(addItem(200, "Glass Fibre", "Small threads of glass"), new OreDictItemData(MT.Glass, U8));
 
@@ -95,175 +101,67 @@ public class MultiItemsElectronics extends MultiItemRandom {
         ILx.EtchMask_Trace      .set(addItem(202, "Etching Mask (Circuit Trace)"      , "Protects parts of your PCB from etch"), new OreDictItemData(MT.PVC, U));
         ILx.EtchMask_Trace_Small.set(addItem(203, "Etching Mask (Small Circuit Trace)", "Protects parts of your PCB from etch"), new OreDictItemData(MT.PVC, U));
         ILx.EtchMask_Trace_Tiny .set(addItem(204, "Etching Mask (Tiny Circuit Trace)" , "Protects parts of your PCB from etch"), new OreDictItemData(MT.PVC, U));
-        ILx.EtchMask_Trace_RAM  .set(addItem(205, "Etching Mask (RAM Circuit Board)"  , "Protects parts of your PCB from etch"), new OreDictItemData(MT.PVC, U));
+        ILx.EtchMask_Trace_Long .set(addItem(205, "Etching Mask (Expansion Card)"     , "Protects parts of your PCB from etch"), new OreDictItemData(MT.PVC, U));
 
         BooksGT.BOOK_REGISTER.put(new ItemStackContainer(ILx.EtchMask_Trace.get(1)), (byte)45);
         BooksGT.BOOK_REGISTER.put(new ItemStackContainer(ILx.EtchMask_Trace_Small.get(1)), (byte)45);
         BooksGT.BOOK_REGISTER.put(new ItemStackContainer(ILx.EtchMask_Trace_Tiny.get(1)), (byte)45);
+        BooksGT.BOOK_REGISTER.put(new ItemStackContainer(ILx.EtchMask_Trace_Long.get(1)), (byte)45);
 
         ILx.Comp_Laser_Gas_N    .set(addItem(210, "Nitrogen Laser Emitter"        , "Purpose: Near-UV Optical Appliances"   , TC.stack(TC.LUX, 2), TC.stack(TC.AER     , 1), OM.data(IL.Comp_Laser_Gas_Empty.get(1))));
         ILx.Comp_Laser_Gas_KrF  .set(addItem(211, "Krypton Fluoride Laser Emitter", "Purpose: Middle-UV Optical Appliances" , TC.stack(TC.LUX, 2), TC.stack(TC.AER     , 1), OM.data(IL.Comp_Laser_Gas_Empty.get(1))));
         ILx.Comp_Laser_Gas_ArF  .set(addItem(212, "Argon Fluoride Laser Emitter"  , "Purpose: Far-UV Optical Appliances"    , TC.stack(TC.LUX, 2), TC.stack(TC.AER     , 1), OM.data(IL.Comp_Laser_Gas_Empty.get(1))));
         ILx.Comp_Laser_Molten_Sn.set(addItem(213, "Molten Tin Laser Emitter"      , "Purpose: Extreme-UV Optical Appliances", TC.stack(TC.LUX, 2), TC.stack(TC.METALLUM, 1), OM.data(IL.Comp_Laser_Gas_Empty.get(1))));
 
-        // Photomasks
-        ILx.Photomask_Raw.set(addItem(220, "Raw Photomask", "Needs Design", new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-
-        String tooltipPatterned = "Needs developer";
-        String tooltipDeveloped = "Ready to be etched";
-        String tooltipEtched = "Needs cleaning";
-        String tooltipCleaned = "Used in Photolithography";
-
-        ILx.Photomask_Patterned_PMOS_IC   .set(addItem(221, "Photomask (PMOS IC, patterned)"          , tooltipPatterned, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_Developed_PMOS_IC   .set(addItem(222, "Photomask (PMOS IC, developed)"          , tooltipDeveloped, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_Etched_PMOS_IC      .set(addItem(223, "Photomask (PMOS IC, etched)"             , tooltipEtched   , new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
-        ILx.Photomask_PMOS_IC             .set(addItem(224, "Photomask (PMOS IC)"                     , tooltipCleaned  , new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
-
-        ILx.Photomask_Patterned_NMOS_IC   .set(addItem(225, "Photomask (NMOS IC, patterned)"          , tooltipPatterned, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_Developed_NMOS_IC   .set(addItem(226, "Photomask (NMOS IC, developed)"          , tooltipDeveloped, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_Etched_NMOS_IC      .set(addItem(227, "Photomask (NMOS IC, etched)"             , tooltipEtched   , new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
-        ILx.Photomask_NMOS_IC             .set(addItem(228, "Photomask (NMOS IC)"                     , tooltipCleaned  , new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
-
-        ILx.Photomask_Patterned_CMOS_IC_1 .set(addItem(229, "Photomask (CMOS IC, stage I, patterned)" , tooltipPatterned, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_Developed_CMOS_IC_1 .set(addItem(230, "Photomask (CMOS IC, stage I, developed)" , tooltipDeveloped, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_Etched_CMOS_IC_1    .set(addItem(231, "Photomask (CMOS IC, stage I, etched)"    , tooltipEtched   , new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
-        ILx.Photomask_CMOS_IC_1           .set(addItem(232, "Photomask (CMOS IC, stage I)"            , tooltipCleaned  , new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
-
-        ILx.Photomask_Patterned_CMOS_IC_2 .set(addItem(233, "Photomask (CMOS IC, stage II, patterned)", tooltipPatterned, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_Developed_CMOS_IC_2 .set(addItem(234, "Photomask (CMOS IC, stage II, developed)", tooltipDeveloped, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_Etched_CMOS_IC_2    .set(addItem(235, "Photomask (CMOS IC, stage II, etched)"   , tooltipEtched   , new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
-        ILx.Photomask_CMOS_IC_2           .set(addItem(236, "Photomask (CMOS IC, stage II)"           , tooltipCleaned  , new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
-
-        ILx.Photomask_Patterned_VLSI_1    .set(addItem(237, "Photomask (VLSI, stage I, patterned)"    , tooltipPatterned, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_Developed_VLSI_1    .set(addItem(238, "Photomask (VLSI, stage I, developed)"    , tooltipDeveloped, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_Etched_VLSI_1       .set(addItem(239, "Photomask (VLSI, stage I, etched)"       , tooltipEtched   , new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
-        ILx.Photomask_VLSI_1              .set(addItem(240, "Photomask (VLSI, stage I)"               , tooltipCleaned  , new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
-
-        ILx.Photomask_Patterned_VLSI_2    .set(addItem(241, "Photomask (VLSI, stage II, patterned)"   , tooltipPatterned, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_Developed_VLSI_2    .set(addItem(242, "Photomask (VLSI, stage II, developed)"   , tooltipDeveloped, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_Etched_VLSI_2       .set(addItem(243, "Photomask (VLSI, stage II, etched)"      , tooltipEtched   , new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
-        ILx.Photomask_VLSI_2              .set(addItem(244, "Photomask (VLSI, stage II)"              , tooltipCleaned  , new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
-
-        ILx.Photomask_Patterned_MESFET    .set(addItem(245, "Photomask (MESFET, patterned)"           , tooltipPatterned, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_Developed_MESFET    .set(addItem(246, "Photomask (MESFET, developed)"           , tooltipDeveloped, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_Etched_MESFET       .set(addItem(247, "Photomask (MESFET, etched)"              , tooltipEtched   , new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
-        ILx.Photomask_MESFET              .set(addItem(248, "Photomask (MESFET)"                      , tooltipCleaned  , new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
-
-        ILx.Photomask_Patterned_DRAM_1    .set(addItem(249, "Photomask (DRAM, stage I, patterned)"    , tooltipPatterned, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_Developed_DRAM_1    .set(addItem(250, "Photomask (DRAM, stage I, developed)"    , tooltipDeveloped, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_Etched_DRAM_1       .set(addItem(251, "Photomask (DRAM, stage I, etched)"       , tooltipEtched   , new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
-        ILx.Photomask_DRAM_1              .set(addItem(252, "Photomask (DRAM, stage I)"               , tooltipCleaned  , new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
-
-        ILx.Photomask_Patterned_DRAM_2    .set(addItem(253, "Photomask (DRAM, stage II, patterned)"   , tooltipPatterned, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_Developed_DRAM_2    .set(addItem(254, "Photomask (DRAM, stage II, developed)"   , tooltipDeveloped, new OreDictItemData(MT.Glass, U, MT.Cr, U)));
-        ILx.Photomask_Etched_DRAM_2       .set(addItem(255, "Photomask (DRAM, stage II, etched)"      , tooltipEtched   , new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
-        ILx.Photomask_DRAM_2              .set(addItem(256, "Photomask (DRAM, stage II)"              , tooltipCleaned  , new OreDictItemData(MT.Glass, U, MT.Cr, U2)));
-
-        ILx.Wafer_GaAs_SiN_layered.set(addItem(299, "SiN-capped GaAs wafer", "Gallium Arsenide Wafer with Silicon Nitride cap layer", new OreDictItemData(MTx.GaAs, U)));
-
-        // Wafers, ICs, etc.
-        tooltip = "Needs developer";
-        ILx.Wafer_Patterned_PMOS_IC   .set(addItem(300, "PMOS IC Wafer (patterned)"           , tooltip));
-        ILx.Wafer_Patterned_NMOS_IC   .set(addItem(310, "NMOS IC Wafer (patterned)"           , tooltip));
-        ILx.Wafer_Patterned_CMOS_IC_1 .set(addItem(320, "CMOS IC Wafer (patterned, stage I)"  , tooltip));
-        ILx.Wafer_Patterned_CMOS_IC_2 .set(addItem(326, "CMOS IC Wafer (patterned, stage II)" , tooltip));
-        ILx.Wafer_Patterned_VLSI_1    .set(addItem(340, "VLSI Wafer (patterned, stage I)"     , tooltip));
-        ILx.Wafer_Patterned_VLSI_2    .set(addItem(346, "VLSI Wafer (patterned, stage II)"    , tooltip));
-        ILx.Wafer_Patterned_MESFET    .set(addItem(360, "MESFET Wafer (patterned)"            , tooltip));
-        ILx.Wafer_Patterned_DRAM_1    .set(addItem(370, "DRAM Wafer (patterned, stage I)"     , tooltip));
-        ILx.Wafer_Patterned_DRAM_2    .set(addItem(376, "DRAM Wafer (patterned, stage II)"    , tooltip));
-
-        tooltip = "Ready to be etched";
-        ILx.Wafer_Developed_PMOS_IC   .set(addItem(301, "PMOS IC Wafer (developed)"           , tooltip));
-        ILx.Wafer_Developed_NMOS_IC   .set(addItem(311, "NMOS IC Wafer (developed)"           , tooltip));
-        ILx.Wafer_Developed_CMOS_IC_1 .set(addItem(321, "CMOS IC Wafer (developed, stage I)"  , tooltip));
-        ILx.Wafer_Developed_CMOS_IC_2 .set(addItem(327, "CMOS IC Wafer (developed, stage II)" , tooltip));
-        ILx.Wafer_Developed_VLSI_1    .set(addItem(341, "VLSI Wafer (developed, stage I)"     , tooltip));
-        ILx.Wafer_Developed_VLSI_2    .set(addItem(347, "VLSI Wafer (developed, stage II)"    , tooltip));
-        ILx.Wafer_Developed_MESFET    .set(addItem(361, "MESFET Wafer (developed)"            , tooltip));
-        ILx.Wafer_Developed_DRAM_1    .set(addItem(371, "DRAM Wafer (developed, stage I)"     , tooltip));
-        ILx.Wafer_Developed_DRAM_2    .set(addItem(377, "DRAM Wafer (developed, stage II)"    , tooltip));
-
-        tooltip = "Could use some extra dopant";
-        ILx.Wafer_Etched_PMOS_IC   .set(addItem(302, "PMOS IC Wafer (etched)"           , tooltip));
-        ILx.Wafer_Etched_NMOS_IC   .set(addItem(312, "NMOS IC Wafer (etched)"           , tooltip));
-        ILx.Wafer_Etched_CMOS_IC_1 .set(addItem(322, "CMOS IC Wafer (etched, stage I)"  , tooltip));
-        ILx.Wafer_Etched_CMOS_IC_2 .set(addItem(328, "CMOS IC Wafer (etched, stage II)" , tooltip));
-        ILx.Wafer_Etched_VLSI_1    .set(addItem(342, "VLSI Wafer (etched, stage I)"     , tooltip));
-        ILx.Wafer_Etched_VLSI_2    .set(addItem(348, "VLSI Wafer (etched, stage II)"    , tooltip));
-        ILx.Wafer_Etched_MESFET    .set(addItem(362, "MESFET Wafer (etched)"            , tooltip));
-        ILx.Wafer_Etched_DRAM_1    .set(addItem(372, "DRAM Wafer (etched, stage I)"     , tooltip));
-        ILx.Wafer_Etched_DRAM_2    .set(addItem(378, "DRAM Wafer (etched, stage II)"    , tooltip));
-
-        tooltip = "Needs cleaning";
-        ILx.Wafer_Doped_PMOS_IC   .set(addItem(303, "PMOS IC Wafer (doped)"         , tooltip));
-        ILx.Wafer_Doped_NMOS_IC   .set(addItem(313, "NMOS IC Wafer (doped)"         , tooltip));
-        ILx.Wafer_Doped_CMOS_IC_1 .set(addItem(323, "CMOS IC Wafer (p-wells)"       , tooltip));
-        ILx.Wafer_Doped_CMOS_IC_2 .set(addItem(329, "CMOS IC Wafer (pnp-junctions)" , tooltip));
-        ILx.Wafer_Doped_VLSI_1    .set(addItem(343, "VLSI Wafer (n-wells)"          , tooltip));
-        ILx.Wafer_Doped_VLSI_2    .set(addItem(349, "VLSI Wafer (npn-junctions)"    , tooltip));
-        ILx.Wafer_Metal2_MESFET   .set(addItem(365, "MESFET Wafer (metal 2-layer)"  , tooltip));
-        ILx.Wafer_Doped_DRAM_1    .set(addItem(373, "DRAM Wafer (n-wells)"          , tooltip));
-        ILx.Wafer_Doped_DRAM_2    .set(addItem(379, "DRAM Wafer (npn-junctions)"    , tooltip));
-
-        tooltip = "Needs conductive metal layer";
-        ILx.Wafer_Doped_MESFET    .set(addItem(363, "MESFET Wafer (doped)"          , tooltip));
-
-        ILx.Wafer_Cleaned_PMOS_IC   .set(addItem(304, "PMOS IC Wafer (cleaned)"           , tooltip));
-        ILx.Wafer_Cleaned_NMOS_IC   .set(addItem(314, "NMOS IC Wafer (cleaned)"           , tooltip));
-        ILx.Wafer_Cleaned_CMOS_IC_2 .set(addItem(330, "CMOS IC Wafer (cleaned, stage II)" , tooltip));
-        ILx.Wafer_Cleaned_VLSI_2    .set(addItem(350, "VLSI Wafer (cleaned, stage II)"    , tooltip));
-        ILx.Wafer_Cleaned_DRAM_2    .set(addItem(380, "DRAM Wafer (cleaned, stage II)"    , tooltip));
-
-        tooltip = "Needs additional oxide layer";
-        ILx.Wafer_Cleaned_CMOS_IC_1 .set(addItem(324, "CMOS IC Wafer (cleaned, stage I)"  , tooltip));
-        ILx.Wafer_Cleaned_VLSI_1    .set(addItem(344, "VLSI Wafer (cleaned, stage I)"     , tooltip));
-        ILx.Wafer_Cleaned_DRAM_1    .set(addItem(374, "DRAM Wafer (cleaned, stage I)"     , tooltip));
-
-        ILx.Wafer_Metal1_MESFET     .set(addItem(364, "MESFET Wafer (metal 1-layer)"      , "Needs Schottky Gate Metal Layer"));
-
-        tooltip = "Ready to be etched";
-        ILx.Wafer_Metal_PMOS_IC .set(addItem(305, "PMOS IC Wafer (metal-layer)" , tooltip));
-        ILx.Wafer_Metal_NMOS_IC .set(addItem(315, "NMOS IC Wafer (metal-layer)" , tooltip));
-        ILx.Wafer_Metal_CMOS_IC .set(addItem(331, "CMOS IC Wafer (metal-layer)" , tooltip));
-        ILx.Wafer_Metal_VLSI    .set(addItem(351, "VLSI Wafer (metal-layer)"    , tooltip));
-        ILx.Wafer_Metal_DRAM    .set(addItem(381, "DRAM Wafer (metal-layer)"    , tooltip));
-
-        tooltip = "Needs junctions";
-        ILx.Wafer_Oxidized_CMOS_IC_1 .set(addItem(325, "CMOS IC Oxidized Wafer (p-wells)" , tooltip));
-        ILx.Wafer_Oxidized_VLSI_1    .set(addItem(345, "VLSI Oxidized Wafer (n-wells)"    , tooltip));
-        ILx.Wafer_Oxidized_DRAM_1    .set(addItem(375, "DRAM Oxidized Wafer (n-wells)"    , tooltip));
-
-        tooltip = "Interconnected, can be diced";
-        ILx.Wafer_PMOS_IC.set(addItem(306, "PMOS IC Wafer", tooltip));
-        ILx.Wafer_NMOS_IC.set(addItem(316, "NMOS IC Wafer", tooltip));
-        ILx.Wafer_CMOS_IC.set(addItem(332, "CMOS IC Wafer", tooltip));
-        ILx.Wafer_VLSI   .set(addItem(352, "VLSI Wafer"   , tooltip));
-        ILx.Wafer_MESFET .set(addItem(366, "MESFET Wafer" , "Can be diced"));
-        ILx.Wafer_DRAM   .set(addItem(382, "DRAM Wafer"   , tooltip));
-
-        tooltip = "Needs bonding & packaging";
-        ILx.Die_PMOS_IC.set(addItem(307, "PMOS IC Die", tooltip));
-        ILx.Die_NMOS_IC.set(addItem(317, "NMOS IC Die", tooltip));
-        ILx.Die_CMOS_IC.set(addItem(333, "CMOS IC Die", tooltip));
-        ILx.Die_VLSI   .set(addItem(353, "CPU Die"    , tooltip));
-        ILx.Die_MESFET .set(addItem(367, "MESFET" , "MEtal-Semiconductor Field-Effect Transistor, " + tooltip));
-        ILx.Die_DRAM   .set(addItem(383, "DRAM Die"    , tooltip));
-
+        // Packaged ICs
         tooltip = "Integrated Circuit";
-        ILx.PMOS_IC.set(addItem(308, "IC (Elite) "  , tooltip, IC_NAME));
-        ILx.NMOS_IC.set(addItem(318, "IC (Master)"  , tooltip, IC_NAME));
-        ILx.CMOS_IC.set(addItem(334, "IC (Ultimate)", tooltip, IC_NAME));
-        ILx.Chip_DRAM.set(addItem(384, "DRAM chip", "Dynamic Random Access Memory chip"));
+        ILx.ICs[0].set(addItem(300, "IC (Elite) "  , tooltip, IC_NAME));
+        ILx.ICs[1].set(addItem(301, "IC (Master)"  , tooltip, IC_NAME));
+        ILx.ICs[2].set(addItem(302, "IC (Ultimate)", tooltip, IC_NAME));
+
+        tooltip = "Central Processing Unit";
+        ILx.CPUs[0].set(addItem(310, "CPU (1 MHz)", tooltip));
+        ILx.CPUs[1].set(addItem(311, "CPU (50 MHz)", tooltip));
+        ILx.CPUs[2].set(addItem(312, "CPU (2 GHz)", tooltip));
+
+        tooltip = "Needs to be soldered onto a RAM stick";
+        ILx.DRAMChips[0].set(addItem(320, "DRAM chip (48 KB)", tooltip));
+        ILx.DRAMChips[1].set(addItem(321, "DRAM chip (8 MB)", tooltip));
+        ILx.DRAMChips[2].set(addItem(322, "DRAM chip (1 GB)", tooltip));
+
+        tooltip = "Needs to be soldered onto a GPU";
+        ILx.GPUChips[0].set(addItem(330, "GPU chip (Tier 1)", tooltip));
+        ILx.GPUChips[1].set(addItem(331, "GPU chip (Tier 2)", tooltip));
+        ILx.GPUChips[2].set(addItem(332, "GPU chip (Tier 3)", tooltip));
 
         // Computer parts
-        ILx.CPU.set(addItem(354, "CPU", "Central Processing Unit"));
-        ILx.RAM_Stick.set(addItem(385, "RAM stick", "A computer's memory module"));
-        ILx.Al_Disk.set(addItem(386, "Aluminium Disk", "", new OreDictItemData(MT.Al, U12)));
-        ILx.Hard_Disk.set(addItem(387, "Hard Disk", "A HDD Platter", new OreDictItemData(MT.Al, U12, MTx.CoPtCr, U24)));
-        ILx.HDD.set(addItem(388, "Hard Disk Drive", "Stores Data"));
-        ILx.CPU_Fan.set(addItem(389, "Computer Fan", "For preventing overheating your computer"));
-        ILx.Motherboard.set(addItem(390, "Motherboard", "Used to mount and connect computer parts"));
-        ILx.MoBoAssembly.set(addItem(391, "Motherboard-CPU-RAM Assembly", "Heart of a computer"));
+        tooltip = "A computer's memory module";
+        ILx.RAMSticks[0].set(addItem(400, "RAM stick (192 KB)", tooltip));
+        ILx.RAMSticks[1].set(addItem(401, "RAM stick (32 MB)", tooltip));
+        ILx.RAMSticks[2].set(addItem(402, "RAM stick (4 GB)", tooltip));
+
+        ILx.GPUs[0].set(addItem(410, "GPU (Tier 1)", "Graphics Processing Unit, can run Space Invaders"));
+        ILx.GPUs[1].set(addItem(411, "GPU (Tier 2)", "Graphics Processing Unit, can run Doom"));
+        ILx.GPUs[2].set(addItem(412, "GPU (Tier 3)", "Graphics Processing Unit, can run Crysis"));
+
+
+        ILx.Al_Disk.set(addItem(420, "Aluminium Disk", "", new OreDictItemData(MT.Al, U12)));
+        ILx.Hard_Disk.set(addItem(430, "Hard Disk", "A HDD Platter", new OreDictItemData(MT.Al, U12, MTx.CoPtCr, U24)));
+
+        tooltip = "Hard Disk Drive, stores data";
+        ILx.HDDs[0].set(addItem(440, "HDD (100 MB)", tooltip));
+        ILx.HDDs[1].set(addItem(441, "HDD (32 GB)", tooltip));
+        ILx.HDDs[2].set(addItem(442, "HDD (1 TB)", tooltip));
+
+        ILx.CPU_Fan.set(addItem(450, "Computer Fan", "For preventing overheating your computer"));
+        ILx.Motherboard.set(addItem(451, "Motherboard", "Used to mount and connect computer parts"));
+        ILx.ComputerCase.set(addItem(452, "Computer Case", "Heart of a computer"));
+
+        tooltip = "Can run minecraft";
+        ILx.PCs[0].set(addItem(490, "Computer (Tier 1)", tooltip));
+        ILx.PCs[1].set(addItem(491, "Computer (Tier 2)", tooltip));
+        ILx.PCs[2].set(addItem(492, "Computer (Tier 3)", tooltip));
+
+
     }
 }
