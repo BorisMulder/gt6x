@@ -8,12 +8,16 @@ import net.minecraft.item.ItemStack;
 import java.util.ArrayList;
 
 public class CRx {
-    public static void overrideGT6ShapedCraftingRecipe(ItemStack output, Object... recipe) {
+    public static void disableGt6(ItemStack output) {
         CR.BUFFER.removeIf(r -> ST.equal(r.getRecipeOutput(), output));
-        CR.shaped(output, CR.DEF_REM, recipe);
     }
 
-    public static void overrideGT6SingleShapelessCraftingRecipe(ItemStack input, ItemStack output) {
+    public static void overrideShaped(ItemStack output, long bitMask, Object... recipe) {
+        disableGt6(output);
+        CR.shaped(output, bitMask, recipe);
+    }
+
+    public static void overrideShapeless(ItemStack input, ItemStack output) {
         CR.BUFFER.removeIf(r ->  {
             if (r instanceof AdvancedCraftingShapeless) {
                 AdvancedCraftingShapeless sl = (AdvancedCraftingShapeless)r;
@@ -25,6 +29,6 @@ public class CRx {
                 return false;
             }
         });
-        CR.shapeless(output, CR.DEF_REM, new Object[] { input });
+        CR.shapeless(output, CR.DEF, new Object[] { input });
     }
 }

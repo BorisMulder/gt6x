@@ -304,7 +304,6 @@ public class BasicChemistry extends GT6XFeature {
         RM.Mixer.addRecipe1(true, 16, 144, dust.mat(MT.CaCO3, 5), FL.array(MT.HCl.gas(4*U, true)), FL.array(MTx.CaCl2Solution.liquid(6*U, false), MT.CO2.gas(3*U, false)));
         RM.Mixer.addRecipe1(true, 16, 144, dust.mat(MT.MgCO3, 5), FL.array(MT.HCl.gas(4*U, true)), FL.array(MTx.MgCl2Solution.liquid(6*U, false), MT.CO2.gas(3*U, false)));
         RM.Mixer.addRecipe1(true, 16, 48, dust.mat(MT.NaOH, 2), FL.array(MT.CO2.gas(U, true)), FL.array(MTx.Na2CO3Solution.liquid(3*U, false)));
-        RM.Mixer.addRecipe1(true, 16, 64, ST.tag(2), FL.array(MT.HNO3.liquid(5*U, true), MT.HCl.fluid(8*U, true)), MT.AquaRegia.fluid(13*U, false), ZL_IS);
 
         // Resin/Turpentine
         RM.Distillery.addRecipe1(false, 16, 160, ST.tag(0), FL.Resin_Spruce.make(100), FL.Turpentine.make(60), ILx.Rosin.get(1));

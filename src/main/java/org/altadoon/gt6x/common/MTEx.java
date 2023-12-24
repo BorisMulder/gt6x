@@ -141,7 +141,7 @@ public class MTEx {
         if (gt6Registry.mRegistry.containsKey(id)) {
             ItemStack it = gt6Registry.getItem(id);
             ST.hide(it);
-            CR.BUFFER.removeIf(r -> ST.equal(r.getRecipeOutput(), it));
+            CRx.disableGt6(it);
         }
     }
 }

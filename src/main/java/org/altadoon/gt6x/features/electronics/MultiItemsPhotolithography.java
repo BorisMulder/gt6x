@@ -23,7 +23,6 @@ import java.util.BitSet;
 
 import static gregapi.data.CS.*;
 import static gregapi.data.OP.*;
-import static org.altadoon.gt6x.common.Log.LOG;
 import static org.altadoon.gt6x.features.electronics.Electronics.oxidizedWafer;
 
 public class MultiItemsPhotolithography extends MultiItemRandom {
@@ -346,7 +345,6 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
 
     protected ItemStack addItemWithIcon(int id, String english, String toolTip, Object... randomData) {
         int idx = getIconIndex(id);
-        LOG.debug("setting icon {}", idx);
         enabledIcons.set(idx);
         return addItem(id, english, toolTip, randomData);
     }
@@ -374,7 +372,6 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister iconRegister) {
         for (short index = 0; index < enabledIcons.length(); index++) if (enabledIcons.get(index)) {
-            LOG.debug("registering icon {}", index);
             mIconList[index][0] = iconRegister.registerIcon(mModID + ":" + getUnlocalizedName() + "/" + index);
         }
     }
@@ -398,7 +395,6 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
     @Override
     public IIcon getIconFromDamage(int metaData) {
         int index = getIconIndex(metaData);
-        LOG.debug("get icon {}", index);
         if (!enabledIcons.get(index)) return Textures.ItemIcons.RENDERING_ERROR.getIcon(0);
         return mIconList[index][0];
     }

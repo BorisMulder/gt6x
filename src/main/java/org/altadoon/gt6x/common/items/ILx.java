@@ -124,6 +124,7 @@ public class ILx implements IItemContainer {
             Thermal_Paste = new ILx("Thermal_Paste"),
             Al_Disk = new ILx("Al_Disk"),
             Hard_Disk = new ILx("Hard_Disk"),
+            Hard_Disk_Advanced = new ILx("Hard_Disk_Advanced"),
             Motherboard = new ILx("MoBo"),
             CPU_Fan = new ILx("CPU_Fan"),
             ComputerCase = new ILx("ComputerCase");
@@ -159,8 +160,9 @@ public class ILx implements IItemContainer {
     public static IItemContainer[] CPUs = new IItemContainer[NUM_COMPUTER_TIERS];
     public static IItemContainer[] DRAMChips = new IItemContainer[NUM_COMPUTER_TIERS];
     public static IItemContainer[] RAMSticks = new IItemContainer[NUM_COMPUTER_TIERS];
-    public static IItemContainer[] GPUChips = new IItemContainer[NUM_COMPUTER_TIERS];
     public static IItemContainer[] GPUs = new IItemContainer[NUM_COMPUTER_TIERS];
+    public static IItemContainer[] FlashChips = new IItemContainer[NUM_COMPUTER_TIERS];
+    public static IItemContainer[] GraphicsCards = new IItemContainer[NUM_COMPUTER_TIERS];
     public static IItemContainer[] HDDs = new IItemContainer[NUM_COMPUTER_TIERS];
     public static IItemContainer[] PCs = new IItemContainer[NUM_COMPUTER_TIERS];
 
@@ -169,8 +171,9 @@ public class ILx implements IItemContainer {
             CPUs[tier] = new ILx(String.format("CPU_%d", tier));
             DRAMChips[tier] = new ILx(String.format("DRAM_Chip_%d", tier));
             RAMSticks[tier] = new ILx(String.format("RAM_Stick_%d", tier));
-            GPUChips[tier] = new ILx(String.format("GPU_Chip_%d", tier));
-            GPUs[tier] = new ILx(String.format("GPU_%d", tier));
+            GPUs[tier] = new ILx(String.format("GPU_Chip_%d", tier));
+            FlashChips[tier] = new ILx(String.format("GPU_Chip_%d", tier));
+            GraphicsCards[tier] = new ILx(String.format("GPU_%d", tier));
             HDDs[tier] = new ILx(String.format("HDD_%d", tier));
             PCs[tier] = new ILx(String.format("PC_%d", tier));
         }
