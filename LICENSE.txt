@@ -1,0 +1,29 @@
+Copyright (c) 2023 GT6X-Team
+
+This file is part of Gregtech 6 Extended (GT6X).
+
+GT6X is an extension of Gregtech 6 (GT6) by GregoriusT. The code in this mod is built on top of GT6's API.
+All credits for GT6 go to the GT6 team.
+
+Some things in GT6X were copied from or inspired by Gregtech 6 Unofficial (GT6U), a fork of GT6 by TeamMoeg.
+All credits for these things go to TeamMoeg.
+
+
+
+GT6X is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+GT6X is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License along with this file. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+Any assets, unless otherwise stated, are dedicated to the public domain
+according to the CC0 1.0 Universal Public Domain Dedication.
+
+To the extent possible under law, the author(s) have dedicated all copyright
+and related and neighboring rights to these assets to the public domain worldwide.
+The assets are distributed without any warranty.
+
+You should have received a copy of the CC0 Public Domain Dedication
+along with this file. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
