@@ -70,7 +70,9 @@ public class MTx {
                 .heat(C+100).setRGBa(125, 125, 125, 255)
                 .hide(false);
         MT.Polycarbonate.put(POLYMER).uumMcfg( 0, MT.C, 16*U, MT.H, 18*U, MT.O, 3*U)
-                        .setLocal("Polycarbonate");
+                .setLocal("Polycarbonate")
+                .heat(C+302)
+                .hide(false);
         MT.Indigo.uumMcfg(0, MT.C, 16*U, MT.H, 10*U, MT.N, 2*U, MT.O, 2*U)
                 .heat(391).setRGBa(75, 0, 130, 255);
 

@@ -203,8 +203,8 @@ public class Ceramics extends GT6XFeature {
     private void changeClayCruciblePart(IL raw_part, IL baked_part, long clayCount, String recipeA, String recipeB, String recipeC) {
         OreDictManager.INSTANCE.setItemData(raw_part.get(1), new OreDictItemData(MTx.Fireclay, U*clayCount));
         OreDictManager.INSTANCE.setItemData(baked_part.get(1), new OreDictItemData(MTx.RefractoryCeramic, U*clayCount));
-        CRx.overrideGT6ShapedCraftingRecipe(raw_part.get(1), recipeA, recipeB, recipeC, 'C', ILx.Fireclay_Ball.get(1), 'R', OreDictToolNames.rollingpin);
-        CRx.overrideGT6SingleShapelessCraftingRecipe(raw_part.get(1), ILx.Fireclay_Ball.get(clayCount));
+        CRx.overrideShaped(raw_part.get(1), CR.DEF, recipeA, recipeB, recipeC, 'C', ILx.Fireclay_Ball.get(1), 'R', OreDictToolNames.rollingpin);
+        CRx.overrideShapeless(raw_part.get(1), ILx.Fireclay_Ball.get(clayCount));
     }
 
     private void changeCraftingRecipes() {
@@ -212,10 +212,10 @@ public class Ceramics extends GT6XFeature {
         CR.shaped(ST.make(Blocks.brick_block, 1, 0), CR.DEF_REM, "BMB", "M M", "BMB", 'B', ST.make(Items.brick, 1, 0), 'M', OM.dust(MTx.Mortar));
         CR.shaped(ST.make(Blocks.nether_brick, 1, 0), CR.DEF_REM, "BMB", "M M", "BMB", 'B', ST.make(Items.netherbrick, 1, 0), 'M', OM.dust(MTx.Mortar));
 
-        CRx.overrideGT6ShapedCraftingRecipe(MTEx.gt6Registry.getItem(1199), "BBB", "BBB", "BFB", 'B', OP.ingot.dat(MTx.Firebrick), 'F', OD.craftingFirestarter);
+        CRx.overrideShaped(MTEx.gt6Registry.getItem(1199), CR.DEF_REV_NCC, "BBB", "BBB", "BFB", 'B', OP.ingot.dat(MTx.Firebrick), 'F', OD.craftingFirestarter);
         OreDictManager.INSTANCE.setItemData(MTEx.gt6Registry.getItem(1199), new OreDictItemData(MTx.Firebrick, 8*U));
 
-        CRx.overrideGT6ShapedCraftingRecipe(MTEx.gt6Registry.getItem(18000), "MBM", "B B", "MBM", 'B', ingot.mat(MTx.Firebrick, 1), 'M', OM.dust(MTx.Mortar));
+        CRx.overrideShaped(MTEx.gt6Registry.getItem(18000), CR.DEF_REV_NCC, "MBM", "B B", "MBM", 'B', ingot.mat(MTx.Firebrick, 1), 'M', OM.dust(MTx.Mortar));
         OreDictManager.INSTANCE.setItemData(MTEx.gt6Registry.getItem(18000), new OreDictItemData(MTx.Firebrick, 4*U));
 
         // Crucible parts
@@ -260,7 +260,7 @@ public class Ceramics extends GT6XFeature {
                 IL.Ceramic_Billet_Mold_Raw,
         }) {
             OreDictManager.INSTANCE.setItemData(mold.get(1), new OreDictItemData(MTx.Fireclay, U*5));
-            CRx.overrideGT6SingleShapelessCraftingRecipe(mold.get(1), ILx.Fireclay_Ball.get(5));
+            CRx.overrideShapeless(mold.get(1), ILx.Fireclay_Ball.get(5));
         }
     }
 

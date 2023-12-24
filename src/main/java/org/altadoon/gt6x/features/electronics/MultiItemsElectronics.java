@@ -21,6 +21,8 @@ public class MultiItemsElectronics extends MultiItemRandom {
     public static final String TRANSISTOR_NAME = "gt6x:transistor";
     public static final String IC_NAME = "gt6x:integratedcircuit";
 
+    public static final String[] PC_NAMES = { "gt6x:PC0", "gt6x:PC1", "gt6x:PC2" };
+
 
     public MultiItemsElectronics(String modID, String unlocalized) {
         super(modID, unlocalized);
@@ -121,47 +123,51 @@ public class MultiItemsElectronics extends MultiItemRandom {
 
         tooltip = "Central Processing Unit";
         ILx.CPUs[0].set(addItem(310, "CPU (1 MHz)", tooltip));
-        ILx.CPUs[1].set(addItem(311, "CPU (50 MHz)", tooltip));
-        ILx.CPUs[2].set(addItem(312, "CPU (2 GHz)", tooltip));
+        ILx.CPUs[1].set(addItem(311, "CPU (50 MHz Dual Core)", tooltip));
+        ILx.CPUs[2].set(addItem(312, "CPU (2 GHz Quad Core)", tooltip));
 
-        tooltip = "Needs to be soldered onto a RAM stick";
+        tooltip = "Needs to be soldered onto a RAM stick or GPU";
         ILx.DRAMChips[0].set(addItem(320, "DRAM chip (48 KB)", tooltip));
         ILx.DRAMChips[1].set(addItem(321, "DRAM chip (8 MB)", tooltip));
         ILx.DRAMChips[2].set(addItem(322, "DRAM chip (1 GB)", tooltip));
 
-        tooltip = "Needs to be soldered onto a GPU";
-        ILx.GPUChips[0].set(addItem(330, "GPU chip (Tier 1)", tooltip));
-        ILx.GPUChips[1].set(addItem(331, "GPU chip (Tier 2)", tooltip));
-        ILx.GPUChips[2].set(addItem(332, "GPU chip (Tier 3)", tooltip));
+        tooltip = "Graphics Processing Unit";
+        ILx.GPUs[0].set(addItem(330, "GPU (Tier 1)", tooltip));
+        ILx.GPUs[1].set(addItem(331, "GPU (Tier 2)", tooltip));
+        ILx.GPUs[2].set(addItem(332, "GPU (Tier 3)", tooltip));
+
+        tooltip = "Needs to be soldered onto a USB stick or SSD";
+        ILx.FlashChips[0].set(addItem(340, "Flash memory (16 MB)", tooltip));
+        ILx.FlashChips[1].set(addItem(341, "Flash memory (1 GB)", tooltip));
+        ILx.FlashChips[2].set(addItem(342, "Flash memory (256 GB)", tooltip));
 
         // Computer parts
-        tooltip = "A computer's memory module";
+        tooltip = "A computer's Random Access Memory module";
         ILx.RAMSticks[0].set(addItem(400, "RAM stick (192 KB)", tooltip));
         ILx.RAMSticks[1].set(addItem(401, "RAM stick (32 MB)", tooltip));
         ILx.RAMSticks[2].set(addItem(402, "RAM stick (4 GB)", tooltip));
 
-        ILx.GPUs[0].set(addItem(410, "GPU (Tier 1)", "Graphics Processing Unit, can run Space Invaders"));
-        ILx.GPUs[1].set(addItem(411, "GPU (Tier 2)", "Graphics Processing Unit, can run Doom"));
-        ILx.GPUs[2].set(addItem(412, "GPU (Tier 3)", "Graphics Processing Unit, can run Crysis"));
-
+        ILx.GraphicsCards[0].set(addItem(410, "Graphics Card (Tier 1)", "Can run Doom"));
+        ILx.GraphicsCards[1].set(addItem(411, "Graphics Card (Tier 2)", "Can run Minecraft"));
+        ILx.GraphicsCards[2].set(addItem(412, "Graphics Card (Tier 3)", "Can run Crysis"));
 
         ILx.Al_Disk.set(addItem(420, "Aluminium Disk", "", new OreDictItemData(MT.Al, U12)));
-        ILx.Hard_Disk.set(addItem(430, "Hard Disk", "A HDD Platter", new OreDictItemData(MT.Al, U12, MTx.CoPtCr, U24)));
+        tooltip = "Records data magnetically";
+        ILx.Hard_Disk.set(addItem(430, "Hard Disk Platter", tooltip, new OreDictItemData(MT.Al, U12, MT.Fe2O3, U24)));
+        ILx.Hard_Disk_Advanced.set(addItem(431, "Hard Disk Platter (Advanced)", tooltip), new OreDictItemData(MT.Al, U12, MTx.CoPtCr, U24));
 
         tooltip = "Hard Disk Drive, stores data";
         ILx.HDDs[0].set(addItem(440, "HDD (100 MB)", tooltip));
         ILx.HDDs[1].set(addItem(441, "HDD (32 GB)", tooltip));
-        ILx.HDDs[2].set(addItem(442, "HDD (1 TB)", tooltip));
+        ILx.HDDs[2].set(addItem(442, "SSD (1 TB)", "Solid State Drive, stores data"));
 
-        ILx.CPU_Fan.set(addItem(450, "Computer Fan", "For preventing overheating your computer"));
-        ILx.Motherboard.set(addItem(451, "Motherboard", "Used to mount and connect computer parts"));
-        ILx.ComputerCase.set(addItem(452, "Computer Case", "Heart of a computer"));
+        ILx.CPU_Fan.set(addItem(450, "Computer Fan", "I'm not a big fan of overheating my PC"));
+        ILx.Motherboard.set(addItem(451, "Motherboard", "Used to connect computer parts"));
+        ILx.ComputerCase.set(addItem(452, "Computer Case", "Base of a computer"));
 
-        tooltip = "Can run minecraft";
-        ILx.PCs[0].set(addItem(490, "Computer (Tier 1)", tooltip));
-        ILx.PCs[1].set(addItem(491, "Computer (Tier 2)", tooltip));
-        ILx.PCs[2].set(addItem(492, "Computer (Tier 3)", tooltip));
-
-
+        tooltip = "Used for running Minecraft and other software";
+        ILx.PCs[0].set(addItem(490, "Computer (Tier 1)", tooltip, PC_NAMES[0]));
+        ILx.PCs[1].set(addItem(491, "Computer (Tier 2)", tooltip, PC_NAMES[1]));
+        ILx.PCs[2].set(addItem(492, "Computer (Tier 3)", tooltip, PC_NAMES[2]));
     }
 }
