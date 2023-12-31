@@ -193,9 +193,6 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         }
     }
 
-    private final FluidStack[] cuttingFluids = FL.array(FL.Water.make(1000), FL.SpDew.make(1000), FL.DistW.make(1000), FL.Lubricant.make(1000), FL.LubRoCant.make(1000));
-    private final long[] cuttingMultiplier = new long[] {4, 4, 3, 1, 1};
-
     private void addPhotomaskRecipes(int type, int tier, int number) {
         long LUt = switch (type) {
             case 0 -> 32 * (long) Math.pow(4, tier);
@@ -249,8 +246,8 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         // Metal etching
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][5].get(1), FL.array(MTx.AlEtch.liquid(13*U8, true)), FL.array(MTx.AlPO4Solution.liquid(11*U8, false), MT.H.gas(3*U, false)), ILx.Wafers[type][tier][6].get(1));
         // Dicing
-        for (int i = 0; i < 4; i++) if (cuttingFluids[i] != null) {
-            RM.Cutter.addRecipe1(true, 16, cuttingMultiplier[i] * 64, ILx.Wafers[type][tier][6].get(1), FL.mul(cuttingFluids[i], cuttingMultiplier[i] * 16, 1000, true), NF, ILx.Wafers[type][tier][7].get(16));
+        for (int i = 0; i < RMx.CuttingFluids.length; i++) if (RMx.CuttingFluids[i] != null) {
+            RM.Cutter.addRecipe1(true, 16, RMx.CuttingMultiplier[i] * 64, ILx.Wafers[type][tier][6].get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 16, 1000, true), NF, ILx.Wafers[type][tier][7].get(16));
         }
     }
 
@@ -274,8 +271,8 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         // Metal etching
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][5].get(1), MTx.FeCl3Solution.liquid(17*U8, true), MTx.CuFeClSolution.liquid(18*U8, false), ILx.Wafers[type][tier][6].get(1));
         // Dicing
-        for (int i = 0; i < 4; i++) if (cuttingFluids[i] != null) {
-            RM.Cutter.addRecipe1(true, 16, cuttingMultiplier[i] * 64, ILx.Wafers[type][tier][6].get(1), FL.mul(cuttingFluids[i], cuttingMultiplier[i] * 16, 1000, true), NF, ILx.Wafers[type][tier][7].get(16));
+        for (int i = 0; i < RMx.CuttingFluids.length; i++) if (RMx.CuttingFluids[i] != null) {
+            RM.Cutter.addRecipe1(true, 16, RMx.CuttingMultiplier[i] * 64, ILx.Wafers[type][tier][6].get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 16, 1000, true), NF, ILx.Wafers[type][tier][7].get(16));
         }
     }
 
@@ -312,8 +309,8 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         // Metal etching
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][11].get(1), MTx.Ozone.gas(U3, true), MTx.RuO4.gas(5*U8, false), ILx.Wafers[type][tier][12].get(1));
         // Dicing
-        for (int i = 0; i < 4; i++) if (cuttingFluids[i] != null) {
-            RM.Cutter.addRecipe1(true, 16, cuttingMultiplier[i] * 64, ILx.Wafers[type][tier][12].get(1), FL.mul(cuttingFluids[i], cuttingMultiplier[i] * 16, 1000, true), NF, ILx.Wafers[type][tier][13].get(16));
+        for (int i = 0; i < RMx.CuttingFluids.length; i++) if (RMx.CuttingFluids[i] != null) {
+            RM.Cutter.addRecipe1(true, 16, RMx.CuttingMultiplier[i] * 64, ILx.Wafers[type][tier][12].get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 16, 1000, true), NF, ILx.Wafers[type][tier][13].get(16));
         }
     }
 
@@ -338,8 +335,8 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         // Photoresist cleaning
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][5].get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafers[type][tier][6].get(1));
         // Dicing
-        for (int i = 0; i < 4; i++) if (cuttingFluids[i] != null) {
-            RM.Cutter.addRecipe1(true, 16, cuttingMultiplier[i] * 64, ILx.Wafers[type][tier][6].get(1), FL.mul(cuttingFluids[i], cuttingMultiplier[i] * 16, 1000, true), NF, ILx.Wafers[type][tier][7].get(16));
+        for (int i = 0; i < RMx.CuttingFluids.length; i++) if (RMx.CuttingFluids[i] != null) {
+            RM.Cutter.addRecipe1(true, 16, RMx.CuttingMultiplier[i] * 64, ILx.Wafers[type][tier][6].get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 16, 1000, true), NF, ILx.Wafers[type][tier][7].get(64));
         }
     }
 

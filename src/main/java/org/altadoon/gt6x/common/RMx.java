@@ -1,7 +1,9 @@
 package org.altadoon.gt6x.common;
 
+import gregapi.data.FL;
 import gregapi.recipes.Recipe;
 import gregapi.recipes.Recipe.RecipeMap;
+import net.minecraftforge.fluids.FluidStack;
 
 import static gregapi.data.CS.RES_PATH_GUI;
 
@@ -14,6 +16,9 @@ public class RMx {
     public static Recipe.RecipeMap Photolithography = null;
     public static Recipe.RecipeMap IonBombardment = null;
     public static Recipe.RecipeMap Soldering = null;
+
+    public static final FluidStack[] CuttingFluids = { FL.Water.make(1000), FL.SpDew.make(1000), FL.DistW.make(1000), FL.Lubricant.make(1000), FL.LubRoCant.make(1000) };
+    public static final long[] CuttingMultiplier = {4, 4, 3, 1, 1};
 
     public static void init() {
         Ionizer = new RecipeMap(null, "gt6x.recipe.ionizer"  , "Ionization", null, 0, 1, RES_PATH_GUI+"machines/Ionizer"  , 0, 0, 0, 1, 1, 1, 1, 1, "", 1, "", true, true, true, true, false, true, true);

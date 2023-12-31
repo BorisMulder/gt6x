@@ -19,7 +19,6 @@ import java.util.Objects;
 
 import static gregapi.data.CS.*;
 import static gregapi.data.OP.*;
-import static org.altadoon.gt6x.common.Log.LOG;
 
 public class RefractoryMetals extends GT6XFeature {
     public static final String FEATURE_NAME = "RFMProcessing";
@@ -88,9 +87,11 @@ public class RefractoryMetals extends GT6XFeature {
 
         if (complexChromiumRefining) {
             MT.OREMATS.Chromite.setSmelting(MT.OREMATS.Chromite, U);
-            MT.OREMATS.Chromite.remove(TD.Processing.ELECTROLYSER);
-            MT.StainlessSteel.remove(TD.Processing.CENTRIFUGE);
-            MT.Kanthal.remove(TD.Processing.CENTRIFUGE);
+            for (OreDictMaterial mat : new OreDictMaterial[] { MT.OREMATS.Chromite, MT.Uvarovite, MT.CrO2 })
+                mat.remove(TD.Processing.ELECTROLYSER);
+
+            for (OreDictMaterial mat : new OreDictMaterial[] { MT.StainlessSteel, MT.Kanthal })
+                mat.remove(TD.Processing.CENTRIFUGE);
         }
     }
 
@@ -191,6 +192,9 @@ public class RefractoryMetals extends GT6XFeature {
 
         // Cr
         if (complexChromiumRefining) {
+            RM.Mixer.addRecipe1(true, 0, 256, dust.mat(MT.Uvarovite, 20), FL.array(MTx.Na2CO3Solution.liquid(18*U, true), FL.Air.make(12000)), FL.array(MTx.Na2CrO4Solution.liquid(20*U, false), MT.CO2.gas(6*U, false)), gem.mat(MTx.Slag, 15));
+            RM.Mixer.addRecipe1(true, 0, 256, dust.mat(MT.Uvarovite, 20), FL.array(MTx.Na2CO3Solution.liquid(18*U, true), MT.O.gas(3*U, true)), FL.array(MTx.Na2CrO4Solution.liquid(20*U, false), MT.CO2.gas(6*U, false)), gem.mat(MTx.Slag, 15));
+
             // we assume SiO2 is present in Chromite which comes out as slag. Part of it remains in the hematite which can be used in a blast furnace.
             RM.Mixer.addRecipeX(true, 16, 3*512, ST.array(OM.dust(MT.OREMATS.Chromite, 28*U), OM.dust(MT.CaCO3, 4*U), OM.dust(MT.Na2CO3, 48*U)), FL.array(FL.Air.make(14*4000)), FL.array(MT.CO2.gas(8*3*U + 4*3*U5, false)), dust.mat(MTx.CrSlag, 70));
             RM.Mixer.addRecipeX(true, 16, 3*512, ST.array(OM.dust(MT.OREMATS.Chromite, 28*U), OM.dust(MT.CaCO3, 4*U), OM.dust(MT.Na2CO3, 48*U)), FL.array(MT.O.gas(7*2*U, true)), FL.array(MT.CO2.gas(8*3*U + 4*3*U5, false)), dust.mat(MTx.CrSlag, 70));
