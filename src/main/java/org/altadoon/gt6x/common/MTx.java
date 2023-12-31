@@ -665,7 +665,7 @@ public class MTx {
     Na2O = dustdcmp(16156, "Sodium Oxide", SET_DULL, 255, 255, 200, 255)
             .setMcfg(0, MT.Na, 2*U, MT.O, U)
             .heat(1405, 2220),
-    CrO3 = dustdcmp(16157, "Chromium(VI) Oxide", SET_ROUGH, 105, 31, 42, 255)
+    CrO3 = dustdcmp(16157, "Chromium Trioxide", SET_ROUGH, 105, 31, 42, 255, "Chromium(VI) Oxide")
             .setMcfg(0, MT.Cr, U, MT.O, 3*U)
             .heat(470, 523),
     RedMud = oredustdcmp(16158, "Red Mud", SET_ROUGH, 179, 62, 30, 255)
@@ -921,6 +921,8 @@ public class MTx {
         MT.GreenSapphire.uumMcfg(6, MT.Al2O3, 5*U, MgO, U);
         MT.PurpleSapphire.uumMcfg(6, MT.Al2O3, 5*U, MT.V2O5, U);
         MT.PetCoke.setMcfg(0, MT.C, U);
+        MT.Bone.uumMcfg(8, Hydroxyapatite, U);
+        MT.SlimyBone.uumMcfg(8, Hydroxyapatite, U);
 
         addMolten(RhodiumPotassiumSulfate, 144);
         addMolten(PbCl2, 144);

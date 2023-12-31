@@ -9,17 +9,12 @@ import gregapi.oredict.OreDictMaterial;
 import gregapi.oredict.OreDictPrefix;
 import gregapi.oredict.event.OreDictListenerEvent_Names;
 import gregapi.recipes.Recipe;
-import gregapi.recipes.handlers.RecipeMapHandlerPrefix;
 import gregapi.tileentity.connectors.MultiTileEntityPipeFluid;
 import gregapi.tileentity.machines.MultiTileEntityBasicMachine;
-import gregapi.tileentity.machines.MultiTileEntityBasicMachineElectric;
 import gregapi.util.CR;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import gregtech.tileentity.computer.MultiTileEntityHDDSwitch;
-import gregtech.tileentity.computer.MultiTileEntityUSBSwitch;
-import gregtech.tileentity.multiblocks.*;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -37,8 +32,6 @@ import java.util.List;
 
 import static gregapi.data.CS.*;
 import static gregapi.data.OP.*;
-import static gregapi.data.TD.Atomic.ANTIMATTER;
-import static gregapi.data.TD.Compounds.COATED;
 import static org.altadoon.gt6x.Gt6xMod.MOD_ID;
 import static org.altadoon.gt6x.common.items.ILx.NUM_COMPUTER_TIERS;
 import static org.altadoon.gt6x.features.electronics.MultiItemsElectronics.IC_NAME;
@@ -47,20 +40,22 @@ import static org.altadoon.gt6x.features.electronics.MultiItemsElectronics.PC_NA
 public class Electronics extends GT6XFeature {
     public static final String FEATURE_NAME = "Electronics";
 
+    private static final OreDictMaterial[] PolyGemMaterials = { MT.Si, MT.Ge, MTx.GaAs, MTx.SiGe };
     public static OreDictPrefix polyGem = OreDictPrefix.createPrefix("polyGem")
         .setCategoryName("polyGems")
         .setLocalItemName("Polycrystalline ", "")
         .setMaterialStats(U)
         .add(TD.Prefix.RECYCLABLE)
         .setCondition(ICondition.FALSE)
-        .forceItemGeneration(MT.Si, MT.Ge, MTx.GaAs, MTx.SiGe);
+        .forceItemGeneration(PolyGemMaterials);
+    private static final OreDictMaterial[] OxidizedWaferMaterials = { MT.Si, MT.Ge, MTx.SiGe };
     public static OreDictPrefix oxidizedWafer = OreDictPrefix.createPrefix("oxidizedWafer")
         .setCategoryName("oxidizedWafers")
         .setLocalItemName("Oxidized ", " Wafer")
         .setMaterialStats(U)
         .add(TD.Prefix.RECYCLABLE)
         .setCondition(ICondition.FALSE)
-        .forceItemGeneration(MT.Si, MT.Ge, MTx.SiGe);
+        .forceItemGeneration(OxidizedWaferMaterials);
 
     @Override
     public String name() {
@@ -119,9 +114,9 @@ public class Electronics extends GT6XFeature {
 
         mat = MT.DATA.Electric_T[1]; MTEx.gt6xMTEReg.add("Photolithography Machine"       , "Basic Machines", MTEx.IDs.Photolithography[1].get(), 20001, aClass, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, MTEx.HARDNESS_ELECTRIC[1], NBT_RESISTANCE, MTEx.HARDNESS_ELECTRIC[1], NBT_INPUT, V[1], NBT_TEXTURE, "photolithography", NBT_ENERGY_ACCEPTED, TD.Energy.LU, NBT_RECIPEMAP, RMx.Photolithography, NBT_INV_SIDE_IN, SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_TANK_SIDE_IN, SBIT_D, NBT_TANK_SIDE_AUTO_IN, SIDE_BOTTOM, NBT_TANK_SIDE_OUT, SBIT_R, NBT_ENERGY_ACCEPTED_SIDES, SBIT_U), "ELP", "FMF", "OBC", 'P', OD_CIRCUITS[3], 'F', plateGem.dat(MT.Glass), 'E', IL .Comp_Laser_Gas_Ar   , 'O', gearGtSmall.dat(mat), 'M', OP.casingMachineDouble.dat(mat), 'L', DYE_OREDICTS_LENS[DYE_INDEX_Blue  ], 'B', bolt.dat(mat), 'C', IL.CONVEYERS[1]);
         mat = MT.DATA.Electric_T[2]; MTEx.gt6xMTEReg.add("Photolithography Machine (N-UV)", "Basic Machines", MTEx.IDs.Photolithography[2].get(), 20001, aClass, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, MTEx.HARDNESS_ELECTRIC[2], NBT_RESISTANCE, MTEx.HARDNESS_ELECTRIC[2], NBT_INPUT, V[2], NBT_TEXTURE, "photolithography", NBT_ENERGY_ACCEPTED, TD.Energy.LU, NBT_RECIPEMAP, RMx.Photolithography, NBT_INV_SIDE_IN, SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_TANK_SIDE_IN, SBIT_D, NBT_TANK_SIDE_AUTO_IN, SIDE_BOTTOM, NBT_TANK_SIDE_OUT, SBIT_R, NBT_ENERGY_ACCEPTED_SIDES, SBIT_U), "ELP", "FMF", "OBC", 'P', OD_CIRCUITS[4], 'F', plate   .dat(MT.Ag   ), 'E', ILx.Comp_Laser_Gas_N    , 'O', gearGtSmall.dat(mat), 'M', OP.casingMachineDouble.dat(mat), 'L', DYE_OREDICTS_LENS[DYE_INDEX_Purple], 'B', bolt.dat(mat), 'C', IL.CONVEYERS[2]);
-        mat = MT.DATA.Electric_T[3]; MTEx.gt6xMTEReg.add("Photolithography Machine (M-UV)", "Basic Machines", MTEx.IDs.Photolithography[3].get(), 20001, aClass, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, MTEx.HARDNESS_ELECTRIC[3], NBT_RESISTANCE, MTEx.HARDNESS_ELECTRIC[3], NBT_INPUT, V[3], NBT_TEXTURE, "photolithography", NBT_ENERGY_ACCEPTED, TD.Energy.LU, NBT_RECIPEMAP, RMx.Photolithography, NBT_INV_SIDE_IN, SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_TANK_SIDE_IN, SBIT_D, NBT_TANK_SIDE_AUTO_IN, SIDE_BOTTOM, NBT_TANK_SIDE_OUT, SBIT_R, NBT_ENERGY_ACCEPTED_SIDES, SBIT_U), "ELP", "FMF", "OBC", 'P', ILx.PCs    [0], 'F', plate   .dat(MT.Al   ), 'E', ILx.Comp_Laser_Gas_KrF  , 'O', gearGtSmall.dat(mat), 'M', OP.casingMachineDouble.dat(mat), 'L', DYE_OREDICTS_LENS[DYE_INDEX_Purple], 'B', bolt.dat(mat), 'C', IL.CONVEYERS[3]);
-        mat = MT.DATA.Electric_T[4]; MTEx.gt6xMTEReg.add("Photolithography Machine (F-UV)", "Basic Machines", MTEx.IDs.Photolithography[4].get(), 20001, aClass, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, MTEx.HARDNESS_ELECTRIC[4], NBT_RESISTANCE, MTEx.HARDNESS_ELECTRIC[4], NBT_INPUT, V[4], NBT_TEXTURE, "photolithography", NBT_ENERGY_ACCEPTED, TD.Energy.LU, NBT_RECIPEMAP, RMx.Photolithography, NBT_INV_SIDE_IN, SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_TANK_SIDE_IN, SBIT_D, NBT_TANK_SIDE_AUTO_IN, SIDE_BOTTOM, NBT_TANK_SIDE_OUT, SBIT_R, NBT_ENERGY_ACCEPTED_SIDES, SBIT_U), "ELP", "FMF", "OBC", 'P', ILx.PCs    [1], 'F', plate   .dat(MT.Mo   ), 'E', ILx.Comp_Laser_Gas_ArF  , 'O', gearGtSmall.dat(mat), 'M', OP.casingMachineDouble.dat(mat), 'L', DYE_OREDICTS_LENS[DYE_INDEX_Purple], 'B', bolt.dat(mat), 'C', IL.CONVEYERS[4]);
-        mat = MT.DATA.Electric_T[5]; MTEx.gt6xMTEReg.add("Photolithography Machine (E-UV)", "Basic Machines", MTEx.IDs.Photolithography[5].get(), 20001, aClass, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, MTEx.HARDNESS_ELECTRIC[5], NBT_RESISTANCE, MTEx.HARDNESS_ELECTRIC[5], NBT_INPUT, V[5], NBT_TEXTURE, "photolithography", NBT_ENERGY_ACCEPTED, TD.Energy.LU, NBT_RECIPEMAP, RMx.Photolithography, NBT_INV_SIDE_IN, SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_TANK_SIDE_IN, SBIT_D, NBT_TANK_SIDE_AUTO_IN, SIDE_BOTTOM, NBT_TANK_SIDE_OUT, SBIT_R, NBT_ENERGY_ACCEPTED_SIDES, SBIT_U), "ELP", "FMF", "OBC", 'P', ILx.PCs    [2], 'F', plateGem.dat(MT.Si   ), 'E', ILx.Comp_Laser_Molten_Sn, 'O', gearGtSmall.dat(mat), 'M', OP.casingMachineDouble.dat(mat), 'L', DYE_OREDICTS_LENS[DYE_INDEX_Purple], 'B', bolt.dat(mat), 'C', IL.CONVEYERS[5]);
+        mat = MT.DATA.Electric_T[3]; MTEx.gt6xMTEReg.add("Photolithography Machine (M-UV)", "Basic Machines", MTEx.IDs.Photolithography[3].get(), 20001, aClass, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, MTEx.HARDNESS_ELECTRIC[3], NBT_RESISTANCE, MTEx.HARDNESS_ELECTRIC[3], NBT_INPUT, V[3], NBT_TEXTURE, "photolithography", NBT_ENERGY_ACCEPTED, TD.Energy.LU, NBT_RECIPEMAP, RMx.Photolithography, NBT_INV_SIDE_IN, SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_TANK_SIDE_IN, SBIT_D, NBT_TANK_SIDE_AUTO_IN, SIDE_BOTTOM, NBT_TANK_SIDE_OUT, SBIT_R, NBT_ENERGY_ACCEPTED_SIDES, SBIT_U), "ELP", "FMF", "OBC", 'P', PC_NAMES   [0], 'F', plate   .dat(MT.Al   ), 'E', ILx.Comp_Laser_Gas_KrF  , 'O', gearGtSmall.dat(mat), 'M', OP.casingMachineDouble.dat(mat), 'L', DYE_OREDICTS_LENS[DYE_INDEX_Purple], 'B', bolt.dat(mat), 'C', IL.CONVEYERS[3]);
+        mat = MT.DATA.Electric_T[4]; MTEx.gt6xMTEReg.add("Photolithography Machine (F-UV)", "Basic Machines", MTEx.IDs.Photolithography[4].get(), 20001, aClass, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, MTEx.HARDNESS_ELECTRIC[4], NBT_RESISTANCE, MTEx.HARDNESS_ELECTRIC[4], NBT_INPUT, V[4], NBT_TEXTURE, "photolithography", NBT_ENERGY_ACCEPTED, TD.Energy.LU, NBT_RECIPEMAP, RMx.Photolithography, NBT_INV_SIDE_IN, SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_TANK_SIDE_IN, SBIT_D, NBT_TANK_SIDE_AUTO_IN, SIDE_BOTTOM, NBT_TANK_SIDE_OUT, SBIT_R, NBT_ENERGY_ACCEPTED_SIDES, SBIT_U), "ELP", "FMF", "OBC", 'P', PC_NAMES   [1], 'F', plate   .dat(MT.Mo   ), 'E', ILx.Comp_Laser_Gas_ArF  , 'O', gearGtSmall.dat(mat), 'M', OP.casingMachineDouble.dat(mat), 'L', DYE_OREDICTS_LENS[DYE_INDEX_Purple], 'B', bolt.dat(mat), 'C', IL.CONVEYERS[4]);
+        mat = MT.DATA.Electric_T[5]; MTEx.gt6xMTEReg.add("Photolithography Machine (E-UV)", "Basic Machines", MTEx.IDs.Photolithography[5].get(), 20001, aClass, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, MTEx.HARDNESS_ELECTRIC[5], NBT_RESISTANCE, MTEx.HARDNESS_ELECTRIC[5], NBT_INPUT, V[5], NBT_TEXTURE, "photolithography", NBT_ENERGY_ACCEPTED, TD.Energy.LU, NBT_RECIPEMAP, RMx.Photolithography, NBT_INV_SIDE_IN, SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_TANK_SIDE_IN, SBIT_D, NBT_TANK_SIDE_AUTO_IN, SIDE_BOTTOM, NBT_TANK_SIDE_OUT, SBIT_R, NBT_ENERGY_ACCEPTED_SIDES, SBIT_U), "ELP", "FMF", "OBC", 'P', PC_NAMES   [2], 'F', plateGem.dat(MT.Si   ), 'E', ILx.Comp_Laser_Molten_Sn, 'O', gearGtSmall.dat(mat), 'M', OP.casingMachineDouble.dat(mat), 'L', DYE_OREDICTS_LENS[DYE_INDEX_Purple], 'B', bolt.dat(mat), 'C', IL.CONVEYERS[5]);
 
         for (int tier = 1; tier < 6; tier++) {
             mat = MT.DATA.Electric_T[tier]; MTEx.gt6xMTEReg.add("Ion Acceleration Chamber (" + mat.getLocal() + ")", "Basic Machines", MTEx.IDs.IonBombardment[tier].get(), 20001, aClass, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, MTEx.HARDNESS_ELECTRIC[tier], NBT_RESISTANCE, MTEx.HARDNESS_ELECTRIC[tier], NBT_INPUT, V[tier], NBT_TEXTURE, "ionbombardment", NBT_ENERGY_ACCEPTED, TD.Energy.MU, NBT_RECIPEMAP, RMx.IonBombardment, NBT_INV_SIDE_IN, SBIT_U|SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_D|SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_TANK_SIDE_IN, SBIT_U|SBIT_L, NBT_TANK_SIDE_AUTO_IN, SIDE_TOP   , NBT_TANK_SIDE_OUT, SBIT_D|SBIT_R, NBT_TANK_SIDE_AUTO_OUT, SIDE_BOTTOM, NBT_ENERGY_ACCEPTED_SIDES, SBIT_B, NBT_PARALLEL, 2 << tier , NBT_PARALLEL_DURATION, T),"TPT","wMh","TST", 'M', OP.casingMachine.dat(mat), 'S', OP.plate.dat(mat), 'T', OP.screw.dat(mat), 'P', pipe.dat(MTx.YAlO3));
@@ -190,15 +185,13 @@ public class Electronics extends GT6XFeature {
         CR.shaped(ILx.GCL_TINY .get(2), CR.DEF_REV, " s ", " P ", "   ", 'P', ILx.GCL_SMALL.get(1));
         CR.shaped(ILx.PCL_TINY .get(2), CR.DEF_REV, " s ", " P ", "   ", 'P', ILx.PCL_SMALL.get(1));
 
-        FluidStack[] cutterFluids = FL.array(FL.Water.make(1000), FL.SpDew.make(1000), FL.DistW.make(1000), FL.Lubricant.make(1000), FL.LubRoCant.make(1000));
-        long[] multipliers = new long[] {4, 4, 3, 1, 1};
-        for (int i = 0; i < 4; i++) if (cutterFluids[i] != null) {
-            RM.Cutter.addRecipe1(true, 16, 16 * multipliers[i], ILx.CCL.get(1), FL.mul(cutterFluids[i], multipliers[i] * 16, 1000, true), NF, ILx.CCL_SMALL.get(2));
-            RM.Cutter.addRecipe1(true, 16, 16 * multipliers[i], ILx.GCL.get(1), FL.mul(cutterFluids[i], multipliers[i] * 16, 1000, true), NF, ILx.GCL_SMALL.get(2));
-            RM.Cutter.addRecipe1(true, 16, 16 * multipliers[i], ILx.PCL.get(1), FL.mul(cutterFluids[i], multipliers[i] * 16, 1000, true), NF, ILx.PCL_TINY.get(2));
-            RM.Cutter.addRecipe1(true, 16, 16 * multipliers[i], ILx.CCL_SMALL.get(1), FL.mul(cutterFluids[i], multipliers[i] * 16, 1000, true), NF, ILx.CCL_TINY.get(2));
-            RM.Cutter.addRecipe1(true, 16, 16 * multipliers[i], ILx.GCL_SMALL.get(1), FL.mul(cutterFluids[i], multipliers[i] * 16, 1000, true), NF, ILx.GCL_TINY.get(2));
-            RM.Cutter.addRecipe1(true, 16, 16 * multipliers[i], ILx.PCL_SMALL.get(1), FL.mul(cutterFluids[i], multipliers[i] * 16, 1000, true), NF, ILx.PCL_TINY.get(2));
+        for (int i = 0; i < RMx.CuttingFluids.length; i++) if (RMx.CuttingFluids[i] != null) {
+            RM.Cutter.addRecipe1(true, 16, 16 * RMx.CuttingMultiplier[i], ILx.CCL.get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 16, 1000, true), NF, ILx.CCL_SMALL.get(2));
+            RM.Cutter.addRecipe1(true, 16, 16 * RMx.CuttingMultiplier[i], ILx.GCL.get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 16, 1000, true), NF, ILx.GCL_SMALL.get(2));
+            RM.Cutter.addRecipe1(true, 16, 16 * RMx.CuttingMultiplier[i], ILx.PCL.get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 16, 1000, true), NF, ILx.PCL_TINY.get(2));
+            RM.Cutter.addRecipe1(true, 16, 16 * RMx.CuttingMultiplier[i], ILx.CCL_SMALL.get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 16, 1000, true), NF, ILx.CCL_TINY.get(2));
+            RM.Cutter.addRecipe1(true, 16, 16 * RMx.CuttingMultiplier[i], ILx.GCL_SMALL.get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 16, 1000, true), NF, ILx.GCL_TINY.get(2));
+            RM.Cutter.addRecipe1(true, 16, 16 * RMx.CuttingMultiplier[i], ILx.PCL_SMALL.get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 16, 1000, true), NF, ILx.PCL_TINY.get(2));
         }
 
         // Trace etching
@@ -239,14 +232,9 @@ public class Electronics extends GT6XFeature {
         RM.Drying.addRecipe1(true, 16, 64000, ST.tag(0), MTx.SiGeH8.gas(5*U, true), MT.H.gas(4*U, false), polyGem.mat(MTx.SiGe, 1));
         RM.CrystallisationCrucible.addRecipe1(true, 16, 1800, ST.tag(0), FL.array(MT.Ga.liquid(U2, true), MT.As.gas(U2, true)), ZL_FS, polyGem.mat(MTx.GaAs, 1));
 
-        //TODO NEI only visible from Recipe, not from Usage key
-        FluidStack[] cuttingFluids = FL.array(FL.Water.make(1000), FL.SpDew.make(1000), FL.DistW.make(1000), FL.Lubricant.make(1000), FL.LubRoCant.make(1000));
-        long[] cuttingMultiplier = new long[] {4, 4, 3, 1, 1};
-        @SuppressWarnings({"unchecked", "rawtypes"})
-        ICondition cuttingCondition = new ICondition.And(ANTIMATTER.NOT, COATED.NOT);
-
-        for (int i = 0; i < 4; i++) if (cuttingFluids[i] != null) {
-            RM.Cutter.add(new RecipeMapHandlerPrefix(polyGem , 1, FL.mul(cuttingFluids[i], cuttingMultiplier[i] * 16, 1000, true), 64, cuttingMultiplier[i] * 4 * 16, 0, NF, plateGemTiny, 6, NI, NI, true, true, false, cuttingCondition));
+        // RecipeMapHandlerPrefix not working here
+        for (OreDictMaterial mat : PolyGemMaterials) for (int i = 0; i < RMx.CuttingFluids.length; i++) if (RMx.CuttingFluids[i] != null) {
+            RM.Cutter.addRecipe1(true, 16, 64 * RMx.CuttingMultiplier[i], polyGem.mat(mat, 1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 16, 1000, true), NF, plateGemTiny.mat(mat, 6), dustTiny.mat(mat, 3));
         }
 
         RM.Mixer.addRecipe1(true, 16, 2  , ST.tag(2), FL.array(FL.make_("molten.silicon", 1), FL.make_("molten.germanium",1)), FL.make_("molten.silicongermanium", 2), ZL_IS);
@@ -280,8 +268,9 @@ public class Electronics extends GT6XFeature {
         }
 
         // Wafer Oxidation
-        //TODO not showing up with NEI recipes
-        RM.Roasting.add(new RecipeMapHandlerPrefix(plateGem, 1, MT.O.gas(U10, true), 16, 128, 0, NF, oxidizedWafer, 1, NI, NI, true, false, false, cuttingCondition));
+        for (OreDictMaterial mat : OxidizedWaferMaterials) {
+            RM.Roasting.addRecipe1(true, 16, 128, plateGem.mat(mat, 1), MT.O.gas(U10, true), NF, oxidizedWafer.mat(mat, 1));
+        }
 
         // Photoresist
         RM.Mixer.addRecipe2(true, 16, 256, dust.mat(MTx.DNQ, 1), dust.mat(MTx.PF, 1), MTx.Toluene.liquid(2*U, true), MTx.DnqNovolacResist.liquid(4*U, false), NI);
@@ -495,7 +484,7 @@ public class Electronics extends GT6XFeature {
 
         // Logistics, Lightning rod, Bedrock Drill
         CRx.overrideShaped(MTEx.gt6Registry.getItem(17997), CR.DEF_REV_NCC, "CCC", "PMP", "CCC", 'M', OP.casingMachine.dat(MT.SteelGalvanized), 'P', PC_NAMES[2], 'C', OD_CIRCUITS[6]);
-        CRx.overrideShaped(MTEx.gt6Registry.getItem(17998), CR.DEF_REV_NCC, "CWC", "PMP", "CWC", 'M', OP.casingMachine.dat(ANY.W), 'W', OP.wireGt16.dat(MT.NiobiumTitanium), 'P', IL.Processor_Crystal_Sapphire, 'C', PC_NAMES[1]);
+        CRx.overrideShaped(MTEx.gt6Registry.getItem(17998), CR.DEF_REV_NCC, "CWC", "PMP", "CWC", 'M', OP.casingMachine.dat(ANY.W), 'W', OP.wireGt16.dat(MT.NiobiumTitanium), 'P', PC_NAMES[1], 'C', OD_CIRCUITS[6]);
         CRx.overrideShaped(MTEx.gt6Registry.getItem(17999), CR.DEF_REV_NCC, "PYP", "CMC", "GIG", 'M', OP.casingMachineDense.dat(MT.Ti), 'G', OP.gearGt.dat(MT.TungstenSteel), 'I', OP.toolHeadDrill.dat(MT.TungstenSteel), 'P', PC_NAMES[1], 'Y', IL.CONVEYERS[5], 'C', OD_CIRCUITS[6]);
 
         // Quad Core blocks
@@ -509,9 +498,9 @@ public class Electronics extends GT6XFeature {
         CRx.overrideShaped(MTEx.gt6Registry.getItem(19000), CR.DEF_REV_NCC, "UPU", "TMT", "UdU", 'M', OP.casingMachine.dat(MT.SteelGalvanized), 'T', OP.screw.dat(MT.SteelGalvanized), 'U', IL.USB_Cable_3, 'P', PC_NAMES[2]);
         CRx.overrideShaped(MTEx.gt6Registry.getItem(19001), CR.DEF_REV_NCC, "CPC", "TMT", "UdU", 'M', OP.casingMachine.dat(MT.SteelGalvanized), 'T', OP.screw.dat(MT.SteelGalvanized), 'U', IL.USB_Cable_3, 'P', PC_NAMES[2], 'C', OD_CIRCUITS[3]);
 
-        //TODO Matter Fab/Rep/Scanners and Quantum Energizers/ZPM dechargers/Portable fusion
+        //TODO Matter Fab/Rep/Scanners and Quantum Energizers/ZPM dechargers, Crystal chargers, Laser absorbers
         //TODO logistics buses
-        //TODO portable scanner
+        //TODO portable scanner & p. fusion reactor
 
         // Nanoscale Fabricators, Plantalyzers, Bumblelyzers
         for (int tier = 1; tier < 6; tier++) {
