@@ -131,7 +131,7 @@ public class ILx implements IItemContainer {
 
     // Photomasks & Wafers
     public static final int NUM_WAFER_TIERS = 3; // PMOS, NMOS, CMOS
-    public static final int NUM_WAFER_TYPES = 6; // IC, CPU, RAM, GPU, Flash, FET
+    public static final int NUM_WAFER_TYPES = 7; // IC, CPU, RAM, GPU, Flash, SoC, FET
     public static final int NUM_WAFER_STAGES_SINGLE = 8; // PL, Dev, Etch, Dope, Clean, Metal, Etch, Die
     public static final int NUM_WAFER_STAGES_DOUBLE = 14; // PL, Dev, Etch, Dope, Clean, Ox, PL2, Dev, Etch, Dope, Clean, Metal, Etch, Die
     public static final int NUM_WAFER_STAGES_MESFET = 8; // PL, Dev, Etch, Dope, Metal1, Metal2, Clean, Die
@@ -162,6 +162,7 @@ public class ILx implements IItemContainer {
     public static IItemContainer[] RAMSticks = new IItemContainer[NUM_COMPUTER_TIERS];
     public static IItemContainer[] GPUs = new IItemContainer[NUM_COMPUTER_TIERS];
     public static IItemContainer[] FlashChips = new IItemContainer[NUM_COMPUTER_TIERS];
+    public static IItemContainer[] SoCs = new IItemContainer[NUM_COMPUTER_TIERS];
     public static IItemContainer[] GraphicsCards = new IItemContainer[NUM_COMPUTER_TIERS];
     public static IItemContainer[] HDDs = new IItemContainer[NUM_COMPUTER_TIERS];
     public static IItemContainer[] PCs = new IItemContainer[NUM_COMPUTER_TIERS];
@@ -172,7 +173,8 @@ public class ILx implements IItemContainer {
             DRAMChips[tier] = new ILx(String.format("DRAM_Chip_%d", tier));
             RAMSticks[tier] = new ILx(String.format("RAM_Stick_%d", tier));
             GPUs[tier] = new ILx(String.format("GPU_Chip_%d", tier));
-            FlashChips[tier] = new ILx(String.format("GPU_Chip_%d", tier));
+            FlashChips[tier] = new ILx(String.format("Flash_Chip_%d", tier));
+            SoCs[tier] = new ILx(String.format("SoC_%d", tier));
             GraphicsCards[tier] = new ILx(String.format("GPU_%d", tier));
             HDDs[tier] = new ILx(String.format("HDD_%d", tier));
             PCs[tier] = new ILx(String.format("PC_%d", tier));
