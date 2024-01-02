@@ -101,7 +101,7 @@ public class Metallurgy extends GT6XFeature {
         MT.OREMATS.Cobaltite.setSmelting(MT.OREMATS.Cobaltite, U);
         MT.MnO2.setSmelting(MT.MnO2, U);
 
-        for (OreDictMaterial removeElectro : new OreDictMaterial[] { MT.Olivine, MT.OREMATS.Garnierite, MT.OREMATS.Smithsonite, MT.OREMATS.Cassiterite, MT.OREMATS.Wollastonite, MT.Phosphorite, MT.Apatite, MT.OREMATS.Sperrylite }) {
+        for (OreDictMaterial removeElectro : new OreDictMaterial[] { MT.Olivine, MT.OREMATS.Garnierite, MT.OREMATS.Smithsonite, MT.OREMATS.Cassiterite, MT.OREMATS.Wollastonite, MT.Phosphorite, MT.Apatite, MT.OREMATS.Sperrylite, MT.OREMATS.Malachite }) {
             removeElectro.remove(TD.Processing.ELECTROLYSER);
         }
         for (OreDictMaterial removeCent : new OreDictMaterial[] { MT.Phosphorus, MT.PhosphorusBlue, MT.PhosphorusWhite, MT.PhosphorusRed }) {
@@ -254,8 +254,10 @@ public class Metallurgy extends GT6XFeature {
             blastFurnace.addRecipe(true, ST.array(dust.mat(MT.OREMATS.Garnierite, 2), ST.mul(3, coal), dust.mat(MT.CaCO3, 1)), ST.array(gem.mat(MTx.Slag, 1)), null, null, FL.array(FL.mul(blast, 7500)), FL.array(MT.Ni.liquid(2*U, false), MTx.BlastFurnaceGas.gas(15*U, false)), 256, 8, 0);
             blastFurnace.addRecipe(true, ST.array(dust.mat(MT.OREMATS.Cassiterite, 2), ST.mul(4, coal), dust.mat(MT.CaCO3, 1)), ST.array(gem.mat(MTx.Slag, 1)), null, null, FL.array(FL.Air.make  (7500)), FL.array(MT.Sn.liquid(2*U, false), MTx.BlastFurnaceGas.gas(15*U, false)), 512, 8, 0);
             blastFurnace.addRecipe(true, ST.array(dust.mat(MT.OREMATS.Cassiterite, 2), ST.mul(3, coal), dust.mat(MT.CaCO3, 1)), ST.array(gem.mat(MTx.Slag, 1)), null, null, FL.array(FL.mul(blast, 7500)), FL.array(MT.Sn.liquid(2*U, false), MTx.BlastFurnaceGas.gas(15*U, false)), 256, 8, 0);
+            blastFurnace.addRecipe(true, ST.array(dust.mat(MT.OREMATS.Malachite, 5), ST.mul(4, coal), dust.mat(MT.CaCO3, 3)), ST.array(gem.mat(MTx.Slag, 1)), null, null, FL.array(FL.Air.make  (7500)), FL.array(MT.Cu.liquid(U, false), MTx.BlastFurnaceGas.gas(15*U, false)), 512, 8, 0);
+            blastFurnace.addRecipe(true, ST.array(dust.mat(MT.OREMATS.Malachite, 5), ST.mul(3, coal), dust.mat(MT.CaCO3, 3)), ST.array(gem.mat(MTx.Slag, 1)), null, null, FL.array(FL.mul(blast, 7500)), FL.array(MT.Cu.liquid(U, false), MTx.BlastFurnaceGas.gas(15*U, false)), 256, 8, 0);
             blastFurnace.addRecipe(true, ST.array(dust.mat(MT.OREMATS.Chromite, 14), ST.mul(12, coal), dust.mat(MT.CaCO3, 3)), ZL_IS, null, null, FL.array(FL.Air.make  (22500)), FL.array(MTx.FeCr2.liquid(6*U, false), MTx.Slag.liquid(3*U, false), MTx.BlastFurnaceGas.gas(36*U, false)), 1536, 8, 0);
-            blastFurnace.addRecipe(true, ST.array(dust.mat(MT.OREMATS.Chromite, 14), ST.mul( 9, coal), dust.mat(MT.CaCO3, 3)), ZL_IS, null, null, FL.array(FL.mul(blast, 22500)), FL.array(MTx.FeCr2.liquid(6*U, false), MTx.Slag.liquid(3*U, false), MTx.BlastFurnaceGas.gas(36*U, false)), 768, 8, 0);
+            blastFurnace.addRecipe(true, ST.array(dust.mat(MT.OREMATS.Chromite, 14), ST.mul(9, coal), dust.mat(MT.CaCO3, 3)), ZL_IS, null, null, FL.array(FL.mul(blast, 22500)), FL.array(MTx.FeCr2.liquid(6*U, false), MTx.Slag.liquid(3*U, false), MTx.BlastFurnaceGas.gas(36*U, false)), 768, 8, 0);
             blastFurnace.addRecipe(true, ST.array(dust.mat(MTx.PbO, 2), ST.mul(4, coal), dust.mat(MT.CaCO3, 1)), ST.array(gem.mat(MTx.Slag, 1)), null, null, FL.array(FL.Air.make  (7500)), FL.array(MT.Pb.liquid(2*U, false), MTx.BlastFurnaceGas.gas(15*U, false)), 512, 8, 0);
             blastFurnace.addRecipe(true, ST.array(dust.mat(MTx.PbO, 2), ST.mul(3, coal), dust.mat(MT.CaCO3, 1)), ST.array(gem.mat(MTx.Slag, 1)), null, null, FL.array(FL.mul(blast, 7500)), FL.array(MT.Pb.liquid(2*U, false), MTx.BlastFurnaceGas.gas(15*U, false)), 256, 8, 0);
             blastFurnace.addRecipe(true, ST.array(dust.mat(MTx.ZnO, 2), ST.mul(4, coal), dust.mat(MT.CaCO3, 1)), ST.array(gem.mat(MTx.Slag, 1)), null, null, FL.array(FL.Air.make  (5000)), FL.array(MTx.ZnBlastFurnaceGas.gas(14*U, false)), 512, 8, 0);
@@ -270,6 +272,7 @@ public class Metallurgy extends GT6XFeature {
             blastFurnace.addRecipe(true, ST.array(dust.mat(MT.SiO2, 6), ST.mul(3, coal)), ZL_IS, null, null, FL.array(FL.mul(blast, 7500)), FL.array(MT.Si.liquid(2*U, false), MTx.BlastFurnaceGas.gas(15*U, false)), 256, 8, 0);
             blastFurnace.addRecipe(true, ST.array(dust.mat(MTx.Sb2O3, 5), ST.mul(4, coal), dust.mat(MT.CaCO3, 1)), ZL_IS, null, null, FL.array(FL.Air.make  (7500)), FL.array(MT.Sb.liquid(2*U, false), MTx.Slag.liquid(U, false), MTx.BlastFurnaceGas.gas(15*U, false)), 512, 8, 0);
             blastFurnace.addRecipe(true, ST.array(dust.mat(MTx.Sb2O3, 5), ST.mul(3, coal), dust.mat(MT.CaCO3, 1)), ZL_IS, null, null, FL.array(FL.mul(blast, 7500)), FL.array(MT.Sb.liquid(2*U, false), MTx.Slag.liquid(U, false), MTx.BlastFurnaceGas.gas(15*U, false)), 256, 8, 0);
+
 
             // sintered pellets (more efficient)
             for (OreDictMaterial[] mats : smeltLiquidSlag) {
@@ -328,6 +331,7 @@ public class Metallurgy extends GT6XFeature {
         RM.Bath.addRecipe1(true, 0, 256, dust.mat(MT.OREMATS.Cassiterite, 1), FL.array(MT.HCl.gas(8*U, true)), FL.array(MT.StannicChloride.liquid(5*U, false), MT.H2O.liquid(6*U, false)));
         RM.Bath.addRecipe1(true, 0, 256, dust.mat(MTx.Fayalite, 7), MT.HCl.gas(8*U, true), MTx.FeCl2Solution.liquid(12*U, false), dust.mat(MT.SiO2, 3));
         RM.Bath.addRecipe1(true, 0, 256, dust.mat(MT.Olivine, 7), FL.array(MT.HCl.gas(8*U, true)), FL.array(MTx.FeCl2Solution.liquid(6*U, false), MTx.MgCl2Solution.liquid(6*U, false)), dust.mat(MT.SiO2, 3));
+        RM.Bath.addRecipe1(true, 0, 256, dust.mat(MT.OREMATS.Malachite, 5), FL.array(MT.H2SO4.liquid(7*U, true)), FL.array(MT.BlueVitriol.liquid(6*U, false), MT.H2O.liquid(9*U2, false), MT.CO2.gas(3*U2, false)));
 
         // Gold Cyanidation
         RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.Au, 2), FL.array(MTx.NaCNSolution.liquid(24*U, true), MT.O.gas(U, true)), FL.array(MTx.NaAuC2N2.liquid(12*U, false), MTx.NaOHSolution.liquid(12*U, false)));

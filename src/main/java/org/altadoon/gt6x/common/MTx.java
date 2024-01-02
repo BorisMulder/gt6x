@@ -7,7 +7,6 @@ import gregapi.oredict.OreDictMaterial;
 import gregapi.render.TextureSet;
 import net.minecraft.enchantment.Enchantment;
 import org.altadoon.gt6x.Gt6xMod;
-import org.altadoon.gt6x.features.electronics.Electronics;
 
 import static gregapi.data.CS.*;
 import static gregapi.data.TD.Atomic.CHALCOGEN;
@@ -125,7 +124,6 @@ public class MTx {
         OP.bouleGt.forceItemGeneration(mat);
         OP.plateGem.forceItemGeneration(mat);
         OP.plateGemTiny.forceItemGeneration(mat);
-        Electronics.oxidizedWafer.forceItemGeneration(mat);
         return mat;
     }
 

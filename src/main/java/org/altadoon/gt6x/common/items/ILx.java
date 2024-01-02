@@ -125,7 +125,6 @@ public class ILx implements IItemContainer {
             Al_Disk = new ILx("Al_Disk"),
             Hard_Disk = new ILx("Hard_Disk"),
             Hard_Disk_Advanced = new ILx("Hard_Disk_Advanced"),
-            Motherboard = new ILx("MoBo"),
             CPU_Fan = new ILx("CPU_Fan"),
             ComputerCase = new ILx("ComputerCase");
 
@@ -165,6 +164,7 @@ public class ILx implements IItemContainer {
     public static IItemContainer[] SoCs = new IItemContainer[NUM_COMPUTER_TIERS];
     public static IItemContainer[] GraphicsCards = new IItemContainer[NUM_COMPUTER_TIERS];
     public static IItemContainer[] HDDs = new IItemContainer[NUM_COMPUTER_TIERS];
+    public static IItemContainer[] Motherboards = new IItemContainer[NUM_COMPUTER_TIERS];
     public static IItemContainer[] PCs = new IItemContainer[NUM_COMPUTER_TIERS];
 
     static {
@@ -177,6 +177,7 @@ public class ILx implements IItemContainer {
             SoCs[tier] = new ILx(String.format("SoC_%d", tier));
             GraphicsCards[tier] = new ILx(String.format("GPU_%d", tier));
             HDDs[tier] = new ILx(String.format("HDD_%d", tier));
+            Motherboards[tier] = new ILx(String.format("MoBo_%d", tier));
             PCs[tier] = new ILx(String.format("PC_%d", tier));
         }
     }

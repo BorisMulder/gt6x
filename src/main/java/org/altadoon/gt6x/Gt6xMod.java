@@ -1,6 +1,7 @@
 package org.altadoon.gt6x;
 
 import gregapi.data.CS;
+import gregapi.data.MD;
 import org.altadoon.gt6x.common.*;
 import org.altadoon.gt6x.common.items.MultiItemBottlesX;
 import org.altadoon.gt6x.common.items.MultiItemsX;
@@ -8,6 +9,7 @@ import org.altadoon.gt6x.common.items.Tools;
 import org.altadoon.gt6x.features.GT6XFeature;
 import org.altadoon.gt6x.features.basicchem.BasicChemistry;
 import org.altadoon.gt6x.features.ceramics.Ceramics;
+import org.altadoon.gt6x.features.electronics.Compat_Recipes_OpenComputersX;
 import org.altadoon.gt6x.features.electronics.Electronics;
 import org.altadoon.gt6x.features.oil.OilProcessing;
 import org.altadoon.gt6x.features.pgm.PgmProcessing;
@@ -93,6 +95,8 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 		for (GT6XFeature feature : enabledFeatures) {
 			feature.preInit();
 		}
+
+		new Compat_Recipes_OpenComputersX(MD.OC, this);
 	}
 
 	@Override

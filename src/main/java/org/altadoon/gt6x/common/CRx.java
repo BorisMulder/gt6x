@@ -29,6 +29,11 @@ public class CRx {
                 return false;
             }
         });
-        CR.shapeless(output, CR.DEF, new Object[] { input });
+        CR.shapeless(output, new Object[] { input });
+    }
+
+    public static void overrideShapelessCompat(ItemStack output, Object... recipe) {
+        CR.delate(output);
+        CR.shapeless(output, recipe);
     }
 }
