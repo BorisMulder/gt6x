@@ -34,8 +34,8 @@ import static gregapi.data.CS.*;
 import static gregapi.data.OP.*;
 import static org.altadoon.gt6x.Gt6xMod.MOD_ID;
 import static org.altadoon.gt6x.common.items.ILx.NUM_COMPUTER_TIERS;
-import static org.altadoon.gt6x.features.electronics.MultiItemsElectronics.IC_NAME;
-import static org.altadoon.gt6x.features.electronics.MultiItemsElectronics.PC_NAMES;
+import static org.altadoon.gt6x.features.electronics.MultiItemsElectronics.*;
+import static org.altadoon.gt6x.features.electronics.MultiItemsPhotolithography.MESFET_IDX;
 
 public class Electronics extends GT6XFeature {
     public static final String FEATURE_NAME = "Electronics";
@@ -48,7 +48,7 @@ public class Electronics extends GT6XFeature {
         .add(TD.Prefix.RECYCLABLE)
         .setCondition(ICondition.FALSE)
         .forceItemGeneration(PolyGemMaterials);
-    private static final OreDictMaterial[] OxidizedWaferMaterials = { MT.Si, MT.Ge, MTx.SiGe };
+    private static final OreDictMaterial[] OxidizedWaferMaterials = { MT.Si, MT.Ge, MTx.SiGe, MTx.PDopedSi, MTx.NDopedSi, MTx.PDopedSiGe, MTx.NDopedSiGe };
     public static OreDictPrefix oxidizedWafer = OreDictPrefix.createPrefix("oxidizedWafer")
         .setCategoryName("oxidizedWafers")
         .setLocalItemName("Oxidized ", " Wafer")
@@ -103,6 +103,8 @@ public class Electronics extends GT6XFeature {
     private void addOredictReRegistrations() {
         OreDictManager.INSTANCE.addReRegistration(PC_NAMES[1], PC_NAMES[0]);
         OreDictManager.INSTANCE.addReRegistration(PC_NAMES[2], PC_NAMES[1]);
+        OreDictManager.INSTANCE.addReRegistration(SOC_NAMES[1], SOC_NAMES[0]);
+        OreDictManager.INSTANCE.addReRegistration(SOC_NAMES[2], SOC_NAMES[1]);
     }
 
     private void addMTEs() {
@@ -227,9 +229,9 @@ public class Electronics extends GT6XFeature {
         RM.Mixer.addRecipe0(true, 16, 60, FL.array(MTx.SiH4.gas(U, true), MTx.GeH4.gas(U, true)), FL.array(MTx.SiGeH8.gas(2*U, false)));
 
         //TODO use thermolyzer
-        RM.Drying.addRecipe1(true, 16, 64000, ST.tag(0), MTx.GeH4.gas(5*U, true), MT.H.gas(4*U, false), polyGem.mat(MT.Ge, 1));
-        RM.Drying.addRecipe1(true, 16, 64000, ST.tag(0), MTx.SiH4.gas(5*U, true), MT.H.gas(4*U, false), polyGem.mat(MT.Si, 1));
-        RM.Drying.addRecipe1(true, 16, 64000, ST.tag(0), MTx.SiGeH8.gas(5*U, true), MT.H.gas(4*U, false), polyGem.mat(MTx.SiGe, 1));
+        RM.Drying.addRecipe1(true, 16, 512, ST.tag(0), MTx.GeH4.gas(5*U, true), MT.H.gas(4*U, false), polyGem.mat(MT.Ge, 1));
+        RM.Drying.addRecipe1(true, 16, 512, ST.tag(0), MTx.SiH4.gas(5*U, true), MT.H.gas(4*U, false), polyGem.mat(MT.Si, 1));
+        RM.Drying.addRecipe1(true, 16, 512, ST.tag(0), MTx.SiGeH8.gas(5*U, true), MT.H.gas(4*U, false), polyGem.mat(MTx.SiGe, 1));
         RM.CrystallisationCrucible.addRecipe1(true, 16, 1800, ST.tag(0), FL.array(MT.Ga.liquid(U2, true), MT.As.gas(U2, true)), ZL_FS, polyGem.mat(MTx.GaAs, 1));
 
         // RecipeMapHandlerPrefix not working here
@@ -323,7 +325,7 @@ public class Electronics extends GT6XFeature {
         RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Al, 1), ILx.Wafers[0][1][7 ].get(4)), ILx.ICs[1].get(4));
         RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Al, 1), ILx.Wafers[0][2][13].get(4)), ILx.ICs[2].get(4));
 
-        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Au, 1), ILx.Wafers[1][0][7 ].get(4)), ILx.CPUs[0].get(4));
+        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Cu, 1), ILx.Wafers[1][0][7 ].get(4)), ILx.CPUs[0].get(4));
         RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Cu, 1), ILx.Wafers[1][1][7 ].get(4)), ILx.CPUs[1].get(4));
         RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Cu, 1), ILx.Wafers[1][2][13].get(4)), ILx.CPUs[2].get(4));
 
@@ -339,7 +341,15 @@ public class Electronics extends GT6XFeature {
         RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Cu, 1), ILx.Wafers[4][1][7 ].get(4)), ILx.FlashChips[1].get(4));
         RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Cu, 1), ILx.Wafers[4][2][13].get(4)), ILx.FlashChips[2].get(4));
 
-        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), foil.mat(MT.Cu, 1), ILx.Wafers[5][0][7] .get(16)), ILx.Transistor_SMD.get(16));
+        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Al, 1), ILx.Wafers[4][0][7 ].get(4)), ILx.FlashChips[0].get(4));
+        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Cu, 1), ILx.Wafers[4][1][7 ].get(4)), ILx.FlashChips[1].get(4));
+        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Cu, 1), ILx.Wafers[4][2][13].get(4)), ILx.FlashChips[2].get(4));
+
+        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Cu, 1), ILx.Wafers[5][0][7 ].get(4)), ILx.SoCs[0].get(4));
+        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Al, 1), ILx.Wafers[5][1][7 ].get(4)), ILx.SoCs[1].get(4));
+        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Au, 1), ILx.Wafers[5][2][13].get(4)), ILx.SoCs[2].get(4));
+
+        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), foil.mat(MT.Cu, 1), ILx.Wafers[MESFET_IDX][0][7] .get(16)), ILx.Transistor_SMD.get(16));
         RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), foil.mat(MT.Cu, 1), ILx.Capacitor_Tantalum.get(16)), ILx.Capacitor_SMD.get(16));
         RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), foil.mat(MT.Sn, 1), ILx.Resistor_Metal_Film.get(1)), ILx.Resistor_SMD.get(16));
 
@@ -456,9 +466,9 @@ public class Electronics extends GT6XFeature {
         CRx.overrideShaped(IL.Processor_Crystal_Empty.get(1), CR.DEF_REV, "WWW", "WCW", "WWW", 'W', wireFine.dat(MT.Pt), 'C', casingSmall.dat(MT.Polycarbonate));
 
         CRx.overrideShaped(IL.USB_Stick_1.get(1), CR.DEF_REV, "iCF", "PBP", "TdT", 'C', ILx.ICs[0], 'F', ILx.FlashChips[0], 'B', ILx.Circuit_Plate_Copper_Tiny  , 'P', plateTiny.dat(MT.Al            ), 'T', screw.dat(MT.Al            ));
-        CRx.overrideShaped(IL.USB_Stick_2.get(1), CR.DEF_REV,"iCF", "PBP", "TdT", 'C', ILx.ICs[1], 'F', ILx.FlashChips[1], 'B', ILx.Circuit_Plate_Gold_Tiny    , 'P', plateTiny.dat(MT.StainlessSteel), 'T', screw.dat(MT.StainlessSteel));
-        CRx.overrideShaped(IL.USB_Stick_3.get(1), CR.DEF_REV,"iCF", "PBP", "TdT", 'C', ILx.ICs[1], 'F', ILx.FlashChips[2], 'B', ILx.Circuit_Plate_Gold_Tiny    , 'P', plateTiny.dat(MT.Cr            ), 'T', screw.dat(MT.Cr            ));
-        CRx.overrideShaped(IL.USB_Stick_4.get(1), CR.DEF_REV,"iCF", "PBP", "TdT", 'C', ILx.ICs[2], 'F', ILx.FlashChips[2], 'B', ILx.Circuit_Plate_Platinum_Tiny, 'P', plateTiny.dat(MT.Ti            ), 'T', screw.dat(MT.Ti            ));
+        CRx.overrideShaped(IL.USB_Stick_2.get(1), CR.DEF_REV, "iCF", "PBP", "TdT", 'C', ILx.ICs[1], 'F', ILx.FlashChips[1], 'B', ILx.Circuit_Plate_Gold_Tiny    , 'P', plateTiny.dat(MT.StainlessSteel), 'T', screw.dat(MT.StainlessSteel));
+        CRx.overrideShaped(IL.USB_Stick_3.get(1), CR.DEF_REV, "iCF", "PBP", "TdT", 'C', ILx.ICs[1], 'F', ILx.FlashChips[2], 'B', ILx.Circuit_Plate_Gold_Tiny    , 'P', plateTiny.dat(MT.Cr            ), 'T', screw.dat(MT.Cr            ));
+        CRx.overrideShaped(IL.USB_Stick_4.get(1), CR.DEF_REV, "iCF", "PBP", "TdT", 'C', ILx.ICs[2], 'F', ILx.FlashChips[2], 'B', ILx.Circuit_Plate_Platinum_Tiny, 'P', plateTiny.dat(MT.Ti            ), 'T', screw.dat(MT.Ti            ));
 
         CRx.overrideShaped(IL.USB_HDD_1.get(1), CR.DEF_REV,"   ", "CxH", "   ", 'C', IL.USB_Cable_1, 'H', ILx.HDDs[0]);
         CRx.overrideShaped(IL.USB_HDD_2.get(1), CR.DEF_REV,"   ", "CxH", "   ", 'C', IL.USB_Cable_2, 'H', ILx.HDDs[0]);
@@ -466,6 +476,22 @@ public class Electronics extends GT6XFeature {
         CRx.overrideShaped(IL.USB_HDD_4.get(1), CR.DEF_REV,"   ", "CxH", "   ", 'C', IL.USB_Cable_4, 'H', ILx.HDDs[1]);
 
         /// Replace crystalprocessors with computers in some cases
+
+        // Crystal Chargers
+        for (int tier = 0; tier < 7; tier++) {
+            CRx.overrideShaped(MTEx.gt6Registry.getItem(10130 + tier), CR.DEF_REV_NCC, "FCF", "FCF", "PMC", 'C', OD_CIRCUITS[tier], 'P', PC_NAMES[(tier - 1) / 2], 'F', IL.FIELD_GENERATORS[tier], 'M', OP.casingMachine.dat(MT.DATA.Electric_T[tier]));
+            CRx.overrideShaped(MTEx.gt6Registry.getItem(10140 + tier), CR.DEF_REV_NCC, "FCF", "FCF", "PMC", 'C', OD_CIRCUITS[tier], 'P', PC_NAMES[(tier - 1) / 2], 'F', IL.FIELD_GENERATORS[tier], 'M', MTEx.gt6Registry.getItem(10130+tier));
+        }
+
+        // Quantum Energizers, Laser Absorbers
+        for (int tier = 1; tier < 6; tier++) {
+            CRx.overrideShaped(MTEx.gt6Registry.getItem(10120 + tier), CR.DEF_REV_NCC, "PFC", "SME", "CFC", 'M', OP.casingMachine.dat(MT.Osmiridium), 'F', IL.FIELD_GENERATORS[tier], 'S', IL.SENSORS[tier], 'E', IL.EMITTERS[tier], 'P', PC_NAMES[(tier - 1) / 2], 'C', OD_CIRCUITS[tier]);
+            CRx.overrideShaped(MTEx.gt6Registry.getItem(10150 + tier), CR.DEF_REV_NCC, "SCW", "SMC", "SCW", 'M', OP.casingMachine.dat(MT.DATA.Electric_T[tier]), 'S', OP.plateGem.dat(ANY.Si), 'W', MT.DATA.CABLES_01[tier], 'C', OD_CIRCUITS[tier]);
+        }
+
+        // ZPM dechargers
+        CRx.overrideShaped(MTEx.gt6Registry.getItem(11170), CR.DEF_REV_NCC, "PCE", "CMC", "FCF", 'C', OD_CIRCUITS[6], 'P', PC_NAMES[2], 'F', IL.FIELD_GENERATORS[6], 'M', OP.casingMachineDense.dat(MT.Osmiridium), 'E', IL.EMITTERS[6]);
+        CRx.overrideShaped(MTEx.gt6Registry.getItem(11171), CR.DEF_REV_NCC, "PCS", "CMC", "FCF", 'C', OD_CIRCUITS[6], 'P', PC_NAMES[2], 'F', IL.FIELD_GENERATORS[6], 'M', OP.casingMachineDense.dat(MT.Osmiridium), 'S', IL.SENSORS[6]);
 
         // Large machines
         CRx.overrideShaped(MTEx.gt6Registry.getItem(17100), CR.DEF_REV_NCC, "CMC", " R "       , 'M', MTEx.gt6Registry.getItem(18100), 'R', PC_NAMES[0], 'C', OD_CIRCUITS[6]);
@@ -483,7 +509,7 @@ public class Electronics extends GT6XFeature {
         CRx.overrideShaped(MTEx.gt6Registry.getItem(17114), CR.DEF_REV_NCC, "GSG", "GSG", "RMC", 'M', MTEx.gt6Registry.getItem(18009), 'R', PC_NAMES[0], 'C', OD_CIRCUITS[6], 'G', OP.gearGt.dat(ANY.Steel), 'S', OP.gearGtSmall.dat(ANY.Steel));
 
         // Logistics, Lightning rod, Bedrock Drill
-        CRx.overrideShaped(MTEx.gt6Registry.getItem(17997), CR.DEF_REV_NCC, "CCC", "PMP", "CCC", 'M', OP.casingMachine.dat(MT.SteelGalvanized), 'P', PC_NAMES[2], 'C', OD_CIRCUITS[6]);
+        CRx.overrideShaped(MTEx.gt6Registry.getItem(17997), CR.DEF_REV_NCC, "CCC", "PMP", "CCC", 'M', OP.casingMachine.dat(MT.SteelGalvanized), 'P', PC_NAMES[1], 'C', OD_CIRCUITS[6]);
         CRx.overrideShaped(MTEx.gt6Registry.getItem(17998), CR.DEF_REV_NCC, "CWC", "PMP", "CWC", 'M', OP.casingMachine.dat(ANY.W), 'W', OP.wireGt16.dat(MT.NiobiumTitanium), 'P', PC_NAMES[1], 'C', OD_CIRCUITS[6]);
         CRx.overrideShaped(MTEx.gt6Registry.getItem(17999), CR.DEF_REV_NCC, "PYP", "CMC", "GIG", 'M', OP.casingMachineDense.dat(MT.Ti), 'G', OP.gearGt.dat(MT.TungstenSteel), 'I', OP.toolHeadDrill.dat(MT.TungstenSteel), 'P', PC_NAMES[1], 'Y', IL.CONVEYERS[5], 'C', OD_CIRCUITS[6]);
 
@@ -495,18 +521,35 @@ public class Electronics extends GT6XFeature {
         CRx.overrideShaped(MTEx.gt6Registry.getItem(18204), CR.DEF_REV_NCC,"RCR", "RPR", " MO", 'M', ILx.Motherboard, 'O', ILx.ComputerCase,  'R', ILx.RAMSticks[2], 'C', ILx.CPUs[2], 'P', ILx.Thermal_Paste);
 
         // USB Switches
-        CRx.overrideShaped(MTEx.gt6Registry.getItem(19000), CR.DEF_REV_NCC, "UPU", "TMT", "UdU", 'M', OP.casingMachine.dat(MT.SteelGalvanized), 'T', OP.screw.dat(MT.SteelGalvanized), 'U', IL.USB_Cable_3, 'P', PC_NAMES[2]);
-        CRx.overrideShaped(MTEx.gt6Registry.getItem(19001), CR.DEF_REV_NCC, "CPC", "TMT", "UdU", 'M', OP.casingMachine.dat(MT.SteelGalvanized), 'T', OP.screw.dat(MT.SteelGalvanized), 'U', IL.USB_Cable_3, 'P', PC_NAMES[2], 'C', OD_CIRCUITS[3]);
+        CRx.overrideShaped(MTEx.gt6Registry.getItem(19000), CR.DEF_REV_NCC, "UCU", "TMT", "UdU", 'M', OP.casingMachine.dat(MT.SteelGalvanized), 'T', OP.screw.dat(MT.SteelGalvanized), 'U', OD_USB_CABLES[3], 'C', OD_CIRCUITS[3]);
+        CRx.overrideShaped(MTEx.gt6Registry.getItem(19001), CR.DEF_REV_NCC, "CWC", "TMT", "UdU", 'M', OP.casingMachine.dat(MT.SteelGalvanized), 'T', OP.screw.dat(MT.SteelGalvanized), 'U', OD_USB_CABLES[3], 'C', OD_CIRCUITS[3], 'W', cableGt01.dat(MT.Cu));
 
-        //TODO Matter Fab/Rep/Scanners and Quantum Energizers/ZPM dechargers, Crystal chargers, Laser absorbers
-        //TODO logistics buses
-        //TODO portable scanner & p. fusion reactor
+        // Logistics Buses
+        CRx.overrideShaped(IL.Cover_Logistics_Fluid_Export   .get(1), CR.DEF_REV, "  w", "WQW", "CPC", 'Q', IL.Cover_Blank, 'P', SOC_NAMES[1], 'C', OD_CIRCUITS[4], 'W', OP.wireFine.dat(MT.Os));
+        CRx.overrideShaped(IL.Cover_Logistics_Fluid_Import   .get(1), CR.DEF_REV, " w ", "WQW", "CPC", 'Q', IL.Cover_Blank, 'P', SOC_NAMES[1], 'C', OD_CIRCUITS[4], 'W', OP.wireFine.dat(MT.Os));
+        CRx.overrideShaped(IL.Cover_Logistics_Fluid_Storage  .get(1), CR.DEF_REV, "w  ", "WQW", "CPC", 'Q', IL.Cover_Blank, 'P', SOC_NAMES[1], 'C', OD_CIRCUITS[4], 'W', OP.wireFine.dat(MT.Os));
+        CRx.overrideShaped(IL.Cover_Logistics_Item_Export    .get(1), CR.DEF_REV, "  r", "WQW", "CPC", 'Q', IL.Cover_Blank, 'P', SOC_NAMES[1], 'C', OD_CIRCUITS[4], 'W', OP.wireFine.dat(MT.Os));
+        CRx.overrideShaped(IL.Cover_Logistics_Item_Import    .get(1), CR.DEF_REV, " r ", "WQW", "CPC", 'Q', IL.Cover_Blank, 'P', SOC_NAMES[1], 'C', OD_CIRCUITS[4], 'W', OP.wireFine.dat(MT.Os));
+        CRx.overrideShaped(IL.Cover_Logistics_Item_Storage   .get(1), CR.DEF_REV, "r  ", "WQW", "CPC", 'Q', IL.Cover_Blank, 'P', SOC_NAMES[1], 'C', OD_CIRCUITS[4], 'W', OP.wireFine.dat(MT.Os));
+        CRx.overrideShaped(IL.Cover_Logistics_Generic_Export .get(1), CR.DEF_REV, "  d", "WQW", "CPC", 'Q', IL.Cover_Blank, 'P', SOC_NAMES[1], 'C', OD_CIRCUITS[4], 'W', OP.wireFine.dat(MT.Os));
+        CRx.overrideShaped(IL.Cover_Logistics_Generic_Import .get(1), CR.DEF_REV, " d ", "WQW", "CPC", 'Q', IL.Cover_Blank, 'P', SOC_NAMES[1], 'C', OD_CIRCUITS[4], 'W', OP.wireFine.dat(MT.Os));
+        CRx.overrideShaped(IL.Cover_Logistics_Generic_Storage.get(1), CR.DEF_REV, "d  ", "WQW", "CPC", 'Q', IL.Cover_Blank, 'P', SOC_NAMES[1], 'C', OD_CIRCUITS[4], 'W', OP.wireFine.dat(MT.Os));
+        CRx.overrideShaped(IL.Cover_Logistics_Dump           .get(1), CR.DEF_REV, "   ", "WQW", "CPC", 'Q', IL.Cover_Blank, 'P', SOC_NAMES[1], 'C', OD_CIRCUITS[4], 'W', OP.wireFine.dat(MT.Os));
 
-        // Nanoscale Fabricators, Plantalyzers, Bumblelyzers
+        // Matter fabs, Mol. Scanners, Matter Reps, Nanoscale Fabricators, Plantalyzers, Bumblelyzers
         for (int tier = 1; tier < 6; tier++) {
+            CRx.overrideShaped(MTEx.gt6Registry.getItem(20410 + tier), CR.DEF_REV_NCC, "PXY", "FMF", "YXY", 'M', OP.casingMachine.dat(MT.Osmiridium), 'P', PC_NAMES[2], 'X', IL.EMITTERS[tier], 'Y', IL.SENSORS[tier], 'F', IL.FIELD_GENERATORS[tier]);
+            if (tier == 3)
+                CRx.overrideShaped(MTEx.gt6Registry.getItem(20420 + tier), CR.DEF_REV_NCC, "PFY", "FMF", "YFY", 'M', OP.casingMachine.dat(MT.Osmiridium), 'P', PC_NAMES[2], 'F', IL.FIELD_GENERATORS[tier], 'Y', IL.SENSORS[tier]);
+            
+            CRx.overrideShaped(MTEx.gt6Registry.getItem(20430 + tier), CR.DEF_REV_NCC, "PXH", "FMF", "HXH", 'M', OP.casingMachine.dat(MT.Osmiridium), 'P', PC_NAMES[2], 'H', OD_USB_DRIVES[4], 'X', IL.EMITTERS[tier], 'F', IL.FIELD_GENERATORS[tier]);
             CRx.overrideShaped(MTEx.gt6Registry.getItem(20440 + tier), CR.DEF_REV_NCC, "KAX", "ZMY", "CSC", 'M', OP.casingMachine.dat(MT.DATA.Electric_T[tier]), 'C', OD_CIRCUITS[6], 'A', IL.Comp_Laser_Gas_Ar, 'K', IL.Comp_Laser_Gas_Kr, 'X', IL.Comp_Laser_Gas_Xe, 'S', PC_NAMES[(tier - 1) / 2], 'Y', IL.EMITTERS[tier], 'Z', IL.SENSORS[tier]);
             CRx.overrideShaped(MTEx.gt6Registry.getItem(20530 + tier), CR.DEF_REV_NCC, "WXW", "ZMP", "CYC", 'M', OP.casingMachine.dat(MT.DATA.Electric_T[tier]), 'C', OD_CIRCUITS[tier], 'W', MT.DATA.CABLES_01[tier], 'P', PC_NAMES[0], 'X', IL.EMITTERS[tier], 'Y', IL.SENSORS[tier], 'Z', OP.treeSapling);
             CRx.overrideShaped(MTEx.gt6Registry.getItem(20540 + tier), CR.DEF_REV_NCC, "WXW", "ZMP", "CYC", 'M', OP.casingMachine.dat(MT.DATA.Electric_T[tier]), 'C', OD_CIRCUITS[tier], 'W', MT.DATA.CABLES_01[tier], 'P', PC_NAMES[0], 'X', IL.EMITTERS[tier], 'Y', IL.SENSORS[tier], 'Z', OD.container1000honey);
         }
+
+        // Misc
+        CRx.overrideShaped(IL.Tool_Scanner           .get(1), CR.DEF_REV, "EXR", "CPU", "BXB", 'B', IL.Battery_Alkaline_HV, 'X', OP.plate.dat(MT.Cr), 'U', OD_USB_STICKS[0], 'C', OD_USB_CABLES[0], 'E', IL.EMITTERS[4], 'R', IL.SENSORS[4], 'P', SOC_NAMES[0]);
+        CRx.overrideShaped(IL.Aneutronic_Fusion_Empty.get(1), CR.DEF_REV, "VPV", "GFG", "VGV", 'P', SOC_NAMES[2], 'V', OP.plateGemTiny.dat(MT.Vb), 'F', IL.FIELD_GENERATORS[5], 'G', OP.foil.dat(MT.Graphene));
     }
 }

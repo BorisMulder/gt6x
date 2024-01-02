@@ -75,6 +75,7 @@ public class MTx {
                 .hide(false);
         MT.Indigo.uumMcfg(0, MT.C, 16*U, MT.H, 10*U, MT.N, 2*U, MT.O, 2*U)
                 .heat(391).setRGBa(75, 0, 130, 255);
+        MT.Sc.hide(false);
 
         MT.OREMATS.Wolframite.setLocal("Magnesium Tungstate").addSourceOf(MT.Mg);
         MT.OREMATS.Tungstate.setLocal("Lithium Tungstate");
@@ -921,8 +922,8 @@ public class MTx {
         MT.GreenSapphire.uumMcfg(6, MT.Al2O3, 5*U, MgO, U);
         MT.PurpleSapphire.uumMcfg(6, MT.Al2O3, 5*U, MT.V2O5, U);
         MT.PetCoke.setMcfg(0, MT.C, U);
-        MT.Bone.uumMcfg(8, Hydroxyapatite, U);
-        MT.SlimyBone.uumMcfg(8, Hydroxyapatite, U);
+        MT.Bone.uumMcfg(2, Hydroxyapatite, U).setSmelting(Hydroxyapatite, U2).heat(1000+C);
+        MT.SlimyBone.uumMcfg(0, MT.Bone, U);
 
         addMolten(RhodiumPotassiumSulfate, 144);
         addMolten(PbCl2, 144);

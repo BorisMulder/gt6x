@@ -27,7 +27,6 @@ import static gregapi.data.CS.*;
 import static gregapi.data.OP.*;
 import static gregapi.data.TD.Prefix.*;
 import static gregapi.data.TD.Prefix.ORE_PROCESSING_BASED;
-import static org.altadoon.gt6x.common.MTx.Chalcocite;
 
 /**
  * This feature contains some basic chemistry recipes shared by other features. Disabling this makes some items uncraftable.
@@ -72,6 +71,7 @@ public class BasicChemistry extends GT6XFeature {
         MT.CaCO3.setSmelting(MT.Quicklime, 2*U5);
         MT.MgCO3.setSmelting(MTx.MgO, 2*U5);
         MT.H3BO3.remove(TD.Processing.ELECTROLYSER);
+        MT.Bone.remove(TD.Processing.ELECTROLYSER);
     }
 
     private void changeByProducts() {
@@ -245,6 +245,7 @@ public class BasicChemistry extends GT6XFeature {
         RM.Distillery.addRecipe1(true, 16, 6000, ST.tag(0), FL.array(MTx.DiluteH2SO4.liquid(10*U, true)), FL.array(MT.DistWater.liquid(3*U, false), MT.H2SO4.liquid(7*U, false)));
 
         // Thermal Decomposition of some compounds
+        RMx.Thermolysis.addRecipe1(true, 16, 500, OM.dust(MT.Bone, U), ZL_FS, FL.array(MT.H2O.liquid(U4, false), MT.CO2.gas(U4, false)), dustSmall.mat(MTx.Hydroxyapatite, 2));
         RMx.Thermolysis.addRecipe1(false, 64, 128, ST.tag(0), MT.HCl.gas(U, true), FL.array(MT.H.gas(U2, false), MT.Cl.gas(U2, false)));
         RMx.Thermolysis.addRecipe1(true, 16, 256, dust.mat(MT.CaCO3, 5), NF, MT.CO2.gas(3*U, false), dust.mat(MT.Quicklime, 2));
         RMx.Thermolysis.addRecipe1(true, 16, 256, dust.mat(MT.MgCO3, 5), NF, MT.CO2.gas(3*U, false), dust.mat(MTx.MgO, 2));
@@ -389,7 +390,7 @@ public class BasicChemistry extends GT6XFeature {
             for (FluidStack water : FL.waters(1000)) {
                 RM.Mixer.addRecipe1(true, 16, 64 * waterAmount, dust.mat(soluteStack.mMaterial, soluteAmount), FL.mul(water, waterAmount), material.liquid(totalAmount * U, false), NI);
             }
-            RM.Drying.addRecipe0(true, 16, 2000 * waterAmount, material.liquid(totalAmount, true ), MT.DistWater.liquid(waterAmount * U, false), dust.mat(soluteStack.mMaterial, soluteAmount));
+            RM.Drying.addRecipe0(true, 16, 2000 * waterAmount, material.liquid(totalAmount * U, true ), MT.DistWater.liquid(waterAmount * U, false), dust.mat(soluteStack.mMaterial, soluteAmount));
         }
     }
 }

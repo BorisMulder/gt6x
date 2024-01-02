@@ -54,8 +54,8 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
     static final String die = "Die";
 
     static final String[] CHIP_TIER_NAMES = { "PMOS", "NMOS", "CMOS" };
-    static final String[] CHIP_TYPE_NAMES = { "IC", "CPU", "DRAM", "GPU", "NAND Flash", "GaAs FET" };
-    static final int MESFET_IDX = 5;
+    static final String[] CHIP_TYPE_NAMES = { "IC", "CPU", "DRAM", "GPU", "NAND Flash", "SoC", "GaAs FET" };
+    public static final int MESFET_IDX = 6;
 
     static final int PM_FINISHED = 3;
     static final String[] MASK_STAGE_NAMES = { ", Patterned", ", Developed", ", Etched", "" };
@@ -207,6 +207,7 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
             case 3 -> DYE_INDEX_Red;
             case 4 -> DYE_INDEX_Green;
             case 5 -> DYE_INDEX_Blue;
+            case 6 -> DYE_INDEX_Lime;
             default -> DYE_INDEX_Black;
         };
 

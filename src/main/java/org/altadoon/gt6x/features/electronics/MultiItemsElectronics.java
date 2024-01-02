@@ -22,6 +22,7 @@ public class MultiItemsElectronics extends MultiItemRandom {
     public static final String IC_NAME = "gt6x:integratedcircuit";
 
     public static final String[] PC_NAMES = { "gt6x:PC0", "gt6x:PC1", "gt6x:PC2" };
+    public static final String[] SOC_NAMES = { "gt6x:SoC0", "gt6x:SoC1", "gt6x:SoC2" };
 
 
     public MultiItemsElectronics(String modID, String unlocalized) {
@@ -140,6 +141,11 @@ public class MultiItemsElectronics extends MultiItemRandom {
         ILx.FlashChips[0].set(addItem(340, "Flash memory (16 MB)", tooltip));
         ILx.FlashChips[1].set(addItem(341, "Flash memory (1 GB)", tooltip));
         ILx.FlashChips[2].set(addItem(342, "Flash memory (256 GB)", tooltip));
+
+        tooltip = "System on a Chip";
+        ILx.SoCs[0].set(addItem(350, "SoC (Tier 1)", tooltip, SOC_NAMES[0]));
+        ILx.SoCs[1].set(addItem(351, "SoC (Tier 2)", tooltip, SOC_NAMES[1]));
+        ILx.SoCs[2].set(addItem(352, "SoC (Tier 3)", tooltip, SOC_NAMES[2]));
 
         // Computer parts
         tooltip = "A computer's Random Access Memory module";
