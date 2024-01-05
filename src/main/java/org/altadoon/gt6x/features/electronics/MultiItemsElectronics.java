@@ -185,5 +185,10 @@ public class MultiItemsElectronics extends MultiItemRandom {
         ILx.PCs[0].set(addItem(490, "Computer (Tier 1)", tooltip, PC_NAMES[0]));
         ILx.PCs[1].set(addItem(491, "Computer (Tier 2)", tooltip, PC_NAMES[1]));
         ILx.PCs[2].set(addItem(492, "Computer (Tier 3)", tooltip, PC_NAMES[2]));
+
+        ILx.PolaroidFilter.set(addItem(500, "Polaroid Filter", "Used to filter light in cameras and screens", new OreDictItemData(MTx.PVA, U4, MT.I, U8)));
+        ILx.PolaroidFilterTiny.set(addItem(501, "Tiny Polaroid Filter", "Used to filter light in cameras and screens", new OreDictItemData(MTx.PVA, U36, MT.I, U72)));
+        ILx.TCFGlass.set(addItem(502, "ITO coated glass pane", "Glass pane containing a layer of Transparent Conducting Film", new OreDictItemData(MT.Glass, U, MTx.ITO, U4)));
+        ILx.TCFGlassTiny.set(addItem(503, "Tiny ITO coated glass pane", "Glass pane containing a layer of Transparent Conducting Film", new OreDictItemData(MT.Glass, U9, MTx.ITO, U36)));
     }
 }

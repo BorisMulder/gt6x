@@ -14,6 +14,7 @@ import static gregapi.data.CS.*;
 public class FLx {
     public static Fluid Varnish = null;
     public static Fluid ThermalPaste = null;
+    public static Fluid LiquidCrystal5CB = null;
 
     @SafeVarargs public static Fluid createPlasma(OreDictMaterial material, Set<String>... fluidList) {return create("plasma."+material.mNameInternal.toLowerCase(), material.mNameLocal + " Plasma", material, STATE_PLASMA, 2000, material.mPlasmaPoint, fluidList).setLuminosity(15);}
 
@@ -27,5 +28,6 @@ public class FLx {
         if (!FL.Turpentine  .exists()) create("turpentine" , "Turpentine"  , null, STATE_LIQUID);
         Varnish = create("varnish" , "Varnish", null, 1);
         ThermalPaste = create("thermalpaste", "Thermal Paste", null, STATE_LIQUID);
+        LiquidCrystal5CB = create("liquidcrystal5cb", "5CB Liquid Crystal", MTx.LiquidCrystal5CB, STATE_LIQUID, 144, 300);
     }
 }
