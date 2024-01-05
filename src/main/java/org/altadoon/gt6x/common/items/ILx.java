@@ -126,7 +126,11 @@ public class ILx implements IItemContainer {
             Hard_Disk = new ILx("Hard_Disk"),
             Hard_Disk_Advanced = new ILx("Hard_Disk_Advanced"),
             CPU_Fan = new ILx("CPU_Fan"),
-            ComputerCase = new ILx("ComputerCase");
+            ComputerCase = new ILx("ComputerCase"),
+            PolaroidFilter = new ILx("PolaroidFilter"),
+            PolaroidFilterTiny = new ILx("PolaroidFilter"),
+            TCFGlass = new ILx("TCFGlass"),
+            TCFGlassTiny = new ILx("TCFTCFGlassTiny");
 
     // Photomasks & Wafers
     public static final int NUM_WAFER_TIERS = 3; // PMOS, NMOS, CMOS

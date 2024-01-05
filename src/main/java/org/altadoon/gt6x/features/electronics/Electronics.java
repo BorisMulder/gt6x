@@ -133,8 +133,8 @@ public class Electronics extends GT6XFeature {
 
     private void addRecipes() {
         // Y2O3-Al2O3
-        RMx.Sintering.addRecipeX(true, 64, 29 , ST.array(ST.tag(2), dustTiny.mat(MT.Al2O3, 1), dustTiny.mat(MTx.Y2O3, 1)), nugget.mat(MTx.YAlO3, 2));
-        RMx.Sintering.addRecipeX(true, 64, 64 , ST.array(ST.tag(2), dustSmall.mat(MT.Al2O3, 1), dustSmall.mat(MTx.Y2O3, 1)), chunkGt.mat(MTx.YAlO3, 2));
+        RMx.Sintering.addRecipeX(true, 64, 29, ST.array(ST.tag(2), dustTiny.mat(MT.Al2O3, 1), dustTiny.mat(MTx.Y2O3, 1)), nugget.mat(MTx.YAlO3, 2));
+        RMx.Sintering.addRecipeX(true, 64, 64, ST.array(ST.tag(2), dustSmall.mat(MT.Al2O3, 1), dustSmall.mat(MTx.Y2O3, 1)), chunkGt.mat(MTx.YAlO3, 2));
         RMx.Sintering.addRecipeX(true, 64, 256, ST.array(ST.tag(2), dust.mat(MT.Al2O3, 1), dust.mat(MTx.Y2O3, 1)), ingot.mat(MTx.YAlO3, 2));
 
         // electron tube stuff
@@ -146,30 +146,31 @@ public class Electronics extends GT6XFeature {
             RM.Press.addRecipeX(true, 16, 64, ST.array(OP.stick.mat(mat, 4), OP.bolt.mat(mat, 4), OP.dust.mat(MT.Redstone, 1)), ILx.Electrode_Tungsten.get(2));
         }
 
-        RM.Laminator.addRecipe2(true, 16,  128, OP.plateGem.mat(MT.Glass, 1), ILx.Electrode_Molybdenum.get(8), ILx.ElectronTube_Molybdenum.get(8));
-        RM.Laminator.addRecipe2(true, 16,   64, OP.casingSmall.mat(MT.Glass, 1), ILx.Electrode_Molybdenum.get(4), ILx.ElectronTube_Molybdenum.get(4));
-        RM.Laminator.addRecipe2(true, 16,   48, ST.make(Blocks.glass_pane,1, W), ILx.Electrode_Molybdenum.get(1), ILx.ElectronTube_Molybdenum.get(1));
-        RM.Laminator.addRecipe2(true, 16,  128, OP.plateGem.mat(MT.Glass, 1), ILx.Electrode_Tungsten.get(8), ILx.ElectronTube_Tungsten.get(8));
-        RM.Laminator.addRecipe2(true, 16,   64, OP.casingSmall.mat(MT.Glass, 1), ILx.Electrode_Tungsten.get(4), ILx.ElectronTube_Tungsten.get(4));
-        RM.Laminator.addRecipe2(true, 16,   48, ST.make(Blocks.glass_pane,1, W), ILx.Electrode_Tungsten.get(1), ILx.ElectronTube_Tungsten.get(1));
+        RM.Laminator.addRecipe2(true, 16, 128, OP.plateGem.mat(MT.Glass, 1), ILx.Electrode_Molybdenum.get(8), ILx.ElectronTube_Molybdenum.get(8));
+        RM.Laminator.addRecipe2(true, 16, 64, OP.casingSmall.mat(MT.Glass, 1), ILx.Electrode_Molybdenum.get(4), ILx.ElectronTube_Molybdenum.get(4));
+        RM.Laminator.addRecipe2(true, 16, 48, ST.make(Blocks.glass_pane, 1, W), ILx.Electrode_Molybdenum.get(1), ILx.ElectronTube_Molybdenum.get(1));
+        RM.Laminator.addRecipe2(true, 16, 128, OP.plateGem.mat(MT.Glass, 1), ILx.Electrode_Tungsten.get(8), ILx.ElectronTube_Tungsten.get(8));
+        RM.Laminator.addRecipe2(true, 16, 64, OP.casingSmall.mat(MT.Glass, 1), ILx.Electrode_Tungsten.get(4), ILx.ElectronTube_Tungsten.get(4));
+        RM.Laminator.addRecipe2(true, 16, 48, ST.make(Blocks.glass_pane, 1, W), ILx.Electrode_Tungsten.get(1), ILx.ElectronTube_Tungsten.get(1));
 
         // soldering iron
         CR.shaped(Tools.refillableMetaTool.make(SolderingIron.ID_EMPTY), CR.DEF_MIR, "Ph ", "fC ", " sS", 'P', OP.pipeTiny.mat(MT.StainlessSteel, 1), 'C', OP.plateCurved.mat(MT.StainlessSteel, 1), 'S', OD.stickAnyWood);
 
         // pastes
-        RM.Mixer.addRecipe2(true, 16, 64, ILx.Rosin.get(1), dust.mat(MT.SolderingAlloy, 2), MTx.Isopropanol.liquid(2*U, true), MTx.SolderingPaste.liquid(4*U, false), NI);
+        RM.Mixer.addRecipe2(true, 16, 64, ILx.Rosin.get(1), dust.mat(MT.SolderingAlloy, 2), MTx.Isopropanol.liquid(2 * U, true), MTx.SolderingPaste.liquid(4 * U, false), NI);
         RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.ZnO, 1), MTx.Epoxy.liquid(U, true), FL.make(FLx.ThermalPaste, 288), NI);
 
         // glass fibres
         CR.shaped(ILx.PlatinumBushing.get(1), CR.DEF_REV, " e ", " P ", "   ", 'P', OP.plate.mat(MT.Pt, 1));
 
-        final long EUt = 16, durationPerUnit = 64*6;
-        for (OreDictPrefix tPrefix : OreDictPrefix.VALUES) if (tPrefix != null && tPrefix.containsAny(TD.Prefix.EXTRUDER_FODDER, TD.Prefix.INGOT_BASED, TD.Prefix.GEM_BASED, TD.Prefix.DUST_BASED) && U % tPrefix.mAmount == 0) {
-            ItemStack stack = tPrefix.mat(MT.Glass, U / tPrefix.mAmount);
-            if (stack != null && stack.stackSize <= stack.getMaxStackSize()) {
-                RM.Extruder.addRecipe2(true, false, false, false, true, EUt, durationPerUnit, stack, ILx.PlatinumBushing.get(0), ILx.GlassFibres.get(8));
+        final long EUt = 16, durationPerUnit = 64 * 6;
+        for (OreDictPrefix tPrefix : OreDictPrefix.VALUES)
+            if (tPrefix != null && tPrefix.containsAny(TD.Prefix.EXTRUDER_FODDER, TD.Prefix.INGOT_BASED, TD.Prefix.GEM_BASED, TD.Prefix.DUST_BASED) && U % tPrefix.mAmount == 0) {
+                ItemStack stack = tPrefix.mat(MT.Glass, U / tPrefix.mAmount);
+                if (stack != null && stack.stackSize <= stack.getMaxStackSize()) {
+                    RM.Extruder.addRecipe2(true, false, false, false, true, EUt, durationPerUnit, stack, ILx.PlatinumBushing.get(0), ILx.GlassFibres.get(8));
+                }
             }
-        }
 
         // boards
         RM.Laminator.addRecipe2(true, 16, 128, OP.foil.mat(MTx.PF, 4), ST.make(Items.paper, 1, W), ILx.FR1_Board.get(1));
@@ -184,94 +185,101 @@ public class Electronics extends GT6XFeature {
         CR.shaped(ILx.CCL_SMALL.get(2), CR.DEF_REV, " s ", " P ", "   ", 'P', ILx.CCL.get(1));
         CR.shaped(ILx.GCL_SMALL.get(2), CR.DEF_REV, " s ", " P ", "   ", 'P', ILx.GCL.get(1));
         CR.shaped(ILx.PCL_SMALL.get(2), CR.DEF_REV, " s ", " P ", "   ", 'P', ILx.PCL.get(1));
-        CR.shaped(ILx.CCL_LONG .get(2), CR.DEF_REV, "   ", "sP ", "   ", 'P', ILx.CCL.get(1));
-        CR.shaped(ILx.GCL_LONG .get(2), CR.DEF_REV, "   ", "sP ", "   ", 'P', ILx.GCL.get(1));
-        CR.shaped(ILx.PCL_LONG .get(2), CR.DEF_REV, "   ", "sP ", "   ", 'P', ILx.PCL.get(1));
-        CR.shaped(ILx.CCL_TINY .get(2), CR.DEF_REV, " s ", " P ", "   ", 'P', ILx.CCL_SMALL.get(1));
-        CR.shaped(ILx.GCL_TINY .get(2), CR.DEF_REV, " s ", " P ", "   ", 'P', ILx.GCL_SMALL.get(1));
-        CR.shaped(ILx.PCL_TINY .get(2), CR.DEF_REV, " s ", " P ", "   ", 'P', ILx.PCL_SMALL.get(1));
+        CR.shaped(ILx.CCL_LONG.get(2), CR.DEF_REV, "   ", "sP ", "   ", 'P', ILx.CCL.get(1));
+        CR.shaped(ILx.GCL_LONG.get(2), CR.DEF_REV, "   ", "sP ", "   ", 'P', ILx.GCL.get(1));
+        CR.shaped(ILx.PCL_LONG.get(2), CR.DEF_REV, "   ", "sP ", "   ", 'P', ILx.PCL.get(1));
+        CR.shaped(ILx.CCL_TINY.get(2), CR.DEF_REV, " s ", " P ", "   ", 'P', ILx.CCL_SMALL.get(1));
+        CR.shaped(ILx.GCL_TINY.get(2), CR.DEF_REV, " s ", " P ", "   ", 'P', ILx.GCL_SMALL.get(1));
+        CR.shaped(ILx.PCL_TINY.get(2), CR.DEF_REV, " s ", " P ", "   ", 'P', ILx.PCL_SMALL.get(1));
 
-        for (int i = 0; i < RMx.CuttingFluids.length; i++) if (RMx.CuttingFluids[i] != null) {
-            RM.Cutter.addRecipe1(true, 16, 16 * RMx.CuttingMultiplier[i], ILx.CCL.get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 16, 1000, true), NF, ILx.CCL_SMALL.get(2));
-            RM.Cutter.addRecipe1(true, 16, 16 * RMx.CuttingMultiplier[i], ILx.GCL.get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 16, 1000, true), NF, ILx.GCL_SMALL.get(2));
-            RM.Cutter.addRecipe1(true, 16, 16 * RMx.CuttingMultiplier[i], ILx.PCL.get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 16, 1000, true), NF, ILx.PCL_TINY.get(2));
-            RM.Cutter.addRecipe1(true, 16, 16 * RMx.CuttingMultiplier[i], ILx.CCL_SMALL.get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 16, 1000, true), NF, ILx.CCL_TINY.get(2));
-            RM.Cutter.addRecipe1(true, 16, 16 * RMx.CuttingMultiplier[i], ILx.GCL_SMALL.get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 16, 1000, true), NF, ILx.GCL_TINY.get(2));
-            RM.Cutter.addRecipe1(true, 16, 16 * RMx.CuttingMultiplier[i], ILx.PCL_SMALL.get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 16, 1000, true), NF, ILx.PCL_TINY.get(2));
-        }
+        for (int i = 0; i < RMx.CuttingFluids.length; i++)
+            if (RMx.CuttingFluids[i] != null) {
+                RM.Cutter.addRecipe1(true, 16, 16 * RMx.CuttingMultiplier[i], ILx.CCL.get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 16, 1000, true), NF, ILx.CCL_SMALL.get(2));
+                RM.Cutter.addRecipe1(true, 16, 16 * RMx.CuttingMultiplier[i], ILx.GCL.get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 16, 1000, true), NF, ILx.GCL_SMALL.get(2));
+                RM.Cutter.addRecipe1(true, 16, 16 * RMx.CuttingMultiplier[i], ILx.PCL.get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 16, 1000, true), NF, ILx.PCL_TINY.get(2));
+                RM.Cutter.addRecipe1(true, 16, 16 * RMx.CuttingMultiplier[i], ILx.CCL_SMALL.get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 16, 1000, true), NF, ILx.CCL_TINY.get(2));
+                RM.Cutter.addRecipe1(true, 16, 16 * RMx.CuttingMultiplier[i], ILx.GCL_SMALL.get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 16, 1000, true), NF, ILx.GCL_TINY.get(2));
+                RM.Cutter.addRecipe1(true, 16, 16 * RMx.CuttingMultiplier[i], ILx.PCL_SMALL.get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 16, 1000, true), NF, ILx.PCL_TINY.get(2));
+            }
 
         // Trace etching
         CR.shaped(ILx.EtchMask_Trace.get(1), CR.DEF_REV, "x  ", " P ", "   ", 'P', OP.plate.mat(MT.PVC, 1));
-        lens.addListener(event -> new OreDictListenerEvent_Names() { @Override public void addAllListeners() {
-            addListener(DYE_OREDICTS_LENS[DYE_INDEX_White] , lens -> RM.LaserEngraver.addRecipe2(true, 16, 128, plate.mat(MT.PVC, 1), ST.amount(0, lens.mStack), ILx.EtchMask_Trace.get(1)));
-            addListener(DYE_OREDICTS_LENS[DYE_INDEX_Yellow], lens -> RM.LaserEngraver.addRecipe2(true, 16, 128, plate.mat(MT.PVC, 1), ST.amount(0, lens.mStack), ILx.EtchMask_Trace_Small.get(1)));
-            addListener(DYE_OREDICTS_LENS[DYE_INDEX_Orange], lens -> RM.LaserEngraver.addRecipe2(true, 16, 128, plate.mat(MT.PVC, 1), ST.amount(0, lens.mStack), ILx.EtchMask_Trace_Tiny.get(1)));
-            addListener(DYE_OREDICTS_LENS[DYE_INDEX_Red]   , lens -> RM.LaserEngraver.addRecipe2(true, 16, 128, plate.mat(MT.PVC, 1), ST.amount(0, lens.mStack), ILx.EtchMask_Trace_Long.get(1)));
-        }});
+        lens.addListener(event -> new OreDictListenerEvent_Names() {
+            @Override
+            public void addAllListeners() {
+                addListener(DYE_OREDICTS_LENS[DYE_INDEX_White], lens -> RM.LaserEngraver.addRecipe2(true, 16, 128, plate.mat(MT.PVC, 1), ST.amount(0, lens.mStack), ILx.EtchMask_Trace.get(1)));
+                addListener(DYE_OREDICTS_LENS[DYE_INDEX_Yellow], lens -> RM.LaserEngraver.addRecipe2(true, 16, 128, plate.mat(MT.PVC, 1), ST.amount(0, lens.mStack), ILx.EtchMask_Trace_Small.get(1)));
+                addListener(DYE_OREDICTS_LENS[DYE_INDEX_Orange], lens -> RM.LaserEngraver.addRecipe2(true, 16, 128, plate.mat(MT.PVC, 1), ST.amount(0, lens.mStack), ILx.EtchMask_Trace_Tiny.get(1)));
+                addListener(DYE_OREDICTS_LENS[DYE_INDEX_Red], lens -> RM.LaserEngraver.addRecipe2(true, 16, 128, plate.mat(MT.PVC, 1), ST.amount(0, lens.mStack), ILx.EtchMask_Trace_Long.get(1)));
+            }
+        });
 
-        RM.Bath.addRecipe2(true, 0, 128, ILx.CCL      .get(1), ILx.EtchMask_Trace      .get(0), MTx.FeCl3Solution.liquid(17*U2, true), MTx.CuFeClSolution.liquid(9 * U , false), IL .Circuit_Plate_Copper.get(1));
-        RM.Bath.addRecipe2(true, 0, 128, ILx.CCL_SMALL.get(1), ILx.EtchMask_Trace_Small.get(0), MTx.FeCl3Solution.liquid(17*U4, true), MTx.CuFeClSolution.liquid(9 * U2, false), ILx.Circuit_Plate_Copper_Small.get(1));
-        RM.Bath.addRecipe2(true, 0, 128, ILx.CCL_LONG .get(1), ILx.EtchMask_Trace_Long .get(0), MTx.FeCl3Solution.liquid(17*U4, true), MTx.CuFeClSolution.liquid(9 * U2, false), ILx.Circuit_Plate_Copper_Long.get(1));
-        RM.Bath.addRecipe2(true, 0, 128, ILx.CCL_TINY .get(1), ILx.EtchMask_Trace_Tiny .get(0), MTx.FeCl3Solution.liquid(17*U8, true), MTx.CuFeClSolution.liquid(9 * U4, false), ILx.Circuit_Plate_Copper_Tiny.get(1));
+        RM.Bath.addRecipe2(true, 0, 128, ILx.CCL.get(1), ILx.EtchMask_Trace.get(0), MTx.FeCl3Solution.liquid(17 * U2, true), MTx.CuFeClSolution.liquid(9 * U, false), IL.Circuit_Plate_Copper.get(1));
+        RM.Bath.addRecipe2(true, 0, 128, ILx.CCL_SMALL.get(1), ILx.EtchMask_Trace_Small.get(0), MTx.FeCl3Solution.liquid(17 * U4, true), MTx.CuFeClSolution.liquid(9 * U2, false), ILx.Circuit_Plate_Copper_Small.get(1));
+        RM.Bath.addRecipe2(true, 0, 128, ILx.CCL_LONG.get(1), ILx.EtchMask_Trace_Long.get(0), MTx.FeCl3Solution.liquid(17 * U4, true), MTx.CuFeClSolution.liquid(9 * U2, false), ILx.Circuit_Plate_Copper_Long.get(1));
+        RM.Bath.addRecipe2(true, 0, 128, ILx.CCL_TINY.get(1), ILx.EtchMask_Trace_Tiny.get(0), MTx.FeCl3Solution.liquid(17 * U8, true), MTx.CuFeClSolution.liquid(9 * U4, false), ILx.Circuit_Plate_Copper_Tiny.get(1));
 
-        RM.Bath.addRecipe2(true, 0, 128, ILx.GCL      .get(1), ILx.EtchMask_Trace      .get(0), FL.array(MT.AquaRegia.liquid(13*U2, true)), FL.array(MT.ChloroauricAcid.liquid(3*U , false), MT.NO.gas(U , false), MT.H2O.liquid(3*U , false)), IL .Circuit_Plate_Gold.get(1));
-        RM.Bath.addRecipe2(true, 0, 128, ILx.GCL_SMALL.get(1), ILx.EtchMask_Trace_Small.get(0), FL.array(MT.AquaRegia.liquid(13*U4, true)), FL.array(MT.ChloroauricAcid.liquid(3*U2, false), MT.NO.gas(U2, false), MT.H2O.liquid(3*U2, false)), ILx.Circuit_Plate_Gold_Small.get(1));
-        RM.Bath.addRecipe2(true, 0, 128, ILx.GCL_LONG .get(1), ILx.EtchMask_Trace_Long .get(0), FL.array(MT.AquaRegia.liquid(13*U4, true)), FL.array(MT.ChloroauricAcid.liquid(3*U2, false), MT.NO.gas(U2, false), MT.H2O.liquid(3*U2, false)), ILx.Circuit_Plate_Gold_Long.get(1));
-        RM.Bath.addRecipe2(true, 0, 128, ILx.GCL_TINY .get(1), ILx.EtchMask_Trace_Tiny .get(0), FL.array(MT.AquaRegia.liquid(13*U8, true)), FL.array(MT.ChloroauricAcid.liquid(3*U4, false), MT.NO.gas(U4, false), MT.H2O.liquid(3*U4, false)), ILx.Circuit_Plate_Gold_Tiny.get(1));
+        RM.Bath.addRecipe2(true, 0, 128, ILx.GCL.get(1), ILx.EtchMask_Trace.get(0), FL.array(MT.AquaRegia.liquid(13 * U2, true)), FL.array(MT.ChloroauricAcid.liquid(3 * U, false), MT.NO.gas(U, false), MT.H2O.liquid(3 * U, false)), IL.Circuit_Plate_Gold.get(1));
+        RM.Bath.addRecipe2(true, 0, 128, ILx.GCL_SMALL.get(1), ILx.EtchMask_Trace_Small.get(0), FL.array(MT.AquaRegia.liquid(13 * U4, true)), FL.array(MT.ChloroauricAcid.liquid(3 * U2, false), MT.NO.gas(U2, false), MT.H2O.liquid(3 * U2, false)), ILx.Circuit_Plate_Gold_Small.get(1));
+        RM.Bath.addRecipe2(true, 0, 128, ILx.GCL_LONG.get(1), ILx.EtchMask_Trace_Long.get(0), FL.array(MT.AquaRegia.liquid(13 * U4, true)), FL.array(MT.ChloroauricAcid.liquid(3 * U2, false), MT.NO.gas(U2, false), MT.H2O.liquid(3 * U2, false)), ILx.Circuit_Plate_Gold_Long.get(1));
+        RM.Bath.addRecipe2(true, 0, 128, ILx.GCL_TINY.get(1), ILx.EtchMask_Trace_Tiny.get(0), FL.array(MT.AquaRegia.liquid(13 * U8, true)), FL.array(MT.ChloroauricAcid.liquid(3 * U4, false), MT.NO.gas(U4, false), MT.H2O.liquid(3 * U4, false)), ILx.Circuit_Plate_Gold_Tiny.get(1));
 
-        RM.Bath.addRecipe2(true, 0, 128, ILx.PCL      .get(1), ILx.EtchMask_Trace      .get(0), FL.array(MT.AquaRegia.liquid(78*U8, true)), FL.array(MT.ChloroplatinicAcid.liquid(78*U8, false), MT.NO.gas(12*U8, false), MT.H2O.liquid(33*U8, false)), IL .Circuit_Plate_Platinum.get(1));
-        RM.Bath.addRecipe2(true, 0, 128, ILx.PCL_SMALL.get(2), ILx.EtchMask_Trace_Small.get(0), FL.array(MT.AquaRegia.liquid(78*U8, true)), FL.array(MT.ChloroplatinicAcid.liquid(78*U8, false), MT.NO.gas(12*U8, false), MT.H2O.liquid(33*U8, false)), ILx.Circuit_Plate_Platinum_Small.get(2));
-        RM.Bath.addRecipe2(true, 0, 128, ILx.PCL_LONG .get(2), ILx.EtchMask_Trace_Long .get(0), FL.array(MT.AquaRegia.liquid(78*U8, true)), FL.array(MT.ChloroplatinicAcid.liquid(78*U8, false), MT.NO.gas(12*U8, false), MT.H2O.liquid(33*U8, false)), ILx.Circuit_Plate_Platinum_Long.get(2));
-        RM.Bath.addRecipe2(true, 0, 128, ILx.PCL_TINY .get(4), ILx.EtchMask_Trace_Tiny .get(0), FL.array(MT.AquaRegia.liquid(78*U8, true)), FL.array(MT.ChloroplatinicAcid.liquid(78*U8, false), MT.NO.gas(12*U8, false), MT.H2O.liquid(33*U8, false)), ILx.Circuit_Plate_Platinum_Tiny.get(4));
+        RM.Bath.addRecipe2(true, 0, 128, ILx.PCL.get(1), ILx.EtchMask_Trace.get(0), FL.array(MT.AquaRegia.liquid(78 * U8, true)), FL.array(MT.ChloroplatinicAcid.liquid(78 * U8, false), MT.NO.gas(12 * U8, false), MT.H2O.liquid(33 * U8, false)), IL.Circuit_Plate_Platinum.get(1));
+        RM.Bath.addRecipe2(true, 0, 128, ILx.PCL_SMALL.get(2), ILx.EtchMask_Trace_Small.get(0), FL.array(MT.AquaRegia.liquid(78 * U8, true)), FL.array(MT.ChloroplatinicAcid.liquid(78 * U8, false), MT.NO.gas(12 * U8, false), MT.H2O.liquid(33 * U8, false)), ILx.Circuit_Plate_Platinum_Small.get(2));
+        RM.Bath.addRecipe2(true, 0, 128, ILx.PCL_LONG.get(2), ILx.EtchMask_Trace_Long.get(0), FL.array(MT.AquaRegia.liquid(78 * U8, true)), FL.array(MT.ChloroplatinicAcid.liquid(78 * U8, false), MT.NO.gas(12 * U8, false), MT.H2O.liquid(33 * U8, false)), ILx.Circuit_Plate_Platinum_Long.get(2));
+        RM.Bath.addRecipe2(true, 0, 128, ILx.PCL_TINY.get(4), ILx.EtchMask_Trace_Tiny.get(0), FL.array(MT.AquaRegia.liquid(78 * U8, true)), FL.array(MT.ChloroplatinicAcid.liquid(78 * U8, false), MT.NO.gas(12 * U8, false), MT.H2O.liquid(33 * U8, false)), ILx.Circuit_Plate_Platinum_Tiny.get(4));
 
         /// Semiconductors
 
         // Hydrides & Polycrystallines
-        RM.Electrolyzer.addRecipe2(true, 32, 256, OP.stick.mat(MT.Ge, 1), OM.dust(MT.Mo, U3), FL.Water.make(3000), MTx.GeH4.gas(5*U2, false), OM.dust(MTx.MoO3, 4*U3));
-        RM.Electrolyzer.addRecipe2(true, 32, 256, OP.stick.mat(MT.Ge, 1), OM.dust(MT.Cd, U), FL.Water.make(3000), MTx.GeH4.gas(5*U2, false), OM.dust(MTx.CdO, 2*U));
-        RM.Bath.addRecipe1(true, 0, 256, dust.mat(MTx.Mg2Si, 3), MT.HCl.gas(8*U, true), MTx.SiH4.gas(5*U, false), dust.mat(MT.MgCl2, 6));
-        RM.Mixer.addRecipe0(true, 16, 60, FL.array(MTx.SiH4.gas(U, true), MTx.GeH4.gas(U, true)), FL.array(MTx.SiGeH8.gas(2*U, false)));
+        RM.Electrolyzer.addRecipe2(true, 32, 256, OP.stick.mat(MT.Ge, 1), OM.dust(MT.Mo, U3), FL.Water.make(3000), MTx.GeH4.gas(5 * U2, false), OM.dust(MTx.MoO3, 4 * U3));
+        RM.Electrolyzer.addRecipe2(true, 32, 256, OP.stick.mat(MT.Ge, 1), OM.dust(MT.Cd, U), FL.Water.make(3000), MTx.GeH4.gas(5 * U2, false), OM.dust(MTx.CdO, 2 * U));
+        RM.Bath.addRecipe1(true, 0, 256, dust.mat(MTx.Mg2Si, 3), MT.HCl.gas(8 * U, true), MTx.SiH4.gas(5 * U, false), dust.mat(MT.MgCl2, 6));
+        RM.Mixer.addRecipe0(true, 16, 60, FL.array(MTx.SiH4.gas(U, true), MTx.GeH4.gas(U, true)), FL.array(MTx.SiGeH8.gas(2 * U, false)));
 
         //TODO use thermolyzer
-        RM.Drying.addRecipe1(true, 16, 512, ST.tag(0), MTx.GeH4.gas(5*U, true), MT.H.gas(4*U, false), polyGem.mat(MT.Ge, 1));
-        RM.Drying.addRecipe1(true, 16, 512, ST.tag(0), MTx.SiH4.gas(5*U, true), MT.H.gas(4*U, false), polyGem.mat(MT.Si, 1));
-        RM.Drying.addRecipe1(true, 16, 512, ST.tag(0), MTx.SiGeH8.gas(5*U, true), MT.H.gas(4*U, false), polyGem.mat(MTx.SiGe, 1));
+        RM.Drying.addRecipe1(true, 16, 512, ST.tag(0), MTx.GeH4.gas(5 * U, true), MT.H.gas(4 * U, false), polyGem.mat(MT.Ge, 1));
+        RM.Drying.addRecipe1(true, 16, 512, ST.tag(0), MTx.SiH4.gas(5 * U, true), MT.H.gas(4 * U, false), polyGem.mat(MT.Si, 1));
+        RM.Drying.addRecipe1(true, 16, 512, ST.tag(0), MTx.SiGeH8.gas(5 * U, true), MT.H.gas(4 * U, false), polyGem.mat(MTx.SiGe, 1));
         RM.CrystallisationCrucible.addRecipe1(true, 16, 1800, ST.tag(0), FL.array(MT.Ga.liquid(U2, true), MT.As.gas(U2, true)), ZL_FS, polyGem.mat(MTx.GaAs, 1));
 
         // RecipeMapHandlerPrefix not working here
-        for (OreDictMaterial mat : PolyGemMaterials) for (int i = 0; i < RMx.CuttingFluids.length; i++) if (RMx.CuttingFluids[i] != null) {
-            RM.Cutter.addRecipe1(true, 16, 64 * RMx.CuttingMultiplier[i], polyGem.mat(mat, 1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 16, 1000, true), NF, plateGemTiny.mat(mat, 6), dustTiny.mat(mat, 3));
-        }
+        for (OreDictMaterial mat : PolyGemMaterials)
+            for (int i = 0; i < RMx.CuttingFluids.length; i++)
+                if (RMx.CuttingFluids[i] != null) {
+                    RM.Cutter.addRecipe1(true, 16, 64 * RMx.CuttingMultiplier[i], polyGem.mat(mat, 1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 16, 1000, true), NF, plateGemTiny.mat(mat, 6), dustTiny.mat(mat, 3));
+                }
 
-        RM.Mixer.addRecipe1(true, 16, 2  , ST.tag(2), FL.array(FL.make_("molten.silicon", 1), FL.make_("molten.germanium",1)), FL.make_("molten.silicongermanium", 2), ZL_IS);
+        RM.Mixer.addRecipe1(true, 16, 2, ST.tag(2), FL.array(FL.make_("molten.silicon", 1), FL.make_("molten.germanium", 1)), FL.make_("molten.silicongermanium", 2), ZL_IS);
         RM.Mixer.addRecipe1(true, 16, 288, ST.tag(2), FL.array(FL.make_("molten.gallium", 144), MT.As.gas(U, true)), FL.make_("molten.galliumarsenide", 288), ZL_IS);
 
         // Boules
-        for (FluidStack nobleGas : FL.array(MT.He.gas(U, true), MT.Ne.gas(U, true), MT.Ar.gas(U, true), MT.Kr.gas(U, true), MT.Xe.gas(U, true), MT.Rn.gas(U, true))) if (nobleGas != null) {
-            // i-type semiconductors
-            RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.GaAs      , 1), FL.array(FL.mul(nobleGas, 1), MT .Ga  .liquid(35*U18,true), MT.As.gas(35*U18, true)), ZL_FS, bouleGt.mat(MTx.GaAs, 1));
-            RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.GaAs      , 1), FL.array(FL.mul(nobleGas, 9), MT .Ga  .liquid(35*U2 ,true), MT.As.gas(35*U2 , true)), ZL_FS, bouleGt.mat(MTx.GaAs, 9));
+        for (FluidStack nobleGas : FL.array(MT.He.gas(U, true), MT.Ne.gas(U, true), MT.Ar.gas(U, true), MT.Kr.gas(U, true), MT.Xe.gas(U, true), MT.Rn.gas(U, true)))
+            if (nobleGas != null) {
+                // i-type semiconductors
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 72000, plateGemTiny.mat(MTx.GaAs, 1), FL.array(FL.mul(nobleGas, 1), MT.Ga.liquid(35 * U18, true), MT.As.gas(35 * U18, true)), ZL_FS, bouleGt.mat(MTx.GaAs, 1));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem.mat(MTx.GaAs, 1), FL.array(FL.mul(nobleGas, 9), MT.Ga.liquid(35 * U2, true), MT.As.gas(35 * U2, true)), ZL_FS, bouleGt.mat(MTx.GaAs, 9));
 
-            // n-type semiconductors
-            RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MT. Si        , 1), FL.array(FL.mul(nobleGas, 1), MT. Si  .liquid(35*U9, true), MTx.PH3.gas(U18, true)), NF, bouleGt.mat(MTx.NDopedSi  , 1));
-            RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MT. Si        , 1), FL.array(FL.mul(nobleGas, 9), MT. Si  .liquid(35*U , true), MTx.PH3.gas(U2 , true)), NF, bouleGt.mat(MTx.NDopedSi  , 9));
-            RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.NDopedSi  , 1), FL.array(FL.mul(nobleGas, 1), MT. Si  .liquid(35*U9, true), MTx.PH3.gas(U18, true)), NF, bouleGt.mat(MTx.NDopedSi  , 1));
-            RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.NDopedSi  , 1), FL.array(FL.mul(nobleGas, 9), MT. Si  .liquid(35*U , true), MTx.PH3.gas(U2 , true)), NF, bouleGt.mat(MTx.NDopedSi  , 9));
-            RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.SiGe      , 1), FL.array(FL.mul(nobleGas, 1), MTx.SiGe.liquid(35*U9, true), MTx.PH3.gas(U18, true)), NF, bouleGt.mat(MTx.NDopedSiGe, 1));
-            RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.SiGe      , 1), FL.array(FL.mul(nobleGas, 9), MTx.SiGe.liquid(35*U , true), MTx.PH3.gas(U2 , true)), NF, bouleGt.mat(MTx.NDopedSiGe, 9));
-            RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.NDopedSiGe, 1), FL.array(FL.mul(nobleGas, 1), MTx.SiGe.liquid(35*U9, true), MTx.PH3.gas(U18, true)), NF, bouleGt.mat(MTx.NDopedSiGe, 1));
-            RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.NDopedSiGe, 1), FL.array(FL.mul(nobleGas, 9), MTx.SiGe.liquid(35*U , true), MTx.PH3.gas(U2 , true)), NF, bouleGt.mat(MTx.NDopedSiGe, 9));
+                // n-type semiconductors
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 72000, plateGemTiny.mat(MT.Si, 1), FL.array(FL.mul(nobleGas, 1), MT.Si.liquid(35 * U9, true), MTx.PH3.gas(U18, true)), NF, bouleGt.mat(MTx.NDopedSi, 1));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem.mat(MT.Si, 1), FL.array(FL.mul(nobleGas, 9), MT.Si.liquid(35 * U, true), MTx.PH3.gas(U2, true)), NF, bouleGt.mat(MTx.NDopedSi, 9));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 72000, plateGemTiny.mat(MTx.NDopedSi, 1), FL.array(FL.mul(nobleGas, 1), MT.Si.liquid(35 * U9, true), MTx.PH3.gas(U18, true)), NF, bouleGt.mat(MTx.NDopedSi, 1));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem.mat(MTx.NDopedSi, 1), FL.array(FL.mul(nobleGas, 9), MT.Si.liquid(35 * U, true), MTx.PH3.gas(U2, true)), NF, bouleGt.mat(MTx.NDopedSi, 9));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 72000, plateGemTiny.mat(MTx.SiGe, 1), FL.array(FL.mul(nobleGas, 1), MTx.SiGe.liquid(35 * U9, true), MTx.PH3.gas(U18, true)), NF, bouleGt.mat(MTx.NDopedSiGe, 1));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem.mat(MTx.SiGe, 1), FL.array(FL.mul(nobleGas, 9), MTx.SiGe.liquid(35 * U, true), MTx.PH3.gas(U2, true)), NF, bouleGt.mat(MTx.NDopedSiGe, 9));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 72000, plateGemTiny.mat(MTx.NDopedSiGe, 1), FL.array(FL.mul(nobleGas, 1), MTx.SiGe.liquid(35 * U9, true), MTx.PH3.gas(U18, true)), NF, bouleGt.mat(MTx.NDopedSiGe, 1));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem.mat(MTx.NDopedSiGe, 1), FL.array(FL.mul(nobleGas, 9), MTx.SiGe.liquid(35 * U, true), MTx.PH3.gas(U2, true)), NF, bouleGt.mat(MTx.NDopedSiGe, 9));
 
-            // p-type semiconductors
-            RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MT .Si        , 1), FL.array(FL.mul(nobleGas, 1), MT. Si  .liquid(35*U9, true), MTx.Diborane .gas(U18, true)), NF, bouleGt.mat(MTx.PDopedSi  , 1));
-            RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MT .Si        , 1), FL.array(FL.mul(nobleGas, 9), MT .Si  .liquid(35*U , true), MTx.Diborane .gas(U2 , true)), NF, bouleGt.mat(MTx.PDopedSi  , 9));
-            RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.PDopedSi  , 1), FL.array(FL.mul(nobleGas, 1), MT. Si  .liquid(35*U9, true), MTx.Diborane .gas(U18, true)), NF, bouleGt.mat(MTx.PDopedSi  , 1));
-            RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.PDopedSi  , 1), FL.array(FL.mul(nobleGas, 9), MT .Si  .liquid(35*U , true), MTx.Diborane .gas(U2 , true)), NF, bouleGt.mat(MTx.PDopedSi  , 9));
-            RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.SiGe      , 1), FL.array(FL.mul(nobleGas, 1), MTx.SiGe.liquid(35*U9, true), MTx.Diborane .gas(U18, true)), NF, bouleGt.mat(MTx.PDopedSiGe, 1));
-            RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.SiGe      , 1), FL.array(FL.mul(nobleGas, 9), MTx.SiGe.liquid(35*U , true), MTx.Diborane .gas(U2 , true)), NF, bouleGt.mat(MTx.PDopedSiGe, 9));
-            RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.PDopedSiGe, 1), FL.array(FL.mul(nobleGas, 1), MTx.SiGe.liquid(35*U9, true), MTx.Diborane .gas(U18, true)), NF, bouleGt.mat(MTx.PDopedSiGe, 1));
-            RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.PDopedSiGe, 1), FL.array(FL.mul(nobleGas, 9), MTx.SiGe.liquid(35*U , true), MTx.Diborane .gas(U2 , true)), NF, bouleGt.mat(MTx.PDopedSiGe, 9));
-        }
+                // p-type semiconductors
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 72000, plateGemTiny.mat(MT.Si, 1), FL.array(FL.mul(nobleGas, 1), MT.Si.liquid(35 * U9, true), MTx.Diborane.gas(U18, true)), NF, bouleGt.mat(MTx.PDopedSi, 1));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem.mat(MT.Si, 1), FL.array(FL.mul(nobleGas, 9), MT.Si.liquid(35 * U, true), MTx.Diborane.gas(U2, true)), NF, bouleGt.mat(MTx.PDopedSi, 9));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 72000, plateGemTiny.mat(MTx.PDopedSi, 1), FL.array(FL.mul(nobleGas, 1), MT.Si.liquid(35 * U9, true), MTx.Diborane.gas(U18, true)), NF, bouleGt.mat(MTx.PDopedSi, 1));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem.mat(MTx.PDopedSi, 1), FL.array(FL.mul(nobleGas, 9), MT.Si.liquid(35 * U, true), MTx.Diborane.gas(U2, true)), NF, bouleGt.mat(MTx.PDopedSi, 9));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 72000, plateGemTiny.mat(MTx.SiGe, 1), FL.array(FL.mul(nobleGas, 1), MTx.SiGe.liquid(35 * U9, true), MTx.Diborane.gas(U18, true)), NF, bouleGt.mat(MTx.PDopedSiGe, 1));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem.mat(MTx.SiGe, 1), FL.array(FL.mul(nobleGas, 9), MTx.SiGe.liquid(35 * U, true), MTx.Diborane.gas(U2, true)), NF, bouleGt.mat(MTx.PDopedSiGe, 9));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 72000, plateGemTiny.mat(MTx.PDopedSiGe, 1), FL.array(FL.mul(nobleGas, 1), MTx.SiGe.liquid(35 * U9, true), MTx.Diborane.gas(U18, true)), NF, bouleGt.mat(MTx.PDopedSiGe, 1));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem.mat(MTx.PDopedSiGe, 1), FL.array(FL.mul(nobleGas, 9), MTx.SiGe.liquid(35 * U, true), MTx.Diborane.gas(U2, true)), NF, bouleGt.mat(MTx.PDopedSiGe, 9));
+            }
 
         // Wafer Oxidation
         for (OreDictMaterial mat : OxidizedWaferMaterials) {
@@ -279,7 +287,7 @@ public class Electronics extends GT6XFeature {
         }
 
         // Photoresist
-        RM.Mixer.addRecipe2(true, 16, 256, dust.mat(MTx.DNQ, 1), dust.mat(MTx.PF, 1), MTx.Toluene.liquid(2*U, true), MTx.DnqNovolacResist.liquid(4*U, false), NI);
+        RM.Mixer.addRecipe2(true, 16, 256, dust.mat(MTx.DNQ, 1), dust.mat(MTx.PF, 1), MTx.Toluene.liquid(2 * U, true), MTx.DnqNovolacResist.liquid(2 * U, false), NI);
 
         // Lasers
         RM.Mixer.addRecipe0(true, 16, 16, FL.array(MT.Kr.gas(U200, true), MT.F.gas(U200, true)), MTx.KrF.gas(U100, false), NI);
@@ -306,90 +314,90 @@ public class Electronics extends GT6XFeature {
         RM.Press.addRecipeX(true, 16, 64, ST.array(plate.mat(MT.Al2O3, 1), foil.mat(MTx.PdAg, 1), foil.mat(MT.Nichrome, 1)), ILx.Resistor_Metal_Film.get(1));
 
         // Etchants
-        RM.Mixer.addRecipe0(true, 16, 64, FL.array(MTx.NitratoCericAcid.liquid(U, true), MT.NH3.gas(2*U, true)), ZL_FS, dust.mat(MTx.CAN, 1));
-        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.CAN, 1), MT.HNO3.liquid(5*U, true), MTx.ChromeEtch.liquid(6*U, false), NI);
+        RM.Mixer.addRecipe0(true, 16, 64, FL.array(MTx.NitratoCericAcid.liquid(U, true), MT.NH3.gas(2 * U, true)), ZL_FS, dust.mat(MTx.CAN, 1));
+        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.CAN, 1), MT.HNO3.liquid(5 * U, true), MTx.ChromeEtch.liquid(6 * U, false), NI);
         //TODO use Thermolyzer
-        RM.Drying.addRecipe0(true, 16, 1024, FL.array(MTx.CrNO3Solution.liquid(14*U, true)), FL.array(MT.H2O.liquid(3*U, false), MT.NO.gas(4*U, false)), dust.mat(MTx.Cr2O3, 5), dust.mat(MTx.CAN, 2));
+        RM.Drying.addRecipe0(true, 16, 1024, FL.array(MTx.CrNO3Solution.liquid(14 * U, true)), FL.array(MT.H2O.liquid(3 * U, false), MT.NO.gas(4 * U, false)), dust.mat(MTx.Cr2O3, 5), dust.mat(MTx.CAN, 2));
 
-        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.S, 1), MT.F.gas(6*U, true), MTx.SF6.gas(U, false), NI);
+        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.S, 1), MT.F.gas(6 * U, true), MTx.SF6.gas(U, false), NI);
 
-        for (OreDictMaterial mat : new OreDictMaterial[] { MTx.CF4, MTx.NF3, MTx.SF6 }) {
+        for (OreDictMaterial mat : new OreDictMaterial[]{MTx.CF4, MTx.NF3, MTx.SF6}) {
             RMx.Ionizer.addRecipe0(true, 64, 20, mat.gas(U100, true), mat.plasma(U100, false), NI);
         }
 
         // Ru Electroplating
-        RM.Roasting.addRecipe1(true, 16, 64, dust.mat(MT.Ru, 1), MT.Cl.gas(3*U, true), NF, dust.mat(MTx.RuCl3, 4));
+        RM.Roasting.addRecipe1(true, 16, 64, dust.mat(MT.Ru, 1), MT.Cl.gas(3 * U, true), NF, dust.mat(MTx.RuCl3, 4));
         for (FluidStack water : FL.waters(3000)) {
-            RM.Mixer.addRecipe1(true, 16, 256, dust.mat(MTx.RuCl3, 8), FL.array(MTx.H3NSO3.liquid(8 * U, true), MT.HCl.gas(4*U, true), water), FL.array(MTx.H3Ru2NCl8H4O2.liquid(20*U, false), MT.SO2.gas(3*U, false)));
+            RM.Mixer.addRecipe1(true, 16, 256, dust.mat(MTx.RuCl3, 8), FL.array(MTx.H3NSO3.liquid(8 * U, true), MT.HCl.gas(4 * U, true), water), FL.array(MTx.H3Ru2NCl8H4O2.liquid(20 * U, false), MT.SO2.gas(3 * U, false)));
         }
-        RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MTx.NH4Cl, 6), FL.array(MTx.H3Ru2NCl8H4O2.liquid(20*U, true)), FL.array(MTx.RuElectrolyte.liquid(20*U, false), MT.HCl.gas(6*U, false)));
+        RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MTx.NH4Cl, 6), FL.array(MTx.H3Ru2NCl8H4O2.liquid(20 * U, true)), FL.array(MTx.RuElectrolyte.liquid(20 * U, false), MT.HCl.gas(6 * U, false)));
 
         // bonding/packaging
-        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Au, 1), ILx.Wafers[0][0][7 ].get(4)), ILx.ICs[0].get(4));
-        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Al, 1), ILx.Wafers[0][1][7 ].get(4)), ILx.ICs[1].get(4));
+        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Au, 1), ILx.Wafers[0][0][7].get(4)), ILx.ICs[0].get(4));
+        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Al, 1), ILx.Wafers[0][1][7].get(4)), ILx.ICs[1].get(4));
         RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Al, 1), ILx.Wafers[0][2][13].get(4)), ILx.ICs[2].get(4));
 
-        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Cu, 1), ILx.Wafers[1][0][7 ].get(4)), ILx.CPUs[0].get(4));
-        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Cu, 1), ILx.Wafers[1][1][7 ].get(4)), ILx.CPUs[1].get(4));
+        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Cu, 1), ILx.Wafers[1][0][7].get(4)), ILx.CPUs[0].get(4));
+        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Cu, 1), ILx.Wafers[1][1][7].get(4)), ILx.CPUs[1].get(4));
         RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Cu, 1), ILx.Wafers[1][2][13].get(4)), ILx.CPUs[2].get(4));
 
-        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Al, 1), ILx.Wafers[2][0][7 ].get(4)), ILx.DRAMChips[0].get(4));
-        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Al, 1), ILx.Wafers[2][1][7 ].get(4)), ILx.DRAMChips[1].get(4));
+        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Al, 1), ILx.Wafers[2][0][7].get(4)), ILx.DRAMChips[0].get(4));
+        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Al, 1), ILx.Wafers[2][1][7].get(4)), ILx.DRAMChips[1].get(4));
         RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Al, 1), ILx.Wafers[2][2][13].get(4)), ILx.DRAMChips[2].get(4));
 
-        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Au, 1), ILx.Wafers[3][0][7 ].get(4)), ILx.GPUs[0].get(4));
-        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Cu, 1), ILx.Wafers[3][1][7 ].get(4)), ILx.GPUs[1].get(4));
+        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Au, 1), ILx.Wafers[3][0][7].get(4)), ILx.GPUs[0].get(4));
+        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Cu, 1), ILx.Wafers[3][1][7].get(4)), ILx.GPUs[1].get(4));
         RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Cu, 1), ILx.Wafers[3][2][13].get(4)), ILx.GPUs[2].get(4));
 
-        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Al, 1), ILx.Wafers[4][0][7 ].get(4)), ILx.FlashChips[0].get(4));
-        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Cu, 1), ILx.Wafers[4][1][7 ].get(4)), ILx.FlashChips[1].get(4));
+        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Al, 1), ILx.Wafers[4][0][7].get(4)), ILx.FlashChips[0].get(4));
+        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Cu, 1), ILx.Wafers[4][1][7].get(4)), ILx.FlashChips[1].get(4));
         RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Cu, 1), ILx.Wafers[4][2][13].get(4)), ILx.FlashChips[2].get(4));
 
-        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Al, 1), ILx.Wafers[4][0][7 ].get(4)), ILx.FlashChips[0].get(4));
-        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Cu, 1), ILx.Wafers[4][1][7 ].get(4)), ILx.FlashChips[1].get(4));
+        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Al, 1), ILx.Wafers[4][0][7].get(4)), ILx.FlashChips[0].get(4));
+        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Cu, 1), ILx.Wafers[4][1][7].get(4)), ILx.FlashChips[1].get(4));
         RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Cu, 1), ILx.Wafers[4][2][13].get(4)), ILx.FlashChips[2].get(4));
 
-        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Cu, 1), ILx.Wafers[5][0][7 ].get(4)), ILx.SoCs[0].get(4));
-        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Al, 1), ILx.Wafers[5][1][7 ].get(4)), ILx.SoCs[1].get(4));
+        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Cu, 1), ILx.Wafers[5][0][7].get(4)), ILx.SoCs[0].get(4));
+        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Al, 1), ILx.Wafers[5][1][7].get(4)), ILx.SoCs[1].get(4));
         RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), wireFine.mat(MT.Au, 1), ILx.Wafers[5][2][13].get(4)), ILx.SoCs[2].get(4));
 
-        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), foil.mat(MT.Cu, 1), ILx.Wafers[MESFET_IDX][0][7] .get(16)), ILx.Transistor_SMD.get(16));
+        RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), foil.mat(MT.Cu, 1), ILx.Wafers[MESFET_IDX][0][7].get(16)), ILx.Transistor_SMD.get(16));
         RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), foil.mat(MT.Cu, 1), ILx.Capacitor_Tantalum.get(16)), ILx.Capacitor_SMD.get(16));
         RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), foil.mat(MT.Sn, 1), ILx.Resistor_Metal_Film.get(1)), ILx.Resistor_SMD.get(16));
 
         // hand-soldering PCBs
-        CR.shaped(ILx.PCBs[1][0].get(1), CR.DEF_REM, "iE ", "CBR", "   ", 'B', IL .Circuit_Plate_Copper        , 'E', MultiItemsElectronics.ELECTRONTUBE_NAME, 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME);
-        CR.shaped(ILx.PCBs[1][0].get(1), CR.DEF_REM, "iT ", "CBR", "   ", 'B', IL .Circuit_Plate_Copper        , 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME);
-        CR.shaped(ILx.PCBs[1][1].get(1), CR.DEF_REM, "iT ", "CBR", "   ", 'B', ILx.Circuit_Plate_Copper_Small  , 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME);
-        CR.shaped(ILx.PCBs[2][0].get(1), CR.DEF_REM, "iT ", "CBR", " T ", 'B', IL .Circuit_Plate_Copper        , 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME);
-        CR.shaped(ILx.PCBs[2][1].get(1), CR.DEF_REM, "iI ", "CBR", " T ", 'B', ILx.Circuit_Plate_Copper_Small  , 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME, 'I', IC_NAMES[0]);
-        CR.shaped(ILx.PCBs[3][0].get(1), CR.DEF_REM, "TiT", "CBR", "T T", 'B', IL .Circuit_Plate_Gold          , 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME);
-        CR.shaped(ILx.PCBs[3][1].get(1), CR.DEF_REM, "iI ", "CBR", " T ", 'B', ILx.Circuit_Plate_Gold_Small    , 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME, 'I', ILx.ICs[0]);
-        CR.shaped(ILx.PCBs[4][0].get(1), CR.DEF_REM, "iI ", "CBR", " T ", 'B', IL .Circuit_Plate_Gold          , 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME, 'I', IC_NAMES[0]);
-        CR.shaped(ILx.PCBs[4][1].get(1), CR.DEF_REM, "iI ", "CBR", " T ", 'B', ILx.Circuit_Plate_Gold_Small    , 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME, 'I', IC_NAMES[1]);
-        CR.shaped(ILx.PCBs[5][0].get(1), CR.DEF_REM, "iI ", "CBR", " T ", 'B', IL .Circuit_Plate_Platinum      , 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME, 'I', ILx.ICs[1]);
-        CR.shaped(ILx.PCBs[5][1].get(1), CR.DEF_REM, "iI ", "CBR", " T ", 'B', ILx.Circuit_Plate_Platinum_Small, 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME, 'I', IC_NAMES[2]);
-        CR.shaped(ILx.PCBs[6][0].get(1), CR.DEF_REM, "iI ", "CBR", " T ", 'B', IL .Circuit_Plate_Platinum      , 'T', MultiItemsElectronics.TRANSISTOR_NAME  , 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME, 'I', IC_NAMES[2]);
+        CR.shaped(ILx.PCBs[1][0].get(1), CR.DEF_REM, "iE ", "CBR", "   ", 'B', IL.Circuit_Plate_Copper, 'E', MultiItemsElectronics.ELECTRONTUBE_NAME, 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME);
+        CR.shaped(ILx.PCBs[1][0].get(1), CR.DEF_REM, "iT ", "CBR", "   ", 'B', IL.Circuit_Plate_Copper, 'T', MultiItemsElectronics.TRANSISTOR_NAME, 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME);
+        CR.shaped(ILx.PCBs[1][1].get(1), CR.DEF_REM, "iT ", "CBR", "   ", 'B', ILx.Circuit_Plate_Copper_Small, 'T', MultiItemsElectronics.TRANSISTOR_NAME, 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME);
+        CR.shaped(ILx.PCBs[2][0].get(1), CR.DEF_REM, "iT ", "CBR", " T ", 'B', IL.Circuit_Plate_Copper, 'T', MultiItemsElectronics.TRANSISTOR_NAME, 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME);
+        CR.shaped(ILx.PCBs[2][1].get(1), CR.DEF_REM, "iI ", "CBR", " T ", 'B', ILx.Circuit_Plate_Copper_Small, 'T', MultiItemsElectronics.TRANSISTOR_NAME, 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME, 'I', IC_NAMES[0]);
+        CR.shaped(ILx.PCBs[3][0].get(1), CR.DEF_REM, "TiT", "CBR", "T T", 'B', IL.Circuit_Plate_Gold, 'T', MultiItemsElectronics.TRANSISTOR_NAME, 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME);
+        CR.shaped(ILx.PCBs[3][1].get(1), CR.DEF_REM, "iI ", "CBR", " T ", 'B', ILx.Circuit_Plate_Gold_Small, 'T', MultiItemsElectronics.TRANSISTOR_NAME, 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME, 'I', ILx.ICs[0]);
+        CR.shaped(ILx.PCBs[4][0].get(1), CR.DEF_REM, "iI ", "CBR", " T ", 'B', IL.Circuit_Plate_Gold, 'T', MultiItemsElectronics.TRANSISTOR_NAME, 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME, 'I', IC_NAMES[0]);
+        CR.shaped(ILx.PCBs[4][1].get(1), CR.DEF_REM, "iI ", "CBR", " T ", 'B', ILx.Circuit_Plate_Gold_Small, 'T', MultiItemsElectronics.TRANSISTOR_NAME, 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME, 'I', IC_NAMES[1]);
+        CR.shaped(ILx.PCBs[5][0].get(1), CR.DEF_REM, "iI ", "CBR", " T ", 'B', IL.Circuit_Plate_Platinum, 'T', MultiItemsElectronics.TRANSISTOR_NAME, 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME, 'I', ILx.ICs[1]);
+        CR.shaped(ILx.PCBs[5][1].get(1), CR.DEF_REM, "iI ", "CBR", " T ", 'B', ILx.Circuit_Plate_Platinum_Small, 'T', MultiItemsElectronics.TRANSISTOR_NAME, 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME, 'I', IC_NAMES[2]);
+        CR.shaped(ILx.PCBs[6][0].get(1), CR.DEF_REM, "iI ", "CBR", " T ", 'B', IL.Circuit_Plate_Platinum, 'T', MultiItemsElectronics.TRANSISTOR_NAME, 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME, 'I', IC_NAMES[2]);
 
         // auto-soldering PCBs
-        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(1), IL .Circuit_Plate_Copper        .get(1), ILx.Transistor_SMD.get(1), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[1][0].get(1));
-        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(1), ILx.Circuit_Plate_Copper_Small  .get(1), ILx.Transistor_SMD.get(1), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[1][1].get(1));
-        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(1), ILx.Circuit_Plate_Copper_Tiny   .get(1), ILx.Transistor_SMD.get(1), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[1][2].get(1));
-        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(2), IL .Circuit_Plate_Copper        .get(1), ILx.Transistor_SMD.get(2), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[2][0].get(1));
-        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(2), ILx.Circuit_Plate_Copper_Small  .get(1), ILx.Transistor_SMD.get(2), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[2][1].get(1));
-        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(0), ILx.Circuit_Plate_Copper_Tiny   .get(1), ILx.Transistor_SMD.get(1), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1), ILx.ICs[0].get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[2][2].get(1));
-        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(0), ILx.Circuit_Plate_Copper_Tiny   .get(1), ILx.Transistor_SMD.get(1), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1), ILx.ICs[1].get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[2][2].get(1));
-        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(0), ILx.Circuit_Plate_Copper_Tiny   .get(1), ILx.Transistor_SMD.get(1), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1), ILx.ICs[2].get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[2][2].get(1));
-        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(4), IL .Circuit_Plate_Gold          .get(1), ILx.Transistor_SMD.get(4), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[3][0].get(1));
-        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(0), ILx.Circuit_Plate_Gold_Small    .get(1), ILx.Transistor_SMD.get(1), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1), ILx.ICs[0].get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[3][1].get(1));
-        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(0), ILx.Circuit_Plate_Gold_Tiny     .get(1), ILx.Transistor_SMD.get(1), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1), ILx.ICs[1].get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[3][2].get(1));
-        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(0), IL .Circuit_Plate_Gold          .get(1), ILx.Transistor_SMD.get(1), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1), ILx.ICs[0].get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[4][0].get(1));
-        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(0), ILx.Circuit_Plate_Gold_Small    .get(1), ILx.Transistor_SMD.get(1), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1), ILx.ICs[1].get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[4][1].get(1));
-        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(0), ILx.Circuit_Plate_Gold_Small    .get(1), ILx.Transistor_SMD.get(1), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1), ILx.ICs[2].get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[4][1].get(1));
-        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(0), ILx.Circuit_Plate_Gold_Tiny     .get(1), ILx.Transistor_SMD.get(1), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1), ILx.ICs[2].get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[4][2].get(1));
-        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(0), IL .Circuit_Plate_Platinum      .get(1), ILx.Transistor_SMD.get(1), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1), ILx.ICs[1].get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[5][0].get(1));
+        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(1), IL.Circuit_Plate_Copper.get(1), ILx.Transistor_SMD.get(1), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[1][0].get(1));
+        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(1), ILx.Circuit_Plate_Copper_Small.get(1), ILx.Transistor_SMD.get(1), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[1][1].get(1));
+        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(1), ILx.Circuit_Plate_Copper_Tiny.get(1), ILx.Transistor_SMD.get(1), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[1][2].get(1));
+        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(2), IL.Circuit_Plate_Copper.get(1), ILx.Transistor_SMD.get(2), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[2][0].get(1));
+        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(2), ILx.Circuit_Plate_Copper_Small.get(1), ILx.Transistor_SMD.get(2), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[2][1].get(1));
+        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(0), ILx.Circuit_Plate_Copper_Tiny.get(1), ILx.Transistor_SMD.get(1), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1), ILx.ICs[0].get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[2][2].get(1));
+        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(0), ILx.Circuit_Plate_Copper_Tiny.get(1), ILx.Transistor_SMD.get(1), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1), ILx.ICs[1].get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[2][2].get(1));
+        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(0), ILx.Circuit_Plate_Copper_Tiny.get(1), ILx.Transistor_SMD.get(1), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1), ILx.ICs[2].get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[2][2].get(1));
+        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(4), IL.Circuit_Plate_Gold.get(1), ILx.Transistor_SMD.get(4), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[3][0].get(1));
+        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(0), ILx.Circuit_Plate_Gold_Small.get(1), ILx.Transistor_SMD.get(1), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1), ILx.ICs[0].get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[3][1].get(1));
+        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(0), ILx.Circuit_Plate_Gold_Tiny.get(1), ILx.Transistor_SMD.get(1), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1), ILx.ICs[1].get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[3][2].get(1));
+        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(0), IL.Circuit_Plate_Gold.get(1), ILx.Transistor_SMD.get(1), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1), ILx.ICs[0].get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[4][0].get(1));
+        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(0), ILx.Circuit_Plate_Gold_Small.get(1), ILx.Transistor_SMD.get(1), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1), ILx.ICs[1].get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[4][1].get(1));
+        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(0), ILx.Circuit_Plate_Gold_Small.get(1), ILx.Transistor_SMD.get(1), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1), ILx.ICs[2].get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[4][1].get(1));
+        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(0), ILx.Circuit_Plate_Gold_Tiny.get(1), ILx.Transistor_SMD.get(1), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1), ILx.ICs[2].get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[4][2].get(1));
+        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(0), IL.Circuit_Plate_Platinum.get(1), ILx.Transistor_SMD.get(1), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1), ILx.ICs[1].get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[5][0].get(1));
         RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(0), ILx.Circuit_Plate_Platinum_Small.get(1), ILx.Transistor_SMD.get(1), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1), ILx.ICs[2].get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[5][1].get(1));
-        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(0), IL .Circuit_Plate_Platinum      .get(1), ILx.Transistor_SMD.get(1), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1), ILx.ICs[2].get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[6][0].get(1));
+        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(0), IL.Circuit_Plate_Platinum.get(1), ILx.Transistor_SMD.get(1), ILx.Capacitor_SMD.get(1), ILx.Resistor_SMD.get(1), ILx.ICs[2].get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.PCBs[6][0].get(1));
 
         /// Computer Parts
         // HDDs
@@ -405,24 +413,24 @@ public class Electronics extends GT6XFeature {
         CR.shaped(ILx.RAMSticks[0].get(1), CR.DEF_REM, "R R", "R R", "iPI", 'R', ILx.DRAMChips[0], 'P', ILx.Circuit_Plate_Copper_Long, 'I', IC_NAMES[0]);
         CR.shaped(ILx.RAMSticks[1].get(1), CR.DEF_REM, "R R", "R R", "iPI", 'R', ILx.DRAMChips[1], 'P', ILx.Circuit_Plate_Gold_Long, 'I', IC_NAMES[1]);
         CR.shaped(ILx.RAMSticks[2].get(1), CR.DEF_REM, "R R", "R R", "iPI", 'R', ILx.DRAMChips[2], 'P', ILx.Circuit_Plate_Platinum_Long, 'I', IC_NAMES[2]);
-        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(8), ILx.Circuit_Plate_Copper_Long  .get(1), ILx.DRAMChips[0].get(4), ILx.ICs[0].get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.RAMSticks[0].get(1));
-        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(8), ILx.Circuit_Plate_Gold_Long    .get(1), ILx.DRAMChips[1].get(4), ILx.ICs[1].get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.RAMSticks[1].get(1));
+        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(8), ILx.Circuit_Plate_Copper_Long.get(1), ILx.DRAMChips[0].get(4), ILx.ICs[0].get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.RAMSticks[0].get(1));
+        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(8), ILx.Circuit_Plate_Gold_Long.get(1), ILx.DRAMChips[1].get(4), ILx.ICs[1].get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.RAMSticks[1].get(1));
         RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(8), ILx.Circuit_Plate_Platinum_Long.get(1), ILx.DRAMChips[2].get(4), ILx.ICs[2].get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.RAMSticks[2].get(1));
 
         // GPUs
         CR.shaped(ILx.GraphicsCards[0].get(1), CR.DEF_REM, "iF ", "IGR", "APR", 'F', ILx.CPU_Fan, 'I', ILx.ICs[0], 'G', ILx.GPUs[0], 'R', ILx.DRAMChips[0], 'A', plateTiny.dat(MT.Al), 'P', ILx.Circuit_Plate_Copper_Long);
         CR.shaped(ILx.GraphicsCards[1].get(1), CR.DEF_REM, "iF ", "IGR", "APR", 'F', ILx.CPU_Fan, 'I', ILx.ICs[1], 'G', ILx.GPUs[1], 'R', ILx.DRAMChips[1], 'A', plateTiny.dat(MT.Al), 'P', ILx.Circuit_Plate_Gold_Long);
         CR.shaped(ILx.GraphicsCards[2].get(1), CR.DEF_REM, "FiF", "IGR", "APR", 'F', ILx.CPU_Fan, 'I', ILx.ICs[2], 'G', ILx.GPUs[2], 'R', ILx.DRAMChips[2], 'A', plateTiny.dat(MT.Al), 'P', ILx.Circuit_Plate_Platinum_Long);
-        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(6), ILx.Circuit_Plate_Copper_Long  .get(1), ILx.DRAMChips[0].get(2), ILx.ICs[0].get(1), ILx.GPUs[0].get(1), ILx.CPU_Fan.get(1), plateTiny.mat(MT.Al, 1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.GraphicsCards[0].get(1));
-        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(6), ILx.Circuit_Plate_Gold_Long    .get(1), ILx.DRAMChips[1].get(2), ILx.ICs[1].get(1), ILx.GPUs[0].get(1), ILx.CPU_Fan.get(1), plateTiny.mat(MT.Al, 1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.GraphicsCards[1].get(1));
+        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(6), ILx.Circuit_Plate_Copper_Long.get(1), ILx.DRAMChips[0].get(2), ILx.ICs[0].get(1), ILx.GPUs[0].get(1), ILx.CPU_Fan.get(1), plateTiny.mat(MT.Al, 1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.GraphicsCards[0].get(1));
+        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(6), ILx.Circuit_Plate_Gold_Long.get(1), ILx.DRAMChips[1].get(2), ILx.ICs[1].get(1), ILx.GPUs[0].get(1), ILx.CPU_Fan.get(1), plateTiny.mat(MT.Al, 1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.GraphicsCards[1].get(1));
         RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(6), ILx.Circuit_Plate_Platinum_Long.get(1), ILx.DRAMChips[2].get(2), ILx.ICs[2].get(1), ILx.GPUs[0].get(1), ILx.CPU_Fan.get(2), plateTiny.mat(MT.Al, 1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.GraphicsCards[2].get(1));
 
         // MoBo
-        CR.shaped(ILx.Motherboards[0].get(1), CR.DEF_REM, "SCB", "UPO", "OWi", 'U', IC_NAMES[0], 'S', IL.Processor_Crystal_Empty, 'O', casingSmall.mat(MT.Polycarbonate, 1), 'C', CAPACITOR_NAME, 'W', cableGt08.mat(MT.Cu, 1), 'P', IL.Circuit_Plate_Copper  , 'B', IL.Battery_Alkaline_Cell_Filled);
-        CR.shaped(ILx.Motherboards[1].get(1), CR.DEF_REM, "SCB", "UPO", "OWi", 'U', IC_NAMES[1], 'S', IL.Processor_Crystal_Empty, 'O', casingSmall.mat(MT.Polycarbonate, 1), 'C', CAPACITOR_NAME, 'W', cableGt08.mat(MT.Au, 1), 'P', IL.Circuit_Plate_Gold    , 'B', IL.Battery_Alkaline_Cell_Filled);
+        CR.shaped(ILx.Motherboards[0].get(1), CR.DEF_REM, "SCB", "UPO", "OWi", 'U', IC_NAMES[0], 'S', IL.Processor_Crystal_Empty, 'O', casingSmall.mat(MT.Polycarbonate, 1), 'C', CAPACITOR_NAME, 'W', cableGt08.mat(MT.Cu, 1), 'P', IL.Circuit_Plate_Copper, 'B', IL.Battery_Alkaline_Cell_Filled);
+        CR.shaped(ILx.Motherboards[1].get(1), CR.DEF_REM, "SCB", "UPO", "OWi", 'U', IC_NAMES[1], 'S', IL.Processor_Crystal_Empty, 'O', casingSmall.mat(MT.Polycarbonate, 1), 'C', CAPACITOR_NAME, 'W', cableGt08.mat(MT.Au, 1), 'P', IL.Circuit_Plate_Gold, 'B', IL.Battery_Alkaline_Cell_Filled);
         CR.shaped(ILx.Motherboards[2].get(1), CR.DEF_REM, "SCB", "UPO", "OWi", 'U', IC_NAMES[2], 'S', IL.Processor_Crystal_Empty, 'O', casingSmall.mat(MT.Polycarbonate, 1), 'C', CAPACITOR_NAME, 'W', cableGt08.mat(MT.Pt, 1), 'P', IL.Circuit_Plate_Platinum, 'B', IL.Battery_Alkaline_Cell_Filled);
-        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(8), IL.Circuit_Plate_Copper  .get(1), IL.Processor_Crystal_Empty.get(1), ILx.ICs[0].get(1), casingSmall.mat(MT.Polycarbonate, 2), cableGt08.mat(MT.Cu, 1), ILx.Capacitor_SMD.get(1), IL.Battery_Alkaline_Cell_Filled.get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.Motherboards[0].get(1));
-        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(8), IL.Circuit_Plate_Gold    .get(1), IL.Processor_Crystal_Empty.get(1), ILx.ICs[1].get(1), casingSmall.mat(MT.Polycarbonate, 2), cableGt08.mat(MT.Au, 1), ILx.Capacitor_SMD.get(1), IL.Battery_Alkaline_Cell_Filled.get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.Motherboards[1].get(1));
+        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(8), IL.Circuit_Plate_Copper.get(1), IL.Processor_Crystal_Empty.get(1), ILx.ICs[0].get(1), casingSmall.mat(MT.Polycarbonate, 2), cableGt08.mat(MT.Cu, 1), ILx.Capacitor_SMD.get(1), IL.Battery_Alkaline_Cell_Filled.get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.Motherboards[0].get(1));
+        RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(8), IL.Circuit_Plate_Gold.get(1), IL.Processor_Crystal_Empty.get(1), ILx.ICs[1].get(1), casingSmall.mat(MT.Polycarbonate, 2), cableGt08.mat(MT.Au, 1), ILx.Capacitor_SMD.get(1), IL.Battery_Alkaline_Cell_Filled.get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.Motherboards[1].get(1));
         RMx.Soldering.addRecipeX(true, 16, 48, ST.array(ST.tag(8), IL.Circuit_Plate_Platinum.get(1), IL.Processor_Crystal_Empty.get(1), ILx.ICs[2].get(1), casingSmall.mat(MT.Polycarbonate, 2), cableGt08.mat(MT.Pt, 1), ILx.Capacitor_SMD.get(1), IL.Battery_Alkaline_Cell_Filled.get(1)), MTx.SolderingPaste.liquid(U2, true), NF, ILx.Motherboards[2].get(1));
 
         // Misc
@@ -430,11 +438,21 @@ public class Electronics extends GT6XFeature {
         RM.Welder.addRecipe2(true, 16, 64, plateCurved.mat(MT.Plastic, 4), ring.mat(MT.Plastic, 1), rotor.mat(MT.Plastic, 1));
 
         CR.shaped(ILx.CPU_Fan.get(1), CR.DEF_REV, "PFL", "CMC", " RW", 'P', casingSmall.mat(MT.Polycarbonate, 1), 'F', rotor.mat(MT.Polycarbonate, 1), 'L', OD.itemLubricant, 'C', casingSmall.mat(MT.StainlessSteel, 1), 'M', IL.MOTORS[0], 'W', cableGt02.mat(MT.Cu, 1), 'R', ring.mat(MT.Polycarbonate, 1));
-        CR.shaped(ILx.ComputerCase.get(1), CR.DEF_REM, "TFS", "DCB", "WdS", 'T', MTEx.gt6Registry.getItem(10040), 'F', ILx.CPU_Fan, 'S', screw.mat(MT.StainlessSteel, 1),'D', DYE_OREDICTS[DYE_INDEX_Black], 'C', casingMachine.mat(MT.SteelGalvanized, 1), 'B', MTEx.gt6Registry.getItem(32711), 'W', cableGt08.mat(MT.Cu, 1));
+        CR.shaped(ILx.ComputerCase.get(1), CR.DEF_REM, "TFS", "DCB", "WdS", 'T', MTEx.gt6Registry.getItem(10040), 'F', ILx.CPU_Fan, 'S', screw.mat(MT.StainlessSteel, 1), 'D', DYE_OREDICTS[DYE_INDEX_Black], 'C', casingMachine.mat(MT.SteelGalvanized, 1), 'B', MTEx.gt6Registry.getItem(32711), 'W', cableGt08.mat(MT.Cu, 1));
 
         // PCs
         for (int tier = 0; tier < NUM_COMPUTER_TIERS; tier++) {
             CR.shaped(ILx.PCs[tier].get(1), CR.DEF_REM, "dCS", "GPH", "RMO", 'O', ILx.ComputerCase, 'R', ILx.RAMSticks[tier], 'C', ILx.CPUs[tier], 'P', ILx.Thermal_Paste, 'H', ILx.HDDs[tier], 'G', ILx.GraphicsCards[tier], 'M', ILx.Motherboards[tier], 'S', screw.dat(MT.StainlessSteel));
+        }
+
+        // LCDs
+        RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MTx.AlCl3, 0), dust.mat(MTx.Biphenyl, 1), FL.array(MTx.Chloropentane.liquid(U, true), MT.Br.liquid(U, true)), FL.array(MT.HCl.gas(2 * U, false)), dust.mat(MTx.Bromo4pentylbiphenyl, 1));
+        RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MTx.Bromo4pentylbiphenyl, 1), dust.mat(MTx.CuCN, 1), NF, FL.make(FLx.LiquidCrystal5CB, 144), dust.mat(MTx.CuBr, 1));
+        RMx.IonBombardment.addRecipe2(true, 16, 128, OM.dust(MT.I, U8), foil.mat(MTx.PVA, 1), ILx.PolaroidFilter.get(1));
+        RMx.IonBombardment.addRecipe2(true, 16, 128, foil.mat(MTx.ITO, 1), plate.mat(MT.Glass, 1), ILx.TCFGlass.get(1));
+        for (int i = 0; i < RMx.CuttingFluids.length; i++) if (RMx.CuttingFluids[i] != null) {
+            RM.Cutter.addRecipe1(true, 16, 8 * RMx.CuttingMultiplier[i], ILx.PolaroidFilter.get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 8, 1000, true), NF, ILx.PolaroidFilterTiny.get(9));
+            RM.Cutter.addRecipe1(true, 16, 8 * RMx.CuttingMultiplier[i], ILx.TCFGlass.get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 8, 1000, true), NF, ILx.TCFGlassTiny.get(9));
         }
     }
 

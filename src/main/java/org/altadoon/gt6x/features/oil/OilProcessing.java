@@ -18,6 +18,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import org.altadoon.gt6x.common.Config;
+import org.altadoon.gt6x.common.FLx;
 import org.altadoon.gt6x.common.MTEx;
 import org.altadoon.gt6x.common.MTx;
 import org.altadoon.gt6x.features.GT6XFeature;
@@ -136,6 +137,9 @@ public class OilProcessing extends GT6XFeature {
         FM.Burn.addRecipe0(true, -64, 3, MTx.Naphtha.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
         FM.Engine.addRecipe0(true, -64, 5, MTx.Naphtha.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
 
+        FM.Burn.addRecipe0(true, -64, 3, MTx.Butylene.gas(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
+        FM.Gas.addRecipe0(true, -64, 4, MTx.Butylene.gas(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
+
         FM.Burn.addRecipe0(true, -64, 4, MTx.NaphthaLowSulfur.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
         FM.Engine.addRecipe0(true, -64, 6, MTx.NaphthaLowSulfur.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
 
@@ -169,8 +173,8 @@ public class OilProcessing extends GT6XFeature {
         RM.Distillery.addRecipe1(false, 16, 64, ST.tag(0), FL.array(MTx.LNG.liquid(U1000, true)), FL.array(FL.Methane.make(600), MTx.Ethane.gas(30*U1000, false)));
 
         // distillation of cracker outputs
-        RM.DistillationTower.addRecipe0(false, 64, 64, FL.array(MTx.SCNaphtha.liquid(U10, true)), FL.array(FL.Methane.make(25), FL.Ethylene.make(50), MTx.Ethane.liquid(20*U1000, false), FL.Propylene.make(40), MTx.Benzene.liquid(15*U1000, false), MTx.Toluene.liquid(10*U1000, false), MTx.Isoprene.liquid(10*U1000, false)));
-        RM.DistillationTower.addRecipe0(false, 64, 64, FL.array(MTx.FccOffgas.gas(U10, true)), FL.array(FL.Methane.make(20), FL.Ethylene.make(12), MTx.Ethane.liquid(10*U1000, false), FL.Propylene.make(8), FL.Propane.make(30), FL.Butane.make(20)));
+        RM.DistillationTower.addRecipe0(false, 64, 64, FL.array(MTx.SCNaphtha.liquid(U10, true)), FL.array(FL.Methane.make(25), FL.Ethylene.make(50), MTx.Ethane.liquid(20*U1000, false), FL.Propylene.make(40), MTx.Butylene.gas(30*U1000, false), MTx.Benzene.liquid(15*U1000, false), MTx.Toluene.liquid(10*U1000, false), MTx.Isoprene.liquid(10*U1000, false)));
+        RM.DistillationTower.addRecipe0(false, 64, 64, FL.array(MTx.FccOffgas.gas(U10, true)), FL.array(FL.Methane.make(20), FL.Ethylene.make(12), MTx.Ethane.liquid(10*U1000, false), FL.Propylene.make(8), FL.Propane.make(30), MTx.Butylene.gas(10*U1000, false), FL.Butane.make(10)));
 
         // distillation of creosote
         RM.DistillationTower.addRecipe0(false, 64, 32, new long[] {500}, FL.array(FL.Oil_Creosote.make(50)), FL.array(MTx.Benzene.liquid(3*U1000, false), MTx.Toluene.liquid(2*U1000, false), MTx.Phenol.liquid(18*U144, false), MTx.Naphthalene.liquid(12*U1000, false), MTx.Anthracene.liquid(15*U1000, false)), dustTiny.mat(MT.Asphalt, 9));
@@ -182,48 +186,51 @@ public class OilProcessing extends GT6XFeature {
         RM.Mixer.addRecipe1(true, 16, 20, dust.mat(MT.OREMATS.Molybdenite, 0), FL.array(MT.H.gas(U1000*2, true), MT.Diesel.liquid(U10, true)), FL.array(MT.H2S.gas(U1000*3, false), MTx.DieselLowSulfur.liquid(U1000*99, false)));
         RM.Mixer.addRecipe1(true, 16, 20, dust.mat(MT.OREMATS.Molybdenite, 0), FL.array(MT.H.gas(U1000*2, true), MT.Fuel.liquid(U10, true)), FL.array(MT.H2S.gas(U1000*3, false), MTx.FuelLowSulfur.liquid(U1000*99, false)));
 
+        // Polybutylene
+        RM.Mixer.addRecipe1(true, 16,  16, dust.mat(MT.MgCl2, 0), FL.array(MT.TiCl4.liquid(U1000, true), MTx.Butylene.gas(U10, true)), ZL_FS, OP.dust.mat(MT.Plastic, 1));
+
         // PVC
-        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.FeCl3, 0), FL.array(MT.Ethylene.gas(6*U, true), MT.Cl.gas(2*U, true)), FL.array(MTx.EthyleneDichloride.liquid(8*U, false)));
+        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.FeCl3, 0), FL.array(MT.Ethylene.gas(U, true), MT.Cl.gas(2*U, true)), FL.array(MTx.EthyleneDichloride.liquid(U, false)));
         //TODO use thermolyzer
-        RM.Distillery.addRecipe1(true, 16, 128, ST.tag(0), MTx.EthyleneDichloride.liquid(8*U, true), FL.array(MTx.VinylChloride.gas(6*U, false), MT.HCl.gas(2*U, false)));
+        RM.Drying.addRecipe1(true, 16, 128, ST.tag(0), MTx.EthyleneDichloride.liquid(U, true), FL.array(MTx.VinylChloride.gas(U, false), MT.HCl.gas(2*U, false)));
         RM.Mixer.addRecipe1(true, 16,  16, dust.mat(MT.OREMATS.Galena, 0), FL.array(MTx.VinylChloride.gas(U10, false)), ZL_FS, dust.mat(MT.PVC, 1));
 
         // PTFE
-        RM.Mixer.addRecipe0(true, 16, 64, FL.array(MT.CH4.gas(5*U, true), MT.Cl.gas(6*U, true)), FL.array(MTx.CHCl3.liquid(5*U, false), MT.HCl.gas(6*U, false)));
-        RM.Mixer.addRecipe0(true, 16, 64, FL.array(MTx.CHCl3.liquid(5*U, true), MT.HF.gas(4*U, true)), FL.array(MTx.CHClF2.gas(5*U, false), MT.HCl.gas(4*U, false)));
+        RM.Mixer.addRecipe0(true, 16, 64, FL.array(MT.CH4.gas(5*U, true), MT.Cl.gas(6*U, true)), FL.array(MTx.CHCl3.liquid(U, false), MT.HCl.gas(2*U, false)));
+        RM.Mixer.addRecipe0(true, 16, 64, FL.array(MTx.CHCl3.liquid(U, true), MT.HF.gas(4*U, true)), FL.array(MTx.CHClF2.gas(U, false), MT.HCl.gas(4*U, false)));
         //TODO use thermolyzer
-        RM.Distillery.addRecipe1(true, 16, 128, ST.tag(0), MTx.CHClF2.gas(10*U, true), FL.array(MTx.C2F4.gas(6*U, false), MT.HCl.gas(4*U, false)));
+        RM.Drying.addRecipe1(true, 16, 128, ST.tag(0), MTx.CHClF2.gas(2*U, true), FL.array(MTx.C2F4.gas(U, false), MT.HCl.gas(4*U, false)));
         RM.Mixer.addRecipe1(true, 16,  16, dust.mat(MT.KSO4, 0), FL.array(MTx.C2F4.gas(U10, false)), ZL_FS, dust.mat(MT.PTFE, 1));
         RM.Mixer.addRecipe1(true, 16,  16, dust.mat(MT.NaSO4, 0), FL.array(MTx.C2F4.gas(U10, false)), ZL_FS, dust.mat(MT.PTFE, 1));
 
         // Carbon Tetrafluoride
-        RM.Mixer.addRecipe0(true, 16, 64, FL.array(MTx.CHCl3.liquid(5*U, true), MT.Cl.gas(2*U, true)), FL.array(MTx.CCl4.liquid(5*U, false), MT.HCl.gas(2*U, false)));
-        RM.Mixer.addRecipe0(true, 16, 64, FL.array(MTx.CCl4.liquid(5*U, true), MT.HF.gas(8*U, true)), FL.array(MTx.CF4.gas(5*U, false), MT.HCl.gas(8*U, false)));
+        RM.Mixer.addRecipe0(true, 16, 64, FL.array(MTx.CHCl3.liquid(U, true), MT.Cl.gas(2*U, true)), FL.array(MTx.CCl4.liquid(U, false), MT.HCl.gas(2*U, false)));
+        RM.Mixer.addRecipe0(true, 16, 64, FL.array(MTx.CCl4.liquid(U, true), MT.HF.gas(8*U, true)), FL.array(MTx.CF4.gas(U, false), MT.HCl.gas(8*U, false)));
 
         // Rubber
         RM.Mixer.addRecipe1(true, 16,  16, dust.mat(MT.MgCl2, 0), FL.array(MT.TiCl4.liquid(U1000, true), MTx.Isoprene.liquid(U10, false)), ZL_FS, dust.mat(MT.Rubber, 1));
 
         // BPA, PF, Bakelite, Polycarbonate
-        RM.Mixer.addRecipe0(true, 16,  64*3, FL.array(MT.Propylene.gas(9*U, true), MTx.Benzene.liquid(12*U, true), MTx.H3PO4.liquid(3*U1000, true)), FL.array(MTx.Cumene.liquid(21*U, false)));
-        RM.Mixer.addRecipe0(true, 16,  64*3, FL.array(MTx.Cumene.fluid(21*U, true), MT.O.gas(2*U, true)), FL.array(MTx.Acetone.liquid(10*U, false)), dust.mat(MTx.Phenol, 13));
-        RM.Mixer.addRecipe1(true, 16,  512, dust.mat(MTx.Phenol, 26), FL.array(MTx.Acetone.fluid(10*U, true), MT.H2SO4.liquid(U1000, true)), MT.H2O.liquid(3*U, false), dust.mat(MTx.BPA, 33));
-        RM.Mixer.addRecipe2(true, 16,  512, dust.mat(MT.NaOH, 0), dust.mat(MTx.Phenol, 26), MTx.Formaldehyde.gas(8*U, true), MT.H2O.liquid(3*U, false), dust.mat(MTx.PF, 31));
-        RM.Autoclave.addRecipe2(true, 16, 500, ST.tag(0), dust.mat(MTx.PF, 1), FL.Steam.make(16000), FL.DistW.make(100), chunkGt.mat(MT.Bakelite, 4));
-        RM.Mixer.addRecipe1(true, 16, 512, dust.mat(MTx.BPA, 33), FL.array(MTx.NaOHSolution.liquid(12*U, true), MTx.Phosgene.gas(4*U, true)), FL.Saltwater.make(16000), dust.mat(MT.Polycarbonate, 33));
+        RM.Mixer.addRecipe0(true, 16,  64*3, FL.array(MT.Propylene.gas(U, true), MTx.Benzene.liquid(U, true), MTx.H3PO4.liquid(U1000, true)), FL.array(MTx.Cumene.liquid(U, false)));
+        RM.Mixer.addRecipe0(true, 16,  64*3, FL.array(MTx.Cumene.liquid(U, true), MT.O.gas(2*U, true)), FL.array(MTx.Acetone.liquid(U, false)), dust.mat(MTx.Phenol, 1));
+        RM.Mixer.addRecipe1(true, 16,  512, dust.mat(MTx.Phenol, 2), FL.array(MTx.Acetone.liquid(U, true), MT.H2SO4.liquid(U1000, true)), MT.H2O.liquid(3*U, false), dust.mat(MTx.BPA, 1));
+        RM.Mixer.addRecipe2(true, 16,  512, dust.mat(MT.NaOH, 0), dust.mat(MTx.Phenol, 1), MTx.Formaldehyde.gas(U, true), MT.H2O.liquid(3*U, false), dust.mat(MTx.PF, 10));
+        RM.Autoclave.addRecipe2(true, 16, 500, ST.tag(0), dust.mat(MTx.PF, 1), FL.Steam.make(16000), FL.DistW.make(100), chunkGt.mat(MT.Bakelite, 1));
+        RM.Mixer.addRecipe1(true, 16, 512, dust.mat(MTx.BPA, 1), FL.array(MTx.NaOHSolution.liquid(12*U, true), MTx.Phosgene.gas(U, true)), FL.Saltwater.make(16000), dust.mat(MT.Polycarbonate, 10));
 
         // ECH
-        RM.Mixer.addRecipe0(true, 16,  64, FL.array(MT.Propylene.gas(9*U, true), MT.Cl.gas(2*U, true)), FL.array(MTx.AllylChloride.liquid(9*U, false), MT.HCl.gas(2*U, false)));
-        RM.Mixer.addRecipe0(true, 16,  64, FL.array(MT.HCl.gas(2*U, true), MTx.AllylChloride.liquid(9*U, true), MT.O.gas(U, true)), FL.array(MTx.Dichloropropanol.liquid(12*U, false)));
-        RM.Mixer.addRecipe0(true, 16,  64, FL.array(MT.HCl.gas(4*U, true), MT.Glycerol.liquid(14*U, true)), FL.array(MTx.Dichloropropanol.liquid(12*U, false), MT.H2O.liquid(6*U, false)));
-        RM.Mixer.addRecipe1(true, 16,  64, dust.mat(MT.NaOH, 3), FL.array(MTx.Dichloropropanol.liquid(12*U, true), MT.H2O.liquid(3*U, true)), FL.array(MTx.ECH.liquid(10*U, false), MT.SaltWater.liquid(8*U, false)));
-        RM.Mixer.addRecipe0(true, 16,  64, FL.array(MTx.Dichloropropanol.liquid(12*U, true), MTx.NaOHSolution.liquid(6*U, true)), FL.array(MTx.ECH.liquid(10*U, false), MT.SaltWater.liquid(8*U, false)));
+        RM.Mixer.addRecipe0(true, 16,  64, FL.array(MT.Propylene.gas(U, true), MT.Cl.gas(2*U, true)), FL.array(MTx.AllylChloride.liquid(U, false), MT.HCl.gas(2*U, false)));
+        RM.Mixer.addRecipe0(true, 16,  64, FL.array(MT.HCl.gas(2*U, true), MTx.AllylChloride.liquid(U, true), MT.O.gas(U, true)), FL.array(MTx.Dichloropropanol.liquid(U, false)));
+        RM.Mixer.addRecipe0(true, 16,  64, FL.array(MT.HCl.gas(4*U, true), MT.Glycerol.liquid(U, true)), FL.array(MTx.Dichloropropanol.liquid(U, false), MT.H2O.liquid(6*U, false)));
+        RM.Mixer.addRecipe1(true, 16,  64, dust.mat(MT.NaOH, 3), FL.array(MTx.Dichloropropanol.liquid(U, true), MT.H2O.liquid(3*U, true)), FL.array(MTx.ECH.liquid(U, false), MT.SaltWater.liquid(8*U, false)));
+        RM.Mixer.addRecipe0(true, 16,  64, FL.array(MTx.Dichloropropanol.liquid(U, true), MTx.NaOHSolution.liquid(6*U, true)), FL.array(MTx.ECH.liquid(U, false), MT.SaltWater.liquid(8*U, false)));
 
         // Epoxy
-        RM.Mixer.addRecipe2(true, 16,  64, dust.mat(MT.NaOH, 6), dust.mat(MTx.BPA, 33), FL.array(MTx.ECH.liquid(20*U, true), MT.H2O.liquid(U*6, true)), FL.array(MT.SaltWater.liquid(16*U, false), MTx.Epoxy.liquid(49*U, false)));
-        RM.Mixer.addRecipe1(true, 16,  64, dust.mat(MTx.BPA, 33), FL.array(MTx.ECH.liquid(20*U, true), MTx.NaOHSolution.liquid(U*12, true)), FL.array(MT.SaltWater.liquid(16*U, false), MTx.Epoxy.liquid(49*U, false)));
+        RM.Mixer.addRecipe2(true, 16,  64, dust.mat(MT.NaOH, 6), dust.mat(MTx.BPA, 1), FL.array(MTx.ECH.liquid(U, true), MT.H2O.liquid(U*6, true)), FL.array(MT.SaltWater.liquid(16*U, false), MTx.Epoxy.liquid(10*U, false)));
+        RM.Mixer.addRecipe1(true, 16,  64, dust.mat(MTx.BPA, 1), FL.array(MTx.ECH.liquid(U, true), MTx.NaOHSolution.liquid(U*12, true)), FL.array(MT.SaltWater.liquid(16*U, false), MTx.Epoxy.liquid(10*U, false)));
 
         // TNT
-        RM.Mixer.addRecipe0(true, 32, 64*3, FL.array(MTx.Toluene.liquid(15*U, true), MT.HNO3.liquid(15*U, true), MT.H2SO4.liquid(21*U, true)), MTx.DiluteH2SO4.liquid(30*U, false), dust.mat(MTx.TNT, 21));
+        RM.Mixer.addRecipe0(true, 32, 64*3, FL.array(MTx.Toluene.liquid(U, true), MT.HNO3.liquid(5*U, true), MT.H2SO4.liquid(7*U, true)), MTx.DiluteH2SO4.liquid(10*U, false), dust.mat(MTx.TNT, 3));
         RM.Boxinator.addRecipe2(true, 16, 20, ST.make(Items.paper, 1, 0), dust.mat(MTx.TNT, 1), ST.make(Blocks.tnt, 1, 0));
 
         // ANFO
@@ -239,44 +246,65 @@ public class OilProcessing extends GT6XFeature {
         RM.Press.addRecipeX(true, 16, 576, ST.array(ST.tag(2), blockDust.mat(MTx.ANFO , 2), ST.make((Item)plantGtFiber.mRegisteredPrefixItems.get(0), 9, W)), IL.Dynamite_Strong.get(9));
 
         // Production of toluene from benzene
-        RM.Mixer.addRecipe1(true, 16, 192, dust.mat(MT.OREMATS.Zeolite, 0), FL.array(MTx.Benzene.liquid(12*U, true), MTx.Methanol.liquid(6*U, true)), FL.array(MTx.Toluene.liquid(15*U, false), MT.H2O.liquid(3*U, false)));
+        RM.Mixer.addRecipe1(true, 16, 192, dust.mat(MT.OREMATS.Zeolite, 0), FL.array(MTx.Benzene.liquid(U, true), MTx.Methanol.liquid(U, true)), FL.array(MTx.Toluene.liquid(U, false), MT.H2O.liquid(3*U, false)));
 
         // Isopropyl Alcohol
-        RM.Mixer.addRecipe1(true, 16, 200, dust.mat(MT.Ni, 0), FL.array(MTx.Acetone.liquid(10*U, true), MT.H.gas(2*U, true)), FL.array(MTx.Isopropanol.liquid(12*U, false)));
+        RM.Mixer.addRecipe1(true, 16, 200, dust.mat(MT.Ni, 0), FL.array(MTx.Acetone.liquid(U, true), MT.H.gas(2*U, true)), FL.array(MTx.Isopropanol.liquid(U, false)));
         for (FluidStack water : FL.waters(3000)) {
-            RM.Mixer.addRecipe1(true, 16, 200, dust.mat(MT.Al2O3, 0), FL.array(MT.Propylene.gas(9 * U, true), water), FL.array(MTx.Isopropanol.liquid(12 * U, false)));
+            RM.Mixer.addRecipe1(true, 16, 200, dust.mat(MT.Al2O3, 0), FL.array(MT.Propylene.gas(U, true), water), FL.array(MTx.Isopropanol.liquid(U, false)));
         }
 
         // Hydrodealkylation of toluene in case you don't need it
-        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.Cr, 0), FL.array(MTx.Toluene.liquid(15*U, true), MT.H.gas(2*U, true)), FL.array(MTx.Benzene.liquid(12*U, false), MT.CH4.gas(5*U, false)));
-        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.Mo, 0), FL.array(MTx.Toluene.liquid(15*U, true), MT.H.gas(2*U, true)), FL.array(MTx.Benzene.liquid(12*U, false), MT.CH4.gas(5*U, false)));
+        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.Cr, 0), FL.array(MTx.Toluene.liquid(5*U, true), MT.H.gas(10*U, true)), FL.array(MTx.Benzene.liquid(3*U, false), MT.CH4.gas(5*U, false)), dust.mat(MTx.Biphenyl, 1));
+        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.Mo, 0), FL.array(MTx.Toluene.liquid(5*U, true), MT.H.gas(10*U, true)), FL.array(MTx.Benzene.liquid(3*U, false), MT.CH4.gas(5*U, false)), dust.mat(MTx.Biphenyl, 1));
+
+        // Vinyl Acetate e.a.
+        for (FluidStack water : FL.waters(54000)) {
+            RM.Mixer.addRecipe1(true, 16, 2048, dust.mat(MT.WO3, 48), FL.array(MT.HCl.gas(8*U, true), MTx.Na4SiO4Solution.liquid(18*U, true), water), FL.array(FL.Saltwater.make(32000)), dust.mat(MTx.SilicoTungsticAcid, 96));
+        }
+        RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MTx.SilicoTungsticAcid, 0), FL.array(MT.Ethylene.gas(U, true), MT.O.gas(2*U, true)), FL.array(MTx.AceticAcid.liquid(U, false)));
+        RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MT.Pd, 0), FL.array(MT.Ethylene.gas(U, true), MTx.AceticAcid.liquid(U, true), MT.O.gas(U, true)), FL.array(MTx.VinylAcetate.liquid(U, false), MT.H2O.liquid(3*U, false)));
+        RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MT.NaSO4, 0), MTx.VinylAcetate.liquid(U, true), NF, dust.mat(MTx.PolyvinylAcetate, 1));
+        RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.NaOH, 0), dust.mat(MTx.PolyvinylAcetate, 1), MTx.Methanol.liquid(U, true), MTx.MethylAcetate.liquid(U, false), dust.mat(MTx.PVA, 1));
+        for (FluidStack water : FL.waters(1000)) {
+            RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MTx.PolyvinylAcetate, 1), water, FL.Glue.make(1000), NI);
+            // Hydrolysis of Methyl Acetate
+            RM.Mixer.addRecipe0(true, 16, 64, FL.array(MTx.MethylAcetate.liquid(U, true), FL.mul(water, 3), MT.HCl.gas(U1000, true)), FL.array(MTx.AceticAcid.liquid(U, false), MTx.Methanol.liquid(U, false)));
+            // Biphenyl via Gomberg-Bachmann
+            RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.NaOH, 3), dust.mat(MTx.BenzenediazoniumChloride, 1), FL.array(MTx.Benzene.liquid(U, true), FL.mul(water, 3)), FL.array(MT.N.gas(2 * U, false), FL.Saltwater.make(8000)), dust.mat(MTx.Biphenyl, 1));
+        }
+
+        // Pentanol, Chloropentane
+        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.Rh, 0), FL.array(MTx.Butylene.gas(U, true), MT.CO.gas(2*U, true), MT.H.gas(4*U, true)), FL.array(MTx.Pentanol.liquid(U, false)));
+        RM.Mixer.addRecipe0(true, 16, 64, FL.array(MTx.Pentanol.liquid(U, true), MT.HCl.gas(2*U, true)), FL.array(MTx.Chloropentane.liquid(U, false), MT.H2O.liquid(3*U, false)));
 
         // Water-gas shift reaction
         RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.Fe2O3, 0), FL.array(FL.Steam.make(3000*(long)STEAM_PER_WATER), MT.CO.gas(2*U, true)), FL.array(MT.H.gas(2*U, false), MT.CO2.gas(3*U, false)));
 
         // Fischer-Tropsch process
-        RM.Mixer.addRecipe1(true, 16, 512*15, dust.mat(MT.Ru, 0), FL.array(MT.CO.gas(15*2*U, true), MT.H.gas(30*2*U, true)), FL.array(MTx.Synoil.liquid(15*U, false), MT.H2O.liquid(15*3*U, false)));
+        //TODO balance
+        RM.Mixer.addRecipe1(true, 16, 512, dust.mat(MT.Ru, 0), FL.array(MT.CO.gas(2*U, true), MT.H.gas(4*U, true)), FL.array(MTx.Synoil.liquid(U, false), MT.H2O.liquid(3*U, false)));
 
         // Naphthalene, Anthraquinone-, Azo-, and other dye precursors
-        RM.Mixer.addRecipe1(true, 16, 256, ST.tag(3), FL.array(MTx.Naphthalene.liquid(18*U, true), MT.H2SO4.liquid(7*U, true), MT.HNO3.liquid(5*U, true)), FL.array(MTx.DiluteH2SO4.liquid(10*U, false)), dust.mat(MTx.Nitronaphthalene, 20));
-        RM.Mixer.addRecipe2(true, 16, 256, dust.mat(MT.Ni, 0), dust.mat(MTx.Nitronaphthalene, 20), MT.H.gas(6*U, true), MT.H2O.liquid(6*U, false), dust.mat(MTx.Aminonaphthalene, 20));
-        RM.Mixer.addRecipe1(true, 16, 256, ST.tag(2), FL.array(MTx.Naphthalene.liquid(18*U, true), MT.H2SO4.liquid(7*U, true)), FL.array(MT.H2O.liquid(3*U, false)), dust.mat(MTx.NaphthaleneSulfonicAcid, 22));
-        RM.Bath.addRecipe2(true, 16, 256, dust.mat(MT.NaOH, 3), dust.mat(MTx.NaphthaleneSulfonicAcid, 22), MT.O.gas(U, true), NF, dust.mat(MT.NaHSO4, 7), dust.mat(MTx.Naphthol, 19));
+        RM.Mixer.addRecipe1(true, 16, 256, ST.tag(3), FL.array(MTx.Naphthalene.liquid(U, true), MT.H2SO4.liquid(7*U, true), MT.HNO3.liquid(5*U, true)), FL.array(MTx.DiluteH2SO4.liquid(10*U, false)), dust.mat(MTx.Nitronaphthalene, 1));
+        RM.Mixer.addRecipe2(true, 16, 256, dust.mat(MT.Ni, 0), dust.mat(MTx.Nitronaphthalene, 1), MT.H.gas(6*U, true), MT.H2O.liquid(6*U, false), dust.mat(MTx.Aminonaphthalene, 1));
+        RM.Mixer.addRecipe1(true, 16, 256, ST.tag(2), FL.array(MTx.Naphthalene.liquid(U, true), MT.H2SO4.liquid(7*U, true)), FL.array(MT.H2O.liquid(3*U, false)), dust.mat(MTx.NaphthaleneSulfonicAcid, 1));
+        RM.Bath.addRecipe2(true, 16, 256, dust.mat(MT.NaOH, 3), dust.mat(MTx.NaphthaleneSulfonicAcid, 22), MT.O.gas(U, true), NF, dust.mat(MT.NaHSO4, 7), dust.mat(MTx.Naphthol, 1));
 
-        RM.Bath.addRecipe1(true, 16, 256, dust.mat(MTx.CrO3, 8), MTx.Anthracene.liquid(24*U, true), FL.Water.make(3000), dust.mat(MTx.Anthraquinone, 24), dustSmall.mat(MTx.Cr2O3, 20));
-        RM.Mixer.addRecipe1(true, 16, 256, dust.mat(MTx.Anthraquinone, 24), MT.H2SO4.liquid(14*U, true), FL.Water.make(6000), dust.mat(MTx.AnthraquinoneDisulfonicAcid, 32));
-        RM.Mixer.addRecipe1(true, 16, 256, dust.mat(MTx.AnthraquinoneDisulfonicAcid, 32), FL.array(MT.NH3.gas(2*U, true), MT.O.gas(2*U, true)), MT.H2SO4.liquid(14*U, false), dust.mat(MTx.Diaminoanthraquinone, 28));
-        RM.Mixer.addRecipe0(true, 16, 256, FL.array(MTx.Toluene.liquid(15*U, true), MT.Cl.gas(2*U, true)), MT.HCl.gas(2*U, false), dust.mat(MTx.Chlorotoluene, 15));
-        RM.Mixer.addRecipe0(true, 16, 256, FL.array(MTx.Benzene.liquid(12*U, true), MT.H2SO4.liquid(7*U, true), MT.HNO3.liquid(5*U, true)), FL.array(MTx.DiluteH2SO4.liquid(10*U, false), MTx.Nitrobenzene.liquid(14*U, false)));
-        RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MT.Ni, 0), FL.array(MTx.Nitrobenzene.liquid(14*U, true), MT.H.gas(6*U, true)), FL.array(MTx.Aniline.liquid(14*U, false), MT.H2O.liquid(6*U, false)));
-        RM.Mixer.addRecipe1(true, 16, 256, dust.mat(MTx.Phenol, 13), FL.array(MT.H2SO4.liquid(14*U, true), MT.HNO3.liquid(10*U, true)), FL.array(MTx.DiluteH2SO4.liquid(20*U, false)), dust.mat(MTx.DNP, 17));
-        RM.Mixer.addRecipe2(true, 16, 128, dust.mat(MT.Pd, 0), dust.mat(MTx.Phenol, 13), FL.array(MT.NH3.gas(U, true)), FL.array(MTx.Aniline.liquid(14*U, false), MT.H2O.liquid(3*U, false)));
-        RM.Mixer.addRecipe1(true, 16, 128, ST.tag(3), FL.array(MTx.Aniline.liquid(14*U, true), MTx.HNO2.liquid(4*U, true), MT.HCl.gas(2*U, true)), FL.array(FL.Water.make(6000)), dust.mat(MTx.BenzenediazoniumChloride, 14));
+        RM.Bath.addRecipe1(true, 16, 256, dust.mat(MTx.CrO3, 8), MTx.Anthracene.liquid(U, true), FL.Water.make(3000), dust.mat(MTx.Anthraquinone, 1), dust.mat(MTx.Cr2O3, 5));
+        RM.Mixer.addRecipe1(true, 16, 256, dust.mat(MTx.Anthraquinone, 1), MT.H2SO4.liquid(14*U, true), FL.Water.make(6000), dust.mat(MTx.AnthraquinoneDisulfonicAcid, 1));
+        RM.Mixer.addRecipe1(true, 16, 256, dust.mat(MTx.AnthraquinoneDisulfonicAcid, 1), FL.array(MT.NH3.gas(2*U, true), MT.O.gas(2*U, true)), MT.H2SO4.liquid(14*U, false), dust.mat(MTx.Diaminoanthraquinone, 1));
+        RM.Mixer.addRecipe0(true, 16, 256, FL.array(MTx.Toluene.liquid(U, true), MT.Cl.gas(2*U, true)), MT.HCl.gas(2*U, false), dust.mat(MTx.Chlorotoluene, 1));
+        RM.Mixer.addRecipe0(true, 16, 256, FL.array(MTx.Benzene.liquid(U, true), MT.H2SO4.liquid(7*U, true), MT.HNO3.liquid(5*U, true)), FL.array(MTx.DiluteH2SO4.liquid(10*U, false), MTx.Nitrobenzene.liquid(U, false)));
+        RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MT.Ni, 0), FL.array(MTx.Nitrobenzene.liquid(U, true), MT.H.gas(6*U, true)), FL.array(MTx.Aniline.liquid(U, false), MT.H2O.liquid(6*U, false)));
+        RM.Mixer.addRecipe1(true, 16, 256, dust.mat(MTx.Phenol, 1), FL.array(MT.H2SO4.liquid(14*U, true), MT.HNO3.liquid(10*U, true)), FL.array(MTx.DiluteH2SO4.liquid(20*U, false)), dust.mat(MTx.DNP, 1));
+        RM.Mixer.addRecipe2(true, 16, 128, dust.mat(MT.Pd, 0), dust.mat(MTx.Phenol, 1), FL.array(MT.NH3.gas(U, true)), FL.array(MTx.Aniline.liquid(U, false), MT.H2O.liquid(3*U, false)));
+        RM.Mixer.addRecipe1(true, 16, 128, ST.tag(3), FL.array(MTx.Aniline.liquid(U, true), MTx.HNO2.liquid(4*U, true), MT.HCl.gas(2*U, true)), FL.array(FL.Water.make(6000)), dust.mat(MTx.BenzenediazoniumChloride, 1));
 
         for (FluidStack water : FL.waters(3000)) {
-            RM.Mixer.addRecipe0(true, 16, 256, FL.array(MTx.Aniline.liquid(14 * U, true), MTx.Formaldehyde.gas(4 * U, true), MTx.HCN.gas(3 * U, true), water), FL.array(MT.NH3.gas(U, false)), dust.mat(MTx.NPhenylGlycine, 20));
-            RM.Mixer.addRecipe1(true, 16, 512, dust.mat(MTx.Aminonaphthalene, 40), FL.array(MT.H2SO4.liquid(7*U, true), FL.mul(water, 3)), FL.array(MTx.NH4SO4Solution.liquid(10*U, false)), dust.mat(MTx.Naphthol, 38));
-            RM.Mixer.addRecipe1(true, 16, 512, dust.mat(MTx.Aminonaphthalene, 40), FL.array(MTx.DiluteH2SO4.liquid(10*U, true), FL.mul(water, 2)), FL.array(MTx.NH4SO4Solution.liquid(10*U, false)), dust.mat(MTx.Naphthol, 38));
+            RM.Mixer.addRecipe0(true, 16, 256, FL.array(MTx.Aniline.liquid(U, true), MTx.Formaldehyde.gas(U, true), MTx.HCN.gas(3 * U, true), water), FL.array(MT.NH3.gas(U, false)), dust.mat(MTx.NPhenylGlycine, 1));
+            RM.Mixer.addRecipe1(true, 16, 512, dust.mat(MTx.Aminonaphthalene, 2), FL.array(MT.H2SO4.liquid(7*U, true), FL.mul(water, 3)), FL.array(MTx.NH4SO4Solution.liquid(10*U, false)), dust.mat(MTx.Naphthol, 2));
+            RM.Mixer.addRecipe1(true, 16, 512, dust.mat(MTx.Aminonaphthalene, 2), FL.array(MTx.DiluteH2SO4.liquid(10*U, true), FL.mul(water, 2)), FL.array(MTx.NH4SO4Solution.liquid(10*U, false)), dust.mat(MTx.Naphthol, 2));
         }
 
         // H2O2 with Anthraquinone
@@ -291,34 +319,34 @@ public class OilProcessing extends GT6XFeature {
             RM.Mixer.addRecipe0(true, 16, 8, FL.array(MT.H2O2.liquid(9 * U1000, true), FL.mul(water, 9)), FL.make(chemicalWhiteDye, 18), NF);
         }
         /// Anthraquinone Dyes
-        RM.Mixer.addRecipe2(true, 16, 256, dust.mat(MTx.Chlorotoluene, 30), dust.mat(MTx.Diaminoanthraquinone, 28), NF, MT.HCl.gas(4*U, false), dust.mat(MTx.QuinizarineGreen, 54));
-        RM.Mixer.addRecipe2(true, 16, 256, dust.mat(MTx.AnthraquinoneDisulfonicAcid, 32), dust.mat(MT.NaOH, 12), MT.O.gas(2*U, true), MTx.Na2SO4Solution.liquid(20*U, false), dust.mat(MTx.AlizarinRed, 26));
+        RM.Mixer.addRecipe2(true, 16, 256, dust.mat(MTx.Chlorotoluene, 2), dust.mat(MTx.Diaminoanthraquinone, 1), NF, MT.HCl.gas(4*U, false), dust.mat(MTx.QuinizarineGreen, 3));
+        RM.Mixer.addRecipe2(true, 16, 256, dust.mat(MTx.AnthraquinoneDisulfonicAcid, 1), dust.mat(MT.NaOH, 12), MT.O.gas(2*U, true), MTx.Na2SO4Solution.liquid(20*U, false), dust.mat(MTx.AlizarinRed, 5));
         /// Azo Dyes
         // Solvent Yellow 1
-        RM.Mixer.addRecipe1(true, 16, 256, dust.mat(MTx.BenzenediazoniumChloride, 14), FL.array(MTx.Aniline.liquid(14 * U, true), MTx.NaOHSolution.liquid(6*U, true)), FL.Saltwater.make(8000), dust.mat(MTx.SolventYellow, 26));
+        RM.Mixer.addRecipe1(true, 16, 256, dust.mat(MTx.BenzenediazoniumChloride, 1), FL.array(MTx.Aniline.liquid(U, true), MTx.NaOHSolution.liquid(6*U, true)), FL.Saltwater.make(8000), dust.mat(MTx.SolventYellow, 5));
         // Solvent Yellow 7
-        RM.Mixer.addRecipe2(true, 16, 256, dust.mat(MTx.BenzenediazoniumChloride, 14), dust.mat(MTx.Phenol, 13), MTx.NaOHSolution.liquid(6*U, true), FL.Saltwater.make(8000), dust.mat(MTx.SolventYellow, 25));
+        RM.Mixer.addRecipe2(true, 16, 256, dust.mat(MTx.BenzenediazoniumChloride, 1), dust.mat(MTx.Phenol, 1), MTx.NaOHSolution.liquid(6*U, true), FL.Saltwater.make(8000), dust.mat(MTx.SolventYellow, 5));
         // Organol Brown
-        RM.Mixer.addRecipe2(true, 16, 256, dust.mat(MTx.BenzenediazoniumChloride, 14), dust.mat(MTx.Naphthol, 19), MTx.NaOHSolution.liquid(6*U, true), FL.Saltwater.make(8000), dust.mat(MTx.OrganolBrown, 31));
+        RM.Mixer.addRecipe2(true, 16, 256, dust.mat(MTx.BenzenediazoniumChloride, 1), dust.mat(MTx.Naphthol, 1), MTx.NaOHSolution.liquid(6*U, true), FL.Saltwater.make(8000), dust.mat(MTx.OrganolBrown, 5));
 
         for (FluidStack water : FL.waters(3000)) {
             // Solvent Yellow 1
-            RM.Mixer.addRecipe2(true, 16, 256, dust.mat(MTx.BenzenediazoniumChloride, 14), dust.mat(MT.NaOH, 3), FL.array(MTx.Aniline.liquid(14 * U, true), water), FL.Saltwater.make(8000), dust.mat(MTx.SolventYellow, 26));
+            RM.Mixer.addRecipe2(true, 16, 256, dust.mat(MTx.BenzenediazoniumChloride, 1), dust.mat(MT.NaOH, 3), FL.array(MTx.Aniline.liquid(U, true), water), FL.Saltwater.make(8000), dust.mat(MTx.SolventYellow, 5));
             // Solvent Yellow 7
-            RM.Mixer.addRecipeX(true, 16, 256, ST.array(dust.mat(MTx.BenzenediazoniumChloride, 14), dust.mat(MT.NaOH, 3), dust.mat(MTx.Phenol, 13)), water, FL.Saltwater.make(8000), dust.mat(MTx.SolventYellow, 25));
+            RM.Mixer.addRecipeX(true, 16, 256, ST.array(dust.mat(MTx.BenzenediazoniumChloride, 1), dust.mat(MT.NaOH, 3), dust.mat(MTx.Phenol, 1)), water, FL.Saltwater.make(8000), dust.mat(MTx.SolventYellow, 5));
             // Organol Brown
-            RM.Mixer.addRecipeX(true, 16, 256, ST.array(dust.mat(MTx.BenzenediazoniumChloride, 14), dust.mat(MT.NaOH, 3), dust.mat(MTx.Naphthol, 19)), water, FL.Saltwater.make(8000), dust.mat(MTx.OrganolBrown, 31));
+            RM.Mixer.addRecipeX(true, 16, 256, ST.array(dust.mat(MTx.BenzenediazoniumChloride, 1), dust.mat(MT.NaOH, 3), dust.mat(MTx.Naphthol, 1)), water, FL.Saltwater.make(8000), dust.mat(MTx.OrganolBrown, 5));
             /// Sulfur Black
-            RM.Mixer.addRecipe2(true, 16, 512, dust.mat(MTx.DNP, 68), dust.mat(MT.Na2S, 24), FL.array(FL.mul(water, 8)), FL.array(MTx.NaOHSolution.liquid(48*U, false), MT.NO2.gas(6*U, false)), dust.mat(MTx.SulfurBlack, 62));
+            RM.Mixer.addRecipe2(true, 16, 512, dust.mat(MTx.DNP, 4), dust.mat(MT.Na2S, 24), FL.array(FL.mul(water, 8)), FL.array(MTx.NaOHSolution.liquid(48*U, false), MT.NO2.gas(6*U, false)), dust.mat(MTx.SulfurBlack, 12));
         }
 
         /// Indigo Dye
-        RM.Mixer.addRecipeX(true, 16, 512, ST.array(dust.mat(MT.NaOH, 0), dust.mat(MT.KOH, 0), dust.mat(MTx.NPhenylGlycine, 40)), MT.O.gas(2*U, true), FL.Water.make(12000), dust.mat(MT.Indigo, 30));
+        RM.Mixer.addRecipeX(true, 16, 512, ST.array(dust.mat(MT.NaOH, 0), dust.mat(MT.KOH, 0), dust.mat(MTx.NPhenylGlycine, 2)), MT.O.gas(2*U, true), FL.Water.make(12000), dust.mat(MT.Indigo, 1));
 
         // DNQ (precursor of photoresist)
-        RM.Mixer.addRecipe2(true, 16, 256, ST.tag(3), dust.mat(MTx.Naphthol, 19), FL.array(MT.H2SO4.liquid(7*U, true), MT.HNO3.liquid(5*U, true)), FL.array(MTx.DiluteH2SO4.liquid(10*U, false)), dust.mat(MTx.Nitronaphthol, 21));
-        RM.Mixer.addRecipe2(true, 16, 256, dust.mat(MT.Ni, 0), dust.mat(MTx.Nitronaphthol, 21), MT.H.gas(6*U, true), MT.H2O.liquid(6*U, false), dust.mat(MTx.Aminonaphthol, 21));
-        RM.Mixer.addRecipe1(true, 16, 256, dust.mat(MTx.Aminonaphthol, 21), MTx.HNO2.liquid(4*U, true), FL.Water.make(6000), dust.mat(MTx.DNQ, 19));
+        RM.Mixer.addRecipe2(true, 16, 256, ST.tag(3), dust.mat(MTx.Naphthol, 1), FL.array(MT.H2SO4.liquid(7*U, true), MT.HNO3.liquid(5*U, true)), FL.array(MTx.DiluteH2SO4.liquid(10*U, false)), dust.mat(MTx.Nitronaphthol, 1));
+        RM.Mixer.addRecipe2(true, 16, 256, dust.mat(MT.Ni, 0), dust.mat(MTx.Nitronaphthol, 1), MT.H.gas(6*U, true), MT.H2O.liquid(6*U, false), dust.mat(MTx.Aminonaphthol, 1));
+        RM.Mixer.addRecipe1(true, 16, 256, dust.mat(MTx.Aminonaphthol, 1), MTx.HNO2.liquid(4*U, true), FL.Water.make(6000), dust.mat(MTx.DNQ, 1));
 
         // Hydro-cracking
         // Fuel: 20-50 C (avg C34H70) - 3 fuel -> 2 Diesel + 1 Kerosine * 1.5
@@ -386,6 +414,6 @@ public class OilProcessing extends GT6XFeature {
     }
 
     private void overrideMiscRecipes() {
-        RM.Mixer.addRecipe0(true, 16, 800, FL.array(MT.Glycerol.fluid(U*14, true), MT.HNO3.liquid(U*15, true), MT.H2SO4.liquid(U*21, true)), MT.Glyceryl.fluid(U*20, false), MTx.DiluteH2SO4.liquid(U*30, false));
+        RM.Mixer.addRecipe0(true, 16, 800, FL.array(MT.Glycerol.fluid(U, true), MT.HNO3.liquid(U*5, true), MT.H2SO4.liquid(U*7, true)), MT.Glyceryl.fluid(U, false), MTx.DiluteH2SO4.liquid(U*10, false));
     }
 }
