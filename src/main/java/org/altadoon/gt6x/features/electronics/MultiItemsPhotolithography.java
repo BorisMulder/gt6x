@@ -266,8 +266,8 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         // Photoresist cleaning
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][3].get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafers[type][tier][4].get(1));
         // Metallization using Cu Electroplating
-        for (FluidStack water : FL.waters(1000)) {
-            RM.Electrolyzer.addRecipe1(true, 32, 16, ILx.Wafers[type][tier][4].get(1), FL.array(MT.BlueVitriol.liquid(3*U2, true), water), FL.array(MT.H2SO4.liquid(7*U4, false), MT.O.gas(U4, false)), ILx.Wafers[type][tier][5].get(1));
+        for (FluidStack water : FL.waters(750)) {
+            RM.Electrolyzer.addRecipe1(true, 32, 16, ILx.Wafers[type][tier][4].get(1), FL.array(MT.BlueVitriol.liquid(6*U4, true), water), FL.array(MT.H2SO4.liquid(7*U4, false), MT.O.gas(U4, false)), ILx.Wafers[type][tier][5].get(1));
         }
         // Metal etching
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][5].get(1), MTx.FeCl3Solution.liquid(17*U8, true), MTx.CuFeClSolution.liquid(18*U8, false), ILx.Wafers[type][tier][6].get(1));

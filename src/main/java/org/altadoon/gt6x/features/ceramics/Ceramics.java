@@ -80,8 +80,10 @@ public class Ceramics extends GT6XFeature {
 
     private void addAlloyingRecipes() {
         MT.SiC.addAlloyingRecipe(new OreDictConfigurationComponent(2, OM.stack(MT.SiO2, 3*U), OM.stack(MT.C, 2*U)));
-        MTx.Cement.addAlloyingRecipe(new OreDictConfigurationComponent(4, OM.stack(MT.Gypsum, U9), OM.stack(MT.Quicklime, 5*U), OM.stack(MT.Ash, 2*U)));
-        MTx.Cement.addAlloyingRecipe(new OreDictConfigurationComponent(4, OM.stack(MT.Gypsum, U9), OM.stack(MT.Quicklime, 5*U), OM.stack(MT.DarkAsh, 2*U)));
+
+        for (OreDictMaterial ash : ANY.Ash.mToThis)
+            MTx.Cement.addAlloyingRecipe(new OreDictConfigurationComponent(4, OM.stack(MT.Gypsum, U9), OM.stack(MT.Quicklime, 5*U), OM.stack(ash, 2*U)));
+
         MTx.Cement.addAlloyingRecipe(new OreDictConfigurationComponent(4, OM.stack(MT.Gypsum, U9), OM.stack(MT.Quicklime, 4*U), OM.stack(MT.STONES.Shale, 3*U)));
     }
 
@@ -143,16 +145,18 @@ public class Ceramics extends GT6XFeature {
         RMx.Sintering.addRecipeX(true, 16, 128, ST.array(ST.tag(2), dust.mat(MT.Quicklime, 1), dust.mat(MT.Al2O3, 5)), clinker.mat(MTx.CaAlCement, 6));
 
         // Portland Cement
-        RMx.Sintering.addRecipeX(true, 16, 64 , ST.array(ST.tag(3), dustTiny.mat(MT.Gypsum, 1), dust.mat(MT.Quicklime, 5), dust.mat(MT.Ash            , 2)), clinker.mat(MTx.Cement, 7));
-        RMx.Sintering.addRecipeX(true, 16, 64 , ST.array(ST.tag(3), dustTiny.mat(MT.Gypsum, 1), dust.mat(MT.Quicklime, 5), dust.mat(MT.DarkAsh        , 2)), clinker.mat(MTx.Cement, 7));
+        for (OreDictMaterial ash : ANY.Ash.mToThis) {
+        RMx.Sintering.addRecipeX(true, 16, 64 , ST.array(ST.tag(3), dustTiny.mat(MT.Gypsum, 1), dust.mat(MT.Quicklime, 5), dust.mat(ash               , 2)), clinker.mat(MTx.Cement, 7));
+        }
         RMx.Sintering.addRecipeX(true, 16, 64 , ST.array(ST.tag(3), dustTiny.mat(MT.Gypsum, 1), dust.mat(MT.Quicklime, 5), dust.mat(MT.OREMATS.Bauxite, 2)), clinker.mat(MTx.Cement, 7));
         RMx.Sintering.addRecipeX(true, 16, 64 , ST.array(ST.tag(3), dustTiny.mat(MT.Gypsum, 1), dust.mat(MT.Quicklime, 4), dust.mat(MT.STONES.Shale   , 3)), clinker.mat(MTx.Cement, 7));
         for (OreDictMaterial clay : ANY.Clay.mToThis) {
-            RMx.Sintering.addRecipeX(true, 16, 64 , ST.array(ST.tag(3), dustTiny.mat(MT.Gypsum, 1), dust.mat(MT.Quicklime, 5), dust.mat(clay          , 2)), clinker.mat(MTx.Cement, 7));
+        RMx.Sintering.addRecipeX(true, 16, 64 , ST.array(ST.tag(3), dustTiny.mat(MT.Gypsum, 1), dust.mat(MT.Quicklime, 5), dust.mat(clay              , 2)), clinker.mat(MTx.Cement, 7));
         }
         for (OreDictMaterial calcite : ANY.Calcite.mToThis) {
-            RMx.Sintering.addRecipeX(true, 16, 128, ST.array(ST.tag(3), dustTiny.mat(MT.Gypsum, 2), dust.mat(calcite, 25), dust.mat(MT.Ash            , 4)), clinker.mat(MTx.Cement, 14));
-            RMx.Sintering.addRecipeX(true, 16, 128, ST.array(ST.tag(3), dustTiny.mat(MT.Gypsum, 2), dust.mat(calcite, 25), dust.mat(MT.DarkAsh        , 4)), clinker.mat(MTx.Cement, 14));
+            for (OreDictMaterial ash : ANY.Ash.mToThis) {
+            RMx.Sintering.addRecipeX(true, 16, 128, ST.array(ST.tag(3), dustTiny.mat(MT.Gypsum, 2), dust.mat(calcite, 25), dust.mat(ash               , 4)), clinker.mat(MTx.Cement, 14));
+            }
             RMx.Sintering.addRecipeX(true, 16, 128, ST.array(ST.tag(3), dustTiny.mat(MT.Gypsum, 2), dust.mat(calcite, 25), dust.mat(MT.OREMATS.Bauxite, 4)), clinker.mat(MTx.Cement, 14));
             RMx.Sintering.addRecipeX(true, 16, 64 , ST.array(ST.tag(3), dustTiny.mat(MT.Gypsum, 1), dust.mat(calcite, 10), dust.mat(MT.STONES.Shale   , 3)), clinker.mat(MTx.Cement, 7));
             for (OreDictMaterial clay : ANY.Clay.mToThis) {
@@ -161,16 +165,18 @@ public class Ceramics extends GT6XFeature {
         }
 
         // GGBFS Cement
-        RMx.Sintering.addRecipeX(true, 16, 128, ST.array(ST.tag(4), dustTiny.mat(MT.Gypsum, 2), dust.mat(MT.Quicklime, 5), dust.mat(MT.Ash            , 2), dust.mat(MT.OREMATS.Wollastonite, 7 )), clinker.mat(MTx.Cement, 14));
-        RMx.Sintering.addRecipeX(true, 16, 128, ST.array(ST.tag(4), dustTiny.mat(MT.Gypsum, 2), dust.mat(MT.Quicklime, 5), dust.mat(MT.DarkAsh        , 2), dust.mat(MT.OREMATS.Wollastonite, 7 )), clinker.mat(MTx.Cement, 14));
+        for (OreDictMaterial ash : ANY.Ash.mToThis) {
+        RMx.Sintering.addRecipeX(true, 16, 128, ST.array(ST.tag(4), dustTiny.mat(MT.Gypsum, 2), dust.mat(MT.Quicklime, 5), dust.mat(ash               , 2), dust.mat(MT.OREMATS.Wollastonite, 7)), clinker.mat(MTx.Cement, 14));
+        }
         RMx.Sintering.addRecipeX(true, 16, 128, ST.array(ST.tag(4), dustTiny.mat(MT.Gypsum, 2), dust.mat(MT.Quicklime, 5), dust.mat(MT.OREMATS.Bauxite, 2), dust.mat(MT.OREMATS.Wollastonite, 7 )), clinker.mat(MTx.Cement, 14));
         RMx.Sintering.addRecipeX(true, 16, 128, ST.array(ST.tag(4), dustTiny.mat(MT.Gypsum, 2), dust.mat(MT.Quicklime, 4), dust.mat(MT.STONES.Shale   , 3), dust.mat(MT.OREMATS.Wollastonite, 7 )), clinker.mat(MTx.Cement, 14));
         for (OreDictMaterial clay : ANY.Clay.mToThis) {
-            RMx.Sintering.addRecipeX(true, 16, 128, ST.array(ST.tag(4), dustTiny.mat(MT.Gypsum, 2), dust.mat(MT.Quicklime, 5), dust.mat(clay          , 2), dust.mat(MT.OREMATS.Wollastonite, 7 )), clinker.mat(MTx.Cement, 14));
+        RMx.Sintering.addRecipeX(true, 16, 128, ST.array(ST.tag(4), dustTiny.mat(MT.Gypsum, 2), dust.mat(MT.Quicklime, 5), dust.mat(clay              , 2), dust.mat(MT.OREMATS.Wollastonite, 7 )), clinker.mat(MTx.Cement, 14));
         }
         for (OreDictMaterial calcite : ANY.Calcite.mToThis) {
-            RMx.Sintering.addRecipeX(true, 16, 256, ST.array(ST.tag(4), dustTiny.mat(MT.Gypsum, 4), dust.mat(calcite, 25), dust.mat(MT.Ash            , 4), dust.mat(MT.OREMATS.Wollastonite, 14)), clinker.mat(MTx.Cement, 28));
-            RMx.Sintering.addRecipeX(true, 16, 256, ST.array(ST.tag(4), dustTiny.mat(MT.Gypsum, 4), dust.mat(calcite, 25), dust.mat(MT.DarkAsh        , 4), dust.mat(MT.OREMATS.Wollastonite, 14)), clinker.mat(MTx.Cement, 28));
+            for (OreDictMaterial ash : ANY.Ash.mToThis) {
+            RMx.Sintering.addRecipeX(true, 16, 256, ST.array(ST.tag(4), dustTiny.mat(MT.Gypsum, 4), dust.mat(calcite, 25), dust.mat(ash               , 4), dust.mat(MT.OREMATS.Wollastonite, 14)), clinker.mat(MTx.Cement, 28));
+            }
             RMx.Sintering.addRecipeX(true, 16, 256, ST.array(ST.tag(4), dustTiny.mat(MT.Gypsum, 4), dust.mat(calcite, 25), dust.mat(MT.OREMATS.Bauxite, 4), dust.mat(MT.OREMATS.Wollastonite, 14)), clinker.mat(MTx.Cement, 28));
             RMx.Sintering.addRecipeX(true, 16, 128, ST.array(ST.tag(4), dustTiny.mat(MT.Gypsum, 2), dust.mat(calcite, 10), dust.mat(MT.STONES.Shale   , 3), dust.mat(MT.OREMATS.Wollastonite, 7 )), clinker.mat(MTx.Cement, 14));
             for (OreDictMaterial clay : ANY.Clay.mToThis) {
