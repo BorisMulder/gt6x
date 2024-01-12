@@ -48,6 +48,11 @@ public class OilProcessing extends GT6XFeature {
     }
 
     @Override
+    public void beforePostInit() {
+        overrideMiscRecipes();
+    }
+
+    @Override
     public void postInit() {
         addRecipes();
     }
@@ -60,7 +65,6 @@ public class OilProcessing extends GT6XFeature {
         changeCrackingRecipes();
         changeElectrolysisRecipes();
         addFuelValues();
-        overrideMiscRecipes();
     }
 
     @Override
@@ -105,9 +109,9 @@ public class OilProcessing extends GT6XFeature {
         // syngas
         RM.SteamCracking.addRecipe1(false, 16,  375, new long[]{800}, dust.mat(MT.Ni, 0), FL.array(FL.Steam.make(300*(long)STEAM_PER_WATER), FL.Gas_Natural.make(500)), FL.array(MT.H.gas(540*U1000, false), MT.CO.gas(180*U1000, false)), dustTiny.mat(MT.PetCoke, 9));
         RM.SteamCracking.addRecipe1(false, 16,  375,                  dust.mat(MT.Ni, 0), FL.array(FL.Steam.make(300*(long)STEAM_PER_WATER), FL.Methane    .make(500)), FL.array(MT.H.gas(600*U1000, false), MT.CO.gas(200*U1000, false)), ZL_IS);
-        for (OreDictMaterial coal : new OreDictMaterial[] { MT.Coal, MT.Charcoal, MT.CoalCoke, MT.C, MT.Graphite }) { // for some reason ANY does not work here
+        for (OreDictMaterial coal : new OreDictMaterial[] { MT.Coal, MT.Charcoal, MT.CoalCoke, MT.C, MT.Graphite, MT.PetCoke }) { // for some reason ANY does not work here
             // runs as long as a boiler @256 steam/t needs to run to produce an equal amount of steam
-            RM.SteamCracking.addRecipe1(false, 16,  1875, dust.mat(coal, 1), FL.array(FL.Steam.make(3000*(long)STEAM_PER_WATER)), FL.array(MT.H.gas(U*2, false), MT.CO.gas(U*2, false)), ZL_IS);
+            RM.SteamCracking.addRecipe1(false, 16,  1875, dust.mat(coal, 1), FL.array(FL.Steam.make(3000*(long)STEAM_PER_WATER)), FL.array(MT.H.gas(U*2, false), MT.CO.gas(U*2, false)), OM.dust(coal.mTargetBurning.mMaterial, coal.mTargetBurning.mAmount));
         }
 
         for (Recipe recipe : RM.CatalyticCracking.mRecipeList) recipe.mEnabled = false;
@@ -414,6 +418,6 @@ public class OilProcessing extends GT6XFeature {
     }
 
     private void overrideMiscRecipes() {
-        RM.Mixer.addRecipe0(true, 16, 800, FL.array(MT.Glycerol.fluid(U, true), MT.HNO3.liquid(U*5, true), MT.H2SO4.liquid(U*7, true)), MT.Glyceryl.fluid(U, false), MTx.DiluteH2SO4.liquid(U*10, false));
+        RM.Mixer.addRecipe0(true, 16, 800, FL.array(MT.Glycerol.liquid(U, true), MT.HNO3.liquid(U*5, true), MT.H2SO4.liquid(U*7, true)), MT.Glyceryl.liquid(U, false), MTx.DiluteH2SO4.liquid(U*10, false));
     }
 }

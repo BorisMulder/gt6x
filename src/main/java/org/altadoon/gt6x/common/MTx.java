@@ -75,6 +75,8 @@ public class MTx {
         MT.Indigo.uumMcfg(1, MT.C, 16*U, MT.H, 10*U, MT.N, 2*U, MT.O, 2*U)
                 .heat(391).setRGBa(75, 0, 130, 255);
         MT.Sc.hide(false);
+        MT.Te.hide(false);
+        MT.Tl.hide(false);
         MT.Glycerol.uumMcfg(1, MT.C, 3*U, MT.H, 8*U, MT.O, 3*U);
 
         MT.OREMATS.Wolframite.setLocal("Magnesium Tungstate").addSourceOf(MT.Mg);
@@ -83,6 +85,7 @@ public class MTx {
         MT.Glyceryl.setLocal("Nitroglycerin");
         MT.H3BO3.setLocal("Boric Acid");
         MT.FeO3H3.setLocal("Ferric Hydroxide");
+        MT.DarkAsh.setLocal("Coal Ash");
 
         addMolten(MT.K2S2O7, 1000);
         addMolten(MT.Na2S2O7, 1000);
@@ -632,7 +635,7 @@ public class MTx {
             .setMcfg(0, MT.Zn, U, MT.N, 2*U, MT.O, 6*U)
             .tooltip("Zn(NO" + NUM_SUB[3] + ")" + NUM_SUB[2])
             .heat(383)
-            .setSmelting(MTx.ZnO, 2*U9),
+            .setSmelting(MT.Zn, U9),
     GaAs = alloymachine(16147, "Gallium Arsenide", SET_METALLIC, 96, 96, 120, 255)
             .uumMcfg(0, MT.Ga, U, MT.As, U)
             .heat(1511),
@@ -913,7 +916,7 @@ public class MTx {
             .uumMcfg(0, MT.Ca, 5*U, MT.PO4, 3*U, MT.O, U, MT.H, U)
             .heat(MT.Apatite)
             .setOreMultiplier(4),
-    LiquidCrystal5CB = create(16245, "LiquidCrystal5CB", 0, 0, 0, 255, "4-Cyano-4'-pentylbiphenyl")
+    LiquidCrystal5CB = create(16245, "Crystal5CBLiquid", 0, 0, 0, 255, "4-Cyano-4'-pentylbiphenyl")
             .setMcfg(1, MT.C, 18*U, MT.H, 19*U, MT.N, U)
             .setLocal("5CB liquid crystal"),
     Biphenyl = dustdcmp(16246, "Biphenyl", SET_CUBE_SHINY, 255, 255, 200, 255)
@@ -975,9 +978,58 @@ public class MTx {
     ITO = machine(16266, "Indium Tin Oxide", SET_QUARTZ, 200, 255, 100, 150)
             .uumMcfg(0, MT.In, 4*U, MT.Sn, U, MT.O, 8*U)
             .heat(1800+C),
-    In2O3 = dustdcmp(16267, "Indium(III) Oxide", SET_CUBE_SHINY, 200, 255, 0, 255, "Indium Trioxide")
+    In2O3 = dustdcmp(16267, "Indium(III) Oxide", SET_CUBE_SHINY, 240, 255, 0, 255, "Indium Trioxide")
             .uumMcfg(0, MT.In, 2*U, MT.O, 3*U)
-            .heat(2180)
+            .heat(2180),
+    ZnLeachingSolution = registerLiquid(lqudaciddcmp(16268, "Zinc Leaching Solution", 222, 222, 222, 255)
+            .setMcfg(0, MT.WhiteVitriol, 8*6*U, CdSO4, 6*U, MT.H2O, 9*3*U)
+            .heat(MT.H2O)),
+    ZRR = oredustdcmp(16269, "Zinc Refinery Residue", SET_DULL, 235, 153, 51, 255)
+            .heat(700),
+    Tl2SO4 = dustdcmp(16270, "Thallium Sulfate", SET_CUBE, 220, 220, 0, 255)
+            .uumMcfg(0, MT.Tl, 2*U, MT.S, U, MT.O, 4*U)
+            .heat(905),
+    GeGaInSulfateSolution = registerLiquid(lqudaciddcmp(16271, "Ge-Ga-In Sulfate Solution", 255, 150, 50, 255)
+            .setMcfg(0, MT.Ga, U, MT.Ge, U, MT.In, U, MT.S, 5*U, MT.O, 20*U, MT.H2O, 6*3*U)
+            .heat(MT.H2O))
+            .tooltip("(Ga, In, Ge)\u2098(SO" + NUM_SUB[4] + ")\u2099"),
+    Tannin = registerLiquid(lquddcmp(16272, "Tannin", 100, 50, 0, 250)
+            .heat(MT.H2O)),
+    TannicAcid = dustdcmp(16273, "Tannic Acid", SET_QUARTZ, 220, 130, 0, 255)
+            .heat(200+C),
+    GeTannate = dustdcmp(16274, "Germanium Tannate", SET_QUARTZ, 150, 100, 50, 255)
+            .heat(TannicAcid),
+    GeO2 = dustdcmp(16275, "Germanium Dioxide", SET_CUBE, 255, 255, 255, 255)
+            .uumMcfg(0, MT.Ge, U, MT.O, 2*U),
+    GaInSulfateSolution = registerLiquid(lqudaciddcmp(16276, "Ga-In Sulfuric Acid Solution", 255, 128, 0, 255)
+            .setMcfg(0, MT.Ga, U, MT.In, U, MT.S, 3*U, MT.O, 12*U, MT.H2SO4, 14*U, MT.H2O, 18*U))
+            .heat(MT.H2SO4),
+    InO3H3 = dustdcmp(16277, "Indium Hydroxide", SET_DULL, 210, 200, 255, 255)
+            .uumMcfg(0, MT.In, U, MT.O, 3*U, MT.H, 3*U)
+            .tooltip("In(OH)" + NUM_SUB[3])
+            .heat(423)
+            .setSmelting(In2O3, 5*U7),
+    GaOHNa2SO4Solution = registerLiquid(lquddcmp(16278, "Gallium Hydroxide - Sodium Sulfate Solution", 190, 190, 140, 255)
+            .setMcfg(0, MT.Ga, U, MT.O, 3*U, MT.H, 3*U, MT.Na2SO4, 7*5*U, MT.H2O, 3*10*U)
+            .heat(MT.H2O)),
+    ZnSlag = dustdcmp(16279, "Zinc Smelting Slag", SET_FLINT, 200, 100, 0, 255, GEMS)
+            .heat(Slag),
+    CoalAshNonmagResidue = dustdcmp(16280, "Coal ash non-magnetic residue", SET_DULL, 100, 100, 100, 255)
+            .heat(MT.DarkAsh),
+    CoalAshLeachingSolution = registerLiquid(lquddcmp(16281, "Coal ash leaching solution", 150, 150, 150, 200)
+            .heat(MT.H2O)),
+    CoalAshResidueSolution = registerLiquid(lquddcmp(16282, "Coal ash residue solution", 150, 150, 150, 200)
+            .heat(MT.H2O)),
+    OxalicAcid = dustdcmp(16283, "Oxalic Acid", SET_CUBE, 220, 235, 255, 200)
+            .uumMcfg(0, MT.H, 2*U, MT.C, 2*U, MT.O, 4*U)
+            .heat(463),
+    GlycolicAcid = dustdcmp(16284, "Glycolic Acid", SET_CUBE, 255, 255, 255, 255)
+            .setMcfg(1, MT.C, 2*U, MT.H, 4*U, MT.O, 3*U)
+            .heat(348),
+    GeOxalate = dustdcmp(16285, "Germanium Oxalate", SET_FINE, 255, 255, 255, 255)
+            .setMcfg(0, MT.Ge, U, MT.C, 4*U, MT.O, 8*U)
+            .tooltip("Ge(C" + NUM_SUB[2] + "O" + NUM_SUB[4] + ")" + NUM_SUB[2]),
+    CuAnodeSludge = dustdcmp(16286, "Copper Anode Sludge", SET_FINE, 61, 50, 40, 255)
     ;
 
     static {
@@ -988,6 +1040,7 @@ public class MTx {
         MT.PetCoke.setMcfg(0, MT.C, U);
         MT.Bone.uumMcfg(2, Hydroxyapatite, U).setSmelting(Hydroxyapatite, U2).heat(1000+C);
         MT.SlimyBone.uumMcfg(0, MT.Bone, U);
+        MT.VolcanicAsh.setMcfg( 0, MT.Flint, 6*U, MT.Fe2O3, U, MTx.MgO, U);
 
         addMolten(RhodiumPotassiumSulfate, 144);
         addMolten(PbCl2, 144);

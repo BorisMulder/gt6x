@@ -156,7 +156,7 @@ public class PgmProcessing extends GT6XFeature {
             mat.addOreByProducts(MT.PlatinumGroupSludge);
         }
 
-        Chalcocite.addOreByProducts(MT.OREMATS.Cooperite, MT.PlatinumGroupSludge, MT.OREMATS.Pentlandite, MT.OREMATS.Chalcopyrite, MT.OREMATS.Cobaltite, MT.Au);
+        Chalcocite.addOreByProducts(MT.OREMATS.Chalcopyrite, MT.OREMATS.Cooperite, MT.OREMATS.Pentlandite, MT.OREMATS.Cobaltite, MT.PlatinumGroupSludge, MT.Au);
     }
 
     private void disableOldLeachingRecipe(OreDictMaterial inputOre) {
