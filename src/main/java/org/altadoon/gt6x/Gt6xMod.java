@@ -1,12 +1,13 @@
 package org.altadoon.gt6x;
 
+import cpw.mods.fml.common.event.FMLInitializationEvent;
 import gregapi.data.CS;
 import org.altadoon.gt6x.common.*;
-import org.altadoon.gt6x.common.items.ItemMaterialDisplay;
 import org.altadoon.gt6x.common.items.MultiItemsX;
 import org.altadoon.gt6x.features.GT6XFeature;
 import org.altadoon.gt6x.features.basicchem.BasicChemistry;
 import org.altadoon.gt6x.features.ceramics.Ceramics;
+import org.altadoon.gt6x.features.worldgen.WorldGen;
 import org.altadoon.gt6x.features.oil.OilProcessing;
 import org.altadoon.gt6x.features.pgm.PgmProcessing;
 import org.altadoon.gt6x.features.metallurgy.Metallurgy;
@@ -28,6 +29,7 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 	public static final String MOD_NAME = "GRADLETOKEN_MODNAME";
 	public static final String VERSION = "GRADLETOKEN_VERSION";
 	public static final String GROUPNAME = "GRADLETOKEN_GROUPNAME";
+	public static Gt6xMod instance;
 	public static gregapi.code.ModData MOD_DATA = new gregapi.code.ModData(MOD_ID, MOD_NAME);
 
 	@cpw.mods.fml.common.SidedProxy(modId = MOD_ID, clientSide = "gregapi.api.example.Example_Proxy_Client", serverSide = "gregapi.api.example.Example_Proxy_Server")
@@ -57,7 +59,8 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 		OilProcessing.class,
 		PgmProcessing.class,
 		RefractoryMetals.class,
-		VerticalMixers.class
+		VerticalMixers.class,
+		WorldGen.class
 	};
 	private final ArrayList<GT6XFeature> enabledFeatures;
 
@@ -66,7 +69,23 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 
 		this.modConfig = new Config(allFeatures);
 		this.enabledFeatures = modConfig.getEnabledFeatures();
-
+		// try to use shady reflection code to detect feature classes
+		// sometimes work sometimes dosent
+//		try{
+//			Field field =  ClassLoader.class.getDeclaredField("classes");
+//			field.setAccessible(true);
+//			Collection<Class<?>> clzs = (Collection<Class<?>>) field.get(this.getClass().getClassLoader());
+//			for(var claz:clzs){
+//				if(claz.getName().contains("org.altadoon.gt6x.features.")){
+//					System.out.println(claz.getName());
+//					if(claz.getSuperclass().equals(GT6XFeature.class)){
+//						allFeatures.add((Class<? extends GT6XFeature>) claz);
+//					}
+//				}
+//			}
+//		} catch (Exception ignored){
+//			ignored.printStackTrace();
+//		}
 		final Gt6xMod copy = this;
 		GT.mBeforePreInit.add(copy::prePreInit);
 		GT.mAfterPreInit.add(copy::postPreInit);
@@ -80,14 +99,13 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 		MTx.touch();
 		RMx.init();
 		MultiItemsX.instance = new MultiItemsX(MOD_ID, "gt6x.multiitems");
-
 		for (GT6XFeature feature : enabledFeatures) {
 			feature.preInit();
 		}
 	}
 
 	@Override
-	public void onModInit2(cpw.mods.fml.common.event.FMLInitializationEvent aEvent) {
+	public void onModInit2(FMLInitializationEvent aEvent) {
 		for (GT6XFeature feature : enabledFeatures) {
 			feature.init();
 		}

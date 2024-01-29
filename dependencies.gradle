@@ -109,7 +109,7 @@ dependencies {
     //compileOnly "micdoodle8.mods:GalacticraftCore:1.7-3.0.12.504:Dev"
     //compileOnly "micdoodle8.mods:MicdoodleCore:1.7-3.0.12.504:Dev"
     //compileOnly "minechem:Minechem:1.7.10-6.0.407:dev"
-    //compileOnly "minetweaker:MineTweaker3:1.7.10-3.0.10:dev-full"
+    compile "minetweaker:MineTweaker3:1.7.10-3.0.10:dev-full"
     //compileOnly "mods.railcraft:Railcraft_1.7.10:9.12.3.0:dev"
     //compileOnly "mrtjp:ForgeRelocation:0.0.1.4:dev"
     //compileOnly "mrtjp:MrTJPCore:1.1.0.34:dev"

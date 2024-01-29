@@ -3,7 +3,7 @@ package org.altadoon.gt6x.features;
 import org.altadoon.gt6x.common.Config;
 
 public abstract class GT6XFeature {
-    public abstract String name();
+    public String name() {return this.getClass().getName();}
     public abstract void configure(Config config);
     public void beforePreInit() {}
     public abstract void preInit();
