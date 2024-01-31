@@ -66,9 +66,11 @@ public class ILx implements IItemContainer {
     public static ILx
             Display_OMStack = new ILx("Display_OMStack"),
             Fireclay_Ball = new ILx("Fireclay_Ball"),
-            Electrode_Molybdenum = new ILx("Electrode_Molybdenum"),
-            Electrode_Tungsten = new ILx("Electrode_Tungsten"),
+            Filament_Molybdenum = new ILx("Filament_Molybdenum"),
+            Cathode_Molybdenum = new ILx("Cathode_Molybdenum"),
             ElectronTube_Molybdenum = new ILx("ElectronTube_Molybdenum"),
+            Filament_Tungsten = new ILx("Filament_Tungsten"),
+            Cathode_Tungsten = new ILx("Cathode_Tungsten"),
             ElectronTube_Tungsten = new ILx("ElectronTube_Tungsten"),
             Transistor_ThroughHole = new ILx("Transistor_ThroughHole"),
             Capacitor_ThroughHole = new ILx("Capacitor_ThroughHole"),
@@ -127,10 +129,14 @@ public class ILx implements IItemContainer {
             Hard_Disk_Advanced = new ILx("Hard_Disk_Advanced"),
             CPU_Fan = new ILx("CPU_Fan"),
             ComputerCase = new ILx("ComputerCase"),
+            CRT_Black_White = new ILx("CRT_Black_White"),
+            CRT_RGB = new ILx("CRT_RGB"),
             PolaroidFilter = new ILx("PolaroidFilter"),
             PolaroidFilterTiny = new ILx("PolaroidFilter"),
             TCFGlass = new ILx("TCFGlass"),
-            TCFGlassTiny = new ILx("TCFTCFGlassTiny");
+            TCFGlassTiny = new ILx("TCFTCFGlassTiny"),
+            LCD = new ILx("LCD"),
+            LCDTiny = new ILx("LCDTiny");
 
     // Photomasks & Wafers
     public static final int NUM_WAFER_TIERS = 3; // PMOS, NMOS, CMOS

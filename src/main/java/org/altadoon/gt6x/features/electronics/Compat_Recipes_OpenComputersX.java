@@ -142,5 +142,10 @@ public class Compat_Recipes_OpenComputersX extends CompatMods {
         CR.shaped(ST.make(MD.OC, "item", 1, 40), CR.DEF_REM, "dP ", "SMS", "SCS", 'M', ILx.Motherboards[2], 'P', ILx.Thermal_Paste, 'C', ILx.ComputerCase, 'S', OP.screw.dat(MT.StainlessSteel));
         // Card base
         CR.shaped(ST.make(MD.OC, "item", 1, 33), CR.DEF_REM, "AB ", 'A', OP.plateTiny.dat(MT.Al), 'B', ILx.Circuit_Plate_Copper_Long);
+
+        // Screens
+        CR.shaped(ST.make(MD.OC, "screen1", 1, 0), CR.DEF_REM, "CBC", "PSP", "WMT", 'B', MTEx.gt6Registry.getItem(32711), 'P', OD_CIRCUITS[2], 'S', ILx.CRT_Black_White, 'M', OP.casingMachine.dat(ANY.Plastic)     , 'T', TRANSISTOR_NAME, 'C', CAPACITOR_NAME);
+        CR.shaped(ST.make(MD.OC, "screen2", 1, 0), CR.DEF_REM, "CBC", "PSP", "WMT", 'B', MTEx.gt6Registry.getItem(32711), 'P', OD_CIRCUITS[3], 'S', ILx.CRT_RGB        , 'M', OP.casingMachine.dat(MT.Polycarbonate), 'T', TRANSISTOR_NAME, 'C', CAPACITOR_NAME);
+        CR.shaped(ST.make(MD.OC, "screen3", 1, 0), CR.DEF_REM, " B ", "PSP", "WM ", 'B', MTEx.gt6Registry.getItem(32711), 'P', OD_CIRCUITS[5], 'S', ILx.LCD            , 'M', OP.casingMachine.dat(MT.Polycarbonate));
     }
 }
