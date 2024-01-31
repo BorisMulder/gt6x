@@ -25,7 +25,6 @@ import java.util.ListIterator;
 
 import static gregapi.data.CS.*;
 import static gregapi.data.OP.*;
-import static gregapi.data.OP.water;
 import static gregapi.data.TD.Prefix.*;
 import static gregapi.data.TD.Prefix.ORE_PROCESSING_BASED;
 
@@ -76,12 +75,16 @@ public class BasicChemistry extends GT6XFeature {
     }
 
     private void changeByProducts() {
-        for (OreDictMaterial mat : new OreDictMaterial[] { MT.Apatite, MT.Phosphorite, MT.Phosphorus, MT.PhosphorusBlue, MT.PhosphorusRed, MT.PhosphorusWhite }) {
+        for (OreDictMaterial mat : new OreDictMaterial[] { MT.Apatite, MT.Phosphorite, MT.P, MT.PO4 }) {
             ListIterator<OreDictMaterial> it = mat.mByProducts.listIterator();
             while (it.hasNext()) {
                 OreDictMaterial byproduct = it.next();
                 if (byproduct.mID == MT.PO4.mID) {
                     it.set(MTx.Hydroxyapatite);
+                } else if (byproduct.mID == MT.Phosphorus.mID) {
+                    it.set(MT.Phosphorite);
+                } else if (ANY.Phosphorus.mToThis.contains(byproduct)) {
+                    it.remove();
                 }
             }
         }

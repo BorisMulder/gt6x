@@ -45,10 +45,11 @@ public class MTx {
         MT.PigIron.uumMcfg(5, MT.Fe, 5*U, MT.C, U).heat(MT.WroughtIron).qual(3, 4.0, 128, 2);
         MT.Steel  .uumMcfg(100, MT.Fe, 100*U, MT.C, U).heat(MT.WroughtIron);
         MT.Olivine.uumMcfg(0, MT.Mg, U, MT.Fe, U, MT.Si, U, MT.O, 4*U);
+        MT.P.setLocal("Phosphorus");
         MT.Apatite.uumMcfg( 0, MT.Ca, 5*U, MT.PO4, 3*5*U, MT.Cl, U).heat(1900).setLocal("Chlorapatite");
         MT.Phosphorite.uumMcfg( 0, MT.Ca, 5*U, MT.PO4, 3*5*U, MT.F, U).heat(1900).setLocal("Fluorapatite");
         for (OreDictMaterial phosphorus : new OreDictMaterial[] { MT.Phosphorus, MT.PhosphorusBlue, MT.PhosphorusRed, MT.PhosphorusWhite}) {
-            phosphorus.uumMcfg( 0, MT.Ca, 3*U, MT.PO4, 2*5*U).heat(1940);
+            phosphorus.setLocal("Calcium Phosphate").hide(true);
         }
         for (OreDictMaterial clay : ANY.Clay.mToThis) {
             clay.heat(1550);
@@ -75,6 +76,7 @@ public class MTx {
         MT.Indigo.uumMcfg(1, MT.C, 16*U, MT.H, 10*U, MT.N, 2*U, MT.O, 2*U)
                 .heat(391).setRGBa(75, 0, 130, 255);
         MT.Sc.hide(false);
+        MT.Eu.hide(false);
         MT.Te.hide(false);
         MT.Tl.hide(false);
         MT.Glycerol.uumMcfg(1, MT.C, 3*U, MT.H, 8*U, MT.O, 3*U);
@@ -118,7 +120,7 @@ public class MTx {
     public static OreDictMaterial lqudflam(int aID, String name, long aR, long aG, long aB, long aA, Object... aRandomData) {return liquid(aID, name, aR, aG, aB, aA, aRandomData).put(FLAMMABLE);}
     public static OreDictMaterial machine(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, Object... aRandomData) { return create(aID, aNameOreDict, aR, aG, aB , 255, aRandomData).setTextures(aSets).put(DECOMPOSABLE, G_INGOT_MACHINE, SMITHABLE, MELTING, EXTRUDER); }
     public static OreDictMaterial alloymachine(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, Object... aRandomData) { return machine(aID, aNameOreDict, aSets, aR, aG, aB , aRandomData).put(ALLOY); }
-    public static OreDictMaterial plastic(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, long aA, Object... aRandomData) { return create(aID, aNameOreDict, aR, aG, aB , aA, aRandomData).setTextures(aSets).put(G_INGOT_MACHINE, MELTING, EXTRUDER, EXTRUDER_SIMPLE, MORTAR, FURNACE, POLYMER); }
+    public static OreDictMaterial plastic(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, long aA, Object... aRandomData) { return create(aID, aNameOreDict, aR, aG, aB , aA, aRandomData).setTextures(aSets).put(G_INGOT_MACHINE, MELTING, EXTRUDER, EXTRUDER_SIMPLE, MORTAR, FURNACE, POLYMER).addReRegistrationToThis(MT.Plastic); }
     public static OreDictMaterial dopedSemiconductor(int aID, String aNameOreDict, OreDictMaterial mainMaterial, Object... aRandomData) {
         OreDictMaterial mat = create(aID, aNameOreDict, 0, 0, 0, 0, aRandomData)
             .setMcfg(0, mainMaterial, U)
@@ -958,7 +960,8 @@ public class MTx {
             .heat(326),
     Na4SiO4 = create(16258, "Sodium Orthosilicate", 255, 255, 255, 255)
             .setMcfg(0, MT.Na, 4*U, MT.Si, U, MT.O, 4*U),
-    Na4SiO4Solution = solution(16259, "Sodium Orthosilicate Solution", 240, 240, 255, 200, Na4SiO4, 9),
+    Na4SiO4Solution = solution(16259, "Sodium Orthosilicate Solution", 240, 240, 255, 200, Na4SiO4, 9)
+            .tooltip("(Na" + NUM_SUB[4] + "SiO" + NUM_SUB[4] + ")(H" + NUM_SUB[2] + "O)" + NUM_SUB[3]),
     HBr = registerGas(gasdcmp(16260, "Hydrogen Bromide", 150, 50, 0, 150)
             .uumMcfg(0, MT.H, U, MT.Br, U)
             .heat(186, 206)),
@@ -1029,7 +1032,63 @@ public class MTx {
     GeOxalate = dustdcmp(16285, "Germanium Oxalate", SET_FINE, 255, 255, 255, 255)
             .setMcfg(0, MT.Ge, U, MT.C, 4*U, MT.O, 8*U)
             .tooltip("Ge(C" + NUM_SUB[2] + "O" + NUM_SUB[4] + ")" + NUM_SUB[2]),
-    CuAnodeSludge = dustdcmp(16286, "Copper Anode Sludge", SET_FINE, 61, 50, 40, 255)
+    CuAnodeSludge = dustdcmp(16286, "Copper Anode Sludge", SET_FINE, 61, 50, 40, 255),
+    Y2O2S = create(16288, "Yttrium Oxide Sulfide", 255, 255, 0, 255)
+            .uumMcfg(0, MT.Y, 2*U, MT.O, 2*U, MT.S, U),
+    RedPhosphor = dustdcmp(16289, "Red Phosphor", SET_RAD, 255, 0, 0, 255)
+            .uumMcfg(1, Y2O2S, U, MT.Eu, U9)
+            .heat(2500, 4500)
+            .tooltip("Y" + NUM_SUB[2] + "O" + NUM_SUB[2] + "S:Eu"),
+    BluePhosphor = dustdcmp(16290, "Blue Phosphor", SET_RAD, 0, 0, 255, 255)
+            .setMcfg(1, MT.OREMATS.Sphalerite, U, MT.Ag, U9)
+            .heat(MT.OREMATS.Sphalerite)
+            .tooltip("ZnS:Ag"),
+    GreenPhosphor = dustdcmp(16291, "Green Phosphor", SET_RAD, 0, 255, 0, 255)
+            .setMcfg(1, MT.OREMATS.Sphalerite, U, MT.Cu, U9)
+            .tooltip("ZnS:Cu")
+            .heat(MT.OREMATS.Sphalerite),
+    YellowPhosphor = dustdcmp(16292, "Yellow Phosphor", SET_RAD, 255, 255, 0, 255)
+            .heat(CdS),
+    WhitePhosphor = dustdcmp(16293, "White Phosphor", SET_RAD, 255, 255, 255, 255)
+            .heat(MT.PhosphorusWhite),
+    Eu2O3 = dustdcmp(16294, "Europium Oxide", SET_FINE, 255, 240, 253, 255)
+            .setLocal("Europium (III) Oxide")
+            .uumMcfg(0, MT.Eu, 2*U, MT.O, 3*U)
+            .heat(2620, 4391),
+    BaS = dustdcmp(16295, "Barium Sulfide", SET_DULL, 255, 255, 255, 255)
+            .uumMcfg(0, MT.Ba, U, MT.S, U)
+            .heat(2508),
+    BaO = dustdcmp(16296, "Barium Oxide", SET_FINE, 255, 255, 255, 255)
+            .uumMcfg(0, MT.Ba, U, MT.O, U)
+            .heat(2196, 2270),
+    BaCO3 = dustdcmp(16297, "Barium Carbonate", SET_CUBE, 255, 255, 255, 255)
+            .uumMcfg(0, MT.Ba, U, MT.C, U, MT.O, 3*U)
+            .heat(1360+C)
+            .setSmelting(BaO, 2*U5),
+    BaNO3 = dustdcmp(16298, "Barium Nitrate", SET_CUBE, 255, 255, 255, 255)
+            .uumMcfg(0, MT.Ba, U, MT.N, 2*U, MT.O, 6*U)
+            .tooltip("Ba(NO" + NUM_SUB[3] + ")" + NUM_SUB[2])
+            .heat(865)
+            .setSmelting(BaO, 2*U5),
+    SrS = dustdcmp(16299, "Strontium Sulfide", SET_DULL, 255, 255, 255, 255)
+            .uumMcfg(0, MT.Sr, U, MT.S, U)
+            .heat(2275),
+    SrO = dustdcmp(16300, "Strontium Oxide", SET_FINE, 255, 255, 255, 255)
+            .uumMcfg(0, MT.Sr, U, MT.O, U)
+            .heat(2804, 3470),
+    SrCO3 = dustdcmp(16301, "Strontium Carbonate", SET_CUBE, 255, 255, 255, 255)
+            .uumMcfg(0, MT.Sr, U, MT.C, U, MT.O, 3*U)
+            .heat(1767)
+            .setSmelting(SrO, 2*U5),
+    BaSrCaCO3 = dustdcmp(16302, "Barium-Strontium-Calcium Carbonate", SET_CUBE, 255, 255, 255, 255)
+            .setMcfg(0, BaCO3, 6*U, MT.CaCO3, 2*U, SrCO3, U)
+            .heat(BaCO3),
+    BaSrCaO3 = dustdcmp(16303, "Barium-Strontium-Calcium Oxide", SET_CUBE, 255, 255, 255, 255)
+            .setMcfg(0, BaO, 6*U, MT.Quicklime, 2*U, SrO, U)
+            .heat(BaO)
+            .put(CENTRIFUGE),
+    Aquadag = dustdcmp(16304, "Aquadag", SET_FOOD, 10, 10, 10, 255)
+            .heat(MT.H2O)
     ;
 
     static {
@@ -1062,6 +1121,7 @@ public class MTx {
         OP.bouleGt.forceItemGeneration(GaAs, SiGe);
         OP.plate.forceItemGeneration(MT.Al2O3);
         OP.wireFine.forceItemGeneration(MT.Ta);
+        OP.casingMachine.forceItemGeneration(MT.Plastic, MT.Polycarbonate);
 
         OreDictManager.INSTANCE.addReRegistration("dustCobaltBlue", "dyeMixableBlue");
         OreDictManager.INSTANCE.addReRegistration("dustIndigo", "dyeMixableBlue");
