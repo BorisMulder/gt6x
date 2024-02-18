@@ -38,7 +38,8 @@ public class MultiItemsElectronics extends MultiItemRandom {
     @Override
     public void addItems() {
         String tooltip;
-        // tier 0 (primitive) and 7+ (quantum) are currently not used.
+        // tier 7+ (quantum) is currently not used.
+        ILx.PCBs[0][0].set(addItem(0, ILx.CIRCUIT_SIZE_NAMES[0] + " T1 (" + ILx.CIRCUIT_TIER_NAMES[0] + ")", null, MT.DATA.CIRCUITS[1], OD_CIRCUITS[1], TC.stack(TC.COGNITIO, 1)));
         for (int tier = 1; tier < 7; tier++) {
             // size 0 are normal circuit boards, which are already in GT6, so we start from 1.
             for (int size = 1; size < 3; size++) {
@@ -49,8 +50,8 @@ public class MultiItemsElectronics extends MultiItemRandom {
         }
         // item IDs 0-100 are reserved for chips of tier 0-9
 
-        ILx.Filament_Molybdenum.set(addItem(101, "Filament (Molybdenum)", "Needs coating"), new OreDictItemData(MT.Mo, 3*U8, MT.Constantan, U));
-        ILx.Filament_Tungsten  .set(addItem(102, "Filament (Tungsten)",   "Needs coating"), new OreDictItemData(MT.W , 3*U8, MT.Nichrome, U));
+        ILx.Filament_Molybdenum.set(addItem(101, "Filament (Molybdenum)", "Used in lamps and vacuum tubes"), new OreDictItemData(MT.Mo, 3*U8, MT.Constantan, U));
+        ILx.Filament_Tungsten  .set(addItem(102, "Filament (Tungsten)",   "Used in lamps and vacuum tubes"), new OreDictItemData(MT.W , 3*U8, MT.Nichrome, U));
         ILx.Cathode_Molybdenum.set(addItem(103, "Hot Cathode (Molybdenum)", "Needs Glass Tube"), new OreDictItemData(MT.Mo, 3*U8, MT.Constantan, U, MTx.BaO, U10));
         ILx.Cathode_Tungsten  .set(addItem(104, "Hot Cathode (Tungsten)",   "Needs Glass Tube"), new OreDictItemData(MT.W , 3*U8, MT.Nichrome, U, MTx.BaSrCaO3, U10));
         ILx.ElectronTube_Molybdenum.set(addItem(105, "Electron Tube (Molybdenum)", "An old-fashoned Vacuum Tube", ELECTRONTUBE_NAME, new OreDictItemData(MT.Mo, 3*U8, OM.stack(MT.Constantan, U), OM.stack(MTx.BaO, U10), OM.stack(MT.Glass, U8))));
@@ -72,6 +73,7 @@ public class MultiItemsElectronics extends MultiItemRandom {
         tooltip = "Fire-resistant board used to make PCBs";
         ILx.FR1_Board.set(addItem(130, "Phenolic Paper Board (FR-1)", tooltip), new OreDictItemData(MTx.PF, U));
         ILx.FR4_Board.set(addItem(131, "Fibreglass-reinforced Epoxy Board (FR-4)", tooltip, new OreDictItemData(MTx.Epoxy, U)));
+        ILx.Plywood.set(addItem(132, "Plywood board", null, new OreDictItemData(MT.Wood, U)));
 
         tooltip = "Needs to be etched to create traces";
         ILx.CCL      .set(addItem(140, "Copper-Clad Laminate"        , tooltip), new OreDictItemData(MT.Cu, U));
@@ -93,6 +95,7 @@ public class MultiItemsElectronics extends MultiItemRandom {
         ILx.Circuit_Plate_Copper_Small.set(addItem(170, "Small Circuit Plate (Copper)", tooltip), new OreDictItemData(MT.Cu, U4));
         ILx.Circuit_Plate_Copper_Tiny.set(addItem(171, "Tiny Circuit Plate (Copper)", tooltip), new OreDictItemData(MT.Cu, U8));
         ILx.Circuit_Plate_Copper_Long.set(addItem(172, "Expansion Card Base (Copper)", tooltip), new OreDictItemData(MT.Cu, U4));
+        ILx.Circuit_Plate_Wood.set(addItem(179, "Circuit Board (Wood)", tooltip, new OreDictItemData(MT.Wood, U, MT.Cu, U)));
 
         board = IL.Circuit_Plate_Gold.get(1); OreDictManager.INSTANCE.setItemData(board, new OreDictItemData(MT.Au, U2, MTx.Epoxy, U)); LH.add(getUnlocalizedName(board) + ".tooltip", tooltip);
         ILx.Circuit_Plate_Gold_Small.set(addItem(180, "Small Circuit Plate (Gold)", tooltip), new OreDictItemData(MT.Au, U4, MTx.Epoxy, U2));

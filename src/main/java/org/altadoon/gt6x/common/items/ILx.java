@@ -84,6 +84,7 @@ public class ILx implements IItemContainer {
             // Boards
             FR1_Board = new ILx("FR1_Board"),
             FR4_Board = new ILx("FR4_Board"),
+            Plywood = new ILx("Plywood"),
             CCL = new ILx("CCL"),
             CCL_SMALL = new ILx("CCL_SMALL"),
             CCL_TINY = new ILx("CCL_TINY"),
@@ -96,6 +97,7 @@ public class ILx implements IItemContainer {
             PCL_SMALL = new ILx("PCL_SMALL"),
             PCL_TINY = new ILx("PCL_TINY"),
             PCL_LONG = new ILx("PCL_LONG"),
+            Circuit_Plate_Wood = new ILx(""),
             Circuit_Plate_Copper_Small = new ILx("Circuit_Plate_Copper_Small"),
             Circuit_Plate_Copper_Long = new ILx("Circuit_Plate_Copper_Long"),
             Circuit_Plate_Copper_Tiny = new ILx("Circuit_Plate_Copper_Tiny"),
@@ -132,9 +134,9 @@ public class ILx implements IItemContainer {
             CRT_Black_White = new ILx("CRT_Black_White"),
             CRT_RGB = new ILx("CRT_RGB"),
             PolaroidFilter = new ILx("PolaroidFilter"),
-            PolaroidFilterTiny = new ILx("PolaroidFilter"),
+            PolaroidFilterTiny = new ILx("PolaroidFilterTiny"),
             TCFGlass = new ILx("TCFGlass"),
-            TCFGlassTiny = new ILx("TCFTCFGlassTiny"),
+            TCFGlassTiny = new ILx("TCFGlassTiny"),
             LCD = new ILx("LCD"),
             LCDTiny = new ILx("LCDTiny");
 
