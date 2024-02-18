@@ -179,6 +179,8 @@ public class Electronics extends GT6XFeature {
             }
 
         // boards
+        CR.shapeless(ILx.Plywood.get(3), new Object[]{ plate.dat(ANY.Wood), plate.dat(ANY.Wood), plate.dat(ANY.Wood), IL.Bottle_Glue });
+        CR.shaped(ILx.Circuit_Plate_Wood.get(1), CR.DEF_REV, "WWW", "WBW", "WWW", 'W', wireFine.dat(ANY.Cu), 'B', ILx.Plywood);
         RM.Laminator.addRecipe2(true, 16, 128, OP.foil.mat(MTx.PF, 4), ST.make(Items.paper, 1, W), ILx.FR1_Board.get(1));
         RM.Bath.addRecipe1(true, 16, 128, ILx.GlassFibres.get(1), MTx.Epoxy.liquid(U, true), NF, ILx.FR4_Board.get(1));
 
@@ -375,6 +377,8 @@ public class Electronics extends GT6XFeature {
         RM.Press.addRecipeX(true, 16, 64, ST.array(casingSmall.mat(MTx.PF, 1), foil.mat(MT.Sn, 1), ILx.Resistor_Metal_Film.get(1)), ILx.Resistor_SMD.get(16));
 
         // hand-soldering PCBs
+        CR.shaped(ILx.PCBs[0][0].get(1), CR.DEF_REM, "iE ", "CBR", "   ", 'B', ILx.Circuit_Plate_Wood, 'E', MultiItemsElectronics.ELECTRONTUBE_NAME, 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME);
+        CR.shaped(ILx.PCBs[0][0].get(1), CR.DEF_REM, "iT ", "CBR", "   ", 'B', ILx.Circuit_Plate_Wood, 'T', MultiItemsElectronics.TRANSISTOR_NAME, 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME);
         CR.shaped(ILx.PCBs[1][0].get(1), CR.DEF_REM, "iE ", "CBR", "   ", 'B', IL.Circuit_Plate_Copper, 'E', MultiItemsElectronics.ELECTRONTUBE_NAME, 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME);
         CR.shaped(ILx.PCBs[1][0].get(1), CR.DEF_REM, "iT ", "CBR", "   ", 'B', IL.Circuit_Plate_Copper, 'T', MultiItemsElectronics.TRANSISTOR_NAME, 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME);
         CR.shaped(ILx.PCBs[1][1].get(1), CR.DEF_REM, "iT ", "CBR", "   ", 'B', ILx.Circuit_Plate_Copper_Small, 'T', MultiItemsElectronics.TRANSISTOR_NAME, 'C', MultiItemsElectronics.CAPACITOR_NAME, 'R', MultiItemsElectronics.RESISTOR_NAME);
