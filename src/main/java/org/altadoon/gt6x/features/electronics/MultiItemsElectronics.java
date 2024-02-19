@@ -195,9 +195,8 @@ public class MultiItemsElectronics extends MultiItemRandom {
         ILx.CRT_Black_White.set(addItem(500, "Cathode-ray tube (Black-White)", "An old-fashioned black-and-white tube screen", SCREEN_NAMES[0]));
         ILx.CRT_RGB.set(addItem(501, "Cathode-ray tube (RGB)", "A color tube screen", SCREEN_NAMES[1]));
 
-        ILx.PolaroidFilter.set(addItem(510, "Polaroid Filter", "Used to filter light in cameras and screens", new OreDictItemData(MTx.PVA, U4, MT.I, U8)));
-        ILx.PolaroidFilterTiny.set(addItem(511, "Tiny Polaroid Filter", "Used to filter light in cameras and screens", new OreDictItemData(MTx.PVA, U36, MT.I, U72)));
-        ILx.TCFGlass.set(addItem(512, "ITO coated glass pane", "Glass pane containing a layer of Transparent Conducting Film", new OreDictItemData(MT.Glass, U, MTx.ITO, U4)));
-        ILx.TCFGlassTiny.set(addItem(513, "Tiny ITO coated glass pane", "Glass pane containing a layer of Transparent Conducting Film", new OreDictItemData(MT.Glass, U9, MTx.ITO, U36)));
+        tooltip = "Used to filter light in cameras and screens";
+        ILx.PolaroidFilter.set(addItem(510, "Polaroid Filter", tooltip, new OreDictItemData(MTx.PVA, U4, MT.I, U8)));
+        ILx.PolaroidFilterTiny.set(addItem(511, "Tiny Polaroid Filter", tooltip, new OreDictItemData(MTx.PVA, U36, MT.I, U72)));
     }
 }
