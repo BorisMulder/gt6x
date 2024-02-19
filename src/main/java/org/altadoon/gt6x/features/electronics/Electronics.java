@@ -481,10 +481,9 @@ public class Electronics extends GT6XFeature {
         RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MTx.AlCl3, 0), dust.mat(MTx.Biphenyl, 1), FL.array(MTx.Chloropentane.liquid(U, true), MT.Br.liquid(U, true)), FL.array(MT.HCl.gas(2 * U, false)), dust.mat(MTx.Bromo4pentylbiphenyl, 1));
         RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MTx.Bromo4pentylbiphenyl, 1), dust.mat(MTx.CuCN, 1), NF, FL.make(FLx.LiquidCrystal5CB, 144), dust.mat(MTx.CuBr, 1));
         RMx.IonBombardment.addRecipe2(true, 16, 128, OM.dust(MT.I, U8), foil.mat(MTx.PVA, 1), ILx.PolaroidFilter.get(1));
-        RMx.IonBombardment.addRecipe2(true, 16, 128, foil.mat(MTx.ITO, 1), plate.mat(MT.Glass, 1), ILx.TCFGlass.get(1));
         for (int i = 0; i < RMx.CuttingFluids.length; i++) if (RMx.CuttingFluids[i] != null) {
             RM.Cutter.addRecipe1(true, 16, 8 * RMx.CuttingMultiplier[i], ILx.PolaroidFilter.get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 8, 1000, true), NF, ILx.PolaroidFilterTiny.get(9));
-            RM.Cutter.addRecipe1(true, 16, 8 * RMx.CuttingMultiplier[i], ILx.TCFGlass.get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 8, 1000, true), NF, ILx.TCFGlassTiny.get(9));
+            //RM.Cutter.addRecipe1(true, 16, 8 * RMx.CuttingMultiplier[i], ILx.TFTGlass.get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 8, 1000, true), NF, ILx.TCFGlassTiny.get(9));
         }
 
         // Misc

@@ -1088,7 +1088,17 @@ public class MTx {
             .heat(BaO)
             .put(CENTRIFUGE),
     Aquadag = dustdcmp(16304, "Aquadag", SET_FOOD, 10, 10, 10, 255)
-            .heat(MT.H2O)
+            .heat(MT.H2O),
+    InSn = alloymachine(16305, "Indium-Tin", SET_METALLIC, 128, 0, 192)
+            .setMcfg(0, MT.In, 4*U, MT.Sn, U)
+            .heat(MT.In),
+    InF3 = dustdcmp(16306, "Indium Trifluoride", SET_DULL, 255, 255, 255, 255)
+            .setMcfg(0, MT.In, U, MT.F, 3*U)
+            .heat(1445),
+    Si3N4 = dustdcmp(16307, "Silicon Nitride", SET_METALLIC, 70, 70, 70, 255)
+            .setMcfg(0, MT.Si, 3*U, MT.N, 4*U)
+            .heat(2170)
+            .setSmelting(MT.Si, 3*U7)
     ;
 
     static {
@@ -1113,6 +1123,7 @@ public class MTx {
         addMolten(LiF, 144);
         addMolten(SiGe, 144);
         addMolten(GaAs, 144);
+        addMolten(InF3, 144);
 
         addPlasma(CF4);
         addPlasma(NF3);
