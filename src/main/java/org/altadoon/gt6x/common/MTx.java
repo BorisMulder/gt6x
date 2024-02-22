@@ -347,12 +347,10 @@ public class MTx {
             (int)MT.Zn.mBoilingPoint),
     PbO = dustdcmp(16058, "Lead Oxide", SET_DULL, 150, 130, 100, 255)
             .uumMcfg(1, MT.Pb, U, MT.O, U)
-            .heat(1161, 1750)
-            .setSmelting(MT.Pb, 3*U4),
+            .heat(1161, 1750),
     ZnO = oredustdcmp(16059, "Zinc Oxide", SET_DULL, 255, 180, 100, 255)
             .uumMcfg(1, MT.Zn, U, MT.O, U)
-            .heat(2247, 2630)
-            .setSmelting(MT.Zn, 3*U4),
+            .heat(2247, 2630),
     FeCr2 = alloymachine(16060, "Ferrochrome", SET_SHINY, 160, 150, 150)
             .uumMcfg(0, MT.Fe, U, MT.Cr, 2*U)
             .heat(C+1500),
@@ -637,7 +635,7 @@ public class MTx {
             .setMcfg(0, MT.Zn, U, MT.N, 2*U, MT.O, 6*U)
             .tooltip("Zn(NO" + NUM_SUB[3] + ")" + NUM_SUB[2])
             .heat(383)
-            .setSmelting(MT.Zn, U9),
+            .setSmelting(ZnO, 2*U5),
     GaAs = alloymachine(16147, "Gallium Arsenide", SET_METALLIC, 96, 96, 120, 255)
             .uumMcfg(0, MT.Ga, U, MT.As, U)
             .heat(1511),
@@ -1011,7 +1009,7 @@ public class MTx {
             .uumMcfg(0, MT.In, U, MT.O, 3*U, MT.H, 3*U)
             .tooltip("In(OH)" + NUM_SUB[3])
             .heat(423)
-            .setSmelting(In2O3, 5*U7),
+            .setSmelting(In2O3, 5*U14),
     GaOHNa2SO4Solution = registerLiquid(lquddcmp(16278, "Gallium Hydroxide - Sodium Sulfate Solution", 190, 190, 140, 255)
             .setMcfg(0, MT.Ga, U, MT.O, 3*U, MT.H, 3*U, MT.Na2SO4, 7*5*U, MT.H2O, 3*10*U)
             .heat(MT.H2O)),

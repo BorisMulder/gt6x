@@ -98,12 +98,11 @@ public class Metallurgy extends GT6XFeature {
     }
 
     private void changeMaterialProperties() {
-        MT.PigIron.setPulver(MT.PigIron, U).setSmelting(MT.PigIron, U);
-        MT.OREMATS.Garnierite.setSmelting(MT.OREMATS.Garnierite, U);
-        MT.OREMATS.Cobaltite.setSmelting(MT.OREMATS.Cobaltite, U);
-        MT.OREMATS.Barite.setSmelting(MT.OREMATS.Barite, U);
-        MT.OREMATS.Celestine.setSmelting(MT.OREMATS.Celestine, U);
-        MT.MnO2.setSmelting(MT.MnO2, U);
+        for (OreDictMaterial mat : new OreDictMaterial[]{ MT.PigIron, MT.OREMATS.Cassiterite, MT.OREMATS.Garnierite, MT.OREMATS.Cobaltite, MT.OREMATS.Barite, MT.OREMATS.Celestine, MT.MnO2 }) {
+            mat.setSmelting(mat, U);
+        }
+
+        MT.PigIron.setPulver(MT.PigIron, U);
 
         for (OreDictMaterial removeElectro : new OreDictMaterial[] { MT.Olivine, MT.OREMATS.Garnierite, MT.OREMATS.Smithsonite, MT.OREMATS.Cassiterite, MT.OREMATS.Wollastonite, MT.Phosphorite, MT.Apatite, MT.OREMATS.Sperrylite, MT.OREMATS.Malachite, MT.Azurite, MT.OREMATS.Barite, MT.OREMATS.Celestine }) {
             removeElectro.remove(TD.Processing.ELECTROLYSER);
@@ -181,6 +180,10 @@ public class Metallurgy extends GT6XFeature {
         for (OreDictMaterial mat : new OreDictMaterial[]{ MT.Si, MT.Fe, MT.WroughtIron, MT.Steel, MT.MeteoricSteel, MT.StainlessSteel, MT.TungstenCarbide, MT.Ta4HfC5, MT.SiC, MT.Vibramantium, MT.YttriumBariumCuprate }) {
             removeAlloySmeltingRecipe(mat);
         }
+
+        MT.Sn.addAlloyingRecipe(new OreDictConfigurationComponent(3, OM.stack(MT.OREMATS.Cassiterite, 4*U), OM.stack(MT.C, 4*U)));
+        MT.Pb.addAlloyingRecipe(new OreDictConfigurationComponent(3, OM.stack(MTx.PbO, 4*U), OM.stack(MT.C, 2*U)));
+        MT.Zn.addAlloyingRecipe(new OreDictConfigurationComponent(3, OM.stack(MTx.ZnO, 4*U), OM.stack(MT.C, 2*U)));
 
         MTx.SpongeIron.addAlloyingRecipe(new OreDictConfigurationComponent( 3, OM.stack(MT.Fe2O3                      , 5*U), OM.stack(MT.C, 4*U)));
         MTx.SpongeIron.addAlloyingRecipe(new OreDictConfigurationComponent( 9, OM.stack(MT.OREMATS.Magnetite          , 14*U), OM.stack(MT.C, 12*U)));
