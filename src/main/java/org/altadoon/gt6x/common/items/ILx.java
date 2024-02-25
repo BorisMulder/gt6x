@@ -193,6 +193,32 @@ public class ILx implements IItemContainer {
         }
     }
 
+
+    public static final int LEDWaferSteps = 4; // n-layer, active layer, p-layer, die
+    public static final int LEDPackagingSteps = 2; // no cap, finished
+    public static final String[] LEDWaferColors = { "Red", "Green", "Blue" };
+    public static final String[] LEDColors = { "Red", "Green", "Blue", "White" };
+
+    public static ILx[][] LEDWafers = new ILx[LEDWaferColors.length][LEDWaferSteps];
+    static {
+        for (int color = 0; color < LEDWaferColors.length; color++) {
+            for (int step = 0; step < LEDWaferSteps; step++) {
+                LEDWafers[color][step] = new ILx(String.format("WaferLED_%s_%d", LEDWaferColors[color], step));
+            }
+        }
+    }
+
+    public static ILx[][] LEDs = new ILx[LEDColors.length][LEDPackagingSteps];
+    static {
+        for (int color = 0; color < LEDColors.length; color++) {
+            for (int step = 0; step < LEDPackagingSteps; step++) {
+                LEDs[color][step] = new ILx(String.format("LED_%s_%d", LEDColors[color], step));
+            }
+        }
+    }
+
+    /// internal
+
     public String name;
     private ItemStack mStack;
     private boolean mHasNotBeenSet = T;
