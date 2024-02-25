@@ -5,6 +5,7 @@ import gregapi.data.*;
 import gregapi.item.multiitem.MultiItemRandom;
 import gregapi.oredict.OreDictItemData;
 import gregapi.oredict.OreDictManager;
+import gregapi.oredict.OreDictMaterial;
 import gregapi.util.OM;
 import net.minecraft.item.ItemStack;
 import org.altadoon.gt6x.common.MTx;
@@ -198,5 +199,28 @@ public class MultiItemsElectronics extends MultiItemRandom {
         tooltip = "Used to filter light in cameras and screens";
         ILx.PolaroidFilter.set(addItem(510, "Polaroid Filter", tooltip, new OreDictItemData(MTx.PVA, U4, MT.I, U8)));
         ILx.PolaroidFilterTiny.set(addItem(511, "Tiny Polaroid Filter", tooltip, new OreDictItemData(MTx.PVA, U36, MT.I, U72)));
+
+        // LEDs:
+        // Red = GaAsP on GaAs
+        // Green = AlGaP on GaP
+        // Blue  = InGaN on GaN
+        OreDictMaterial[][] layers = new OreDictMaterial[][]{
+            {MTx.NDopedGaAs, MTx.GaAsP, MTx.PDopedGaAs },
+            {MTx.NDopedGaP, MTx.AlGaP, MTx.PDopedGaP },
+            {MTx.NDopedGaN, MTx.InGaN, MTx.PDopedGaN },
+        };
+
+        for (int color = 0; color < ILx.LEDWaferColors.length; color++) {
+            ILx.LEDWafers[color][0].set(addItem(600 + color, ILx.LEDWaferColors[color] + " LED Wafer (n-layer)", "Needs active and p-layer", new OreDictItemData(MT.Sapphire, U, layers[color][0], U8)));
+            ILx.LEDWafers[color][1].set(addItem(610 + color, ILx.LEDWaferColors[color] + " LED Wafer (active-layer)", "Needs p-layer", new OreDictItemData(MT.Sapphire, U, layers[color][0], U8, layers[color][1], U8)));
+            ILx.LEDWafers[color][2].set(addItem(620 + color, ILx.LEDWaferColors[color] + " LED Wafer (p-layer)", "Needs dicing", new OreDictItemData(OM.stack(MT.Sapphire, U), OM.stack(layers[color][0], U8), OM.stack(layers[color][1], U8), OM.stack(layers[color][2], U8))));
+            ILx.LEDWafers[color][3].set(addItem(630 + color, ILx.LEDWaferColors[color] + " LED Die", "The chip inside a " + ILx.LEDWaferColors[color] + " LED, needs bonding and packaging", new OreDictItemData(OM.stack(MT.Sapphire, U64), OM.stack(layers[color][0], U512), OM.stack(layers[color][1], U512), OM.stack(layers[color][2], U512))));
+        }
+
+        for (int color = 0; color < ILx.LEDColors.length; color++) {
+            int matLayerIdx = color < ILx.LEDWaferColors.length ? color : 2; // White LEDs have the same structure as blue LEDs
+            ILx.LEDs[color][0].set(addItem(640 + color, ILx.LEDColors[color] + " LED (unencapsulated)", "Nah fam this LED is bussin fr no cap", new OreDictItemData(OM.stack(MT.Sapphire, U64), OM.stack(layers[matLayerIdx][0], U512), OM.stack(layers[matLayerIdx][1], U512), OM.stack(layers[matLayerIdx][2], U512), OM.stack(MT.Invar, U72), OM.stack(MT.Au, U128))));
+            ILx.LEDs[color][1].set(addItem(650 + color, ILx.LEDColors[color] + " LED"                 , "Light-Emitting Diode"                , new OreDictItemData(OM.stack(MT.Sapphire, U64), OM.stack(layers[matLayerIdx][0], U512), OM.stack(layers[matLayerIdx][1], U512), OM.stack(layers[matLayerIdx][2], U512), OM.stack(MT.Invar, U72), OM.stack(MT.Au, U128), OM.stack(MTx.Epoxy, U16))));
+        }
     }
 }

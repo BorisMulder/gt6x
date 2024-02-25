@@ -249,7 +249,7 @@ public class Electronics extends GT6XFeature {
         RM.Drying.addRecipe1(true, 16, 512, ST.tag(0), MTx.GeH4.gas(5 * U, true), MT.H.gas(4 * U, false), polyGem.mat(MT.Ge, 1));
         RM.Drying.addRecipe1(true, 16, 512, ST.tag(0), MTx.SiH4.gas(5 * U, true), MT.H.gas(4 * U, false), polyGem.mat(MT.Si, 1));
         RM.Drying.addRecipe1(true, 16, 512, ST.tag(0), MTx.SiGeH8.gas(5 * U, true), MT.H.gas(4 * U, false), polyGem.mat(MTx.SiGe, 1));
-        RM.CrystallisationCrucible.addRecipe1(true, 16, 1800, ST.tag(0), FL.array(MT.Ga.liquid(U2, true), MT.As.gas(U2, true)), ZL_FS, polyGem.mat(MTx.GaAs, 1));
+        RM.CrystallisationCrucible.addRecipe1(true, 16, 1800, ST.tag(0), FL.array(MT.Ga.liquid(U, true), MT.As.gas(U, true)), ZL_FS, polyGem.mat(MTx.GaAs, 1));
 
         // RecipeMapHandlerPrefix not working here
         for (OreDictMaterial mat : PolyGemMaterials)
@@ -265,8 +265,8 @@ public class Electronics extends GT6XFeature {
         for (FluidStack nobleGas : FL.array(MT.He.gas(U, true), MT.Ne.gas(U, true), MT.Ar.gas(U, true), MT.Kr.gas(U, true), MT.Xe.gas(U, true), MT.Rn.gas(U, true)))
             if (nobleGas != null) {
                 // i-type semiconductors
-                RM.CrystallisationCrucible.addRecipe1(true, 16, 72000, plateGemTiny.mat(MTx.GaAs, 1), FL.array(FL.mul(nobleGas, 1), MT.Ga.liquid(35 * U18, true), MT.As.gas(35 * U18, true)), ZL_FS, bouleGt.mat(MTx.GaAs, 1));
-                RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem.mat(MTx.GaAs, 1), FL.array(FL.mul(nobleGas, 9), MT.Ga.liquid(35 * U2, true), MT.As.gas(35 * U2, true)), ZL_FS, bouleGt.mat(MTx.GaAs, 9));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 72000, plateGemTiny.mat(MTx.GaAs, 1), FL.array(FL.mul(nobleGas, 1), MT.Ga.liquid(35 * U9, true), MT.As.gas(35 * U9, true)), ZL_FS, bouleGt.mat(MTx.GaAs, 1));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem.mat(MTx.GaAs, 1), FL.array(FL.mul(nobleGas, 9), MT.Ga.liquid(35 * U, true), MT.As.gas(35 * U, true)), ZL_FS, bouleGt.mat(MTx.GaAs, 9));
 
                 // n-type semiconductors
                 RM.CrystallisationCrucible.addRecipe1(true, 16, 72000, plateGemTiny.mat(MT.Si, 1), FL.array(FL.mul(nobleGas, 1), MT.Si.liquid(35 * U9, true), MTx.PH3.gas(U18, true)), NF, bouleGt.mat(MTx.NDopedSi, 1));
@@ -465,10 +465,65 @@ public class Electronics extends GT6XFeature {
         RM.Mixer.addRecipe2(true, 16, 16, dust.mat(MT.OREMATS.Sphalerite, 1), dustTiny.mat(MT.Cu, 1), dust.mat(MTx.GreenPhosphor, 1));
         RM.Mixer.addRecipeX(true, 16, 16, ST.array(dust.mat(MT.OREMATS.Sphalerite, 1), dust.mat(MTx.CdS, 1), dustTiny.mat(MT.Ag, 2)), dust.mat(MTx.YellowPhosphor, 2));
         RM.Mixer.addRecipeX(true, 16, 16, ST.array(dustSmall.mat(MT.OREMATS.Sphalerite, 2), dustSmall.mat(MTx.CdS, 2), dustTiny.mat(MT.Ag, 1)), dust.mat(MTx.YellowPhosphor, 1));
+        RM.Mixer.addRecipe2(true, 16, 16, dust.mat(MTx.RedPhosphor, 1), dust.mat(MTx.GreenPhosphor, 1), dust.mat(MTx.YellowPhosphor, 2));
+        RM.Mixer.addRecipe2(true, 16, 16, dustSmall.mat(MTx.RedPhosphor, 2), dustSmall.mat(MTx.GreenPhosphor, 2), dust.mat(MTx.YellowPhosphor, 1));
         RM.Mixer.addRecipe2(true, 16, 16, dust.mat(MTx.BluePhosphor, 1), dust.mat(MTx.YellowPhosphor, 1), dust.mat(MTx.WhitePhosphor, 2));
         RM.Mixer.addRecipe2(true, 16, 16, dustSmall.mat(MTx.BluePhosphor, 2), dustSmall.mat(MTx.YellowPhosphor, 2), dust.mat(MTx.WhitePhosphor, 1));
         RM.Mixer.addRecipeX(true, 16, 16, ST.array(dust.mat(MTx.RedPhosphor, 1), dust.mat(MTx.GreenPhosphor, 1), dust.mat(MTx.BluePhosphor, 1)), dust.mat(MTx.WhitePhosphor, 3));
         RM.Mixer.addRecipeX(true, 16, 16, ST.array(dustTiny.mat(MTx.RedPhosphor, 3), dustTiny.mat(MTx.GreenPhosphor, 3), dustTiny.mat(MTx.BluePhosphor, 3)), dust.mat(MTx.WhitePhosphor, 1));
+
+        /// MOVPE precursors
+        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.Li, 2), FL.array(MTx.Ether.liquid(2*U, true), MTx.CH3Cl.gas(U, true)), FL.array(MTx.CH3Li.liquid(3*U, false)), dust.mat(MT.LiCl, 2));
+        RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.Al, 1), dust.mat(MT.Na, 3), MTx.CH3Cl.gas(3*U, true), MTx.AlMe3.liquid(U, false), dust.mat(MT.NaCl, 6));
+        RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MT.Ga, 1), MT.Cl.gas(3*U, true), NF, dust.mat(MTx.GaCl3, 1));
+        RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MT.In, 1), MT.Cl.gas(3*U, true), NF, dust.mat(MTx.InCl3, 1));
+        RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MT.Be, 1), MT.Cl.gas(2*U, true), NF, dust.mat(MTx.BeCl2, 1));
+        RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MT.Se, 1), MT.H.gas(2*U, true), MTx.H2Se.gas(U, false), NI);
+        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.GaCl3, 1), FL.array(MTx.AlMe3.liquid(U, true), MTx.Ether.liquid(2*U, true)), MTx.GaMe3.liquid(3*U, false), dust.mat(MTx.AlCl3, 1));
+        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.GaCl3, 1), MTx.CH3Li.liquid(9*U, true), MTx.GaMe3.liquid(3*U, false), dust.mat(MT.LiCl, 6));
+        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.InCl3, 1), MTx.CH3Li.liquid(9*U, true), MTx.InMe3.liquid(3*U, false), dust.mat(MT.LiCl, 6));
+        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.BeCl2, 1), MTx.CH3Li.liquid(9*U, true), MTx.BeMe2.liquid(3*U, false), dust.mat(MT.LiCl, 6));
+        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.Mg, 1), MTx.Cyclopentadiene.liquid(2*U, true), MT.H.gas(2*U, false), dust.mat(MTx.Magnesocene, 1));
+
+        /// MOVPE
+        /// TODO use thermolyzer
+        // Red = GaAsP on GaAs
+        RM.Drying.addRecipe1(true, 16, 128, plateGem.mat(MT.Sapphire, 1), FL.array(MTx.GaMe3.liquid(3*U8, true), MTx.AsH3.gas(U8, true), MTx.SiH4.gas(U1000, true)), FL.array(MTx.Ether.liquid(2*U8, false), MT.CH4.gas(3*U8, false)), ILx.LEDWafers[0][0].get(1));
+        RM.Drying.addRecipe1(true, 16, 128, ILx.LEDWafers[0][0].get(1), FL.array(MTx.GaMe3.liquid(3*U8, true), MTx.AsH3.gas(U16, true), MTx.PH3  .gas(U16  , true)), FL.array(MTx.Ether.liquid(2*U8, false), MT.CH4.gas(3*U8, false)), ILx.LEDWafers[0][1].get(1));
+        RM.Drying.addRecipe1(true, 16, 128, ILx.LEDWafers[0][0].get(2), FL.array(MTx.GaMe3.liquid(3*U4, true), MTx.AsH3.gas(U8 , true), MTx.PH3  .gas(U8   , true)), FL.array(MTx.Ether.liquid(2*U4, false), MT.CH4.gas(3*U4, false)), ILx.LEDWafers[0][1].get(2));
+        RM.Drying.addRecipe1(true, 16, 128, ILx.LEDWafers[0][1].get(1), FL.array(MTx.GaMe3.liquid(3*U8, true), MTx.AsH3.gas(U8 , true), MTx.BeMe2.liquid(U1000, true)), FL.array(MTx.Ether.liquid(2*U8, false), MT.CH4.gas(3*U8, false)), ILx.LEDWafers[0][2].get(1));
+
+        // Green = AlGaP on GaP
+        RM.Drying.addRecipe1(true, 16, 128, plateGem.mat(MT.Sapphire, 1), FL.array(MTx.GaMe3.liquid(3*U8, true), MTx.PH3.gas(U8, true), MTx.H2Se.gas(U1000, true)), FL.array(MTx.Ether.liquid(2*U8, false), MT.CH4.gas(3*U8, false)), ILx.LEDWafers[1][0].get(1));
+        RM.Drying.addRecipe1(true, 16, 128, ILx.LEDWafers[1][0].get(1), FL.array(MTx.GaMe3.liquid(3*U16, true), MTx.AlMe3.liquid(3*U16, true), MTx.PH3.gas(U8, true)), FL.array(MTx.Ether.liquid(2*U8, false), MT.CH4.gas(3*U8, false)), ILx.LEDWafers[1][1].get(1));
+        RM.Drying.addRecipe1(true, 16, 128, ILx.LEDWafers[1][0].get(2), FL.array(MTx.GaMe3.liquid(3*U8 , true), MTx.AlMe3.liquid(3*U8 , true), MTx.PH3.gas(U4, true)), FL.array(MTx.Ether.liquid(2*U4, false), MT.CH4.gas(3*U4, false)), ILx.LEDWafers[1][1].get(2));
+        RM.Drying.addRecipe2(true, 16, 128, ILx.LEDWafers[1][1].get(1), dustDiv72.mat(MTx.Magnesocene, 1), FL.array(MTx.GaMe3.liquid(3*U8 , true), MTx.PH3.gas(U8 , true)), FL.array(MTx.Ether.liquid(2*U8, false), MT.CH4.gas(3*U8, false)), ILx.LEDWafers[1][2].get(1));
+
+        // Blue  = InGaN on GaN
+        RM.Drying.addRecipe1(true, 16, 128, plateGem.mat(MT.Sapphire, 1), FL.array(MTx.GaMe3.liquid(3*U8, true), MT.NH3.gas(U8, true), MTx.SiH4.gas(U1000, true)), FL.array(MTx.Ether.liquid(2*U8, false), MT.CH4.gas(3*U8, false)), ILx.LEDWafers[2][0].get(1));
+        RM.Drying.addRecipe1(true, 16, 128, ILx.LEDWafers[2][0].get(1), FL.array(MTx.GaMe3.liquid(3*U16, true), MTx.InMe3.liquid(3*U16, true), MT.NH3.gas(U8, true)), FL.array(MTx.Ether.liquid(2*U8, false), MT.CH4.gas(3*U8, false)), ILx.LEDWafers[2][1].get(1));
+        RM.Drying.addRecipe1(true, 16, 128, ILx.LEDWafers[2][0].get(2), FL.array(MTx.GaMe3.liquid(3*U8, true), MTx.InMe3.liquid(3*U8, true), MT.NH3.gas(U4, true)), FL.array(MTx.Ether.liquid(2*U4, false), MT.CH4.gas(3*U4, false)), ILx.LEDWafers[2][1].get(2));
+        RM.Drying.addRecipe2(true, 16, 128, ILx.LEDWafers[2][1].get(1), dustDiv72.mat(MTx.Magnesocene, 1), FL.array(MTx.GaMe3.liquid(3*U8, true), MT.NH3.gas(U8, true)), FL.array(MTx.Ether.liquid(2*U8, false), MT.CH4.gas(3*U8, false)), ILx.LEDWafers[2][2].get(1));
+
+        // Dicing
+        for (int color = 0; color < ILx.LEDWaferColors.length; color++) {
+            for (int i = 0; i < RMx.CuttingFluids.length; i++)
+                if (RMx.CuttingFluids[i] != null) {
+                    RM.Cutter.addRecipe1(true, 16, 64 * RMx.CuttingMultiplier[i], ILx.LEDWafers[color][2].get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 16, 1000, true), NF, ILx.LEDWafers[color][3].get(64));
+                }
+        }
+
+        // LED packaging
+        for (int color = 0; color < ILx.LEDWaferColors.length; color++) {
+            RM.Press.addRecipeX(true, 16, 32, ST.array(ILx.LEDWafers[color][3].get(16), plateTiny.mat(MT.Invar, 2), wireFine.mat(MT.Au, 1)), ILx.LEDs[color][0].get(16));
+        }
+        // White LED
+        RM.Press.addRecipeX(true, 16, 16, ST.array(ILx.LEDs[2][0].get(4 ), dustSmall.mat(MTx.YellowPhosphor, 1)), ILx.LEDs[3][0].get(4));
+        RM.Press.addRecipeX(true, 16, 64, ST.array(ILx.LEDs[2][0].get(16), dust     .mat(MTx.YellowPhosphor, 1)), ILx.LEDs[3][0].get(16));
+        // LED Encapsulation
+        for (int color = 0; color < ILx.LEDColors.length; color++) {
+            RM.Bath.addRecipe1(true, 0, 16, ILx.LEDs[color][0].get(1), MTx.Epoxy.liquid(U16, true), NF, ILx.LEDs[color][1].get(1));
+        }
 
         // CRTs
         RM.Mixer.addRecipe2(true, 16, 16, ST.tag(2), dust.mat(MT.Graphite, 1), FL.DistW.make(1000), NF, dust.mat(MTx.Aquadag, 2));

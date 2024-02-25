@@ -167,6 +167,7 @@ public class OilProcessing extends GT6XFeature {
 
         FM.Burn.addRecipe0(true, -16, 36, MTx.Synoil.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
         FM.Burn.addRecipe0(true, -16, 4, MTx.Acetone.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
+        FM.Burn.addRecipe0(true, -64, 4, MTx.Cyclopentadiene.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
     }
 
     private void addRecipes() {
@@ -177,11 +178,11 @@ public class OilProcessing extends GT6XFeature {
         RM.Distillery.addRecipe1(false, 16, 64, ST.tag(0), FL.array(MTx.LNG.liquid(U1000, true)), FL.array(FL.Methane.make(600), MTx.Ethane.gas(30*U1000, false)));
 
         // distillation of cracker outputs
-        RM.DistillationTower.addRecipe0(false, 64, 64, FL.array(MTx.SCNaphtha.liquid(U10, true)), FL.array(FL.Methane.make(25), FL.Ethylene.make(50), MTx.Ethane.liquid(20*U1000, false), FL.Propylene.make(40), MTx.Butylene.gas(30*U1000, false), MTx.Benzene.liquid(15*U1000, false), MTx.Toluene.liquid(10*U1000, false), MTx.Isoprene.liquid(10*U1000, false)));
+        RM.DistillationTower.addRecipe0(false, 64, 64, FL.array(MTx.SCNaphtha.liquid(U10, true)), FL.array(FL.Methane.make(25), FL.Ethylene.make(50), MTx.Ethane.liquid(20*U1000, false), FL.Propylene.make(40), MTx.Butylene.gas(30*U1000, false), MTx.Benzene.liquid(15*U1000, false), MTx.Toluene.liquid(10*U1000, false), MTx.Isoprene.liquid(10*U1000, false), MTx.Cyclopentadiene.liquid(U1000, false)));
         RM.DistillationTower.addRecipe0(false, 64, 64, FL.array(MTx.FccOffgas.gas(U10, true)), FL.array(FL.Methane.make(20), FL.Ethylene.make(12), MTx.Ethane.liquid(10*U1000, false), FL.Propylene.make(8), FL.Propane.make(30), MTx.Butylene.gas(10*U1000, false), FL.Butane.make(10)));
 
         // distillation of creosote
-        RM.DistillationTower.addRecipe0(false, 64, 32, new long[] {500}, FL.array(FL.Oil_Creosote.make(50)), FL.array(MTx.Benzene.liquid(3*U1000, false), MTx.Toluene.liquid(2*U1000, false), MTx.Phenol.liquid(18*U144, false), MTx.Naphthalene.liquid(12*U1000, false), MTx.Anthracene.liquid(15*U1000, false)), dustTiny.mat(MT.Asphalt, 9));
+        RM.DistillationTower.addRecipe0(false, 64, 32, new long[] {500}, FL.array(FL.Oil_Creosote.make(50)), FL.array(MTx.Benzene.liquid(3*U1000, false), MTx.Toluene.liquid(2*U1000, false), MTx.Phenol.liquid(18*U144, false), MTx.Naphthalene.liquid(12*U1000, false), MTx.Anthracene.liquid(15*U1000, false), MTx.Cyclopentadiene.liquid(U1000, false)), dustTiny.mat(MT.Asphalt, 9));
         RM.Distillery.addRecipe1(false, 16, 32, ST.tag(0), FL.array(FL.Oil_Creosote.make(50)), FL.array(MTx.Phenol.liquid(18*U144, false), MTx.Naphthalene.liquid(12*U1000, false)));
 
         // Desulfurisation
@@ -200,7 +201,7 @@ public class OilProcessing extends GT6XFeature {
         RM.Mixer.addRecipe1(true, 16,  16, dust.mat(MT.OREMATS.Galena, 0), FL.array(MTx.VinylChloride.gas(U10, false)), ZL_FS, dust.mat(MT.PVC, 1));
 
         // PTFE
-        RM.Mixer.addRecipe0(true, 16, 64, FL.array(MT.CH4.gas(5*U, true), MT.Cl.gas(6*U, true)), FL.array(MTx.CHCl3.liquid(U, false), MT.HCl.gas(2*U, false)));
+        RM.Mixer.addRecipe0(true, 16, 64, FL.array(MT.CH4.gas(U, true), MT.Cl.gas(6*U, true)), FL.array(MTx.CHCl3.liquid(U, false), MT.HCl.gas(6*U, false)));
         RM.Mixer.addRecipe0(true, 16, 64, FL.array(MTx.CHCl3.liquid(U, true), MT.HF.gas(4*U, true)), FL.array(MTx.CHClF2.gas(U, false), MT.HCl.gas(4*U, false)));
         //TODO use thermolyzer
         RM.Drying.addRecipe1(true, 16, 128, ST.tag(0), MTx.CHClF2.gas(2*U, true), FL.array(MTx.C2F4.gas(U, false), MT.HCl.gas(4*U, false)));

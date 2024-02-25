@@ -373,8 +373,8 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
             RM.Bath.addRecipe1(false, 0, 128, ILx.Wafers[type][tier][0].get(1), developer, NF, ILx.Wafers[type][tier][1].get(1));
         // Dry etching
         RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][1].get(1), FL.array(MTx.NF3.plasma(16*U1000, true)), FL.array(MTx.SiF4.gas(15*U1000, false), MT.N.gas(8*U1000, false)), ILx.Wafers[type][tier][2].get(1));
-        // Doping with Silicon
-        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][2].get(1), MTx.SiF4.gas(30*U1000, true), MTx.AsF3.liquid(32*U1000, false), ILx.Wafers[type][tier][3].get(1));
+        // Doping with Beryllium
+        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][2].get(1), MTx.BeMe2.liquid(30*U1000, true), MTx.AsF3.liquid(32*U1000, false), ILx.Wafers[type][tier][3].get(1));
         // Metal 1 layer of electroplated Gold
         for (FluidStack water : FL.waters(1000)) {
             RM.Electrolyzer.addRecipe1(true, 32, 22, ILx.Wafers[type][tier][3].get(1), FL.array(MTx.NaAuC2N2.liquid(6*U4, true), FL.mul(water, 3, 2, true)), FL.array(MTx.HCN.gas(3*U2, false), MT.H.gas(U4, false), MT.O.gas(U4, false)), ILx.Wafers[type][tier][4].get(1), dustSmall.mat(MT.NaOH, 3));

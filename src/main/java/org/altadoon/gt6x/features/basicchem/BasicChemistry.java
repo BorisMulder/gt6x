@@ -196,7 +196,7 @@ public class BasicChemistry extends GT6XFeature {
         RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MTx.NH4SiF6, 0), FL.array(MT.NH3.gas(U, true), MT.F.gas(6*U, true)), FL.array(MTx.NF3.gas(U, false), MT.HF.gas(6*U, false)));
 
         // HCN, Phosgene
-        RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MT.Pt, 0), FL.array(MT.CH4.gas(5*U, true), MT.NH3.gas(U, true), MT.O.gas(3*U, true)), FL.array(MTx.HCN.liquid(3*U, false), MT.H2O.liquid(9*U, false)));
+        RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MT.Pt, 0), FL.array(MT.CH4.gas(U, true), MT.NH3.gas(U, true), MT.O.gas(3*U, true)), FL.array(MTx.HCN.liquid(3*U, false), MT.H2O.liquid(9*U, false)));
         RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MT.C, 0), FL.array(MT.CO.gas(2*U, true), MT.Cl.gas(2*U, true)), MTx.Phosgene.gas(U, false), NI);
 
         // NaCN, KCN, CuCN
@@ -307,12 +307,17 @@ public class BasicChemistry extends GT6XFeature {
         RMx.Thermolysis.addRecipe1(true, 16, 128, dust.mat(MTx.NH4SO4, 21), NF, FL.array(FL.Water.make(18000), MT.N.gas(2*U, false), MT.NH3.gas(4*U, false), MT.SO2.gas(9*U, false)));
 
         // Methanol and Formaldehyde
-        RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.Cu, 0), dust.mat(MTx.ZnO, 0), FL.array(MT.CO .gas(2*U, true), MT.H.gas(4*U, true)), FL.array(MTx.Methanol.liquid(6*U, false)));
-        RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.Cu, 0), dust.mat(MTx.ZnO, 0), FL.array(MT.CO2.gas(3*U, true), MT.H.gas(6*U, true)), FL.array(MTx.Methanol.liquid(6*U, false), MT.H2O.liquid(3*U, false)));
-        RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.Fe2O3, 0), dust.mat(MTx.MoO3, 0), FL.array(MTx.Methanol.liquid(6*U, true), MT.O.gas(U, true)), FL.array(MTx.Formaldehyde.gas(4*U, false), MT.H2O.liquid(3*U, false)));
+        RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.Cu, 0), dust.mat(MTx.ZnO, 0), FL.array(MT.CO .gas(2*U, true), MT.H.gas(4*U, true)), FL.array(MTx.Methanol.liquid(U, false)));
+        RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.Cu, 0), dust.mat(MTx.ZnO, 0), FL.array(MT.CO2.gas(3*U, true), MT.H.gas(6*U, true)), FL.array(MTx.Methanol.liquid(U, false), MT.H2O.liquid(3*U, false)));
+        RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.Fe2O3, 0), dust.mat(MTx.MoO3, 0), FL.array(MTx.Methanol.liquid(U, true), MT.O.gas(U, true)), FL.array(MTx.Formaldehyde.gas(U, false), MT.H2O.liquid(3*U, false)));
+
+        // Chloromethane, Diethyl ether
+        RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MT.Al2O3, 0), FL.array(MT.Ethanol.liquid(U10, true), MT.H2SO4.liquid(U1000, true)), FL.array(MTx.Ether.liquid(U10, false), MT.H2O.liquid(3*U10, false)));
+        RM.Mixer.addRecipe0(true, 16, 32, FL.array(MTx.Methanol.liquid(U, true), MT.HCl.gas(2*U, true)), FL.array(MTx.CH3Cl.gas(U, false), MT.H2O.liquid(3*U, false)));
 
         // Ethylene from ethanol and reverse
-        RM.Mixer.addRecipe0(true, 16, 32, FL.array(MT.Ethanol.liquid(U10, true), MT.H2SO4.liquid(U1000, true)), FL.array(MT.Ethylene.gas(U10, false), MT.H2O.liquid(U10, false)));
+        // TODO use thermolyzer
+        RM.Drying.addRecipe1(true, 16, 600, ST.tag(1), FL.array(MTx.Ether.liquid(U10, true)), FL.array(MT.Ethylene.gas(U10, false), FL.DistW.make(300)));
         RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MT.NaOH, 1), FL.array(MT.Ethylene.gas(U10, false), MT.H2O.liquid(U10, false)), FL.array(MT.Ethanol.liquid(U10, true)));
         RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MT.KOH , 1), FL.array(MT.Ethylene.gas(U10, false), MT.H2O.liquid(U10, false)), FL.array(MT.Ethanol.liquid(U10, true)));
 

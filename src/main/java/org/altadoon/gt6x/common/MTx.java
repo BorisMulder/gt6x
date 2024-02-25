@@ -121,16 +121,23 @@ public class MTx {
     public static OreDictMaterial machine(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, Object... aRandomData) { return create(aID, aNameOreDict, aR, aG, aB , 255, aRandomData).setTextures(aSets).put(DECOMPOSABLE, G_INGOT_MACHINE, SMITHABLE, MELTING, EXTRUDER); }
     public static OreDictMaterial alloymachine(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, Object... aRandomData) { return machine(aID, aNameOreDict, aSets, aR, aG, aB , aRandomData).put(ALLOY); }
     public static OreDictMaterial plastic(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, long aA, Object... aRandomData) { return create(aID, aNameOreDict, aR, aG, aB , aA, aRandomData).setTextures(aSets).put(G_INGOT_MACHINE, MELTING, EXTRUDER, EXTRUDER_SIMPLE, MORTAR, FURNACE, POLYMER).addReRegistrationToThis(MT.Plastic); }
-    public static OreDictMaterial dopedSemiconductor(int aID, String aNameOreDict, OreDictMaterial mainMaterial, Object... aRandomData) {
-        OreDictMaterial mat = create(aID, aNameOreDict, 0, 0, 0, 0, aRandomData)
+
+    public static OreDictMaterial semiconductor(int aID, String aNameOreDict, long r, long g, long b, boolean genItems, Object... aRandomData) {
+        OreDictMaterial mat = dustdcmp(aID, aNameOreDict, SET_METALLIC, r, g, b, 255, aRandomData);
+        if (genItems) {
+            mat.put(INGOTS);
+            OP.bouleGt.forceItemGeneration(mat);
+            OP.plateGem.forceItemGeneration(mat);
+            OP.plateGemTiny.forceItemGeneration(mat);
+        }
+        return mat;
+    }
+    public static OreDictMaterial dopedSemiconductor(int aID, String aNameOreDict, OreDictMaterial mainMaterial, boolean genItems, Object... aRandomData) {
+        return semiconductor(aID, aNameOreDict, 0, 0, 0, genItems, aRandomData)
             .setMcfg(0, mainMaterial, U)
-            .setPulver(mainMaterial, U).setSmelting(mainMaterial, U)
+            .setAllToTheOutputOf(mainMaterial)
             .steal(mainMaterial)
             .stealLooks(mainMaterial);
-        OP.bouleGt.forceItemGeneration(mat);
-        OP.plateGem.forceItemGeneration(mat);
-        OP.plateGemTiny.forceItemGeneration(mat);
-        return mat;
     }
 
     public static OreDictMaterial solution(int id, String name, long r, long g, long b, long a, OreDictMaterial solute, long waterUnits , Object... randomData) {
@@ -636,11 +643,11 @@ public class MTx {
             .tooltip("Zn(NO" + NUM_SUB[3] + ")" + NUM_SUB[2])
             .heat(383)
             .setSmelting(ZnO, 2*U5),
-    GaAs = alloymachine(16147, "Gallium Arsenide", SET_METALLIC, 96, 96, 120, 255)
-            .uumMcfg(0, MT.Ga, U, MT.As, U)
+    GaAs = semiconductor(16147, "Gallium Arsenide", 96, 96, 120, true)
+            .uumMcfg(1, MT.Ga, U, MT.As, U)
             .heat(1511),
-    SiGe = alloymachine(16148, "Silicon-Germanium", SET_METALLIC, 136, 136, 146, 255)
-            .uumAloy(0, MT.Si, U, MT.Ge, U)
+    SiGe = semiconductor(16148, "Silicon-Germanium", 136, 136, 146, true)
+            .uumMcfg(0, MT.Si, U, MT.Ge, U)
             .heat(MT.Ge),
     LiH = dustdcmp(16149, "Lithium Hydride", SET_QUARTZ, 0, 153, 153, 255)
             .setMcfg(0, MT.Li, U, MT.H, U)
@@ -698,10 +705,10 @@ public class MTx {
             .setMcfg(0, NH4NO3, 10*U, MT.Fuel, U)
             .heat(NH4NO3)
             .put(FLAMMABLE, EXPLOSIVE),
-    PDopedSi = dopedSemiconductor(16167, "P-Doped Silicon", MT.Si),
-    NDopedSi = dopedSemiconductor(16168, "N-Doped Silicon", MT.Si),
-    PDopedSiGe = dopedSemiconductor(16169, "P-Doped Silicon-Germanium", SiGe),
-    NDopedSiGe = dopedSemiconductor(16170, "N-Doped Silicon-Germanium", SiGe),
+    PDopedSi = dopedSemiconductor(16167, "P-Doped Silicon", MT.Si, true),
+    NDopedSi = dopedSemiconductor(16168, "N-Doped Silicon", MT.Si, true),
+    PDopedSiGe = dopedSemiconductor(16169, "P-Doped Silicon-Germanium", SiGe, true),
+    NDopedSiGe = dopedSemiconductor(16170, "N-Doped Silicon-Germanium", SiGe, true),
     AuGe = alloymachine(16171, "Gold-Germanium", SET_COPPER, 227, 182, 59)
             .uumAloy(0, MT.Au, U, MT.Ge, U)
             .heat(365 + C, (MT.Ge.mBoilingPoint + MT.Au.mBoilingPoint) / 2),
@@ -927,8 +934,9 @@ public class MTx {
             .heat(Biphenyl)
             .setLocal("4-Bromo-4'-pentylbiphenyl"),
     AlCl3 = dustdcmp(16248, "Aluminium Chloride", SET_CUBE_SHINY, 255, 255, 255, 250)
-            .uumMcfg(0, MT.Al, U, MT.Cl, 3*U)
-            .heat(453, 453),
+            .uumMcfg(1, MT.Al, U, MT.Cl, 3*U)
+            .heat(453, 453)
+            .put(ELECTROLYSER),
     Pentanol = registerLiquid(lquddcmp(16249, "Pentanol", 255, 0, 150, 200)
             .setMcfg(1, MT.C, 5*U, MT.H, 12*U, MT.O, U)
             .heat(195, 411)),
@@ -1093,10 +1101,70 @@ public class MTx {
     InF3 = dustdcmp(16306, "Indium Trifluoride", SET_DULL, 255, 255, 255, 255)
             .setMcfg(0, MT.In, U, MT.F, 3*U)
             .heat(1445),
-    Si3N4 = dustdcmp(16307, "Silicon Nitride", SET_METALLIC, 70, 70, 70, 255)
+    Si3N4 = semiconductor(16307, "Silicon Nitride",  70, 70, 70, false)
             .setMcfg(0, MT.Si, 3*U, MT.N, 4*U)
             .heat(2170)
-            .setSmelting(MT.Si, 3*U7)
+            .setSmelting(MT.Si, 3*U7),
+    BeCl2 = dustdcmp(16308, "Beryllium Chloride", SET_SHINY, 255, 255, 170, 255)
+            .uumMcfg(1, MT.Be, U, MT.Cl, 2*U)
+            .heat(672, 755),
+    GaCl3 = dustdcmp(16309, "Gallium Chloride", SET_CUBE_SHINY, 255, 255, 255, 255)
+            .setMcfg(1, MT.Ga, U, MT.Cl, 3*U)
+            .heat(351, 474),
+    InCl3 = dustdcmp(16310, "Indium Chloride", SET_CUBE_SHINY, 255, 255, 255, 255)
+            .setMcfg(1, MT.In, U, MT.Cl, 3*U)
+            .heat(859, 1070),
+    CH3Cl = registerGas(gasdcmp(16311, "Chloromethane", 200, 230, 200, 200)
+            .setMcfg(1, MT.C, U, MT.H, 3*U, MT.Cl, U)
+            .heat(175, 249)),
+    Ether = registerLiquid(lquddcmp(16312, "Diethyl Ether", 220, 220, 220, 220, "Ether", "Ethoxyethane")
+            .setMcfg(1, MT.C, U, MT.H, 10*U, MT.O, U)
+            .heat(258, 329)),
+    CH3Li = registerLiquid(lquddcmp(16313, "Methyllithium Solution", 200, 200, 200, 220)
+            .setMcfg(3, MT.C, U, MT.H, 3*U, MT.Li, U, Ether, 2*U)
+            .heat(Ether)),
+    GaMe3 = registerLiquid(lquddcmp(16314, "Trimethylgallium Solution", 150, 150, 150, 200)
+            .setMcfg(3, MT.Ga, U, MT.C, 3*U, MT.H, 9*U, Ether, 2*U)
+            .tooltip("Ga(CH" + NUM_SUB[3] + ")" + NUM_SUB[3])
+            .heat(Ether)),
+    InMe3 = registerLiquid(lquddcmp(16315, "Trimethylindium Solution", 255, 255, 255, 255)
+            .setMcfg(3, MT.In, U, MT.C, 3*U, MT.H, 9*U, Ether, 2*U)
+            .tooltip("In(CH" + NUM_SUB[3] + ")" + NUM_SUB[3])
+            .heat(Ether)),
+    AlMe3 = registerLiquid(lquddcmp(16316, "Trimethylaluminium Solution", 200, 200, 200, 200)
+            .setMcfg(3, MT.Al, 2*U, MT.C, 6*U, MT.H, 18*U, Ether, 2*U)
+            .tooltip("Al" + NUM_SUB[2] + "(CH" + NUM_SUB[3] + ")" + NUM_SUB[6])
+            .heat(Ether)),
+    Cyclopentadiene = registerLiquid(lquddcmp(16317, "Cyclopentadiene", 255, 255, 255, 180)
+            .setMcfg(1, MT.C, 5*U, MT.H, 6*U)
+            .heat(183, 314)),
+    Magnesocene = dustdcmp(16318, "Magnesocene", SET_ROUGH, 255, 255, 255, 255)
+            .setMcfg(1, MT.Mg, U, MT.C, 10*U, MT.H, 10*U)
+            .tooltip("Mg(C" + NUM_SUB[5] + "H" + NUM_SUB[5] + ")" + NUM_SUB[2])
+            .heat(449),
+    BeMe2 = registerLiquid(lquddcmp(16319, "Dimethylberyllium Solution", 200, 200, 200, 200)
+            .setMcfg(3, MT.Be, U, MT.C, 2*U, MT.H, 6*U, Ether, 2*U)
+            .tooltip("Be(CH" + NUM_SUB[3] + ")" + NUM_SUB[2])
+            .heat(Ether)),
+    H2Se = registerGas(gasdcmp(16320, "Hydrogen Selenide", 255, 210, 60, 150)
+            .setMcfg(1, MT.H, 2*U, MT.Se, U)
+            .heat(207, 232)),
+    GaP = semiconductor(16321, "Gallium Phosphide", 63, 94, 83, false, INGOTS, DUSTS)
+            .setMcfg(1, MT.Ga, U, MT.P, U),
+    GaN = semiconductor(16322, "Gallium Nitride", 100, 120, 120, false, INGOTS, DUSTS)
+            .setMcfg(1, MT.Ga, U, MT.N, U),
+    NDopedGaP = dopedSemiconductor(16323, "N-Doped Gallium Phosphide", GaP, false),
+    PDopedGaP = dopedSemiconductor(16324, "P-Doped Gallium Phosphide", GaP, false),
+    NDopedGaN = dopedSemiconductor(16323, "N-Doped Gallium Nitride", GaN, false),
+    PDopedGaN = dopedSemiconductor(16324, "P-Doped Gallium Nitride", GaN, false),
+    NDopedGaAs = dopedSemiconductor(16325, "N-Doped Gallium Arsenide", GaAs, false),
+    PDopedGaAs = dopedSemiconductor(16326, "P-Doped Gallium Arsenide", GaAs, false),
+    GaAsP = semiconductor(16327, "Gallium Arsenide Phosphide", 66, 122, 95, false)
+            .setMcfg(1, MT.Ga, 2*U, MT.As, U, MT.P, U),
+    AlGaP = semiconductor(16328, "Aluminium Gallium Phosphide", 66, 100, 110, false)
+            .setMcfg(1, MT.Al, U, MT.Ga, U, MT.P, 2*U),
+    InGaN = semiconductor(16329, "Indium Gallium Nitride", 73, 66, 110, false)
+            .setMcfg(1, MT.In, U, MT.Ga, U, MT.N, 2*U)
     ;
 
     static {
@@ -1110,6 +1178,7 @@ public class MTx {
         MT.VolcanicAsh.setMcfg( 0, MT.Flint, 6*U, MT.Fe2O3, U, MTx.MgO, U);
 
         addMolten(RhodiumPotassiumSulfate, 144);
+        addMolten(AlCl3, 144);
         addMolten(PbCl2, 144);
         addMolten(CuCl2, 144);
         addMolten(Slag, 144);
@@ -1127,7 +1196,6 @@ public class MTx {
         addPlasma(NF3);
         addPlasma(SF6);
 
-        OP.bouleGt.forceItemGeneration(GaAs, SiGe);
         OP.plate.forceItemGeneration(MT.Al2O3);
         OP.wireFine.forceItemGeneration(MT.Ta);
         OP.casingMachine.forceItemGeneration(MT.Plastic, MT.Polycarbonate);
