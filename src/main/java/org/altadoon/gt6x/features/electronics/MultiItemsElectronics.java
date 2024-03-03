@@ -200,6 +200,13 @@ public class MultiItemsElectronics extends MultiItemRandom {
         ILx.PolaroidFilter.set(addItem(510, "Polaroid Filter", tooltip, new OreDictItemData(MTx.PVA, U4, MT.I, U8)));
         ILx.PolaroidFilterTiny.set(addItem(511, "Tiny Polaroid Filter", tooltip, new OreDictItemData(MTx.PVA, U36, MT.I, U72)));
 
+        ILx.LEDStrip.set(addItem(512, "LED strip", "Array of LEDS used for decoration or in a monitor backlight"));
+        ILx.LEDBacklight.set(addItem(513, "LCD LED backlight", "Lights up an LCD monitor"));
+        ILx.LCDElectrodes.set(addItem(514, "LCD Panel (Electrodes)", "The anode and cathode of an LCD"));
+        ILx.LCDElectrodesCrystal.set(addItem(515, "LCD panel (Crystal Filled)" ,"Needs polaroid filters"));
+        ILx.LCD.set(addItem(516, "Liquid Crystal Display", "Chances are you're looking at one right now"));
+        ILx.LCDMonitor.set(addItem(517, "LCD Monitor", "Flatscreen TV/Computer Monitor"));
+
         // LEDs:
         // Red = GaAsP on GaAs
         // Green = AlGaP on GaP
