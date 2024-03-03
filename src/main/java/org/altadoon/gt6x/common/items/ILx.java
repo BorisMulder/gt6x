@@ -136,15 +136,21 @@ public class ILx implements IItemContainer {
             PolaroidFilter = new ILx("PolaroidFilter"),
             PolaroidFilterTiny = new ILx("PolaroidFilterTiny"),
             TFTGlass = new ILx("TFTGlass"),
-            LCD = new ILx("LCD");
+            LEDStrip = new ILx("LEDStrip"),
+            LEDBacklight = new ILx("LEDBacklight"),
+            LCDElectrodes = new ILx("LCDElectrodes"),
+            LCDElectrodesCrystal = new ILx("LCDElectrodesCrystal"),
+            LCD = new ILx("LCD"),
+            LCDMonitor = new ILx("LCDMonitor");
 
     // Photomasks & Wafers
     public static final int NUM_WAFER_TIERS = 3; // PMOS, NMOS, CMOS
-    public static final int NUM_WAFER_TYPES = 8; // IC, CPU, RAM, GPU, Flash, SoC, FET, TFT
+    public static final int NUM_WAFER_TYPES = 9; // IC, CPU, RAM, GPU, Flash, SoC, FET, TFT, ColorFilter
     public static final int NUM_WAFER_STAGES_SINGLE = 8; // PL, Dev, Etch, Dope, Clean, Metal, Etch, Die
     public static final int NUM_WAFER_STAGES_DOUBLE = 14; // PL, Dev, Etch, Dope, Clean, Ox, PL2, Dev, Etch, Dope, Clean, Metal, Etch, Die
     public static final int NUM_WAFER_STAGES_MESFET = 8; // PL, Dev, Etch, Dope, Metal1, Metal2, Clean, Die
     public static final int NUM_WAFER_STAGES_TFT = 10; // PL, Dev, Etch, Dope, Clean, TCF, PL2, Dev, Etch, Clean
+    public static final int NUM_WAFER_STAGES_LCD_COLOR = 7; // PL, Dev, PL, Dev, PL, Dev, ITO
     public static final int NUM_PHOTOMASK_STAGES = 4; // PL, Dev, Etch, Clean
 
     public static IItemContainer[] ICs = new IItemContainer[NUM_WAFER_TIERS];

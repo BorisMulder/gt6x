@@ -35,7 +35,7 @@ import static gregapi.data.OP.*;
 import static org.altadoon.gt6x.Gt6xMod.MOD_ID;
 import static org.altadoon.gt6x.common.items.ILx.NUM_COMPUTER_TIERS;
 import static org.altadoon.gt6x.features.electronics.MultiItemsElectronics.*;
-import static org.altadoon.gt6x.features.electronics.MultiItemsPhotolithography.MESFET_IDX;
+import static org.altadoon.gt6x.features.electronics.MultiItemsPhotolithography.*;
 
 public class Electronics extends GT6XFeature {
     public static final String FEATURE_NAME = "Electronics";
@@ -540,6 +540,12 @@ public class Electronics extends GT6XFeature {
             RM.Cutter.addRecipe1(true, 16, 8 * RMx.CuttingMultiplier[i], ILx.PolaroidFilter.get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 8, 1000, true), NF, ILx.PolaroidFilterTiny.get(9));
             //RM.Cutter.addRecipe1(true, 16, 8 * RMx.CuttingMultiplier[i], ILx.TFTGlass.get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 8, 1000, true), NF, ILx.TCFGlassTiny.get(9));
         }
+        CR.shaped(ILx.LEDStrip.get(1), CR.DEF_REV, "LeL", "WRx", "LGL", 'L', ILx.LEDs[3][1], 'W', cableGt01.dat(ANY.Cu), 'R', stick.dat(MT.Al), 'G', IL.Bottle_Glue);
+        CR.shaped(ILx.LEDBacklight.get(1), CR.DEF_REV, "L C", "LGP", "L W", 'L', ILx.LEDStrip, 'C', OD_CIRCUITS[5], 'G', IL.Bottle_Glue, 'P', plate.dat(MT.Polycarbonate), 'W', wireGt01.dat(ANY.Cu));
+        CR.shaped(ILx.LCDElectrodes.get(1), CR.DEF_REV, " C ", " G ", " T ", 'C', ILx.Wafers[LCD_COLOR_IDX][0][6].get(1), 'G', IL.Bottle_Glue, 'T', ILx.Wafers[TFT_IDX][0][9].get(1));
+        RM.Injector.addRecipe1(true, 16, 128, ILx.LCDElectrodes.get(1), FL.make(FLx.LiquidCrystal5CB, 1), NF, ILx.LCDElectrodesCrystal.get(1));
+        CR.shaped(ILx.LCD.get(1), CR.DEF_REV, "RG ", "PLP", 'R', OreDictToolNames.rollingpin, 'G', IL.Bottle_Glue, 'P', ILx.PolaroidFilter, 'L', ILx.LCDElectrodesCrystal);
+        CR.shaped(ILx.LCDMonitor.get(1), CR.DEF_REV, " IF", "PLB", "OIW", 'I', casingSmall.dat(MT.Polycarbonate), 'F', foil.dat(MT.Polycarbonate), 'P', OP.plateGem.dat(MT.Glass), 'L', ILx.LCD, 'B', ILx.LEDBacklight, 'O', MTEx.gt6Registry.getItem(32711), 'W', cableGt01.dat(ANY.Cu));
 
         // Misc
         for (OreDictMaterial mat : new OreDictMaterial[] { MT.Plastic, MT.Polycarbonate }) {

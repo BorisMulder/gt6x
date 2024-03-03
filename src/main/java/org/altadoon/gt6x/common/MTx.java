@@ -118,9 +118,9 @@ public class MTx {
     public static OreDictMaterial gasdcmp(int aID, String name, long aR, long aG, long aB, long aA, Object... aRandomData) { return gas(aID, name, aR, aG, aB, aA, aRandomData).put(DECOMPOSABLE); }
     public static OreDictMaterial lqudexpl(int aID, String name, long aR, long aG, long aB, long aA, Object... aRandomData) {return liquid(aID, name, aR, aG, aB, aA, aRandomData).put(FLAMMABLE, EXPLOSIVE);}
     public static OreDictMaterial lqudflam(int aID, String name, long aR, long aG, long aB, long aA, Object... aRandomData) {return liquid(aID, name, aR, aG, aB, aA, aRandomData).put(FLAMMABLE);}
-    public static OreDictMaterial machine(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, Object... aRandomData) { return create(aID, aNameOreDict, aR, aG, aB , 255, aRandomData).setTextures(aSets).put(DECOMPOSABLE, G_INGOT_MACHINE, SMITHABLE, MELTING, EXTRUDER); }
-    public static OreDictMaterial alloymachine(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, Object... aRandomData) { return machine(aID, aNameOreDict, aSets, aR, aG, aB , aRandomData).put(ALLOY); }
-    public static OreDictMaterial plastic(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, long aA, Object... aRandomData) { return create(aID, aNameOreDict, aR, aG, aB , aA, aRandomData).setTextures(aSets).put(G_INGOT_MACHINE, MELTING, EXTRUDER, EXTRUDER_SIMPLE, MORTAR, FURNACE, POLYMER).addReRegistrationToThis(MT.Plastic); }
+    public static OreDictMaterial machine(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, long aA, Object... aRandomData) { return create(aID, aNameOreDict, aR, aG, aB, aA, aRandomData).setTextures(aSets).put(DECOMPOSABLE, G_INGOT_MACHINE, SMITHABLE, MELTING, EXTRUDER); }
+    public static OreDictMaterial alloymachine(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, Object... aRandomData) { return machine(aID, aNameOreDict, aSets, aR, aG, aB, 255, aRandomData).put(ALLOY); }
+    public static OreDictMaterial plastic(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, long aA, Object... aRandomData) { return create(aID, aNameOreDict, aR, aG, aB, aA, aRandomData).setTextures(aSets).put(G_INGOT_MACHINE, MELTING, EXTRUDER, EXTRUDER_SIMPLE, MORTAR, FURNACE, POLYMER).addReRegistrationToThis(MT.Plastic); }
 
     public static OreDictMaterial semiconductor(int aID, String aNameOreDict, long r, long g, long b, boolean genItems, Object... aRandomData) {
         OreDictMaterial mat = dustdcmp(aID, aNameOreDict, SET_METALLIC, r, g, b, 255, aRandomData);
@@ -835,7 +835,7 @@ public class MTx {
     Y2O3 = dustdcmp(16212, "Yttria", SET_SHINY, 255, 255, 255, 255, GEMS)
             .setMcfg(0, MT.Y, 2*U, MT.O, 3*U)
             .heat(2698, 4570),
-    YAlO3 = machine(16213, "Yttria-Alumina", SET_DULL, 200, 255, 255, PIPES)
+    YAlO3 = machine(16213, "Yttria-Alumina", SET_DULL, 200, 255, 255, 255, PIPES)
             .setMcfg(0, MT.Al2O3, U, Y2O3, U)
             .heat(Y2O3),
     SiF4 = registerGas(gasdcmp(16214, "Tetrafluorosilane", 50, 50, 100, 200)
@@ -984,7 +984,7 @@ public class MTx {
     C2N2 = registerGas(gasdcmp(16265, "Cyanogen", 255, 255, 255, 150)
             .setMcfg(0, MT.C, 2*U, MT.N, 2*U)
             .heat(245, 252)),
-    ITO = machine(16266, "Indium Tin Oxide", SET_QUARTZ, 200, 255, 100, 150)
+    ITO = machine(16266, "Indium Tin Oxide", SET_QUARTZ, 255, 200, 200, 150)
             .uumMcfg(0, MT.In, 4*U, MT.Sn, U, MT.O, 8*U)
             .heat(1800+C),
     In2O3 = dustdcmp(16267, "Indium(III) Oxide", SET_CUBE_SHINY, 240, 255, 0, 255, "Indium Trioxide")
@@ -1095,12 +1095,13 @@ public class MTx {
             .put(CENTRIFUGE),
     Aquadag = dustdcmp(16304, "Aquadag", SET_FOOD, 10, 10, 10, 255)
             .heat(MT.H2O),
-    InSn = alloymachine(16305, "Indium-Tin", SET_METALLIC, 128, 0, 192)
+    In4Sn = alloymachine(16305, "Indium-Tin", SET_METALLIC, 128, 0, 192)
             .setMcfg(0, MT.In, 4*U, MT.Sn, U)
             .heat(MT.In),
     InF3 = dustdcmp(16306, "Indium Trifluoride", SET_DULL, 255, 255, 255, 255)
             .setMcfg(0, MT.In, U, MT.F, 3*U)
-            .heat(1445),
+            .heat(1445)
+            .put(ELECTROLYSER),
     Si3N4 = semiconductor(16307, "Silicon Nitride",  70, 70, 70, false)
             .setMcfg(0, MT.Si, 3*U, MT.N, 4*U)
             .heat(2170)
@@ -1164,7 +1165,13 @@ public class MTx {
     AlGaP = semiconductor(16328, "Aluminium Gallium Phosphide", 66, 100, 110, false)
             .setMcfg(1, MT.Al, U, MT.Ga, U, MT.P, 2*U),
     InGaN = semiconductor(16329, "Indium Gallium Nitride", 73, 66, 110, false)
-            .setMcfg(1, MT.In, U, MT.Ga, U, MT.N, 2*U)
+            .setMcfg(1, MT.In, U, MT.Ga, U, MT.N, 2*U),
+    ColorResistRed = registerLiquid(lquddcmp(16330, "Red Color Resist", 255, 0, 0, 200)
+            .setMcfg(2, DnqNovolacResist, U)),
+    ColorResistGreen = registerLiquid(lquddcmp(16331, "Green Color Resist", 0, 255, 0, 200)
+            .setMcfg(2, DnqNovolacResist, U)),
+    ColorResistBlue = registerLiquid(lquddcmp(16332, "Blue Color Resist", 0, 0, 255, 200)
+            .setMcfg(2, DnqNovolacResist, U))
     ;
 
     static {
