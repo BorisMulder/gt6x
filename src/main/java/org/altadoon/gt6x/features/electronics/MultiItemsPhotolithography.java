@@ -324,7 +324,7 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         // Wet etching
         RM.Bath.addRecipe1(false, 0, 128, ILx.Wafers[type][tier][1].get(1), FL.array(MT.HF.gas(12*U1000, true)), FL.array(MT.H2SiF6.liquid(9*U1000, false), MT.H2O.liquid(6*U1000, false)), ILx.Wafers[type][tier][2].get(1));
         // Post-growth doping using P-dopant
-        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][2].get(1), MTx.BF3.gas(32*U1000, true), MTx.SiF4.gas(30*U1000, false), ILx.Wafers[type][tier][3].get(1));
+        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][2].get(1), MTx.BF3.gas(4*U1000, true), MTx.SiF4.gas(3*U1000, false), ILx.Wafers[type][tier][3].get(1));
         // Photoresist cleaning
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][3].get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafers[type][tier][4].get(1));
         // Metallization using Al PVD
@@ -346,8 +346,8 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         // Plasma etching
         RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][1].get(1), FL.array(MTx.CF4.plasma(15*U1000, true)), FL.array(MTx.SiF4.gas(15*U1000, false), MT.CO2.gas(9*U1000, false)), ILx.Wafers[type][tier][2].get(1));
         // Post-growth doping using N-dopant
-        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][2].get(1), MTx.PH3 .gas(32*U1000, true), MTx.SiH4.gas(30*U1000, false), ILx.Wafers[type][tier][3].get(1));
-        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][2].get(1), MTx.AsH3.gas(32*U1000, true), MTx.SiH4.gas(30*U1000, false), ILx.Wafers[type][tier][3].get(1));
+        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][2].get(1), MTx.PH3 .gas(4*U1000, true), MTx.SiH4.gas(3*U1000, false), ILx.Wafers[type][tier][3].get(1));
+        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][2].get(1), MTx.AsH3.gas(4*U1000, true), MTx.SiH4.gas(3*U1000, false), ILx.Wafers[type][tier][3].get(1));
         // Photoresist cleaning
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][3].get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafers[type][tier][4].get(1));
         // Metallization using Cu Electroplating
@@ -370,10 +370,10 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         for (FluidStack developer : DEVELOPERS)
             RM.Bath.addRecipe1(false, 0, 128, ILx.Wafers[type][tier][0].get(1), developer, NF, ILx.Wafers[type][tier][1].get(1));
         // Plasma etching
-        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][1].get(1), FL.array(MTx.CF4.plasma(15*U1000, true)), FL.array(MTx.SiF4.gas(15*U1000, false), MT.CO2.gas(9*U1000, false)), ILx.Wafers[type][tier][2].get(1));
+        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][1].get(1), FL.array(MTx.CF4.plasma(3*U1000, true)), FL.array(MTx.SiF4.gas(3*U1000, false), MT.CO2.gas(9*U1000, false)), ILx.Wafers[type][tier][2].get(1));
         // Post-growth doping of N-wells
-        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][2].get(1), MTx.PH3 .gas(32*U1000, true), MTx.SiH4.gas(30*U1000, false), ILx.Wafers[type][tier][3].get(1));
-        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][2].get(1), MTx.AsH3.gas(32*U1000, true), MTx.SiH4.gas(30*U1000, false), ILx.Wafers[type][tier][3].get(1));
+        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][2].get(1), MTx.PH3 .gas(4*U1000, true), MTx.SiH4.gas(3*U1000, false), ILx.Wafers[type][tier][3].get(1));
+        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][2].get(1), MTx.AsH3.gas(4*U1000, true), MTx.SiH4.gas(3*U1000, false), ILx.Wafers[type][tier][3].get(1));
         // Photoresist cleaning
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][3].get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafers[type][tier][4].get(1));
         // Oxide layer
@@ -384,9 +384,9 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         for (FluidStack developer : DEVELOPERS)
             RM.Bath.addRecipe1(false, 0, 128, ILx.Wafers[type][tier][6].get(1), developer, NF, ILx.Wafers[type][tier][7].get(1));
         // Plasma etching
-        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][7].get(1), FL.array(MTx.CF4.plasma(15*U1000, true)), FL.array(MTx.SiF4.gas(15*U1000, false), MT.CO2.gas(9*U1000, false)), ILx.Wafers[type][tier][8].get(1));
+        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][7].get(1), FL.array(MTx.CF4.plasma(3*U1000, true)), FL.array(MTx.SiF4.gas(3*U1000, false), MT.CO2.gas(9*U1000, false)), ILx.Wafers[type][tier][8].get(1));
         // Post-growth doping of P-Junctions
-        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][8].get(1), MTx.BF3.gas(32*U1000, true), MTx.SiF4.gas(30*U1000, false), ILx.Wafers[type][tier][9].get(1));
+        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][8].get(1), MTx.BF3.gas(4*U1000, true), MTx.SiF4.gas(3*U1000, false), ILx.Wafers[type][tier][9].get(1));
         // Photoresist cleaning
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][9].get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafers[type][tier][10].get(1));
 
@@ -407,9 +407,9 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         for (FluidStack developer : DEVELOPERS)
             RM.Bath.addRecipe1(false, 0, 128, ILx.Wafers[type][tier][0].get(1), developer, NF, ILx.Wafers[type][tier][1].get(1));
         // Dry etching
-        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][1].get(1), FL.array(MTx.NF3.plasma(16*U1000, true)), FL.array(MTx.SiF4.gas(15*U1000, false), MT.N.gas(8*U1000, false)), ILx.Wafers[type][tier][2].get(1));
+        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][1].get(1), FL.array(MTx.NF3.plasma(4*U1000, true)), FL.array(MTx.SiF4.gas(3*U1000, false), MT.N.gas(8*U1000, false)), ILx.Wafers[type][tier][2].get(1));
         // Doping with Beryllium
-        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][2].get(1), MTx.BeMe2.liquid(30*U1000, true), MTx.AsF3.liquid(32*U1000, false), ILx.Wafers[type][tier][3].get(1));
+        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][2].get(1), MTx.BeMe2.liquid(3*2*U1000, true), MTx.AsH3.gas(4*U1000, false), ILx.Wafers[type][tier][3].get(1));
         // Metal 1 layer of electroplated Gold
         for (FluidStack water : FL.waters(1000)) {
             RM.Electrolyzer.addRecipe1(true, 32, 22, ILx.Wafers[type][tier][3].get(1), FL.array(MTx.NaAuC2N2.liquid(6*U4, true), FL.mul(water, 3, 2, true)), FL.array(MTx.HCN.gas(3*U2, false), MT.H.gas(U4, false), MT.O.gas(U4, false)), ILx.Wafers[type][tier][4].get(1), dustSmall.mat(MT.NaOH, 3));
@@ -432,10 +432,10 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         for (FluidStack developer : DEVELOPERS)
             RM.Bath.addRecipe1(false, 0, 128, ILx.Wafers[type][tier][0].get(1), developer, NF, ILx.Wafers[type][tier][1].get(1));
         // Plasma etching of Si layer
-        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][1].get(1), FL.array(MTx.NF3.plasma(16*U1000, true)), FL.array(MTx.SiF4.gas(15*U1000, false), MT.N.gas(4*U1000, false)), ILx.Wafers[type][tier][2].get(1));
+        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][1].get(1), FL.array(MTx.NF3.plasma(4*U1000, true)), FL.array(MTx.SiF4.gas(3*U1000, false), MT.N.gas(4*U1000, false)), ILx.Wafers[type][tier][2].get(1));
         // Post-growth doping of N-wells
-        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][2].get(1), MTx.PH3 .gas(32*U1000, true), MTx.SiH4.gas(30*U1000, false), ILx.Wafers[type][tier][3].get(1));
-        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][2].get(1), MTx.AsH3.gas(32*U1000, true), MTx.SiH4.gas(30*U1000, false), ILx.Wafers[type][tier][3].get(1));
+        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][2].get(1), MTx.PH3 .gas(4*U1000, true), MTx.SiH4.gas(3*U1000, false), ILx.Wafers[type][tier][3].get(1));
+        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][2].get(1), MTx.AsH3.gas(4*U1000, true), MTx.SiH4.gas(3*U1000, false), ILx.Wafers[type][tier][3].get(1));
         // Photoresist cleaning
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][3].get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafers[type][tier][4].get(1));
 
@@ -445,7 +445,7 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         for (FluidStack developer : FL.array(MTx.NaOHSolution.liquid(U10, true), MTx.Na2CO3Solution.liquid(U10, true)))
             RM.Bath.addRecipe1(false, 0, 128, ILx.Wafers[type][tier][6].get(1), developer, NF, ILx.Wafers[type][tier][7].get(1));
         // Plasma etching of ITO layer
-        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][7].get(1), FL.array(MTx.CF4.plasma(15*U1000, true)), FL.array(MTx.InF3.liquid(16*U1000, false), MT.CO2.gas(9*U1000, false)), ILx.Wafers[type][tier][8].get(1));
+        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][7].get(1), FL.array(MTx.CF4.plasma(3*U1000, true)), FL.array(MTx.InF3.liquid(4*U1000, false), MT.CO2.gas(9*U1000, false)), ILx.Wafers[type][tier][8].get(1));
         // Photoresist cleaning
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][8].get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafers[type][tier][9].get(1));
     }

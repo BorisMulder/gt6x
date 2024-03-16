@@ -20,6 +20,7 @@ public class MultiItemsElectronics extends MultiItemRandom {
     public static final String CAPACITOR_NAME = "gt6x:capacitor";
     public static final String RESISTOR_NAME = "gt6x:resistor";
     public static final String TRANSISTOR_NAME = "gt6x:transistor";
+    public static final String BJT_NAME = "gt6x:BJT";
 
     public static final String[] IC_NAMES = { "gt6x:ic0", "gt6x:ic1", "gt6x:ic2" };
     public static final String[] RAM_NAMES = { "gt6x:ramstick0", "gt6x:ramstick1", "gt6x:ramstick2" };
@@ -63,8 +64,15 @@ public class MultiItemsElectronics extends MultiItemRandom {
         ILx.Capacitor_ThroughHole.set(addItem(111, "Through-Hole Capacitor", tooltip, CAPACITOR_NAME));
         ILx.Transistor_ThroughHole.set(addItem(112, "Through-Hole Transistor", tooltip, TRANSISTOR_NAME));
 
-        ILx.Capacitor_Tantalum.set(addItem(117, "Tantalum Capacitor", "Accumulates Charge"));
-        ILx.Resistor_Metal_Film.set(addItem(116, "Metal Film Resistor Board", "Needs Overcoat, Plating and Dicing"));
+        tooltip = "NPN Transistor Collector + Base, Needs Emitter";
+        ILx.BJT_Ge_Base.set(addItem(114, "BJT Base (Germanium)", tooltip, new OreDictItemData(MTx.NDopedGe, U9, MTx.PDopedGe, U36)));
+        ILx.BJT_Si_Base.set(addItem(115, "BJT Base (Silicon)"  , tooltip, new OreDictItemData(MTx.NDopedGe, U9, MTx.PDopedGe, U36)));
+        tooltip = "Bipolar Junction Transistor";
+        ILx.BJT_Ge.set(addItem(116, "BJT (Germanium)", tooltip, BJT_NAME, new OreDictItemData(MTx.NDopedGe, U9+U36, MTx.PDopedGe, U36)));
+        ILx.BJT_Si.set(addItem(117, "BJT (Silicon)"  , tooltip, BJT_NAME, new OreDictItemData(MTx.NDopedSi, U9+U36, MTx.PDopedSi, U36)));
+
+        ILx.Resistor_Metal_Film.set(addItem(118, "Metal Film Resistor Board", "Needs Overcoat, Plating and Dicing", new OreDictItemData(MT.Al2O3, U, MTx.PdAg, U4, MT.Nichrome, U4)));
+        ILx.Capacitor_Tantalum.set(addItem(119, "Tantalum Capacitor", "Accumulates Charge", new OreDictItemData(MT.Ta, U2, MT.Ta2O5, U, MT.MnO2, U4)));
 
         tooltip = "Surface-Mounted Devices are smaller and can be soldered by hand or using machines";
         ILx.Resistor_SMD.set(addItem(120, "SMD-Resistor", tooltip, RESISTOR_NAME));
