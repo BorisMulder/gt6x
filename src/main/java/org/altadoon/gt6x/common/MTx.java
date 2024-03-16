@@ -611,16 +611,16 @@ public class MTx {
             .setMcfg(0, MTx.CuCl2, 3*U, MT.FeCl2, 6*U, MT.H2O, 9*U)
             .heat(MT.H2O)),
     SiH4 = registerGas(gasdcmp(16137, "Silane", 150, 150, 150, 100)
-            .uumMcfg(0, MT.Si, U, MT.H, 4*U)
+            .uumMcfg(1, MT.Si, U, MT.H, 4*U)
             .heat(88, 161)),
     GeH4 = registerGas(gasdcmp(16138, "Germane", 200, 200, 220, 100)
-            .uumMcfg(0, MT.Ge, U, MT.H, 4*U)
+            .uumMcfg(1, MT.Ge, U, MT.H, 4*U)
             .heat(108, 185)),
     AsH3 = registerGas(gasdcmp(16139, "Arsine", 255, 200, 255, 100, "Arsane")
-            .uumMcfg(0, MT.As, U, MT.H, 3*U)
+            .uumMcfg(1, MT.As, U, MT.H, 3*U)
             .heat(162, 211)),
     PH3 = registerGas(gasdcmp(16140, "Phosphine", 255, 220, 150, 100, "Phosphane")
-            .uumMcfg(0, MT.P, U, MT.H, 3*U)
+            .uumMcfg(1, MT.P, U, MT.H, 3*U)
             .heat(140, 185)),
     Mg2Si = alloymachine(16141, "Magnesium Silicide", SET_METALLIC, 102, 0, 102)
             .uumAloy(0, MT.Mg, 2*U, MT.Si, U)
@@ -658,13 +658,13 @@ public class MTx {
             .heat(1118, 1949)
             .put(ELECTROLYSER),
     BF3 = registerGas(gasdcmp(16151, "Boron Trifluoride", 255, 250, 180, 50, "Trifluoroborane")
-            .setMcfg(0, MT.B, U, MT.F, 3*U)
+            .setMcfg(1, MT.B, U, MT.F, 3*U)
             .heat(146, 173)),
     B2O3 = dustdcmp(16152, "Boron Trioxide", SET_DULL, 255, 230, 230, 255, "Diboron Trioxide")
             .setMcfg(0, MT.B, 2*U, MT.O, 3*U)
             .heat(723, 2130),
-    Diborane = registerGas(gasdcmp(16153, "Diborane", 255, 255, 255, 100)
-            .setMcfg(0, MT.B, 2*U, MT.H, 6*U)
+    B2H6 = registerGas(gasdcmp(16153, "Diborane", 255, 255, 255, 100)
+            .setMcfg(1, MT.B, 2*U, MT.H, 6*U)
             .heat(108, 181)),
     LiBF4 = dustdcmp(16154, "Lithium Tetrafluoroborate", SET_SHINY, 255, 255, 255, 255)
             .setMcfg(0, MT.Li, U, MT.B, U, MT.F, 4*U)
@@ -689,29 +689,26 @@ public class MTx {
     NaGaOH4 = dustdcmp(16161, "Sodium Gallate", SET_DULL, 50, 0, 150, 255)
             .setMcfg(0, MT.Na, U, MT.Ga, U, MT.O, 4*U, MT.H, 4*U)
             .heat(MT.NaAlO2),
-    Na3VO4 = create(16162, "Sodium Orthovanadate", 255, 255, 255, 0)
-            .setMcfg(0, MT.Na, 3*U, MT.V, U, MT.O, 4*U),
-    BayerLiquor = registerLiquid(lquddcmp(16163, "Bayer Liquor", 200, 50, 0, 255)
+    BayerLiquor = registerLiquid(lquddcmp(16162, "Bayer Liquor", 200, 50, 0, 255)
             .heat(MT.H2O)),
-    GaAmalgam = registerLiquid(lquddcmp(16164, "Gallium Amalgam", 200, 0, 180, 255)
+    GaAmalgam = registerLiquid(lquddcmp(16163, "Gallium Amalgam", 200, 0, 180, 255)
             .setMcfg(0, MT.Hg, 9*U, MT.Ga, U)
             .heat(MT.Hg)),
-    NH4NO3 = dustdcmp(16165, "Ammonium Nitrate", SET_SHARDS, 255, 255, 255, 255)
+    NH4NO3 = dustdcmp(16164, "Ammonium Nitrate", SET_SHARDS, 255, 255, 255, 255)
             .setMcfg(0, NH4, U, MT.N, U, MT.O, 3*U)
             .tooltip("NH" + NUM_SUB[4] + "NO" + NUM_SUB[3])
             .heat(443, 483)
             .put(FLAMMABLE, EXPLOSIVE),
-    ANFO = dustdcmp(16166, "ANFO", SET_ROUGH, 255, 200, 200, 255)
+    ANFO = dustdcmp(16165, "ANFO", SET_ROUGH, 255, 200, 200, 255)
             .setMcfg(0, NH4NO3, 10*U, MT.Fuel, U)
             .heat(NH4NO3)
             .put(FLAMMABLE, EXPLOSIVE),
-    PDopedSi = dopedSemiconductor(16167, "P-Doped Silicon", MT.Si, true),
-    NDopedSi = dopedSemiconductor(16168, "N-Doped Silicon", MT.Si, true),
-    PDopedSiGe = dopedSemiconductor(16169, "P-Doped Silicon-Germanium", SiGe, true),
-    NDopedSiGe = dopedSemiconductor(16170, "N-Doped Silicon-Germanium", SiGe, true),
-    AuGe = alloymachine(16171, "Gold-Germanium", SET_COPPER, 227, 182, 59)
-            .uumAloy(0, MT.Au, U, MT.Ge, U)
-            .heat(365 + C, (MT.Ge.mBoilingPoint + MT.Au.mBoilingPoint) / 2),
+    PDopedSi = dopedSemiconductor(16166, "P-Doped Silicon", MT.Si, true),
+    NDopedSi = dopedSemiconductor(16167, "N-Doped Silicon", MT.Si, true),
+    PDopedGe = dopedSemiconductor(16168, "P-Doped Germanium", MT.Ge, true),
+    NDopedGe = dopedSemiconductor(16169, "N-Doped Germanium", MT.Ge, true),
+    PDopedSiGe = dopedSemiconductor(16170, "P-Doped Silicon-Germanium", SiGe, true),
+    NDopedSiGe = dopedSemiconductor(16171, "N-Doped Silicon-Germanium", SiGe, true),
     Naphthalene = registerLiquid(lquddcmp(16172, "Naphthalene", 255, 255, 255, 255)
             .setMcfg(1, MT.C, 10*U, MT.H, 8*U)
             .heat(351, 424)
@@ -839,10 +836,10 @@ public class MTx {
             .setMcfg(0, MT.Al2O3, U, Y2O3, U)
             .heat(Y2O3),
     SiF4 = registerGas(gasdcmp(16214, "Tetrafluorosilane", 50, 50, 100, 200)
-            .uumMcfg(0, MT.Si, U, MT.F, 4*U)
+            .uumMcfg(1, MT.Si, U, MT.F, 4*U)
             .heat(178, 182)),
     AsF3 = registerLiquid(lquddcmp(16215, "Arsenic Trifluoride", 100, 130, 100, 250)
-            .setMcfg(0, MT.As, U, MT.F, 3*U)
+            .setMcfg(1, MT.As, U, MT.F, 3*U)
             .heat(265, 334)),
     H3AsO3 = registerLiquid(lqudaciddcmp(16216, "Arsenous Acid", 150, 200, 175, 255)
             .setMcfg(0, MT.H, 3*U, MT.As, U, MT.O, 3*U)
@@ -1173,6 +1170,14 @@ public class MTx {
     ColorResistBlue = registerLiquid(lquddcmp(16332, "Blue Color Resist", 0, 0, 255, 200)
             .setMcfg(2, DnqNovolacResist, U))
     ;
+
+    /*
+    Na3VO4 = create(16162, "Sodium Orthovanadate", 255, 255, 255, 0)
+            .setMcfg(0, MT.Na, 3*U, MT.V, U, MT.O, 4*U),
+    AuGe = alloymachine(16171, "Gold-Germanium", SET_COPPER, 227, 182, 59)
+            .uumAloy(0, MT.Au, U, MT.Ge, U)
+            .heat(365 + C, (MT.Ge.mBoilingPoint + MT.Au.mBoilingPoint) / 2),
+    */
 
     static {
         MT.BlueSapphire.uumMcfg(6, MT.Al2O3, 5*U, MT.Fe2O3, U);

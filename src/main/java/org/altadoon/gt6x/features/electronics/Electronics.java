@@ -40,7 +40,7 @@ import static org.altadoon.gt6x.features.electronics.MultiItemsPhotolithography.
 public class Electronics extends GT6XFeature {
     public static final String FEATURE_NAME = "Electronics";
 
-    private static final OreDictMaterial[] PolyGemMaterials = { MT.Si, MT.Ge, MTx.GaAs, MTx.SiGe };
+    private static final OreDictMaterial[] PolyGemMaterials = { MT.Si, MT.Ge, MTx.GaAs, MTx.SiGe, MTx.PDopedSi, MTx.NDopedSi, MTx.PDopedGe, MTx.NDopedGe };
     public static OreDictPrefix polyGem = OreDictPrefix.createPrefix("polyGem")
         .setCategoryName("polyGems")
         .setLocalItemName("Polycrystalline ", "")
@@ -240,15 +240,26 @@ public class Electronics extends GT6XFeature {
         /// Semiconductors
 
         // Hydrides & Polycrystallines
-        RM.Electrolyzer.addRecipe2(true, 32, 256, OP.stick.mat(MT.Ge, 1), OM.dust(MT.Mo, U3), FL.Water.make(3000), MTx.GeH4.gas(5 * U2, false), OM.dust(MTx.MoO3, 4 * U3));
-        RM.Electrolyzer.addRecipe2(true, 32, 256, OP.stick.mat(MT.Ge, 1), OM.dust(MT.Cd, U), FL.Water.make(3000), MTx.GeH4.gas(5 * U2, false), OM.dust(MTx.CdO, 2 * U));
-        RM.Bath.addRecipe1(true, 0, 256, dust.mat(MTx.Mg2Si, 3), MT.HCl.gas(8 * U, true), MTx.SiH4.gas(5 * U, false), dust.mat(MT.MgCl2, 6));
+        RM.Electrolyzer.addRecipe2(true, 32, 256, OP.stick.mat(MT.Ge, 1), OM.dust(MT.Mo, U3), FL.Water.make(3000), MTx.GeH4.gas(U2, false), OM.dust(MTx.MoO3, 4 * U3));
+        RM.Electrolyzer.addRecipe2(true, 32, 256, OP.stick.mat(MT.Ge, 1), OM.dust(MT.Cd, U), FL.Water.make(3000), MTx.GeH4.gas(U2, false), OM.dust(MTx.CdO, 2 * U));
+        RM.Bath.addRecipe1(true, 0, 256, dust.mat(MTx.Mg2Si, 3), MT.HCl.gas(8 * U, true), MTx.SiH4.gas(U, false), dust.mat(MT.MgCl2, 6));
         RM.Mixer.addRecipe0(true, 16, 60, FL.array(MTx.SiH4.gas(U, true), MTx.GeH4.gas(U, true)), FL.array(MTx.SiGeH8.gas(2 * U, false)));
 
         //TODO use thermolyzer
-        RM.Drying.addRecipe1(true, 16, 512, ST.tag(0), MTx.GeH4.gas(5 * U, true), MT.H.gas(4 * U, false), polyGem.mat(MT.Ge, 1));
-        RM.Drying.addRecipe1(true, 16, 512, ST.tag(0), MTx.SiH4.gas(5 * U, true), MT.H.gas(4 * U, false), polyGem.mat(MT.Si, 1));
-        RM.Drying.addRecipe1(true, 16, 512, ST.tag(0), MTx.SiGeH8.gas(5 * U, true), MT.H.gas(4 * U, false), polyGem.mat(MTx.SiGe, 1));
+        RM.Drying.addRecipe1(true, 16, 512, ST.tag(0), MTx.GeH4  .gas(U, true), MT.H.gas(4 * U, false), polyGem.mat(MT.Ge, 1));
+        RM.Drying.addRecipe1(true, 16, 512, ST.tag(0), MTx.SiH4  .gas(U, true), MT.H.gas(4 * U, false), polyGem.mat(MT.Si, 1));
+        RM.Drying.addRecipe1(true, 16, 512, ST.tag(0), MTx.SiGeH8.gas(U, true), MT.H.gas(4 * U, false), polyGem.mat(MTx.SiGe, 1));
+
+        RM.Drying.addRecipe1(true, 16, 512, ST.tag(1), FL.array(MTx.SiH4  .gas(U, true), MTx.B2H6.gas(U1000, true)), MT.H.gas(4 * U, false), polyGem.mat(MTx.PDopedSi, 1));
+        RM.Drying.addRecipe1(true, 16, 512, ST.tag(1), FL.array(MTx.GeH4  .gas(U, true), MTx.B2H6.gas(U1000, true)), MT.H.gas(4 * U, false), polyGem.mat(MTx.PDopedGe, 1));
+        RM.Drying.addRecipe1(true, 16, 512, ST.tag(1), FL.array(MTx.SiGeH8.gas(U, true), MTx.B2H6.gas(U1000, true)), MT.H.gas(4 * U, false), polyGem.mat(MTx.PDopedSiGe, 1));
+
+        for (OreDictMaterial nDopant : new OreDictMaterial[] {MTx.PH3, MTx.AsH3}) {
+            RM.Drying.addRecipe1(true, 16, 512, ST.tag(1), FL.array(MTx.SiH4  .gas(U, true), nDopant.gas(U500, true)), MT.H.gas(4 * U, false), polyGem.mat(MTx.NDopedSi, 1));
+            RM.Drying.addRecipe1(true, 16, 512, ST.tag(1), FL.array(MTx.GeH4  .gas(U, true), nDopant.gas(U500, true)), MT.H.gas(4 * U, false), polyGem.mat(MTx.NDopedGe, 1));
+            RM.Drying.addRecipe1(true, 16, 512, ST.tag(1), FL.array(MTx.SiGeH8.gas(U, true), nDopant.gas(U500, true)), MT.H.gas(4 * U, false), polyGem.mat(MTx.NDopedSiGe, 1));
+        }
+
         RM.CrystallisationCrucible.addRecipe1(true, 16, 1800, ST.tag(0), FL.array(MT.Ga.liquid(U, true), MT.As.gas(U, true)), ZL_FS, polyGem.mat(MTx.GaAs, 1));
 
         // RecipeMapHandlerPrefix not working here
@@ -261,32 +272,42 @@ public class Electronics extends GT6XFeature {
         RM.Mixer.addRecipe1(true, 16, 2, ST.tag(2), FL.array(FL.make_("molten.silicon", 1), FL.make_("molten.germanium", 1)), FL.make_("molten.silicongermanium", 2), ZL_IS);
         RM.Mixer.addRecipe1(true, 16, 288, ST.tag(2), FL.array(FL.make_("molten.gallium", 144), MT.As.gas(U, true)), FL.make_("molten.galliumarsenide", 288), ZL_IS);
 
-        // Boules
+        // Boules using Czochralski process
         for (FluidStack nobleGas : FL.array(MT.He.gas(U, true), MT.Ne.gas(U, true), MT.Ar.gas(U, true), MT.Kr.gas(U, true), MT.Xe.gas(U, true), MT.Rn.gas(U, true)))
             if (nobleGas != null) {
                 // i-type semiconductors
-                RM.CrystallisationCrucible.addRecipe1(true, 16, 72000, plateGemTiny.mat(MTx.GaAs, 1), FL.array(FL.mul(nobleGas, 1), MT.Ga.liquid(35 * U9, true), MT.As.gas(35 * U9, true)), ZL_FS, bouleGt.mat(MTx.GaAs, 1));
-                RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem.mat(MTx.GaAs, 1), FL.array(FL.mul(nobleGas, 9), MT.Ga.liquid(35 * U, true), MT.As.gas(35 * U, true)), ZL_FS, bouleGt.mat(MTx.GaAs, 9));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.GaAs, 1), FL.array(FL.mul(nobleGas, 1), MT.Ga.liquid(35 * U9, true), MT.As.gas(35 * U9, true)), ZL_FS, bouleGt.mat(MTx.GaAs, 1));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.GaAs, 1), FL.array(FL.mul(nobleGas, 9), MT.Ga.liquid(35 * U , true), MT.As.gas(35 * U , true)), ZL_FS, bouleGt.mat(MTx.GaAs, 9));
 
                 // n-type semiconductors
-                RM.CrystallisationCrucible.addRecipe1(true, 16, 72000, plateGemTiny.mat(MT.Si, 1), FL.array(FL.mul(nobleGas, 1), MT.Si.liquid(35 * U9, true), MTx.PH3.gas(U18, true)), NF, bouleGt.mat(MTx.NDopedSi, 1));
-                RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem.mat(MT.Si, 1), FL.array(FL.mul(nobleGas, 9), MT.Si.liquid(35 * U, true), MTx.PH3.gas(U2, true)), NF, bouleGt.mat(MTx.NDopedSi, 9));
-                RM.CrystallisationCrucible.addRecipe1(true, 16, 72000, plateGemTiny.mat(MTx.NDopedSi, 1), FL.array(FL.mul(nobleGas, 1), MT.Si.liquid(35 * U9, true), MTx.PH3.gas(U18, true)), NF, bouleGt.mat(MTx.NDopedSi, 1));
-                RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem.mat(MTx.NDopedSi, 1), FL.array(FL.mul(nobleGas, 9), MT.Si.liquid(35 * U, true), MTx.PH3.gas(U2, true)), NF, bouleGt.mat(MTx.NDopedSi, 9));
-                RM.CrystallisationCrucible.addRecipe1(true, 16, 72000, plateGemTiny.mat(MTx.SiGe, 1), FL.array(FL.mul(nobleGas, 1), MTx.SiGe.liquid(35 * U9, true), MTx.PH3.gas(U18, true)), NF, bouleGt.mat(MTx.NDopedSiGe, 1));
-                RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem.mat(MTx.SiGe, 1), FL.array(FL.mul(nobleGas, 9), MTx.SiGe.liquid(35 * U, true), MTx.PH3.gas(U2, true)), NF, bouleGt.mat(MTx.NDopedSiGe, 9));
-                RM.CrystallisationCrucible.addRecipe1(true, 16, 72000, plateGemTiny.mat(MTx.NDopedSiGe, 1), FL.array(FL.mul(nobleGas, 1), MTx.SiGe.liquid(35 * U9, true), MTx.PH3.gas(U18, true)), NF, bouleGt.mat(MTx.NDopedSiGe, 1));
-                RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem.mat(MTx.NDopedSiGe, 1), FL.array(FL.mul(nobleGas, 9), MTx.SiGe.liquid(35 * U, true), MTx.PH3.gas(U2, true)), NF, bouleGt.mat(MTx.NDopedSiGe, 9));
+                for (OreDictMaterial nDopant : new OreDictMaterial[] {MTx.PH3, MTx.AsH3}) {
+                    RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MT.Si         , 1), FL.array(FL.mul(nobleGas, 1), MT .Si  .liquid(35 * U9, true), nDopant.gas(4  * U500, true)), NF, bouleGt.mat(MTx.NDopedSi  , 1));
+                    RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MT.Si         , 1), FL.array(FL.mul(nobleGas, 9), MT .Si  .liquid(35 * U , true), nDopant.gas(36 * U500, true)), NF, bouleGt.mat(MTx.NDopedSi  , 9));
+                    RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.NDopedSi  , 1), FL.array(FL.mul(nobleGas, 1), MT .Si  .liquid(35 * U9, true), nDopant.gas(4  * U500, true)), NF, bouleGt.mat(MTx.NDopedSi  , 1));
+                    RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.NDopedSi  , 1), FL.array(FL.mul(nobleGas, 9), MT .Si  .liquid(35 * U , true), nDopant.gas(36 * U500, true)), NF, bouleGt.mat(MTx.NDopedSi  , 9));
+                    RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MT.Ge         , 1), FL.array(FL.mul(nobleGas, 1), MT .Ge  .liquid(35 * U9, true), nDopant.gas(4  * U500, true)), NF, bouleGt.mat(MTx.NDopedGe  , 1));
+                    RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MT.Ge         , 1), FL.array(FL.mul(nobleGas, 9), MT .Ge  .liquid(35 * U , true), nDopant.gas(36 * U500, true)), NF, bouleGt.mat(MTx.NDopedGe  , 9));
+                    RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.NDopedGe  , 1), FL.array(FL.mul(nobleGas, 1), MT .Ge  .liquid(35 * U9, true), nDopant.gas(4  * U500, true)), NF, bouleGt.mat(MTx.NDopedGe  , 1));
+                    RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.NDopedGe  , 1), FL.array(FL.mul(nobleGas, 9), MT .Ge  .liquid(35 * U , true), nDopant.gas(36 * U500, true)), NF, bouleGt.mat(MTx.NDopedGe  , 9));
+                    RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.SiGe      , 1), FL.array(FL.mul(nobleGas, 1), MTx.SiGe.liquid(35 * U9, true), nDopant.gas(4  * U500, true)), NF, bouleGt.mat(MTx.NDopedSiGe, 1));
+                    RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.SiGe      , 1), FL.array(FL.mul(nobleGas, 9), MTx.SiGe.liquid(35 * U , true), nDopant.gas(36 * U500, true)), NF, bouleGt.mat(MTx.NDopedSiGe, 9));
+                    RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.NDopedSiGe, 1), FL.array(FL.mul(nobleGas, 1), MTx.SiGe.liquid(35 * U9, true), nDopant.gas(4  * U500, true)), NF, bouleGt.mat(MTx.NDopedSiGe, 1));
+                    RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.NDopedSiGe, 1), FL.array(FL.mul(nobleGas, 9), MTx.SiGe.liquid(35 * U , true), nDopant.gas(36 * U500, true)), NF, bouleGt.mat(MTx.NDopedSiGe, 9));
+                }
 
                 // p-type semiconductors
-                RM.CrystallisationCrucible.addRecipe1(true, 16, 72000, plateGemTiny.mat(MT.Si, 1), FL.array(FL.mul(nobleGas, 1), MT.Si.liquid(35 * U9, true), MTx.Diborane.gas(U18, true)), NF, bouleGt.mat(MTx.PDopedSi, 1));
-                RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem.mat(MT.Si, 1), FL.array(FL.mul(nobleGas, 9), MT.Si.liquid(35 * U, true), MTx.Diborane.gas(U2, true)), NF, bouleGt.mat(MTx.PDopedSi, 9));
-                RM.CrystallisationCrucible.addRecipe1(true, 16, 72000, plateGemTiny.mat(MTx.PDopedSi, 1), FL.array(FL.mul(nobleGas, 1), MT.Si.liquid(35 * U9, true), MTx.Diborane.gas(U18, true)), NF, bouleGt.mat(MTx.PDopedSi, 1));
-                RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem.mat(MTx.PDopedSi, 1), FL.array(FL.mul(nobleGas, 9), MT.Si.liquid(35 * U, true), MTx.Diborane.gas(U2, true)), NF, bouleGt.mat(MTx.PDopedSi, 9));
-                RM.CrystallisationCrucible.addRecipe1(true, 16, 72000, plateGemTiny.mat(MTx.SiGe, 1), FL.array(FL.mul(nobleGas, 1), MTx.SiGe.liquid(35 * U9, true), MTx.Diborane.gas(U18, true)), NF, bouleGt.mat(MTx.PDopedSiGe, 1));
-                RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem.mat(MTx.SiGe, 1), FL.array(FL.mul(nobleGas, 9), MTx.SiGe.liquid(35 * U, true), MTx.Diborane.gas(U2, true)), NF, bouleGt.mat(MTx.PDopedSiGe, 9));
-                RM.CrystallisationCrucible.addRecipe1(true, 16, 72000, plateGemTiny.mat(MTx.PDopedSiGe, 1), FL.array(FL.mul(nobleGas, 1), MTx.SiGe.liquid(35 * U9, true), MTx.Diborane.gas(U18, true)), NF, bouleGt.mat(MTx.PDopedSiGe, 1));
-                RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem.mat(MTx.PDopedSiGe, 1), FL.array(FL.mul(nobleGas, 9), MTx.SiGe.liquid(35 * U, true), MTx.Diborane.gas(U2, true)), NF, bouleGt.mat(MTx.PDopedSiGe, 9));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MT.Si         , 1), FL.array(FL.mul(nobleGas, 1), MT.Si   .liquid(35 * U9, true), MTx.B2H6.gas(4  * U1000, true)), NF, bouleGt.mat(MTx.PDopedSi, 1));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MT.Si         , 1), FL.array(FL.mul(nobleGas, 9), MT.Si   .liquid(35 * U , true), MTx.B2H6.gas(36 * U1000, true)), NF, bouleGt.mat(MTx.PDopedSi, 9));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.PDopedSi  , 1), FL.array(FL.mul(nobleGas, 1), MT.Si   .liquid(35 * U9, true), MTx.B2H6.gas(4  * U1000, true)), NF, bouleGt.mat(MTx.PDopedSi, 1));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.PDopedSi  , 1), FL.array(FL.mul(nobleGas, 9), MT.Si   .liquid(35 * U , true), MTx.B2H6.gas(36 * U1000, true)), NF, bouleGt.mat(MTx.PDopedSi, 9));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MT.Ge         , 1), FL.array(FL.mul(nobleGas, 1), MT.Ge   .liquid(35 * U9, true), MTx.B2H6.gas(4  * U1000, true)), NF, bouleGt.mat(MTx.PDopedGe, 1));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MT.Ge         , 1), FL.array(FL.mul(nobleGas, 9), MT.Ge   .liquid(35 * U , true), MTx.B2H6.gas(36 * U1000, true)), NF, bouleGt.mat(MTx.PDopedGe, 9));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.PDopedGe  , 1), FL.array(FL.mul(nobleGas, 1), MT.Ge   .liquid(35 * U9, true), MTx.B2H6.gas(4  * U1000, true)), NF, bouleGt.mat(MTx.PDopedGe, 1));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.PDopedGe  , 1), FL.array(FL.mul(nobleGas, 9), MT.Ge   .liquid(35 * U , true), MTx.B2H6.gas(36 * U1000, true)), NF, bouleGt.mat(MTx.PDopedGe, 9));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.SiGe      , 1), FL.array(FL.mul(nobleGas, 1), MTx.SiGe.liquid(35 * U9, true), MTx.B2H6.gas(4  * U1000, true)), NF, bouleGt.mat(MTx.PDopedSiGe, 1));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.SiGe      , 1), FL.array(FL.mul(nobleGas, 9), MTx.SiGe.liquid(35 * U , true), MTx.B2H6.gas(36 * U1000, true)), NF, bouleGt.mat(MTx.PDopedSiGe, 9));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.PDopedSiGe, 1), FL.array(FL.mul(nobleGas, 1), MTx.SiGe.liquid(35 * U9, true), MTx.B2H6.gas(4  * U1000, true)), NF, bouleGt.mat(MTx.PDopedSiGe, 1));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.PDopedSiGe, 1), FL.array(FL.mul(nobleGas, 9), MTx.SiGe.liquid(35 * U , true), MTx.B2H6.gas(36 * U1000, true)), NF, bouleGt.mat(MTx.PDopedSiGe, 9));
             }
 
         // Wafer Oxidation
@@ -305,17 +326,21 @@ public class Electronics extends GT6XFeature {
         RM.Canner.addRecipe1(true, 16, 128, IL.Comp_Laser_Gas_Empty.get(1), MTx.ArF.gas(U, true), NF, ILx.Comp_Laser_Gas_ArF.get(1));
         RM.Canner.addRecipe1(true, 16, 128, IL.Comp_Laser_Gas_Empty.get(1), MT.Sn.liquid(U, true), NF, ILx.Comp_Laser_Molten_Sn.get(1));
 
+        // BJT Epitaxy
+        RM.Drying.addRecipe1(false, 16, 128, plateGemTiny.mat(MTx.NDopedGe, 1), FL.array(MTx.GeH4.gas(U40, true), MTx.B2H6.gas(U1000, true)), MT.H.gas(U10 + 6 * U1000, false), ILx.BJT_Ge_Base.get(1));
+        RM.Drying.addRecipe1(false, 16, 128, plateGemTiny.mat(MTx.NDopedSi, 1), FL.array(MTx.SiH4.gas(U40, true), MTx.B2H6.gas(U1000, true)), MT.H.gas(U10 + 6 * U1000, false), ILx.BJT_Si_Base.get(1));
+        for (OreDictMaterial nDopant : new OreDictMaterial[] {MTx.PH3, MTx.AsH3}) {
+            RM.Drying.addRecipe1(false, 16, 128, ILx.BJT_Ge_Base.get(1), FL.array(MTx.GeH4.gas(U40, true), nDopant.gas(U500, true)), MT.H.gas(U10 + 6 * U1000, false), ILx.BJT_Ge.get(1));
+            RM.Drying.addRecipe1(false, 16, 128, ILx.BJT_Si_Base.get(1), FL.array(MTx.SiH4.gas(U40, true), nDopant.gas(U500, true)), MT.H.gas(U10 + 6 * U1000, false), ILx.BJT_Si.get(1));
+        }
+
         // components
-        CR.shaped(ILx.Resistor_ThroughHole.get(2), CR.DEF_REV, " W ", "iPC", " W ", 'W', OP.wireFine.dat(MT.Cu), 'P', plateTiny.dat(MT.Ceramic), 'C', OP.dustTiny.dat(ANY.Coal));
-        CR.shaped(ILx.Resistor_ThroughHole.get(2), CR.DEF_REV, " W ", "iPC", " W ", 'W', OP.wireFine.dat(MT.Brass), 'P', OP.plateTiny.dat(MT.Ceramic), 'C', OP.dustTiny.dat(ANY.Coal));
-
-        CR.shaped(ILx.Capacitor_ThroughHole.get(2), CR.DEF_REV, " i ", "PC ", "W W", 'W', OP.wireFine.dat(MT.Cu), 'C', OP.plateTiny.dat(MT.Ceramic), 'P', OP.plateTiny.dat(MT.Paper));
-        CR.shaped(ILx.Capacitor_ThroughHole.get(2), CR.DEF_REV, " i ", "PC ", "W W", 'W', OP.wireFine.dat(MT.Brass), 'C', OP.plateTiny.dat(MT.Ceramic), 'P', OP.plateTiny.dat(MT.Paper));
-
-        CR.shaped(ILx.Transistor_ThroughHole.get(2), CR.DEF_REV, " P ", "iS ", "WWW", 'W', OP.wireFine.dat(MT.Cu), 'S', OP.plateGemTiny.dat(MT.Si), 'P', OP.plateTiny.dat(MT.Plastic));
-        CR.shaped(ILx.Transistor_ThroughHole.get(2), CR.DEF_REV, " P ", "iS ", "WWW", 'W', OP.wireFine.dat(MT.Brass), 'S', OP.plateGemTiny.dat(MT.Si), 'P', OP.plateTiny.dat(MT.Plastic));
-        CR.shaped(ILx.Transistor_ThroughHole.get(2), CR.DEF_REV, " P ", "iS ", "WWW", 'W', OP.wireFine.dat(MT.Cu), 'S', OP.plateGemTiny.dat(MT.Ge), 'P', OP.plateTiny.dat(MT.Plastic));
-        CR.shaped(ILx.Transistor_ThroughHole.get(2), CR.DEF_REV, " P ", "iS ", "WWW", 'W', OP.wireFine.dat(MT.Brass), 'S', OP.plateGemTiny.dat(MT.Ge), 'P', OP.plateTiny.dat(MT.Plastic));
+        for (OreDictItemData leadWire : new OreDictItemData[] { OP.wireFine.dat(MT.Cu), OP.wireFine.dat(MT.Brass) }) {
+            CR.shaped(ILx.Resistor_ThroughHole  .get(2), CR.DEF_REV, " W ", "iPC", " W ", 'W', leadWire, 'P', plateTiny.dat(MT.Ceramic), 'C', dustTiny.dat(ANY.Coal));
+            CR.shaped(ILx.Capacitor_ThroughHole .get(2), CR.DEF_REV, " i ", "PC ", "W W", 'W', leadWire, 'C', plateTiny.dat(MT.Ceramic), 'P', plateTiny.dat(MT.Paper));
+            CR.shaped(ILx.Transistor_ThroughHole.get(4), CR.DEF_REV, " P ", "iS ", "WWW", 'W', leadWire, 'S', BJT_NAME, 'P', plateTiny.dat(MT.Plastic));
+            CR.shaped(ILx.Transistor_ThroughHole.get(4), CR.DEF_REV, " P ", "iS ", "WWW", 'W', leadWire, 'S', ILx.Wafers[MESFET_IDX][0][7].get(1), 'P', plateTiny.dat(MT.Plastic));
+        }
 
         RM.RollingMill.addRecipe1(true, 16, 256, ingot.mat(MT.Al2O3, 1), plate.mat(MT.Al2O3, 1));
         RM.RollingMill.addRecipe1(true, 16, 29, nugget.mat(MT.Al2O3, 1), plateTiny.mat(MT.Al2O3, 1));
@@ -559,8 +584,10 @@ public class Electronics extends GT6XFeature {
                 r.mInputs[0] = plateGemTiny.mat(MT.Ge, 1);
             } else if (ST.equal(r.mInputs[0], OM.dust(MT.Si, U9))) {
                 r.mInputs[0] = plateGemTiny.mat(MT.Si, 1);
-            } else if (ST.equal(r.mInputs[0], OM.dust(MT.Ge, U)) || ST.equal(r.mInputs[0], OM.dust(MT.Si, U))) {
-                r.mEnabled = false;
+            } else if (ST.equal(r.mInputs[0], OM.dust(MT.Ge, U))) {
+                r.mInputs[0] = plateGem.mat(MT.Ge, 1);
+            } else if (ST.equal(r.mInputs[0], OM.dust(MT.Si, U))) {
+                r.mInputs[0] = plateGem.mat(MT.Si, 1);
             }
         }
 
