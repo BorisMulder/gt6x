@@ -12,6 +12,7 @@ import gregapi.worldgen.WorldgenOresLarge;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import org.altadoon.gt6x.common.Config;
+import org.altadoon.gt6x.common.MTx;
 import org.altadoon.gt6x.common.RMx;
 import org.altadoon.gt6x.features.GT6XFeature;
 
@@ -58,6 +59,7 @@ public class PgmProcessing extends GT6XFeature {
 
     @Override
     public void init() {
+        addCommonRecipes();
         switch(pgmFeatures) {
             case Simple:
                 addSimpleRecipes();
@@ -235,11 +237,21 @@ public class PgmProcessing extends GT6XFeature {
         RM.Bath.addRecipe1(true, 0, 256, itemChances, crushedPurifiedTiny.mat(inputOre, 9), fluidInputs, fluidOutputs, itemOutputs);
     }
 
+    private void addCommonRecipes() {
+        RM.Bath.addRecipe1(true, 0, 32, ST.tag(0), OsO4.gas(5*U, true), NF, dust.mat(RuO4, 5));
+        RM.Bath.addRecipe1(true, 0, 32, ST.tag(0), RuO4.gas(5*U, true), NF, dust.mat(RuO4, 5));
+
+        RMx.DirectReduction.addRecipe1(true, 16, 64 , dust.mat(MTx.IrO2 , 3), MT.H.gas(4*U, true), MT.H2O.liquid(6*U, false), dust.mat(MT.Ir, 1));
+        RMx.DirectReduction.addRecipe1(true, 16, 64 , dust.mat(MTx.RuO4 , 5), MT.H.gas(8*U, true), MT.H2O.liquid(12*U, false), dust.mat(MT.Ru, 1));
+        RMx.DirectReduction.addRecipe1(true, 16, 64 , dust.mat(MTx.OsO4 , 5), MT.H.gas(8*U, true), MT.H2O.liquid(12*U, false), dust.mat(MT.Os, 1));
+    }
+
     public void addComplexRecipes() {
         // Pt/Pd separation
         RM.Bath.addRecipe1(true, 0, 200, dust.mat(NH4Cl, 20), PtPdLeachingSolution.liquid(95*U, false), PdChlorideSolution.liquid(70*U, false), dust.mat(AmmoniumHexachloroplatinate, 45));
         RM.Bath.addRecipe1(true, 0, 200, dust.mat(NH4Cl, 4), MT.ChloroplatinicAcid.liquid(9*U, true), MT.HCl.gas(2, false), dust.mat(AmmoniumHexachloroplatinate, 9));
         RM.Mixer.addRecipe0(true, 16, 100, FL.array(PdChlorideSolution.liquid(35*U, true), MT.NH3.gas(4*U, true)), FL.array(MT.H2O.liquid(8*3*U, false), MT.HCl.gas(4*2*U, false)), dust.mat(TetraamminepalladiumChloride, 7));
+
         RMx.Thermolysis.addRecipe1(true, 16, 50, dust.mat(AmmoniumHexachloroplatinate, 9), NF, MT.Cl.gas(4*U, false), dust.mat(NH4Cl, 4), dust.mat(MT.Pt, 1));
         RMx.Thermolysis.addRecipe1(true, 16, 50, dust.mat(TetraamminepalladiumChloride, 7), ZL_FS, FL.array(MT.Cl.gas(2*U, false), MT.NH3.gas(4*U, false)), dust.mat(MT.Pd, 1));
 
@@ -252,21 +264,17 @@ public class PgmProcessing extends GT6XFeature {
 
         // Ir separation
         RM.Roasting.addRecipe1(true, 16, 150, dust.mat(RuOsIrResidue, 9), Ozone.gas(20*U, true), RuOsO4.gas(30*U, false), dust.mat(IrO2, 9));
-        RM.Roasting.addRecipe1(true, 64, 150, dust.mat(IrO2, 3), MT.H.gas(4*U, true), MT.H2O.liquid(6*U, false), dust.mat(MT.Ir, 1));
 
         // Ru/Os separation
-        RM.Mixer.addRecipe0(true, 16, 100, FL.array(RuOsO4.gas(10*U, true), MT.HCl.gas(12*U, true)), FL.array(ChlororuthenicAcid.liquid(15*U, false), MT.O.gas(2*U, false)), dust.mat(OsO4, 5));
-        RM.Bath.addRecipe1(true, 0, 100, dust.mat(NH4Cl, 4), FL.array(ChlororuthenicAcid.liquid(15*U, true)), FL.array(MT.H2O.liquid(6*U, false), MT.HCl.gas(4*U, false)), dust.mat(AmmoniumHexachlororuthenate, 9));
-        RM.Roasting.addRecipe1(true, 64, 150, dust.mat(AmmoniumHexachlororuthenate, 9), MT.H.gas(4*U, true), MT.HCl.gas(8*U, false), dust.mat(NH4Cl, 4), dust.mat(MT.Ru, 1));
-        RM.Roasting.addRecipe1(true, 64, 150, dust.mat(OsO4, 5), MT.H.gas(8*U, true), MT.H2O.liquid(12*U, false), dust.mat(MT.Os, 1));
-        RM.Mixer.addRecipe0(true, 16, 150, FL.array(RuO4.gas(5*U, true), MT.H.gas(8*U, true)), MT.H2O.liquid(12*U, false), dust.mat(MT.Ru, 1));
+        RM.Mixer.addRecipe0(true, 16, 100, FL.array(RuOsO4.gas(10*U, true), MT.HCl.gas(12*U, true)), FL.array(H2RuCl6.liquid(15*U, false), MT.O.gas(2*U, false)), dust.mat(OsO4, 5));
+        RM.Bath.addRecipe1(true, 0, 100, dust.mat(NH4Cl, 4), FL.array(H2RuCl6.liquid(15*U, true)), FL.array(MT.H2O.liquid(6*U, false), MT.HCl.gas(4*U, false)), dust.mat(NH4_2_RuCl6, 9));
+        RMx.DirectReduction.addRecipe1(true, 64, 150, dust.mat(NH4_2_RuCl6, 9), MT.H.gas(4*U, true), MT.HCl.gas(8*U, false), dust.mat(NH4Cl, 4), dust.mat(MT.Ru, 1));
     }
 
     public void addSimpleRecipes() {
         RM.Electrolyzer.addRecipe1(true, 64, 200, ST.tag(0), FL.array(PtPdLeachingSolution.liquid(95*U, false)), FL.array(MT.HCl.gas(32*2*U, false), MT.H2O.liquid(4*3*U, false), MT.O.gas(6*2*U, false)), dustSmall.mat(MT.Pt, 5*4), dustSmall.mat(MT.Pd, 2*4));
-        RM.Roasting.addRecipe1(true, 64, 250, dust.mat(PGMResidue, 4), FL.array(Ozone.gas(8 * U, true)), FL.array(RuOsO4.gas(10*U, false)), dust.mat(IrRhOxide, 6));
-        RM.Distillery.addRecipe1(true, 64, 150, ST.tag(0), FL.array(RuOsO4.gas(10 * U, false)), FL.array(MT.O.gas(8*U, false)), dust.mat(MT.Os, 1), dust.mat(MT.Ru, 1));
-        RM.Roasting.addRecipe1(true, 64, 150, dust.mat(IrRhOxide, 6), MT.H.gas(8*U, true), MT.H2O.liquid(12*U, false), dust.mat(MT.Rh, 1), dust.mat(MT.Ir, 1));
+        RM.Distillery.addRecipe1(true, 64, 150, dust.mat(PGMResidue, 4), FL.array(Ozone.gas(8 * U, true)), FL.array(RuO4.gas(5*U, false), OsO4.gas(5*U, false)), dust.mat(IrRhOxide, 6));
+        RMx.DirectReduction.addRecipe1(true, 64, 150, dust.mat(IrRhOxide, 6), MT.H.gas(8*U, true), MT.H2O.liquid(12*U, false), dust.mat(MT.Rh, 1), dust.mat(MT.Ir, 1));
     }
 
     private void disableElectrolysis() {

@@ -208,20 +208,20 @@ public class MTx {
     OsO4 = dustdcmp(16011, "Osmium Tetroxide", SET_CUBE_SHINY, 40, 60, 100, 255)
             .uumMcfg(0, MT.Os, U, MT.O, U*4)
             .heat(313, 403),
-    RuO4 = registerGas(gasdcmp(16012, "Ruthenium Tetroxide", 25, 40, 80, 255)
+    RuO4 = dustdcmp(16012, "Ruthenium Tetroxide", SET_CUBE_SHINY, 25, 40, 80, 255)
             .uumMcfg(0, MT.Ru, U, MT.O, U*4)
-            .heat(298, 313)),
+            .heat(298, 313),
     RuOsO4 = registerGas(gasdcmp(16013, "Ruthenium Osmium Tetroxide", 100, 140, 180, 255)
             .uumMcfg(0, RuO4, U, OsO4, U)
             .heat(305, 358)),
-    ChlororuthenicAcid = registerLiquid(lqudaciddcmp(16014, "Hexachlororuthenic Acid", 255, 150, 90, 255)
+    H2RuCl6 = registerLiquid(lqudaciddcmp(16014, "Hexachlororuthenic Acid", 255, 150, 90, 255)
             .uumMcfg(0, MT.H, U*2, MT.Ru, U, MT.Cl, U*6, MT.H2O, U*6)
             .heat( 200,  400)),
-    AmmoniumHexachlororuthenate = dustdcmp(16015,  "Ammonium Hexachlororuthenate", SET_FINE, 255, 120, 10, 255)
+    NH4_2_RuCl6 = dustdcmp(16015,  "Ammonium Hexachlororuthenate", SET_FINE, 255, 120, 10, 255)
             .setMcfg(0, NH4, U*2, MT.Ru, U, MT.Cl, U*6)
             .tooltip("(NH" + NUM_SUB[4] + ")" + NUM_SUB[2] + "RuCl" + NUM_SUB[6]),
     IrRhOxide = dustdcmp(16016,  "Iridium-Rhodium Oxide Mixture", SET_FINE, 200, 200, 200, 255)
-            .uumMcfg(0, MT.Ir, U, MT.Rh, U, MT.O, U*8),
+            .uumMcfg(0, MT.Ir, U, MT.Rh, U, MT.O, U*4),
     NH4Cl = dustdcmp(16017, "Ammonium Chloride", SET_CUBE, 250, 250, 250, 255)
             .setMcfg(0, NH4, U, MT.Cl, U)
             .tooltip("NH" + NUM_SUB[4] + "Cl")
@@ -444,7 +444,7 @@ public class MTx {
             .tooltip("(NH" + NUM_SUB[4] + ")" + NUM_SUB[2] + "SO" + NUM_SUB[4])
             .heat(508),
     SeO2 = dustdcmp(16087, "Selenium Dioxide", SET_QUARTZ, 255, 200, 240, 255)
-            .uumMcfg(0, MT.Se, U, MT.O, 2*U)
+            .uumMcfg(1, MT.Se, U, MT.O, 2*U)
             .heat(613, 623),
 
     // Refractory Metals
@@ -1035,7 +1035,8 @@ public class MTx {
     GeOxalate = dustdcmp(16285, "Germanium Oxalate", SET_FINE, 255, 255, 255, 255)
             .setMcfg(0, MT.Ge, U, MT.C, 4*U, MT.O, 8*U)
             .tooltip("Ge(C" + NUM_SUB[2] + "O" + NUM_SUB[4] + ")" + NUM_SUB[2]),
-    CuAnodeSludge = dustdcmp(16286, "Copper Anode Sludge", SET_FINE, 61, 50, 40, 255),
+    CuAnodeSludge = dustdcmp(16286, "Copper Anode Sludge", SET_FINE, 61, 50, 40, 255)
+            .heat(550+C),
     Y2O2S = create(16288, "Yttrium Oxide Sulfide", 255, 255, 0, 255)
             .uumMcfg(0, MT.Y, 2*U, MT.O, 2*U, MT.S, U),
     RedPhosphor = dustdcmp(16289, "Red Phosphor", SET_RAD, 255, 0, 0, 255)
@@ -1151,24 +1152,38 @@ public class MTx {
             .setMcfg(1, MT.Ga, U, MT.P, U),
     GaN = semiconductor(16322, "Gallium Nitride", 100, 120, 120, false, INGOTS, DUSTS)
             .setMcfg(1, MT.Ga, U, MT.N, U),
-    NDopedGaP = dopedSemiconductor(16323, "N-Doped Gallium Phosphide", GaP, false),
-    PDopedGaP = dopedSemiconductor(16324, "P-Doped Gallium Phosphide", GaP, false),
-    NDopedGaN = dopedSemiconductor(16323, "N-Doped Gallium Nitride", GaN, false),
-    PDopedGaN = dopedSemiconductor(16324, "P-Doped Gallium Nitride", GaN, false),
-    NDopedGaAs = dopedSemiconductor(16325, "N-Doped Gallium Arsenide", GaAs, false),
-    PDopedGaAs = dopedSemiconductor(16326, "P-Doped Gallium Arsenide", GaAs, false),
-    GaAsP = semiconductor(16327, "Gallium Arsenide Phosphide", 66, 122, 95, false)
+    GaAsP = semiconductor(16323, "Gallium Arsenide Phosphide", 66, 122, 95, false)
             .setMcfg(1, MT.Ga, 2*U, MT.As, U, MT.P, U),
-    AlGaP = semiconductor(16328, "Aluminium Gallium Phosphide", 66, 100, 110, false)
+    AlGaP = semiconductor(16324, "Aluminium Gallium Phosphide", 66, 100, 110, false)
             .setMcfg(1, MT.Al, U, MT.Ga, U, MT.P, 2*U),
-    InGaN = semiconductor(16329, "Indium Gallium Nitride", 73, 66, 110, false)
+    InGaN = semiconductor(16325, "Indium Gallium Nitride", 73, 66, 110, false)
             .setMcfg(1, MT.In, U, MT.Ga, U, MT.N, 2*U),
-    ColorResistRed = registerLiquid(lquddcmp(16330, "Red Color Resist", 255, 0, 0, 200)
+    NDopedGaP = dopedSemiconductor(16326, "N-Doped Gallium Phosphide", GaP, false),
+    PDopedGaP = dopedSemiconductor(16327, "P-Doped Gallium Phosphide", GaP, false),
+    NDopedGaN = dopedSemiconductor(16328, "N-Doped Gallium Nitride", GaN, false),
+    PDopedGaN = dopedSemiconductor(16329, "P-Doped Gallium Nitride", GaN, false),
+    NDopedGaAs = dopedSemiconductor(16330, "N-Doped Gallium Arsenide", GaAs, false),
+    PDopedGaAs = dopedSemiconductor(16331, "P-Doped Gallium Arsenide", GaAs, false),
+    ColorResistRed = registerLiquid(lquddcmp(16332, "Red Color Resist", 255, 0, 0, 200)
             .setMcfg(2, DnqNovolacResist, U)),
-    ColorResistGreen = registerLiquid(lquddcmp(16331, "Green Color Resist", 0, 255, 0, 200)
+    ColorResistGreen = registerLiquid(lquddcmp(16333, "Green Color Resist", 0, 255, 0, 200)
             .setMcfg(2, DnqNovolacResist, U)),
-    ColorResistBlue = registerLiquid(lquddcmp(16332, "Blue Color Resist", 0, 0, 255, 200)
-            .setMcfg(2, DnqNovolacResist, U))
+    ColorResistBlue = registerLiquid(lquddcmp(16334, "Blue Color Resist", 0, 0, 255, 200)
+            .setMcfg(2, DnqNovolacResist, U)),
+    CuAnodeSludgeRoast = dustdcmp(16335, "Roasted Copper Anode Sludge", SET_SHINY, 255, 200, 200, 255)
+            .heat(CuAnodeSludge),
+    Na2TeSeO3Solution = registerLiquid(lquddcmp(16336, "Sodium Selenite-Tellurite solution", 255, 200, 200, 200)
+            .setMcfg(0, MT.Na, 4*U, MT.Se, U, MT.Te, U, MT.O, 6*U, MT.H2O, 12*U)
+            .heat(MT.H2O)),
+    Na2SO4H2SeO3Solution = registerLiquid(lquddcmp(16337, "Selenous Acid - Sodium Sulfate solution", 255, 240, 240, 200)
+            .setMcfg(0, MT.H, 2*U, MT.Se, U, MT.O, 3*U, MT.Na2SO4, 14*U, MT.H2O, 15*U)),
+    Bi2O3 = dustdcmp(16338, "Bismuth(III) Oxide", SET_DULL, 255, 255, 210, 255)
+            .uumMcfg(0, MT.Bi, 2*U, MT.O, 3*U)
+            .heat(1090, 2160),
+    TeO2 = dustdcmp(16339, "Tellurium Dioxide", SET_FINE, 255, 255, 225, 255)
+            .uumMcfg(1, MT.Te, U, MT.O, 2*U)
+            .heat(1005, 1518)
+            .put(ELECTROLYSER)
     ;
 
     /*
@@ -1203,6 +1218,9 @@ public class MTx {
         addMolten(SiGe, 144);
         addMolten(GaAs, 144);
         addMolten(InF3, 144);
+
+        addVapour(RuO4);
+        addVapour(OsO4);
 
         addPlasma(CF4);
         addPlasma(NF3);

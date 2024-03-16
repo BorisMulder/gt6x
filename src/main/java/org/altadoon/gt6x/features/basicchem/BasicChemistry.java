@@ -368,6 +368,9 @@ public class BasicChemistry extends GT6XFeature {
         RM.Mixer.addRecipe1(true, 16, 144, dust.mat(MT.CaCO3, 5), FL.array(MT.HCl.gas(4*U, true)), FL.array(MTx.CaCl2Solution.liquid(6*U, false), MT.CO2.gas(3*U, false)));
         RM.Mixer.addRecipe1(true, 16, 144, dust.mat(MT.MgCO3, 5), FL.array(MT.HCl.gas(4*U, true)), FL.array(MTx.MgCl2Solution.liquid(6*U, false), MT.CO2.gas(3*U, false)));
         RM.Mixer.addRecipe1(true, 16, 48, dust.mat(MT.NaOH, 2), FL.array(MT.CO2.gas(U, true)), FL.array(MTx.Na2CO3Solution.liquid(3*U, false)));
+        for (FluidStack water : FL.waters(1000)) {
+            RM.Mixer.addRecipe2(true, 16, 16, ST.tag(1), OM.dust(MT.Na2CO3), water, NF, OM.dust(MT.OREMATS.Trona));
+        }
 
         // Resin/Turpentine
         RM.Distillery.addRecipe1(false, 16, 160, ST.tag(0), FL.Resin_Spruce.make(100), FL.Turpentine.make(60), ILx.Rosin.get(1));
@@ -451,9 +454,9 @@ public class BasicChemistry extends GT6XFeature {
             }
 
             for (FluidStack water : FL.waters(1000)) {
-                RM.Mixer.addRecipe1(true, 16, 64 * waterAmount, dust.mat(soluteStack.mMaterial, soluteAmount), FL.mul(water, waterAmount), material.liquid(totalAmount * U, false), NI);
+                RM.Mixer.addRecipe2(true, 16, 64 * waterAmount, ST.tag(0), dust.mat(soluteStack.mMaterial, soluteAmount), FL.mul(water, waterAmount), material.liquid(totalAmount * U, false), NI);
             }
-            RM.Drying.addRecipe0(true, 16, 2000 * waterAmount, material.liquid(totalAmount * U, true ), MT.DistWater.liquid(waterAmount * U, false), dust.mat(soluteStack.mMaterial, soluteAmount));
+            RM.Drying.addRecipe1(true, 16, 2000 * waterAmount, ST.tag(0), material.liquid(totalAmount * U, true ), MT.DistWater.liquid(waterAmount * U, false), dust.mat(soluteStack.mMaterial, soluteAmount));
         }
     }
 }
