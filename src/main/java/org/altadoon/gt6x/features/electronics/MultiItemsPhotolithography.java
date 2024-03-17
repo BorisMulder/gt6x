@@ -85,7 +85,7 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
 
         // SiN CVD on GaAs Wafer
         ILx.Wafer_GaAs_SiN_layered.set(addItemWithIcon(32766, "SiN-capped GaAs wafer", "Gallium Arsenide Wafer with Silicon Nitride cap layer", new OreDictItemData(MTx.GaAs, U, MTx.Si3N4, 14*U1000)));
-        RM.Drying.addRecipe1(true, 64, 256, plateGem.mat(MTx.GaAs, 1), FL.array(MTx.SiH4.gas(30*U1000, true), MT.NH3.gas(8*U1000, true)), MT.H.gas(48*U1000, false), ILx.Wafer_GaAs_SiN_layered.get(1));
+        RMx.Thermolysis.addRecipe1(true, 64, 256, plateGem.mat(MTx.GaAs, 1), FL.array(MTx.SiH4.gas(6*U1000, true), MT.NH3.gas(8*U1000, true)), MT.H.gas(48*U1000, false), ILx.Wafer_GaAs_SiN_layered.get(1));
 
         // Si CVD on Glass Pane
         ILx.TFTGlass.set(addItemWithIcon(32765, "Si-coated glass pane", "Glass pane containing an amorphous silicon layer", new OreDictItemData(MT.Glass, U, MT.Si, U4)));
