@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import org.altadoon.gt6x.common.Config;
 import org.altadoon.gt6x.common.MTx;
+import org.altadoon.gt6x.common.RMx;
 import org.altadoon.gt6x.features.GT6XFeature;
 
 import java.util.List;
@@ -179,14 +180,13 @@ public class RefractoryMetals extends GT6XFeature {
         RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Stolzite,  6), FL.array(MT.HCl.gas(4*U, true)), ZL_FS, dust.mat(MT.H2WO4, 7), dust.mat(MTx.PbCl2, 3));
         RM.Bath.addRecipe1(true, 0, 1024, dust.mat(MTx.Wolframite,  12), FL.array(MT.HCl.gas(8*U, true)), ZL_FS, dust.mat(MT.H2WO4, 14), dust.mat(MT.MnCl2, 3), dust.mat(MT.FeCl2, 3));
 
-        RM.Drying.addRecipe1(true, 16, 6000, dust.mat(MTx.H2MoO4, 7), NF, FL.DistW.make( 3000), dust.mat(MTx.MoO3, 4));
+        RMx.Thermolysis.addRecipe1(true, 16, 256, dust.mat(MTx.H2MoO4, 7), NF, FL.Water.make( 3000), dust.mat(MTx.MoO3, 4));
         RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MTx.MoO3, 4), FL.array(MT.H.gas(6*U, true)), FL.array(MT.H2O.liquid(9*U, false)), dust.mat(MT.Mo, 1));
 
         // V
         RM.Bath.addRecipe1(true, 0, 512*3, dust.mat(MTx.Vanadinite, 21), FL.array(MT.SaltWater.liquid(4*6*U, true)), FL.array(MTx.NaVO3Solution.liquid(3*11*U, false)), dust.mat(MTx.PbCl2, 6), dust.mat(MTx.PbO, 3));
         RM.Bath.addRecipe1(true, 0, 512, dust.mat(MTx.NH4Cl, 2), MTx.NaVO3Solution.liquid(11*U, true), MT.SaltWater.liquid(8*U, false), dust.mat(MTx.NH4VO3, 5));
-        //TODO use thermolysis oven
-        RM.Drying.addRecipe1(true, 16, 128, dust.mat(MTx.NH4VO3, 10), ZL_FS, FL.array(MT.NH3.gas(2*U, false), MT.H2O.liquid(U, false)), dust.mat(MT.V2O5, 7));
+        RMx.Thermolysis.addRecipe1(true, 16, 128, dust.mat(MTx.NH4VO3, 10), ZL_FS, FL.array(MT.NH3.gas(2*U, false), MT.H2O.liquid(U, false)), dust.mat(MT.V2O5, 7));
         RM.Bath.addRecipe1(true, 0, 512*3, dust.mat(MT.V2O5, 21), FL.array(MT.Al.liquid(10*U, true)), FL.array(MT.V.liquid(6*U, false), MT.Al2O3.liquid(25*U, false)));
 
         // Cr
@@ -200,8 +200,7 @@ public class RefractoryMetals extends GT6XFeature {
                 RM.Mixer.addRecipe0(true, 16, 3*128, FL.array(MTx.Na2CrO4Solution.liquid(20*U, true), MT.CO2.gas(6*U, true), FL.mul(tWater, 2)), MTx.DichromateSoda.liquid(32*U, true), ZL_IS);
                 RM.Bath.addRecipe1(true, 0, 64, dust.mat(MTx.CrSodaMixture, 11), tWater, MTx.Na2CO3Solution.liquid(9*U, false), dust.mat(MTx.Cr2O3, 5));
             }
-            //TODO use thermolysis oven
-            RM.Drying.addRecipe0(true, 16, 18000, FL.array(MTx.DichromateSoda.liquid(32*U, true)), FL.array(MTx.Na2CO3Solution.liquid(9*U, false), MT.DistWater.liquid(9*U, false), MT.CO2.gas(3*U, false)), dust.mat(MTx.Na2Cr2O7, 11));
+            RMx.Thermolysis.addRecipe0(true, 16, 3*256, FL.array(MTx.DichromateSoda.liquid(32*U, true)), FL.array(MTx.Na2CO3Solution.liquid(9*U, false), MT.H2O.liquid(9*U, false), MT.CO2.gas(3*U, false)), dust.mat(MTx.Na2Cr2O7, 11));
 
             for (ItemStack coal : new ItemStack[]{dust.mat(MT.Charcoal, 1), dust.mat(MT.LigniteCoke, 3), dust.mat(MT.CoalCoke, 1), dust.mat(MT.C, 1)}) {
                 RM.BurnMixer.addRecipe2(true, 16, 64, ST.mul(2, coal), dust.mat(MTx.Na2Cr2O7, 11), ZL_FS, MT.CO.gas(2*U, false), dust.mat(MTx.CrSodaMixture, 11));
@@ -231,8 +230,7 @@ public class RefractoryMetals extends GT6XFeature {
                 RM.Mixer.addRecipe0(true, 16, 1024, FL.array(MTx.NbTaFMIBKSolution.liquid(76*U, true), MT.NH3.gas(10*U, true), FL.mul(tWater, 13)), FL.array(MTx.TaFMIBKSolution.liquid(58*U, false), MTx.NH4FSolution.liquid(10*6*U, false)), OM.dust(MT.Nb2O5, 7*U));
                 RM.Mixer.addRecipe0(true, 16, 1024, FL.array(MTx.TaFMIBKSolution.liquid(58*U, true), MT.NH3.gas(14*U, true), FL.mul(tWater, 19)), FL.array(MTx.MIBK.liquid(38*U, false), MTx.NH4FSolution.liquid(14*6*U, false)), OM.dust(MT.Ta2O5, 7*U));
             }
-            //TODO use thermolysis oven
-            RM.Drying.addRecipe0(true, 16, 6000, FL.array(MTx.NH4FSolution.liquid(6*U, true)), FL.array(MT.DistWater.liquid(3*U, false), MT.HF.gas(2*U, false), MT.NH3.gas(U, false)));
+            RMx.Thermolysis.addRecipe0(true, 16, 128, FL.array(MTx.NH4FSolution.liquid(6*U, true)), FL.array(MT.H2O.liquid(3*U, false), MT.HF.gas(2*U, false), MT.NH3.gas(U, false)));
             RM.Mixer.addRecipe1(true, 16, 1024, dust.mat(MT.KF, 8), FL.array(MTx.TaFMIBKSolution.liquid(58*U, true)), FL.array(MTx.MIBK.liquid(38*U, false), MT.HF.gas(8*U, false)), OM.dust(MT.K2TaF7, 20*U));
             RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.Nb2O5, 7), MT.Ca.liquid(5*U, true), MT.Nb.liquid(2*U, false), dust.mat(MT.Quicklime, 10));
             RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.Ta2O5, 7), MT.Ca.liquid(5*U, true), MT.Quicklime.liquid(10*U, false), dust.mat(MT.Ta, 2));
@@ -241,6 +239,8 @@ public class RefractoryMetals extends GT6XFeature {
     }
 
     private void changeRecipes() {
+        RMx.Thermolysis.addRecipe1(true, 16, 256, dust.mat(MT.H2WO4, 7), NF, FL.Water.make( 3000), dust.mat(MT.WO3, 4));
+
         for (Recipe r : RM.CrystallisationCrucible.mRecipeList) {
             if (r.mFluidInputs.length >= 2 && r.mFluidInputs[1].isFluidEqual(MT.Al2O3.mLiquid) && r.mInputs.length == 1) {
                 for (long amount : new long[] {2*U, 2*U3}) {
