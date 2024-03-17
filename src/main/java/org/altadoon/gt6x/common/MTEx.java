@@ -83,6 +83,12 @@ public class MTEx {
         VertMixerElectric3(312),
         VertMixerElectric4(313),
         VertMixerElectric5(314),
+
+        // Thermolysis Ovens: 320-329
+        ThermolysisOven1(320),
+        ThermolysisOven2(321),
+        ThermolysisOven3(322),
+        ThermolysisOven4(323),
         ;
 
         private final int id;

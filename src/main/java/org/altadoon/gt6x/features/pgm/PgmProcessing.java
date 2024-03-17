@@ -13,6 +13,7 @@ import gregapi.worldgen.WorldgenOresLarge;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import org.altadoon.gt6x.common.Config;
+import org.altadoon.gt6x.common.RMx;
 import org.altadoon.gt6x.features.GT6XFeature;
 
 import java.util.Arrays;
@@ -238,9 +239,8 @@ public class PgmProcessing extends GT6XFeature {
         // Pt/Pd separation
         RM.Bath.addRecipe1(true, 0, 200, dust.mat(NH4Cl, 20), PtPdLeachingSolution.liquid(95*U, false), PdChlorideSolution.liquid(70*U, false), dust.mat(AmmoniumHexachloroplatinate, 45));
         RM.Mixer.addRecipe0(true, 16, 100, FL.array(PdChlorideSolution.liquid(35*U, true), MT.NH3.gas(4*U, true)), FL.array(MT.H2O.liquid(8*3*U, false), MT.HCl.gas(4*2*U, false)), dust.mat(TetraamminepalladiumChloride, 7));
-        //TODO use thermolysis oven
-        RM.Distillery.addRecipe1(true, 16, 50, dust.mat(AmmoniumHexachloroplatinate, 9), FL.array(MT.N.gas(U1000, true)), FL.array(MT.Cl.gas(4*U, false)), dust.mat(NH4Cl, 4), dust.mat(MT.Pt, 1));
-        RM.Distillery.addRecipe1(true, 16, 50, dust.mat(TetraamminepalladiumChloride, 7), FL.array(MT.N.gas(U1000, true)), FL.array(MT.Cl.gas(2*U, false), MT.NH3.gas(4*U, false)), dust.mat(MT.Pd, 1));
+        RMx.Thermolysis.addRecipe1(true, 16, 50, dust.mat(AmmoniumHexachloroplatinate, 9), NF, MT.Cl.gas(4*U, false), dust.mat(NH4Cl, 4), dust.mat(MT.Pt, 1));
+        RMx.Thermolysis.addRecipe1(true, 16, 50, dust.mat(TetraamminepalladiumChloride, 7), ZL_FS, FL.array(MT.Cl.gas(2*U, false), MT.NH3.gas(4*U, false)), dust.mat(MT.Pd, 1));
 
         // Rh separation (Yo Greg, wanna buy some international units of amount of substance? I divided some amounts by three here (and the PGMs by 2) because it would become rather annoying otherwise). But it adds up to a closed-loop process now.
         RM.Bath.addRecipe1(true, 0, 100, dust.mat(PGMResidue, 4), FL.array(MT.K2S2O7.liquid(14*U, true)), FL.array(RhodiumPotassiumSulfate.liquid(13*U, false), MT.SO2.gas(3*U, false)), dust.mat(RuOsIrResidue, 3));
