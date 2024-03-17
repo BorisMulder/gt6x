@@ -66,7 +66,7 @@ public class MultiItemsElectronics extends MultiItemRandom {
 
         tooltip = "NPN Transistor Collector + Base, Needs Emitter";
         ILx.BJT_Ge_Base.set(addItem(114, "BJT Base (Germanium)", tooltip, new OreDictItemData(MTx.NDopedGe, U9, MTx.PDopedGe, U36)));
-        ILx.BJT_Si_Base.set(addItem(115, "BJT Base (Silicon)"  , tooltip, new OreDictItemData(MTx.NDopedGe, U9, MTx.PDopedGe, U36)));
+        ILx.BJT_Si_Base.set(addItem(115, "BJT Base (Silicon)"  , tooltip, new OreDictItemData(MTx.NDopedSi, U9, MTx.PDopedSi, U36)));
         tooltip = "Bipolar Junction Transistor";
         ILx.BJT_Ge.set(addItem(116, "BJT (Germanium)", tooltip, BJT_NAME, new OreDictItemData(MTx.NDopedGe, U9+U36, MTx.PDopedGe, U36)));
         ILx.BJT_Si.set(addItem(117, "BJT (Silicon)"  , tooltip, BJT_NAME, new OreDictItemData(MTx.NDopedSi, U9+U36, MTx.PDopedSi, U36)));

@@ -53,7 +53,7 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 	@cpw.mods.fml.common.Mod.EventHandler public final void onServerStopping    (cpw.mods.fml.common.event.FMLServerStoppingEvent       aEvent) {onModServerStopping(aEvent);}
 	@cpw.mods.fml.common.Mod.EventHandler public final void onServerStopped     (cpw.mods.fml.common.event.FMLServerStoppedEvent        aEvent) {onModServerStopped(aEvent);}
 
-	private Config modConfig = null;
+	private Config modConfig;
 
 	@SuppressWarnings("unchecked")
 	private static final Class<? extends GT6XFeature>[] allFeatures = new Class[]{
