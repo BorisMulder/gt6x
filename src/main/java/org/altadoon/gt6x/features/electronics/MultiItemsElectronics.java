@@ -237,5 +237,9 @@ public class MultiItemsElectronics extends MultiItemRandom {
             ILx.LEDs[color][0].set(addItem(640 + color, ILx.LEDColors[color] + " LED (unencapsulated)", "Nah fam this LED is bussin fr no cap", new OreDictItemData(OM.stack(MT.Sapphire, U64), OM.stack(layers[matLayerIdx][0], U512), OM.stack(layers[matLayerIdx][1], U512), OM.stack(layers[matLayerIdx][2], U512), OM.stack(MT.Invar, U72), OM.stack(MT.Au, U128))));
             ILx.LEDs[color][1].set(addItem(650 + color, ILx.LEDColors[color] + " LED"                 , "Light-Emitting Diode"                , new OreDictItemData(OM.stack(MT.Sapphire, U64), OM.stack(layers[matLayerIdx][0], U512), OM.stack(layers[matLayerIdx][1], U512), OM.stack(layers[matLayerIdx][2], U512), OM.stack(MT.Invar, U72), OM.stack(MT.Au, U128), OM.stack(MTx.Epoxy, U16))));
         }
+
+        // Solar panels
+        ILx.SolarPanelCdTe.set(addItem(703, "Thin-Film Solar Panel (CdTe)", "Usable as cover on machines, wires and battery boxes", new CoverSolarPanel(1)));
+        ILx.SolarPanelCIGS.set(addItem(704, "Thin-Film Solar Panel (CIGS)", "Usable as cover on machines, wires and battery boxes", new CoverSolarPanel(2)));
     }
 }
