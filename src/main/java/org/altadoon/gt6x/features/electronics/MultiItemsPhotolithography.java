@@ -85,11 +85,11 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
 
         // SiN CVD on GaAs Wafer
         ILx.Wafer_GaAs_SiN_layered.set(addItemWithIcon(32766, "SiN-capped GaAs wafer", "Gallium Arsenide Wafer with Silicon Nitride cap layer", new OreDictItemData(MTx.GaAs, U, MTx.Si3N4, 14*U1000)));
-        RMx.Thermolysis.addRecipe1(true, 64, 256, plateGem.mat(MTx.GaAs, 1), FL.array(MTx.SiH4.gas(6*U1000, true), MT.NH3.gas(8*U1000, true)), MT.H.gas(48*U1000, false), ILx.Wafer_GaAs_SiN_layered.get(1));
+        RMx.VacuumDeposition.addRecipe1(true, 64, 256, plateGem.mat(MTx.PDopedGaAs, 1), FL.array(MTx.SiH4.gas(6*U1000, true), MT.NH3.gas(8*U1000, true)), MT.H.gas(48*U1000, false), ILx.Wafer_GaAs_SiN_layered.get(1));
 
         // Si CVD on Glass Pane
         ILx.TFTGlass.set(addItemWithIcon(32765, "Si-coated glass pane", "Glass pane containing an amorphous silicon layer", new OreDictItemData(MT.Glass, U, MT.Si, U4)));
-        RMx.IonBombardment.addRecipe1(true, 16, 64, plate.mat(MT.Glass, 1), MTx.SiH4.gas(5*U4, true), MT.H.gas(U, false), ILx.TFTGlass.get(1));
+        RMx.VacuumDeposition.addRecipe1(true, 16, 64, plate.mat(MT.Glass, 1), MTx.SiH4.gas(5*U4, true), MT.H.gas(U, false), ILx.TFTGlass.get(1));
 
         // Photoresist
         RM.Mixer.addRecipe2(true, 16, 256, dust.mat(MTx.DNQ, 1), dust.mat(MTx.PF, 1), MTx.Toluene.liquid(2*U, true), MTx.DnqNovolacResist.liquid(4*U, false), NI);
@@ -328,9 +328,9 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         // Photoresist cleaning
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][3].get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafers[type][tier][4].get(1));
         // Metallization using Al PVD
-        RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][4].get(1), MT.Al.gas(U4, true), NF, ILx.Wafers[type][tier][5].get(1));
+        RMx.VacuumDeposition.addRecipe1(true, 16, 64, ILx.Wafers[type][tier][4].get(1), MT.Al.liquid(U4, true), NF, ILx.Wafers[type][tier][5].get(1));
         // Metal etching
-        RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][5].get(1), FL.array(MTx.AlEtch.liquid(13*U8, true)), FL.array(MTx.AlPO4Solution.liquid(11*U8, false), MT.H.gas(3*U, false)), ILx.Wafers[type][tier][6].get(1));
+        RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][5].get(1), FL.array(MTx.AlEtch.liquid(13*U8, true)), FL.array(MTx.AlPO4Solution.liquid(11*U8, false), MT.H.gas(3*U8, false)), ILx.Wafers[type][tier][6].get(1));
         // Dicing
         for (int i = 0; i < RMx.CuttingFluids.length; i++) if (RMx.CuttingFluids[i] != null) {
             RM.Cutter.addRecipe1(true, 16, RMx.CuttingMultiplier[i] * 64, ILx.Wafers[type][tier][6].get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 16, 1000, true), NF, ILx.Wafers[type][tier][7].get(16));
@@ -415,7 +415,7 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
             RM.Electrolyzer.addRecipe1(true, 32, 22, ILx.Wafers[type][tier][3].get(1), FL.array(MTx.NaAuC2N2.liquid(6*U4, true), FL.mul(water, 3, 2, true)), FL.array(MTx.HCN.gas(3*U2, false), MT.H.gas(U4, false), MT.O.gas(U4, false)), ILx.Wafers[type][tier][4].get(1), dustSmall.mat(MT.NaOH, 3));
         }
         // Metal 2 layer using Al PVD
-        RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][4].get(1), MT.Al.gas(U4, true), NF, ILx.Wafers[type][tier][5].get(1));
+        RMx.VacuumDeposition.addRecipe1(true, 16, 64, ILx.Wafers[type][tier][4].get(1), MT.Al.liquid(U4, true), NF, ILx.Wafers[type][tier][5].get(1));
         // Photoresist cleaning
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][5].get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafers[type][tier][6].get(1));
         // Dicing
@@ -440,7 +440,7 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][3].get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafers[type][tier][4].get(1));
 
         // Stage II (TCF layer)
-        RMx.IonBombardment.addRecipe2(true, 16, 256, foil.mat(MTx.In4Sn, 1), ILx.Wafers[type][tier][4].get(1), MT.O.gas(4*U10, true), NF, ILx.Wafers[type][tier][5].get(1));
+        RMx.VacuumDeposition.addRecipe2(true, 16, 128, ILx.Wafers[type][tier][4].get(1), foil.mat(MTx.In4Sn, 1), MT.O.gas(4*U10, true), NF, ILx.Wafers[type][tier][5].get(1));
         RMx.Photolithography.addRecipe2(false, 128, 128, ILx.Wafers[type][tier][5].get(1), ILx.Photomasks[type][tier][1][PM_FINISHED].get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafers[type][tier][6].get(1));
         for (FluidStack developer : FL.array(MTx.NaOHSolution.liquid(U10, true), MTx.Na2CO3Solution.liquid(U10, true)))
             RM.Bath.addRecipe1(false, 0, 128, ILx.Wafers[type][tier][6].get(1), developer, NF, ILx.Wafers[type][tier][7].get(1));
@@ -465,7 +465,7 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         for (FluidStack developer : DEVELOPERS)
             RM.Bath.addRecipe1(false, 0, 128, ILx.Wafers[type][tier][4].get(1), developer, NF, ILx.Wafers[type][tier][5].get(1));
         // ITO
-        RMx.IonBombardment.addRecipe2(true, 16, 256, foil.mat(MTx.In4Sn, 1), ILx.Wafers[type][tier][5].get(1), MT.O.gas(4*U10, true), NF, ILx.Wafers[type][tier][6].get(1));
+        RMx.VacuumDeposition.addRecipe2(true, 16, 128, ILx.Wafers[type][tier][5].get(1), foil.mat(MTx.In4Sn, 1), MT.O.gas(4*U10, true), NF, ILx.Wafers[type][tier][6].get(1));
     }
 
     protected ItemStack addItemWithIcon(int id, String english, String toolTip, Object... randomData) {
