@@ -419,6 +419,6 @@ public class OilProcessing extends GT6XFeature {
     }
 
     private void overrideMiscRecipes() {
-        RM.Mixer.addRecipe0(true, 16, 800, FL.array(MT.Glycerol.liquid(U, true), MT.HNO3.liquid(U*5, true), MT.H2SO4.liquid(U*7, true)), MT.Glyceryl.liquid(U, false), MTx.DiluteH2SO4.liquid(U*10, false));
+        RM.Mixer.addRecipe1(true, 16, 800, ST.tag(3), FL.array(MT.Glycerol.liquid(14*U, true), MT.HNO3.liquid(15*U, true), MT.H2SO4.liquid(21*U, true)), MT.Glyceryl.liquid(20*U, false), MTx.DiluteH2SO4.liquid(U*30, false));
     }
 }

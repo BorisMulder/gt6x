@@ -24,7 +24,7 @@ import java.util.BitSet;
 
 import static gregapi.data.CS.*;
 import static gregapi.data.OP.*;
-import static org.altadoon.gt6x.features.electronics.Electronics.oxidizedWafer;
+import static org.altadoon.gt6x.common.Log.LOG;
 
 public class MultiItemsPhotolithography extends MultiItemRandom {
     public static MultiItemsPhotolithography instance;
@@ -35,9 +35,10 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
 
     public final BitSet enabledIcons = new BitSet(32768);
 
+    static final String tooltipNeedsPhotolithography = "Needs Photolithography";
     static final String tooltipNeedsDevelopment = "Needs development";
     static final String tooltipNeedsEtching = "Ready to be etched";
-    static final String tooltipNeedsCleaning = "Needs cleaning";
+    static final String tooltipNeedsCleaning = "Needs photoresist stripping";
     static final String tooltipNeedsDoping = "Could use some extra dopant";
     static final String tooltipNeedsMetal = "Needs conductive metal layer";
     static final String tooltipDicing = "Interconnected, can be diced";
@@ -48,7 +49,7 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
     static final String waferPatterned = "Wafer (Patterned)";
     static final String waferDeveloped = "Wafer (Developed)";
     static final String waferEtched = "Wafer (Etched)";
-    static final String waferCleaned = "Wafer (Cleaned)";
+    static final String waferCleaned = "Wafer (Stripped)";
     static final String waferDoped = "Wafer (Doped)";
     static final String waferMetal = "Wafer (Metal)";
     static final String wafer = "Wafer";
@@ -63,16 +64,16 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
     static final int PM_FINISHED = 3;
     static final String[] MASK_STAGE_NAMES = { ", Patterned", ", Developed", ", Etched", "" };
     static final String[] PL_STAGE_NAMES_SINGLE = { waferPatterned, waferDeveloped, waferEtched, waferDoped, waferCleaned, waferMetal, wafer, die };
-    static final String[] PL_STAGE_NAMES_DOUBLE = { "Wafer (Patterned, Stage I)", "Wafer (Developed, Stage I)", "Wafer (Etched, Stage I)", "Wafer (N-Wells)", "Wafer (Cleaned, Stage I)", "Wafer (Oxidised, Stage II)", "Wafer (Patterned, Stage II)", "Wafer (Developed, Stage II)", "Wafer (Etched, Stage II)", "Wafer (PNP-Junctions)", "Wafer (Cleaned, Stage II)", waferMetal, wafer, die };
+    static final String[] PL_STAGE_NAMES_DOUBLE = { "Wafer (Patterned, Stage I)", "Wafer (Developed, Stage I)", "Wafer (Etched, Stage I)", "Wafer (N-Wells)", "Wafer (Stripped, Stage I)", "Wafer (Oxidised, Stage II)", "Wafer (Patterned, Stage II)", "Wafer (Developed, Stage II)", "Wafer (Etched, Stage II)", "Wafer (PNP-Junctions)", "Wafer (Stripped, Stage II)", waferMetal, wafer, die };
     static final String[] PL_STAGE_NAMES_MESFET = { waferPatterned, waferDeveloped, waferEtched, waferDoped, "Wafer (Metal 1)", "Wafer (Metal 2)", wafer, "" };
-    static final String[] PL_STAGE_NAMES_TFT = { " (Patterned, stage I)", " (Developed, stage I)", " (Etched, stage I)", " (Doped, Stage I)", " (Cleaned, stage I)", " (TCF Layer)", " (Patterned, Stage II)", " (Developed, Stage II)", " (Etched, Stage II)", "" };
+    static final String[] PL_STAGE_NAMES_TFT = { " (Gate layer)", " (Patterned, stage I)", " (Developed, stage I)", " (Etched, stage I)", " (Stripped, stage I)", " (Insulator Layer)", " (Active Layer)", " (Patterned, Stage II)", " (Developed, Stage II)", " (TCF layer)", "" };
     static final String[] PL_STAGE_NAMES_LCD_COLOR = { " (red layer, patterned)", " (red layer, developed)", " (green layer, patterned)", " (green layer, developed)", " (blue layer, patterned)", " (blue layer, developed)", "" };
 
     static final String[] PHOTOMASK_TOOLTIPS = {tooltipNeedsDevelopment, tooltipNeedsEtching, tooltipNeedsCleaning, "Used in Photolithography"};
     static final String[] WAFER_TOOLTIPS_SINGLE = {tooltipNeedsDevelopment, tooltipNeedsEtching, tooltipNeedsDoping, tooltipNeedsCleaning, tooltipNeedsMetal, tooltipNeedsEtching, tooltipDicing, tooltipBonding };
     static final String[] WAFER_TOOLTIPS_DOUBLE = {tooltipNeedsDevelopment, tooltipNeedsEtching, tooltipNeedsDoping, tooltipNeedsCleaning, "Needs additional oxide layer", "Needs junctions", tooltipNeedsDevelopment, tooltipNeedsEtching, tooltipNeedsDoping, tooltipNeedsCleaning, tooltipNeedsMetal, tooltipNeedsEtching, tooltipDicing, tooltipBonding };
-    static final String[] WAFER_TOOLTIPS_MESFET = {tooltipNeedsDevelopment, tooltipNeedsEtching, tooltipNeedsDoping, tooltipNeedsMetal, "Needs Schottky Gate Metal Layer", tooltipNeedsCleaning, tooltipDicing, tooltipBonding };
-    static final String[] WAFER_TOOLTIPS_TFT = {tooltipNeedsDevelopment, tooltipNeedsEtching, tooltipNeedsDoping, tooltipNeedsCleaning, "Thin-Film Transistor pane, needs Transparent Conducting Film", "Needs Photolithography", tooltipNeedsDevelopment, tooltipNeedsEtching, tooltipNeedsCleaning, "TFT (Thin-Film Transistor) pane with TCF (Transparent Conducting Film)"};
+    static final String[] WAFER_TOOLTIPS_MESFET = {tooltipNeedsDevelopment, tooltipNeedsEtching, tooltipNeedsDoping, tooltipNeedsMetal, "Needs Schottky Gate Metal Layer", "Needs Lift-off", tooltipDicing, tooltipBonding };
+    static final String[] WAFER_TOOLTIPS_TFT = {tooltipNeedsPhotolithography, tooltipNeedsDevelopment, tooltipNeedsEtching, tooltipNeedsCleaning, "Needs Gate Insulator layer", "Needs Actve Semiconductor layer", tooltipNeedsPhotolithography, tooltipNeedsDevelopment, "Needs Source/Drain TCF (Transparent Conducting Film) layer", "Transparent Conducting Film layer, Needs Lift-Off", "Thin-Film Transistor"};
     static final String[] WAFER_TOOLTIPS_LCD_COLOR = {tooltipNeedsDevelopment, "Needs green layer", tooltipNeedsDevelopment, "Needs blue layer", tooltipNeedsDevelopment, "Needs ITO layer", "Filters the light for each colored pixel in an LCD"};
 
     static final FluidStack[] DEVELOPERS = FL.array(MTx.NaOHSolution.liquid(U10, true), MTx.Na2CO3Solution.liquid(U10, true));
@@ -83,13 +84,17 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         ILx.Photomask_Raw.set(addItemWithIcon(0, "Raw Photomask", "Needs Design", new OreDictItemData(MT.Glass, U, MT.Cr, U)));
         RM.Laminator.addRecipe2(true, 16, 128, plate.mat(MT.Glass, 1), plate.mat(MT.Cr, 1), ILx.Photomask_Raw.get(1));
 
+        // Oxidising Si-Wafers
+        ILx.Wafer_Oxidized_P_Si  .set(addItemWithIcon(32760, "Silicon Wafer (P-doped, Oxide Layer)"          , "", new OreDictItemData(MTx.PDopedSi  , 9*U10, MT.SiO2, 3*U10)));
+        ILx.Wafer_Oxidized_N_Si  .set(addItemWithIcon(32761, "Silicon Wafer (N-doped, Oxide Layer)"          , "", new OreDictItemData(MTx.NDopedSi  , 9*U10, MT.SiO2, 3*U10)));
+        ILx.Wafer_Oxidized_P_SiGe.set(addItemWithIcon(32762, "Silicon-Germanium Wafer (P-doped, Oxide Layer)", "", new OreDictItemData(MTx.PDopedSiGe, 9*U10, MT.SiO2, 3*U20, MTx.GeO2, 3*U20)));
+        RM.Roasting.addRecipe1(true, 16, 128, plateGem.mat(MTx.NDopedSi  , 1), MT.O.gas(2*U10, true), NF, ILx.Wafer_Oxidized_N_Si.get(1));
+        RM.Roasting.addRecipe1(true, 16, 128, plateGem.mat(MTx.PDopedSi  , 1), MT.O.gas(2*U10, true), NF, ILx.Wafer_Oxidized_P_Si.get(1));
+        RM.Roasting.addRecipe1(true, 16, 128, plateGem.mat(MTx.PDopedSiGe, 1), MT.O.gas(2*U10, true), NF, ILx.Wafer_Oxidized_P_SiGe.get(1));
+
         // SiN CVD on GaAs Wafer
         ILx.Wafer_GaAs_SiN_layered.set(addItemWithIcon(32766, "SiN-capped GaAs wafer", "Gallium Arsenide Wafer with Silicon Nitride cap layer", new OreDictItemData(MTx.GaAs, U, MTx.Si3N4, 14*U1000)));
         RMx.VacuumDeposition.addRecipe1(true, 64, 256, plateGem.mat(MTx.PDopedGaAs, 1), FL.array(MTx.SiH4.gas(6*U1000, true), MT.NH3.gas(8*U1000, true)), MT.H.gas(48*U1000, false), ILx.Wafer_GaAs_SiN_layered.get(1));
-
-        // Si CVD on Glass Pane
-        ILx.TFTGlass.set(addItemWithIcon(32765, "Si-coated glass pane", "Glass pane containing an amorphous silicon layer", new OreDictItemData(MT.Glass, U, MT.Si, U4)));
-        RMx.VacuumDeposition.addRecipe1(true, 16, 64, plate.mat(MT.Glass, 1), MTx.SiH4.gas(5*U4, true), MT.H.gas(U, false), ILx.TFTGlass.get(1));
 
         // Photoresist
         RM.Mixer.addRecipe2(true, 16, 256, dust.mat(MTx.DNQ, 1), dust.mat(MTx.PF, 1), MTx.Toluene.liquid(2*U, true), MTx.DnqNovolacResist.liquid(4*U, false), NI);
@@ -98,6 +103,10 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         for (FluidStack dye : DYE_FLUIDS[DYE_INDEX_Red  ]) RM.Mixer.addRecipe0(true, 16, 50, FL.array(FL.mul(dye, 1, 24, true), MTx.DnqNovolacResist.liquid(U24, true)), MTx.ColorResistRed  .liquid(U12, false), NI);
         for (FluidStack dye : DYE_FLUIDS[DYE_INDEX_Green]) RM.Mixer.addRecipe0(true, 16, 50, FL.array(FL.mul(dye, 1, 24, true), MTx.DnqNovolacResist.liquid(U24, true)), MTx.ColorResistGreen.liquid(U12, false), NI);
         for (FluidStack dye : DYE_FLUIDS[DYE_INDEX_Blue ]) RM.Mixer.addRecipe0(true, 16, 50, FL.array(FL.mul(dye, 1, 24, true), MTx.DnqNovolacResist.liquid(U24, true)), MTx.ColorResistBlue .liquid(U12, false), NI);
+
+        // Oxides
+        RM.Mixer.addRecipe2(true, 16, 16, dust.mat(MTx.In2O3, 10), dust.mat(MT.OREMATS.Cassiterite, 1), dust.mat(MTx.ITO, 13));
+        RM.Mixer.addRecipeX(true, 16, 16, ST.array(dust.mat(MTx.In2O3, 5), dust.mat(MTx.Ga2O3, 5), dust.mat(MTx.ZnO, 1)), dust.mat(MTx.IGZO, 12));
 
         // Add tiered Wafers and Photomasks
         for (int type = 0; type < MESFET_IDX; type++) {
@@ -113,12 +122,14 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         // Non-tiered stuff
         addPhotomasks(MESFET_IDX, 0);
         addWafers(MESFET_IDX, 0);
+        addMESFETWaferRecipes();
+
         addPhotomasks(TFT_IDX, 0);
         addWafers(TFT_IDX, 0);
+        addTFTRecipes();
+
         addPhotomasks(LCD_COLOR_IDX, 0);
         addWafers(LCD_COLOR_IDX, 0);
-        addMESFETWaferRecipes();
-        addTFTRecipes();
         addLCDColorFilterRecipes();
     }
 
@@ -129,19 +140,12 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
     private void addPhotomask(int type, int tier, int plStage, int stage) {
         String name;
         switch (type) {
-        case MESFET_IDX, LCD_COLOR_IDX ->
+        case MESFET_IDX, LCD_COLOR_IDX, TFT_IDX ->
             name = String.format("%s (%s%s)",
                 photomask,
                 CHIP_TYPE_NAMES[type],
                 MASK_STAGE_NAMES[stage]
-            ); // e.g. Photomask (MESFET, Developed)
-        case TFT_IDX ->
-            name = String.format("%s (%s Stage %s%s)",
-                    photomask,
-                    CHIP_TYPE_NAMES[type],
-                    romanNumeral(plStage + 1),
-                    MASK_STAGE_NAMES[stage]
-            ); // e.g. Photomask (TFT Stage II, Patterned)
+            ); // e.g. Photomask (GaAs FET, Developed)
         default -> {
             if (tier < 2) {
                 name = String.format("%s (%s %s%s)",
@@ -183,12 +187,14 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
             ); // e.g. GaAs FET Wafer (Developed)
             tooltip = WAFER_TOOLTIPS_MESFET[stage];
             switch (stage) {
-                case 0, 1 -> matData = new OreDictItemData(MTx.GaAs, U, MTx.Si3N4, 14*U1000);
-                case 2, 3 -> matData = new OreDictItemData(MTx.GaAs, U, MTx.Si3N4, 7*U1000);
-                case 4    -> matData = new OreDictItemData(MTx.GaAs, U, MTx.Si3N4, 7*U1000, MT.Au, U4);
-                case 5    -> matData = new OreDictItemData(OM.stack(MTx.GaAs, U), OM.stack(MTx.Si3N4, 7*U1000), OM.stack(MT.Au, U4), OM.stack(MT.Al, U4));
-                case 6    -> matData = new OreDictItemData(OM.stack(MTx.GaAs, U), OM.stack(MTx.Si3N4, 7*U1000), OM.stack(MT.Au, U8), OM.stack(MT.Al, U8));
-                case 7    -> matData = new OreDictItemData(OM.stack(MTx.GaAs, U64), OM.stack(MT.Au, U512), OM.stack(MT.Al, U512));
+                case 0 -> matData = new OreDictItemData(MTx.PDopedGaAs, U, MTx.Si3N4, 14*U1000, MTx.DnqNovolacResist, U200);
+                case 1 -> matData = new OreDictItemData(MTx.PDopedGaAs, U, MTx.Si3N4, 14*U1000, MTx.DnqNovolacResist, 4*U1000);
+                case 2 -> matData = new OreDictItemData(MTx.PDopedGaAs, U, MTx.Si3N4, 7*U1000, MTx.DnqNovolacResist, 4*U1000);
+                case 3 -> matData = new OreDictItemData(OM.stack(MTx.PDopedGaAs, 9*U10), OM.stack(MTx.NDopedGaAs, U10), OM.stack(MTx.Si3N4, 7*U1000), OM.stack(MTx.DnqNovolacResist, 4*U1000));
+                case 4 -> matData = new OreDictItemData(OM.stack(MTx.PDopedGaAs, 9*U10), OM.stack(MTx.NDopedGaAs, U10), OM.stack(MTx.Si3N4, 7*U1000), OM.stack(MTx.DnqNovolacResist, 4*U1000), OM.stack(MT.Au, U4));
+                case 5 -> matData = new OreDictItemData(OM.stack(MTx.PDopedGaAs, 9*U10), OM.stack(MTx.NDopedGaAs, U10), OM.stack(MTx.Si3N4, 7*U1000), OM.stack(MTx.DnqNovolacResist, 4*U1000), OM.stack(MT.Au, U4), OM.stack(MT.Al, U4));
+                case 6 -> matData = new OreDictItemData(OM.stack(MTx.PDopedGaAs, 9*U10), OM.stack(MTx.NDopedGaAs, U10), OM.stack(MTx.Si3N4, 7*U1000), OM.stack(MT.Au, U8), OM.stack(MT.Al, U8));
+                case 7 -> matData = new OreDictItemData(OM.stack(MTx.PDopedGaAs, 9*U10/64), OM.stack(MTx.NDopedGaAs, U10/64), OM.stack(MTx.Si3N4, 7*U1000/64), OM.stack(MT.Au, U512), OM.stack(MT.Al, U512));
             }
         }
         case TFT_IDX -> {
@@ -198,10 +204,17 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
             ); // e.g. TFT (Developed, Stage I)
             tooltip = WAFER_TOOLTIPS_TFT[stage];
             switch (stage) {
-                case 0, 1    -> matData = new OreDictItemData(MT.Glass, U, MT.Si, U4);
-                case 2, 3, 4 -> matData = new OreDictItemData(MT.Glass, U, MT.Si, U8);
-                case 5, 6, 7 -> matData = new OreDictItemData(MT.Glass, U, MT.Si, U8, MTx.ITO, 13*U20);
-                case 8, 9    -> matData = new OreDictItemData(MT.Glass, U, MT.Si, U8, MTx.ITO, 13*U40);
+                case 0  -> matData = new OreDictItemData(MT.Glass, U, MT.Al, U4);
+                case 1  -> matData = new OreDictItemData(MT.Glass, U, MT.Al, U4, MTx.DnqNovolacResist, U200);
+                case 2  -> matData = new OreDictItemData(MT.Glass, U, MT.Al, U4, MTx.DnqNovolacResist, U1000);
+                case 3  -> matData = new OreDictItemData(MT.Glass, U, MT.Al, U20, MTx.DnqNovolacResist, U1000);
+                case 4  -> matData = new OreDictItemData(MT.Glass, U, MT.Al, U20);
+                case 5  -> matData = new OreDictItemData(MT.Glass, U, MT.Al, U20, MT.SiO2, U4);
+                case 6  -> matData = new OreDictItemData(OM.stack(MT.Glass, U), OM.stack(MT.Al, U20), OM.stack(MT.SiO2, U4), OM.stack(MTx.IGZO, U4));
+                case 7  -> matData = new OreDictItemData(OM.stack(MT.Glass, U), OM.stack(MT.Al, U20), OM.stack(MT.SiO2, U4), OM.stack(MTx.IGZO, U4), OM.stack(MTx.DnqNovolacResist, U200));
+                case 8  -> matData = new OreDictItemData(OM.stack(MT.Glass, U), OM.stack(MT.Al, U20), OM.stack(MT.SiO2, U4), OM.stack(MTx.IGZO, U4), OM.stack(MTx.DnqNovolacResist, U1000));
+                case 9  -> matData = new OreDictItemData(OM.stack(MT.Glass, U), OM.stack(MT.Al, U20), OM.stack(MT.SiO2, U4), OM.stack(MTx.IGZO, U4), OM.stack(MTx.DnqNovolacResist, U1000), OM.stack(MTx.ITO, U4));
+                case 10 -> matData = new OreDictItemData(OM.stack(MT.Glass, U), OM.stack(MT.Al, U20), OM.stack(MT.SiO2, U4), OM.stack(MTx.IGZO, U4), OM.stack(MTx.ITO, U8));
             }
         }
         case LCD_COLOR_IDX -> {
@@ -212,29 +225,80 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
             tooltip = WAFER_TOOLTIPS_LCD_COLOR[stage];
             switch (stage) {
                 case 0 -> matData = new OreDictItemData(MT.Glass, U, MTx.ColorResistRed, U200);
-                case 2 -> matData = new OreDictItemData(MT.Glass, U, MTx.ColorResistGreen, U200);
-                case 4 -> matData = new OreDictItemData(MT.Glass, U, MTx.ColorResistBlue, U200);
-                case 6 -> matData = new OreDictItemData(MT.Glass, U, MTx.ITO, 13*U40);
-                default -> matData = new OreDictItemData(MT.Glass, U);
+                case 1 -> matData = new OreDictItemData(MT.Glass, U, MTx.ColorResistRed, U1000);
+                case 2 -> matData = new OreDictItemData(MT.Glass, U, MTx.ColorResistRed, U1000, MTx.ColorResistGreen, U200);
+                case 3 -> matData = new OreDictItemData(MT.Glass, U, MTx.ColorResistRed, U1000, MTx.ColorResistGreen, U1000);
+                case 4 -> matData = new OreDictItemData(OM.stack(MT.Glass, U), OM.stack(MTx.ColorResistRed, U1000), OM.stack(MTx.ColorResistGreen, U1000), OM.stack(MTx.ColorResistBlue, U200));
+                case 5 -> matData = new OreDictItemData(OM.stack(MT.Glass, U), OM.stack(MTx.ColorResistRed, U1000), OM.stack(MTx.ColorResistGreen, U1000), OM.stack(MTx.ColorResistBlue, U1000));
+                case 6 -> matData = new OreDictItemData(OM.stack(MT.Glass, U), OM.stack(MTx.ColorResistRed, U1000), OM.stack(MTx.ColorResistGreen, U1000), OM.stack(MTx.ColorResistBlue, U1000), OM.stack(MTx.ITO, 13*U40));
             }
         }
         default -> {
-            if (tier < 2) {
+            switch(tier) {
+            case 0 -> {
                 name = String.format("%s %s %s",
                         CHIP_TIER_NAMES[tier],
                         CHIP_TYPE_NAMES[type],
                         PL_STAGE_NAMES_SINGLE[stage]
                 ); // e.g. PMOS IC Wafer (Patterned)
                 tooltip = WAFER_TOOLTIPS_SINGLE[stage];
-                //TODO add matData
-            } else {
+                switch (stage) {
+                    case 0 -> matData = new OreDictItemData(MTx.NDopedSi, 9*U10, MT.SiO2, 3*U10, MTx.DnqNovolacResist, U200);
+                    case 1 -> matData = new OreDictItemData(MTx.NDopedSi, 9*U10, MT.SiO2, 3*U10, MTx.DnqNovolacResist, 4*U1000);
+                    case 2 -> matData = new OreDictItemData(MTx.NDopedSi, 9*U10, MT.SiO2, 4*3*U50, MTx.DnqNovolacResist, 4*U1000);
+                    case 3 -> matData = new OreDictItemData(OM.stack(MTx.NDopedSi, 8*U10), OM.stack(MTx.PDopedSi, U10), OM.stack(MT.SiO2, 4*3*U50), OM.stack(MTx.DnqNovolacResist, 4*U1000));
+                    case 4 -> matData = new OreDictItemData(OM.stack(MTx.NDopedSi, 8*U10), OM.stack(MTx.PDopedSi, U10), OM.stack(MT.SiO2, 4*3*U50));
+                    case 5 -> matData = new OreDictItemData(OM.stack(MTx.NDopedSi, 8*U10), OM.stack(MTx.PDopedSi, U10), OM.stack(MT.SiO2, 4*3*U50), OM.stack(MT.Al, U4));
+                    case 6 -> matData = new OreDictItemData(OM.stack(MTx.NDopedSi, 8*U10), OM.stack(MTx.PDopedSi, U10), OM.stack(MT.SiO2, 4*3*U50), OM.stack(MT.Al, U8));
+                    case 7 -> matData = new OreDictItemData(OM.stack(MTx.NDopedSi, U20), OM.stack(MTx.PDopedSi, U10/16), OM.stack(MT.SiO2, 3*U200), OM.stack(MT.Al, U128));
+                }
+            }
+            case 1 -> {
+                name = String.format("%s %s %s",
+                        CHIP_TIER_NAMES[tier],
+                        CHIP_TYPE_NAMES[type],
+                        PL_STAGE_NAMES_SINGLE[stage]
+                ); // e.g. PMOS IC Wafer (Patterned)
+                tooltip = WAFER_TOOLTIPS_SINGLE[stage];
+                switch (stage) {
+                    case 0 -> matData = new OreDictItemData(MTx.PDopedSi, 9*U10, MT.SiO2, 3*U10, MTx.DnqNovolacResist, U200);
+                    case 1 -> matData = new OreDictItemData(MTx.PDopedSi, 9*U10, MT.SiO2, 3*U10, MTx.DnqNovolacResist, 4*U1000);
+                    case 2 -> matData = new OreDictItemData(MTx.PDopedSi, 9*U10, MT.SiO2, 4*3*U50, MTx.DnqNovolacResist, 4*U1000);
+                    case 3 -> matData = new OreDictItemData(OM.stack(MTx.PDopedSi, 8*U10), OM.stack(MTx.NDopedSi, U10), OM.stack(MT.SiO2, 4*3*U50), OM.stack(MTx.DnqNovolacResist, 4*U1000));
+                    case 4 -> matData = new OreDictItemData(OM.stack(MTx.PDopedSi, 8*U10), OM.stack(MTx.NDopedSi, U10), OM.stack(MT.SiO2, 4*3*U50));
+                    case 5 -> matData = new OreDictItemData(OM.stack(MTx.PDopedSi, 8*U10), OM.stack(MTx.NDopedSi, U10), OM.stack(MT.SiO2, 4*3*U50), OM.stack(MT.Cu, U4));
+                    case 6 -> matData = new OreDictItemData(OM.stack(MTx.PDopedSi, 8*U10), OM.stack(MTx.NDopedSi, U10), OM.stack(MT.SiO2, 4*3*U50), OM.stack(MT.Cu, U8));
+                    case 7 -> matData = new OreDictItemData(OM.stack(MTx.PDopedSi, U20), OM.stack(MTx.NDopedSi, U10/16), OM.stack(MT.SiO2, 3*U200), OM.stack(MT.Cu, U128));
+                }
+            }
+            case 2 -> {
                 name = String.format("%s %s %s",
                         CHIP_TIER_NAMES[tier],
                         CHIP_TYPE_NAMES[type],
                         PL_STAGE_NAMES_DOUBLE[stage]
                 ); // e.g. CMOS CPU Wafer (Patterned, Stage I)
                 tooltip = WAFER_TOOLTIPS_DOUBLE[stage];
-                //TODO add matData
+                switch (stage) {
+                    case 0 -> matData = new OreDictItemData(OM.stack(MTx.PDopedSiGe, 9*U10)                               , OM.stack(MT.SiO2, 3  *U20  ), OM.stack(MTx.GeO2, 3  *U20  ), OM.stack(MTx.DnqNovolacResist, U200));
+                    case 1 -> matData = new OreDictItemData(OM.stack(MTx.PDopedSiGe, 9*U10)                               , OM.stack(MT.SiO2, 3  *U20  ), OM.stack(MTx.GeO2, 3  *U20  ), OM.stack(MTx.DnqNovolacResist, 4*U1000));
+                    case 2 -> matData = new OreDictItemData(OM.stack(MTx.PDopedSiGe, 9*U10)                               , OM.stack(MT.SiO2, 3  *U25  ), OM.stack(MTx.GeO2, 3  *U25  ), OM.stack(MTx.DnqNovolacResist, 4*U1000));
+                    case 3 -> matData = new OreDictItemData(OM.stack(MTx.PDopedSiGe, 8*U10), OM.stack(MTx.NDopedSiGe, U10), OM.stack(MT.SiO2, 3  *U25  ), OM.stack(MTx.GeO2, 3  *U25  ), OM.stack(MTx.DnqNovolacResist, 4*U1000));
+                    case 4 -> matData = new OreDictItemData(OM.stack(MTx.PDopedSiGe, 8*U10), OM.stack(MTx.NDopedSiGe, U10), OM.stack(MT.SiO2, 3  *U25  ), OM.stack(MTx.GeO2, 3  *U25  ));
+                    case 5 -> matData = new OreDictItemData(OM.stack(MTx.PDopedSiGe, 8*U10), OM.stack(MTx.NDopedSiGe, U10), OM.stack(MT.SiO2, 27 *U200 ), OM.stack(MTx.GeO2, 27 *U200 ));
+                    case 6 -> matData = new OreDictItemData(OM.stack(MTx.PDopedSiGe, 8*U10), OM.stack(MTx.NDopedSiGe, U10), OM.stack(MT.SiO2, 27 *U200 ), OM.stack(MTx.GeO2, 27 *U200 ), OM.stack(MTx.DnqNovolacResist, U200));
+                    case 7 -> matData = new OreDictItemData(OM.stack(MTx.PDopedSiGe, 8*U10), OM.stack(MTx.NDopedSiGe, U10), OM.stack(MT.SiO2, 27 *U200 ), OM.stack(MTx.GeO2, 27 *U200 ), OM.stack(MTx.DnqNovolacResist, 4*U1000));
+                    case 8 -> matData = new OreDictItemData(OM.stack(MTx.PDopedSiGe, 8*U10), OM.stack(MTx.NDopedSiGe, U10), OM.stack(MT.SiO2, 126*U1000), OM.stack(MTx.GeO2, 126*U1000), OM.stack(MTx.DnqNovolacResist, 4*U1000));
+                    case 9 -> matData = new OreDictItemData(OM.stack(MTx.PDopedSiGe, 8*U10+U40), OM.stack(MTx.NDopedSiGe, U10-U40), OM.stack(MT.SiO2, 126*U1000), OM.stack(MTx.GeO2, 126*U1000), OM.stack(MTx.DnqNovolacResist, 4*U1000));
+                    case 10-> matData = new OreDictItemData(OM.stack(MTx.PDopedSiGe, 8*U10+U40), OM.stack(MTx.NDopedSiGe, U10-U40), OM.stack(MT.SiO2, 126*U1000), OM.stack(MTx.GeO2, 126*U1000));
+                    case 11-> matData = new OreDictItemData(OM.stack(MTx.PDopedSiGe, 8*U10+U40), OM.stack(MTx.NDopedSiGe, U10-U40), OM.stack(MT.SiO2, 126*U1000), OM.stack(MTx.GeO2, 126*U1000), OM.stack(MT.Ru, U4));
+                    case 12-> matData = new OreDictItemData(OM.stack(MTx.PDopedSiGe, 8*U10+U40), OM.stack(MTx.NDopedSiGe, U10-U40), OM.stack(MT.SiO2, 126*U1000), OM.stack(MTx.GeO2, 126*U1000), OM.stack(MT.Ru, U8));
+                    case 13-> matData = new OreDictItemData(OM.stack(MTx.PDopedSiGe, U20+U40/16), OM.stack(MTx.NDopedSiGe, (U10-U40)/16), OM.stack(MT.SiO2, 126*U1000/16), OM.stack(MTx.GeO2, 126*U1000/16), OM.stack(MT.Ru, U128));
+                }
+            }
+            default -> {
+                LOG.warn("Invalid Chip Tier " + tier);
+                return;
+            }
             }
         }
         }
@@ -249,14 +313,14 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
 
     private void addPhotomasks(int type, int tier) {
         for (int stage = 0; stage < ILx.NUM_PHOTOMASK_STAGES; stage++) {
-            if (tier >= 2 || type == TFT_IDX) for (int plStage = 0; plStage < 2; plStage++) {
+            if (tier >= 2) for (int plStage = 0; plStage < 2; plStage++) {
                 addPhotomask(type, tier, plStage, stage);
             } else {
                 addPhotomask(type, tier, 0, stage);
             }
         }
         addPhotomaskRecipes(type, tier, 0);
-        if (tier >= 2 || type == TFT_IDX) addPhotomaskRecipes(type, tier, 1);
+        if (tier >= 2) addPhotomaskRecipes(type, tier, 1);
     }
 
     private void addWafers(int type, int tier) {
@@ -311,21 +375,21 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
             RM.Bath.addRecipe1(false, 0, 128, ILx.Photomasks[type][tier][number][0].get(1), developer, NF, ILx.Photomasks[type][tier][number][1].get(1));
         // Etching
         RM.Bath.addRecipe1(false, 0, 128, ILx.Photomasks[type][tier][number][1].get(1), MTx.ChromeEtch.liquid(3*U, true), MTx.CrNO3Solution.liquid(7*U2, false), ILx.Photomasks[type][tier][number][2].get(1));
-        // Cleaning
+        // Stripping
         RM.Bath.addRecipe1(false, 0, 256, ILx.Photomasks[type][tier][number][2].get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Photomasks[type][tier][number][3].get(1));
     }
 
     private void addPMOSWaferRecipes(int type) {
         int tier = 0;
         long LUt = type == 0 ? 32 : 128;
-        RMx.Photolithography.addRecipe2(false, LUt, 128, oxidizedWafer.mat(MTx.NDopedSi, 1), ILx.Photomasks[type][tier][0][PM_FINISHED].get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafers[type][tier][0].get(1));
+        RMx.Photolithography.addRecipe2(false, LUt, 128, ILx.Wafer_Oxidized_N_Si.get(1), ILx.Photomasks[type][tier][0][PM_FINISHED].get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafers[type][tier][0].get(1));
         for (FluidStack developer : DEVELOPERS)
             RM.Bath.addRecipe1(false, 0, 128, ILx.Wafers[type][tier][0].get(1), developer, NF, ILx.Wafers[type][tier][1].get(1));
         // Wet etching
-        RM.Bath.addRecipe1(false, 0, 128, ILx.Wafers[type][tier][1].get(1), FL.array(MT.HF.gas(12*U1000, true)), FL.array(MT.H2SiF6.liquid(9*U1000, false), MT.H2O.liquid(6*U1000, false)), ILx.Wafers[type][tier][2].get(1));
-        // Post-growth doping using P-dopant
+        RM.Bath.addRecipe1(false, 0, 128, ILx.Wafers[type][tier][1].get(1), FL.array(MT.HF.gas(12*U50, true)), FL.array(MT.H2SiF6.liquid(9*U50, false), MT.H2O.liquid(6*U50, false)), ILx.Wafers[type][tier][2].get(1));
+        // Post-growth doping using Ion Implantation of P-dopant
         RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][2].get(1), MTx.BF3.gas(4*U1000, true), MTx.SiF4.gas(3*U1000, false), ILx.Wafers[type][tier][3].get(1));
-        // Photoresist cleaning
+        // Photoresist stripping
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][3].get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafers[type][tier][4].get(1));
         // Metallization using Al PVD
         RMx.VacuumDeposition.addRecipe1(true, 16, 64, ILx.Wafers[type][tier][4].get(1), MT.Al.liquid(U4, true), NF, ILx.Wafers[type][tier][5].get(1));
@@ -340,15 +404,15 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
     private void addNMOSWaferRecipes(int type) {
         int tier = 1;
         long LUt = type == 0 ? 128 : 512;
-        RMx.Photolithography.addRecipe2(false, LUt, 128, oxidizedWafer.mat(MTx.PDopedSi, 1), ILx.Photomasks[type][tier][0][PM_FINISHED].get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafers[type][tier][0].get(1));
+        RMx.Photolithography.addRecipe2(false, LUt, 128, ILx.Wafer_Oxidized_P_Si.get(1), ILx.Photomasks[type][tier][0][PM_FINISHED].get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafers[type][tier][0].get(1));
         for (FluidStack developer : DEVELOPERS)
             RM.Bath.addRecipe1(false, 0, 128, ILx.Wafers[type][tier][0].get(1), developer, NF, ILx.Wafers[type][tier][1].get(1));
         // Plasma etching
-        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][1].get(1), FL.array(MTx.CF4.plasma(15*U1000, true)), FL.array(MTx.SiF4.gas(15*U1000, false), MT.CO2.gas(9*U1000, false)), ILx.Wafers[type][tier][2].get(1));
-        // Post-growth doping using N-dopant
+        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][1].get(1), FL.array(MTx.CF4.plasma(U50, true)), FL.array(MTx.SiF4.gas(U50, false), MT.CO2.gas(3*U50, false)), ILx.Wafers[type][tier][2].get(1));
+        // Post-growth doping using Ion Implantation of n-dopants
         RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][2].get(1), MTx.PH3 .gas(4*U1000, true), MTx.SiH4.gas(3*U1000, false), ILx.Wafers[type][tier][3].get(1));
         RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][2].get(1), MTx.AsH3.gas(4*U1000, true), MTx.SiH4.gas(3*U1000, false), ILx.Wafers[type][tier][3].get(1));
-        // Photoresist cleaning
+        // Photoresist stripping
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][3].get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafers[type][tier][4].get(1));
         // Metallization using Cu Electroplating
         for (FluidStack water : FL.waters(750)) {
@@ -366,15 +430,15 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         int tier = 2;
         long LUt = type == 0 ? 512 : 2048;
         // Stage I
-        RMx.Photolithography.addRecipe2(false, LUt, 128, oxidizedWafer.mat(MTx.PDopedSiGe, 1), ILx.Photomasks[type][tier][0][PM_FINISHED].get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafers[type][tier][0].get(1));
+        RMx.Photolithography.addRecipe2(false, LUt, 128, ILx.Wafer_Oxidized_P_SiGe.get(1), ILx.Photomasks[type][tier][0][PM_FINISHED].get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafers[type][tier][0].get(1));
         for (FluidStack developer : DEVELOPERS)
             RM.Bath.addRecipe1(false, 0, 128, ILx.Wafers[type][tier][0].get(1), developer, NF, ILx.Wafers[type][tier][1].get(1));
         // Plasma etching
-        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][1].get(1), FL.array(MTx.CF4.plasma(3*U1000, true)), FL.array(MTx.SiF4.gas(3*U1000, false), MT.CO2.gas(9*U1000, false)), ILx.Wafers[type][tier][2].get(1));
+        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][1].get(1), FL.array(MTx.CF4.plasma(U50, true)), FL.array(MTx.SiF4.gas(U50, false), MT.CO2.gas(3*U50, false)), ILx.Wafers[type][tier][2].get(1));
         // Post-growth doping of N-wells
         RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][2].get(1), MTx.PH3 .gas(4*U1000, true), MTx.SiH4.gas(3*U1000, false), ILx.Wafers[type][tier][3].get(1));
         RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][2].get(1), MTx.AsH3.gas(4*U1000, true), MTx.SiH4.gas(3*U1000, false), ILx.Wafers[type][tier][3].get(1));
-        // Photoresist cleaning
+        // Photoresist stripping
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][3].get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafers[type][tier][4].get(1));
         // Oxide layer
         RM.Roasting.addRecipe1(true, 16, 256, ILx.Wafers[type][tier][4].get(1), MT.O.gas(U10, true), NF, ILx.Wafers[type][tier][5].get(1));
@@ -386,8 +450,8 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         // Plasma etching
         RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][7].get(1), FL.array(MTx.CF4.plasma(3*U1000, true)), FL.array(MTx.SiF4.gas(3*U1000, false), MT.CO2.gas(9*U1000, false)), ILx.Wafers[type][tier][8].get(1));
         // Post-growth doping of P-Junctions
-        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][8].get(1), MTx.BF3.gas(4*U1000, true), MTx.SiF4.gas(3*U1000, false), ILx.Wafers[type][tier][9].get(1));
-        // Photoresist cleaning
+        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][8].get(1), MTx.BF3.gas(2*U1000, true), MTx.SiF4.gas(U1000, false), ILx.Wafers[type][tier][9].get(1));
+        // Photoresist stripping
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][9].get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafers[type][tier][10].get(1));
 
         // Metallization using Ru Electroplating
@@ -408,8 +472,8 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
             RM.Bath.addRecipe1(false, 0, 128, ILx.Wafers[type][tier][0].get(1), developer, NF, ILx.Wafers[type][tier][1].get(1));
         // Dry etching
         RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][1].get(1), FL.array(MTx.NF3.plasma(4*U1000, true)), FL.array(MTx.SiF4.gas(3*U1000, false), MT.N.gas(8*U1000, false)), ILx.Wafers[type][tier][2].get(1));
-        // Doping with Beryllium
-        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][2].get(1), MTx.BeMe2.liquid(3*2*U1000, true), MTx.AsH3.gas(4*U1000, false), ILx.Wafers[type][tier][3].get(1));
+        // Doping with Silicon
+        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][2].get(1), MTx.SiH4.gas(3*U1000, true), MTx.GaH3.gas(4*U1000, false), ILx.Wafers[type][tier][3].get(1));
         // Metal 1 layer of electroplated Gold
         for (FluidStack water : FL.waters(1000)) {
             RM.Electrolyzer.addRecipe1(true, 32, 22, ILx.Wafers[type][tier][3].get(1), FL.array(MTx.NaAuC2N2.liquid(6*U4, true), FL.mul(water, 3, 2, true)), FL.array(MTx.HCN.gas(3*U2, false), MT.H.gas(U4, false), MT.O.gas(U4, false)), ILx.Wafers[type][tier][4].get(1), dustSmall.mat(MT.NaOH, 3));
@@ -427,27 +491,36 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
     private void addTFTRecipes() {
         int tier = 0, type = TFT_IDX;
 
-        // Stage I (TFT layer)
-        RMx.Photolithography.addRecipe2(false, 128, 128, ILx.TFTGlass.get(1), ILx.Photomasks[type][tier][0][PM_FINISHED].get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafers[type][tier][0].get(1));
+        // IGZO process (see https://www.mdpi.com/1996-1944/7/8/5761)
+
+        // 1. Gate layer
+        RMx.VacuumDeposition.addRecipe1(true, 16, 128, plate.mat(MT.Glass, 1), MT.Al.liquid(U4, true), NF, ILx.Wafers[type][tier][0].get(1));
+        RMx.Photolithography.addRecipe2(false, 128, 128, ILx.Wafers[type][tier][0].get(1), ILx.Photomasks[type][tier][0][PM_FINISHED].get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafers[type][tier][1].get(1));
         for (FluidStack developer : DEVELOPERS)
-            RM.Bath.addRecipe1(false, 0, 128, ILx.Wafers[type][tier][0].get(1), developer, NF, ILx.Wafers[type][tier][1].get(1));
-        // Plasma etching of Si layer
-        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][1].get(1), FL.array(MTx.NF3.plasma(4*U1000, true)), FL.array(MTx.SiF4.gas(3*U1000, false), MT.N.gas(4*U1000, false)), ILx.Wafers[type][tier][2].get(1));
-        // Post-growth doping of N-wells
-        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][2].get(1), MTx.PH3 .gas(4*U1000, true), MTx.SiH4.gas(3*U1000, false), ILx.Wafers[type][tier][3].get(1));
-        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][2].get(1), MTx.AsH3.gas(4*U1000, true), MTx.SiH4.gas(3*U1000, false), ILx.Wafers[type][tier][3].get(1));
-        // Photoresist cleaning
+            RM.Bath.addRecipe1(false, 0, 128, ILx.Wafers[type][tier][1].get(1), developer, NF, ILx.Wafers[type][tier][2].get(1));
+        RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][2].get(1), FL.array(MTx.AlEtch.liquid(4*13*U20, true)), FL.array(MTx.AlPO4Solution.liquid(4*11*U20, false), MT.H.gas(4*3*U20, false)), ILx.Wafers[type][tier][3].get(1));
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][3].get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafers[type][tier][4].get(1));
 
-        // Stage II (TCF layer)
-        RMx.VacuumDeposition.addRecipe2(true, 16, 128, ILx.Wafers[type][tier][4].get(1), foil.mat(MTx.In4Sn, 1), MT.O.gas(4*U10, true), NF, ILx.Wafers[type][tier][5].get(1));
-        RMx.Photolithography.addRecipe2(false, 128, 128, ILx.Wafers[type][tier][5].get(1), ILx.Photomasks[type][tier][1][PM_FINISHED].get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafers[type][tier][6].get(1));
-        for (FluidStack developer : FL.array(MTx.NaOHSolution.liquid(U10, true), MTx.Na2CO3Solution.liquid(U10, true)))
-            RM.Bath.addRecipe1(false, 0, 128, ILx.Wafers[type][tier][6].get(1), developer, NF, ILx.Wafers[type][tier][7].get(1));
-        // Plasma etching of ITO layer
-        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][7].get(1), FL.array(MTx.CF4.plasma(3*U1000, true)), FL.array(MTx.InF3.liquid(4*U1000, false), MT.CO2.gas(9*U1000, false)), ILx.Wafers[type][tier][8].get(1));
+        // 2. Insulator & semiconductor layers
+        RMx.VacuumDeposition.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][4].get(1), FL.array(MTx.SiH4.gas(U4, true), MT.O.gas(U, true)), FL.array(MT.H2O.liquid(6*U4, false)), ILx.Wafers[type][tier][5].get(1));
+        RMx.VacuumDeposition.addRecipe2(true, 16, 128, ILx.Wafers[type][tier][5].get(1), dustSmall.mat(MTx.IGZO, 1), ILx.Wafers[type][tier][6].get(1));
+        RMx.Photolithography.addRecipe2(false, 128, 128, ILx.Wafers[type][tier][6].get(1), ILx.Photomasks[type][tier][0][PM_FINISHED].get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafers[type][tier][7].get(1));
+        for (FluidStack developer : DEVELOPERS)
+            RM.Bath.addRecipe1(false, 0, 128, ILx.Wafers[type][tier][7].get(1), developer, NF, ILx.Wafers[type][tier][8].get(1));
+
+        // 3. Source/Drain ITO layer and lift-off
+        RMx.VacuumDeposition.addRecipe2(true, 16, 128, ILx.Wafers[type][tier][8].get(1), dustSmall.mat(MTx.ITO, 1), ILx.Wafers[type][tier][9].get(1));
+        RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][9].get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafers[type][tier][10].get(1));
+
+        // 4. Etching of S/D channel (currently skipped)
+        /*
+        RMx.Photolithography.addRecipe2(false, 128, 128, ILx.Wafers[type][tier][10].get(1), ILx.Photomasks[type][tier][1][PM_FINISHED].get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafers[type][tier][11].get(1));
+        for (FluidStack developer : DEVELOPERS)
+            RM.Bath.addRecipe1(false, 0, 128, ILx.Wafers[type][tier][11].get(1), developer, NF, ILx.Wafers[type][tier][12].get(1));
+        RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][12].get(1), FL.array(MTx.CF4.plasma(3*U1000, true)), FL.array(MTx.InF3.liquid(4*U1000, false), MT.CO2.gas(9*U1000, false)), ILx.Wafers[type][tier][13].get(1));
         // Photoresist cleaning
-        RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][8].get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafers[type][tier][9].get(1));
+        RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][13].get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafers[type][tier][14].get(1));
+         */
     }
 
     private void addLCDColorFilterRecipes() {
@@ -465,7 +538,7 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         for (FluidStack developer : DEVELOPERS)
             RM.Bath.addRecipe1(false, 0, 128, ILx.Wafers[type][tier][4].get(1), developer, NF, ILx.Wafers[type][tier][5].get(1));
         // ITO
-        RMx.VacuumDeposition.addRecipe2(true, 16, 128, ILx.Wafers[type][tier][5].get(1), foil.mat(MTx.In4Sn, 1), MT.O.gas(4*U10, true), NF, ILx.Wafers[type][tier][6].get(1));
+        RMx.VacuumDeposition.addRecipe2(true, 16, 128, ILx.Wafers[type][tier][5].get(1), dustSmall.mat(MTx.ITO, 1), ILx.Wafers[type][tier][6].get(1));
     }
 
     protected ItemStack addItemWithIcon(int id, String english, String toolTip, Object... randomData) {
