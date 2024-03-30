@@ -112,6 +112,11 @@ public class MTEx {
         Ionizer3(452),
         Ionizer4(453),
         Ionizer5(454),
+        VacuumChamber1(460),
+        VacuumChamber2(461),
+        VacuumChamber3(462),
+        VacuumChamber4(463),
+        VacuumChamber5(464),
         ;
 
         public static final IDs[] Hydrocracker = { null, Hydrocracker1, Hydrocracker2, Hydrocracker3, Hydrocracker4 };
@@ -121,6 +126,7 @@ public class MTEx {
         public static final IDs[] IonBombardment = { null, IonBombardment1, IonBombardment2, IonBombardment3, IonBombardment4, IonBombardment5 };
         public static final IDs[] Soldering = { null, Soldering1, Soldering2, Soldering3, Soldering4, Soldering5 };
         public static final IDs[] Ionizer = { null, Ionizer1, Ionizer2, Ionizer3, Ionizer4, Ionizer5 };
+        public static final IDs[] VacuumChamber = { null, VacuumChamber1, VacuumChamber2, VacuumChamber3, VacuumChamber4, VacuumChamber5 };
 
         private final int id;
 
