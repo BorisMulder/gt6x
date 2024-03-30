@@ -79,7 +79,6 @@ public class MTx {
         MT.Eu.hide(false);
         MT.Te.hide(false);
         MT.Tl.hide(false);
-        MT.Glycerol.uumMcfg(1, MT.C, 3*U, MT.H, 8*U, MT.O, 3*U);
 
         MT.OREMATS.Wolframite.setLocal("Magnesium Tungstate").addSourceOf(MT.Mg);
         MT.OREMATS.Tungstate.setLocal("Lithium Tungstate");
@@ -95,7 +94,6 @@ public class MTx {
         addMolten(MT.Ga, 144);
         addMolten(MT.Nb, 144);
 
-        addVapour(MT.Al);
         addVapour(MT.Zn);
         addVapour(MT.As);
         addVapour(MT.Mg);
@@ -359,7 +357,7 @@ public class MTx {
             .uumMcfg(1, MT.Zn, U, MT.O, U)
             .heat(2247, 2630),
     FeCr2 = alloymachine(16060, "Ferrochrome", SET_SHINY, 160, 150, 150)
-            .uumMcfg(0, MT.Fe, U, MT.Cr, 2*U)
+            .uumAloy(0, MT.Fe, U, MT.Cr, 2*U)
             .heat(C+1500),
     Co3O4 = dustdcmp(16061, "Tricobalt Tetroxide", SET_DULL, 150, 150, 180, 255)
             .uumMcfg(0, MT.Co, 3*U, MT.O, 4*U)
@@ -796,7 +794,7 @@ public class MTx {
     DiluteH2SO4 = registerLiquid(lqudaciddcmp(16200, "Dilute Sulfuric Acid", 255, 192, 128, 200))
             .setMcfg(0, MT.H2SO4, 7*U, MT.H2O, 3*U)
             .heat(MT.H2SO4),
-    DnqNovolacResist = registerLiquid(lquddcmp(16201, "DNQ-Novolac Photoresist", 84, 145, 84, 200)
+    DnqNovolacResist = registerLiquid(lquddcmp(16201, "Photoresist", 84, 145, 84, 200)
             .heat(MT.H2O)),
     Na2SO4Solution = simpleSolution(16202, "Sodium Sulfate Solution", 190, 190, 140, 255, MT.Na2SO4, 3),
     ArF = registerGas(gasdcmp(16203, "Argon-Fluorine", 64, 255, 0, 200)
@@ -882,7 +880,7 @@ public class MTx {
             .setMcfg(0, MT.H, 3*U, MT.Ru, 2*U, MT.N, U, MT.Cl, 8*U, MT.H2O, 6*U)
             .heat(MT.H2O)),
     RuElectrolyte = registerLiquid(lquddcmp(16231, "Ruthenium Electroplating Solution", 155, 190, 155, 250)
-            .setMcfg(0, MT.N, 4*U, MT.H, 16*U, MT.Ru, U, MT.Cl, 8*U, MT.O, 2*U)
+            .setMcfg(0, MT.N, 4*U, MT.H, 16*U, MT.Ru, 2*U, MT.Cl, 8*U, MT.O, 2*U)
             .tooltip("(NH" + NUM_SUB[4] + ")" + NUM_SUB[3] + "Ru" + NUM_SUB[2]+ "NCl" + NUM_SUB[8]+ "(H" + NUM_SUB[2] + "O)"+ NUM_SUB[2])
             .heat(MT.H2O)),
     PdAg = alloymachine(16232, "Palladium-Silver", SET_SHINY, 174, 174, 192, 255)
@@ -1093,9 +1091,9 @@ public class MTx {
             .put(CENTRIFUGE),
     Aquadag = dustdcmp(16304, "Aquadag", SET_FOOD, 10, 10, 10, 255)
             .heat(MT.H2O),
-    In4Sn = alloymachine(16305, "Indium-Tin", SET_METALLIC, 128, 0, 192)
-            .setMcfg(0, MT.In, 4*U, MT.Sn, U)
-            .heat(MT.In),
+    Ga2O3 = dustdcmp(16305, "Gallium(III) Oxide", SET_METALLIC, 225, 210, 255, 255)
+            .setMcfg(0, MT.Ga, 2*U, MT.O, 3*U)
+            .heat(1998),
     InF3 = dustdcmp(16306, "Indium Trifluoride", SET_DULL, 255, 255, 255, 255)
             .setMcfg(0, MT.In, U, MT.F, 3*U)
             .heat(1445)
@@ -1117,7 +1115,7 @@ public class MTx {
             .setMcfg(1, MT.C, U, MT.H, 3*U, MT.Cl, U)
             .heat(175, 249)),
     Ether = registerLiquid(lquddcmp(16312, "Diethyl Ether", 220, 220, 220, 220, "Ether", "Ethoxyethane")
-            .setMcfg(1, MT.C, U, MT.H, 10*U, MT.O, U)
+            .setMcfg(1, MT.C, 4*U, MT.H, 10*U, MT.O, U)
             .heat(258, 329)),
     CH3Li = registerLiquid(lquddcmp(16313, "Methyllithium Solution", 200, 200, 200, 220)
             .setMcfg(3, MT.C, U, MT.H, 3*U, MT.Li, U, Ether, 2*U)
@@ -1162,8 +1160,8 @@ public class MTx {
     PDopedGaP = dopedSemiconductor(16327, "P-Doped Gallium Phosphide", GaP, false),
     NDopedGaN = dopedSemiconductor(16328, "N-Doped Gallium Nitride", GaN, false),
     PDopedGaN = dopedSemiconductor(16329, "P-Doped Gallium Nitride", GaN, false),
-    NDopedGaAs = dopedSemiconductor(16330, "N-Doped Gallium Arsenide", GaAs, false),
-    PDopedGaAs = dopedSemiconductor(16331, "P-Doped Gallium Arsenide", GaAs, false),
+    NDopedGaAs = dopedSemiconductor(16330, "N-Doped Gallium Arsenide", GaAs, true),
+    PDopedGaAs = dopedSemiconductor(16331, "P-Doped Gallium Arsenide", GaAs, true),
     ColorResistRed = registerLiquid(lquddcmp(16332, "Red Color Resist", 255, 0, 0, 200)
             .setMcfg(2, DnqNovolacResist, U)),
     ColorResistGreen = registerLiquid(lquddcmp(16333, "Green Color Resist", 0, 255, 0, 200)
@@ -1183,7 +1181,14 @@ public class MTx {
     TeO2 = dustdcmp(16339, "Tellurium Dioxide", SET_FINE, 255, 255, 225, 255)
             .uumMcfg(1, MT.Te, U, MT.O, 2*U)
             .heat(1005, 1518)
-            .put(ELECTROLYSER)
+            .put(ELECTROLYSER),
+    GaH3 = registerGas(gasdcmp(16340, "Gallane", 230, 230, 230, 150)
+            .setMcfg(1, MT.Ga, U, MT.H, 3*U)
+            .heat(223, 241)),
+    NaNO3Solution = simpleSolution(16341, "Sodium Nitrate Solution", 255, 255, 0, 255, MT.NaNO3, 3),
+    IGZO = dustdcmp(16342, "Indium Gallium Zinc Oxide", SET_METALLIC, 255, 50, 255, 255)
+            .uumMcfg(0, MT.In, 2*U, MT.Ga, 2*U, MT.Zn, U, MT.O, 7*U)
+            .heat(850+C)
     ;
 
     /*

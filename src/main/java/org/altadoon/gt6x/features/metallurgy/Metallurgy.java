@@ -356,7 +356,6 @@ public class Metallurgy extends GT6XFeature {
         RM.Anvil.addRecipe2(false, 64, 192, scrapGt.mat(MTx.SpongeIron, 9), scrapGt.mat(MTx.SpongeIron, 9), ingot.mat(MT.WroughtIron, 1), scrapGt.mat(MTx.FerrousSlag, 8));
 
         // Sublimation/Precipitation of Al, Zn, As, Mg, P gases
-        RM.Smelter.addRecipe0(false, 16, 8, MT.Al.liquid(U144, true), MT.Al.gas(U144, false), ZL_IS);
         RM.Smelter.addRecipe1(true, 16, 144, blockDust.mat(MT.As, 1), ZL_FS, MT.As.gas(9*U, false), ZL_IS);
         RM.Smelter.addRecipe1(true, 16, 16,  dust.mat(MT.As, 1), ZL_FS, MT.As.gas(U, false), ZL_IS);
         RM.Smelter.addRecipe1(true, 16, 4,   dustSmall.mat(MT.As, 1), ZL_FS, MT.As.gas(U4, false), ZL_IS);
@@ -364,12 +363,10 @@ public class Metallurgy extends GT6XFeature {
         RM.Smelter.addRecipe1(true, 16, 1,   dustDiv72.mat(MT.As, 1), ZL_FS, MT.As.gas(U72, false), ZL_IS);
         RM.Freezer.addRecipe1(true, 16, 48, ST.tag(0), MT.Zn.gas(U, true), NF, OM.ingot(MT.Zn, U)); // from 1180 to 300
         RM.Freezer.addRecipe1(true, 16, 32, ST.tag(0), MT.As.gas(U, true), NF, OM.ingot(MT.As, U)); // from 887 to 300
-        RM.Freezer.addRecipe1(true, 16, 144,ST.tag(0), MT.Al.gas(U, true), NF, OM.ingot(MT.Al, U)); // from 2792 to 300
         RM.Freezer.addRecipe1(true, 16, 64, ST.tag(0), MT.Mg.gas(U, true), NF, OM.ingot(MT.Mg, U)); // from 1378 to 300
         RM.Bath   .addRecipe1(true, 0, 256, ST.tag(0), MT.Zn.gas(U, true), MT.Zn.liquid(U, false), NI); // from 1180 to 692
         RM.Bath   .addRecipe1(true, 0, 256, ST.tag(0), MT.As.gas(U, true), NF, OM.ingot(MT.As, U)); // from 887 to 300
         RM.Bath   .addRecipe1(true, 0, 256, ST.tag(0), MT.Mg.gas(U, true), MT.Mg.liquid(U, false), NI); // from 1378 to 922
-        RM.Bath   .addRecipe1(true, 0, 512, ST.tag(0), MT.Al.gas(U, true), MT.Al.liquid(U, false), NI); // from 2792 to 933
         RM.Bath   .addRecipe1(true, 0, 128, ST.tag(0), FL.array(MTx.ZnBlastFurnaceGas.gas(7*U, true)), FL.array(MT.Zn.liquid(U, false), MTx.BlastFurnaceGas.gas(6*U, false)));
         RM.Bath   .addRecipe1(true, 0, 128, ST.tag(0), FL.array(MTx.MgBlastFurnaceGas.gas(7*U, true)), FL.array(MT.Mg.liquid(U, false), MT.CO2.gas(6*U, false)));
         RM.Bath   .addRecipe1(true, 0, 256, ST.tag(0), FL.array(MTx.P_CO_Gas.gas(6*U, true)), FL.array(MT.CO.gas(5*U, false)), dust.mat(MT.P, 1));
@@ -443,6 +440,8 @@ public class Metallurgy extends GT6XFeature {
             RM.Mixer.addRecipe1(true, 16, 192, dust.mat(MT.NaOH, 3), FL.array(MTx.GaAmalgam.liquid(10*U, true), FL.mul(water, 3), FL.Oxygen.make(1500)), FL.array(MT.Hg.liquid(9*U, false)), dust.mat(MTx.NaGaOH4, 10));
         }
         RM.Electrolyzer.addRecipe2(true, 64, 512, ST.tag(1), dust.mat(MTx.NaGaOH4, 10), ZL_FS, FL.array(FL.Water.make(1500), FL.Oxygen.make(1500), MTx.NaOHSolution.liquid(6*U, false)), dust.mat(MT.Ga, 1));
+        RM.Bath.addRecipe1(true, 0, 100, dust.mat(MTx.NaGaOH4, 20), MT.HCl.gas(4*U, true), FL.Saltwater.make(16000), dust.mat(MTx.Ga2O3, 5));
+        RM.Roasting.addRecipe1(true, 16, 64, dust.mat(MT.Ga, 2), MT.O.gas(3*U, true), NF, dust.mat(MTx.Ga2O3, 5));
 
         // Zn byproducts
         RM.Bath.addRecipe1(true, 0, 256  , dustTiny.mat(MT.Zn, 1), FL.array(MTx.ZnLeachingSolution.liquid(9  *U, true)), FL.array(MT.WhiteVitriol.liquid(6  *U, false), MT.H2O.liquid(3  *U, false)), dustTiny.mat(MT.Cd, 1));

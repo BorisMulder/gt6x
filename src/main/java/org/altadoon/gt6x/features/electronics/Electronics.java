@@ -40,7 +40,7 @@ import static org.altadoon.gt6x.features.electronics.MultiItemsPhotolithography.
 public class Electronics extends GT6XFeature {
     public static final String FEATURE_NAME = "Electronics";
 
-    private static final OreDictMaterial[] PolyGemMaterials = { MT.Si, MT.Ge, MTx.GaAs, MTx.SiGe, MTx.PDopedSi, MTx.NDopedSi, MTx.PDopedGe, MTx.NDopedGe };
+    private static final OreDictMaterial[] PolyGemMaterials = { MT.Si, MT.Ge, MTx.GaAs, MTx.SiGe, MTx.PDopedSi, MTx.NDopedSi, MTx.PDopedGe, MTx.NDopedGe, MTx.PDopedGaAs, MTx.NDopedGaAs };
     public static OreDictPrefix polyGem = OreDictPrefix.createPrefix("polyGem")
         .setCategoryName("polyGems")
         .setLocalItemName("Polycrystalline ", "")
@@ -48,14 +48,6 @@ public class Electronics extends GT6XFeature {
         .add(TD.Prefix.RECYCLABLE)
         .setCondition(ICondition.FALSE)
         .forceItemGeneration(PolyGemMaterials);
-    private static final OreDictMaterial[] OxidizedWaferMaterials = { MT.Si, MT.Ge, MTx.SiGe, MTx.PDopedSi, MTx.NDopedSi, MTx.PDopedSiGe, MTx.NDopedSiGe };
-    public static OreDictPrefix oxidizedWafer = OreDictPrefix.createPrefix("oxidizedWafer")
-        .setCategoryName("oxidizedWafers")
-        .setLocalItemName("Oxidized ", " Wafer")
-        .setMaterialStats(U)
-        .add(TD.Prefix.RECYCLABLE)
-        .setCondition(ICondition.FALSE)
-        .forceItemGeneration(OxidizedWaferMaterials);
 
     @Override
     public String name() {
@@ -97,7 +89,6 @@ public class Electronics extends GT6XFeature {
 
     private void createPrefixes() {
         new PrefixItem(MOD_ID, MD.GT.mID, "gt6x.meta.polyGem" , polyGem);
-        new PrefixItem(MOD_ID, MD.GT.mID, "gt6x.meta.oxidizedWafer" , oxidizedWafer);
     }
 
     private void addOredictReRegistrations() {
@@ -145,8 +136,9 @@ public class Electronics extends GT6XFeature {
         RM.Mixer.addRecipeX(true, 16, 16, ST.array(dustTiny.mat(MTx.BaCO3, 6), dustTiny.mat(MT.CaCO3, 2), dustTiny.mat(MTx.SrCO3, 1)), dust.mat(MTx.BaSrCaCO3, 1));
 
         RM.Press.addRecipeX(true, 16, 64, ST.array(OP.wireFine.mat(MT.Mo, 1), OP.bolt.mat(MT.Mo, 2), OP.wireGt01.mat(MT.Constantan, 2)), ILx.Filament_Molybdenum.get(1));
-        for (OreDictMaterial mat : ANY.W.mToThis)
-        RM.Press.addRecipeX(true, 16, 64, ST.array(OP.wireFine.mat(mat  , 1), OP.bolt.mat(mat  , 2), OP.wireGt01.mat(MT.Nichrome  , 2)), ILx.Filament_Tungsten  .get(1));
+        for (OreDictMaterial mat : ANY.W.mToThis) {
+        RM.Press.addRecipeX(true, 16, 64, ST.array(OP.wireFine.mat(mat, 1), OP.bolt.mat(mat, 2), OP.wireGt01.mat(MT.Nichrome, 2)), ILx.Filament_Tungsten.get(1));
+        }
 
         RMx.Thermolysis.addRecipe2(true, 16, 128, ILx.Filament_Molybdenum.get(1), dustSmall.mat(MTx.BaCO3    , 1), NF, MT.CO2.gas(3*U20, false), ILx.Cathode_Molybdenum.get(1));
         RMx.Thermolysis.addRecipe2(true, 16, 128, ILx.Filament_Molybdenum.get(1), dustSmall.mat(MTx.BaSrCaCO3, 1), NF, MT.CO2.gas(3*U20, false), ILx.Cathode_Molybdenum.get(1));
@@ -244,6 +236,7 @@ public class Electronics extends GT6XFeature {
         RM.Electrolyzer.addRecipe2(true, 32, 256, OP.stick.mat(MT.Ge, 1), OM.dust(MT.Cd, U), FL.Water.make(3000), MTx.GeH4.gas(U2, false), OM.dust(MTx.CdO, 2 * U));
         RM.Bath.addRecipe1(true, 0, 256, dust.mat(MTx.Mg2Si, 3), MT.HCl.gas(8 * U, true), MTx.SiH4.gas(U, false), dust.mat(MT.MgCl2, 6));
         RM.Mixer.addRecipe0(true, 16, 60, FL.array(MTx.SiH4.gas(U, true), MTx.GeH4.gas(U, true)), FL.array(MTx.SiGeH8.gas(2 * U, false)));
+        RMx.Thermolysis.addRecipe1(true, 16, 16, ST.tag(0), MTx.GaH3.gas(U, true), MT.H.gas(3*U, false), dust.mat(MT.Ga, 1));
 
         RMx.Thermolysis.addRecipe1(true, 16, 512, ST.tag(0), MTx.GeH4  .gas(U, true), MT.H.gas(4 * U, false), polyGem.mat(MT.Ge, 1));
         RMx.Thermolysis.addRecipe1(true, 16, 512, ST.tag(0), MTx.SiH4  .gas(U, true), MT.H.gas(4 * U, false), polyGem.mat(MT.Si, 1));
@@ -259,7 +252,9 @@ public class Electronics extends GT6XFeature {
             RMx.Thermolysis.addRecipe1(true, 16, 512, ST.tag(1), FL.array(MTx.SiGeH8.gas(U, true), nDopant.gas(U500, true)), MT.H.gas(4 * U, false), polyGem.mat(MTx.NDopedSiGe, 1));
         }
 
-        RM.CrystallisationCrucible.addRecipe1(true, 16, 1800, ST.tag(0), FL.array(MT.Ga.liquid(U, true), MT.As.gas(U, true)), ZL_FS, polyGem.mat(MTx.GaAs, 1));
+        RMx.Thermolysis.addRecipe1(true, 16, 512, ST.tag(0), FL.array(MT.Ga.liquid(U, true), MT.As.gas(U, true)), ZL_FS, polyGem.mat(MTx.GaAs, 1));
+        RMx.Thermolysis.addRecipe1(true, 16, 512, ST.tag(0), FL.array(MT.Ga.liquid(U, true), MT.As.gas(U, true), MT.Zn.liquid(U144, true)), ZL_FS, polyGem.mat(MTx.PDopedGaAs, 1));
+        RMx.Thermolysis.addRecipe1(true, 16, 512, ST.tag(0), FL.array(MT.Ga.liquid(U, true), MT.As.gas(U, true), MT.Si.liquid(U144, true)), ZL_FS, polyGem.mat(MTx.NDopedGaAs, 1));
 
         // RecipeMapHandlerPrefix not working here
         for (OreDictMaterial mat : PolyGemMaterials)
@@ -275,8 +270,10 @@ public class Electronics extends GT6XFeature {
         for (FluidStack nobleGas : FL.array(MT.He.gas(U, true), MT.Ne.gas(U, true), MT.Ar.gas(U, true), MT.Kr.gas(U, true), MT.Xe.gas(U, true), MT.Rn.gas(U, true)))
             if (nobleGas != null) {
                 // i-type semiconductors
-                RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.GaAs, 1), FL.array(FL.mul(nobleGas, 1), MT.Ga.liquid(35 * U9, true), MT.As.gas(35 * U9, true)), ZL_FS, bouleGt.mat(MTx.GaAs, 1));
-                RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.GaAs, 1), FL.array(FL.mul(nobleGas, 9), MT.Ga.liquid(35 * U , true), MT.As.gas(35 * U , true)), ZL_FS, bouleGt.mat(MTx.GaAs, 9));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.GaAs, 1), FL.array(FL.mul(nobleGas, 1), MT.Ga.liquid(35 * U18, true), MT.As.gas(35 * U18, true)), ZL_FS, bouleGt.mat(MTx.GaAs, 1));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.GaAs, 1), FL.array(FL.mul(nobleGas, 9), MT.Ga.liquid(35 * U2 , true), MT.As.gas(35 * U2 , true)), ZL_FS, bouleGt.mat(MTx.GaAs, 9));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.GaAs, 1), FL.array(FL.mul(nobleGas, 1), MTx.GaAs.liquid(35 * U9, true)), ZL_FS, bouleGt.mat(MTx.GaAs, 1));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.GaAs, 1), FL.array(FL.mul(nobleGas, 9), MTx.GaAs.liquid(35 * U , true)), ZL_FS, bouleGt.mat(MTx.GaAs, 9));
 
                 // n-type semiconductors
                 for (OreDictMaterial nDopant : new OreDictMaterial[] {MTx.PH3, MTx.AsH3}) {
@@ -293,6 +290,12 @@ public class Electronics extends GT6XFeature {
                     RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.NDopedSiGe, 1), FL.array(FL.mul(nobleGas, 1), MTx.SiGe.liquid(35 * U9, true), nDopant.gas(4  * U500, true)), NF, bouleGt.mat(MTx.NDopedSiGe, 1));
                     RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.NDopedSiGe, 1), FL.array(FL.mul(nobleGas, 9), MTx.SiGe.liquid(35 * U , true), nDopant.gas(36 * U500, true)), NF, bouleGt.mat(MTx.NDopedSiGe, 9));
                 }
+                for (OreDictMaterial nDopant : new OreDictMaterial[] {MT.Si, MT.Ge}) {
+                    RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.GaAs      , 1), FL.array(FL.mul(nobleGas, 1), MTx.GaAs.liquid(35 * U9, true), nDopant.liquid(4  * U144, true)), NF, bouleGt.mat(MTx.NDopedGaAs, 1));
+                    RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.GaAs      , 1), FL.array(FL.mul(nobleGas, 9), MTx.GaAs.liquid(35 * U , true), nDopant.liquid(36 * U144, true)), NF, bouleGt.mat(MTx.NDopedGaAs, 9));
+                    RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.NDopedGaAs, 1), FL.array(FL.mul(nobleGas, 1), MTx.GaAs.liquid(35 * U9, true), nDopant.liquid(4  * U144, true)), NF, bouleGt.mat(MTx.NDopedGaAs, 1));
+                    RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.NDopedGaAs, 1), FL.array(FL.mul(nobleGas, 9), MTx.GaAs.liquid(35 * U , true), nDopant.liquid(36 * U144, true)), NF, bouleGt.mat(MTx.NDopedGaAs, 9));
+                }
 
                 // p-type semiconductors
                 RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MT.Si         , 1), FL.array(FL.mul(nobleGas, 1), MT.Si   .liquid(35 * U9, true), MTx.B2H6.gas(4  * U1000, true)), NF, bouleGt.mat(MTx.PDopedSi, 1));
@@ -307,12 +310,11 @@ public class Electronics extends GT6XFeature {
                 RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.SiGe      , 1), FL.array(FL.mul(nobleGas, 9), MTx.SiGe.liquid(35 * U , true), MTx.B2H6.gas(36 * U1000, true)), NF, bouleGt.mat(MTx.PDopedSiGe, 9));
                 RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.PDopedSiGe, 1), FL.array(FL.mul(nobleGas, 1), MTx.SiGe.liquid(35 * U9, true), MTx.B2H6.gas(4  * U1000, true)), NF, bouleGt.mat(MTx.PDopedSiGe, 1));
                 RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.PDopedSiGe, 1), FL.array(FL.mul(nobleGas, 9), MTx.SiGe.liquid(35 * U , true), MTx.B2H6.gas(36 * U1000, true)), NF, bouleGt.mat(MTx.PDopedSiGe, 9));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.GaAs      , 1), FL.array(FL.mul(nobleGas, 1), MTx.GaAs.liquid(35 * U9, true), MT.Be.liquid(4  * U144, true)), NF, bouleGt.mat(MTx.PDopedGaAs, 1));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.GaAs      , 1), FL.array(FL.mul(nobleGas, 9), MTx.GaAs.liquid(35 * U , true), MT.Be.liquid(36 * U144, true)), NF, bouleGt.mat(MTx.PDopedGaAs, 9));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 72000 , plateGemTiny.mat(MTx.PDopedGaAs, 1), FL.array(FL.mul(nobleGas, 1), MTx.GaAs.liquid(35 * U9, true), MT.Be.liquid(4  * U144, true)), NF, bouleGt.mat(MTx.PDopedGaAs, 1));
+                RM.CrystallisationCrucible.addRecipe1(true, 16, 648000, plateGem    .mat(MTx.PDopedGaAs, 1), FL.array(FL.mul(nobleGas, 9), MTx.GaAs.liquid(35 * U , true), MT.Be.liquid(36 * U144, true)), NF, bouleGt.mat(MTx.PDopedGaAs, 9));
             }
-
-        // Wafer Oxidation
-        for (OreDictMaterial mat : OxidizedWaferMaterials) {
-            RM.Roasting.addRecipe1(true, 16, 128, plateGem.mat(mat, 1), MT.O.gas(U10, true), NF, oxidizedWafer.mat(mat, 1));
-        }
 
         // Photoresist
         RM.Mixer.addRecipe2(true, 16, 256, dust.mat(MTx.DNQ, 1), dust.mat(MTx.PF, 1), MTx.Toluene.liquid(2 * U, true), MTx.DnqNovolacResist.liquid(2 * U, false), NI);
@@ -348,11 +350,18 @@ public class Electronics extends GT6XFeature {
         RMx.Sintering.addRecipeX(true, 16, 256, ST.array(wireFine.mat(MT.Ta, 16), dust.mat(MT.MnO2, 1), dust.mat(MT.Ta2O5, 4)), ILx.Capacitor_Tantalum.get(64));
         RM.Press.addRecipeX(true, 16, 64, ST.array(plate.mat(MT.Al2O3, 1), foil.mat(MTx.PdAg, 1), foil.mat(MT.Nichrome, 1)), ILx.Resistor_Metal_Film.get(1));
 
-        // Etchants
+        // Cr Etching
         RM.Mixer.addRecipe0(true, 16, 64, FL.array(MTx.NitratoCericAcid.liquid(U, true), MT.NH3.gas(2 * U, true)), ZL_FS, dust.mat(MTx.CAN, 1));
         RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.CAN, 1), MT.HNO3.liquid(5 * U, true), MTx.ChromeEtch.liquid(6 * U, false), NI);
         RMx.Thermolysis.addRecipe0(true, 16, 1024, FL.array(MTx.CrNO3Solution.liquid(14 * U, true)), FL.array(MT.H2O.liquid(3 * U, false), MT.NO.gas(4 * U, false)), dust.mat(MTx.Cr2O3, 5), dust.mat(MTx.CAN, 2));
 
+        // Al Etching
+        RM.Mixer.addRecipe1(true, 16, 64, ST.tag(2), FL.array(MTx.H3PO4.liquid(8*U, true), MT.HNO3.liquid(5*U, true)), FL.array(MTx.AlEtch.liquid(13*U, false)));
+        for (FluidStack water : FL.waters(3000)) {
+            RM.Mixer.addRecipe1(true, 16, 16, dust.mat(MT.NaOH, 12), FL.array(MTx.AlPO4Solution.liquid(11*U, true), water), FL.array(MTx.Na3PO4Solution.liquid(11*U, false), MTx.NaNO3Solution.liquid(8*U, false)), dust.mat(MT.AlO3H3, 7));
+        }
+
+        // Plasmas
         RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.S, 1), MT.F.gas(6 * U, true), MTx.SF6.gas(U, false), NI);
 
         for (OreDictMaterial mat : new OreDictMaterial[]{MTx.CF4, MTx.NF3, MTx.SF6}) {
@@ -438,8 +447,8 @@ public class Electronics extends GT6XFeature {
         /// Computer Parts
         // HDDs
         RM.Lathe.addRecipe1(true, 16, 16, plateTiny.mat(MT.Al, 1), ILx.Al_Disk.get(1), dustDiv72.mat(MT.Al, 2));
-        RMx.VacuumDeposition.addRecipe2(true, 16, 64, ILx.Al_Disk.get(1), dustSmall.mat(MT.Fe2O3  , 1), MT.Ar.gas(U10, true), NF, ILx.Hard_Disk.get(1));
-        RMx.VacuumDeposition.addRecipe2(true, 16, 64, ILx.Al_Disk.get(1), foil     .mat(MTx.CoPtCr, 1), MT.Ar.gas(U10, true), NF, ILx.Hard_Disk_Advanced.get(1));
+        RMx.IonBombardment.addRecipe2(true, 16, 64, ILx.Al_Disk.get(1), dustSmall.mat(MT.Fe2O3  , 1), MT.Ar.gas(U10, true), NF, ILx.Hard_Disk.get(1));
+        RMx.IonBombardment.addRecipe2(true, 16, 64, ILx.Al_Disk.get(1), foil     .mat(MTx.CoPtCr, 1), MT.Ar.gas(U10, true), NF, ILx.Hard_Disk_Advanced.get(1));
         CR.shaped(ILx.HDDs[0].get(1), CR.DEF_REM, "MDD", "CDD", "PSB", 'M', bolt.dat(MT.SteelMagnetic), 'C', casingSmall.dat(MT.Al), 'D', ILx.Hard_Disk, 'P', OD_CIRCUITS[4], 'S', IL.MOTORS[0], 'B', bolt.dat(MT.Ti));
         CR.shaped(ILx.HDDs[1].get(1), CR.DEF_REM, "MDD", "CDD", "PSB", 'M', bolt.dat(MT.NeodymiumMagnetic), 'C', casingSmall.dat(MT.Al), 'D', ILx.Hard_Disk_Advanced, 'P', OD_CIRCUITS[5], 'S', IL.MOTORS[1], 'B', bolt.dat(MT.Ti));
         CR.shaped(ILx.HDDs[2].get(1), CR.DEF_REM, "ICD", "FPF", "FiF", 'I', ILx.ICs[2], 'C', casingSmall.dat(MT.Polycarbonate), 'D', ILx.DRAMChips[2], 'P', ILx.Circuit_Plate_Platinum_Tiny, 'F', ILx.FlashChips[2]);
@@ -501,6 +510,8 @@ public class Electronics extends GT6XFeature {
         RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MT.Ga, 1), MT.Cl.gas(3*U, true), NF, dust.mat(MTx.GaCl3, 1));
         RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MT.In, 1), MT.Cl.gas(3*U, true), NF, dust.mat(MTx.InCl3, 1));
         RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MT.Be, 1), MT.Cl.gas(2*U, true), NF, dust.mat(MTx.BeCl2, 1));
+        RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.In2O3, 5), MT.HCl.gas(12*U, true), MT.H2O.liquid(9*U, false), dust.mat(MTx.InCl3, 2));
+        RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.Ga2O3, 5), MT.HCl.gas(12*U, true), MT.H2O.liquid(9*U, false), dust.mat(MTx.GaCl3, 2));
         RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MT.Se, 1), MT.H.gas(2*U, true), MTx.H2Se.gas(U, false), NI);
         RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.GaCl3, 1), FL.array(MTx.AlMe3.liquid(U, true), MTx.Ether.liquid(2*U, true)), MTx.GaMe3.liquid(3*U, false), dust.mat(MTx.AlCl3, 1));
         RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.GaCl3, 1), MTx.CH3Li.liquid(9*U, true), MTx.GaMe3.liquid(3*U, false), dust.mat(MT.LiCl, 6));
@@ -564,7 +575,7 @@ public class Electronics extends GT6XFeature {
         }
         CR.shaped(ILx.LEDStrip.get(1), CR.DEF_REV, "LeL", "WRx", "LGL", 'L', ILx.LEDs[3][1], 'W', cableGt01.dat(ANY.Cu), 'R', stick.dat(MT.Al), 'G', IL.Bottle_Glue);
         CR.shaped(ILx.LEDBacklight.get(1), CR.DEF_REV, "L C", "LGP", "L W", 'L', ILx.LEDStrip, 'C', OD_CIRCUITS[5], 'G', IL.Bottle_Glue, 'P', plate.dat(MT.Polycarbonate), 'W', wireGt01.dat(ANY.Cu));
-        CR.shaped(ILx.LCDElectrodes.get(1), CR.DEF_REV, " C ", " G ", " T ", 'C', ILx.Wafers[LCD_COLOR_IDX][0][6].get(1), 'G', IL.Bottle_Glue, 'T', ILx.Wafers[TFT_IDX][0][9].get(1));
+        CR.shaped(ILx.LCDElectrodes.get(1), CR.DEF_REV, " C ", " G ", " T ", 'C', ILx.Wafers[LCD_COLOR_IDX][0][6].get(1), 'G', IL.Bottle_Glue, 'T', ILx.Wafers[TFT_IDX][0][10].get(1));
         RM.Injector.addRecipe1(true, 16, 128, ILx.LCDElectrodes.get(1), FL.make(FLx.LiquidCrystal5CB, 1), NF, ILx.LCDElectrodesCrystal.get(1));
         CR.shaped(ILx.LCD.get(1), CR.DEF_REV, "RG ", "PLP", 'R', OreDictToolNames.rollingpin, 'G', IL.Bottle_Glue, 'P', ILx.PolaroidFilter, 'L', ILx.LCDElectrodesCrystal);
         CR.shaped(ILx.LCDMonitor.get(1), CR.DEF_REV, " IF", "PLB", "OIW", 'I', casingSmall.dat(MT.Polycarbonate), 'F', foil.dat(MT.Polycarbonate), 'P', OP.plateGem.dat(MT.Glass), 'L', ILx.LCD, 'B', ILx.LEDBacklight, 'O', MTEx.gt6Registry.getItem(32711), 'W', cableGt01.dat(ANY.Cu));

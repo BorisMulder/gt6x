@@ -126,6 +126,9 @@ public class ILx implements IItemContainer {
 
             Photomask_Raw = new ILx("Photomask_Raw"),
             Wafer_GaAs_SiN_layered = new ILx("Wafer_GaAs_SiN_layered"),
+            Wafer_Oxidized_P_Si = new ILx("Wafer_Oxidized_P_Si"),
+            Wafer_Oxidized_N_Si = new ILx("Wafer_Oxidized_N_Si"),
+            Wafer_Oxidized_P_SiGe = new ILx("Wafer_Oxidized_P_SiGe"),
 
             Rosin = new ILx("Rosin"),
 
@@ -139,7 +142,6 @@ public class ILx implements IItemContainer {
             CRT_RGB = new ILx("CRT_RGB"),
             PolaroidFilter = new ILx("PolaroidFilter"),
             PolaroidFilterTiny = new ILx("PolaroidFilterTiny"),
-            TFTGlass = new ILx("TFTGlass"),
             LEDStrip = new ILx("LEDStrip"),
             LEDBacklight = new ILx("LEDBacklight"),
             LCDElectrodes = new ILx("LCDElectrodes"),
@@ -155,7 +157,7 @@ public class ILx implements IItemContainer {
     public static final int NUM_WAFER_STAGES_SINGLE = 8; // PL, Dev, Etch, Dope, Clean, Metal, Etch, Die
     public static final int NUM_WAFER_STAGES_DOUBLE = 14; // PL, Dev, Etch, Dope, Clean, Ox, PL2, Dev, Etch, Dope, Clean, Metal, Etch, Die
     public static final int NUM_WAFER_STAGES_MESFET = 8; // PL, Dev, Etch, Dope, Metal1, Metal2, Clean, Die
-    public static final int NUM_WAFER_STAGES_TFT = 10; // PL, Dev, Etch, Dope, Clean, TCF, PL2, Dev, Etch, Clean
+    public static final int NUM_WAFER_STAGES_TFT = 11; // Gate, PL, Dev, Etch, Clean, SiO2, IGZO, PL, Dev, ITO, Liftoff
     public static final int NUM_WAFER_STAGES_LCD_COLOR = 7; // PL, Dev, PL, Dev, PL, Dev, ITO
     public static final int NUM_PHOTOMASK_STAGES = 4; // PL, Dev, Etch, Clean
 

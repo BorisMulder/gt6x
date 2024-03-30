@@ -292,7 +292,7 @@ public class MultiTileEntityEAF extends TileEntityBase10MultiBlockBase implement
         tooltips.add(LH.Chat.WHITE    + LH.get("gt6x.tooltip.multiblock.eaf.7"));
         tooltips.add(LH.Chat.WHITE    + LH.get("gt6x.tooltip.multiblock.eaf.8"));
 
-        tooltips.add(LH.Chat.CYAN    + LH.get(LH.RECIPES) + ": " + LH.Chat.WHITE + LH.get(EAFSmeltingRecipe.FakeRecipes.mNameInternal) + ", " + LH.get(RM.CrucibleSmelting.mNameInternal) + ", " + LH.get(RM.CrucibleAlloying.mNameInternal));
+        tooltips.add(LH.Chat.CYAN    + LH.get(LH.RECIPES) + ": " + LH.Chat.WHITE + LH.get(EAFSmeltingRecipe.FakeRecipes.mNameInternal) + ", " + LH.get(RM.CrucibleSmelting.mNameInternal) + ", " + LH.get(RM.CrucibleAlloying.mNameInternal) + ", " + LH.get(RM.Smelter.mNameInternal));
         tooltips.add(LH.getToolTipEfficiency(7500));
         tooltips.add(LH.Chat.CYAN     + LH.get(LH.CONVERTS_FROM_X) + " 1 " + TD.Energy.EU.getLocalisedNameShort() + " " + LH.get(LH.CONVERTS_TO_Y) + " +1 K " + LH.get(LH.CONVERTS_PER_Z) + " " + KG_PER_ENERGY + "kg (at least " + getEnergySizeInputMin(TD.Energy.EU, SIDE_ANY) + " Units per Tick required!)");
         tooltips.add(LH.Chat.YELLOW   + LH.get(LH.TOOLTIP_THERMALMASS) + String.format("%.2f", mMaterial.getWeight(U*200)) + " kg");
