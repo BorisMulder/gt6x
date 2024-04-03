@@ -175,13 +175,21 @@ public class RefractoryMetals extends GT6XFeature {
         RM.Mixer.addRecipe1(true, 16, 256, dust.mat(MT.Pd, 0), FL.array(MTx.Acetone.liquid(20*U, true), MT.H.gas(2*U, true)), FL.array(MTx.MIBK.liquid(19*U, false), MT.H2O.liquid(3*U, false)));
 
         // Mo, W
-        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Powellite, 6), FL.array(MT.HCl.gas(4*U, true)), ZL_FS, dust.mat(MTx.H2MoO4, 7), dust.mat(MT.CaCl2, 3));
-        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Wulfenite, 6), FL.array(MT.HCl.gas(4*U, true)), ZL_FS, dust.mat(MTx.H2MoO4, 7), dust.mat(MTx.PbCl2, 3));
-        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Pinalite, 11), FL.array(MT.HCl.gas(8*U, true)), FL.Water.make(3000), dust.mat(MT.H2WO4, 7), dust.mat(MTx.PbCl2, 9));
-        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Stolzite,  6), FL.array(MT.HCl.gas(4*U, true)), ZL_FS, dust.mat(MT.H2WO4, 7), dust.mat(MTx.PbCl2, 3));
-        RM.Bath.addRecipe1(true, 0, 1024, dust.mat(MTx.Wolframite,  12), FL.array(MT.HCl.gas(8*U, true)), ZL_FS, dust.mat(MT.H2WO4, 14), dust.mat(MT.MnCl2, 3), dust.mat(MT.FeCl2, 3));
+        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Powellite , 6 ), MTx.DiluteHCl.liquid(7 *U, true), MTx.CaCl2Solution.liquid(6*U, false), dust.mat(MTx.H2MoO4, 7));
+        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Wulfenite , 6 ), MTx.DiluteHCl.liquid(7 *U, true), MTx.PbCl2Solution.liquid(6*U, false), dust.mat(MTx.H2MoO4, 7));
+
+        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Scheelite , 6 ), MTx.DiluteHCl.liquid(7 *U, true), MTx.CaCl2Solution.liquid(6*U, false), dust.mat(MT.H2WO4, 7));
+        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Wolframite, 6 ), MTx.DiluteHCl.liquid(7 *U, true), MTx.MgCl2Solution.liquid(6*U, false), dust.mat(MT.H2WO4, 7));
+        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Ferberite , 6 ), MTx.DiluteHCl.liquid(7 *U, true), MTx.FeCl2Solution.liquid(6*U, false), dust.mat(MT.H2WO4, 7));
+        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Huebnerite, 6 ), MTx.DiluteHCl.liquid(7 *U, true), MTx.MnCl2Solution.liquid(6*U, false), dust.mat(MT.H2WO4, 7));
+        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Tungstate , 7 ), FL.array(MTx.DiluteHCl.liquid(14*U, true)), FL.array(MTx.LiClSolution .liquid(10*U, false), MT.HCl.gas(4*U, false)), dust.mat(MT.H2WO4, 7));
+        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Pinalite  , 11), MTx.DiluteHCl.liquid(14*U, true), MTx.PbCl2Solution.liquid(18*U, false), dust.mat(MT.H2WO4, 7));
+        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Russellite, 9 ), MT .HCl      .gas   (12*U, true), MTx.BiCl3Solution.liquid(14*U, false), dust.mat(MT.H2WO4, 7));
+        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Stolzite  , 6 ), MTx.DiluteHCl.liquid(7 *U, true), MTx.PbCl2Solution.liquid(6*U, false), dust.mat(MT.H2WO4, 7));
+        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MTx.Wolframite       , 12), FL.array(MTx.DiluteHCl.liquid(7*U, true)), FL.array(MTx.FeCl2Solution.liquid(3*U, false), MTx.MnCl2Solution.liquid(3*U, false)), dust.mat(MT.H2WO4, 7));
 
         RMx.Thermolysis.addRecipe1(true, 16, 256, dust.mat(MTx.H2MoO4, 7), NF, FL.Water.make( 3000), dust.mat(MTx.MoO3, 4));
+        RMx.Thermolysis.addRecipe1(true, 16, 256, dust.mat(MT .H2WO4 , 7), NF, FL.Water.make( 3000), dust.mat(MT .WO3 , 4));
         RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MTx.MoO3, 4), FL.array(MT.H.gas(6*U, true)), FL.array(MT.H2O.liquid(9*U, false)), dust.mat(MT.Mo, 1));
 
         // V
@@ -247,8 +255,6 @@ public class RefractoryMetals extends GT6XFeature {
     }
 
     private void changeRecipes() {
-        RMx.Thermolysis.addRecipe1(true, 16, 256, dust.mat(MT.H2WO4, 7), NF, FL.Water.make( 3000), dust.mat(MT.WO3, 4));
-
         for (Recipe r : RM.CrystallisationCrucible.mRecipeList) {
             if (r.mFluidInputs.length >= 2 && r.mFluidInputs[1].isFluidEqual(MT.Al2O3.mLiquid) && r.mInputs.length == 1) {
                 for (long amount : new long[] {2*U, 2*U3}) {
@@ -264,6 +270,15 @@ public class RefractoryMetals extends GT6XFeature {
                         r.mInputs[0] = OM.dust(MTx.MgO,amount);
                     }
                 }
+            }
+        }
+        for (Recipe r : RM.Bath.mRecipeList) {
+            if (r.mFluidInputs.length == 1 && r.mFluidInputs[0].isFluidEqual(MT.HCl.mGas) && r.mInputs.length == 1) {
+                if (ST.equal(r.mInputs[0], OM.dust(MT.OREMATS.Scheelite , 6*U)) ||
+                    ST.equal(r.mInputs[0], OM.dust(MT.OREMATS.Wolframite, 6*U)) ||
+                    ST.equal(r.mInputs[0], OM.dust(MT.OREMATS.Ferberite , 6*U)) ||
+                    ST.equal(r.mInputs[0], OM.dust(MT.OREMATS.Huebnerite, 6*U)) ||
+                    ST.equal(r.mInputs[0], OM.dust(MT.OREMATS.Tungstate , 7*U))) r.mEnabled = false;
             }
         }
     }

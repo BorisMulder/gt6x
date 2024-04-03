@@ -531,6 +531,7 @@ public class Metallurgy extends GT6XFeature {
         RMx.DirectReduction.addRecipe1(true, 16, 64 , dust.mat(MTx.GeO2 , 3), MT.H.gas(4*U, true), MT.H2O.liquid(6*U, false), dust.mat(MT.Ge, 1));
         RMx.DirectReduction.addRecipe1(true, 16, 128, dust.mat(MTx.In2O3, 5), MT.H.gas(6*U, true), MT.H2O.liquid(9*U, false), dust.mat(MT.In, 2));
         RMx.DirectReduction.addRecipe1(true, 16, 128, dust.mat(MTx.Bi2O3, 5), MT.H.gas(6*U, true), MT.H2O.liquid(9*U, false), dust.mat(MT.Bi, 2));
+        RMx.DirectReduction.addRecipe1(true, 16, 128, dust.mat(MTx.BiCl3, 4), MT.H.gas(3*U, true), MT.HCl.gas   (6*U, false), dust.mat(MT.Bi, 1));
         RMx.DirectReduction.addRecipe1(true, 16, 64 , dust.mat(MT.WO3   , 4), MT.H.gas(6*U, true), MT.H2O.liquid(9*U, false), dust.mat(MT.W , 1));
         RMx.DirectReduction.addRecipe1(true, 16, 64 , dust.mat(MTx.MoO3 , 4), MT.H.gas(6*U, true), MT.H2O.liquid(9*U, false), dust.mat(MT.Mo, 1));
 

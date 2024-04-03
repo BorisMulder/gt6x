@@ -87,7 +87,6 @@ public class CoverSolarPanel extends AbstractCoverAttachment {
         }
 
         if (energy > 0 && data.mTileEntity instanceof TileEntity tileEntity) {
-            LOG.debug("Emitting " + energy + " EU/t to tileEntity " + tileEntity);
             ITileEntityEnergy.Util.insertEnergyInto(TD.Energy.EU, side, energy, 1, null, tileEntity);
         } else if (energy > 0) {
             LOG.warn("Solar panel error: attached block is not a tile entity: " + data.mTileEntity);

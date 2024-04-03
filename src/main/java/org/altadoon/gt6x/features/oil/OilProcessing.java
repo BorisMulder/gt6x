@@ -264,8 +264,9 @@ public class OilProcessing extends GT6XFeature {
         RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.Mo, 0), FL.array(MTx.Toluene.liquid(5*U, true), MT.H.gas(10*U, true)), FL.array(MTx.Benzene.liquid(3*U, false), MT.CH4.gas(5*U, false)), dust.mat(MTx.Biphenyl, 1));
 
         // Vinyl Acetate e.a.
-        for (FluidStack water : FL.waters(54000)) {
-            RM.Mixer.addRecipe1(true, 16, 2048, dust.mat(MT.WO3, 48), FL.array(MT.HCl.gas(8*U, true), MTx.Na4SiO4Solution.liquid(18*U, true), water), FL.array(FL.Saltwater.make(32000)), dust.mat(MTx.SilicoTungsticAcid, 96));
+        for (FluidStack water : FL.waters(3000)) {
+            RM.Mixer.addRecipe1(true, 16, 2048, dust.mat(MT.WO3, 48), FL.array(MT .HCl      .gas   (8 *U, true), MTx.Na4SiO4Solution.liquid(18*U, true), FL.mul(water, 18)), FL.array(FL.Saltwater.make(32000)), dust.mat(MTx.SilicoTungsticAcid, 96));
+            RM.Mixer.addRecipe1(true, 16, 2048, dust.mat(MT.WO3, 48), FL.array(MTx.DiluteHCl.liquid(14*U, true), MTx.Na4SiO4Solution.liquid(18*U, true), FL.mul(water, 12)), FL.array(FL.Saltwater.make(32000)), dust.mat(MTx.SilicoTungsticAcid, 96));
         }
         RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MTx.SilicoTungsticAcid, 0), FL.array(MT.Ethylene.gas(U, true), MT.O.gas(2*U, true)), FL.array(MTx.AceticAcid.liquid(U, false)));
         RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MT.Pd, 0), FL.array(MT.Ethylene.gas(U, true), MTx.AceticAcid.liquid(U, true), MT.O.gas(U, true)), FL.array(MTx.VinylAcetate.liquid(U, false), MT.H2O.liquid(3*U, false)));
@@ -274,7 +275,7 @@ public class OilProcessing extends GT6XFeature {
         for (FluidStack water : FL.waters(1000)) {
             RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MTx.PolyvinylAcetate, 1), water, FL.Glue.make(1000), NI);
             // Hydrolysis of Methyl Acetate
-            RM.Mixer.addRecipe0(true, 16, 64, FL.array(MTx.MethylAcetate.liquid(U, true), FL.mul(water, 3), MT.HCl.gas(U1000, true)), FL.array(MTx.AceticAcid.liquid(U, false), MTx.Methanol.liquid(U, false)));
+            RM.Mixer.addRecipe0(true, 16, 64, FL.array(MTx.MethylAcetate.liquid(U, true), FL.mul(water, 3), MTx.DiluteHCl.liquid(U1000, true)), FL.array(MTx.AceticAcid.liquid(U, false), MTx.Methanol.liquid(U, false)));
             // Biphenyl via Gomberg-Bachmann
             RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.NaOH, 3), dust.mat(MTx.BenzenediazoniumChloride, 1), FL.array(MTx.Benzene.liquid(U, true), FL.mul(water, 3)), FL.array(MT.N.gas(2 * U, false), FL.Saltwater.make(8000)), dust.mat(MTx.Biphenyl, 1));
         }

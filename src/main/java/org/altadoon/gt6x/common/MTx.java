@@ -372,7 +372,7 @@ public class MTx {
             .uumMcfg(0, MT.Hg, U, MT.O, U)
             .heat(773)
             .setSmelting(MT.Hg, U2),
-    CoO = dustdcmp(16065, "Cobalt(II) Oxide", SET_DULL, 50, 50, 100, 255)
+    CoO = dustdcmp(16065, "Cobalt Monoxide", SET_DULL, 50, 50, 100, 255)
             .uumMcfg(0, MT.Co, U, MT.O, U)
             .heat(2206),
     NaHCO3 = dustdcmp(16066, "Sodium Bicarbonate", SET_FINE, 255, 255, 255, 255)
@@ -493,7 +493,7 @@ public class MTx {
             .heat(853)
             .setSmelting(MT.Quicklime, 2*U5),
     CaCl2Solution = simpleSolution(16103, "Calcium Chloride Solution", 235, 235, 255, 200, MT.CaCl2, 3),
-    FeCl2Solution = solution(16104, "Ferrous Chloride Solution", 235, 255, 235, 200, MT.FeCl2, 3),
+    FeCl2Solution = simpleSolution(16104, "Ferrous Chloride Solution", 235, 255, 235, 200, MT.FeCl2, 3),
     MgCl2Solution = simpleSolution(16105, "Magnesium Chloride Solution", 255, 235, 255, 200, MT.MgCl2, 3),
     Fayalite = dustdcmp(16106, "Fayalite", SET_DULL, 100, 50, 0, 255)
             .setMcfg(0, FeO, 4*U, MT.SiO2, 3*U)
@@ -908,7 +908,7 @@ public class MTx {
     SF6 = registerGas(gasdcmp(16241, "Sulfur Hexafluoride", 240, 255, 200, 150)
             .uumMcfg(1, MT.S, U, MT.F, 6*U)
             .heat(209, 222, 310)),
-    AlPO4Solution = registerLiquid(lquddcmp(16242, "Aluminium Phosphate Solution", 200, 225, 255, 200)
+    AlPO4Solution = registerLiquid(lquddcmp(16242, "Aluminium Phosphate Nitric Acid Solution", 200, 225, 255, 200)
             .setMcfg(0, AlPO4, 6*U, MT.HNO3, 5*U)
             .heat(MT.H2O)),
     CoPtCr = alloymachine(16243, "Cobalt-Platinum-Chromium", SET_COPPER, 145, 163, 243)
@@ -1176,7 +1176,7 @@ public class MTx {
     Na2SO4H2SeO3Solution = registerLiquid(lquddcmp(16337, "Selenous Acid - Sodium Sulfate solution", 255, 240, 240, 200)
             .setMcfg(0, MT.H, 2*U, MT.Se, U, MT.O, 3*U, MT.Na2SO4, 14*U, MT.H2O, 15*U)),
     Bi2O3 = dustdcmp(16338, "Bismuth(III) Oxide", SET_DULL, 255, 255, 210, 255)
-            .uumMcfg(0, MT.Bi, 2*U, MT.O, 3*U)
+            .setMcfg(0, MT.Bi, 2*U, MT.O, 3*U)
             .heat(1090, 2160),
     TeO2 = dustdcmp(16339, "Tellurium Dioxide", SET_FINE, 255, 255, 225, 255)
             .uumMcfg(1, MT.Te, U, MT.O, 2*U)
@@ -1188,7 +1188,17 @@ public class MTx {
     NaNO3Solution = simpleSolution(16341, "Sodium Nitrate Solution", 255, 255, 0, 255, MT.NaNO3, 3),
     IGZO = dustdcmp(16342, "Indium Gallium Zinc Oxide", SET_METALLIC, 255, 50, 255, 255)
             .uumMcfg(0, MT.In, 2*U, MT.Ga, 2*U, MT.Zn, U, MT.O, 7*U)
-            .heat(850+C)
+            .heat(850+C),
+    BiCl3 = dustdcmp(16343, "Bismuth Chloride", SET_ROUGH, 255, 255, 200, 255)
+            .setMcfg(0, MT.Bi, U, MT.Cl, 3*U)
+            .heat(500, 720),
+    DiluteHCl = registerLiquid(lqudaciddcmp(16344, "Dilute Hydrochloric Acid", 50, 255, 178, 200)
+            .setMcfg(0, MT.HCl, 4*U, MT.H2O, 3*U)
+            .heat(MT.H2O)),
+    PbCl2Solution = simpleSolution(16345, "Lead Chloride Solution", 255, 200, 255, 200, PbCl2, 3),
+    BiCl3Solution = simpleSolution(16346, "Bismuth Chloride Solution", 255, 255, 200, 200, BiCl3, 3),
+    MnCl2Solution = simpleSolution(16347, "Manganese Chloride Solution", 255, 235, 255, 200, MT.MnCl2, 3),
+    LiClSolution = simpleSolution(16348, "Lithium Chloride Solution", 222, 222, 250,200, MT.LiCl, 3)
     ;
 
     /*
