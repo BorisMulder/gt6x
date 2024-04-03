@@ -272,22 +272,30 @@ public class BasicChemistry extends GT6XFeature {
 
         // Al Chloride
         RM.Mixer.addRecipe1(true, 16, 64, dustSmall.mat(MT.Al, 1), MT.Cl.gas(3*U4, true), NF, dust.mat(MTx.AlCl3, 1));
-        RM.Mixer.addRecipe1(true, 16, 64, dustSmall.mat(MT.Al, 1), MT.HCl.gas(6*U4, true), MT.H.gas(3*U4, false), dust.mat(MTx.AlCl3, 1));
+        RM.Bath.addRecipe1(true, 0, 64, dustSmall.mat(MT.Al, 1), MT.HCl.gas(6*U4, true), MT.H.gas(3*U4, false), dust.mat(MTx.AlCl3, 1));
+
+        // Bi chloride
+        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.Bi, 1), MT.Cl.gas(3*U, true), NF, dust.mat(MTx.BiCl3, 4));
+
+        //LiCl solution
+        RM.Electrolyzer.addRecipe1(true, 16, 6400, ST.tag(0), FL.array(MTx.LiClSolution.liquid(5*U, true)), FL.array(MT.Cl.gas(U, false), MT.H.gas(U, false)), OM.dust(MT.LiOH, 3*U));
 
         // mixing misc solutions
         for (FluidStack water : FL.waters(3000)) {
-            RM.Mixer.addRecipe2(true, 16, 192, ST.tag(2), dust.mat(MT.FeCl2, 3), water, MTx.FeCl2Solution.liquid(6*U, false), NI);
             RM.Mixer.addRecipe2(true, 16, 192, ST.tag(2), dust.mat(MT.FeCl3, 4), FL.mul(water, 3, 2, true), MTx.FeCl3Solution.liquid(17*U2, false), NI);
             RM.Mixer.addRecipe1(true, 16, 192, ST.tag(2), FL.array(MT.H2SO4.liquid(7*U, true), water), FL.array(MTx.DiluteH2SO4.liquid(10*U, false)));
+            RM.Mixer.addRecipe1(true, 16, 192, ST.tag(2), FL.array(MT.HCl.gas(4*U, true), water), FL.array(MTx.DiluteHCl.liquid(7*U, false)));
             RM.Mixer.addRecipe0(true, 16, 128, FL.array(MTx.Phosgene.gas(4*U, true), water), FL.array(MT.CO2.gas(3*U, false), MT.HCl.gas(4*U, false)));
             RM.Mixer.addRecipe1(true, 16, 192, ST.tag(3), FL.array(MTx.FeCl2Solution.liquid(6*U, true), MT.Cl.gas(U, true), FL.mul(water, 1, 2, true)), MTx.FeCl3Solution.liquid(17*U2, true), NI);
+            RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.NaHCO3, 6), FL.array(FL.mul(water, 1, 2, true), MTx.DiluteHCl.liquid(7*U2, true)), FL.array(FL.Saltwater.make(8000), MT.CO2.gas(3*U, false)));
         }
 
         // drying misc solutions
-        RM.Drying.addRecipe0(true, 16, 2000 , MTx.FeCl2Solution .liquid(2 *U, true ), MT.DistWater.liquid(U, false), dust.mat(MT.FeCl2, 1));
         RM.Drying.addRecipe0(true, 16, 18000, MTx.FeCl3Solution .liquid(17*U, true ), MT.DistWater.liquid(9*U, false), dust.mat(MT.FeCl3, 8));
         RM.Drying.addRecipe0(true, 16, 6000 , FL.array(MTx.DiluteH2SO4.liquid(10*U, true)), FL.array(MT.DistWater.liquid(3*U, false), MT.H2SO4.liquid(7*U, false)));
         RM.Distillery.addRecipe1(true, 16, 6000, ST.tag(0), FL.array(MTx.DiluteH2SO4.liquid(10*U, true)), FL.array(MT.DistWater.liquid(3*U, false), MT.H2SO4.liquid(7*U, false)));
+        RM.Drying.addRecipe0(true, 16, 6000 , FL.array(MTx.DiluteHCl.liquid(7*U, true)), FL.array(MT.DistWater.liquid(3*U, false), MT.HCl.gas(4*U, false)));
+        RM.Distillery.addRecipe1(true, 16, 6000, ST.tag(0), FL.array(MTx.DiluteHCl.liquid(7*U, true)), FL.array(MT.DistWater.liquid(3*U, false), MT.HCl.gas(4*U, false)));
 
         // Thermal Decomposition of some compounds
         RMx.Thermolysis.addRecipe1(true, 16, 500, OM.dust(MT.Bone, U), ZL_FS, FL.array(MT.H2O.liquid(U4, false), MT.CO2.gas(U4, false)), dustSmall.mat(MTx.Hydroxyapatite, 2));
@@ -363,9 +371,18 @@ public class BasicChemistry extends GT6XFeature {
     private void addOverrideRecipes() {
         RM.Mixer.addRecipe1(true, 16, 144, dust.mat(MT.CaCO3, 5), FL.array(MT.HCl.gas(4*U, true)), FL.array(MTx.CaCl2Solution.liquid(6*U, false), MT.CO2.gas(3*U, false)));
         RM.Mixer.addRecipe1(true, 16, 144, dust.mat(MT.MgCO3, 5), FL.array(MT.HCl.gas(4*U, true)), FL.array(MTx.MgCl2Solution.liquid(6*U, false), MT.CO2.gas(3*U, false)));
+        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.Fe2O3, 5), MT.HCl.gas(12*U, true), MTx.FeCl3Solution.liquid(17*U, false), NI);
+        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.YellowLimonite, 8), FL.array(MT.HCl.gas(12*U, true)), FL.array(MTx.FeCl3Solution.liquid(17*U, false), MT.H2O.liquid(3*U, false)), NI);
+        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.BrownLimonite , 8), FL.array(MT.HCl.gas(12*U, true)), FL.array(MTx.FeCl3Solution.liquid(17*U, false), MT.H2O.liquid(3*U, false)), NI);
+        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.RedSand, 9), MT.HCl.gas(12*U, true), MTx.FeCl3Solution.liquid(17*U, false), NI);
+        RM.Bath.addRecipe1(true, 0, 512, blockDust.mat(MT.RedSand, 1), MT.HCl.gas(12*U, true), MTx.FeCl3Solution.liquid(17*U, false), NI);
         RM.Mixer.addRecipe1(true, 16, 48, dust.mat(MT.NaOH, 2), FL.array(MT.CO2.gas(U, true)), FL.array(MTx.Na2CO3Solution.liquid(3*U, false)));
+        RM.Mixer.addRecipe0(true, 16, 272, FL.array(MT.Fe2O3.liquid(5*U, true), MT.HCl.gas(12*U, true)), MTx.FeCl3Solution.liquid(17*U, false), NI);
+
         for (FluidStack water : FL.waters(1000)) {
             RM.Mixer.addRecipe2(true, 16, 16, ST.tag(1), OM.dust(MT.Na2CO3), water, NF, OM.dust(MT.OREMATS.Trona));
+            RM.Mixer.addRecipe1(true, 16, 64, ST.tag(1), FL.array(FL.mul(water, 3), MT.Cl.gas(U*2, true)), MT .HCl      .fluid (4*U, false), MT.O.gas(U, false));
+            RM.Mixer.addRecipe1(true, 16, 64, ST.tag(2), FL.array(FL.mul(water, 6), MT.Cl.gas(U*2, true)), MTx.DiluteHCl.liquid(7*U, false), MT.O.gas(U, false));
         }
 
         // Resin/Turpentine
@@ -416,6 +433,15 @@ public class BasicChemistry extends GT6XFeature {
     private void changeRecipes() {
         for (Recipe r : RM.Bath.mRecipeList) {
             if (r.mFluidInputs.length >= 1 && (r.mFluidInputs[0].isFluidEqual(MT.CaCO3.mLiquid) || r.mFluidInputs[0].isFluidEqual(MT.MgCO3.mLiquid))) {
+                r.mEnabled = false;
+            }
+        }
+
+        for (Recipe r : RM.Mixer.mRecipeList) {
+            if (r.mInputs.length == 0 && r.mOutputs.length == 0 &&
+                    r.mFluidInputs.length == 2 && r.mFluidInputs[1].isFluidEqual(MT.Cl.mGas) &&
+                    r.mFluidOutputs.length == 2 && r.mFluidOutputs[0].isFluidEqual(MT.HCl.mGas) && r.mFluidOutputs[1].isFluidEqual(MT.O.mGas)
+            ) {
                 r.mEnabled = false;
             }
         }
