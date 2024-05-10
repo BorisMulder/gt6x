@@ -394,7 +394,7 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         // Metallization using Al PVD
         RMx.VacuumDeposition.addRecipe1(true, 16, 64, ILx.Wafers[type][tier][4].get(1), MT.Al.liquid(U4, true), NF, ILx.Wafers[type][tier][5].get(1));
         // Metal etching
-        RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][5].get(1), FL.array(MTx.AlEtch.liquid(13*U8, true)), FL.array(MTx.AlPO4Solution.liquid(11*U8, false), MT.H.gas(3*U8, false)), ILx.Wafers[type][tier][6].get(1));
+        RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][5].get(1), FL.array(MTx.AlEtch.liquid(13*U8, true)), FL.array(MTx.AlPO4Solution.liquid(12*U8, false), MT.NO.gas(2*U8, false)), ILx.Wafers[type][tier][6].get(1));
         // Dicing
         for (int i = 0; i < RMx.CuttingFluids.length; i++) if (RMx.CuttingFluids[i] != null) {
             RM.Cutter.addRecipe1(true, 16, RMx.CuttingMultiplier[i] * 64, ILx.Wafers[type][tier][6].get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 16, 1000, true), NF, ILx.Wafers[type][tier][7].get(16));
@@ -498,7 +498,7 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         RMx.Photolithography.addRecipe2(false, 128, 128, ILx.Wafers[type][tier][0].get(1), ILx.Photomasks[type][tier][0][PM_FINISHED].get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafers[type][tier][1].get(1));
         for (FluidStack developer : DEVELOPERS)
             RM.Bath.addRecipe1(false, 0, 128, ILx.Wafers[type][tier][1].get(1), developer, NF, ILx.Wafers[type][tier][2].get(1));
-        RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][2].get(1), FL.array(MTx.AlEtch.liquid(4*13*U20, true)), FL.array(MTx.AlPO4Solution.liquid(4*11*U20, false), MT.H.gas(4*3*U20, false)), ILx.Wafers[type][tier][3].get(1));
+        RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][2].get(1), FL.array(MTx.AlEtch.liquid(13*U5, true)), FL.array(MTx.AlPO4Solution.liquid(12*U5, false), MT.NO.gas(2*U5, false)), ILx.Wafers[type][tier][3].get(1));
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][3].get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafers[type][tier][4].get(1));
 
         // 2. Insulator & semiconductor layers

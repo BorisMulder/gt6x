@@ -113,7 +113,8 @@ public class BasicChemistry extends GT6XFeature {
         RM.Bath.addRecipe1(true, 0, 256, dust.mat(MT.Al2O3, 5), MTx.H3PO4.liquid(16*U, true), MT.H2O.liquid(9*U, false), dust.mat(MTx.AlPO4, 12));
 
         // Phosphates
-        RM.Bath.addRecipe1(true, 0, 128, dust.mat(MTx.AlPO4, 6), FL.array(MTx.NaOHSolution.liquid(18*U, true)), FL.array(MTx.Na3PO4Solution.liquid(11*U, false), MT.H2O.liquid(6*U, false)), dust.mat(MT.AlO3H3, 7));
+        RM.Bath.addRecipe1(true, 0, 64, dust.mat(MTx.AlPO4, 6), FL.array(MTx.NaOHSolution .liquid(18*U, true)), FL.array(MTx.Na3PO4Solution.liquid(11*U, false), MT.H2O.liquid(6*U, false)), dust.mat(MT.AlO3H3, 7));
+        RM.Bath.addRecipe1(true, 0, 64, dust.mat(MT .NaOH , 9), FL.array(MTx.AlPO4Solution.liquid(12*U, true)), FL.array(MTx.Na3PO4Solution.liquid(11*U, false), MT.H2O.liquid(3*U, false)), dust.mat(MT.AlO3H3, 7));
         for (FluidStack water : FL.waters(3000)) {
             RM.Bath.addRecipe2(true, 0, 128, dust.mat(MTx.AlPO4, 6), dust.mat(MT.NaOH, 9), water, MTx.Na3PO4Solution.liquid(11 * U, false), dust.mat(MT.AlO3H3, 7));
             RM.Mixer.addRecipe0(true, 16, 800, FL.array(MTx.Na3PO4Solution.liquid(22 * U, true), MT.H2SO4.liquid(21 * U, true), water), FL.array(MTx.NaHSO4Solution.liquid(30 * U, false), MTx.H3PO4.liquid(16*U, false)));

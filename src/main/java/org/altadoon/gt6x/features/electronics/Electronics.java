@@ -357,9 +357,6 @@ public class Electronics extends GT6XFeature {
 
         // Al Etching
         RM.Mixer.addRecipe1(true, 16, 64, ST.tag(2), FL.array(MTx.H3PO4.liquid(8*U, true), MT.HNO3.liquid(5*U, true)), FL.array(MTx.AlEtch.liquid(13*U, false)));
-        for (FluidStack water : FL.waters(3000)) {
-            RM.Mixer.addRecipe1(true, 16, 16, dust.mat(MT.NaOH, 12), FL.array(MTx.AlPO4Solution.liquid(11*U, true), water), FL.array(MTx.Na3PO4Solution.liquid(11*U, false), MTx.NaNO3Solution.liquid(8*U, false)), dust.mat(MT.AlO3H3, 7));
-        }
 
         // Plasmas
         RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.S, 1), MT.F.gas(6 * U, true), MTx.SF6.gas(U, false), NI);
