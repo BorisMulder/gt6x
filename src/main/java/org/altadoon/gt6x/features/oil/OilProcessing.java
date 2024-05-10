@@ -295,9 +295,9 @@ public class OilProcessing extends GT6XFeature {
         RM.Mixer.addRecipe1(true, 16, 256, ST.tag(3), FL.array(MTx.Naphthalene.liquid(U, true), MT.H2SO4.liquid(7*U, true), MT.HNO3.liquid(5*U, true)), FL.array(MTx.DiluteH2SO4.liquid(10*U, false)), dust.mat(MTx.Nitronaphthalene, 1));
         RM.Mixer.addRecipe2(true, 16, 256, dust.mat(MT.Ni, 0), dust.mat(MTx.Nitronaphthalene, 1), MT.H.gas(6*U, true), MT.H2O.liquid(6*U, false), dust.mat(MTx.Aminonaphthalene, 1));
         RM.Mixer.addRecipe1(true, 16, 256, ST.tag(2), FL.array(MTx.Naphthalene.liquid(U, true), MT.H2SO4.liquid(7*U, true)), FL.array(MT.H2O.liquid(3*U, false)), dust.mat(MTx.NaphthaleneSulfonicAcid, 1));
-        RM.Bath.addRecipe2(true, 16, 256, dust.mat(MT.NaOH, 3), dust.mat(MTx.NaphthaleneSulfonicAcid, 22), MT.O.gas(U, true), NF, dust.mat(MT.NaHSO4, 7), dust.mat(MTx.Naphthol, 1));
+        RM.Mixer.addRecipe2(true, 16, 256, dust.mat(MT.NaOH, 3), dust.mat(MTx.NaphthaleneSulfonicAcid, 1), MT.O.gas(U, true), NF, dust.mat(MT.NaHSO4, 7), dust.mat(MTx.Naphthol, 1));
 
-        RM.Bath.addRecipe1(true, 16, 256, dust.mat(MTx.CrO3, 8), MTx.Anthracene.liquid(U, true), FL.Water.make(3000), dust.mat(MTx.Anthraquinone, 1), dust.mat(MTx.Cr2O3, 5));
+        RM.Mixer.addRecipe1(true, 16, 256, dust.mat(MTx.CrO3, 8), MTx.Anthracene.liquid(U, true), FL.Water.make(3000), dust.mat(MTx.Anthraquinone, 1), dust.mat(MTx.Cr2O3, 5));
         RM.Mixer.addRecipe1(true, 16, 256, dust.mat(MTx.Anthraquinone, 1), MT.H2SO4.liquid(14*U, true), FL.Water.make(6000), dust.mat(MTx.AnthraquinoneDisulfonicAcid, 1));
         RM.Mixer.addRecipe1(true, 16, 256, dust.mat(MTx.AnthraquinoneDisulfonicAcid, 1), FL.array(MT.NH3.gas(2*U, true), MT.O.gas(2*U, true)), MT.H2SO4.liquid(14*U, false), dust.mat(MTx.Diaminoanthraquinone, 1));
         RM.Mixer.addRecipe0(true, 16, 256, FL.array(MTx.Toluene.liquid(U, true), MT.Cl.gas(2*U, true)), MT.HCl.gas(2*U, false), dust.mat(MTx.Chlorotoluene, 1));
