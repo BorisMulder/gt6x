@@ -908,9 +908,7 @@ public class MTx {
     SF6 = registerGas(gasdcmp(16241, "Sulfur Hexafluoride", 240, 255, 200, 150)
             .uumMcfg(1, MT.S, U, MT.F, 6*U)
             .heat(209, 222, 310)),
-    AlPO4Solution = registerLiquid(lquddcmp(16242, "Aluminium Phosphate Nitric Acid Solution", 200, 225, 255, 200)
-            .setMcfg(0, AlPO4, 6*U, MT.HNO3, 5*U)
-            .heat(MT.H2O)),
+    AlPO4Solution = simpleSolution(16242, "Aluminium Phosphate Solution", 200, 225, 255, 200, AlPO4, 6),
     CoPtCr = alloymachine(16243, "Cobalt-Platinum-Chromium", SET_COPPER, 145, 163, 243)
             .uumAloy(0, MT.Co, 5*U, MT.Pt, U, MT.Cr, 3*U)
             .heat(1880, 3300),
