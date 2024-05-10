@@ -93,8 +93,8 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         RM.Roasting.addRecipe1(true, 16, 128, plateGem.mat(MTx.PDopedSiGe, 1), MT.O.gas(2*U10, true), NF, ILx.Wafer_Oxidized_P_SiGe.get(1));
 
         // SiN CVD on GaAs Wafer
-        ILx.Wafer_GaAs_SiN_layered.set(addItemWithIcon(32766, "SiN-capped GaAs wafer", "Gallium Arsenide Wafer with Silicon Nitride cap layer", new OreDictItemData(MTx.GaAs, U, MTx.Si3N4, 14*U1000)));
-        RMx.VacuumDeposition.addRecipe1(true, 64, 256, plateGem.mat(MTx.PDopedGaAs, 1), FL.array(MTx.SiH4.gas(6*U1000, true), MT.NH3.gas(8*U1000, true)), MT.H.gas(48*U1000, false), ILx.Wafer_GaAs_SiN_layered.get(1));
+        ILx.Wafer_GaAs_SiN_layered.set(addItemWithIcon(32766, "SiN-capped GaAs wafer", "Gallium Arsenide Wafer with Silicon Nitride cap layer", new OreDictItemData(MTx.GaAs, U, MTx.Si3N4, 14*U100)));
+        RMx.Thermolysis.addRecipe1(true, 64, 256, plateGem.mat(MTx.PDopedGaAs, 1), FL.array(MTx.SiH4.gas(6*U100, true), MT.NH3.gas(8*U100, true)), MT.H.gas(48*U100, false), ILx.Wafer_GaAs_SiN_layered.get(1));
 
         // Photoresist
         RM.Mixer.addRecipe2(true, 16, 256, dust.mat(MTx.DNQ, 1), dust.mat(MTx.PF, 1), MTx.Toluene.liquid(2*U, true), MTx.DnqNovolacResist.liquid(4*U, false), NI);
@@ -187,14 +187,14 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
             ); // e.g. GaAs FET Wafer (Developed)
             tooltip = WAFER_TOOLTIPS_MESFET[stage];
             switch (stage) {
-                case 0 -> matData = new OreDictItemData(MTx.PDopedGaAs, U, MTx.Si3N4, 14*U1000, MTx.DnqNovolacResist, U200);
-                case 1 -> matData = new OreDictItemData(MTx.PDopedGaAs, U, MTx.Si3N4, 14*U1000, MTx.DnqNovolacResist, 4*U1000);
-                case 2 -> matData = new OreDictItemData(MTx.PDopedGaAs, U, MTx.Si3N4, 7*U1000, MTx.DnqNovolacResist, 4*U1000);
-                case 3 -> matData = new OreDictItemData(OM.stack(MTx.PDopedGaAs, 9*U10), OM.stack(MTx.NDopedGaAs, U10), OM.stack(MTx.Si3N4, 7*U1000), OM.stack(MTx.DnqNovolacResist, 4*U1000));
-                case 4 -> matData = new OreDictItemData(OM.stack(MTx.PDopedGaAs, 9*U10), OM.stack(MTx.NDopedGaAs, U10), OM.stack(MTx.Si3N4, 7*U1000), OM.stack(MTx.DnqNovolacResist, 4*U1000), OM.stack(MT.Au, U4));
-                case 5 -> matData = new OreDictItemData(OM.stack(MTx.PDopedGaAs, 9*U10), OM.stack(MTx.NDopedGaAs, U10), OM.stack(MTx.Si3N4, 7*U1000), OM.stack(MTx.DnqNovolacResist, 4*U1000), OM.stack(MT.Au, U4), OM.stack(MT.Al, U4));
-                case 6 -> matData = new OreDictItemData(OM.stack(MTx.PDopedGaAs, 9*U10), OM.stack(MTx.NDopedGaAs, U10), OM.stack(MTx.Si3N4, 7*U1000), OM.stack(MT.Au, U8), OM.stack(MT.Al, U8));
-                case 7 -> matData = new OreDictItemData(OM.stack(MTx.PDopedGaAs, 9*U10/64), OM.stack(MTx.NDopedGaAs, U10/64), OM.stack(MTx.Si3N4, 7*U1000/64), OM.stack(MT.Au, U512), OM.stack(MT.Al, U512));
+                case 0 -> matData = new OreDictItemData(MTx.PDopedGaAs, U, MTx.Si3N4, 14*U100, MTx.DnqNovolacResist, U200);
+                case 1 -> matData = new OreDictItemData(MTx.PDopedGaAs, U, MTx.Si3N4, 14*U100, MTx.DnqNovolacResist, 4*U1000);
+                case 2 -> matData = new OreDictItemData(MTx.PDopedGaAs, U, MTx.Si3N4, 7*U100, MTx.DnqNovolacResist, 4*U1000);
+                case 3 -> matData = new OreDictItemData(OM.stack(MTx.PDopedGaAs, 9*U10), OM.stack(MTx.NDopedGaAs, U10), OM.stack(MTx.Si3N4, 7*U100), OM.stack(MTx.DnqNovolacResist, 4*U1000));
+                case 4 -> matData = new OreDictItemData(OM.stack(MTx.PDopedGaAs, 9*U10), OM.stack(MTx.NDopedGaAs, U10), OM.stack(MTx.Si3N4, 7*U100), OM.stack(MTx.DnqNovolacResist, 4*U1000), OM.stack(MT.Au, U4));
+                case 5 -> matData = new OreDictItemData(OM.stack(MTx.PDopedGaAs, 9*U10), OM.stack(MTx.NDopedGaAs, U10), OM.stack(MTx.Si3N4, 7*U100), OM.stack(MTx.DnqNovolacResist, 4*U1000), OM.stack(MT.Au, U4), OM.stack(MT.Al, U4));
+                case 6 -> matData = new OreDictItemData(OM.stack(MTx.PDopedGaAs, 9*U10), OM.stack(MTx.NDopedGaAs, U10), OM.stack(MTx.Si3N4, 7*U100), OM.stack(MT.Au, U8), OM.stack(MT.Al, U8));
+                case 7 -> matData = new OreDictItemData(OM.stack(MTx.PDopedGaAs, 9*U10/64), OM.stack(MTx.NDopedGaAs, U10/64), OM.stack(MTx.Si3N4, 7*U100/64), OM.stack(MT.Au, U512), OM.stack(MT.Al, U512));
             }
         }
         case TFT_IDX -> {

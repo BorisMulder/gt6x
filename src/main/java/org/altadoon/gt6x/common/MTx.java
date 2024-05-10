@@ -49,7 +49,7 @@ public class MTx {
         MT.Apatite.uumMcfg( 0, MT.Ca, 5*U, MT.PO4, 3*5*U, MT.Cl, U).heat(1900).setLocal("Chlorapatite");
         MT.Phosphorite.uumMcfg( 0, MT.Ca, 5*U, MT.PO4, 3*5*U, MT.F, U).heat(1900).setLocal("Fluorapatite");
         for (OreDictMaterial phosphorus : new OreDictMaterial[] { MT.Phosphorus, MT.PhosphorusBlue, MT.PhosphorusRed, MT.PhosphorusWhite}) {
-            phosphorus.setLocal("Calcium Phosphate").hide(true);
+            phosphorus.setLocal("Tricalcium Phosphate").hide(true);
         }
         for (OreDictMaterial clay : ANY.Clay.mToThis) {
             clay.heat(1550);
@@ -88,9 +88,10 @@ public class MTx {
         MT.FeO3H3.setLocal("Ferric Hydroxide");
         MT.DarkAsh.setLocal("Coal Ash");
 
-        addMolten(MT.K2S2O7, 1000);
-        addMolten(MT.Na2S2O7, 1000);
-        addMolten(MT.Quicklime, 1000);
+        addMolten(MT.K2S2O7, 144);
+        addMolten(MT.Na2S2O7, 144);
+        addMolten(MT.Quicklime, 144);
+        addMolten(MT.NaCl, 144);
         addMolten(MT.Ga, 144);
         addMolten(MT.Nb, 144);
 
@@ -650,7 +651,8 @@ public class MTx {
     LiH = dustdcmp(16149, "Lithium Hydride", SET_QUARTZ, 0, 153, 153, 255)
             .setMcfg(0, MT.Li, U, MT.H, U)
             .heat(961, 1220)
-            .put(GEMS),
+            .put(GEMS)
+            .setSmelting(MT.Li, U2),
     LiF = dustdcmp(16150, "Lithium Fluoride", SET_DULL, 235, 255, 200, 255)
             .setMcfg(0, MT.Li, U, MT.F, U)
             .heat(1118, 1949)
@@ -664,9 +666,10 @@ public class MTx {
     B2H6 = registerGas(gasdcmp(16153, "Diborane", 255, 255, 255, 100)
             .setMcfg(1, MT.B, 2*U, MT.H, 6*U)
             .heat(108, 181)),
-    LiBF4 = dustdcmp(16154, "Lithium Tetrafluoroborate", SET_SHINY, 255, 255, 255, 255)
-            .setMcfg(0, MT.Li, U, MT.B, U, MT.F, 4*U)
-            .heat(570),
+    NaH = dustdcmp(16154, "Sodium Hydride", SET_DULL, 150, 150, 150, 255)
+            .uumMcfg(0, MT.Na, U, MT.H, U)
+            .heat(911)
+            .setSmelting(MT.Na, U2),
     SiGeH8 = registerGas(gasdcmp(16155, "Silane-Germane Mixture", 175, 175, 185, 100)
             .setMcfg(0, SiH4, U, GeH4, U)
             .heat(GeH4)),
@@ -743,7 +746,7 @@ public class MTx {
             .setMcfg(1, MT.C, 10*U, MT.H, 9*U, MT.N, U)
             .heat(320, 400)
             .put(FLAMMABLE),
-    NaphthaleneSulfonicAcid = dustdcmp(16183, "Naphthalene sulfonic acid", SET_DULL, 255, 255, 255, 255)
+    NaphthaleneSulfonicAcid = dustdcmp(16183, "Naphthalene Sulfonic Acid", SET_DULL, 255, 255, 255, 255)
             .setMcfg(1, MT.C, 10*U, MT.H, 8*U, MT.S, U, MT.O, 3*U)
             .heat(412),
     Naphthol = dustdcmp(16184, "Naphthol", SET_DULL, 255, 255, 255, 255)
@@ -892,7 +895,7 @@ public class MTx {
     AlPO4 = dustdcmp(16234, "Aluminium Phosphate", SET_DULL, 200, 225, 255, 255)
             .setMcfg(0, MT.Al, U, MT.P, U, MT.O, 4*U)
             .heat(2070),
-    Na3PO4Solution = simpleSolution(16235, "Sodium Phosphate Solution", 200, 200, 255, 200, Na3PO4, 3),
+    Na3PO4Solution = simpleSolution(16235, "Sodium Phosphate Solution", 200, 200, 255, 200, Na3PO4, 6),
     FeCl3Solution = registerLiquid(lquddcmp(16236, "Ferric Chloride Solution", 180, 180, 120, 200)
             .setMcfg(0, MT.FeCl3, 8*U, MT.H2O, 9*U)
             .heat(MT.H2O)),
@@ -913,7 +916,7 @@ public class MTx {
             .uumAloy(0, MT.Co, 5*U, MT.Pt, U, MT.Cr, 3*U)
             .heat(1880, 3300),
     Hydroxyapatite = oredustdcmp(16244, "Hydroxyapatite", SET_DIAMOND, 150, 150, 80, 255)
-            .uumMcfg(0, MT.Ca, 5*U, MT.PO4, 3*U, MT.O, U, MT.H, U)
+            .uumMcfg(0, MT.Ca, 5*U, MT.PO4, 3*5*U, MT.O, U, MT.H, U)
             .heat(MT.Apatite)
             .setOreMultiplier(4),
     LiquidCrystal5CB = create(16245, "Crystal5CBLiquid", 0, 0, 0, 255, "4-Cyano-4'-pentylbiphenyl")
@@ -1199,10 +1202,36 @@ public class MTx {
     LiClSolution = simpleSolution(16348, "Lithium Chloride Solution", 222, 222, 250,200, MT.LiCl, 3),
     HCl3Si = registerGas(gasdcmp(16349, "Trichlorosilane", 190, 190, 190, 150)
             .setMcfg(1, MT.H, U, MT.Cl, 3*U, MT.Si, U)
-            .heat(146, 305))
+            .heat(146, 305)),
+    PCl3 = registerLiquid(lquddcmp(16350, "Phosphorus Trichloride", 255, 255, 220, 200)
+            .setMcfg(0, MT.P, U, MT.Cl, 3*U)
+            .heat(180, 349)),
+    POCl3 = registerLiquid(lquddcmp(16351, "Phosphoryl Trichloride", 210, 210, 210, 200)
+            .setMcfg(0, MT.P, U, MT.O, U, MT.Cl, 3*U)
+            .heat(274, 379)),
+    H3PO3 = dustdcmp(16352, "Phosphorous Acid", SET_CUBE, 255, 255, 255, 255)
+            .setMcfg(0, MT.H, 3*U, MT.P, U, MT.O, 3*U)
+            .heat(346, 473),
+    K2SiO3 = dustdcmp(16353, "Potassium Silicate", SET_CUBE, 255, 255, 255, 255)
+            .setMcfg(0, MT.K, 2*U, MT.Si, U, MT.O, 3*U)
+            .heat(600+C, 800+C),
+    KFSolution = simpleSolution(16354, "Potassium Fluoride Solution", 200,  64, 225, 200, MT.KF, 3),
+    SnF2 = dustdcmp(16355, "Tin(II) Fluoride", SET_FINE, 200, 255, 200, 255)
+            .uumMcfg(1, MT.Sn, U, MT.F, 2*U)
+            .heat(486, 1120),
+    FTO = dustdcmp(16356, "Fluorine-doped Tin Oxide", SET_METALLIC, 0, 0, 0, 255)
+            .stealLooks(MT.OREMATS.Cassiterite)
+            .heat(MT.OREMATS.Cassiterite)
+            .setMcfg(1, MT.OREMATS.Cassiterite, U, SnF2, U32)
+            .tooltip("SnO" + NUM_SUB[2] + ":F"),
+    NDopedCdS = dopedSemiconductor(16357, "N-doped Cadmium Sulfide", CdS, false),
+    CdTe = semiconductor(16358, "Cadmium Telluride", 10, 10, 10, false)
+            .uumMcfg(0, MT.Cd, U, MT.Te, U)
+            .heat(1314, 1320),
+    PDopedCdTe = dopedSemiconductor(16358, "P-doped Cadmium Telluride", CdTe, false)
     ;
 
-    /*
+    /* Unused
     Na3VO4 = create(16162, "Sodium Orthovanadate", 255, 255, 255, 0)
             .setMcfg(0, MT.Na, 3*U, MT.V, U, MT.O, 4*U),
     AuGe = alloymachine(16171, "Gold-Germanium", SET_COPPER, 227, 182, 59)
@@ -1245,6 +1274,7 @@ public class MTx {
         OP.plate.forceItemGeneration(MT.Al2O3);
         OP.wireFine.forceItemGeneration(MT.Ta);
         OP.casingMachine.forceItemGeneration(MT.Plastic, MT.Polycarbonate);
+        OP.foil.forceItemGeneration(MT.Glass);
 
         OreDictManager.INSTANCE.addReRegistration("dustCobaltBlue", "dyeMixableBlue");
         OreDictManager.INSTANCE.addReRegistration("dustIndigo", "dyeMixableBlue");

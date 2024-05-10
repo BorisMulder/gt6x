@@ -195,6 +195,9 @@ public class Metallurgy extends GT6XFeature {
 
         MT.YttriumBariumCuprate.addAlloyingRecipe(new OreDictConfigurationComponent( 20, OM.stack(MT.AnnealedCopper, 6*U), OM.stack(MTx.BaO, 8*U), OM.stack(MTx.Y2O3, 5*U)));
         MT.YttriumBariumCuprate.addAlloyingRecipe(new OreDictConfigurationComponent( 20, OM.stack(MT.Cu            , 6*U), OM.stack(MTx.BaO, 8*U), OM.stack(MTx.Y2O3, 5*U)));
+
+        MTx.BaS.addAlloyingRecipe(new OreDictConfigurationComponent(1, OM.stack(MT.OREMATS.Barite, 3*U), OM.stack(MT.C, U)));
+        MTx.SrS.addAlloyingRecipe(new OreDictConfigurationComponent(1, OM.stack(MT.OREMATS.Celestine, 3*U), OM.stack(MT.C, U)));
     }
 
     private void changePrefixNames() {
@@ -446,7 +449,7 @@ public class Metallurgy extends GT6XFeature {
         // Zn byproducts
         RM.Bath.addRecipe1(true, 0, 256  , dustTiny.mat(MT.Zn, 1), FL.array(MTx.ZnLeachingSolution.liquid(9  *U, true)), FL.array(MT.WhiteVitriol.liquid(6  *U, false), MT.H2O.liquid(3  *U, false)), dustTiny.mat(MT.Cd, 1));
         RM.Bath.addRecipe1(true, 0, 256*9, dust    .mat(MT.Zn, 1), FL.array(MTx.ZnLeachingSolution.liquid(9*9*U, true)), FL.array(MT.WhiteVitriol.liquid(6*9*U, false), MT.H2O.liquid(3*9*U, false)), dust    .mat(MT.Cd, 1));
-        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MTx.ZnSlag, 1), MT.H2SO4.liquid(8*U, true), MTx.GeGaInSulfateSolution.liquid(7*U, false), dust.mat(MTx.Slag, 1));
+        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MTx.ZnSlag, 1), MT.H2SO4.liquid(8*U, true), MTx.GeGaInSulfateSolution.liquid(7*U, false), dust.mat(MT.SiO2, 1), dust.mat(MT.CaSO4, 1));
         RM.Bath.addRecipe1(true, 0, 512, dust.mat(MTx.ZRR, 1), MT.H2SO4.liquid(8*U, true), MTx.GeGaInSulfateSolution.liquid(7*U, false), dust.mat(MTx.Tl2SO4, 1));
         RM.Bath.addRecipe1(true, 0, 256, dust.mat(MTx.TannicAcid, 1), MTx.GeGaInSulfateSolution.liquid(7*U, true), MTx.GaInSulfateSolution.liquid(7*U, false), dust.mat(MTx.GeTannate, 1));
         for (FluidStack water : FL.waters(1000)) {
@@ -607,7 +610,7 @@ public class Metallurgy extends GT6XFeature {
 
         // Pure phosphorus production in EAF
         new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MT.Apatite, 2*3*U), OM.stack(MT.SiO2, 9*U), OM.stack(MT.C, 5*U) }, 1850, OM.stack(MTx.Slag, 3*5*U), OM.stack(MT.CaCl2, U), OM.stack(MTx.P_CO_Gas, 12*U));
-        new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MTx.Hydroxyapatite, 2*10*U), OM.stack(MT.SiO2, 9*3*U), OM.stack(MT.C, 15*U) }, 1850, OM.stack(MTx.Slag, 9*5*U), OM.stack(MTx.CaOH2, 5*U), OM.stack(MTx.P_CO_Gas, 36*U));
+        new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MTx.Hydroxyapatite, 4*U), OM.stack(MT.SiO2, 6*U), OM.stack(MT.C, 3*U) }, 1850, OM.stack(MTx.Slag, 10*U), OM.stack(MTx.P_CO_Gas, 36*U5));
         new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MT.Phosphorite, 2*3*U), OM.stack(MT.SiO2, 9*U), OM.stack(MT.C, 5*U) }, 1850, OM.stack(MTx.Slag, 3*5*U), OM.stack(MT.CaF2, U), OM.stack(MTx.P_CO_Gas, 12*U));
         for (OreDictMaterial phosphorus : new OreDictMaterial[] { MT.Phosphorus, MT.PhosphorusBlue, MT.PhosphorusRed, MT.PhosphorusWhite}) {
             new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(phosphorus, 13*U), OM.stack(MT.SiO2, 3*3*U), OM.stack(MT.C, 5*U) }, 1850, OM.stack(MTx.Slag, 3*5*U), OM.stack(MTx.P_CO_Gas, 12*U));

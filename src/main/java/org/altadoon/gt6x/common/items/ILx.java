@@ -178,6 +178,26 @@ public class ILx implements IItemContainer {
         }
     }
 
+    // Solar panel intermediates
+    public static final int NUM_SOLAR_TIERS = 5;
+    public static final int NUM_SOLAR_STAGES_POLY_SI = 1; // p-n junction
+    public static final int NUM_SOLAR_STAGES_MONO_SI = 4; // textured, cleaned, doped, ARC
+    public static final int NUM_SOLAR_STAGES_CdTe = 3; // TCO, n-CdS window, p-CdTe absorber [, AgAu back]
+    public static final int NUM_SOLAR_STAGES_CIGS = 5; // TODO
+    public static final int NUM_SOLAR_STAGES_MULTI_JUNCTION = 5; //TODO
+
+    public static final int[] NUM_SOLAR_STAGES = new int[]{ NUM_SOLAR_STAGES_POLY_SI, NUM_SOLAR_STAGES_MONO_SI, NUM_SOLAR_STAGES_CdTe, NUM_SOLAR_STAGES_CIGS, NUM_SOLAR_STAGES_MULTI_JUNCTION };
+
+    public static IItemContainer[][] SolarWafers = new IItemContainer[NUM_SOLAR_TIERS][NUM_SOLAR_STAGES_MULTI_JUNCTION];
+
+    static {
+        for (int tier = 0; tier < NUM_SOLAR_TIERS; tier++) {
+            for (int stage = 0; stage < NUM_SOLAR_STAGES[tier]; stage++) {
+                SolarWafers[tier][stage] = new ILx(String.format("Wafer_Solar_Tier%d_Stage%d", tier, stage));
+            }
+        }
+    }
+
     // Computer tiers
     public static final int NUM_COMPUTER_TIERS = NUM_WAFER_TIERS;
 
