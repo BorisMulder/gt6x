@@ -1196,7 +1196,10 @@ public class MTx {
     PbCl2Solution = simpleSolution(16345, "Lead Chloride Solution", 255, 200, 255, 200, PbCl2, 3),
     BiCl3Solution = simpleSolution(16346, "Bismuth Chloride Solution", 255, 255, 200, 200, BiCl3, 3),
     MnCl2Solution = simpleSolution(16347, "Manganese Chloride Solution", 255, 235, 255, 200, MT.MnCl2, 3),
-    LiClSolution = simpleSolution(16348, "Lithium Chloride Solution", 222, 222, 250,200, MT.LiCl, 3)
+    LiClSolution = simpleSolution(16348, "Lithium Chloride Solution", 222, 222, 250,200, MT.LiCl, 3),
+    HCl3Si = registerGas(gasdcmp(16349, "Trichlorosilane", 190, 190, 190, 150)
+            .setMcfg(1, MT.H, U, MT.Cl, 3*U, MT.Si, U)
+            .heat(146, 305))
     ;
 
     /*
