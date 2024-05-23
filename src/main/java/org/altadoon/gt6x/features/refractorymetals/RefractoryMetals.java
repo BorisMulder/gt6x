@@ -108,6 +108,10 @@ public class RefractoryMetals extends GT6XFeature {
             }
         }
 
+        for (OreDictMaterial mat : new OreDictMaterial[] { MT.Mo, MT.OREMATS.Molybdenite }) {
+            mat.mByProducts.removeIf(byproduct -> byproduct.mID == MT.Re.mID);
+        }
+
         if (complexColtanRefining) {
             MT.OREMATS.Coltan.mByProducts.clear();
             MT.OREMATS.Coltan.addOreByProducts(MT.MnO2, MT.OREMATS.Ilmenite, MT.Fe2O3);
@@ -252,6 +256,13 @@ public class RefractoryMetals extends GT6XFeature {
             RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.Ta2O5, 7), MT.Ca.liquid(5*U, true), MT.Quicklime.liquid(10*U, false), dust.mat(MT.Ta, 2));
             RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.Ta2O5, 7), MT.Al.liquid(10*U3, true), MT.Al2O3.liquid(25*U3, false), dust.mat(MT.Ta, 2));
         }
+
+        // Re
+        for (FluidStack water : FL.waters(15)) {
+            RM.Mixer.addRecipe0(true, 16, 32, FL.array(water, MTx.MoS2RoastingGas.gas(U, true)), FL.array(MTx.HReO4.liquid(6*U100, false), MT.SO2.gas(U, false)));
+        }
+        RM.Bath.addRecipe1(true, 0, 64, dust.mat(MTx.NH4Cl, 2), MTx.HReO4.liquid(6*U, true), MT.HCl.gas(2*U, false), dust.mat(MTx.NH4ReO4, 6));
+        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.NH4ReO4, 6), FL.array(MT.H.gas(7*U, true)), FL.array(MT.H2O.liquid(12*U, false), MT.NH3.gas(U, false)), dust.mat(MT.Re, 1));
     }
 
     private void changeRecipes() {

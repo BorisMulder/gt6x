@@ -17,10 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-import org.altadoon.gt6x.common.Config;
-import org.altadoon.gt6x.common.FLx;
-import org.altadoon.gt6x.common.MTEx;
-import org.altadoon.gt6x.common.MTx;
+import org.altadoon.gt6x.common.*;
 import org.altadoon.gt6x.features.GT6XFeature;
 
 import static gregapi.data.CS.*;
@@ -116,10 +113,10 @@ public class OilProcessing extends GT6XFeature {
 
         for (Recipe recipe : RM.CatalyticCracking.mRecipeList) recipe.mEnabled = false;
 
-        RM.CatalyticCracking.addRecipe1(false, 16,  64, new long[]{1000}, dust.mat(MT.Al2O3, 0), FL.array(MTx.NaphthaLowSulfur.liquid(U10, true)), FL.array(FL.Petrol.make(75), MTx.FccOffgas.gas(25*U1000, false)), dustTiny.mat(MT.PetCoke, 1));
-        RM.CatalyticCracking.addRecipe1(false, 16,  64, new long[]{1000}, dust.mat(MT.Al2O3, 0), FL.array(MTx.KerosineLowSulfur.liquid(U10, true)), FL.array(FL.Petrol.make(100), MTx.FccOffgas.gas(25*U1000, false)), dustTiny.mat(MT.PetCoke, 1));
-        RM.CatalyticCracking.addRecipe1(false, 16,  64, new long[]{1000}, dust.mat(MT.Al2O3, 0), FL.array(MTx.DieselLowSulfur.liquid(U10, true)), FL.array(FL.Petrol.make(125), MTx.FccOffgas.gas(25*U1000, false)), dustTiny.mat(MT.PetCoke, 1));
-        RM.CatalyticCracking.addRecipe1(false, 16,  64, new long[]{1000}, dust.mat(MT.Al2O3, 0), FL.array(MTx.FuelLowSulfur.liquid(U10, true)), FL.array(FL.Petrol.make(150), MTx.FccOffgas.gas(25*U1000, false)), dustTiny.mat(MT.PetCoke, 1));
+        RM.CatalyticCracking.addRecipe1(false, 16,  64, new long[]{1000}, dust.mat(MTx.PtRe, 0), FL.array(MTx.NaphthaLowSulfur.liquid(U10, true)), FL.array(FL.Petrol.make(75), MTx.FccOffgas.gas(25*U1000, false)), dustTiny.mat(MT.PetCoke, 1));
+        RM.CatalyticCracking.addRecipe1(false, 16,  64, new long[]{1000}, dust.mat(MTx.PtRe, 0), FL.array(MTx.KerosineLowSulfur.liquid(U10, true)), FL.array(FL.Petrol.make(100), MTx.FccOffgas.gas(25*U1000, false)), dustTiny.mat(MT.PetCoke, 1));
+        RM.CatalyticCracking.addRecipe1(false, 16,  64, new long[]{1000}, dust.mat(MTx.PtRe, 0), FL.array(MTx.DieselLowSulfur.liquid(U10, true)), FL.array(FL.Petrol.make(125), MTx.FccOffgas.gas(25*U1000, false)), dustTiny.mat(MT.PetCoke, 1));
+        RM.CatalyticCracking.addRecipe1(false, 16,  64, new long[]{1000}, dust.mat(MTx.PtRe, 0), FL.array(MTx.FuelLowSulfur.liquid(U10, true)), FL.array(FL.Petrol.make(150), MTx.FccOffgas.gas(25*U1000, false)), dustTiny.mat(MT.PetCoke, 1));
     }
 
     private void changeElectrolysisRecipes() {
@@ -196,15 +193,13 @@ public class OilProcessing extends GT6XFeature {
 
         // PVC
         RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.FeCl3, 0), FL.array(MT.Ethylene.gas(U, true), MT.Cl.gas(2*U, true)), FL.array(MTx.EthyleneDichloride.liquid(U, false)));
-        //TODO use thermolyzer
-        RM.Drying.addRecipe1(true, 16, 128, ST.tag(0), MTx.EthyleneDichloride.liquid(U, true), FL.array(MTx.VinylChloride.gas(U, false), MT.HCl.gas(2*U, false)));
+        RMx.Thermolysis.addRecipe1(true, 16, 128, ST.tag(0), MTx.EthyleneDichloride.liquid(U, true), FL.array(MTx.VinylChloride.gas(U, false), MT.HCl.gas(2*U, false)));
         RM.Mixer.addRecipe1(true, 16,  16, dust.mat(MT.OREMATS.Galena, 0), FL.array(MTx.VinylChloride.gas(U10, false)), ZL_FS, dust.mat(MT.PVC, 1));
 
         // PTFE
         RM.Mixer.addRecipe0(true, 16, 64, FL.array(MT.CH4.gas(U, true), MT.Cl.gas(6*U, true)), FL.array(MTx.CHCl3.liquid(U, false), MT.HCl.gas(6*U, false)));
         RM.Mixer.addRecipe0(true, 16, 64, FL.array(MTx.CHCl3.liquid(U, true), MT.HF.gas(4*U, true)), FL.array(MTx.CHClF2.gas(U, false), MT.HCl.gas(4*U, false)));
-        //TODO use thermolyzer
-        RM.Drying.addRecipe1(true, 16, 128, ST.tag(0), MTx.CHClF2.gas(2*U, true), FL.array(MTx.C2F4.gas(U, false), MT.HCl.gas(4*U, false)));
+        RMx.Thermolysis.addRecipe1(true, 16, 128, ST.tag(0), MTx.CHClF2.gas(2*U, true), FL.array(MTx.C2F4.gas(U, false), MT.HCl.gas(4*U, false)));
         RM.Mixer.addRecipe1(true, 16,  16, dust.mat(MT.KSO4, 0), FL.array(MTx.C2F4.gas(U10, false)), ZL_FS, dust.mat(MT.PTFE, 1));
         RM.Mixer.addRecipe1(true, 16,  16, dust.mat(MT.NaSO4, 0), FL.array(MTx.C2F4.gas(U10, false)), ZL_FS, dust.mat(MT.PTFE, 1));
 

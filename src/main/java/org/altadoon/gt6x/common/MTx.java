@@ -1228,7 +1228,23 @@ public class MTx {
     CdTe = semiconductor(16358, "Cadmium Telluride", 10, 10, 10, false)
             .uumMcfg(0, MT.Cd, U, MT.Te, U)
             .heat(1314, 1320),
-    PDopedCdTe = dopedSemiconductor(16358, "P-doped Cadmium Telluride", CdTe, false)
+    PDopedCdTe = dopedSemiconductor(16358, "P-doped Cadmium Telluride", CdTe, false),
+    Re2O7 = create(16359, "Rhenium Heptoxide", 230, 255, 0, 255)
+            .setMcfg(0, MT.Re, 2*U, MT.O, 7*U)
+            .heat(633, 633),
+    MoS2RoastingGas = registerGas(gasdcmp(16360, "Molybdenite Roasting Gas", 255, 200, 100, 255)
+            .setMcfg(0, MT.SO2, U, Re2O7, U)
+            .heat(MT.SO2)),
+    HReO4 = registerLiquid(lqudaciddcmp(16361, "Perrhenic Acid", 255, 255, 200, 150)
+            .setMcfg(0, MT.H, U, MT.Re, U, MT.O, 4*U)
+            .heat(MT.H2O)),
+    NH4ReO4 = dustdcmp(16362, "Ammonium Perrhenate", SET_GLASS, 255, 255, 255, 255)
+            .uumMcfg(0, MT.N, U, MT.H, 4*U, MT.Re, U, MT.O, 4*U)
+            .heat(200+C)
+            .setSmelting(HReO4, U),
+    PtRe = alloymachine(16363, "Platinum-Rhenium", SET_SHINY, 200, 210, 220)
+            .uumAloy(0, MT.Pt, U, MT.Re, U)
+            .heat(2350)
     ;
 
     /* Unused
