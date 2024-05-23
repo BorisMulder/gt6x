@@ -40,6 +40,8 @@ public class PgmProcessing extends GT6XFeature {
 
     private PgmFeatureSet pgmFeatures = PgmFeatureSet.Off;
 
+    private static final Recipe.RecipeMap[] hydrogenReduction = new Recipe.RecipeMap[] { RM.Roasting, RMx.DirectReduction };
+
     @Override
     public void configure(Config cfg) {
         String configString = cfg.cfg.get(FEATURE_NAME, FEATURE_SET, PgmFeatureSet.Complex.name(), null, new String[]{PgmFeatureSet.Complex.name(), PgmFeatureSet.Simple.name()}).getString();
@@ -241,9 +243,11 @@ public class PgmProcessing extends GT6XFeature {
         RM.Bath.addRecipe1(true, 0, 32, ST.tag(0), OsO4.gas(5*U, true), NF, dust.mat(RuO4, 5));
         RM.Bath.addRecipe1(true, 0, 32, ST.tag(0), RuO4.gas(5*U, true), NF, dust.mat(RuO4, 5));
 
-        RMx.DirectReduction.addRecipe1(true, 16, 64 , dust.mat(MTx.IrO2 , 3), MT.H.gas(4*U, true), MT.H2O.liquid(6*U, false), dust.mat(MT.Ir, 1));
-        RMx.DirectReduction.addRecipe1(true, 16, 64 , dust.mat(MTx.RuO4 , 5), MT.H.gas(8*U, true), MT.H2O.liquid(12*U, false), dust.mat(MT.Ru, 1));
-        RMx.DirectReduction.addRecipe1(true, 16, 64 , dust.mat(MTx.OsO4 , 5), MT.H.gas(8*U, true), MT.H2O.liquid(12*U, false), dust.mat(MT.Os, 1));
+        for (Recipe.RecipeMap map : hydrogenReduction) {
+            map.addRecipe1(true, 16, 64 , dust.mat(MTx.IrO2 , 3), MT.H.gas(4*U, true), MT.H2O.liquid(6*U, false), dust.mat(MT.Ir, 1));
+            map.addRecipe1(true, 16, 64 , dust.mat(MTx.RuO4 , 5), MT.H.gas(8*U, true), MT.H2O.liquid(12*U, false), dust.mat(MT.Ru, 1));
+            map.addRecipe1(true, 16, 64 , dust.mat(MTx.OsO4 , 5), MT.H.gas(8*U, true), MT.H2O.liquid(12*U, false), dust.mat(MT.Os, 1));
+        }
     }
 
     public void addComplexRecipes() {
@@ -268,13 +272,15 @@ public class PgmProcessing extends GT6XFeature {
         // Ru/Os separation
         RM.Mixer.addRecipe0(true, 16, 100, FL.array(RuOsO4.gas(10*U, true), MT.HCl.gas(12*U, true)), FL.array(H2RuCl6.liquid(15*U, false), MT.O.gas(2*U, false)), dust.mat(OsO4, 5));
         RM.Bath.addRecipe1(true, 0, 100, dust.mat(NH4Cl, 4), FL.array(H2RuCl6.liquid(15*U, true)), FL.array(MT.H2O.liquid(6*U, false), MT.HCl.gas(4*U, false)), dust.mat(NH4_2_RuCl6, 9));
-        RMx.DirectReduction.addRecipe1(true, 64, 150, dust.mat(NH4_2_RuCl6, 9), MT.H.gas(4*U, true), MT.HCl.gas(8*U, false), dust.mat(NH4Cl, 4), dust.mat(MT.Ru, 1));
+        for (Recipe.RecipeMap map : hydrogenReduction)
+            map.addRecipe1(true, 64, 150, dust.mat(NH4_2_RuCl6, 9), MT.H.gas(4*U, true), MT.HCl.gas(8*U, false), dust.mat(NH4Cl, 4), dust.mat(MT.Ru, 1));
     }
 
     public void addSimpleRecipes() {
         RM.Electrolyzer.addRecipe1(true, 64, 200, ST.tag(0), FL.array(PtPdLeachingSolution.liquid(95*U, false)), FL.array(MT.HCl.gas(48*U, false), DiluteHCl.liquid(28*U, false), MT.O.gas(6*2*U, false)), dustSmall.mat(MT.Pt, 5*4), dustSmall.mat(MT.Pd, 2*4));
         RM.Distillery.addRecipe1(true, 64, 150, dust.mat(PGMResidue, 4), FL.array(Ozone.gas(8 * U, true)), FL.array(RuO4.gas(5*U, false), OsO4.gas(5*U, false)), dust.mat(IrRhOxide, 6));
-        RMx.DirectReduction.addRecipe1(true, 64, 150, dust.mat(IrRhOxide, 6), MT.H.gas(8*U, true), MT.H2O.liquid(12*U, false), dust.mat(MT.Rh, 1), dust.mat(MT.Ir, 1));
+        for (Recipe.RecipeMap map : hydrogenReduction)
+            map.addRecipe1(true, 64, 150, dust.mat(IrRhOxide, 6), MT.H.gas(8*U, true), MT.H2O.liquid(12*U, false), dust.mat(MT.Rh, 1), dust.mat(MT.Ir, 1));
     }
 
     private void disableElectrolysis() {
