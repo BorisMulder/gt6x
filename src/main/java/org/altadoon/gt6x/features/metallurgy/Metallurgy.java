@@ -150,6 +150,8 @@ public class Metallurgy extends GT6XFeature {
 
         MT.OREMATS.Barite.addOreByProducts(MT.OREMATS.Celestine, MT.Gypsum);
         MT.OREMATS.Celestine.addOreByProducts(MT.Gypsum);
+
+        //TODO remove native Na, K, Ba, REE ores as byproduct or as GEN_ORES altogether
     }
 
     private void removeAlloySmeltingRecipe(OreDictMaterial mat) {
@@ -467,8 +469,7 @@ public class Metallurgy extends GT6XFeature {
         RM.Bath.addRecipe1(true, 0, 64, new long[]{ 625 , 625 , 625  }, dustSmall.mat(MTx.CoalAshNonmagResidue, 3), MT.H2SO4.liquid(7*U4, true), MTx.CoalAshLeachingSolution.liquid(8*U4, false), dustSmall.mat(MT.Gypsum, 6), dustSmall.mat(MT.OREMATS.Wollastonite, 18), dustSmall.mat(MT.SiO2, 8));
         // 15 H + 1 H (1/2 H2C2O4) -> 1/4 Ge(C2O4)2 + 16 H
         RM.Bath.addRecipe1(true, 0, 64, dust.mat(MTx.OxalicAcid, 4), MTx.CoalAshLeachingSolution.liquid(64*U, true), MTx.CoalAshResidueSolution.liquid(64*U, false), dustSmall.mat(MTx.GeOxalate, 13));
-        //TODO use thermolyzer
-        RM.Drying.addRecipe1(true, 16, 64, dust.mat(MTx.GeOxalate, 13), ZL_FS, FL.array(MT.CO.gas(4*U, false), MT.CO2.gas(6*U, false)), dust.mat(MTx.GeO2, 3));
+        RMx.Thermolysis.addRecipe1(true, 16, 64, dust.mat(MTx.GeOxalate, 13), ZL_FS, FL.array(MT.CO.gas(4*U, false), MT.CO2.gas(6*U, false)), dust.mat(MTx.GeO2, 3));
         // 16 H + 31/4 S (solution) + 16 NaOH -> 7.75 Na2SO4.H2O + 0.5 NaAlO2 + 5.5 Al(OH)3
         RM.Bath.addRecipe1(true, 0, 128, dust.mat(MT.NaOH, 16*3), MTx.CoalAshResidueSolution.liquid(64*U, true), MTx.Na2SO4Solution.liquid(31*10*U4, false), dust.mat(MT.AlO3H3, 38), dust.mat(MT.NaAlO2, 2), dustSmall.mat(MT.AlO3H3, 2));
 
@@ -638,7 +639,7 @@ public class Metallurgy extends GT6XFeature {
             RM.Bath.addRecipe1(true, 16, 48, new long[]{4000, 2500, 2000, 1000, 300, 200}, dust.mat(MTx.CuAnodeSludgeRoast, 4), water, MTx.Na2TeSeO3Solution.liquid(6*U, false), dustTiny.mat(MT.Cu, 9), dustTiny.mat(MTx.PbO, 9), dustTiny.mat(MTx.Bi2O3, 9), dustTiny.mat(MT.Ag, 9), dustTiny.mat(MT.Au, 9), dustTiny.mat(MT.PlatinumGroupSludge, 9));
             RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.TeO2, 1), FL.array(MT.SO2.gas(6*U, true), FL.mul(water, 2)), MT.H2SO4.liquid(14*U, false), dust.mat(MT.Te, 1));
         }
-        RM.Mixer.addRecipeX(true, 16, 48, ST.array(ST.tag(2), dust.mat(MTx.CuAnodeSludge, 3), dust.mat(MT.Na2CO3, 6)), MT.O.gas(2*U, true), MT.CO2.gas(3*U, false), dust.mat(MTx.CuAnodeSludgeRoast, 8));
+        RM.BurnMixer.addRecipeX(true, 16, 48, ST.array(dust.mat(MTx.CuAnodeSludge, 3), dust.mat(MT.Na2CO3, 6)), MT.O.gas(2*U, true), MT.CO2.gas(3*U, false), dust.mat(MTx.CuAnodeSludgeRoast, 8));
         RM.Mixer.addRecipe1(true, 16, 168, ST.tag(0), FL.array(MTx.Na2TeSeO3Solution.liquid(24*U, true), MT.H2SO4.liquid(14*U, true)), MTx.Na2SO4H2SeO3Solution.liquid(35*U, false), dust.mat(MTx.TeO2, 1));
         RM.Mixer.addRecipe1(true, 16, 280, ST.tag(0), FL.array(MTx.Na2SO4H2SeO3Solution.liquid(35*U, true), MT.SO2.gas(6*U, true)), MTx.NaHSO4Solution.liquid(40*U, false), OM.dust(MT.Se));
 

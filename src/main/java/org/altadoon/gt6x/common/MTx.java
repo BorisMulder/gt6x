@@ -51,6 +51,7 @@ public class MTx {
         for (OreDictMaterial phosphorus : new OreDictMaterial[] { MT.Phosphorus, MT.PhosphorusBlue, MT.PhosphorusRed, MT.PhosphorusWhite}) {
             phosphorus.setLocal("Tricalcium Phosphate").hide(true);
         }
+        MT.PO4.hide(true);
         for (OreDictMaterial clay : ANY.Clay.mToThis) {
             clay.heat(1550);
         }
@@ -94,6 +95,7 @@ public class MTx {
         addMolten(MT.NaCl, 144);
         addMolten(MT.Ga, 144);
         addMolten(MT.Nb, 144);
+        addMolten(MT.Cd, 144);
 
         addVapour(MT.Zn);
         addVapour(MT.As);
@@ -118,6 +120,7 @@ public class MTx {
     public static OreDictMaterial lqudexpl(int aID, String name, long aR, long aG, long aB, long aA, Object... aRandomData) {return liquid(aID, name, aR, aG, aB, aA, aRandomData).put(FLAMMABLE, EXPLOSIVE);}
     public static OreDictMaterial lqudflam(int aID, String name, long aR, long aG, long aB, long aA, Object... aRandomData) {return liquid(aID, name, aR, aG, aB, aA, aRandomData).put(FLAMMABLE);}
     public static OreDictMaterial machine(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, long aA, Object... aRandomData) { return create(aID, aNameOreDict, aR, aG, aB, aA, aRandomData).setTextures(aSets).put(DECOMPOSABLE, G_INGOT_MACHINE, SMITHABLE, MELTING, EXTRUDER); }
+    public static OreDictMaterial alloy(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, Object... aRandomData) { return create(aID, aNameOreDict, aR, aG, aB, 255, aRandomData).setTextures(aSets).put(DECOMPOSABLE, ALLOY, G_DUST, INGOTS, MELTING, EXTRUDER); }
     public static OreDictMaterial alloymachine(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, Object... aRandomData) { return machine(aID, aNameOreDict, aSets, aR, aG, aB, 255, aRandomData).put(ALLOY); }
     public static OreDictMaterial plastic(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, long aA, Object... aRandomData) { return create(aID, aNameOreDict, aR, aG, aB, aA, aRandomData).setTextures(aSets).put(G_INGOT_MACHINE, MELTING, EXTRUDER, EXTRUDER_SIMPLE, MORTAR, FURNACE, POLYMER).addReRegistrationToThis(MT.Plastic); }
 
@@ -522,10 +525,10 @@ public class MTx {
             .uumMcfg(0, MT.Mg, U, MT.CO2, 6*U)
             .heat(MT.Mg),
             (int)MT.Mg.mBoilingPoint),
-    Cementite = alloymachine(16113, "Cementite", SET_METALLIC, 50, 50, 0, "Iron Carbide")
+    Cementite = alloy(16113, "Cementite", SET_METALLIC, 50, 50, 0, "Iron Carbide")
             .uumMcfg(3, MT.Fe, 3*U, MT.C, U)
             .heat(MT.WroughtIron),
-    MeteoricCementite = alloymachine(16114, "Meteoric Cementite", SET_METALLIC, 50, 50, 0, 255, "Meteoric Iron Carbide")
+    MeteoricCementite = alloy(16114, "Meteoric Cementite", SET_METALLIC, 50, 50, 0, 255, "Meteoric Iron Carbide")
             .setMcfg(3, MT.MeteoricIron, 3*U, MT.C, U)
             .heat(MT.MeteoricIron),
     ImpureCementite = dustdcmp(16115, "Slag-rich Cementite", SET_METALLIC, 100, 50, 0, 255)
@@ -621,7 +624,7 @@ public class MTx {
     PH3 = registerGas(gasdcmp(16140, "Phosphine", 255, 220, 150, 100, "Phosphane")
             .uumMcfg(1, MT.P, U, MT.H, 3*U)
             .heat(140, 185)),
-    Mg2Si = alloymachine(16141, "Magnesium Silicide", SET_METALLIC, 102, 0, 102)
+    Mg2Si = alloy(16141, "Magnesium Silicide", SET_METALLIC, 102, 0, 102)
             .uumAloy(0, MT.Mg, 2*U, MT.Si, U)
             .heat(1375),
     CdS = oredustdcmp(16142, "Cadmium Sulfide", SET_DULL, 255, 204, 0, 255, "Greenockite", "Hawleyite")
@@ -670,9 +673,7 @@ public class MTx {
             .uumMcfg(0, MT.Na, U, MT.H, U)
             .heat(911)
             .setSmelting(MT.Na, U2),
-    SiGeH8 = registerGas(gasdcmp(16155, "Silane-Germane Mixture", 175, 175, 185, 100)
-            .setMcfg(0, SiH4, U, GeH4, U)
-            .heat(GeH4)),
+    //TODO 16155 free
     Na2O = dustdcmp(16156, "Sodium Oxide", SET_DULL, 255, 255, 200, 255)
             .setMcfg(0, MT.Na, 2*U, MT.O, U)
             .heat(1405, 2220),
@@ -1225,26 +1226,32 @@ public class MTx {
             .setMcfg(1, MT.OREMATS.Cassiterite, U, SnF2, U32)
             .tooltip("SnO" + NUM_SUB[2] + ":F"),
     NDopedCdS = dopedSemiconductor(16357, "N-doped Cadmium Sulfide", CdS, false),
-    CdTe = semiconductor(16358, "Cadmium Telluride", 10, 10, 10, false)
+    CdTe = semiconductor(16358, "Cadmium Telluride", 50, 50, 50, false)
             .uumMcfg(0, MT.Cd, U, MT.Te, U)
             .heat(1314, 1320),
-    PDopedCdTe = dopedSemiconductor(16358, "P-doped Cadmium Telluride", CdTe, false),
-    Re2O7 = create(16359, "Rhenium Heptoxide", 230, 255, 0, 255)
+    PDopedCdTe = dopedSemiconductor(16359, "P-doped Cadmium Telluride", CdTe, false),
+    Re2O7 = create(16360, "Rhenium Heptoxide", 230, 255, 0, 255)
             .setMcfg(0, MT.Re, 2*U, MT.O, 7*U)
             .heat(633, 633),
-    MoS2RoastingGas = registerGas(gasdcmp(16360, "Molybdenite Roasting Gas", 255, 200, 100, 255)
+    MoS2RoastingGas = registerGas(gasdcmp(16361, "Molybdenite Roasting Gas", 255, 200, 100, 255)
             .setMcfg(0, MT.SO2, U, Re2O7, U)
             .heat(MT.SO2)),
-    HReO4 = registerLiquid(lqudaciddcmp(16361, "Perrhenic Acid", 255, 255, 200, 150)
+    HReO4 = registerLiquid(lqudaciddcmp(16362, "Perrhenic Acid", 255, 255, 200, 150)
             .setMcfg(0, MT.H, U, MT.Re, U, MT.O, 4*U)
             .heat(MT.H2O)),
-    NH4ReO4 = dustdcmp(16362, "Ammonium Perrhenate", SET_GLASS, 255, 255, 255, 255)
+    NH4ReO4 = dustdcmp(16363, "Ammonium Perrhenate", SET_GLASS, 255, 255, 255, 255)
             .uumMcfg(0, MT.N, U, MT.H, 4*U, MT.Re, U, MT.O, 4*U)
             .heat(200+C)
             .setSmelting(HReO4, U),
-    PtRe = alloymachine(16363, "Platinum-Rhenium", SET_SHINY, 200, 210, 220)
+    PtRe = alloy(16364, "Platinum-Rhenium", SET_SHINY, 200, 210, 220)
             .uumAloy(0, MT.Pt, U, MT.Re, U)
-            .heat(2350)
+            .heat(2350),
+    InGa = alloy(16365, "Indium-Gallium", SET_METALLIC, 142, 110, 192, 255)
+            .uumAloy(0, MT.In, U, MT.Ga, U),
+    CuInGa = alloy(16366, "Copper-Indium-Gallium", SET_COPPER, 142, 110, 192, 255)
+            .uumAloy(0, MT.Cu, U, InGa, U),
+    CIGS = dustdcmp(16367, "Copper Indium Gallium Selenide", SET_COPPER, 14, 53, 53, 255)
+            .uumMcfg(0, MT.Cu, U, InGa, U, MT.Se, 2*U)
     ;
 
     /* Unused

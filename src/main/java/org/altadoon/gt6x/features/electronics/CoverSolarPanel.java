@@ -27,7 +27,7 @@ public class CoverSolarPanel extends AbstractCoverAttachment {
     protected boolean skyVisible = false, checkSky = true;
 
     protected static final int[] EUt = new int[] {
-        8, 12, 16
+        8, 12, 12
     };
 
     private static final ITexture[] textures = new ITexture[] {
