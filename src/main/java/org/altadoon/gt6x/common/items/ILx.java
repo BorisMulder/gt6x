@@ -183,7 +183,7 @@ public class ILx implements IItemContainer {
     public static final int NUM_SOLAR_STAGES_POLY_SI = 1; // p-n junction
     public static final int NUM_SOLAR_STAGES_MONO_SI = 4; // textured, cleaned, doped, ARC
     public static final int NUM_SOLAR_STAGES_CdTe = 3; // TCO, n-CdS window, p-CdTe absorber [, AgAu back]
-    public static final int NUM_SOLAR_STAGES_CIGS = 5; // TODO
+    public static final int NUM_SOLAR_STAGES_CIGS = 3; // Mo back contact, p-CIGS absorber, n-CdS window [, ITO front]
     public static final int NUM_SOLAR_STAGES_MULTI_JUNCTION = 5; //TODO
 
     public static final int[] NUM_SOLAR_STAGES = new int[]{ NUM_SOLAR_STAGES_POLY_SI, NUM_SOLAR_STAGES_MONO_SI, NUM_SOLAR_STAGES_CdTe, NUM_SOLAR_STAGES_CIGS, NUM_SOLAR_STAGES_MULTI_JUNCTION };

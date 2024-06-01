@@ -40,7 +40,7 @@ import static org.altadoon.gt6x.features.electronics.MultiItemsPhotolithography.
 public class Electronics extends GT6XFeature {
     public static final String FEATURE_NAME = "Electronics";
 
-    private static final OreDictMaterial[] PolyGemMaterials = { MT.Si, MT.Ge, MTx.GaAs, MTx.SiGe, MTx.PDopedSi, MTx.NDopedSi, MTx.PDopedGe, MTx.NDopedGe, MTx.PDopedGaAs, MTx.NDopedGaAs };
+    private static final OreDictMaterial[] PolyGemMaterials = { MT.Si, MTx.PDopedSi, MTx.NDopedSi, MT.Ge, MTx.PDopedGe, MTx.NDopedGe, MTx.SiGe, MTx.PDopedSiGe, MTx.NDopedSiGe, MTx.GaAs, MTx.PDopedGaAs, MTx.NDopedGaAs };
     public static OreDictPrefix polyGem = OreDictPrefix.createPrefix("polyGem")
         .setCategoryName("polyGems")
         .setLocalItemName("Polycrystalline ", "")
@@ -240,31 +240,30 @@ public class Electronics extends GT6XFeature {
         RM.Electrolyzer.addRecipe2(true, 32, 256, OP.stick.mat(MT.Ge, 1), OM.dust(MT.Mo, U3), FL.Water.make(3000), MTx.GeH4.gas(U2, false), OM.dust(MTx.MoO3, 4 * U3));
         RM.Electrolyzer.addRecipe2(true, 32, 256, OP.stick.mat(MT.Ge, 1), OM.dust(MT.Cd, U), FL.Water.make(3000), MTx.GeH4.gas(U2, false), OM.dust(MTx.CdO, 2 * U));
         RM.Bath.addRecipe1(true, 0, 256, dust.mat(MTx.Mg2Si, 3), MT.HCl.gas(8 * U, true), MTx.SiH4.gas(U, false), dust.mat(MT.MgCl2, 6));
-        RM.Mixer.addRecipe0(true, 16, 60, FL.array(MTx.SiH4.gas(U, true), MTx.GeH4.gas(U, true)), FL.array(MTx.SiGeH8.gas(2 * U, false)));
         RM.Bath.addRecipe1(true, 0, 128, dust.mat(MT.Si, 1), FL.array(MT.HCl.gas(6*U, true)), FL.array(MTx.HCl3Si.gas(U, false), MT.H.gas(2*U, false)));
 
-        RMx.Thermolysis.addRecipe1(true, 16, 16, ST.tag(0), MTx.GaH3.gas(U, true), MT.H.gas(3*U, false), dust.mat(MT.Ga, 1));
+        RMx.Thermolysis.addRecipe1(true, 16, 16, ST.tag(1), MTx.GaH3.gas(U, true), MT.H.gas(3*U, false), dust.mat(MT.Ga, 1));
 
-        RMx.Thermolysis.addRecipe1(true, 16, 128, ST.tag(0), MTx.GeH4  .gas(U, true), MT.H.gas(4 * U, false), polyGem.mat(MT.Ge, 1));
-        RMx.Thermolysis.addRecipe1(true, 16, 128, ST.tag(0), MTx.SiH4  .gas(U, true), MT.H.gas(4 * U, false), polyGem.mat(MT.Si, 1));
-        RMx.Thermolysis.addRecipe1(true, 16, 128, ST.tag(0), MTx.SiGeH8.gas(U, true), MT.H.gas(4 * U, false), polyGem.mat(MTx.SiGe, 1));
-        RMx.Thermolysis.addRecipe1(true, 16, 512, ST.tag(0), FL.array(MTx.HCl3Si.gas(U, true), MT.H.gas(2*U, true)), FL.array(MT.HCl.gas(6*U, false)), polyGem.mat(MT.Si, 1));
+        RMx.Thermolysis.addRecipe1(true, 16, 128, ST.tag(1), MTx.GeH4  .gas(U, true), MT.H.gas(4 * U, false), polyGem.mat(MT.Ge, 1));
+        RMx.Thermolysis.addRecipe1(true, 16, 128, ST.tag(1), MTx.SiH4  .gas(U, true), MT.H.gas(4 * U, false), polyGem.mat(MT.Si, 1));
+        RMx.Thermolysis.addRecipe1(true, 16, 128, ST.tag(2), FL.array(MTx.SiH4.gas(U2, true), MTx.GeH4.gas(U2, true)), MT.H.gas(4 * U, false), polyGem.mat(MTx.SiGe, 1));
+        RMx.Thermolysis.addRecipe1(true, 16, 512, ST.tag(1), FL.array(MTx.HCl3Si.gas(U, true), MT.H.gas(2*U, true)), FL.array(MT.HCl.gas(6*U, false)), polyGem.mat(MT.Si, 1));
 
-        RMx.Thermolysis.addRecipe1(true, 16, 128, ST.tag(1), FL.array(MTx.SiH4  .gas(U, true), MTx.B2H6.gas(U1000, true)), MT.H.gas(4 * U + 6 * U1000, false), polyGem.mat(MTx.PDopedSi, 1));
-        RMx.Thermolysis.addRecipe1(true, 16, 128, ST.tag(1), FL.array(MTx.GeH4  .gas(U, true), MTx.B2H6.gas(U1000, true)), MT.H.gas(4 * U + 6 * U1000, false), polyGem.mat(MTx.PDopedGe, 1));
-        RMx.Thermolysis.addRecipe1(true, 16, 128, ST.tag(1), FL.array(MTx.SiGeH8.gas(U, true), MTx.B2H6.gas(U1000, true)), MT.H.gas(4 * U + 6 * U1000, false), polyGem.mat(MTx.PDopedSiGe, 1));
-        RMx.Thermolysis.addRecipe1(true, 16, 512, ST.tag(1), FL.array(MTx.HCl3Si.gas(U, true), MTx.B2H6.gas(U1000, true) , MT.H.gas(2 * U - 6 * U1000, true)), FL.array(MT.HCl.gas(6*U, false)), polyGem.mat(MTx.PDopedSi, 1));
+        RMx.Thermolysis.addRecipe1(true, 16, 128, ST.tag(4), FL.array(MTx.SiH4  .gas(U, true), MTx.B2H6.gas(U1000, true)), MT.H.gas(4 * U + 6 * U1000, false), polyGem.mat(MTx.PDopedSi, 1));
+        RMx.Thermolysis.addRecipe1(true, 16, 128, ST.tag(4), FL.array(MTx.GeH4  .gas(U, true), MTx.B2H6.gas(U1000, true)), MT.H.gas(4 * U + 6 * U1000, false), polyGem.mat(MTx.PDopedGe, 1));
+        RMx.Thermolysis.addRecipe1(true, 16, 128, ST.tag(5), FL.array(MTx.SiH4.gas(U2, true), MTx.GeH4.gas(U2, true), MTx.B2H6.gas(U1000, true)), MT.H.gas(4 * U + 6 * U1000, false), polyGem.mat(MTx.PDopedSiGe, 1));
+        RMx.Thermolysis.addRecipe1(true, 16, 512, ST.tag(4), FL.array(MTx.HCl3Si.gas(U, true), MTx.B2H6.gas(U1000, true) , MT.H.gas(2 * U - 6 * U1000, true)), FL.array(MT.HCl.gas(6*U, false)), polyGem.mat(MTx.PDopedSi, 1));
 
         for (OreDictMaterial nDopant : new OreDictMaterial[] {MTx.PH3, MTx.AsH3}) {
-            RMx.Thermolysis.addRecipe1(true, 16, 128, ST.tag(1), FL.array(MTx.SiH4  .gas(U, true), nDopant.gas(U500, true)), MT.H.gas(4 * U + 3 * U500, false), polyGem.mat(MTx.NDopedSi, 1));
-            RMx.Thermolysis.addRecipe1(true, 16, 128, ST.tag(1), FL.array(MTx.GeH4  .gas(U, true), nDopant.gas(U500, true)), MT.H.gas(4 * U + 3 * U500, false), polyGem.mat(MTx.NDopedGe, 1));
-            RMx.Thermolysis.addRecipe1(true, 16, 128, ST.tag(1), FL.array(MTx.SiGeH8.gas(U, true), nDopant.gas(U500, true)), MT.H.gas(4 * U + 3 * U500, false), polyGem.mat(MTx.NDopedSiGe, 1));
-            RMx.Thermolysis.addRecipe1(true, 16, 512, ST.tag(1), FL.array(MTx.HCl3Si.gas(U, true), nDopant.gas(U500, true) , MT.H.gas(2 * U - 3 * U500, true)), FL.array(MT.HCl.gas(6*U, false)), polyGem.mat(MTx.NDopedSi, 1));
+            RMx.Thermolysis.addRecipe1(true, 16, 128, ST.tag(6), FL.array(MTx.SiH4  .gas(U, true), nDopant.gas(U500, true)), MT.H.gas(4 * U + 3 * U500, false), polyGem.mat(MTx.NDopedSi, 1));
+            RMx.Thermolysis.addRecipe1(true, 16, 128, ST.tag(6), FL.array(MTx.GeH4  .gas(U, true), nDopant.gas(U500, true)), MT.H.gas(4 * U + 3 * U500, false), polyGem.mat(MTx.NDopedGe, 1));
+            RMx.Thermolysis.addRecipe1(true, 16, 128, ST.tag(7), FL.array(MTx.SiH4.gas(U2, true), MTx.GeH4.gas(U2, true), nDopant.gas(U500, true)), MT.H.gas(4 * U + 3 * U500, false), polyGem.mat(MTx.NDopedSiGe, 1));
+            RMx.Thermolysis.addRecipe1(true, 16, 512, ST.tag(6), FL.array(MTx.HCl3Si.gas(U, true), nDopant.gas(U500, true) , MT.H.gas(2 * U - 3 * U500, true)), FL.array(MT.HCl.gas(6*U, false)), polyGem.mat(MTx.NDopedSi, 1));
         }
 
-        RMx.Thermolysis.addRecipe1(true, 16, 256, ST.tag(0), FL.array(MT.Ga.liquid(U, true), MT.As.gas(U, true)), ZL_FS, polyGem.mat(MTx.GaAs, 1));
-        RMx.Thermolysis.addRecipe1(true, 16, 256, ST.tag(0), FL.array(MT.Ga.liquid(U, true), MT.As.gas(U, true), MT.Zn.liquid(U144, true)), ZL_FS, polyGem.mat(MTx.PDopedGaAs, 1));
-        RMx.Thermolysis.addRecipe1(true, 16, 256, ST.tag(0), FL.array(MT.Ga.liquid(U, true), MT.As.gas(U, true), MT.Si.liquid(U144, true)), ZL_FS, polyGem.mat(MTx.NDopedGaAs, 1));
+        RMx.Thermolysis.addRecipe1(true, 16, 256, ST.tag(2), FL.array(MT.Ga.liquid(U, true), MT.As.gas(U, true)), ZL_FS, polyGem.mat(MTx.GaAs, 1));
+        RMx.Thermolysis.addRecipe1(true, 16, 256, ST.tag(5), FL.array(MT.Ga.liquid(U, true), MT.As.gas(U, true), MT.Zn.liquid(U144, true)), ZL_FS, polyGem.mat(MTx.PDopedGaAs, 1));
+        RMx.Thermolysis.addRecipe1(true, 16, 256, ST.tag(7), FL.array(MT.Ga.liquid(U, true), MT.As.gas(U, true), MT.Si.liquid(U144, true)), ZL_FS, polyGem.mat(MTx.NDopedGaAs, 1));
 
         // RecipeMapHandlerPrefix not working here
         for (OreDictMaterial mat : PolyGemMaterials)
@@ -603,16 +602,30 @@ public class Electronics extends GT6XFeature {
         RMx.Thermolysis.addRecipe1(true, 16, 128, ILx.SolarWafers[1][1].get(1), FL.array(MTx.POCl3.liquid(U1000, true)), FL.array(MT.HCl.gas(U1000, false), MT.O.gas(U1000, false)), ILx.SolarWafers[1][2].get(1));
         RMx.Thermolysis.addRecipe1(true, 64, 256, ILx.SolarWafers[1][2].get(1), FL.array(MTx.SiH4.gas(6*U100, true), MT.NH3.gas(8*U100, true)), MT.H.gas(48*U100, false), ILx.SolarWafers[1][3].get(1));
 
-        // CdTe
+        // Thin-Film precursors
         RM.Mixer.addRecipe2(true, 16, 32, dust.mat(MT.OREMATS.Cassiterite, 1), dustDiv72.mat(MTx.SnF2, 2), dust.mat(MTx.FTO, 1));
-        RMx.IonBombardment.addRecipe2(false, 32, 64, foil.mat(MT.Glass, 1), dustSmall.mat(MTx.FTO, 1), MT.Ar.gas(U100, true), NF, ILx.SolarWafers[2][0].get(1));
         RM.Mixer.addRecipe2(true, 16, 32, dust.mat(MTx.CdS, 1), dustDiv72.mat(MT.Ga, 1), dust.mat(MTx.NDopedCdS, 1));
-        RMx.VacuumDeposition.addRecipe2(false, 16, 64, ILx.SolarWafers[2][0].get(1), dustDiv72.mat(MTx.NDopedCdS, 2), ILx.SolarWafers[2][1].get(1));
         RM.Mixer.addRecipe2(true, 16, 32, dust.mat(MT.Cd, 1), dust.mat(MT.Te, 1), dust.mat(MTx.CdTe, 2));
         RM.Mixer.addRecipe2(true, 16, 32, dust.mat(MTx.CdTe, 1), dustDiv72.mat(MT.Cu, 1), dust.mat(MTx.PDopedCdTe, 1));
         RM.Mixer.addRecipeX(true, 16, 32, ST.array(dust.mat(MT.Cd, 1), dust.mat(MT.Te, 1), dustDiv72.mat(MT.Cu, 2)), dust.mat(MTx.PDopedCdTe, 2));
-        RMx.VacuumDeposition.addRecipe2(false, 16, 128, ILx.SolarWafers[2][1].get(2), dustSmall.mat(MTx.PDopedCdTe, 1), ILx.SolarWafers[2][2].get(1));
+
+        // CdTe
+        RMx.IonBombardment.addRecipe2(false, 32, 64, foil.mat(MT.Glass, 1), dustSmall.mat(MTx.FTO, 1), MT.Ar.gas(U100, true), NF, ILx.SolarWafers[2][0].get(1));
+        RMx.VacuumDeposition.addRecipe2(false, 16, 64, ILx.SolarWafers[2][0].get(1), dustDiv72.mat(MTx.NDopedCdS, 2), ILx.SolarWafers[2][1].get(1));
+        RMx.VacuumDeposition.addRecipe2(false, 16, 64, ILx.SolarWafers[2][1].get(1), dustDiv72.mat(MTx.PDopedCdTe, 9), ILx.SolarWafers[2][2].get(1));
+        RMx.VacuumDeposition.addRecipe2(false, 16, 128, ILx.SolarWafers[2][1].get(2), dustSmall.mat(MTx.PDopedCdTe, 1), ILx.SolarWafers[2][2].get(2));
+        RMx.VacuumDeposition.addRecipe2(false, 16, 512, ILx.SolarWafers[2][1].get(8), dust.mat(MTx.PDopedCdTe, 1), ILx.SolarWafers[2][2].get(8));
         RMx.IonBombardment.addRecipe2(false, 32, 64, ILx.SolarWafers[2][2].get(1), dustTiny.mat(MT.Electrum, 1), MT.Ar.gas(U100, true), NF, ILx.SolarPanelCdTe.get(1));
+
+        // CIGS
+        RMx.IonBombardment.addRecipe2(false, 32, 128, foil.mat(MT.Glass, 1), dustSmall.mat(MT.Mo, 1), MT.Ar.gas(U100, true), NF, ILx.SolarWafers[3][0].get(1));
+        RMx.VacuumDeposition.addRecipeX(false, 16, 128, ST.array(ILx.SolarWafers[3][0].get(1), dustTiny.mat(MTx.CuInGa, 1), dustTiny.mat(MT.Se, 1)), ILx.SolarWafers[3][1].get(1));
+        RMx.VacuumDeposition.addRecipeX(false, 16, 128*9, ST.array(ILx.SolarWafers[3][0].get(9), dust.mat(MTx.CuInGa, 1), dust.mat(MT.Se, 1)), ILx.SolarWafers[3][1].get(9));
+        RMx.VacuumDeposition.addRecipeX(false, 16, 64, ST.array(ILx.SolarWafers[3][0].get(1), dustDiv72.mat(MTx.CIGS, 9)), ILx.SolarWafers[3][1].get(1));
+        RMx.VacuumDeposition.addRecipeX(false, 16, 128, ST.array(ILx.SolarWafers[3][0].get(2), dustSmall.mat(MTx.CIGS, 1)), ILx.SolarWafers[3][1].get(2));
+        RMx.VacuumDeposition.addRecipeX(false, 16, 512, ST.array(ILx.SolarWafers[3][0].get(8), dust.mat(MTx.CIGS, 1)), ILx.SolarWafers[3][1].get(8));
+        RMx.VacuumDeposition.addRecipe2(false, 16, 64, ILx.SolarWafers[3][1].get(1), dustDiv72.mat(MTx.NDopedCdS, 2), ILx.SolarWafers[3][2].get(1));
+        RMx.IonBombardment.addRecipe2(false, 16, 64, ILx.SolarWafers[3][2].get(1), dustTiny.mat(MTx.ITO, 1), MT.Ar.gas(U100, true), NF, ILx.SolarPanelCIGS.get(1));
     }
 
     private void changeRecipes() {

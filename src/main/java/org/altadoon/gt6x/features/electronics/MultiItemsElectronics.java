@@ -239,10 +239,6 @@ public class MultiItemsElectronics extends MultiItemRandom {
         }
 
         // Solar panels
-        ILx.SolarPanelCdTe.set(addItem(703, "Thin-Film Solar Panel (CdTe)", "Usable as cover on machines, wires and battery boxes", new CoverSolarPanel(1), new OreDictItemData(OM.stack(MT.Glass, U4), OM.stack(MTx.FTO, U10), OM.stack(MTx.NDopedCdS, U40), OM.stack(MTx.PDopedCdTe, U8), OM.stack(MT.Electrum, U9))));
-        ILx.SolarPanelCIGS.set(addItem(704, "Thin-Film Solar Panel (CIGS)", "Usable as cover on machines, wires and battery boxes", new CoverSolarPanel(2)));
-
-        // Solar panel intermediates
         ILx.SolarWafers[0][0].set(addItem(710, "Solar Wafer (poly-Si, doped)", "Needs metal contacts", new OreDictItemData(MTx.PDopedSi, 9*U10, MTx.NDopedSi, U10)));
 
         ILx.SolarWafers[1][0].set(addItem(720, "Solar Wafer (mono-Si, etched)"   , "Needs cleaning", new OreDictItemData(MTx.PDopedSi, 9*U10, MTx.K2SiO3, 6*U10)));
@@ -253,5 +249,11 @@ public class MultiItemsElectronics extends MultiItemRandom {
         ILx.SolarWafers[2][0].set(addItem(730, "Thin-Film Solar Panel (CdTe, front contact)", "Glass superstrate with FTO (Fluorine-doped Tin Oxide) TCO (Transparent Conductive Oxide) layer", new OreDictItemData(MT.Glass, U4, MTx.FTO, U10)));
         ILx.SolarWafers[2][1].set(addItem(731, "Thin-Film Solar Panel (CdTe, window layer)", "Needs absorber layer", new OreDictItemData(MT.Glass, U4, MTx.FTO, U10, MTx.NDopedCdS, U40)));
         ILx.SolarWafers[2][2].set(addItem(732, "Thin-Film Solar Panel (CdTe, absorber layer)", "Needs back contact", new OreDictItemData(OM.stack(MT.Glass, U4), OM.stack(MTx.FTO, U10), OM.stack(MTx.NDopedCdS, U40), OM.stack(MTx.PDopedCdTe, U8))));
+        ILx.SolarPanelCdTe   .set(addItem(733, "Thin-Film Solar Panel (CdTe)", "Usable as cover on blocks such as machines, wires and battery boxes", new CoverSolarPanel(1), new OreDictItemData(OM.stack(MT.Glass, U4), OM.stack(MTx.FTO, U10), OM.stack(MTx.NDopedCdS, U40), OM.stack(MTx.PDopedCdTe, U8), OM.stack(MT.Electrum, U9))));
+
+        ILx.SolarWafers[3][0].set(addItem(740, "Thin-Film Solar Panel (CIGS, back contact)", "Glass substrate with molybdenum conductive back layer", new OreDictItemData(MT.Glass, U4, MT.Mo, U10)));
+        ILx.SolarWafers[3][1].set(addItem(741, "Thin-Film Solar Panel (CIGS, absorber layer)", "Needs buffer layer", new OreDictItemData(MT.Glass, U4, MT.Mo, U10, MTx.CIGS, U8)));
+        ILx.SolarWafers[3][2].set(addItem(742, "Thin-Film Solar Panel (CIGS, buffer layer)", "Needs TCO layer", new OreDictItemData(OM.stack(MT.Glass, U4), OM.stack(MT.Mo, U10), OM.stack(MTx.CIGS, U8), OM.stack(MTx.NDopedCdS, U40))));
+        ILx.SolarPanelCIGS   .set(addItem(743, "Thin-Film Solar Panel (CIGS)", "Usable as cover on blocks such as machines, wires and battery boxes", new CoverSolarPanel(2), new OreDictItemData(OM.stack(MT.Glass, U4), OM.stack(MT.Mo, U10), OM.stack(MTx.CIGS, U8), OM.stack(MTx.NDopedCdS, U40), OM.stack(MTx.ITO, U10))));
     }
 }

@@ -40,7 +40,7 @@ public class PgmProcessing extends GT6XFeature {
 
     private PgmFeatureSet pgmFeatures = PgmFeatureSet.Off;
 
-    private static final Recipe.RecipeMap[] hydrogenReduction = new Recipe.RecipeMap[] { RM.Roasting, RMx.DirectReduction };
+    private static Recipe.RecipeMap[] hydrogenReduction;
 
     @Override
     public void configure(Config cfg) {
@@ -61,14 +61,15 @@ public class PgmProcessing extends GT6XFeature {
 
     @Override
     public void init() {
+        hydrogenReduction = new Recipe.RecipeMap[] { RM.Roasting, RMx.DirectReduction };
+
         addCommonRecipes();
-        switch(pgmFeatures) {
-            case Simple:
-                addSimpleRecipes();
-                break;
-            case Complex:
+        switch (pgmFeatures) {
+            case Simple -> addSimpleRecipes();
+            case Complex -> {
                 addWorldgen();
                 addComplexRecipes();
+            }
         }
     }
 
