@@ -119,7 +119,7 @@ public class MTEx {
         VacuumChamber5(464),
         SolarPanelPolySi(470),
         SolarPanelMonoSi(471),
-        SolarPanelGaAs(472),
+        SolarPanelMJ(472),
         ;
 
         public static final IDs[] Hydrocracker = { null, Hydrocracker1, Hydrocracker2, Hydrocracker3, Hydrocracker4 };

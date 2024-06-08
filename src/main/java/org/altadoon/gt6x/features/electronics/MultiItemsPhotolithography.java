@@ -35,14 +35,14 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
 
     public final BitSet enabledIcons = new BitSet(32768);
 
-    static final String tooltipNeedsPhotolithography = "Needs Photolithography";
-    static final String tooltipNeedsDevelopment = "Needs development";
-    static final String tooltipNeedsEtching = "Ready to be etched";
-    static final String tooltipNeedsCleaning = "Needs photoresist stripping";
-    static final String tooltipNeedsDoping = "Could use some extra dopant";
-    static final String tooltipNeedsMetal = "Needs conductive metal layer";
-    static final String tooltipDicing = "Interconnected, can be diced";
-    static final String tooltipBonding = "Needs bonding & packaging";
+    public static final String tooltipNeedsPhotolithography = "Needs Photolithography";
+    public static final String tooltipNeedsDevelopment = "Needs development";
+    public static final String tooltipNeedsEtching = "Ready to be etched";
+    public static final String tooltipNeedsCleaning = "Needs photoresist stripping";
+    public static final String tooltipNeedsDoping = "Could use some extra dopant";
+    public static final String tooltipNeedsMetal = "Needs conductive metal layer";
+    public static final String tooltipDicing = "Interconnected, can be diced";
+    public static final String tooltipBonding = "Needs bonding & packaging";
 
     static final String photomask = "Photomask";
 
@@ -56,10 +56,11 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
     static final String die = "Die";
 
     static final String[] CHIP_TIER_NAMES = { "PMOS", "NMOS", "CMOS" };
-    static final String[] CHIP_TYPE_NAMES = { "IC", "CPU", "DRAM", "GPU", "NAND Flash", "SoC", "GaAs FET", "TFT", "LCD color filter" };
+    static final String[] CHIP_TYPE_NAMES = { "IC", "CPU", "DRAM", "GPU", "NAND Flash", "SoC", "GaAs FET", "TFT", "LCD color filter", "Solar Cell Front Contact" };
     public static final int MESFET_IDX = 6;
     public static final int TFT_IDX = 7;
     public static final int LCD_COLOR_IDX = 8;
+    public static final int MJ_PV_IDX = 9;
 
     static final int PM_FINISHED = 3;
     static final String[] MASK_STAGE_NAMES = { ", Patterned", ", Developed", ", Etched", "" };
@@ -131,6 +132,8 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         addPhotomasks(LCD_COLOR_IDX, 0);
         addWafers(LCD_COLOR_IDX, 0);
         addLCDColorFilterRecipes();
+
+        addPhotomasks(MJ_PV_IDX, 0);
     }
 
     private static String romanNumeral(int n) {
@@ -140,7 +143,7 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
     private void addPhotomask(int type, int tier, int plStage, int stage) {
         String name;
         switch (type) {
-        case MESFET_IDX, LCD_COLOR_IDX, TFT_IDX ->
+            case MESFET_IDX, LCD_COLOR_IDX, TFT_IDX, MJ_PV_IDX ->
             name = String.format("%s (%s%s)",
                 photomask,
                 CHIP_TYPE_NAMES[type],
@@ -166,11 +169,19 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         }
         }
 
+        OreDictItemData matData = null;
+        switch(stage) {
+            case 0 -> matData = new OreDictItemData(MT.Glass, U, MT.Cr, U, MTx.DnqNovolacResist, 5*U1000);
+            case 1 -> matData = new OreDictItemData(MT.Glass, U, MT.Cr, U, MTx.DnqNovolacResist, 3*U1000);
+            case 2 -> matData = new OreDictItemData(MT.Glass, U, MT.Cr, U2, MTx.DnqNovolacResist, 3*U1000);
+            case 3 -> matData = new OreDictItemData(MT.Glass, U, MT.Cr, U2);
+        }
+
         ILx.Photomasks[type][tier][plStage][stage].set(addItemWithIcon(
                 type * 1000 + tier * 100 + plStage * 10 + stage + 1,
                 name,
                 PHOTOMASK_TOOLTIPS[stage],
-                new OreDictItemData(MT.Glass, U, MT.Cr, stage < 2 ? U : U2)
+                matData
         ));
     }
 
@@ -347,29 +358,15 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
             default -> 32 * (long) Math.pow(4, tier + 1);
         };
         int pcbTier = type == 0 ? tier + 3 : tier + 4;
-        int lensColorIndex = switch (type) {
-            case 0 -> DYE_INDEX_White;
-            case 1 -> DYE_INDEX_Yellow;
-            case 2 -> DYE_INDEX_Orange;
-            case 3 -> DYE_INDEX_Red;
-            case 4 -> DYE_INDEX_Green;
-            case 5 -> DYE_INDEX_Blue;
-            case MESFET_IDX -> DYE_INDEX_Lime;
-            case TFT_IDX -> DYE_INDEX_Purple;
-            case LCD_COLOR_IDX -> DYE_INDEX_Cyan;
-            default -> DYE_INDEX_Black;
-        };
+        int tagNumber = type + (tier >= 2 ? 10 : 0);
 
         // PL
-        lens.addListener(event -> new OreDictListenerEvent_Names() { @Override public void addAllListeners() {
-            addListener(DYE_OREDICTS_LENS[lensColorIndex] , lens ->
-                RMx.Photolithography.addRecipeX(false, LUt, 2000,
-                    ST.array(ILx.PCBs[pcbTier][0].get(0), ILx.Photomask_Raw.get(1), ST.amount(0, lens.mStack)),
-                    MTx.DnqNovolacResist.liquid(U200, true), NF,
-                    ILx.Photomasks[type][tier][number][0].get(1)
-                )
-            );
-        }});
+        RMx.Photolithography.addRecipeX(false, LUt, 2000,
+                ST.array(ILx.PCBs[pcbTier][0].get(0), ILx.Photomask_Raw.get(1), ST.tag(tagNumber)),
+                MTx.DnqNovolacResist.liquid(U200, true), NF,
+                ILx.Photomasks[type][tier][number][0].get(1)
+        );
+
         // Development
         for (FluidStack developer : FL.array(MTx.NaOHSolution.liquid(U10, true), MTx.Na2CO3Solution.liquid(U10, true)))
             RM.Bath.addRecipe1(false, 0, 128, ILx.Photomasks[type][tier][number][0].get(1), developer, NF, ILx.Photomasks[type][tier][number][1].get(1));

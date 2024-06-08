@@ -260,8 +260,8 @@ public class OilProcessing extends GT6XFeature {
 
         // Vinyl Acetate e.a.
         for (FluidStack water : FL.waters(3000)) {
-            RM.Mixer.addRecipe1(true, 16, 2048, dust.mat(MT.WO3, 48), FL.array(MT .HCl      .gas   (8 *U, true), MTx.Na4SiO4Solution.liquid(18*U, true), FL.mul(water, 18)), FL.array(FL.Saltwater.make(32000)), dust.mat(MTx.SilicoTungsticAcid, 96));
-            RM.Mixer.addRecipe1(true, 16, 2048, dust.mat(MT.WO3, 48), FL.array(MTx.DiluteHCl.liquid(14*U, true), MTx.Na4SiO4Solution.liquid(18*U, true), FL.mul(water, 12)), FL.array(FL.Saltwater.make(32000)), dust.mat(MTx.SilicoTungsticAcid, 96));
+            RM.Mixer.addRecipe1(true, 16, 2048, OM.dust(MT.WO3, 48*U), FL.array(MT .HCl      .gas   (8 *U, true), MTx.Na4SiO4Solution.liquid(18*U, true), FL.mul(water, 18)), FL.array(FL.Saltwater.make(32000)), dust.mat(MTx.SilicoTungsticAcid, 96));
+            RM.Mixer.addRecipe1(true, 16, 2048, OM.dust(MT.WO3, 48*U), FL.array(MTx.DiluteHCl.liquid(20*U, true), MTx.Na4SiO4Solution.liquid(18*U, true), FL.mul(water, 6 )), FL.array(FL.Saltwater.make(32000)), dust.mat(MTx.SilicoTungsticAcid, 96));
         }
         RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MTx.SilicoTungsticAcid, 0), FL.array(MT.Ethylene.gas(U, true), MT.O.gas(2*U, true)), FL.array(MTx.AceticAcid.liquid(U, false)));
         RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MT.Pd, 0), FL.array(MT.Ethylene.gas(U, true), MTx.AceticAcid.liquid(U, true), MT.O.gas(U, true)), FL.array(MTx.VinylAcetate.liquid(U, false), MT.H2O.liquid(3*U, false)));

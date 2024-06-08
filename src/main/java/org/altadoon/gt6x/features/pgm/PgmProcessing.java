@@ -255,7 +255,7 @@ public class PgmProcessing extends GT6XFeature {
         // Pt/Pd separation
         RM.Bath.addRecipe1(true, 0, 200, dust.mat(NH4Cl, 20), PtPdLeachingSolution.liquid(95*U, false), PdChlorideSolution.liquid(70*U, false), dust.mat(AmmoniumHexachloroplatinate, 45));
         RM.Bath.addRecipe1(true, 0, 200, dust.mat(NH4Cl, 4), MT.ChloroplatinicAcid.liquid(9*U, true), MT.HCl.gas(2, false), dust.mat(AmmoniumHexachloroplatinate, 9));
-        RM.Mixer.addRecipe0(true, 16, 100, FL.array(PdChlorideSolution.liquid(35*U, true), MT.NH3.gas(4*U, true)), FL.array(MT.H2O.liquid(6*3*U, false), MTx.DiluteHCl.liquid(14*U, false)), dust.mat(TetraamminepalladiumChloride, 7));
+        RM.Mixer.addRecipe0(true, 16, 100, FL.array(PdChlorideSolution.liquid(35*U, true), MT.NH3.gas(4*U, true)), FL.array(MT.H2O.liquid(4*3*U, false), MTx.DiluteHCl.liquid(20*U, false)), dust.mat(TetraamminepalladiumChloride, 7));
 
         RMx.Thermolysis.addRecipe1(true, 16, 50, dust.mat(AmmoniumHexachloroplatinate, 9), NF, MT.Cl.gas(4*U, false), dust.mat(NH4Cl, 4), dust.mat(MT.Pt, 1));
         RMx.Thermolysis.addRecipe1(true, 16, 50, dust.mat(TetraamminepalladiumChloride, 7), ZL_FS, FL.array(MT.Cl.gas(2*U, false), MT.NH3.gas(4*U, false)), dust.mat(MT.Pd, 1));
@@ -278,7 +278,7 @@ public class PgmProcessing extends GT6XFeature {
     }
 
     public void addSimpleRecipes() {
-        RM.Electrolyzer.addRecipe1(true, 64, 200, ST.tag(0), FL.array(PtPdLeachingSolution.liquid(95*U, false)), FL.array(MT.HCl.gas(48*U, false), DiluteHCl.liquid(28*U, false), MT.O.gas(6*2*U, false)), dustSmall.mat(MT.Pt, 5*4), dustSmall.mat(MT.Pd, 2*4));
+        RM.Electrolyzer.addRecipe1(true, 64, 200, ST.tag(0), FL.array(PtPdLeachingSolution.liquid(95*U, false)), FL.array(MT.HCl.gas(60*U, false), DiluteHCl.liquid(4*5*U, false), MT.O.gas(6*2*U, false)), dustSmall.mat(MT.Pt, 5*4), dustSmall.mat(MT.Pd, 2*4));
         RM.Distillery.addRecipe1(true, 64, 150, dust.mat(PGMResidue, 4), FL.array(Ozone.gas(8 * U, true)), FL.array(RuO4.gas(5*U, false), OsO4.gas(5*U, false)), dust.mat(IrRhOxide, 6));
         for (Recipe.RecipeMap map : hydrogenReduction)
             map.addRecipe1(true, 64, 150, dust.mat(IrRhOxide, 6), MT.H.gas(8*U, true), MT.H2O.liquid(12*U, false), dust.mat(MT.Rh, 1), dust.mat(MT.Ir, 1));
