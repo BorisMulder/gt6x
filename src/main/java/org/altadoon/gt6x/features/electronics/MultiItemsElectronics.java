@@ -6,12 +6,18 @@ import gregapi.item.multiitem.MultiItemRandom;
 import gregapi.oredict.OreDictItemData;
 import gregapi.oredict.OreDictManager;
 import gregapi.oredict.OreDictMaterial;
+import gregapi.oredict.OreDictMaterialStack;
 import gregapi.util.OM;
 import net.minecraft.item.ItemStack;
 import org.altadoon.gt6x.common.MTx;
 import org.altadoon.gt6x.common.items.ILx;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+
 import static gregapi.data.CS.*;
+import static org.altadoon.gt6x.common.items.ILx.NUM_SOLAR_STAGES_MULTI_JUNCTION;
+import static org.altadoon.gt6x.features.electronics.MultiItemsPhotolithography.*;
 
 public class MultiItemsElectronics extends MultiItemRandom {
     public static MultiItemsElectronics instance;
@@ -219,23 +225,23 @@ public class MultiItemsElectronics extends MultiItemRandom {
         // Red = GaAsP on GaAs
         // Green = AlGaP on GaP
         // Blue  = InGaN on GaN
-        OreDictMaterial[][] layers = new OreDictMaterial[][]{
+        OreDictMaterial[][] LEDlayers = new OreDictMaterial[][]{
             {MTx.NDopedGaAs, MTx.GaAsP, MTx.PDopedGaAs },
             {MTx.NDopedGaP, MTx.AlGaP, MTx.PDopedGaP },
             {MTx.NDopedGaN, MTx.InGaN, MTx.PDopedGaN },
         };
 
         for (int color = 0; color < ILx.LEDWaferColors.length; color++) {
-            ILx.LEDWafers[color][0].set(addItem(600 + color, ILx.LEDWaferColors[color] + " LED Wafer (n-layer)", "Needs active and p-layer", new OreDictItemData(MT.Sapphire, U, layers[color][0], U8)));
-            ILx.LEDWafers[color][1].set(addItem(610 + color, ILx.LEDWaferColors[color] + " LED Wafer (active-layer)", "Needs p-layer", new OreDictItemData(MT.Sapphire, U, layers[color][0], U8, layers[color][1], U8)));
-            ILx.LEDWafers[color][2].set(addItem(620 + color, ILx.LEDWaferColors[color] + " LED Wafer (p-layer)", "Needs dicing", new OreDictItemData(OM.stack(MT.Sapphire, U), OM.stack(layers[color][0], U8), OM.stack(layers[color][1], U8), OM.stack(layers[color][2], U8))));
-            ILx.LEDWafers[color][3].set(addItem(630 + color, ILx.LEDWaferColors[color] + " LED Die", "The chip inside a " + ILx.LEDWaferColors[color] + " LED, needs bonding and packaging", new OreDictItemData(OM.stack(MT.Sapphire, U64), OM.stack(layers[color][0], U512), OM.stack(layers[color][1], U512), OM.stack(layers[color][2], U512))));
+            ILx.LEDWafers[color][0].set(addItem(600 + color, ILx.LEDWaferColors[color] + " LED Wafer (n-layer)", "Needs active and p-layer", new OreDictItemData(MT.Sapphire, U, LEDlayers[color][0], U8)));
+            ILx.LEDWafers[color][1].set(addItem(610 + color, ILx.LEDWaferColors[color] + " LED Wafer (active-layer)", "Needs p-layer", new OreDictItemData(MT.Sapphire, U, LEDlayers[color][0], U8, LEDlayers[color][1], U8)));
+            ILx.LEDWafers[color][2].set(addItem(620 + color, ILx.LEDWaferColors[color] + " LED Wafer (p-layer)", "Needs dicing", new OreDictItemData(OM.stack(MT.Sapphire, U), OM.stack(LEDlayers[color][0], U8), OM.stack(LEDlayers[color][1], U8), OM.stack(LEDlayers[color][2], U8))));
+            ILx.LEDWafers[color][3].set(addItem(630 + color, ILx.LEDWaferColors[color] + " LED Die", "The chip inside a " + ILx.LEDWaferColors[color] + " LED, needs bonding and packaging", new OreDictItemData(OM.stack(MT.Sapphire, U64), OM.stack(LEDlayers[color][0], U512), OM.stack(LEDlayers[color][1], U512), OM.stack(LEDlayers[color][2], U512))));
         }
 
         for (int color = 0; color < ILx.LEDColors.length; color++) {
             int matLayerIdx = color < ILx.LEDWaferColors.length ? color : 2; // White LEDs have the same structure as blue LEDs
-            ILx.LEDs[color][0].set(addItem(640 + color, ILx.LEDColors[color] + " LED (unencapsulated)", "Nah fam this LED is bussin fr no cap", new OreDictItemData(OM.stack(MT.Sapphire, U64), OM.stack(layers[matLayerIdx][0], U512), OM.stack(layers[matLayerIdx][1], U512), OM.stack(layers[matLayerIdx][2], U512), OM.stack(MT.Invar, U72), OM.stack(MT.Au, U128))));
-            ILx.LEDs[color][1].set(addItem(650 + color, ILx.LEDColors[color] + " LED"                 , "Light-Emitting Diode"                , new OreDictItemData(OM.stack(MT.Sapphire, U64), OM.stack(layers[matLayerIdx][0], U512), OM.stack(layers[matLayerIdx][1], U512), OM.stack(layers[matLayerIdx][2], U512), OM.stack(MT.Invar, U72), OM.stack(MT.Au, U128), OM.stack(MTx.Epoxy, U16))));
+            ILx.LEDs[color][0].set(addItem(640 + color, ILx.LEDColors[color] + " LED (unencapsulated)", "Nah fam this LED is bussin fr no cap", new OreDictItemData(OM.stack(MT.Sapphire, U64), OM.stack(LEDlayers[matLayerIdx][0], U512), OM.stack(LEDlayers[matLayerIdx][1], U512), OM.stack(LEDlayers[matLayerIdx][2], U512), OM.stack(MT.Invar, U72), OM.stack(MT.Au, U128))));
+            ILx.LEDs[color][1].set(addItem(650 + color, ILx.LEDColors[color] + " LED"                 , "Light-Emitting Diode"                , new OreDictItemData(OM.stack(MT.Sapphire, U64), OM.stack(LEDlayers[matLayerIdx][0], U512), OM.stack(LEDlayers[matLayerIdx][1], U512), OM.stack(LEDlayers[matLayerIdx][2], U512), OM.stack(MT.Invar, U72), OM.stack(MT.Au, U128), OM.stack(MTx.Epoxy, U16))));
         }
 
         // Solar panels
@@ -255,5 +261,72 @@ public class MultiItemsElectronics extends MultiItemRandom {
         ILx.SolarWafers[3][1].set(addItem(741, "Thin-Film Solar Panel (CIGS, absorber layer)", "Needs buffer layer", new OreDictItemData(MT.Glass, U4, MT.Mo, U10, MTx.CIGS, U8)));
         ILx.SolarWafers[3][2].set(addItem(742, "Thin-Film Solar Panel (CIGS, buffer layer)", "Needs TCO layer", new OreDictItemData(OM.stack(MT.Glass, U4), OM.stack(MT.Mo, U10), OM.stack(MTx.CIGS, U8), OM.stack(MTx.NDopedCdS, U40))));
         ILx.SolarPanelCIGS   .set(addItem(743, "Thin-Film Solar Panel (CIGS)", "Usable as cover on blocks such as machines, wires and battery boxes", new CoverSolarPanel(2), new OreDictItemData(OM.stack(MT.Glass, U4), OM.stack(MT.Mo, U10), OM.stack(MTx.CIGS, U8), OM.stack(MTx.NDopedCdS, U40), OM.stack(MTx.ITO, U10))));
+
+        final OreDictMaterialStack[] MJSCLayers = new OreDictMaterialStack[] {
+                OM.stack(MT.Al, U4),             // back contact
+                OM.stack(MTx.PDopedGe, U),       // bottom cell
+                OM.stack(MTx.NDopedGe, U8),
+                OM.stack(MTx.NDopedInGaP, U50),
+                OM.stack(MTx.NDopedGaAs, U50),   // tunnel junction
+                OM.stack(MTx.PDopedGaAs, U50),
+                OM.stack(MTx.PDopedInGaP, U50),  // middle cell
+                OM.stack(MTx.PDopedGaAs, U8),
+                OM.stack(MTx.NDopedGaAs, U50),
+                OM.stack(MTx.NDopedAlGaAs, U50), // tunnel junction
+                OM.stack(MTx.PDopedAlGaAs, U50),
+                OM.stack(MTx.PDopedAlInP, U50),  // top cell
+                OM.stack(MTx.PDopedInGaP, U25),
+                OM.stack(MTx.NDopedInGaP, U50),
+                OM.stack(MTx.NDopedAlInP, U50),
+                OM.stack(MT.TiO2, 3*U8),                 // ARC
+                OM.stack(MTx.Na2TiO3, U8),               // ARC NaOH texturing
+                OM.stack(MT.TiO2, 2*U8),                 // ARC textured
+                OM.stack(MTx.DnqNovolacResist, U200),    // PL
+                OM.stack(MTx.DnqNovolacResist, 4*U1000), // Dev
+                OM.stack(MTx.DnqNovolacResist, 4*U1000), // Etch
+                OM.stack(MT.Al, U8),                     // Metal
+                OM.stack(MT.Al, 2*U72),                  // Lift-off
+        };
+        final int TEXTURE_STAGE_1 = 15, TEXTURE_STAGE_2 = 16,  DEV_STAGE = 18, ETCH_STAGE = 19, LIFTOFF_STAGE = 21;
+        final String[] MJSCStageNames = new String[] {
+                ", bottom BSF layer", ", bottom base layer", ", bottom emitter layer", ", bottom n+ tunnel junction", ", bottom p+ tunnel junction",
+                ", middle BSF layer", ", middle base layer", ", middle emitter layer", ", top n+ tunnel junction", ", top p+ tunnel junction",
+                ", top BSF layer", ", top base layer", ", top emitter layer", ", top window layer",
+                ", ARC layer", ", ARC layer, etched", ", ARC layer, textured", ", front layer, patterned", ", front layer, developed", ", front layer, etched", ", front contacts", ""
+        };
+        final String[] MJSCTooltips = new String[]{
+                "Bottom cell Germanium substrate with back-surface field layer and back contact", "Bottom cell Germanium base layer", "Bottom cell InGaP window/emitter layer", "Bottom cell with n+ tunnel junction layer", "Bottom cell with p-n tunnel junction",
+                "Middle cell InGaP back-surface field layer", "Middle cell GaAs base layer", "Middle cell GaAs emitter layer", "Middle cell with n+ window- and tunnel junction layer", "Middle cell with p-n tunnel junction",
+                "Top cell AlInP back-surface field layer", "Top cell InGaP base layer", "Top cell InGaP emitter layer", "Top cell AlInP window layer",
+                "Needs surface texturing", "Needs surface cleaning", tooltipNeedsPhotolithography, tooltipNeedsDevelopment, tooltipNeedsEtching, tooltipNeedsMetal, "Needs lift-off", "A multi-junction solar cell"
+        };
+
+        ArrayDeque<OreDictMaterialStack> layerMaterials = new ArrayDeque<>(NUM_SOLAR_STAGES_MULTI_JUNCTION * 2);
+        layerMaterials.add(MJSCLayers[0]);
+
+        for (int stage = 0; stage < NUM_SOLAR_STAGES_MULTI_JUNCTION; stage++) {
+            switch (stage) {
+                case TEXTURE_STAGE_1 -> {
+                    layerMaterials.removeFirst();
+                    layerMaterials.addFirst(OM.stack(MT.TiO2, 2*U8));
+                }
+                case TEXTURE_STAGE_2, LIFTOFF_STAGE -> {
+                    layerMaterials.removeFirst(); // pop off Al/Na2TiO3
+                    layerMaterials.removeFirst(); // pop off PR/TiO2, then add smaller Al after lift-off/re-add TiO2
+                }
+                case DEV_STAGE -> layerMaterials.removeFirst(); // replace PR layer with smaller
+                case ETCH_STAGE -> {
+                    layerMaterials.removeFirst(); // pop off PR
+                    layerMaterials.removeFirst(); // pop off ARC
+                    layerMaterials.addFirst(OM.stack(MT.TiO2, 2*U8-U50)); // add smaller ARC, then add PR again
+                }
+
+            }
+            OreDictMaterialStack nextLayer = MJSCLayers[stage+1];
+
+            ILx.SolarWafers[4][stage].set(addItem(750 + stage, String.format("Solar Wafer (Multi-Junction%s)", MJSCStageNames[stage]), MJSCTooltips[stage], new OreDictItemData(nextLayer, layerMaterials.toArray(new OreDictMaterialStack[0]))));
+
+            layerMaterials.addFirst(nextLayer);
+        }
     }
 }

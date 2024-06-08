@@ -34,6 +34,7 @@ import static gregapi.data.CS.*;
 import static gregapi.data.OP.*;
 import static org.altadoon.gt6x.Gt6xMod.MOD_ID;
 import static org.altadoon.gt6x.common.items.ILx.NUM_COMPUTER_TIERS;
+import static org.altadoon.gt6x.common.items.ILx.NUM_SOLAR_STAGES_MULTI_JUNCTION;
 import static org.altadoon.gt6x.features.electronics.MultiItemsElectronics.*;
 import static org.altadoon.gt6x.features.electronics.MultiItemsPhotolithography.*;
 
@@ -127,7 +128,7 @@ public class Electronics extends GT6XFeature {
         aClass = MultiTileEntitySolarPanelX.class;
         mat = MT.DATA.Electric_T[0]; MTEx.gt6xMTEReg.add("Solar Panel (Polycrystalline Silicon)", "Solar Panels", MTEx.IDs.SolarPanelPolySi.get(), 10050, aClass, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,   4.0F, NBT_RESISTANCE,   4.0F, NBT_OUTPUT, MultiTileEntitySolarPanelX.polySiOutput, NBT_ENERGY_EMITTED, TD.Energy.EU), "APA", "WMW", "FCF", 'M', OP.casingMachine.dat(mat), 'C', OP.cableGt01.dat(ANY.Cu           ), 'P', OD_CIRCUITS[1], 'A', dustSmall.dat(MT.Ag), 'W', ILx.SolarWafers[0][0], 'F', foil.dat(MT.Al));
         mat = MT.DATA.Electric_T[1]; MTEx.gt6xMTEReg.add("Solar Panel (Monocrystalline Silicon)", "Solar Panels", MTEx.IDs.SolarPanelMonoSi.get(), 10050, aClass, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,   4.0F, NBT_RESISTANCE,   4.0F, NBT_OUTPUT, MultiTileEntitySolarPanelX.monoSiOutput, NBT_ENERGY_EMITTED, TD.Energy.EU), "APA", "WMW", "FCF", 'M', OP.casingMachine.dat(mat), 'C', OP.cableGt01.dat(ANY.Cu           ), 'P', OD_CIRCUITS[2], 'A', dustSmall.dat(MT.Ag), 'W', ILx.SolarWafers[1][3], 'F', foil.dat(MT.Al));
-        mat = MT.DATA.Electric_T[2]; MTEx.gt6xMTEReg.add("Solar Panel (GaAs Multi-Junction)"    , "Solar Panels", MTEx.IDs.SolarPanelGaAs  .get(), 10050, aClass, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,   4.0F, NBT_RESISTANCE,   4.0F, NBT_OUTPUT, MultiTileEntitySolarPanelX.GaAsOutput  , NBT_ENERGY_EMITTED, TD.Energy.EU), "SWS", "CMC", "SWS", 'M', OP.casingMachine.dat(mat), 'W', OP.cableGt01.dat(MT.AnnealedCopper), 'C', OD_CIRCUITS[6], 'S', OP.plateGem.dat(MTx.GaAs));
+        mat = MT.DATA.Electric_T[2]; MTEx.gt6xMTEReg.add("Solar Panel (Multi-Junction)"         , "Solar Panels", MTEx.IDs.SolarPanelMJ    .get(), 10050, aClass, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,   4.0F, NBT_RESISTANCE,   4.0F, NBT_OUTPUT, MultiTileEntitySolarPanelX.GaAsOutput  , NBT_ENERGY_EMITTED, TD.Energy.EU), " P ", "WMW", " C ", 'M', OP.casingMachine.dat(mat), 'C', OP.cableGt01.dat(MT.AnnealedCopper), 'P', OD_CIRCUITS[6], 'W', ILx.SolarWafers[4][NUM_SOLAR_STAGES_MULTI_JUNCTION - 1]);
     }
 
     private void addRecipes() {
@@ -376,7 +377,7 @@ public class Electronics extends GT6XFeature {
 
         // Ru Electroplating
         RM.Roasting.addRecipe1(true, 16, 64, dust.mat(MT.Ru, 1), MT.Cl.gas(3 * U, true), NF, dust.mat(MTx.RuCl3, 4));
-        RM.Mixer.addRecipe1(true, 16, 256, dust.mat(MTx.RuCl3, 8), FL.array(MTx.H3NSO3.liquid(8 * U, true), MTx.DiluteHCl.liquid(7 * U, true)), FL.array(MTx.H3Ru2NCl8H4O2.liquid(20 * U, false), MT.SO2.gas(3 * U, false)));
+        RM.Mixer.addRecipe1(true, 16, 256, dust.mat(MTx.RuCl3, 8), FL.array(MTx.H3NSO3.liquid(8 * U, true), MTx.DiluteHCl.liquid(10 * U, true)), FL.array(MTx.H3Ru2NCl8H4O2.liquid(20 * U, false), MT.SO2.gas(3 * U, false)));
         for (FluidStack water : FL.waters(3000)) {
             RM.Mixer.addRecipe1(true, 16, 256, dust.mat(MTx.RuCl3, 8), FL.array(MTx.H3NSO3.liquid(8 * U, true), MT.HCl.gas(4 * U, true), water), FL.array(MTx.H3Ru2NCl8H4O2.liquid(20 * U, false), MT.SO2.gas(3 * U, false)));
         }
@@ -455,7 +456,7 @@ public class Electronics extends GT6XFeature {
         // HDDs
         RM.Lathe.addRecipe1(true, 16, 16, plateTiny.mat(MT.Al, 1), ILx.Al_Disk.get(1), dustDiv72.mat(MT.Al, 2));
         RMx.IonBombardment.addRecipe2(true, 16, 64, ILx.Al_Disk.get(1), dustSmall.mat(MT.Fe2O3  , 1), MT.Ar.gas(U10, true), NF, ILx.Hard_Disk.get(1));
-        RMx.IonBombardment.addRecipe2(true, 16, 64, ILx.Al_Disk.get(1), foil     .mat(MTx.CoPtCr, 1), MT.Ar.gas(U10, true), NF, ILx.Hard_Disk_Advanced.get(1));
+        RMx.IonBombardment.addRecipe2(true, 32, 64, ILx.Al_Disk.get(1), foil     .mat(MTx.CoPtCr, 1), MT.Ar.gas(U10, true), NF, ILx.Hard_Disk_Advanced.get(1));
         CR.shaped(ILx.HDDs[0].get(1), CR.DEF_REM, "MDD", "CDD", "PSB", 'M', bolt.dat(MT.SteelMagnetic), 'C', casingSmall.dat(MT.Al), 'D', ILx.Hard_Disk, 'P', OD_CIRCUITS[4], 'S', IL.MOTORS[0], 'B', bolt.dat(MT.Ti));
         CR.shaped(ILx.HDDs[1].get(1), CR.DEF_REM, "MDD", "CDD", "PSB", 'M', bolt.dat(MT.NeodymiumMagnetic), 'C', casingSmall.dat(MT.Al), 'D', ILx.Hard_Disk_Advanced, 'P', OD_CIRCUITS[5], 'S', IL.MOTORS[1], 'B', bolt.dat(MT.Ti));
         CR.shaped(ILx.HDDs[2].get(1), CR.DEF_REM, "ICD", "FPF", "FiF", 'I', ILx.ICs[2], 'C', casingSmall.dat(MT.Polycarbonate), 'D', ILx.DRAMChips[2], 'P', ILx.Circuit_Plate_Platinum_Tiny, 'F', ILx.FlashChips[2]);
@@ -625,7 +626,54 @@ public class Electronics extends GT6XFeature {
         RMx.VacuumDeposition.addRecipeX(false, 16, 128, ST.array(ILx.SolarWafers[3][0].get(2), dustSmall.mat(MTx.CIGS, 1)), ILx.SolarWafers[3][1].get(2));
         RMx.VacuumDeposition.addRecipeX(false, 16, 512, ST.array(ILx.SolarWafers[3][0].get(8), dust.mat(MTx.CIGS, 1)), ILx.SolarWafers[3][1].get(8));
         RMx.VacuumDeposition.addRecipe2(false, 16, 64, ILx.SolarWafers[3][1].get(1), dustDiv72.mat(MTx.NDopedCdS, 2), ILx.SolarWafers[3][2].get(1));
-        RMx.IonBombardment.addRecipe2(false, 16, 64, ILx.SolarWafers[3][2].get(1), dustTiny.mat(MTx.ITO, 1), MT.Ar.gas(U100, true), NF, ILx.SolarPanelCIGS.get(1));
+        RMx.IonBombardment.addRecipe2(false, 32, 64, ILx.SolarWafers[3][2].get(1), dustTiny.mat(MTx.ITO, 1), MT.Ar.gas(U100, true), NF, ILx.SolarPanelCIGS.get(1));
+
+        // Multi-Junction GaAs
+        /// Substrate + back contact
+        RMx.VacuumDeposition.addRecipe1(true, 16, 128, plateGem.mat(MTx.PDopedGe, 1), MT.Al.liquid(U4, true), NF, ILx.SolarWafers[4][0].get(1));
+        /// MOVPE of bottom cell
+        RMx.VacuumDeposition.addRecipe1(true, 16, 128, ILx.SolarWafers[4][0].get(1), FL.array(MTx.GeH4.gas(U8, true), MTx.AsH3.gas(U1000, true)), ZL_FS, ILx.SolarWafers[4][1].get(1));
+        RMx.VacuumDeposition.addRecipe1(true, 16, 128, ILx.SolarWafers[4][1].get(1), FL.array(MTx.InMe3.liquid(3*U100, true), MTx.GaMe3.liquid(3*U100, true), MTx.PH3.gas(U50, true), MTx.H2Se.gas(U1000, true)), FL.array(MTx.Ether.liquid(4*U100, false), MT.CH4.gas(3*U50, false)), ILx.SolarWafers[4][2].get(1));
+        /// bottom tunnel junction
+        RMx.VacuumDeposition.addRecipe1(true, 16, 128, ILx.SolarWafers[4][2].get(1), FL.array(MTx.GaMe3.liquid(3*U50, true), MTx.AsH3.gas(U50, true), MTx.GeH4.gas(U1000, true)), FL.array(MTx.Ether.liquid(2*U50, false), MT.CH4.gas(3*U50, false)), ILx.SolarWafers[4][3].get(1));
+        RMx.VacuumDeposition.addRecipe1(true, 16, 128, ILx.SolarWafers[4][3].get(1), FL.array(MTx.GaMe3.liquid(3*U50, true), MTx.AsH3.gas(U50, true), MTx.BeMe2.liquid(U1000, true)), FL.array(MTx.Ether.liquid(2*U50, false), MT.CH4.gas(3*U50, false)), ILx.SolarWafers[4][4].get(1));
+        /// middle cell
+        RMx.VacuumDeposition.addRecipe2(true, 16, 128, ILx.SolarWafers[4][4].get(1), dustDiv72.mat(MTx.Magnesocene, 1), FL.array(MTx.InMe3.liquid(3*U100, true), MTx.GaMe3.liquid(3*U100, true), MTx.PH3.gas(U50, true)), FL.array(MTx.Ether.liquid(4*U100, false), MT.CH4.gas(3*U50, false)), ILx.SolarWafers[4][5].get(1));
+        RMx.VacuumDeposition.addRecipe1(true, 16, 128, ILx.SolarWafers[4][5].get(1), FL.array(MTx.GaMe3.liquid(3*U8, true), MTx.AsH3.gas(U8, true), MTx.BeMe2.liquid(U1000, true)), FL.array(MTx.Ether.liquid(2*U8, false), MT.CH4.gas(3*U8, false)), ILx.SolarWafers[4][6].get(1));
+        RMx.VacuumDeposition.addRecipe1(true, 16, 128, ILx.SolarWafers[4][6].get(1), FL.array(MTx.GaMe3.liquid(3*U50, true), MTx.AsH3.gas(U50, true), MTx.GeH4.gas(U1000, true)), FL.array(MTx.Ether.liquid(2*U50, false), MT.CH4.gas(3*U50, false)), ILx.SolarWafers[4][7].get(1));
+        /// top tunnel junction
+        RMx.VacuumDeposition.addRecipe1(true, 16, 128, ILx.SolarWafers[4][7].get(1), FL.array(MTx.AlMe3.liquid(3*U144, true), MTx.GaMe3.liquid(3*U144, true), MTx.AsH3.gas(U50, true), MTx.GeH4.gas(U1000, true)), FL.array(MTx.Ether.liquid(2*U50, false), MT.CH4.gas(3*U50, false)), ILx.SolarWafers[4][8].get(1));
+        RMx.VacuumDeposition.addRecipe1(true, 16, 128, ILx.SolarWafers[4][8].get(1), FL.array(MTx.AlMe3.liquid(3*U144, true), MTx.GaMe3.liquid(3*U144, true), MTx.AsH3.gas(U50, true), MTx.BeMe2.liquid(U1000, true)), FL.array(MTx.Ether.liquid(2*U50, false), MT.CH4.gas(3*U50, false)), ILx.SolarWafers[4][9].get(1));
+        /// top cell
+        RMx.VacuumDeposition.addRecipe2(true, 16, 128, ILx.SolarWafers[4][9].get(1), dustDiv72.mat(MTx.Magnesocene, 1), FL.array(MTx.AlMe3.liquid(3*U100, true), MTx.InMe3.liquid(3*U100, true), MTx.PH3.gas(U50, true)), FL.array(MTx.Ether.liquid(2*U50, false), MT.CH4.gas(3*U50, false)), ILx.SolarWafers[4][10].get(1));
+        RMx.VacuumDeposition.addRecipe2(true, 16, 128, ILx.SolarWafers[4][10].get(1), dustDiv72.mat(MTx.Magnesocene, 1), FL.array(MTx.InMe3.liquid(3*U50, true), MTx.GaMe3.liquid(3*U50, true), MTx.PH3.gas(U25, true)), FL.array(MTx.Ether.liquid(2*U25, false), MT.CH4.gas(3*U25, false)), ILx.SolarWafers[4][11].get(1));
+        RMx.VacuumDeposition.addRecipe1(true, 16, 128, ILx.SolarWafers[4][11].get(1), FL.array(MTx.InMe3.liquid(3*U100, true), MTx.GaMe3.liquid(3*U100, true), MTx.PH3.gas(U50, true), MTx.H2Se.gas(U1000, true)), FL.array(MTx.Ether.liquid(2*U50, false), MT.CH4.gas(3*U50, false)), ILx.SolarWafers[4][12].get(1));
+        RMx.VacuumDeposition.addRecipe1(true, 16, 128, ILx.SolarWafers[4][12].get(1), FL.array(MTx.AlMe3.liquid(3*U100, true), MTx.InMe3.liquid(3*U100, true), MTx.PH3.gas(U50, true), MTx.H2Se.gas(U1000, true)), FL.array(MTx.Ether.liquid(2*U50, false), MT.CH4.gas(3*U50, false)), ILx.SolarWafers[4][13].get(1));
+        /// ARC
+        RMx.IonBombardment.addRecipe2(true, 64, 128, ILx.SolarWafers[4][13].get(1), dustDiv72.mat(MT.TiO2, 27), MT.Ar.gas(U100, true), NF, ILx.SolarWafers[4][14].get(1));
+        RM.Bath.addRecipe1(true, 0, 128, ILx.SolarWafers[4][14].get(1), FL.array(MTx.NaOHSolution.liquid(12*U8, true)), FL.array(MT.H2O.liquid(9*U8, false)), ILx.SolarWafers[4][15].get(1));
+        RM.Bath.addRecipe1(true, 0, 128, ILx.SolarWafers[4][15].get(1), FL.array(MTx.DiluteHCl.liquid(4*5*U8, true)), FL.array(MT.SaltWater.liquid(2*8*U8, false), MT.HCl.gas(2*2*U8, false)), ILx.SolarWafers[4][16].get(1), dustDiv72.mat(MT.TiO2, 9));
+        /// Front contact
+        RMx.Photolithography.addRecipe2(true, 16, 128, ILx.SolarWafers[4][16].get(1), ILx.Photomasks[MJ_PV_IDX][0][0][PM_FINISHED].get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.SolarWafers[4][17].get(1));
+        for (FluidStack developer : DEVELOPERS)
+            RM.Bath.addRecipe1(false, 0, 128, ILx.SolarWafers[4][17].get(1), developer, NF, ILx.SolarWafers[4][18].get(1));
+        RMx.IonBombardment.addRecipe1(true, 64, 128, ILx.SolarWafers[4][18].get(1), FL.array(MT.Cl.gas(4*U50, true)), FL.array(MT.TiCl4.liquid(5*U50, false), MT.O.gas(2*U50, false)), ILx.SolarWafers[4][19].get(1));
+        RMx.VacuumDeposition.addRecipe1(true, 16, 128, ILx.SolarWafers[4][19].get(1), MT.Al.liquid(U8, true), NF, ILx.SolarWafers[4][20].get(1));
+        RM.Bath.addRecipe1(true, 0, 128, ILx.SolarWafers[4][20].get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.SolarWafers[4][21].get(1));
+
+        // Semiconductor Recycling
+        RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.GaN, 1), FL.array(MT.HCl.gas(6 * U, true)), FL.array(MT.NH3.gas(U, false)), OM.dust(MTx.GaCl3, U));
+        RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.GaP, 1), FL.array(MT.HCl.gas(6 * U, true)), FL.array(MTx.PH3.gas(U, false)), OM.dust(MTx.GaCl3, U));
+        RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.GaAs, 1), FL.array(MT.HCl.gas(6 * U, true)), FL.array(MTx.AsH3.gas(U, false)), OM.dust(MTx.GaCl3, U));
+        RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.GaAsP, 1), FL.array(MT.HCl.gas(6 * U, true)), FL.array(MTx.AsH3.gas(U2, false), MTx.PH3.gas(U2, false)), OM.dust(MTx.GaCl3, U));
+        for (FluidStack water : FL.waters(1000)) {
+            RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.InGaN, 2), FL.array(MT.HCl.gas(12 * U, true), water), FL.array(MT.NH3.gas(2 * U, false), MTx.GaCl3Solution.liquid(2*U, false)), OM.dust(MTx.InCl3, U));
+            RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.InGaP, 2), FL.array(MT.HCl.gas(12 * U, true), water), FL.array(MTx.PH3.gas(2 * U, false), MTx.GaCl3Solution.liquid(2*U, false)), OM.dust(MTx.InCl3, U));
+            RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.InGaAs, 2), FL.array(MT.HCl.gas(12 * U, true), water), FL.array(MTx.AsH3.gas(2 * U, false), MTx.GaCl3Solution.liquid(2*U, false)), OM.dust(MTx.InCl3, U));
+            RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.AlGaP, 2), FL.array(MT.HCl.gas(12 * U, true), water), FL.array(MTx.PH3.gas(2 * U, false), MTx.GaCl3Solution.liquid(2*U, false)), OM.dust(MTx.AlCl3, U));
+            RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.AlGaAs, 2), FL.array(MT.HCl.gas(12 * U, true), water), FL.array(MTx.AsH3.gas(2 * U, false), MTx.GaCl3Solution.liquid(2*U, false)), OM.dust(MTx.AlCl3, U));
+            RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.AlInP, 2), FL.array(MT.HCl.gas(12 * U, true), water), FL.array(MTx.PH3.gas(2 * U, false), MTx.InCl3Solution.liquid(2*U, false)), OM.dust(MTx.AlCl3, U));
+        }
     }
 
     private void changeRecipes() {
@@ -666,6 +714,13 @@ public class Electronics extends GT6XFeature {
         circuit_wires.forEach(ST::hide);
 
         CRx.disableGt6(IL.Circuit_Wire_Copper.get(1));
+
+        // Old solar panels
+        for (int id : new int[]{10050, 10051}) {
+            ItemStack stack = MTEx.gt6Registry.getItem(id);
+            CRx.disableGt6(stack);
+            ST.hide(stack);
+        }
 
         CRx.overrideShaped(IL.Processor_Crystal_Empty.get(1), CR.DEF_REV, "WWW", "WCW", "WWW", 'W', wireFine.dat(MT.Pt), 'C', casingSmall.dat(MT.Polycarbonate));
         OM.data(IL.Processor_Crystal_Empty.get(1), MT.Polycarbonate, U2, MT.Pt, U);

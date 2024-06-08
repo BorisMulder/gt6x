@@ -153,7 +153,7 @@ public class ILx implements IItemContainer {
 
     // Photomasks & Wafers
     public static final int NUM_WAFER_TIERS = 3; // PMOS, NMOS, CMOS
-    public static final int NUM_WAFER_TYPES = 9; // IC, CPU, RAM, GPU, Flash, SoC, FET, TFT, ColorFilter
+    public static final int NUM_WAFER_TYPES = 10; // IC, CPU, RAM, GPU, Flash, SoC, FET, TFT, ColorFilter, Multi-junction PV front contact
     public static final int NUM_WAFER_STAGES_SINGLE = 8; // PL, Dev, Etch, Dope, Clean, Metal, Etch, Die
     public static final int NUM_WAFER_STAGES_DOUBLE = 14; // PL, Dev, Etch, Dope, Clean, Ox, PL2, Dev, Etch, Dope, Clean, Metal, Etch, Die
     public static final int NUM_WAFER_STAGES_MESFET = 8; // PL, Dev, Etch, Dope, Metal1, Metal2, Clean, Die
@@ -179,12 +179,12 @@ public class ILx implements IItemContainer {
     }
 
     // Solar panel intermediates
-    public static final int NUM_SOLAR_TIERS = 5;
+    public static final int NUM_SOLAR_TIERS = 5; // Poly-Si, Mono-Si, CdTe, CIGS, GaAs MJ
     public static final int NUM_SOLAR_STAGES_POLY_SI = 1; // p-n junction
     public static final int NUM_SOLAR_STAGES_MONO_SI = 4; // textured, cleaned, doped, ARC
     public static final int NUM_SOLAR_STAGES_CdTe = 3; // TCO, n-CdS window, p-CdTe absorber [, AgAu back]
     public static final int NUM_SOLAR_STAGES_CIGS = 3; // Mo back contact, p-CIGS absorber, n-CdS window [, ITO front]
-    public static final int NUM_SOLAR_STAGES_MULTI_JUNCTION = 5; //TODO
+    public static final int NUM_SOLAR_STAGES_MULTI_JUNCTION = 22;
 
     public static final int[] NUM_SOLAR_STAGES = new int[]{ NUM_SOLAR_STAGES_POLY_SI, NUM_SOLAR_STAGES_MONO_SI, NUM_SOLAR_STAGES_CdTe, NUM_SOLAR_STAGES_CIGS, NUM_SOLAR_STAGES_MULTI_JUNCTION };
 

@@ -159,9 +159,13 @@ public class MTx {
         return mat;
     }
 
-    public static OreDictMaterial registerLiquid(OreDictMaterial mat, int temperature) {
-        FL.create(mat.mNameInternal.toLowerCase(), mat.mTextureSetsBlock.get(IconsGT.INDEX_BLOCK_MOLTEN), mat.mNameLocal, mat, mat.mRGBaLiquid, STATE_LIQUID, 1000, temperature, null, null, 0);
+    public static OreDictMaterial registerLiquid(OreDictMaterial mat, int temperature, long amountPerUnit) {
+        FL.create(mat.mNameInternal.toLowerCase(), mat.mTextureSetsBlock.get(IconsGT.INDEX_BLOCK_MOLTEN), mat.mNameLocal, mat, mat.mRGBaLiquid, STATE_LIQUID, amountPerUnit, temperature, null, null, 0);
         return mat;
+    }
+
+    public static OreDictMaterial registerLiquid(OreDictMaterial mat, int temperature) {
+        return registerLiquid(mat, temperature, 1000);
     }
 
     public static OreDictMaterial registerGas(OreDictMaterial mat) {
@@ -673,7 +677,8 @@ public class MTx {
             .uumMcfg(0, MT.Na, U, MT.H, U)
             .heat(911)
             .setSmelting(MT.Na, U2),
-    //TODO 16155 free
+    InGa = alloy(16155, "Indium-Gallium", SET_METALLIC, 142, 110, 192, 255)
+            .uumAloy(0, MT.In, U, MT.Ga, U),
     Na2O = dustdcmp(16156, "Sodium Oxide", SET_DULL, 255, 255, 200, 255)
             .setMcfg(0, MT.Na, 2*U, MT.O, U)
             .heat(1405, 2220),
@@ -1153,11 +1158,11 @@ public class MTx {
     GaN = semiconductor(16322, "Gallium Nitride", 100, 120, 120, false, INGOTS, DUSTS)
             .setMcfg(1, MT.Ga, U, MT.N, U),
     GaAsP = semiconductor(16323, "Gallium Arsenide Phosphide", 66, 122, 95, false)
-            .setMcfg(1, MT.Ga, 2*U, MT.As, U, MT.P, U),
+            .setMcfg(2, MT.Ga, 2*U, MT.As, U, MT.P, U),
     AlGaP = semiconductor(16324, "Aluminium Gallium Phosphide", 66, 100, 110, false)
-            .setMcfg(1, MT.Al, U, MT.Ga, U, MT.P, 2*U),
+            .setMcfg(2, MT.Al, U, MT.Ga, U, MT.P, 2*U),
     InGaN = semiconductor(16325, "Indium Gallium Nitride", 73, 66, 110, false)
-            .setMcfg(1, MT.In, U, MT.Ga, U, MT.N, 2*U),
+            .setMcfg(1, InGa, U, MT.N, U),
     NDopedGaP = dopedSemiconductor(16326, "N-Doped Gallium Phosphide", GaP, false),
     PDopedGaP = dopedSemiconductor(16327, "P-Doped Gallium Phosphide", GaP, false),
     NDopedGaN = dopedSemiconductor(16328, "N-Doped Gallium Nitride", GaN, false),
@@ -1195,7 +1200,7 @@ public class MTx {
             .setMcfg(0, MT.Bi, U, MT.Cl, 3*U)
             .heat(500, 720),
     DiluteHCl = registerLiquid(lqudaciddcmp(16344, "Dilute Hydrochloric Acid", 50, 255, 178, 200)
-            .setMcfg(0, MT.HCl, 4*U, MT.H2O, 3*U)
+            .setMcfg(0, MT.HCl, 2*U, MT.H2O, 3*U)
             .heat(MT.H2O)),
     PbCl2Solution = simpleSolution(16345, "Lead Chloride Solution", 255, 200, 255, 200, PbCl2, 3),
     BiCl3Solution = simpleSolution(16346, "Bismuth Chloride Solution", 255, 255, 200, 200, BiCl3, 3),
@@ -1246,12 +1251,31 @@ public class MTx {
     PtRe = alloy(16364, "Platinum-Rhenium", SET_SHINY, 200, 210, 220)
             .uumAloy(0, MT.Pt, U, MT.Re, U)
             .heat(2350),
-    InGa = alloy(16365, "Indium-Gallium", SET_METALLIC, 142, 110, 192, 255)
-            .uumAloy(0, MT.In, U, MT.Ga, U),
+    AlGaAs = semiconductor(16365, "Aluminium Gallium Arsenide", 107, 131, 156, false)
+            .uumMcfg(2, MT.Al, U, MT.Ga, U, MT.As, 2*U),
     CuInGa = alloy(16366, "Copper-Indium-Gallium", SET_COPPER, 142, 110, 192, 255)
             .uumAloy(0, MT.Cu, U, InGa, U),
-    CIGS = dustdcmp(16367, "Copper Indium Gallium Selenide", SET_COPPER, 14, 53, 53, 255)
-            .uumMcfg(0, MT.Cu, U, InGa, U, MT.Se, 2*U)
+    CIGS = semiconductor(16367, "Copper Indium Gallium Selenide", 14, 53, 53, false)
+            .uumMcfg(0, MT.Cu, U, InGa, U, MT.Se, 2*U),
+    InGaP = semiconductor(16368, "Indium Gallium Phosphide", 93, 113, 93, false)
+            .uumMcfg(1, InGa, U, MT.P, U),
+    InGaAs = semiconductor(16369, "Indium Gallium Arsenide", 205, 205, 205, false)
+            .uumMcfg(1, InGa, U, MT.As, U),
+    AlInP = semiconductor(16370, "Aluminium Indium Phosphide", 160, 160, 140, false)
+            .uumMcfg(2, MT.Al, U, MT.In, U, MT.P, 2*U),
+    NDopedInGaP = dopedSemiconductor(16371, "N-doped Indium Gallium Phosphide", InGaP, false),
+    PDopedInGaP = dopedSemiconductor(16372, "P-doped Indium Gallium Phosphide", InGaP, false),
+    NDopedAlGaAs = dopedSemiconductor(16373, "N-doped Aluminium Gallium Arsenide", AlGaAs, false),
+    PDopedAlGaAs = dopedSemiconductor(16374, "P-doped Aluminium Gallium Arsenide", AlGaAs, false),
+    NDopedAlInP = dopedSemiconductor(16375, "N-doped Aluminium Indium Phosphide", AlInP, false),
+    PDopedAlInP = dopedSemiconductor(16376, "P-doped Aluminium Indium Phosphide", AlInP, false),
+    GaCl3Solution = simpleSolution(16377, "Gallium Chloride Solution", 0, 0, 0, 0, GaCl3, 1)
+            .stealLooks(GaCl3),
+    InCl3Solution = simpleSolution(16378, "Indium Chloride Solution", 0, 0, 0, 0, InCl3, 1)
+            .stealLooks(InCl3),
+    Na2TiO3 = dustdcmp(16379, "Sodium Metatitanate", SET_DULL, 255, 255, 200, 255)
+            .uumMcfg(1, MT.Na, 2*U, MT.Ti, U, MT.O, 3*U)
+            .heat(1128+C)
     ;
 
     /* Unused
