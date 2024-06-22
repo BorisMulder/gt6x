@@ -228,9 +228,9 @@ public class RefractoryMetals extends GT6XFeature {
         // Zr,Hf
         for (ItemStack coal : new ItemStack[]{dust.mat(MT.Charcoal, 1), dust.mat(MT.LigniteCoke, 3), dust.mat(MT.CoalCoke, 1), dust.mat(MT.PetCoke, 1), dust.mat(MT.C, 1), dust.mat(MT.Graphite, 1)}) {
             RM.BurnMixer.addRecipeX(true, 16, 256, ST.array(ST.mul(2, coal), dust.mat(MT.Zircon, 12), dust.mat(MT.CaCO3, 10)), FL.array(MT.Cl.gas(8*U, true)), FL.array(MTx.ZrHfCl4.gas(10*U, false), MT.CO2.gas(12*U, false)), gem.mat(MTx.Slag, 10));
-            RM.BurnMixer.addRecipeX(true, 16, 192, ST.array(ST.mul(2, coal), dust.mat(MT.Zircon, 12), dust.mat(MT.Quicklime, 4)), FL.array(MT.Cl.gas(8*U, true)), FL.array(MTx.ZrHfCl4.gas(10*U, false), MT.CO2.gas(6*U, false)), gem.mat(MTx.Slag, 10));
+            RM.BurnMixer.addRecipeX(true, 16, 192, ST.array(ST.mul(2, coal), dust.mat(MT.Zircon, 12), dust.mat(MTx.CaO, 4)), FL.array(MT.Cl.gas(8*U, true)), FL.array(MTx.ZrHfCl4.gas(10*U, false), MT.CO2.gas(6*U, false)), gem.mat(MTx.Slag, 10));
             RM.BurnMixer.addRecipeX(true, 16, 256, ST.array(coal, dust.mat(MT.Zircon, 6), dust.mat(MT.CaCO3, 5)), FL.array(MT.Cl.gas(4*U, true)), FL.array(MTx.ZrHfCl4.gas(5*U, false), MT.CO2.gas(6*U, false)), gem.mat(MTx.Slag, 5));
-            RM.BurnMixer.addRecipeX(true, 16, 192, ST.array(coal, dust.mat(MT.Zircon, 6), dust.mat(MT.Quicklime, 2)), FL.array(MT.Cl.gas(4*U, true)), FL.array(MTx.ZrHfCl4.gas(5*U, false), MT.CO2.gas(3*U, false)), gem.mat(MTx.Slag, 5));
+            RM.BurnMixer.addRecipeX(true, 16, 192, ST.array(coal, dust.mat(MT.Zircon, 6), dust.mat(MTx.CaO, 2)), FL.array(MT.Cl.gas(4*U, true)), FL.array(MTx.ZrHfCl4.gas(5*U, false), MT.CO2.gas(3*U, false)), gem.mat(MTx.Slag, 5));
         }
         RM.Distillery.addRecipe1(true, 64, 256, ST.tag(0), FL.array(MTx.ZrHfCl4.gas(5*U, true)), FL.array(MTx.ZrCl4.gas(49*U10, false), MTx.HfCl4.gas(U10, false)));
         RM.Bath.addRecipe1(true, 0, 512, OM.dust(MT.Na, U*4), MTx.ZrCl4.gas(5*U, T), NF, OM.dust(MT.Zr), OM.dust(MT.NaCl , U*2), OM.dust(MT.NaCl , U*2), OM.dust(MT.NaCl , U*2), OM.dust(MT.NaCl , U*2));
@@ -249,8 +249,8 @@ public class RefractoryMetals extends GT6XFeature {
             }
             RMx.Thermolysis.addRecipe0(true, 16, 128, FL.array(MTx.NH4FSolution.liquid(6*U, true)), FL.array(MT.H2O.liquid(3*U, false), MT.HF.gas(2*U, false), MT.NH3.gas(U, false)));
             RM.Mixer.addRecipe1(true, 16, 1024, dust.mat(MT.KF, 8), FL.array(MTx.TaFMIBKSolution.liquid(58*U, true)), FL.array(MTx.MIBK.liquid(38*U, false), MT.HF.gas(8*U, false)), OM.dust(MT.K2TaF7, 20*U));
-            RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.Nb2O5, 7), MT.Ca.liquid(5*U, true), MT.Nb.liquid(2*U, false), dust.mat(MT.Quicklime, 10));
-            RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.Ta2O5, 7), MT.Ca.liquid(5*U, true), MT.Quicklime.liquid(10*U, false), dust.mat(MT.Ta, 2));
+            RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.Nb2O5, 7), MT.Ca.liquid(5*U, true), MT.Nb.liquid(2*U, false), dust.mat(MTx.CaO, 10));
+            RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.Ta2O5, 7), MT.Ca.liquid(5*U, true), MTx.CaO.liquid(10*U, false), dust.mat(MT.Ta, 2));
             RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.Ta2O5, 7), MT.Al.liquid(10*U3, true), MT.Al2O3.liquid(25*U3, false), dust.mat(MT.Ta, 2));
         }
 

@@ -44,7 +44,13 @@ public class MTx {
         MT.Ethanol.setMcfg(0, MT.C, 2*U, MT.H, 6*U, MT.O, U);
         MT.PigIron.uumMcfg(5, MT.Fe, 5*U, MT.C, U).heat(MT.WroughtIron).qual(3, 4.0, 128, 2);
         MT.Steel  .uumMcfg(100, MT.Fe, 100*U, MT.C, U).heat(MT.WroughtIron);
+        MT.Sodalite.uumMcfg(0, MT.Na, 8*U, MT.Al, 6*U, MT.Si, 6*U, MT.O, 24*U, MT.Cl, 2*U);
+        MT.Lazurite.uumMcfg(0, MT.Na, 7*U, MT.Ca, U, MT.Al, 6*U, MT.Si, 6*U, MT.S, 4*U, MT.O, 28*U, MT.H2O, 3*U)
+                .tooltip("Na" + NUM_SUB[7] + "CaAl" + NUM_SUB[6] + "Si" + NUM_SUB[6] + "O" + NUM_SUB[24] + "(SO" + NUM_SUB[4] + ")S" + NUM_SUB[3] + "(H" + NUM_SUB[2] + "O)");
+        MT.VitriolOfClay.tooltip("Al" + NUM_SUB[2] + "(SO" + NUM_SUB[4] + ")" + NUM_SUB[3]);
+
         MT.Olivine.uumMcfg(0, MT.Mg, U, MT.Fe, U, MT.Si, U, MT.O, 4*U);
+
         MT.P.setLocal("Phosphorus");
         MT.Apatite.uumMcfg( 0, MT.Ca, 5*U, MT.PO4, 3*5*U, MT.Cl, U).heat(1900).setLocal("Chlorapatite");
         MT.Phosphorite.uumMcfg( 0, MT.Ca, 5*U, MT.PO4, 3*5*U, MT.F, U).heat(1900).setLocal("Fluorapatite");
@@ -55,6 +61,7 @@ public class MTx {
         for (OreDictMaterial clay : ANY.Clay.mToThis) {
             clay.heat(1550);
         }
+        ANY.Fluorite.addReRegistrationToThis(MT.FluoriteYellow, MT.FluoriteBlack, MT.FluoriteBlue, MT.FluoriteGreen, MT.FluoriteMagenta, MT.FluoriteOrange, MT.FluoritePink, MT.FluoriteRed, MT.FluoriteWhite);
         MT.Kaolinite.heat(2000);
         MT.As.heat(887, 887).remove(MELTING); MT.As.remove(MOLTEN);
 
@@ -180,8 +187,9 @@ public class MTx {
 
     public static final OreDictMaterial
     // PGM
+    CaO = MT.Quicklime.put("CalciumOxide"),
     NH4 = create(16001, "Ammonium", 0, 100, 255, 255)
-            .setMcfg(1, MT.N, U, MT.H, 4*U),
+            .setMcfg(1, MT.N, U, MT.H, 4*U), //TODO tooltip not working
     AmmoniumHexachloroplatinate = dustdcmp(16002, "Ammonium Hexachloroplatinate", SET_FINE, 255, 220, 10, 255)
             .setMcfg(0, NH4, U*2, MT.Pt, U, MT.Cl, U*6)
             .heat(653)
@@ -344,7 +352,7 @@ public class MTx {
 
     // Metallurgy
     Slag = create( 16055, "Slag", 255, 240, 200, 255)
-            .setMcfg( 0, MT.Quicklime, U, MT.SiO2, 3*U)
+            .setMcfg( 0, CaO, U, MT.SiO2, 3*U)
             .setTextures(SET_FLINT)
             .put(INGOTS, MORTAR, BRITTLE, GEMS)
             .heat(1810, 3000)
@@ -415,7 +423,7 @@ public class MTx {
             .heat(1467),
     FeO = oredustdcmp(16077, "Wuestite", SET_DULL, 50, 0, 0, 255, "Ferrous Oxide", "Iron(II) Oxide")
             .put(INGOTS)
-            .setMcfg(0, MT.Fe, U, MT.O, U)
+            .uumMcfg(0, MT.Fe, U, MT.O, U)
             .heat(C+1377, C+3414)
             .setLocal("Wüstite"),
     H2MoO4 = dustdcmp(16078, "Molybdic Acid", SET_DULL, 200, 200, 0, 255, ACID)
@@ -499,7 +507,7 @@ public class MTx {
     CaOH2 = dustdcmp(16102, "Slaked Lime", SET_DULL, 255, 255, 200, 255)
             .uumMcfg(0, MT.Ca, U, MT.O, 2*U, MT.H, 2*U)
             .heat(853)
-            .setSmelting(MT.Quicklime, 2*U5),
+            .setSmelting(CaO, 2*U5),
     CaCl2Solution = simpleSolution(16103, "Calcium Chloride Solution", 235, 235, 255, 200, MT.CaCl2, 3),
     FeCl2Solution = simpleSolution(16104, "Ferrous Chloride Solution", 235, 255, 235, 200, MT.FeCl2, 3),
     MgCl2Solution = simpleSolution(16105, "Magnesium Chloride Solution", 255, 235, 255, 200, MT.MgCl2, 3),
@@ -525,10 +533,9 @@ public class MTx {
     MgHCO3 = registerLiquid(lquddcmp(16111, "Magnesium Bicarbonate Solution", 235, 200, 255, 255)
             .uumMcfg(0, MT.Mg, U, MT.H, 2*U, MT.C, 2*U, MT.O,6*U, MT.H2O, 3*U))
             .heat(MT.H2O),
-    MgBlastFurnaceGas = registerGas(gasdcmp(16112, "Magnesium-Rich Blast Furnace Gas", 50, 20, 30, 200)
-            .uumMcfg(0, MT.Mg, U, MT.CO2, 6*U)
-            .heat(MT.Mg),
-            (int)MT.Mg.mBoilingPoint),
+    MnO = dustdcmp(16112, "Manganese(II) Oxide", SET_DULL, 82, 122, 82, 255)
+            .uumMcfg(1, MT.Mn, U, MT.O, U)
+            .heat(2218),
     Cementite = alloy(16113, "Cementite", SET_METALLIC, 50, 50, 0, "Iron Carbide")
             .uumMcfg(3, MT.Fe, 3*U, MT.C, U)
             .heat(MT.WroughtIron),
@@ -557,8 +564,8 @@ public class MTx {
             .put(INGOTS, MORTAR, BRITTLE, GEMS)
             .heat(FerrousSlag),
     CalcinedDolomite = dustdcmp(16120, "Calcined Dolomite", SET_DULL, 200, 150, 150, 255)
-            .setMcfg(0, MT.Quicklime, U, MgO, U)
-            .heat((MT.Quicklime.mMeltingPoint + MgO.mMeltingPoint) / 2)
+            .setMcfg(0, CaO, U, MgO, U)
+            .heat((CaO.mMeltingPoint + MgO.mMeltingPoint) / 2)
             .put(CENTRIFUGE),
     P2O5 = dustdcmp(16121, "Phosphorus Pentoxide", SET_FINE, 255, 255, 150, 255)
             .uumMcfg(0, MT.P, 2*U, MT.O, 5*U)
@@ -1029,8 +1036,7 @@ public class MTx {
             .heat(MT.DarkAsh),
     CoalAshLeachingSolution = registerLiquid(lquddcmp(16281, "Coal ash leaching solution", 150, 150, 150, 200)
             .heat(MT.H2O)),
-    CoalAshResidueSolution = registerLiquid(lquddcmp(16282, "Coal ash residue solution", 150, 150, 150, 200)
-            .heat(MT.H2O)),
+    //TODO 16282 free
     OxalicAcid = dustdcmp(16283, "Oxalic Acid", SET_CUBE, 220, 235, 255, 200)
             .uumMcfg(0, MT.H, 2*U, MT.C, 2*U, MT.O, 4*U)
             .heat(463),
@@ -1093,7 +1099,7 @@ public class MTx {
             .setMcfg(0, BaCO3, 6*U, MT.CaCO3, 2*U, SrCO3, U)
             .heat(BaCO3),
     BaSrCaO3 = dustdcmp(16303, "Barium-Strontium-Calcium Oxide", SET_CUBE, 255, 255, 255, 255)
-            .setMcfg(0, BaO, 6*U, MT.Quicklime, 2*U, SrO, U)
+            .setMcfg(0, BaO, 6*U, CaO, 2*U, SrO, U)
             .heat(BaO)
             .put(CENTRIFUGE),
     Aquadag = dustdcmp(16304, "Aquadag", SET_FOOD, 10, 10, 10, 255)
@@ -1218,7 +1224,7 @@ public class MTx {
     H3PO3 = dustdcmp(16352, "Phosphorous Acid", SET_CUBE, 255, 255, 255, 255)
             .setMcfg(0, MT.H, 3*U, MT.P, U, MT.O, 3*U)
             .heat(346, 473),
-    K2SiO3 = dustdcmp(16353, "Potassium Silicate", SET_CUBE, 255, 255, 255, 255)
+    K2SiO3 = dustdcmp(16353, "Potassium Metasilicate", SET_CUBE, 255, 255, 255, 255)
             .setMcfg(0, MT.K, 2*U, MT.Si, U, MT.O, 3*U)
             .heat(600+C, 800+C),
     KFSolution = simpleSolution(16354, "Potassium Fluoride Solution", 200,  64, 225, 200, MT.KF, 3),
@@ -1245,7 +1251,8 @@ public class MTx {
             .setMcfg(0, MT.H, U, MT.Re, U, MT.O, 4*U)
             .heat(MT.H2O)),
     NH4ReO4 = dustdcmp(16363, "Ammonium Perrhenate", SET_GLASS, 255, 255, 255, 255)
-            .uumMcfg(0, MT.N, U, MT.H, 4*U, MT.Re, U, MT.O, 4*U)
+            .setMcfg(0, NH4, U, MT.Re, U, MT.O, 4*U)
+            .tooltip("NH" + NUM_SUB[4] + "ReO" + NUM_SUB[4])
             .heat(200+C)
             .setSmelting(HReO4, U),
     PtRe = alloy(16364, "Platinum-Rhenium", SET_SHINY, 200, 210, 220)
@@ -1275,7 +1282,20 @@ public class MTx {
             .stealLooks(InCl3),
     Na2TiO3 = dustdcmp(16379, "Sodium Metatitanate", SET_DULL, 255, 255, 200, 255)
             .uumMcfg(1, MT.Na, 2*U, MT.Ti, U, MT.O, 3*U)
-            .heat(1128+C)
+            .heat(1128+C),
+    Na2SiO3 = dustdcmp(16380, "Sodium Metasilicate", SET_GLASS, 255, 255, 255, 255)
+            .setMcfg(0, MT.Na, 2*U, MT.Si, U, MT.O, 3*U)
+            .heat(1361),
+    Na2SiO3Solution = simpleSolution(16381, "Sodium Metasilicate Solution", 0, 0, 0, 0, Na2SiO3, 6)
+            .stealLooks(Na2SiO3),
+    RbCl = dustdcmp(16382, "Rubidium Chloride", SET_FINE, 255, 255, 255, 255, ELECTROLYSER)
+            .setMcfg(0, MT.Rb, U, MT.Cl, U)
+            .heat(991, 1660),
+    CsCl = dustdcmp(16383, "Caesium Chloride", SET_FINE, 255, 255, 255, 255, ELECTROLYSER)
+            .setMcfg(0, MT.Cs, U, MT.Cl, U)
+            .heat(919, 1570),
+    CsRbClSolution = registerLiquid(lquddcmp(16382, "Caesium-Rubidium Chloride Solution", 255, 200, 0, 200)
+            .setMcfg(0, CsCl, 5*U, RbCl, U, MT.H2O, 3*3*U))
     ;
 
     /* Unused
@@ -1287,14 +1307,26 @@ public class MTx {
     */
 
     static {
-        MT.BlueSapphire.uumMcfg(6, MT.Al2O3, 5*U, MT.Fe2O3, U);
-        MT.Ruby.uumMcfg(6, MT.Al2O3, 5*U, Cr2O3, U);
-        MT.GreenSapphire.uumMcfg(6, MT.Al2O3, 5*U, MgO, U);
+        MT.BlueSapphire  .uumMcfg(6, MT.Al2O3, 5*U, MT.Fe2O3, U);
+        MT.Ruby          .uumMcfg(6, MT.Al2O3, 5*U, Cr2O3, U);
+        MT.GreenSapphire .uumMcfg(6, MT.Al2O3, 5*U, MgO, U);
         MT.PurpleSapphire.uumMcfg(6, MT.Al2O3, 5*U, MT.V2O5, U);
+        MT.Almandine  .uumMcfg( 0, MT.Al2O3, 5*U, FeO, 6*U, MT.SiO2, 9*U);
+        MT.Grossular  .uumMcfg( 0, MT.Al2O3, 5*U, CaO, 6*U, MT.SiO2, 9*U);
+        MT.Pyrope     .uumMcfg( 0, MT.Al2O3, 5*U, MgO, 6*U, MT.SiO2, 9*U);
+        MT.Spessartine.uumMcfg( 0, MT.Al2O3, 5*U, MnO, 3*U, MT.SiO2, 9*U);
+        MT.Andradite  .uumMcfg( 0, MT.Fe2O3, 5*U, CaO, 6*U, MT.SiO2, 9*U);
+        MT.Uvarovite  .uumMcfg( 0,    Cr2O3, 5*U, CaO, 6*U, MT.SiO2, 9*U);
+
         MT.PetCoke.setMcfg(0, MT.C, U);
         MT.Bone.uumMcfg(2, Hydroxyapatite, U).setSmelting(Hydroxyapatite, U2).heat(1000+C);
         MT.SlimyBone.uumMcfg(0, MT.Bone, U);
         MT.VolcanicAsh.setMcfg( 0, MT.Flint, 6*U, MT.Fe2O3, U, MTx.MgO, U);
+        MT.OREMATS.Wollastonite.setMcfg(0, CaO, 2*U, MT.SiO2, 3*U)
+                .tooltip("CaSiO" + NUM_SUB[3]);
+        // ZSM-5 with n=16
+        MT.OREMATS.Zeolite.setMcfg(0, Na2O, 3*U, MT.Al2O3, 5*U, MT.SiO2, 10*3*U, MT.H2O, 6*U)
+                .put(GEMS);
 
         addMolten(RhodiumPotassiumSulfate, 144);
         addMolten(AlCl3, 144);
