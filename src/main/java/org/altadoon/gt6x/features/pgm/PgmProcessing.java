@@ -145,19 +145,17 @@ public class PgmProcessing extends GT6XFeature {
     }
 
     private void changeByProducts() {
-        List<Short> undesiredByproducts = Arrays.asList(MT.Pd.mID, MT.Rh.mID, MT.Ir.mID, MT.Ru.mID, MT.Os.mID);
-
-        for (OreDictMaterial mat : new OreDictMaterial[] {MT.Pt, MT.OREMATS.Sperrylite, MT.OREMATS.Cooperite, MT.MeteoricIron, MT.Eximite, MT.Vyroxeres, MT.Kalendrite, MT.Pd, MT.Rh, MT.Ir, MT.Ru, MT.Os }) {
+        for (OreDictMaterial mat : MT.ALL_MATERIALS_REGISTERED_HERE) {
             ListIterator<OreDictMaterial> it = mat.mByProducts.listIterator();
             while (it.hasNext()) {
                 OreDictMaterial byproduct = it.next();
-                if (undesiredByproducts.contains(byproduct.mID)) {
+                if (byproduct.containsAny(TD.Atomic.PLATINUM_GROUP) && byproduct.mID != MT.Pt.mID) {
                     it.set(MT.PlatinumGroupSludge);
                 }
             }
         }
 
-        for (OreDictMaterial mat : new OreDictMaterial[] {MT.OREMATS.Pentlandite, MT.OREMATS.Chalcopyrite, MT.MeteoricIron, MT.Ni }) {
+        for (OreDictMaterial mat : new OreDictMaterial[] {MT.OREMATS.Pentlandite, MT.OREMATS.Chalcopyrite, MT.Ni }) {
             mat.addOreByProducts(MT.PlatinumGroupSludge);
         }
 

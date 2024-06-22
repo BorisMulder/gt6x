@@ -302,8 +302,8 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
                     case 9 -> matData = new OreDictItemData(OM.stack(MTx.PDopedSiGe, 8*U10+U40), OM.stack(MTx.NDopedSiGe, U10-U40), OM.stack(MT.SiO2, 126*U1000), OM.stack(MTx.GeO2, 126*U1000), OM.stack(MTx.DnqNovolacResist, 4*U1000));
                     case 10-> matData = new OreDictItemData(OM.stack(MTx.PDopedSiGe, 8*U10+U40), OM.stack(MTx.NDopedSiGe, U10-U40), OM.stack(MT.SiO2, 126*U1000), OM.stack(MTx.GeO2, 126*U1000));
                     case 11-> matData = new OreDictItemData(OM.stack(MTx.PDopedSiGe, 8*U10+U40), OM.stack(MTx.NDopedSiGe, U10-U40), OM.stack(MT.SiO2, 126*U1000), OM.stack(MTx.GeO2, 126*U1000), OM.stack(MT.Ru, U4));
-                    case 12-> matData = new OreDictItemData(OM.stack(MTx.PDopedSiGe, 8*U10+U40), OM.stack(MTx.NDopedSiGe, U10-U40), OM.stack(MT.SiO2, 126*U1000), OM.stack(MTx.GeO2, 126*U1000), OM.stack(MT.Ru, U8));
-                    case 13-> matData = new OreDictItemData(OM.stack(MTx.PDopedSiGe, U20+U40/16), OM.stack(MTx.NDopedSiGe, (U10-U40)/16), OM.stack(MT.SiO2, 126*U1000/16), OM.stack(MTx.GeO2, 126*U1000/16), OM.stack(MT.Ru, U128));
+                    case 12-> matData = new OreDictItemData(OM.stack(MTx.PDopedSiGe, 8*U10+U40), OM.stack(MTx.NDopedSiGe, U10-U40), OM.stack(MT.SiO2, 126*U1000), OM.stack(MTx.GeO2, 126*U1000), OM.stack(MT.Ru, U16));
+                    case 13-> matData = new OreDictItemData(OM.stack(MTx.PDopedSiGe, U20+U40/16), OM.stack(MTx.NDopedSiGe, (U10-U40)/16), OM.stack(MT.SiO2, 126*U1000/16), OM.stack(MTx.GeO2, 126*U1000/16), OM.stack(MT.Ru, U256));
                 }
             }
             default -> {
@@ -454,7 +454,7 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         // Metallization using Ru Electroplating
         RM.Electrolyzer.addRecipe1(true, 64, 32, ILx.Wafers[type][tier][10].get(1), FL.array(MTx.RuElectrolyte.liquid(20*U8, true)), FL.array(MT.NH3.gas(4*U8, false), MT.Cl.gas(8*U8, false), MT.H2O.liquid(6*U8, false)), ILx.Wafers[type][tier][11].get(1));
         // Metal etching
-        RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][11].get(1), MTx.Ozone.gas(U3, true), MTx.RuO4.gas(5*U8, false), ILx.Wafers[type][tier][12].get(1));
+        RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][11].get(1), MTx.Ozone.gas(U2, true), MTx.RuO4.gas(3*5*U16, false), ILx.Wafers[type][tier][12].get(1));
         // Dicing
         for (int i = 0; i < RMx.CuttingFluids.length; i++) if (RMx.CuttingFluids[i] != null) {
             RM.Cutter.addRecipe1(true, 16, RMx.CuttingMultiplier[i] * 64, ILx.Wafers[type][tier][12].get(1), FL.mul(RMx.CuttingFluids[i], RMx.CuttingMultiplier[i] * 16, 1000, true), NF, ILx.Wafers[type][tier][13].get(16));
