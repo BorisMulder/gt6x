@@ -63,7 +63,6 @@ public class MTx {
         }
         ANY.Fluorite.addReRegistrationToThis(MT.FluoriteYellow, MT.FluoriteBlack, MT.FluoriteBlue, MT.FluoriteGreen, MT.FluoriteMagenta, MT.FluoriteOrange, MT.FluoritePink, MT.FluoriteRed, MT.FluoriteWhite);
         MT.Kaolinite.heat(2000);
-        MT.As.heat(887, 887).remove(MELTING); MT.As.remove(MOLTEN);
 
         MT.WroughtIron.qual(3, 6.0, 640, 2);
 
@@ -104,8 +103,8 @@ public class MTx {
         addMolten(MT.Nb, 144);
         addMolten(MT.Cd, 144);
 
+        addVapour(MT.As.heat(887, 887));
         addVapour(MT.Zn);
-        addVapour(MT.As);
         addVapour(MT.Mg);
     }
 
@@ -723,7 +722,7 @@ public class MTx {
     NDopedGe = dopedSemiconductor(16169, "N-Doped Germanium", MT.Ge, true),
     PDopedSiGe = dopedSemiconductor(16170, "P-Doped Silicon-Germanium", SiGe, true),
     NDopedSiGe = dopedSemiconductor(16171, "N-Doped Silicon-Germanium", SiGe, true),
-    Naphthalene = registerLiquid(lquddcmp(16172, "Naphthalene", 255, 255, 255, 255)
+    Naphthalene = registerGas(gasdcmp(16172, "Naphthalene", 255, 255, 255, 255)
             .setMcfg(1, MT.C, 10*U, MT.H, 8*U)
             .heat(351, 424)
             .put(FLAMMABLE)),
@@ -852,9 +851,7 @@ public class MTx {
     SiF4 = registerGas(gasdcmp(16214, "Tetrafluorosilane", 50, 50, 100, 200)
             .uumMcfg(1, MT.Si, U, MT.F, 4*U)
             .heat(178, 182)),
-    AsF3 = registerLiquid(lquddcmp(16215, "Arsenic Trifluoride", 100, 130, 100, 250)
-            .setMcfg(1, MT.As, U, MT.F, 3*U)
-            .heat(265, 334)),
+    //TODO 16215 free
     H3AsO3 = registerLiquid(lqudaciddcmp(16216, "Arsenous Acid", 150, 200, 175, 255)
             .setMcfg(0, MT.H, 3*U, MT.As, U, MT.O, 3*U)
             .heat(MT.H2O)),
@@ -1131,18 +1128,18 @@ public class MTx {
             .setMcfg(1, MT.C, 4*U, MT.H, 10*U, MT.O, U)
             .heat(258, 329)),
     CH3Li = registerLiquid(lquddcmp(16313, "Methyllithium Solution", 200, 200, 200, 220)
-            .setMcfg(3, MT.C, U, MT.H, 3*U, MT.Li, U, Ether, 2*U)
+            .setMcfg(3, MT.Li, U, MT.C, U, MT.H, 3*U, Ether, 2*U)
             .heat(Ether)),
     GaMe3 = registerLiquid(lquddcmp(16314, "Trimethylgallium Solution", 150, 150, 150, 200)
-            .setMcfg(3, MT.Ga, U, MT.C, 3*U, MT.H, 9*U, Ether, 2*U)
+            .setMcfg(3, MT.Ga, U, MT.C, 3*U, MT.H, 9*U, Ether, 6*U)
             .tooltip("Ga(CH" + NUM_SUB[3] + ")" + NUM_SUB[3])
             .heat(Ether)),
     InMe3 = registerLiquid(lquddcmp(16315, "Trimethylindium Solution", 255, 255, 255, 255)
-            .setMcfg(3, MT.In, U, MT.C, 3*U, MT.H, 9*U, Ether, 2*U)
+            .setMcfg(3, MT.In, U, MT.C, 3*U, MT.H, 9*U, Ether, 6*U)
             .tooltip("In(CH" + NUM_SUB[3] + ")" + NUM_SUB[3])
             .heat(Ether)),
     AlMe3 = registerLiquid(lquddcmp(16316, "Trimethylaluminium Solution", 200, 200, 200, 200)
-            .setMcfg(3, MT.Al, 2*U, MT.C, 6*U, MT.H, 18*U, Ether, 2*U)
+            .setMcfg(3, MT.Al, 2*U, MT.C, 6*U, MT.H, 18*U, Ether, 6*U)
             .tooltip("Al" + NUM_SUB[2] + "(CH" + NUM_SUB[3] + ")" + NUM_SUB[6])
             .heat(Ether)),
     Cyclopentadiene = registerLiquid(lquddcmp(16317, "Cyclopentadiene", 255, 255, 255, 180)
@@ -1153,7 +1150,7 @@ public class MTx {
             .tooltip("Mg(C" + NUM_SUB[5] + "H" + NUM_SUB[5] + ")" + NUM_SUB[2])
             .heat(449),
     BeMe2 = registerLiquid(lquddcmp(16319, "Dimethylberyllium Solution", 200, 200, 200, 200)
-            .setMcfg(3, MT.Be, U, MT.C, 2*U, MT.H, 6*U, Ether, 2*U)
+            .setMcfg(3, MT.Be, U, MT.C, 2*U, MT.H, 6*U, Ether, 4*U)
             .tooltip("Be(CH" + NUM_SUB[3] + ")" + NUM_SUB[2])
             .heat(Ether)),
     H2Se = registerGas(gasdcmp(16320, "Hydrogen Selenide", 255, 210, 60, 150)
@@ -1299,6 +1296,9 @@ public class MTx {
     ;
 
     /* Unused
+    AsF3 = registerLiquid(lquddcmp(16215, "Arsenic Trifluoride", 100, 130, 100, 250)
+            .setMcfg(1, MT.As, U, MT.F, 3*U)
+            .heat(265, 334)),
     Na3VO4 = create(16162, "Sodium Orthovanadate", 255, 255, 255, 0)
             .setMcfg(0, MT.Na, 3*U, MT.V, U, MT.O, 4*U),
     AuGe = alloymachine(16171, "Gold-Germanium", SET_COPPER, 227, 182, 59)

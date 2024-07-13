@@ -393,7 +393,6 @@ public class BasicChemistry extends GT6XFeature {
         RM.Mixer.addRecipe0(true, 16, 5*128, FL.array(MTx.SiF4.gas(U, true), MT.HF.gas(4*U, true)), FL.array(MT.H2SiF6.liquid(9*U, false)));
         for (FluidStack water : FL.waters(9000)) {
             RM.Mixer.addRecipe1(true, 16, 1024, dust.mat(MTx.As2O3, 5), water, MTx.H3AsO3.liquid(14*U, false), NI);
-            RM.Mixer.addRecipe0(true, 16, 5*128, FL.array(MTx.AsF3.liquid(U, true), water), FL.array(MTx.H3AsO3.liquid(7*U, false), MT.HF.gas(6*U, false)));
         }
         RMx.Thermolysis.addRecipe0(true, 16, 512, MTx.H3AsO3.liquid(14*U, false), FL.Water.make(9000), dust.mat(MTx.As2O3, 5));
 
