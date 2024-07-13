@@ -25,12 +25,14 @@ import org.altadoon.gt6x.features.electronics.MultiItemsElectronics;
 import org.altadoon.gt6x.features.metallurgy.multiblocks.*;
 import org.altadoon.gt6x.features.metallurgy.utils.EAFSmeltingRecipe;
 import org.altadoon.gt6x.features.metallurgy.utils.RecipeMapHandlerPrefixSintering;
+import org.altadoon.gt6x.features.metallurgy.utils.RecyclingProcessingSublimation;
 
 import java.util.*;
 
 import static gregapi.data.CS.*;
 import static gregapi.data.OP.*;
 import static gregapi.data.TD.Atomic.ANTIMATTER;
+import static gregapi.data.TD.Processing.BLACKLISTED_SMELTER;
 import static gregapi.data.TD.Processing.EXTRUDER;
 import static gregapi.oredict.OreDictMaterialCondition.fullforge;
 import static org.altadoon.gt6x.Gt6xMod.MOD_ID;
@@ -58,6 +60,7 @@ public class Metallurgy extends GT6XFeature {
     @Override
     public void afterPreInit() {
         changeAlloySmeltingRecipes();
+        OreDictManager.INSTANCE.addListener(new RecyclingProcessingSublimation());
     }
 
     @Override
@@ -108,6 +111,10 @@ public class Metallurgy extends GT6XFeature {
         // to make smelting bloom in crucibles easier
         for (OreDictMaterial magnetite : new OreDictMaterial[] { MT.OREMATS.Magnetite, MT.OREMATS.BasalticMineralSand, MT.OREMATS.GraniticMineralSand })
             magnetite.heat(MT.Fe2O3);
+
+        // to prevent smelting As in a smelter to liquid (it should sublime)
+        MT.As.put(BLACKLISTED_SMELTER);
+        MT.OREMATS.Realgar.put(BLACKLISTED_SMELTER);
     }
 
     private void changeByProducts() {
@@ -227,6 +234,12 @@ public class Metallurgy extends GT6XFeature {
 
     }
 
+    private static void mix(String aInput1, int aIn1Amount, String aInput2, int aIn2Amount, String aOutput, int aOutAmount) {
+        RM.Mixer.addRecipe1(T, 16, Math.max(aOutAmount, aIn1Amount+aIn2Amount), ST.tag(2), FL.array(FL.make_(aInput1, aIn1Amount), FL.make_(aInput2, aIn2Amount)), FL.make_(aOutput, aOutAmount), ZL_IS);
+    }
+    private static void mix(String aInput1, int aIn1Amount, String aInput2, int aIn2Amount, String aInput3, int aIn3Amount, String aOutput, int aOutAmount) {
+        RM.Mixer.addRecipe1(T, 16, Math.max(aOutAmount, aIn1Amount+aIn2Amount+aIn3Amount), ST.tag(3), FL.array(FL.make_(aInput1, aIn1Amount), FL.make_(aInput2, aIn2Amount), FL.make_(aInput3, aIn3Amount)), FL.make_(aOutput, aOutAmount), ZL_IS);
+    }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     private static final ICondition<OreDictMaterial>
@@ -352,12 +365,7 @@ public class Metallurgy extends GT6XFeature {
         // Wrought Iron
         RM.Anvil.addRecipe2(false, 64, 192, scrapGt.mat(MTx.SpongeIron, 9), scrapGt.mat(MTx.SpongeIron, 9), ingot.mat(MT.WroughtIron, 1), scrapGt.mat(MTx.FerrousSlag, 8));
 
-        // Sublimation/Precipitation of Al, Zn, As, Mg, P gases
-        RM.Smelter.addRecipe1(true, 16, 144, blockDust.mat(MT.As, 1), ZL_FS, MT.As.gas(9*U, false), ZL_IS);
-        RM.Smelter.addRecipe1(true, 16, 16,  dust.mat(MT.As, 1), ZL_FS, MT.As.gas(U, false), ZL_IS);
-        RM.Smelter.addRecipe1(true, 16, 4,   dustSmall.mat(MT.As, 1), ZL_FS, MT.As.gas(U4, false), ZL_IS);
-        RM.Smelter.addRecipe1(true, 16, 2,   dustTiny.mat(MT.As, 1), ZL_FS, MT.As.gas(U9, false), ZL_IS);
-        RM.Smelter.addRecipe1(true, 16, 1,   dustDiv72.mat(MT.As, 1), ZL_FS, MT.As.gas(U72, false), ZL_IS);
+        // Precipitation of Al, Zn, As, Mg, P gases
         RM.Freezer.addRecipe1(true, 16, 48, ST.tag(0), MT.Zn.gas(U, true), NF, OM.ingot(MT.Zn, U)); // from 1180 to 300
         RM.Freezer.addRecipe1(true, 16, 32, ST.tag(0), MT.As.gas(U, true), NF, OM.ingot(MT.As, U)); // from 887 to 300
         RM.Freezer.addRecipe1(true, 16, 64, ST.tag(0), MT.Mg.gas(U, true), NF, OM.ingot(MT.Mg, U)); // from 1378 to 300
@@ -494,13 +502,13 @@ public class Metallurgy extends GT6XFeature {
         }
 
         // mixing from/to molten ferrochrome and steel
-        for (String tIron : new String[] {"molten.iron", "molten.wroughtiron", "molten.meteoriciron", "molten.steel"}) {
-            RM.Mixer.addRecipe1(true, 16, 2 , ST.tag(2), FL.array(FL.make_(tIron, 1 ), FL.make_("molten.gold",    1)), FL.make_("molten.angmallen", 2), ZL_IS);
-            RM.Mixer.addRecipe1(true, 16, 2 , ST.tag(2), FL.array(FL.make_(tIron, 1 ), FL.make_("molten.tin",    1)), FL.make_("molten.tinalloy", 2), ZL_IS);
-            RM.Mixer.addRecipe1(true, 16, 3 , ST.tag(2), FL.array(FL.make_(tIron, 2 ), FL.make_("molten.nickel",    1)), FL.make_("molten.invar", 3), ZL_IS);
-            RM.Mixer.addRecipe1(true, 16, 3 , ST.tag(2), FL.array(FL.make_(tIron, 1 ), FL.make_("molten.chromium",    2)), FL.make_("molten.ferrochrome", 3), ZL_IS);
-            RM.Mixer.addRecipe1(true, 16, 3 , ST.tag(3), FL.array(FL.make_(tIron, 1 ), FL.make_("molten.chromium", 1), FL.make_("molten.aluminium" , 1)), FL.make("molten.kanthal", 3), ZL_IS);
-            RM.Mixer.addRecipe1(true, 16, 6 , ST.tag(3), FL.array(FL.make_(tIron, 1 ), FL.make_("molten.ferrochrome", 3), FL.make_("molten.aluminium" , 2)), FL.make("molten.kanthal", 6), ZL_IS);
+        for (String iron : new String[] {"molten.iron", "molten.wroughtiron", "molten.meteoriciron", "molten.steel"}) {
+            mix(iron, 1, "molten.gold", 1, "molten.angmallen", 2);
+            mix(iron, 1, "molten.tin", 1,"molten.tinalloy", 2);
+            mix(iron, 2, "molten.nickel", 1, "molten.invar", 3);
+            mix(iron, 1, "molten.chromium", 2, "molten.ferrochrome", 3);
+            mix(iron, 1, "molten.chromium", 1, "molten.aluminium" , 1, "molten.kanthal", 3);
+            mix(iron, 1, "molten.ferrochrome", 3, "molten.aluminium" , 2, "molten.kanthal", 6);
         }
 
         // DRI and Fe3C
@@ -747,15 +755,26 @@ public class Metallurgy extends GT6XFeature {
 
     private void changeRecipes() {
         for (Recipe r : RM.Mixer.mRecipeList) {
-            if (r.mFluidOutputs.length >= 1 && r.mFluidOutputs[0].getFluid().getName().equals("molten.stainlesssteel"))
+            if (r.mFluidOutputs.length >= 1 && (
+                    r.mFluidOutputs[0].getFluid().getName().equals("molten.stainlesssteel") ||
+                    r.mFluidOutputs[0].getFluid().getName().equals("molten.arseniccopper") ||
+                    r.mFluidOutputs[0].getFluid().getName().equals("molten.arsenicbronze")
+            )) {
                 r.mEnabled = false;
-            else if (r.mFluidInputs.length == 1 && r.mOutputs.length == 1 && (
+            } else if (r.mFluidInputs.length == 1 && r.mOutputs.length == 1 && (
                     (r.mFluidInputs[0].getFluid().getName().equals("chlorine") && r.mOutputs[0].isItemEqual(dust.mat(MT.FeCl3, 4)) && r.mFluidOutputs.length == 0) ||
                     (r.mFluidInputs[0].getFluid().getName().equals("hydrochloricacid") && r.mOutputs[0].isItemEqual(dust.mat(MT.FeCl2, 3)) && r.mFluidOutputs.length == 1 && r.mFluidOutputs[0].getFluid().getName().equals("hydrogen"))
             )) { // fixes infinite silica from Fe -> FeCl2/FeCl3 -> Fe2O3 -> Fe + slag
                 r.mEnabled = false;
             }
         }
+
+        // Mixing arsenic alloys using vapour instead of liquid arsenic
+        mix("molten.copper"        ,  3, "molten.tin", 1, "vapor.arsenic",  8, "molten.arsenicbronze",  5);
+        mix("molten.annealedcopper",  3, "molten.tin", 1, "vapor.arsenic",  8, "molten.arsenicbronze",  5);
+        mix("molten.bronze"        ,  4, "vapor.arsenic",  8, "molten.arsenicbronze",  5);
+        mix("molten.copper"        ,  4, "vapor.arsenic",  8, "molten.arseniccopper",  5);
+        mix("molten.annealedcopper",  4, "vapor.arsenic",  8, "molten.arseniccopper",  5);
 
         for (Recipe r : RM.Centrifuge.mRecipeList) {
             if (r.mInputs.length == 1 && r.mInputs[0].isItemEqual(dust.mat(MT.DarkAsh, 2))) {
