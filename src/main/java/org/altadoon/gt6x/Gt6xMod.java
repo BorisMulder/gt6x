@@ -9,8 +9,10 @@ import org.altadoon.gt6x.common.items.Tools;
 import org.altadoon.gt6x.features.GT6XFeature;
 import org.altadoon.gt6x.features.basicchem.BasicChemistry;
 import org.altadoon.gt6x.features.ceramics.Ceramics;
+import org.altadoon.gt6x.features.distillationtowers.DistillationTowers;
 import org.altadoon.gt6x.features.electronics.Compat_Recipes_OpenComputersX;
 import org.altadoon.gt6x.features.electronics.Electronics;
+import org.altadoon.gt6x.features.engines.Engines;
 import org.altadoon.gt6x.features.oil.OilProcessing;
 import org.altadoon.gt6x.features.pgm.PgmProcessing;
 import org.altadoon.gt6x.features.metallurgy.Metallurgy;
@@ -53,13 +55,13 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 	@cpw.mods.fml.common.Mod.EventHandler public final void onServerStopping    (cpw.mods.fml.common.event.FMLServerStoppingEvent       aEvent) {onModServerStopping(aEvent);}
 	@cpw.mods.fml.common.Mod.EventHandler public final void onServerStopped     (cpw.mods.fml.common.event.FMLServerStoppedEvent        aEvent) {onModServerStopped(aEvent);}
 
-	private Config modConfig;
-
 	@SuppressWarnings("unchecked")
 	private static final Class<? extends GT6XFeature>[] allFeatures = new Class[]{
 		BasicChemistry.class,
 		Ceramics.class,
+		DistillationTowers.class,
 		Electronics.class,
+		Engines.class,
 		Metallurgy.class,
 		OilProcessing.class,
 		PgmProcessing.class,
@@ -73,20 +75,23 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 	public Gt6xMod() {
 		MTx.touch();
 
-		this.modConfig = new Config(allFeatures);
+		Config modConfig = new Config(allFeatures);
 		this.enabledFeatures = modConfig.getEnabledFeatures();
 
 		final Gt6xMod copy = this;
-		GT.mBeforePreInit.add(copy::prePreInit);
-		GT.mAfterPreInit.add(copy::postPreInit);
-		GT.mBeforePostInit.add(copy::prePostInit);
-		GT.mAfterPostInit.add(copy::postPostInit);
+		GT.mBeforePreInit.add(copy::preGt6PreInit);
+		GT.mAfterPreInit.add(copy::postGt6PreInit);
+		GT.mBeforeInit.add(copy::preGt6Init);
+		GT.mAfterInit.add(copy::postGt6Init);
+		GT.mBeforePostInit.add(copy::preGt6PostInit);
+		GT.mAfterPostInit.add(copy::postGt6PostInit);
 	}
 
 	@Override
 	public void onModPreInit2(cpw.mods.fml.common.event.FMLPreInitializationEvent aEvent) {
 		MTEx.touch();
 		MTx.touch();
+		FLx.init();
 		RMx.init();
 		MultiItemsX.init(MOD_ID);
 		MultiItemBottlesX.init(MOD_ID);
@@ -113,28 +118,39 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 		}
 	}
 
-	private void prePreInit() {
-		FLx.init();
+	private void preGt6PreInit() {
 		for (GT6XFeature feature : enabledFeatures) {
-			feature.beforePreInit();
+			feature.beforeGt6PreInit();
 		}
 	}
 
-	private void postPreInit() {
+	private void postGt6PreInit() {
 		for (GT6XFeature feature : enabledFeatures) {
-			feature.afterPreInit();
+			feature.afterGt6PreInit();
 		}
 	}
 
-	private void prePostInit() {
+	private void preGt6Init() {
 		for (GT6XFeature feature : enabledFeatures) {
-			feature.beforePostInit();
+			feature.beforeGt6Init();
 		}
 	}
 
-	private void postPostInit() {
+	private void postGt6Init() {
 		for (GT6XFeature feature : enabledFeatures) {
-			feature.afterPostInit();
+			feature.afterGt6Init();
+		}
+	}
+
+	private void preGt6PostInit() {
+		for (GT6XFeature feature : enabledFeatures) {
+			feature.beforeGt6PostInit();
+		}
+	}
+
+	private void postGt6PostInit() {
+		for (GT6XFeature feature : enabledFeatures) {
+			feature.afterGt6PostInit();
 		}
 	}
 

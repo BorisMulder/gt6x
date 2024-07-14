@@ -1,0 +1,8 @@
+{
+  "machines.diesel_engine":{"category":"block", "sounds":[{"name":"diesel_engine", "stream":false}]},
+  "machines.nitro_engine":{"category":"block", "sounds":[{"name":"nitro_engine", "stream":false}]},
+  "machines.petrol_engine":{"category":"block", "sounds":[{"name":"petrol_engine", "stream":false}]},
+  "machines.gasturbine_starting":{"category":"block", "sounds":[{"name":"gasturbine_starting", "stream":false}]},
+  "machines.gasturbine_running":{"category":"block", "sounds":[{"name":"gasturbine_running", "stream":false}]},
+  "machines.gasturbine_stopping":{"category":"block", "sounds":[{"name":"gasturbine_stopping", "stream":false}]}
+}

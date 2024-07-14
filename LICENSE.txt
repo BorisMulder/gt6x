@@ -8,7 +8,8 @@ All credits for GT6 go to the GT6 team.
 Some things in GT6X were copied from or inspired by Gregtech 6 Unofficial (GT6U), a fork of GT6 by TeamMoeg.
 All credits for these things go to TeamMoeg.
 
-
+The engine sounds are edited forms of the engine sounds by MarlonHJ -- https://freesound.org/s/242740/ and https://freesound.org/s/242739/ -- License: Creative Commons 0
+The gas turbine sounds are edited forms of the Start-up Sound - U.S. Army M1A1 Tank - Gas Turbine Engine.mp3 by adr1911 -- https://freesound.org/s/542582/ -- License: Creative Commons 0
 
 GT6X is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 

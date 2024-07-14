@@ -27,6 +27,7 @@ import static gregapi.data.CS.*;
 import static gregapi.data.OP.*;
 import static gregapi.data.TD.Prefix.*;
 import static gregapi.data.TD.Prefix.ORE_PROCESSING_BASED;
+import static org.altadoon.gt6x.common.MTx.PdCl2;
 
 /**
  * This feature contains some basic chemistry recipes shared by other features. Disabling this makes some items uncraftable.
@@ -36,9 +37,6 @@ public class BasicChemistry extends GT6XFeature {
     public String name() {
         return "BasicChemistry";
     }
-
-    @Override
-    public void configure(Config config) {}
 
     @Override
     public void preInit() {
@@ -52,7 +50,7 @@ public class BasicChemistry extends GT6XFeature {
     }
 
     @Override
-    public void beforePostInit() {
+    public void beforeGt6PostInit() {
         addOverrideRecipes();
     }
 
@@ -62,7 +60,7 @@ public class BasicChemistry extends GT6XFeature {
         overrideWorldgen();
     }
 
-    public void afterPostInit() {
+    public void afterGt6PostInit() {
         changeRecipes();
     }
 
@@ -70,12 +68,10 @@ public class BasicChemistry extends GT6XFeature {
         MT.Dolomite.setSmelting(MTx.CalcinedDolomite, 2*U5);
         MT.CaCO3.setSmelting(MTx.CaO, 2*U5);
         MT.MgCO3.setSmelting(MTx.MgO, 2*U5);
-        MT.H3BO3.remove(TD.Processing.ELECTROLYSER);
-        MT.Bone.remove(TD.Processing.ELECTROLYSER);
-        MT.NaOH.remove(TD.Processing.ELECTROLYSER);
-        MT.PO4.remove(TD.Processing.ELECTROLYSER);
-        MT.Sodalite.remove(TD.Processing.ELECTROLYSER);
-        MT.Lazurite.remove(TD.Processing.ELECTROLYSER);
+
+        for (OreDictMaterial mat : new OreDictMaterial[]{ MT.H3BO3, MT.Bone, MT.NaOH, MT.PO4, MT.Sodalite, MT.Lazurite, MT.Glycerol, MT.Glyceryl }) {
+            mat.remove(TD.Processing.ELECTROLYSER);
+        }
     }
 
     private void changeByProducts() {
@@ -209,11 +205,11 @@ public class BasicChemistry extends GT6XFeature {
         RM.Bath.addRecipe1(true, 0, 16, dust.mat(MTx.GlycolicAcid, 9), FL.array(MT.HNO3.liquid(10*U, true)), FL.array(MT.H2O.liquid(6*U, false), MT.NO.gas(2*U, false), MT.NO2.gas(3*U, false)), dust.mat(MTx.OxalicAcid, 8));
 
         // Ammonium salts
-        RM.Mixer.addRecipe0(true, 16, 20, FL.array(MT.HCl.gas(2*U, false), MT.NH3.gas(U, false)), ZL_FS, dust.mat(MTx.NH4Cl, 2));
-        RM.Mixer.addRecipe0(true, 16, 20, FL.array(MT.HF.gas(2*U, false), MT.NH3.gas(U, false)), ZL_FS, dust.mat(MTx.NH4F, 2));
+        RM.Mixer.addRecipe0(true, 16, 20, FL.array(MT.HCl.gas(2*U, false), MT.NH3.gas(U, false)), ZL_FS, dust.mat(MTx.NH4Cl, 1));
+        RM.Mixer.addRecipe0(true, 16, 20, FL.array(MT.HF.gas(2*U, false), MT.NH3.gas(U, false)), ZL_FS, dust.mat(MTx.NH4F, 1));
         RM.Mixer.addRecipe0(true, 16, 128, FL.array(MT.H2SO4.liquid(7*U, true), MT.NH3.gas(2*U, true)), ZL_FS, dust.mat(MTx.NH4SO4, 7));
         RM.Mixer.addRecipe0(true, 16, 128, FL.array(MT.HNO3.liquid(5*U, true), MT.NH3.gas(U, true)), ZL_FS, dust.mat(MTx.NH4NO3, 5));
-        RM.Mixer.addRecipe0(true, 16, 256, FL.array(MT.H2SiF6.liquid(U, true), MT.NH3.gas(2*U9, true)), ZL_FS, dust.mat(MTx.NH4SiF6, 1));
+        RM.Mixer.addRecipe0(true, 16, 256, FL.array(MT.H2SiF6.liquid(9*U, true), MT.NH3.gas(2*U, true)), ZL_FS, dust.mat(MTx.NH4SiF6, 9));
 
         // Urea, Sulphamic Acid
         RM.Mixer.addRecipe0(true, 16, 128, FL.array(MT.NH3.gas(2*U, true), MT.CO2.gas(3*U, true)), FL.array(MT.H2O.liquid(3*U, false)), dust.mat(MTx.Urea, 8*U));
@@ -294,8 +290,8 @@ public class BasicChemistry extends GT6XFeature {
         RM.Mixer.addRecipe0(true, 16, 128, FL.array(MT.SaltWater.liquid(8*U, true), MT.CO2.gas(3*U, true), MT.NH3.gas(U, true)), FL.array(MTx.NH4ClSolution.liquid(5*U, false)), dust.mat(MTx.NaHCO3, 6));
         RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MTx.CaO, 2), FL.array(MTx.NH4ClSolution.liquid(10*U, true)), FL.array(MT.NH3.gas(2*U, false), MTx.CaCl2Solution.liquid(6*U, false))); // + H2O
         RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MTx.MgO, 2), FL.array(MTx.NH4ClSolution.liquid(10*U, true)), FL.array(MT.NH3.gas(2*U, false), MTx.MgCl2Solution.liquid(6*U, false))); // + H2O
-        RM.Mixer.addRecipe2(true, 16, 128, dust.mat(MTx.CaO, 2), dust.mat(MTx.NH4Cl, 4), ZL_FS, FL.array(MT.NH3.gas(2*U, false), MTx.CaCl2Solution.liquid(6*U, false)));
-        RM.Mixer.addRecipe2(true, 16, 128, dust.mat(MTx.MgO, 2), dust.mat(MTx.NH4Cl, 4), ZL_FS, FL.array(MT.NH3.gas(2*U, false), MTx.MgCl2Solution.liquid(6*U, false)));
+        RM.Mixer.addRecipe2(true, 16, 128, dust.mat(MTx.CaO, 2), dust.mat(MTx.NH4Cl, 2), ZL_FS, FL.array(MT.NH3.gas(2*U, false), MTx.CaCl2Solution.liquid(6*U, false)));
+        RM.Mixer.addRecipe2(true, 16, 128, dust.mat(MTx.MgO, 2), dust.mat(MTx.NH4Cl, 2), ZL_FS, FL.array(MT.NH3.gas(2*U, false), MTx.MgCl2Solution.liquid(6*U, false)));
 
         // Iron Chlorides
         RM.Bath .addRecipe1(true, 0, 64*9, OP.dust.mat(MT.Fe, 1), MTx.CuFeClSolution.liquid(18*U, true), MTx.FeCl2Solution.liquid(18*U, false), OP.dust.mat(MT.Cu, 1));
@@ -310,6 +306,9 @@ public class BasicChemistry extends GT6XFeature {
 
         // Bi chloride
         RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.Bi, 1), MT.Cl.gas(3*U, true), NF, dust.mat(MTx.BiCl3, 4));
+
+        // Pd chlorination
+        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.Pd, 1), MT.Cl.gas(2*U, true), NF, dust.mat(MTx.PdCl2, 3));
 
         // Sn fluoride
         RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MT.Sn, 1), MT.HF.gas(4*U, true), MT.H.gas(2*U, false), dust.mat(MTx.SnF2, 1));
@@ -351,6 +350,7 @@ public class BasicChemistry extends GT6XFeature {
         RMx.Thermolysis.addRecipe1(true, 16, 512, dust.mat(MT.Dolomite, 10), NF, MT.CO2.gas(6*U, false), dust.mat(MTx.CalcinedDolomite, 4));
         RMx.Thermolysis.addRecipe1(true, 16, 128, dust.mat(MTx.NH4NO3, 6), NF, FL.array(FL.Water.make(6000), MTx.N2O.gas(3*U, false)));
         RMx.Thermolysis.addRecipe1(true, 16, 128, dust.mat(MTx.NH4SO4, 21), NF, FL.array(FL.Water.make(18000), MT.N.gas(2*U, false), MT.NH3.gas(4*U, false), MT.SO2.gas(9*U, false)));
+        RMx.Thermolysis.addRecipe1(true, 16, 64, dust.mat(PdCl2, 3), NF, MT.Cl.gas(2*U, false), dust.mat(MT.Pd, 1));
 
         // Methanol and Formaldehyde
         RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.Cu, 0), dust.mat(MTx.ZnO, 0), FL.array(MT.CO .gas(2*U, true), MT.H.gas(4*U, true)), FL.array(MTx.Methanol.liquid(U, false)));
@@ -363,8 +363,10 @@ public class BasicChemistry extends GT6XFeature {
 
         // Ethylene from ethanol and reverse
         RMx.Thermolysis.addRecipe1(true, 16, 64, ST.tag(1), FL.array(MTx.Ether.liquid(U10, true)), FL.array(MT.Ethylene.gas(U10, false), FL.Water.make(300)));
-        RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MT.NaOH, 1), FL.array(MT.Ethylene.gas(U10, false), MT.H2O.liquid(U10, false)), FL.array(MT.Ethanol.liquid(U10, true)));
-        RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MT.KOH , 1), FL.array(MT.Ethylene.gas(U10, false), MT.H2O.liquid(U10, false)), FL.array(MT.Ethanol.liquid(U10, true)));
+        for (FluidStack water : FL.waters(3000)) {
+            RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MT.NaOH, 0), FL.array(MT.Ethylene.gas(U10, false), water), FL.array(MT.Ethanol.liquid(U10, true)));
+            RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MT.KOH , 0), FL.array(MT.Ethylene.gas(U10, false), water), FL.array(MT.Ethanol.liquid(U10, true)));
+        }
 
         // Phosphine, Phosphorous Acid
         RM.Mixer.addRecipe1(true, 16, 16, dust.mat(MT.P, 1), MT.Cl.gas(3*U, true), MTx.PCl3.liquid(4*U, false), NI);
@@ -459,12 +461,7 @@ public class BasicChemistry extends GT6XFeature {
             RM.Bath.add(new RecipeMapHandlerMaterial(mat, FL.make(FLx.Varnish, 12), 0, 144, NF, MT.WoodTreated, NI, true, condition));
         }
 
-        // Methanol from biomass
-        RM.DistillationTower.addRecipe0(false, 64,  16, FL.array(FL.Biomass   .make( 80)), FL.array(FL.Reikanol.make(20, FL.BioEthanol), MT.Glycerol.liquid(U50, false), MTx.Methanol.liquid(U50, false), FL.Methane.make(4), FL.DistW.make(30)), ZL_IS);
-        RM.DistillationTower.addRecipe0(false, 64,  16, FL.array(FL.BiomassIC2.make( 80)), FL.array(FL.Reikanol.make(20, FL.BioEthanol), MT.Glycerol.liquid(U50, false), MTx.Methanol.liquid(U50, false), FL.Methane.make(4), FL.DistW.make(30)), ZL_IS);
-
-        RM.Distillery       .addRecipe1(true, 16,  24, ST.tag(2), FL.Biomass   .make( 40), MTx.Methanol.liquid(U50, false), FL.DistW.make(20));
-        RM.Distillery       .addRecipe1(true, 16,  24, ST.tag(2), FL.BiomassIC2.make( 40), MTx.Methanol.liquid(U50, false), FL.DistW.make(20));
+        //TODO biomass gasification
     }
 
     private void overrideWorldgen() {

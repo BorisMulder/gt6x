@@ -20,9 +20,6 @@ public class ThermoOven extends GT6XFeature {
     public static final String FEATURE_NAME = "ThermolysisOven";
 
     @Override
-    public void configure(Config cfg) {}
-
-    @Override
     public String name() { return FEATURE_NAME;}
 
     @Override

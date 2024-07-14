@@ -32,13 +32,13 @@ import org.altadoon.gt6x.features.ceramics.crucibles.MultiTileEntitySmelteryX;
 import static gregapi.data.CS.*;
 import static gregapi.data.OP.*;
 import static gregapi.data.OP.dust;
+import static gregapi.data.TD.Prefix.*;
 import static org.altadoon.gt6x.Gt6xMod.MOD_ID;
 
 public class Ceramics extends GT6XFeature {
     public OreDictPrefix clinker = null;
 
     @Override public String name() { return "Ceramics"; }
-    @Override public void configure(Config config) {}
 
     @Override
     public void preInit() {
@@ -52,7 +52,7 @@ public class Ceramics extends GT6XFeature {
     }
 
     @Override
-    public void beforePostInit() {
+    public void beforeGt6PostInit() {
         changeCraftingRecipes();
     }
 
@@ -63,7 +63,7 @@ public class Ceramics extends GT6XFeature {
     }
 
     @Override
-    public void afterPostInit() {
+    public void afterGt6PostInit() {
         changeRecipes();
     }
 
@@ -72,7 +72,7 @@ public class Ceramics extends GT6XFeature {
                 .setCategoryName("Clinkers")
                 .setLocalItemName("", " Clinker")
                 .setMaterialStats(U)
-                .add(TD.Prefix.RECYCLABLE)
+                .add(RECYCLABLE, TOOLTIP_MATERIAL, UNIFICATABLE)
                 .setCondition(ICondition.FALSE)
                 .forceItemGeneration(MTx.Cement, MTx.CaAlCement);
         PrefixItem item = new PrefixItem(MOD_ID, MD.GT.mID, "gt6x.meta.clinker" , clinker); if (COMPAT_FR != null) COMPAT_FR.addToBackpacks("builder", ST.make(item, 1, W));

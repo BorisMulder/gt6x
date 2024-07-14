@@ -8,7 +8,6 @@ import gregapi.data.RM;
 import gregapi.item.multiitem.MultiItemRandom;
 import gregapi.old.Textures;
 import gregapi.oredict.OreDictItemData;
-import gregapi.oredict.event.OreDictListenerEvent_Names;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -389,7 +388,7 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         // Photoresist stripping
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][3].get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafers[type][tier][4].get(1));
         // Metallization using Al PVD
-        RMx.VacuumDeposition.addRecipe1(true, 16, 64, ILx.Wafers[type][tier][4].get(1), MT.Al.liquid(U4, true), NF, ILx.Wafers[type][tier][5].get(1));
+        RMx.VacuumChamber.addRecipe1(true, 16, 64, ILx.Wafers[type][tier][4].get(1), MT.Al.liquid(U4, true), NF, ILx.Wafers[type][tier][5].get(1));
         // Metal etching
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][5].get(1), FL.array(MTx.AlEtch.liquid(13*U8, true)), FL.array(MTx.AlPO4Solution.liquid(12*U8, false), MT.NO.gas(2*U8, false)), ILx.Wafers[type][tier][6].get(1));
         // Dicing
@@ -476,7 +475,7 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
             RM.Electrolyzer.addRecipe1(true, 32, 22, ILx.Wafers[type][tier][3].get(1), FL.array(MTx.NaAuC2N2.liquid(6*U4, true), FL.mul(water, 3, 2, true)), FL.array(MTx.HCN.gas(3*U2, false), MT.H.gas(U4, false), MT.O.gas(U4, false)), ILx.Wafers[type][tier][4].get(1), dustSmall.mat(MT.NaOH, 3));
         }
         // Metal 2 layer using Al PVD
-        RMx.VacuumDeposition.addRecipe1(true, 16, 64, ILx.Wafers[type][tier][4].get(1), MT.Al.liquid(U4, true), NF, ILx.Wafers[type][tier][5].get(1));
+        RMx.VacuumChamber.addRecipe1(true, 16, 64, ILx.Wafers[type][tier][4].get(1), MT.Al.liquid(U4, true), NF, ILx.Wafers[type][tier][5].get(1));
         // Photoresist cleaning
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][5].get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafers[type][tier][6].get(1));
         // Dicing
@@ -491,7 +490,7 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         // IGZO process (see https://www.mdpi.com/1996-1944/7/8/5761)
 
         // 1. Gate layer
-        RMx.VacuumDeposition.addRecipe1(true, 16, 128, plate.mat(MT.Glass, 1), MT.Al.liquid(U4, true), NF, ILx.Wafers[type][tier][0].get(1));
+        RMx.VacuumChamber.addRecipe1(true, 16, 128, plate.mat(MT.Glass, 1), MT.Al.liquid(U4, true), NF, ILx.Wafers[type][tier][0].get(1));
         RMx.Photolithography.addRecipe2(false, 128, 128, ILx.Wafers[type][tier][0].get(1), ILx.Photomasks[type][tier][0][PM_FINISHED].get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafers[type][tier][1].get(1));
         for (FluidStack developer : DEVELOPERS)
             RM.Bath.addRecipe1(false, 0, 128, ILx.Wafers[type][tier][1].get(1), developer, NF, ILx.Wafers[type][tier][2].get(1));
@@ -499,14 +498,14 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][3].get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafers[type][tier][4].get(1));
 
         // 2. Insulator & semiconductor layers
-        RMx.VacuumDeposition.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][4].get(1), FL.array(MTx.SiH4.gas(U4, true), MT.O.gas(U, true)), FL.array(MT.H2O.liquid(6*U4, false)), ILx.Wafers[type][tier][5].get(1));
-        RMx.VacuumDeposition.addRecipe2(true, 16, 128, ILx.Wafers[type][tier][5].get(1), dustSmall.mat(MTx.IGZO, 1), ILx.Wafers[type][tier][6].get(1));
+        RMx.VacuumChamber.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][4].get(1), FL.array(MTx.SiH4.gas(U4, true), MT.O.gas(U, true)), FL.array(MT.H2O.liquid(6*U4, false)), ILx.Wafers[type][tier][5].get(1));
+        RMx.VacuumChamber.addRecipe2(true, 16, 128, ILx.Wafers[type][tier][5].get(1), dustSmall.mat(MTx.IGZO, 1), ILx.Wafers[type][tier][6].get(1));
         RMx.Photolithography.addRecipe2(false, 128, 128, ILx.Wafers[type][tier][6].get(1), ILx.Photomasks[type][tier][0][PM_FINISHED].get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.Wafers[type][tier][7].get(1));
         for (FluidStack developer : DEVELOPERS)
             RM.Bath.addRecipe1(false, 0, 128, ILx.Wafers[type][tier][7].get(1), developer, NF, ILx.Wafers[type][tier][8].get(1));
 
         // 3. Source/Drain ITO layer and lift-off
-        RMx.VacuumDeposition.addRecipe2(true, 16, 128, ILx.Wafers[type][tier][8].get(1), dustSmall.mat(MTx.ITO, 1), ILx.Wafers[type][tier][9].get(1));
+        RMx.VacuumChamber.addRecipe2(true, 16, 128, ILx.Wafers[type][tier][8].get(1), dustSmall.mat(MTx.ITO, 1), ILx.Wafers[type][tier][9].get(1));
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][9].get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafers[type][tier][10].get(1));
 
         // 4. Etching of S/D channel (currently skipped)
@@ -535,7 +534,7 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         for (FluidStack developer : DEVELOPERS)
             RM.Bath.addRecipe1(false, 0, 128, ILx.Wafers[type][tier][4].get(1), developer, NF, ILx.Wafers[type][tier][5].get(1));
         // ITO
-        RMx.VacuumDeposition.addRecipe2(true, 16, 128, ILx.Wafers[type][tier][5].get(1), dustSmall.mat(MTx.ITO, 1), ILx.Wafers[type][tier][6].get(1));
+        RMx.VacuumChamber.addRecipe2(true, 16, 128, ILx.Wafers[type][tier][5].get(1), dustSmall.mat(MTx.ITO, 1), ILx.Wafers[type][tier][6].get(1));
     }
 
     protected ItemStack addItemWithIcon(int id, String english, String toolTip, Object... randomData) {

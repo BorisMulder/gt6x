@@ -16,8 +16,6 @@ import org.altadoon.gt6x.common.MTx;
 import org.altadoon.gt6x.common.RMx;
 import org.altadoon.gt6x.features.GT6XFeature;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.ListIterator;
 
 import static gregapi.data.CS.*;
@@ -81,7 +79,7 @@ public class PgmProcessing extends GT6XFeature {
     }
 
     @Override
-    public void afterPostInit() {
+    public void afterGt6PostInit() {
         //TODO move some to prePostInit instead of disabling
         changeSludgeRecipes();
 
@@ -251,11 +249,12 @@ public class PgmProcessing extends GT6XFeature {
 
     public void addComplexRecipes() {
         // Pt/Pd separation
-        RM.Bath.addRecipe1(true, 0, 200, dust.mat(NH4Cl, 20), PtPdLeachingSolution.liquid(95*U, false), PdChlorideSolution.liquid(70*U, false), dust.mat(AmmoniumHexachloroplatinate, 45));
-        RM.Bath.addRecipe1(true, 0, 200, dust.mat(NH4Cl, 4), MT.ChloroplatinicAcid.liquid(9*U, true), MT.HCl.gas(2, false), dust.mat(AmmoniumHexachloroplatinate, 9));
-        RM.Mixer.addRecipe0(true, 16, 100, FL.array(PdChlorideSolution.liquid(35*U, true), MT.NH3.gas(4*U, true)), FL.array(MT.H2O.liquid(4*3*U, false), MTx.DiluteHCl.liquid(20*U, false)), dust.mat(TetraamminepalladiumChloride, 7));
+        RM.Bath.addRecipe1(true, 0, 200, dust.mat(NH4Cl, 10), PtPdLeachingSolution.liquid(95*U, false), PdCl2Solution.liquid(70*U, false), dust.mat(AmmoniumHexachloroplatinate, 45));
+        RM.Bath.addRecipe1(true, 0, 200, dust.mat(NH4Cl, 2), MT.ChloroplatinicAcid.liquid(9*U, true), MT.HCl.gas(2, false), dust.mat(AmmoniumHexachloroplatinate, 9));
+        RM.Mixer.addRecipe0(true, 16, 100, FL.array(PdCl2Solution.liquid(35*U, true), MT.NH3.gas(4*U, true)), FL.array(MT.H2O.liquid(4*3*U, false), MTx.DiluteHCl.liquid(20*U, false)), dust.mat(TetraamminepalladiumChloride, 7));
+        RM.Distillery.addRecipe1(true, 16, 48000, ST.tag(0), FL.array(PdCl2Solution.liquid(35*U, true)), FL.array(FL.DistW.make(24000), MT.HCl.gas(8*U, false)), dust.mat(PdCl2, 3));
 
-        RMx.Thermolysis.addRecipe1(true, 16, 50, dust.mat(AmmoniumHexachloroplatinate, 9), NF, MT.Cl.gas(4*U, false), dust.mat(NH4Cl, 4), dust.mat(MT.Pt, 1));
+        RMx.Thermolysis.addRecipe1(true, 16, 50, dust.mat(AmmoniumHexachloroplatinate, 9), NF, MT.Cl.gas(4*U, false), dust.mat(NH4Cl, 2), dust.mat(MT.Pt, 1));
         RMx.Thermolysis.addRecipe1(true, 16, 50, dust.mat(TetraamminepalladiumChloride, 7), ZL_FS, FL.array(MT.Cl.gas(2*U, false), MT.NH3.gas(4*U, false)), dust.mat(MT.Pd, 1));
 
         // Rh separation (Yo Greg, wanna buy some international units of amount of substance? I divided some amounts by three here (and the PGMs by 2) because it would become rather annoying otherwise). But it adds up to a closed-loop process now.
@@ -270,9 +269,9 @@ public class PgmProcessing extends GT6XFeature {
 
         // Ru/Os separation
         RM.Mixer.addRecipe0(true, 16, 100, FL.array(RuOsO4.gas(10*U, true), MT.HCl.gas(12*U, true)), FL.array(H2RuCl6.liquid(15*U, false), MT.O.gas(2*U, false)), dust.mat(OsO4, 5));
-        RM.Bath.addRecipe1(true, 0, 100, dust.mat(NH4Cl, 4), FL.array(H2RuCl6.liquid(15*U, true)), FL.array(MT.H2O.liquid(6*U, false), MT.HCl.gas(4*U, false)), dust.mat(NH4_2_RuCl6, 9));
+        RM.Bath.addRecipe1(true, 0, 100, dust.mat(NH4Cl, 2), FL.array(H2RuCl6.liquid(15*U, true)), FL.array(MT.H2O.liquid(6*U, false), MT.HCl.gas(4*U, false)), dust.mat(NH4_2_RuCl6, 9));
         for (Recipe.RecipeMap map : hydrogenReduction)
-            map.addRecipe1(true, 64, 150, dust.mat(NH4_2_RuCl6, 9), MT.H.gas(4*U, true), MT.HCl.gas(8*U, false), dust.mat(NH4Cl, 4), dust.mat(MT.Ru, 1));
+            map.addRecipe1(true, 64, 150, dust.mat(NH4_2_RuCl6, 9), MT.H.gas(4*U, true), MT.HCl.gas(8*U, false), dust.mat(NH4Cl, 2), dust.mat(MT.Ru, 1));
     }
 
     public void addSimpleRecipes() {

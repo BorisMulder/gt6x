@@ -35,7 +35,7 @@
  */
 dependencies {
     // Of course include the latest/SNAPSHOT version of GT6.
-    compile "com.gregoriust.gregtech:gregtech_1.7.10:6.17.01:dev"
+    compile "com.gregoriust.gregtech:gregtech_1.7.10:6-SNAPSHOT:dev"
     // These default dependencies are required to use the basics of GT6's API.  Some
     // other usages may require more dependencies to be enabled.
     compile "codechicken:CodeChickenLib:1.7.10-1.1.3.140:dev"
