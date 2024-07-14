@@ -40,10 +40,15 @@ public class MTx {
 
     static {
         // change some properties of vanilla GT6 materials
-        MT.NH3     .uumMcfg(1, MT.N, U, MT.H, 3*U);
-        MT.Ethanol .setMcfg(0, MT.C, 2*U, MT.H, 6*U, MT.O, U);
+        MT.NH3      .uumMcfg(1, MT.N, U, MT.H, 3*U);
+        MT.Ethanol  .setMcfg(0, MT.C, 2*U, MT.H, 6*U, MT.O, U);
+        MT.Ethylene .setMcfg(0, MT.C, 2*U, MT.H, 4*U);
+        MT.Propylene.setMcfg(0, MT.C, 3*U, MT.H, 6*U);
+        MT.Propane  .setMcfg(0, MT.C, 3*U, MT.H, 8*U);
+        MT.Butane   .setMcfg(0, MT.C, 4*U, MT.H, 10*U);
+
         MT.PigIron .uumMcfg(5, MT.Fe, 5*U, MT.C, U).heat(1445, MT.Fe.mBoilingPoint).qual(3, 4.0, 128, 2).setAllToTheOutputOf(MT.PigIron);
-        MT.IronCast.setMcfg(8, MT.Fe, 8*U, MT.C, U).heat(1260+C, MT.Fe.mBoilingPoint).qual(3, 5.0, 256, 2).setAllToTheOutputOf(MT.IronCast);
+        MT.IronCast.setMcfg(8, MT.Fe, 8*U, MT.C, U).heat(1260+C, MT.Fe.mBoilingPoint).qual(3, 5.0, 256, 2).setAllToTheOutputOf(MT.IronCast).hide(false);
         MT.Steel   .uumMcfg(100, MT.Fe, 100*U, MT.C, U).heat(MT.WroughtIron);
         MT.Sodalite.uumMcfg(0, MT.Na, 8*U, MT.Al, 6*U, MT.Si, 6*U, MT.O, 24*U, MT.Cl, 2*U);
         MT.Lazurite.uumMcfg(0, MT.Na, 7*U, MT.Ca, U, MT.Al, 6*U, MT.Si, 6*U, MT.S, 4*U, MT.O, 28*U, MT.H2O, 3*U)
@@ -578,7 +583,7 @@ public class MTx {
     HSST1 = alloymachine(16123, "HSS-T1", SET_METALLIC, 50, 50, 150)
             .setMcfg(0, MT.Fe, 80*U, MT.C, 4*U, MT.W, 6*U, MT.Cr, 4*U, MT.V, U)
             .heat(2086, MT.Fe.mBoilingPoint)
-            .qual(3, 12.0, 6144, 4),
+            .qual(3, 12.0, 6144, 5),
     HSSM2 = alloymachine(16124, "HSS-M2", SET_METALLIC, 130, 130, 150)
             .setMcfg(0, MT.Fe, 80*U, MT.C, 4*U, MT.W, 2*U, MT.Cr, 4*U, MT.V, 2*U, MT.Mo, 2*U)
             .heat(2075, MT.Fe.mBoilingPoint)
@@ -1299,6 +1304,9 @@ public class MTx {
             .setMcfg(0, CsCl, 5*U, RbCl, U, MT.H2O, 3*3*U)),
     Ti6Al4V = alloymachine(16383, "Ti-6Al-4V", SET_COPPER, 135, 51, 255, "Titanium Alloy")
             .uumAloy(0, MT.Ti, 24*U, MT.Al, 3*U, MT.V, U)
+            .heat(1632+C),
+    TMS196 = alloymachine(16384, "TMS-196 Superalloy", SET_SHINY, 255, 255, 204)
+            .uumAloy(0, MT.Ni, 42*U, MT.Al, 8*U, MT.Cr, 4*U, MT.Co, 4*U, MT.Ru, 2*U, MT.Ta, U, MT.Mo, U, MT.W, U, MT.Re, U)
     ;
 
     /* Unused

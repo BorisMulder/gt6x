@@ -120,6 +120,24 @@ public class MTEx {
         SolarPanelPolySi(470),
         SolarPanelMonoSi(471),
         SolarPanelMJ(472),
+        // Engines: 500-599
+        PetrolEngine1a(500),
+        PetrolEngine1b(501),
+        PetrolEngine2(502),
+        PetrolEngine3(503),
+        PetrolEngine4(504),
+        PetrolEngine5(505),
+        PetrolEngine6(506),
+        PetrolEngine7(507),
+
+        DieselEngine1a(510),
+        DieselEngine1b(511),
+        DieselEngine2(512),
+        DieselEngine3(513),
+        DieselEngine4(514),
+        DieselEngine5(515),
+        DieselEngine6(516),
+        DieselEngine7(517),
         ;
 
         public static final IDs[] Hydrocracker = { null, Hydrocracker1, Hydrocracker2, Hydrocracker3, Hydrocracker4 };
@@ -130,6 +148,9 @@ public class MTEx {
         public static final IDs[] Soldering = { null, Soldering1, Soldering2, Soldering3, Soldering4, Soldering5 };
         public static final IDs[] Ionizer = { null, Ionizer1, Ionizer2, Ionizer3, Ionizer4, Ionizer5 };
         public static final IDs[] VacuumChamber = { null, VacuumChamber1, VacuumChamber2, VacuumChamber3, VacuumChamber4, VacuumChamber5 };
+        public static final IDs[] PetrolEngine = { PetrolEngine1a, PetrolEngine1b, PetrolEngine2, PetrolEngine3, PetrolEngine4, PetrolEngine5, PetrolEngine6, PetrolEngine7 };
+        public static final IDs[] DieselEngine = { DieselEngine1a, DieselEngine1b, DieselEngine2, DieselEngine3, DieselEngine4, DieselEngine5, DieselEngine6, DieselEngine7 };
+
 
         private final int id;
 

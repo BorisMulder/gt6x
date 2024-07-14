@@ -113,6 +113,11 @@ public class OilProcessing extends GT6XFeature {
 
         for (Recipe recipe : RM.CatalyticCracking.mRecipeList) recipe.mEnabled = false;
 
+        RM.CatalyticCracking.addRecipe1(false, 16,  64, new long[]{ 800}, dust.mat(MT.Al2O3, 0), FL.array(MTx.NaphthaLowSulfur.liquid(U10, true)), FL.array(FL.Petrol.make(65), MTx.FccOffgas.gas(25*U1000, false)), dustTiny.mat(MT.PetCoke, 1));
+        RM.CatalyticCracking.addRecipe1(false, 16,  64, new long[]{ 800}, dust.mat(MT.Al2O3, 0), FL.array(MTx.KerosineLowSulfur.liquid(U10, true)), FL.array(FL.Petrol.make(88), MTx.FccOffgas.gas(25*U1000, false)), dustTiny.mat(MT.PetCoke, 1));
+        RM.CatalyticCracking.addRecipe1(false, 16,  64, new long[]{ 800}, dust.mat(MT.Al2O3, 0), FL.array(MTx.DieselLowSulfur.liquid(U10, true)), FL.array(FL.Petrol.make(110), MTx.FccOffgas.gas(25*U1000, false)), dustTiny.mat(MT.PetCoke, 1));
+        RM.CatalyticCracking.addRecipe1(false, 16,  64, new long[]{ 800}, dust.mat(MT.Al2O3, 0), FL.array(MTx.FuelLowSulfur.liquid(U10, true)), FL.array(FL.Petrol.make(130), MTx.FccOffgas.gas(25*U1000, false)), dustTiny.mat(MT.PetCoke, 1));
+
         RM.CatalyticCracking.addRecipe1(false, 16,  64, new long[]{1000}, dust.mat(MTx.PtRe, 0), FL.array(MTx.NaphthaLowSulfur.liquid(U10, true)), FL.array(FL.Petrol.make(75), MTx.FccOffgas.gas(25*U1000, false)), dustTiny.mat(MT.PetCoke, 1));
         RM.CatalyticCracking.addRecipe1(false, 16,  64, new long[]{1000}, dust.mat(MTx.PtRe, 0), FL.array(MTx.KerosineLowSulfur.liquid(U10, true)), FL.array(FL.Petrol.make(100), MTx.FccOffgas.gas(25*U1000, false)), dustTiny.mat(MT.PetCoke, 1));
         RM.CatalyticCracking.addRecipe1(false, 16,  64, new long[]{1000}, dust.mat(MTx.PtRe, 0), FL.array(MTx.DieselLowSulfur.liquid(U10, true)), FL.array(FL.Petrol.make(125), MTx.FccOffgas.gas(25*U1000, false)), dustTiny.mat(MT.PetCoke, 1));

@@ -11,6 +11,7 @@ import org.altadoon.gt6x.features.basicchem.BasicChemistry;
 import org.altadoon.gt6x.features.ceramics.Ceramics;
 import org.altadoon.gt6x.features.electronics.Compat_Recipes_OpenComputersX;
 import org.altadoon.gt6x.features.electronics.Electronics;
+import org.altadoon.gt6x.features.engines.Engines;
 import org.altadoon.gt6x.features.oil.OilProcessing;
 import org.altadoon.gt6x.features.pgm.PgmProcessing;
 import org.altadoon.gt6x.features.metallurgy.Metallurgy;
@@ -53,13 +54,12 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 	@cpw.mods.fml.common.Mod.EventHandler public final void onServerStopping    (cpw.mods.fml.common.event.FMLServerStoppingEvent       aEvent) {onModServerStopping(aEvent);}
 	@cpw.mods.fml.common.Mod.EventHandler public final void onServerStopped     (cpw.mods.fml.common.event.FMLServerStoppedEvent        aEvent) {onModServerStopped(aEvent);}
 
-	private Config modConfig;
-
 	@SuppressWarnings("unchecked")
 	private static final Class<? extends GT6XFeature>[] allFeatures = new Class[]{
 		BasicChemistry.class,
 		Ceramics.class,
 		Electronics.class,
+		Engines.class,
 		Metallurgy.class,
 		OilProcessing.class,
 		PgmProcessing.class,
@@ -73,7 +73,7 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 	public Gt6xMod() {
 		MTx.touch();
 
-		this.modConfig = new Config(allFeatures);
+		Config modConfig = new Config(allFeatures);
 		this.enabledFeatures = modConfig.getEnabledFeatures();
 
 		final Gt6xMod copy = this;

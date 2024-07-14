@@ -642,9 +642,16 @@ public class Metallurgy extends GT6XFeature {
         // HSS-T1
         new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MT.PigIron, 16*U), OM.stack(MT.Steel, 60*U), OM.stack(MT.W, 6*U), OM.stack(MT.Cr, 4*U), OM.stack(MT.VanadiumSteel, 5*U)  }, MTx.HSST1.mMeltingPoint, OM.stack(MTx.HSST1, 91*U));
         new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MT.PigIron, 16*U), OM.stack(MT.Steel, 58*U), OM.stack(MT.W, 6*U), OM.stack(MTx.FeCr2, 6*U), OM.stack(MT.VanadiumSteel, 5*U)  }, MTx.HSST1.mMeltingPoint, OM.stack(MTx.HSST1, 91*U));
+        new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MT.PigIron, 16*U), OM.stack(MT.Steel, 54*U), OM.stack(MT.TungstenSteel, 12*U), OM.stack(MT.Cr, 4*U), OM.stack(MT.VanadiumSteel, 5*U)  }, MTx.HSST1.mMeltingPoint, OM.stack(MTx.HSST1, 91*U));
+        new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MT.PigIron, 16*U), OM.stack(MT.Steel, 52*U), OM.stack(MT.TungstenSteel, 12*U), OM.stack(MTx.FeCr2, 6*U), OM.stack(MT.VanadiumSteel, 5*U)  }, MTx.HSST1.mMeltingPoint, OM.stack(MTx.HSST1, 91*U));
         // HSS-M2
         new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MT.PigIron, 8 *U), OM.stack(MT.Steel, 28*U), OM.stack(MT.W, U), OM.stack(MT.Cr, 2*U), OM.stack(MT.VanadiumSteel, 5*U), OM.stack(MT.Mo, U)  }, MTx.HSSM2.mMeltingPoint, OM.stack(MTx.HSSM2, 45*U));
         new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MT.PigIron, 8 *U), OM.stack(MT.Steel, 27*U), OM.stack(MT.W, U), OM.stack(MTx.FeCr2, 3*U), OM.stack(MT.VanadiumSteel, 5*U), OM.stack(MT.Mo, U)  }, MTx.HSSM2.mMeltingPoint, OM.stack(MTx.HSSM2, 45*U));
+        new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MT.PigIron, 8 *U), OM.stack(MT.Steel, 27*U), OM.stack(MT.TungstenSteel, 2*U), OM.stack(MT.Cr, 2*U), OM.stack(MT.VanadiumSteel, 5*U), OM.stack(MT.Mo, U)  }, MTx.HSSM2.mMeltingPoint, OM.stack(MTx.HSSM2, 45*U));
+        new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MT.PigIron, 8 *U), OM.stack(MT.Steel, 26*U), OM.stack(MT.TungstenSteel, 2*U), OM.stack(MTx.FeCr2, 3*U), OM.stack(MT.VanadiumSteel, 5*U), OM.stack(MT.Mo, U)  }, MTx.HSSM2.mMeltingPoint, OM.stack(MTx.HSSM2, 45*U));
+        // TMS-196
+        new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MT.Ni, 26*U), OM.stack(MT.Nichrome, 20*U), OM.stack(MT.Al, 8*U), OM.stack(MT.Co, 4*U), OM.stack(MT.Ru, 2*U), OM.stack(MT.Ta, U), OM.stack(MT.Mo, U), OM.stack(MT.W, U), OM.stack(MT.Re, U)}, MTx.TMS196.mMeltingPoint, OM.stack(MTx.TMS196, 64*U));
+        new EAFSmeltingRecipe(0, new OreDictMaterialStack[]{ OM.stack(MT.Ni, 29*U), OM.stack(MT.Nichrome, 10*U), OM.stack(MT.Al, 8*U), OM.stack(MT.Co, 3*U), OM.stack(MT.Ru, 2*U), OM.stack(MT.Ta, U), OM.stack(MTx.Hastelloy, 9*U), OM.stack(MT.W, U), OM.stack(MT.Re, U)}, MTx.TMS196.mMeltingPoint, OM.stack(MTx.TMS196, 64*U));
     }
 
     private void addOverrideRecipes() {
