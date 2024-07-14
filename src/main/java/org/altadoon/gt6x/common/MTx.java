@@ -40,10 +40,11 @@ public class MTx {
 
     static {
         // change some properties of vanilla GT6 materials
-        MT.NH3    .uumMcfg(1, MT.N, U, MT.H, 3*U);
-        MT.Ethanol.setMcfg(0, MT.C, 2*U, MT.H, 6*U, MT.O, U);
-        MT.PigIron.uumMcfg(5, MT.Fe, 5*U, MT.C, U).heat(MT.WroughtIron).qual(3, 4.0, 128, 2);
-        MT.Steel  .uumMcfg(100, MT.Fe, 100*U, MT.C, U).heat(MT.WroughtIron);
+        MT.NH3     .uumMcfg(1, MT.N, U, MT.H, 3*U);
+        MT.Ethanol .setMcfg(0, MT.C, 2*U, MT.H, 6*U, MT.O, U);
+        MT.PigIron .uumMcfg(5, MT.Fe, 5*U, MT.C, U).heat(1445, MT.Fe.mBoilingPoint).qual(3, 4.0, 128, 2).setAllToTheOutputOf(MT.PigIron);
+        MT.IronCast.setMcfg(8, MT.Fe, 8*U, MT.C, U).heat(1260+C, MT.Fe.mBoilingPoint).qual(3, 5.0, 256, 2).setAllToTheOutputOf(MT.IronCast);
+        MT.Steel   .uumMcfg(100, MT.Fe, 100*U, MT.C, U).heat(MT.WroughtIron);
         MT.Sodalite.uumMcfg(0, MT.Na, 8*U, MT.Al, 6*U, MT.Si, 6*U, MT.O, 24*U, MT.Cl, 2*U);
         MT.Lazurite.uumMcfg(0, MT.Na, 7*U, MT.Ca, U, MT.Al, 6*U, MT.Si, 6*U, MT.S, 4*U, MT.O, 28*U, MT.H2O, 3*U)
                 .tooltip("Na" + NUM_SUB[7] + "CaAl" + NUM_SUB[6] + "Si" + NUM_SUB[6] + "O" + NUM_SUB[24] + "(SO" + NUM_SUB[4] + ")S" + NUM_SUB[3] + "(H" + NUM_SUB[2] + "O)");
@@ -95,6 +96,7 @@ public class MTx {
         MT.FeO3H3.setLocal("Ferric Hydroxide");
         MT.DarkAsh.setLocal("Coal Ash");
 
+        addMolten(MT.IronCast, 144);
         addMolten(MT.K2S2O7, 144);
         addMolten(MT.Na2S2O7, 144);
         addMolten(MT.Quicklime, 144);
@@ -851,7 +853,8 @@ public class MTx {
     SiF4 = registerGas(gasdcmp(16214, "Tetrafluorosilane", 50, 50, 100, 200)
             .uumMcfg(1, MT.Si, U, MT.F, 4*U)
             .heat(178, 182)),
-    //TODO 16215 free
+    Alusil = alloymachine(16215, "Alusil", SET_COPPER, 149, 168, 173)
+            .uumAloy(0, MT.Al, 45*U, MT.Si, 3*U, MT.Cu, U),
     H3AsO3 = registerLiquid(lqudaciddcmp(16216, "Arsenous Acid", 150, 200, 175, 255)
             .setMcfg(0, MT.H, 3*U, MT.As, U, MT.O, 3*U)
             .heat(MT.H2O)),
@@ -1033,7 +1036,8 @@ public class MTx {
             .heat(MT.DarkAsh),
     CoalAshLeachingSolution = registerLiquid(lquddcmp(16281, "Coal ash leaching solution", 150, 150, 150, 200)
             .heat(MT.H2O)),
-    //TODO 16282 free
+    Hastelloy = alloymachine(16282, "Hastelloy", SET_COPPER, 230, 210, 180)
+            .uumAloy(0, MT.Ni, 5*U, MT.Cr, 2*U, MT.Mo, U, MT.Co, U),
     OxalicAcid = dustdcmp(16283, "Oxalic Acid", SET_CUBE, 220, 235, 255, 200)
             .uumMcfg(0, MT.H, 2*U, MT.C, 2*U, MT.O, 4*U)
             .heat(463),
@@ -1292,7 +1296,9 @@ public class MTx {
             .setMcfg(0, MT.Cs, U, MT.Cl, U)
             .heat(919, 1570),
     CsRbClSolution = registerLiquid(lquddcmp(16382, "Caesium-Rubidium Chloride Solution", 255, 200, 0, 200)
-            .setMcfg(0, CsCl, 5*U, RbCl, U, MT.H2O, 3*3*U))
+            .setMcfg(0, CsCl, 5*U, RbCl, U, MT.H2O, 3*3*U)),
+    Ti6Al4V = alloymachine(16383, "Ti-6Al-4V", SET_COPPER, 135, 51, 255, "Titanium Alloy")
+            .uumAloy(0, MT.Ti, 24*U, MT.Al, 3*U, MT.V, U)
     ;
 
     /* Unused

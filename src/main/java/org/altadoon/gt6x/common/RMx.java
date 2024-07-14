@@ -8,8 +8,8 @@ import static gregapi.data.CS.RES_PATH_GUI;
 
 /** Common recipe maps */
 public class RMx {
-    public static RecipeMap BasicOxygen = null;
     public static RecipeMap BlastFurnace = null;
+    public static RecipeMap BOF = null;
     public static RecipeMap CowperStove = null;
     public static RecipeMap DirectReduction = null;
     public static RecipeMap IonBombardment = null;
@@ -33,7 +33,7 @@ public class RMx {
         Soldering        = new RecipeMap(null, "gt6x.recipe.soldering"       , "Soldering Machine"       , null, 0, 1, RES_PATH_GUI+"machines/Soldering"       , 9, 1, 1, 1, 0, 1, 2, 1, "", 1, "", true, true, true, true, false, true, true);
         BlastFurnace     = new RecipeMap(null, "gt6x.recipe.blastfurnace"    , "Blast Furnace"           , null, 0, 1, RES_PATH_GUI+"machines/BlastFurnace"    , 6, 3, 1, 3, 3, 0, 1, 1, "", 1, "", true, true, true, true, false, true, true);
         CowperStove      = new RecipeMap(null, "gt6x.recipe.cowperstove"     , "Hot Blast Preheating"    , null, 0, 1, RES_PATH_GUI+"machines/Default"         , 0, 0, 0, 1, 1, 1, 1, 1, "", 1, "", true, true, true, true, false, true, true);
-        BasicOxygen      = new RecipeMap(null, "gt6x.recipe.bop"             , "Basic Oxygen Steelmaking", null, 0, 1, RES_PATH_GUI+"machines/BlastFurnace"    , 6, 3, 1, 3, 3, 1, 2, 1, "", 1, "", true, true, true, true, false, true, true);
+        BOF              = new RecipeMap(null, "gt6x.recipe.bof"             , "Basic Oxygen Steelmaking", null, 0, 1, RES_PATH_GUI+"machines/BlastFurnace"    , 6, 3, 1, 3, 3, 1, 2, 1, "", 1, "", true, true, true, true, false, true, true);
         DirectReduction  = new RecipeMap(null, "gt6x.recipe.directreduction" , "Direct Reduction"        , null, 0, 1, RES_PATH_GUI+"machines/DirectReduction" , 6, 3, 1, 3, 3, 1, 1, 1, "", 1, "", true, true, true, true, false, true, true);
     }
 }
