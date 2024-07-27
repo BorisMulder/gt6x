@@ -189,8 +189,7 @@ public class Metallurgy extends GT6XFeature {
         MTx.SpongeIron.addAlloyingRecipe(new OreDictConfigurationComponent( 9, OM.stack(MT.OREMATS.GraniticMineralSand, 14*U), OM.stack(MT.C, 12*U)));
 
         // Bessemer Process
-        MT.Steel.addAlloyingRecipe(new OreDictConfigurationComponent( 3, OM.stack(MT.PigIron, 4*U), OM.stack(MT.CaCO3, U), OM.stack(MT.Air, 4*U)));
-        MT.Steel.addAlloyingRecipe(new OreDictConfigurationComponent( 8, OM.stack(MT.PigIron, 10*U), OM.stack(MTx.CaO, U), OM.stack(MT.Air, 10*U)));
+        MT.Steel.addAlloyingRecipe(new OreDictConfigurationComponent( 4, OM.stack(MT.PigIron, 5*U), OM.stack(MTx.CaO, U), OM.stack(MT.Air, 5*U)));
         MTx.MeteoricCementite.addAlloyingRecipe(new OreDictConfigurationComponent( 1, OM.stack(MT.MeteoricIron, U), OM.stack(MT.C, U2)));
         MT.MeteoricSteel.addAlloyingRecipe(new OreDictConfigurationComponent( 3, OM.stack(MTx.MeteoricCementite, 4*U), OM.stack(MT.Air, 4*U)));
 

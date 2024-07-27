@@ -1,8 +1,10 @@
 package org.altadoon.gt6x;
 
 import gregapi.data.CS;
+import gregapi.data.IL;
 import gregapi.data.MD;
 import org.altadoon.gt6x.common.*;
+import org.altadoon.gt6x.common.items.ItemFluidDisplayX;
 import org.altadoon.gt6x.common.items.MultiItemBottlesX;
 import org.altadoon.gt6x.common.items.MultiItemsX;
 import org.altadoon.gt6x.common.items.Tools;
@@ -115,12 +117,15 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 
 	private void prePreInit() {
 		FLx.init();
+
 		for (GT6XFeature feature : enabledFeatures) {
 			feature.beforePreInit();
 		}
 	}
 
 	private void postPreInit() {
+		IL.Display_Fluid.set(new ItemFluidDisplayX());
+
 		for (GT6XFeature feature : enabledFeatures) {
 			feature.afterPreInit();
 		}

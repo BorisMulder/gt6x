@@ -47,6 +47,7 @@ public class OilProcessing extends GT6XFeature {
     @Override
     public void beforePostInit() {
         overrideMiscRecipes();
+        addFuelValues();
     }
 
     @Override
@@ -61,7 +62,6 @@ public class OilProcessing extends GT6XFeature {
         changeDTowerRecipes();
         changeCrackingRecipes();
         changeElectrolysisRecipes();
-        addFuelValues();
     }
 
     @Override
@@ -164,8 +164,17 @@ public class OilProcessing extends GT6XFeature {
         FM.Burn.addRecipe0(true, -64, 6, MTx.Toluene.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
         FM.Engine.addRecipe0(true, -64, 8, MTx.Toluene.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
 
-        FM.Burn.addRecipe0(true, -8,  5, MTx.Methanol.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
-        FM.Engine.addRecipe0(true, -8,  7, MTx.Methanol.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
+        FM.Burn.addRecipe0(true, -16,  5, MTx.Methanol.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
+        FM.Engine.addRecipe0(true, -16,  7, MTx.Methanol.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
+
+        FM.Burn.addRecipe0(true, -32,  6, MTx.Isopropanol.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
+        FM.Engine.addRecipe0(true, -32,  8, MTx.Isopropanol.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
+
+        FM.Burn.addRecipe0(true, -64,  4, MTx.Pentanol.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
+        FM.Engine.addRecipe0(true, -64,  6, MTx.Pentanol.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
+
+        FM.Burn.addRecipe0(true, -32,  5, MTx.Ether.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
+        FM.Engine.addRecipe0(true, -32,  7, MTx.Ether.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
 
         FM.Burn.addRecipe0(true, -16, 36, MTx.Synoil.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
         FM.Burn.addRecipe0(true, -16, 4, MTx.Acetone.liquid(U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
