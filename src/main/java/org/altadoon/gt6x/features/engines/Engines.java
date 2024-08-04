@@ -57,16 +57,12 @@ public class Engines extends GT6XFeature {
     private static final long[] ENGINE_OUTPUTS = new long[] { 16, 16, 24, 32, 64, 128, 256, 512 };
 
     private void addMTEs() {
-        Class<? extends TileEntity> clazz;
         MultiTileEntityRegistry reg = MTEx.gt6xMTEReg;
-
-        // Petrol Engines
-        clazz = MultiTileEntityMotorLiquid.class;
 
         for (int i = 0; i < ENGINE_OUTPUTS.length; i++) {
             OreDictMaterial mat = ENGINE_MATERIALS[i];
-            reg.add("Petrol Engine ("+mat.getLocal()+")", "Engines",  MTEx.IDs.PetrolEngine[i].get(), 1304, clazz, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_FUELMAP, FMx.Petrol, NBT_EFFICIENCY, 10000, NBT_OUTPUT, ENGINE_OUTPUTS[i], NBT_ENERGY_EMITTED, TD.Energy.RU), "PLP", "SMS", "GPC", 'M', OP.casingMachineDouble.dat(mat), 'P', OP.plateCurved.dat(mat), 'S', OP.stick.dat(mat), 'G', OP.gearGt.dat(mat), 'C', OP.gearGtSmall.dat(mat), 'L', OD.itemLubricant);
-            reg.add("Diesel Engine ("+mat.getLocal()+")", "Engines",  MTEx.IDs.DieselEngine[i].get(), 1304, clazz, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_FUELMAP, FMx.Diesel, NBT_EFFICIENCY, 10000, NBT_OUTPUT, ENGINE_OUTPUTS[i], NBT_ENERGY_EMITTED, TD.Energy.RU), "PLP", "SMS", "GPC", 'M', OP.casingMachineDouble.dat(mat), 'P', OP.plateCurved.dat(mat), 'S', OP.stick.dat(mat), 'G', OP.gearGt.dat(mat), 'C', OP.gearGtSmall.dat(mat), 'L', OD.itemLubricant);
+            reg.add("Petrol Engine ("+mat.getLocal()+")", "Engines",  MTEx.IDs.PetrolEngine[i].get(), 1304, MultiTileEntityMotorLiquid .class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_FUELMAP, FMx.Petrol, NBT_EFFICIENCY, 10000, NBT_OUTPUT, ENGINE_OUTPUTS[i], NBT_ENERGY_EMITTED, TD.Energy.RU), "PLP", "SMS", "GPC", 'M', OP.casingMachineDouble.dat(mat), 'P', OP.plateCurved.dat(mat), 'S', OP.stick.dat(mat), 'G', OP.gearGt.dat(mat), 'C', OP.gearGtSmall.dat(mat), 'L', OD.itemLubricant);
+            reg.add("Diesel Engine ("+mat.getLocal()+")", "Engines",  MTEx.IDs.DieselEngine[i].get(), 1304, MultiTileEntityEngineDiesel.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_FUELMAP, FMx.Diesel, NBT_EFFICIENCY, 10000, NBT_OUTPUT, ENGINE_OUTPUTS[i], NBT_ENERGY_EMITTED, TD.Energy.RU), "PLP", "SMS", "GPC", 'M', OP.casingMachineDouble.dat(mat), 'P', OP.plateCurved.dat(mat), 'S', OP.stick.dat(mat), 'G', OP.gearGt.dat(mat), 'C', OP.gearGtSmall.dat(mat), 'L', OD.itemLubricant);
         }
     }
 
