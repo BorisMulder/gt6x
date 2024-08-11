@@ -1,6 +1,6 @@
 package org.altadoon.gt6x.common.rendering;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
 import static gregapi.data.CS.*;
 
@@ -19,13 +19,13 @@ public class Geometry {
     public static int[][][] ROTATIONS = {
             { // Y neg
                     {1, 0, 0},
-                    {0, 0,-1},
-                    {0, 1, 0},
+                    {0, 0, 1},
+                    {0,-1, 0},
             },
             { // Y pos
                     {1, 0, 0},
-                    {0, 0, 1},
-                    {0,-1, 0},
+                    {0, 0,-1},
+                    {0, 1, 0},
             },
             { // Z neg
                     {1, 0, 0},
@@ -35,17 +35,17 @@ public class Geometry {
             { // Z pos
                     {-1, 0, 0},
                     { 0, 1, 0},
-                    { 0, 0,-1}
+                    { 0, 0,-1},
             },
             { // X neg
-                    {0, 0, 1},
-                    {0, 1, 0},
-                    {1, 0, 0},
-            },
-            { // X pos
                     { 0, 0, 1},
                     { 0, 1, 0},
                     {-1, 0, 0},
+            },
+            { // X pos
+                    { 0, 0,-1},
+                    { 0, 1, 0},
+                    { 1, 0, 0},
             }
     };
 
@@ -53,18 +53,35 @@ public class Geometry {
         for (int i = 0; i < src.length; i++) src[i] += trans[i];
     }
 
-    public static void translateConst(float[] src, float c) {
+    public static void translate(float[] src, float c) {
         for (int i = 0; i < src.length; i++) src[i] += c;
+    }
+
+    /**
+     * Ensure that min <= max for each coordinate to undo turning it inside out
+     */
+    protected static void reorder(float[] src) {
+        if (src.length != 6) throw new IllegalArgumentException("Reorder: array should have length 6");
+
+        for(int i = 0; i < 3; i++) {
+            if (src[i] > src[i+3]) {
+                float tmp = src[i+3];
+                src[i+3] = src[i];
+                src[i] = tmp;
+            }
+        }
     }
 
     /**
      * Set rotation from z-neg towards facing, along origin
      */
-    public static void rotateXYZ(int facing, float[] src, float[] dst) {
-        for (int i = 0; i < src.length; i++) {
-            dst[i] = 0;
+    public static void rotate(float[] coords, int facing) {
+        float[] copy = Arrays.copyOf(coords, coords.length);
+        for (int i = 0; i < coords.length; i++) {
+            coords[i] = 0;
+            int offset = i / 3;
             for (int j = 0; j < 3; j++) {
-                dst[i] += (src[i] * ROTATIONS[facing][i % 3][j]);
+                coords[i] += (copy[3 * offset + j] * ROTATIONS[facing][i % 3][j]);
             }
         }
     }
@@ -73,11 +90,11 @@ public class Geometry {
      * Rotate box within block depending on facings, when a player is looking from the facing direction
      */
     public static float[] rotateOnce(int facing, float... coords) {
-        float[] result = new float[coords.length];
-        translateConst(coords, -0.5f);
-        rotateXYZ(facing, coords, result);
-        translateConst(result, 0.5f);
-        return result;
+        translate(coords, -0.5f);
+        rotate(coords, facing);
+        reorder(coords);
+        translate(coords, 0.5f);
+        return coords;
     }
 
     /**
@@ -86,11 +103,11 @@ public class Geometry {
     public static float[] rotateTwice(int facing1, int facing2, float... coords) {
         if (ALONG_AXIS[facing1][facing2]) throw new IllegalStateException("Double rotation: second side cannot be along first side's axis");
 
-        float[] result = new float[coords.length];
-        translateConst(coords, -0.5f);
-        rotateXYZ(facing1, coords, result);
+        translate(coords, -0.5f);
+        rotate(coords, facing1);
         //TODO
-        translateConst(result, 0.5f);
-        return result;
+        reorder(coords);
+        translate(coords, 0.5f);
+        return coords;
     }
 }

@@ -208,14 +208,6 @@ public class MultiTileEntityEngineBase extends TileEntityBase10FacingDouble impl
     @Override public boolean isSurfaceOpaque2       (byte side) {return ALONG_AXIS[side][mFacing];}
     @Override public boolean allowCovers            (byte side) {return ALONG_AXIS[side][mFacing];}
 
-    protected boolean[] getValidSidesNotAlong(byte side) {
-        boolean[] result = super.getValidSides();
-        for (int i = 0; i < result.length; i++) {
-            if (ALONG_AXIS[side][i]) result[i] = false;
-        }
-        return result;
-    }
-
     @Override public boolean[] getValidSides() { return NOT_ALONG_AXIS[mSecondFacing]; }
     @Override public boolean[] getValidSecondSides() { return NOT_ALONG_AXIS[mFacing]; }
     @Override public byte getDefaultSide() { return SIDE_FRONT; }
@@ -234,45 +226,66 @@ public class MultiTileEntityEngineBase extends TileEntityBase10FacingDouble impl
             case 1 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[0], PX_P[0], PX_N[1], PX_N[0], PX_N[0], PX_N[0]));
             case 2 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[0], PX_P[0], PX_P[0], PX_N[0], PX_P[1], PX_N[0]));
             // frame rods
-            case 3 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[0], PX_N[0], PX_P[1], PX_P[1], PX_N[0], PX_N[1]));
-            case 4 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_N[0], PX_N[0], PX_P[1], PX_N[1], PX_N[0], PX_N[1]));
-            // lower, upper engine block
-            // cylinder cap block, 4+1 sides
-            // intake, exhaust pipes + 4 connector pipes
+            case 3 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[0], PX_N[1], PX_P[1], PX_P[1], PX_N[0], PX_N[1]));
+            case 4 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_N[1], PX_N[1], PX_P[1], PX_N[0], PX_N[0], PX_N[1]));
+            // lower, middle engine block, cylinder cap block
+            case 5 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[3], PX_P[1], PX_P[1], PX_N[3], PX_P[4], PX_N[1]));
+            case 6 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[4], PX_P[4], PX_P[1], PX_N[4], PX_P[8], PX_N[1]));
+            case 7 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[5], PX_P[8], PX_P[1], PX_N[5], PX_N[3], PX_N[1]));
+            // 4+1 sides
+            case 8 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[4], PX_P[8], PX_P[1], PX_N[4], PX_N[4], PX_P[2]));
+            case 9 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[4], PX_P[8], PX_P[4], PX_N[4], PX_N[4], PX_P[5]));
+            case 10-> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[4], PX_P[8], PX_P[7], PX_N[4], PX_N[4], PX_N[7]));
+            case 11-> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[4], PX_P[8], PX_N[5], PX_N[4], PX_N[4], PX_N[4]));
+            case 12-> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[4], PX_P[8], PX_N[2], PX_N[4], PX_N[4], PX_N[1]));
+            // intake, exhaust pipes
+            case 13-> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[1], PX_P[7], PX_P[1], PX_P[3], PX_N[7], PX_N[1]));
+            case 14-> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_N[3], PX_P[7], PX_P[1], PX_N[1], PX_N[7], PX_N[1]));
+            // 4 connector pipes
+            case 15-> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[3], PX_N[8], PX_P[3], PX_N[3], PX_N[7], PX_P[4]));
+            case 16-> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[3], PX_N[8], PX_P[6], PX_N[3], PX_N[7], PX_P[7]));
+            case 17-> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[3], PX_N[8], PX_N[7], PX_N[3], PX_N[7], PX_N[6]));
+            case 18-> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[3], PX_N[8], PX_N[4], PX_N[3], PX_N[7], PX_N[3]));
             default -> false;
         };
+    }
+
+    private ITexture getTextureByIndex(int idx) {
+        return BlockTextureMulti.get(BlockTextureDefault.get(baseIcons[idx], mRGBa), BlockTextureDefault.get((activity.mState>0? activeIcons : passiveIcons)[idx]));
     }
 
     @Override
     public ITexture getTexture2(Block block, int renderPass, byte side, boolean[] shouldSideBeRendered) {
         switch(renderPass) {
             case 0, 1:
-                if (side == mFacing || side == OPOS[mFacing]) return BlockTextureMulti.get(BlockTextureDefault.get(sColoreds[renderPass], mRGBa), BlockTextureDefault.get((activity.mState>0?sOverlaysActive:sOverlays)[renderPass]));
+                if (side == mFacing || side == OPOS[mFacing]) return getTextureByIndex(renderPass);
             case 2:
-                return BlockTextureMulti.get(BlockTextureDefault.get(sColoreds[2], mRGBa), BlockTextureDefault.get((activity.mState>0?sOverlaysActive:sOverlays)[2]));
+                return getTextureByIndex(2);
+            default:
+                return getTextureByIndex(3);
         }
-
-        // default
-        return null;
     }
 
     // Icons
-    public static IIconContainer[] sColoreds = new IIconContainer[] {
-            new Textures.BlockIcons.CustomIcon("machines/generators/motor_liquid/colored/front"),
-            new Textures.BlockIcons.CustomIcon("machines/generators/motor_liquid/colored/back"),
-            new Textures.BlockIcons.CustomIcon("machines/generators/motor_liquid/colored/sides"),
-    }, sOverlays = new IIconContainer[] {
-            new Textures.BlockIcons.CustomIcon("machines/generators/motor_liquid/overlay/front"),
-            new Textures.BlockIcons.CustomIcon("machines/generators/motor_liquid/overlay/back"),
-            new Textures.BlockIcons.CustomIcon("machines/generators/motor_liquid/overlay/sides"),
-    }, sOverlaysActive = new IIconContainer[] {
-            new Textures.BlockIcons.CustomIcon("machines/generators/motor_liquid/overlay_active/front"),
-            new Textures.BlockIcons.CustomIcon("machines/generators/motor_liquid/overlay_active/back"),
-            new Textures.BlockIcons.CustomIcon("machines/generators/motor_liquid/overlay_active/sides"),
+    public static IIconContainer[] baseIcons = new IIconContainer[] {
+            new Textures.BlockIcons.CustomIcon("machines/generators/engine_base/colored/front"),
+            new Textures.BlockIcons.CustomIcon("machines/generators/engine_base/colored/back"),
+            new Textures.BlockIcons.CustomIcon("machines/generators/engine_base/colored/bottom"),
+            new Textures.BlockIcons.CustomIcon("machines/generators/engine_base/colored/pipes"),
+    }, passiveIcons = new IIconContainer[] {
+            new Textures.BlockIcons.CustomIcon("machines/generators/engine_base/overlay/front"),
+            new Textures.BlockIcons.CustomIcon("machines/generators/engine_base/overlay/back"),
+            new Textures.BlockIcons.CustomIcon("machines/generators/engine_base/overlay/bottom"),
+            new Textures.BlockIcons.CustomIcon("machines/generators/engine_base/overlay/pipes"),
+    }, activeIcons = new IIconContainer[] {
+            new Textures.BlockIcons.CustomIcon("machines/generators/engine_base/overlay_active/front"),
+            new Textures.BlockIcons.CustomIcon("machines/generators/engine_base/overlay_active/back"),
+            new Textures.BlockIcons.CustomIcon("machines/generators/engine_base/overlay_active/bottom"),
+            new Textures.BlockIcons.CustomIcon("machines/generators/engine_base/overlay_active/pipes"),
     };
 
     @Override
-    public String getTileEntityName() {return "gt6x.multitileentity.generator.motor_diesel";}
+    public String getTileEntityName() {return "gt6x.multitileentity.generator.engine_base";}
 
     @Override
     public boolean canDrop(int slot) {

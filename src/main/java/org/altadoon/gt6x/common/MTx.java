@@ -1302,7 +1302,7 @@ public class MTx {
             .heat(919, 1570),
     CsRbClSolution = registerLiquid(lquddcmp(16382, "Caesium-Rubidium Chloride Solution", 255, 200, 0, 200)
             .setMcfg(0, CsCl, 5*U, RbCl, U, MT.H2O, 3*3*U)),
-    Ti6Al4V = alloymachine(16383, "Ti-6Al-4V", SET_COPPER, 135, 51, 255, "Titanium Alloy")
+    Ti6Al4V = alloymachine(16383, "Ti-6Al-4V", SET_COPPER, 191, 145, 255, "Titanium Alloy")
             .uumAloy(0, MT.Ti, 24*U, MT.Al, 3*U, MT.V, U)
             .heat(1632+C),
     TMS196 = alloymachine(16384, "TMS-196 Superalloy", SET_SHINY, 255, 255, 204)
