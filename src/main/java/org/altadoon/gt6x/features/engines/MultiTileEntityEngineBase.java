@@ -203,10 +203,10 @@ public class MultiTileEntityEngineBase extends TileEntityBase10FacingDouble impl
     @Override public boolean setStateOnOff(boolean onOff) {stopped = !onOff; return !stopped;}
     @Override public boolean getStateOnOff() {return !stopped;}
 
-    @Override public float getSurfaceSizeAttachable (byte side) {return ALONG_AXIS[side][mFacing]?0.5F:0.25F;}
-    @Override public boolean isSideSolid2           (byte side) {return ALONG_AXIS[side][mFacing];}
-    @Override public boolean isSurfaceOpaque2       (byte side) {return ALONG_AXIS[side][mFacing];}
-    @Override public boolean allowCovers            (byte side) {return ALONG_AXIS[side][mFacing];}
+    @Override public float getSurfaceSizeAttachable (byte side) {return 0.25F;}
+    @Override public boolean isSideSolid2           (byte side) {return ALONG_AXIS[side][mFacing] || side == mSecondFacing;}
+    @Override public boolean isSurfaceOpaque2       (byte side) {return ALONG_AXIS[side][mFacing] || side == mSecondFacing;}
+    @Override public boolean allowCovers            (byte side) {return ALONG_AXIS[side][mFacing] || side == mSecondFacing;}
 
     @Override public boolean[] getValidSides() { return NOT_ALONG_AXIS[mSecondFacing]; }
     @Override public boolean[] getValidSecondSides() { return NOT_ALONG_AXIS[mFacing]; }
@@ -259,7 +259,10 @@ public class MultiTileEntityEngineBase extends TileEntityBase10FacingDouble impl
         switch(renderPass) {
             case 0, 1:
                 if (side == mFacing || side == OPOS[mFacing]) return getTextureByIndex(renderPass);
+                if (side == mSecondFacing) return null;
+                return getTextureByIndex(2);
             case 2:
+                if (side == mFacing || side == OPOS[mFacing]) return null;
                 return getTextureByIndex(2);
             default:
                 return getTextureByIndex(3);
