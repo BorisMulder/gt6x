@@ -44,7 +44,7 @@ public class Geometry {
 			}
 	};
 
-	public static int[][][] ROLLS = {
+	public static final int[][][] ROLLS = {
 			{ // 0 deg seen from front face
 					{1, 0, 0},
 					{0, 1, 0},
@@ -64,13 +64,21 @@ public class Geometry {
 			}
 	};
 
-	public static int[][] ROLL_INDEXES = {
-			{0, 0, 2, 0, 1, 3}, // facing1 = Y neg
-			{0, 0, 0, 2, 1, 3}, // Y pos
-			{0, 2, 0, 0, 1, 3}, // Z neg
-			{0, 2, 0, 0, 3, 1}, // Z pos
-			{0, 2, 3, 1, 0, 0}, // X neg
-			{0, 2, 1, 3, 0, 0}, // X pos
+	public static final int ROT_0 = 0;
+	public static final int ROT_NONE = ROT_0;
+	public static final int ROT_90_CW = 1;
+	public static final int ROT_270_CCW = ROT_90_CW;
+	public static final int ROT_180 = 2;
+	public static final int ROT_90_CCW = 3;
+	public static final int ROT_270_CW = ROT_90_CCW;
+
+	public static final int[][] ROLL_INDEXES = {
+			{ROT_NONE, ROT_NONE, ROT_180   , ROT_0      , ROT_90_CW , ROT_270_CW }, // facing1 = Y neg
+			{ROT_NONE, ROT_NONE, ROT_0     , ROT_180    , ROT_90_CW , ROT_270_CW }, // Y pos
+			{ROT_0   , ROT_180 , ROT_NONE  , ROT_NONE   , ROT_90_CW , ROT_270_CW }, // Z neg
+			{ROT_0   , ROT_180 , ROT_NONE  , ROT_NONE   , ROT_90_CCW, ROT_270_CCW}, // Z pos
+			{ROT_0   , ROT_180 , ROT_90_CCW, ROT_270_CCW, ROT_NONE  , ROT_NONE   }, // X neg
+			{ROT_0   , ROT_180 , ROT_90_CW , ROT_270_CW , ROT_NONE  , ROT_NONE   }, // X pos
 	};
 
 	public static void translate(float[] src, float[] trans) {

@@ -30,12 +30,13 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
 import net.minecraftforge.fluids.IFluidTank;
 import org.altadoon.gt6x.common.rendering.Geometry;
+import org.altadoon.gt6x.common.rendering.IconRotated;
 
 import java.util.Collection;
 import java.util.List;
 
 import static gregapi.data.CS.*;
-import static org.altadoon.gt6x.common.rendering.Geometry.NOT_ALONG_AXIS;
+import static org.altadoon.gt6x.common.rendering.Geometry.*;
 
 public class MultiTileEntityEngineBase extends TileEntityBase10FacingDouble implements IFluidHandler, ITileEntityFunnelAccessible, ITileEntityTapAccessible, ITileEntityEnergy, ITileEntityRunningActively, ITileEntityAdjacentOnOff {
     public boolean stopped = false;
@@ -250,6 +251,13 @@ public class MultiTileEntityEngineBase extends TileEntityBase10FacingDouble impl
         };
     }
 
+    private ITexture getRotatedFlippedTexture(int idx, boolean mirror) {
+        IIconContainer baseIcon = new IconRotated.RotatableIconContainer(baseIcons[idx], ROLL_INDEXES[mFacing][mSecondFacing], mirror, false);
+        IIconContainer overlayIcon = new IconRotated.RotatableIconContainer((activity.mState>0? activeIcons : passiveIcons)[idx], ROLL_INDEXES[mFacing][mSecondFacing], mirror, false);
+
+        return BlockTextureMulti.get(BlockTextureDefault.get(baseIcon, mRGBa), BlockTextureDefault.get(overlayIcon));
+    }
+
     private ITexture getTextureByIndex(int idx) {
         return BlockTextureMulti.get(BlockTextureDefault.get(baseIcons[idx], mRGBa), BlockTextureDefault.get((activity.mState>0? activeIcons : passiveIcons)[idx]));
     }
@@ -258,7 +266,10 @@ public class MultiTileEntityEngineBase extends TileEntityBase10FacingDouble impl
     public ITexture getTexture2(Block block, int renderPass, byte side, boolean[] shouldSideBeRendered) {
         switch(renderPass) {
             case 0, 1:
-                if (side == mFacing || side == OPOS[mFacing]) return getTextureByIndex(renderPass);
+                if (side == mFacing || side == OPOS[mFacing]) {
+                    if (renderPass == 0) return getTextureByIndex(renderPass);
+                    else return getRotatedFlippedTexture(renderPass, side == mFacing);
+                }
                 if (side == mSecondFacing) return null;
                 return getTextureByIndex(2);
             case 2:
@@ -267,6 +278,7 @@ public class MultiTileEntityEngineBase extends TileEntityBase10FacingDouble impl
             default:
                 return getTextureByIndex(3);
         }
+
     }
 
     // Icons
