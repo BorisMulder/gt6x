@@ -5,6 +5,8 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 
+import static org.altadoon.gt6x.common.rendering.Geometry.*;
+
 public class IconRotated implements IIcon {
 
 	public static class RotatableIconContainer implements IIconContainer {
@@ -73,13 +75,26 @@ public class IconRotated implements IIcon {
 
 	@Override
 	public float getMinU() {
-		//TODO
-		return this.flipU ? this.baseIcon.getMaxU() : this.baseIcon.getMinU();
+		float half = (this.baseIcon.getMinU() + this.baseIcon.getMaxU()) / 2;
+		boolean flip = this.flipU ^ (this.rotation > 1);
+
+		return switch (rotation) {
+			case ROT_0, ROT_180 -> flip ? half : this.baseIcon.getMinU();
+			case ROT_90_CW, ROT_90_CCW -> flip ? this.baseIcon.getMaxU() : half;
+			default -> Float.NaN;
+		};
 	}
 
 	@Override
 	public float getMaxU() {
-		return this.flipU ? this.baseIcon.getMinU() : this.baseIcon.getMaxU();
+		float half = (this.baseIcon.getMinU() + this.baseIcon.getMaxU()) / 2;
+		boolean doFlip = this.flipU ^ (this.rotation > 1);
+
+		return switch (rotation) {
+			case ROT_0, ROT_180 -> doFlip ? this.baseIcon.getMinU() : half;
+			case ROT_90_CW, ROT_90_CCW -> doFlip ? half : this.baseIcon.getMaxU();
+			default -> Float.NaN;
+		};
 	}
 
 	/**
@@ -93,12 +108,12 @@ public class IconRotated implements IIcon {
 
 	@Override
 	public float getMinV() {
-		return this.flipV ? this.baseIcon.getMaxV() : this.baseIcon.getMinV();
+		return (this.flipV ^ (this.rotation > 1)) ? (this.baseIcon.getMaxV() + this.baseIcon.getMinV()) / 2 : this.baseIcon.getMinV();
 	}
 
 	@Override
 	public float getMaxV() {
-		return this.flipV ? this.baseIcon.getMinV() : this.baseIcon.getMaxV();
+		return (this.flipV ^ (this.rotation > 1)) ? this.baseIcon.getMinV() : (this.baseIcon.getMaxV() + this.baseIcon.getMinV()) / 2;
 	}
 
 	/**
