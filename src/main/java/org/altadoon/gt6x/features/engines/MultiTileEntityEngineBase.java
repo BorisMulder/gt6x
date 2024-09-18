@@ -2,7 +2,6 @@ package org.altadoon.gt6x.features.engines;
 
 import gregapi.code.TagData;
 import gregapi.data.FL;
-import gregapi.data.FM;
 import gregapi.data.LH;
 import gregapi.data.TD;
 import gregapi.fluid.FluidTankGT;
@@ -38,12 +37,12 @@ import java.util.List;
 import static gregapi.data.CS.*;
 import static org.altadoon.gt6x.common.rendering.Geometry.*;
 
-public class MultiTileEntityEngineBase extends TileEntityBase10FacingDouble implements IFluidHandler, ITileEntityFunnelAccessible, ITileEntityTapAccessible, ITileEntityEnergy, ITileEntityRunningActively, ITileEntityAdjacentOnOff {
+public abstract class MultiTileEntityEngineBase extends TileEntityBase10FacingDouble implements IFluidHandler, ITileEntityFunnelAccessible, ITileEntityTapAccessible, ITileEntityEnergy, ITileEntityRunningActively, ITileEntityAdjacentOnOff {
     public boolean stopped = false;
     public short efficiency = 10000;
     public long energy = 0, rate = 32;
     public TagData energyTypeEmitted = TD.Energy.RU;
-    public Recipe.RecipeMap recipes = FM.Engine;
+    public Recipe.RecipeMap recipes = null;
     public Recipe lastRecipe = null;
     public FluidTankGT[] tanks = {new FluidTankGT(1000), new FluidTankGT(1000)};
     public TE_Behavior_Active_Trinary activity = null;
@@ -55,7 +54,7 @@ public class MultiTileEntityEngineBase extends TileEntityBase10FacingDouble impl
         activity = new TE_Behavior_Active_Trinary(this, nbt);
         if (nbt.hasKey(NBT_STOPPED)) stopped = nbt.getBoolean(NBT_STOPPED);
         if (nbt.hasKey(NBT_OUTPUT)) rate = nbt.getLong(NBT_OUTPUT);
-        if (nbt.hasKey(NBT_FUELMAP)) recipes = Recipe.RecipeMap.RECIPE_MAPS.get(nbt.getString(NBT_FUELMAP));
+        if (nbt.hasKey(NBT_FUELMAP)) recipes = Recipe.RecipeMap.RECIPE_MAPS.get(nbt.getString(NBT_FUELMAP)); else throw new IllegalStateException("MultiTileEntityEngineBase: NBT_FUELMAP missing");
         if (nbt.hasKey(NBT_EFFICIENCY)) efficiency = (short) UT.Code.bind_(0, 10000, nbt.getShort(NBT_EFFICIENCY));
         if (nbt.hasKey(NBT_ENERGY_EMITTED)) energyTypeEmitted = TagData.createTagData(nbt.getString(NBT_ENERGY_EMITTED));
         tanks[0].readFromNBT(nbt, NBT_TANK+".0").setCapacity(rate * 10);
@@ -72,10 +71,14 @@ public class MultiTileEntityEngineBase extends TileEntityBase10FacingDouble impl
         tanks[1].writeToNBT(nbt, NBT_TANK+".1");
     }
 
+    protected String getEfficiencyTooltip() {
+        return LH.get(LH.EFFICIENCY) + ": " + LH.Chat.WHITE + LH.percent(efficiency) + "%";
+    }
+
     @Override
     public void addToolTips(List<String> list, ItemStack stack, boolean f3_H) {
         list.add(LH.Chat.CYAN     + LH.get(LH.RECIPES) + ": " + LH.Chat.WHITE + LH.get(recipes.mNameInternal));
-        list.add(LH.getToolTipEfficiency(efficiency));
+        list.add(getEfficiencyTooltip());
         LH.addEnergyToolTips(this, list, null, energyTypeEmitted, null, LH.get(LH.FACE_FRONT));
         list.add(LH.Chat.ORANGE   + LH.get(LH.NO_GUI_FUNNEL_TAP_TO_TANK));
         list.add(LH.Chat.DGRAY    + LH.get(LH.TOOL_TO_DETAIL_MAGNIFYINGGLASS));
@@ -90,18 +93,18 @@ public class MultiTileEntityEngineBase extends TileEntityBase10FacingDouble impl
                 energy -= rate;
             }
             if (energy < rate * 2 && !stopped) {
-                activity.mActive = F;
-                Recipe tRecipe = recipes.findRecipe(this, lastRecipe, T, Long.MAX_VALUE, NI, tanks[0].AS_ARRAY, ZL_IS);
-                if (tRecipe != null) {
-                    if (tRecipe.mFluidOutputs.length == 0 || tanks[1].canFillAll(tRecipe.mFluidOutputs[0])) {
-                        if (tRecipe.isRecipeInputEqual(T, F, tanks[0].AS_ARRAY, ZL_IS)) {
-                            activity.mActive = T;
-                            lastRecipe = tRecipe;
-                            energy += UT.Code.units(tRecipe.getAbsoluteTotalPower(), 10000, efficiency, F);
-                            if (tRecipe.mFluidOutputs.length > 0) tanks[1].fill(tRecipe.mFluidOutputs[0]);
-                            while (energy < rate * 2 && (tRecipe.mFluidOutputs.length == 0 || tanks[1].canFillAll(tRecipe.mFluidOutputs[0])) && tRecipe.isRecipeInputEqual(T, F, tanks[0].AS_ARRAY, ZL_IS)) {
-                                energy += UT.Code.units(tRecipe.getAbsoluteTotalPower(), 10000, efficiency, F);
-                                if (tRecipe.mFluidOutputs.length > 0) tanks[1].fill(tRecipe.mFluidOutputs[0]);
+                activity.mActive = false;
+                Recipe recipe = recipes.findRecipe(this, lastRecipe, true, Long.MAX_VALUE, NI, tanks[0].AS_ARRAY, ZL_IS);
+                if (recipe != null) {
+                    if (recipe.mFluidOutputs.length == 0 || tanks[1].canFillAll(recipe.mFluidOutputs[0])) {
+                        if (recipe.isRecipeInputEqual(true, false, tanks[0].AS_ARRAY, ZL_IS)) {
+                            activity.mActive = true;
+                            lastRecipe = recipe;
+                            energy += UT.Code.units(recipe.getAbsoluteTotalPower(), 10000, efficiency, false);
+                            if (recipe.mFluidOutputs.length > 0) tanks[1].fill(recipe.mFluidOutputs[0]);
+                            while (energy < rate * 2 && (recipe.mFluidOutputs.length == 0 || tanks[1].canFillAll(recipe.mFluidOutputs[0])) && recipe.isRecipeInputEqual(true, false, tanks[0].AS_ARRAY, ZL_IS)) {
+                                energy += UT.Code.units(recipe.getAbsoluteTotalPower(), 10000, efficiency, false);
+                                if (recipe.mFluidOutputs.length > 0) tanks[1].fill(recipe.mFluidOutputs[0]);
                                 if (tanks[0].isEmpty()) break;
                             }
                         } else {
@@ -127,8 +130,8 @@ public class MultiTileEntityEngineBase extends TileEntityBase10FacingDouble impl
 
     @Override
     public long onToolClick2(String tool, long remainingDurability, long quality, Entity player, List<String> chatReturn, IInventory playerInventory, boolean sneaking, ItemStack stack, byte side, float hitX, float hitY, float hitZ) {
-        long rReturn = super.onToolClick2(tool, remainingDurability, quality, player, chatReturn, playerInventory, sneaking, stack, side, hitX, hitY, hitZ);
-        if (rReturn > 0) return rReturn;
+        long ret = super.onToolClick2(tool, remainingDurability, quality, player, chatReturn, playerInventory, sneaking, stack, side, hitX, hitY, hitZ);
+        if (ret > 0) return ret;
 
         if (isClientSide()) return 0;
 
@@ -298,9 +301,6 @@ public class MultiTileEntityEngineBase extends TileEntityBase10FacingDouble impl
             new Textures.BlockIcons.CustomIcon("machines/generators/engine_base/overlay_active/bottom"),
             new Textures.BlockIcons.CustomIcon("machines/generators/engine_base/overlay_active/pipes"),
     };
-
-    @Override
-    public String getTileEntityName() {return "gt6x.multitileentity.generator.engine_base";}
 
     @Override
     public boolean canDrop(int slot) {
