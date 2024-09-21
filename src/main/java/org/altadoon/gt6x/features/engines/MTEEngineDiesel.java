@@ -13,67 +13,70 @@ import net.minecraft.world.World;
 import static gregapi.data.CS.*;
 
 public class MTEEngineDiesel extends MultiTileEntityEngineBase implements ITileEntityTemperature {
-	public static final String NBT_EFFICIENCY_MIN = "gt6x.eff.min";
-	public static final String NBT_EFFICIENCY_MAX = "gt6x.eff.max";
-	public static final String NBT_WARMUP_TIME = "gt6x.warmup.time";
-
-	public short efficiencyMin = 0;
-	public short efficiencyMax = 10000;
-	private long envTemperature = DEF_ENV_TEMP;
-	public long temperature = DEF_ENV_TEMP;
-	private static final long OPTIMAL_TEMPERATURE = 355;
-	public int warmupTime = 0;
+	public static final long OPTIMAL_TEMPERATURE = 360;
+	public static final int WARMUP_FACTOR = 10;
+	public static final int WARMUP_CONSTANT = 10;
+	protected int warmupTicks = 0;
+	protected int cooldownTicks = 100;
+	protected long temperature = DEF_ENV_TEMP;
 
 	@Override
 	public void readFromNBT2(NBTTagCompound nbt) {
 		super.readFromNBT2(nbt);
-		if (nbt.hasKey(NBT_EFFICIENCY_MIN)) efficiencyMin = (short) UT.Code.bind_(0, 10000, nbt.getShort(NBT_EFFICIENCY_MIN));
-		if (nbt.hasKey(NBT_EFFICIENCY_MAX)) efficiencyMax = (short) UT.Code.bind_(0, 10000, nbt.getShort(NBT_EFFICIENCY_MAX));
-		if (nbt.hasKey(NBT_WARMUP_TIME)) warmupTime = nbt.getInteger(NBT_WARMUP_TIME);
 		if (nbt.hasKey(NBT_TEMPERATURE)) temperature = nbt.getLong(NBT_TEMPERATURE);
-		if (!nbt.hasKey(NBT_EFFICIENCY)) efficiency = efficiencyMin;
 	}
 
 	@Override
 	public void writeToNBT2(NBTTagCompound nbt) {
 		super.writeToNBT2(nbt);
-		UT.NBT.setNumber(nbt, NBT_EFFICIENCY, efficiency);
 		UT.NBT.setNumber(nbt, NBT_TEMPERATURE, temperature);
 	}
 
 	@Override
 	protected String getEfficiencyTooltip() {
-		StringBuilder builder = new StringBuilder(LH.get(LH.EFFICIENCY));
-		builder.append(": ").append(LH.Chat.WHITE).append(LH.percent(efficiencyMin));
-		if (efficiencyMin != efficiencyMax) {
-			builder.append(" - ").append(LH.percent(efficiencyMax));
-		}
-		return builder.append("%").toString();
+		return LH.get(LH.EFFICIENCY) + ": " + LH.Chat.WHITE + "0 - " + LH.percent(efficiency) + "%";
 	}
-
 
 	@Override
 	public boolean onPlaced(ItemStack stack, EntityPlayer player, MultiTileEntityContainer container, World world, int x, int y, int z, byte side, float hitX, float hitY, float hitZ) {
 		super.onPlaced(stack, player, container, world, x, y, z, side, hitX, hitY, hitZ);
-
-		envTemperature = WD.envTemp(worldObj, xCoord, yCoord, zCoord);
-		temperature = envTemperature;
-
+		temperature = WD.envTemp(worldObj, xCoord, yCoord, zCoord);
 		return true;
 	}
 
-	private void updateTemperature() {
+	protected void updateTemperature() {
 		long tempDiff;
-		if (activity.mState > 0) {
+		if (activity.mState > 0) { // if running, approach optimal temperature
 			tempDiff = OPTIMAL_TEMPERATURE - temperature;
-		} else {
-			tempDiff = envTemperature - temperature;
+			if (tempDiff != 0) {
+				warmupTicks++;
+				int next_temp_change = (int)(100 - Math.abs(tempDiff)) * WARMUP_FACTOR + WARMUP_CONSTANT;
+				if (warmupTicks >= next_temp_change) {
+					warmupTicks = 0;
+					if (tempDiff > 0) temperature++;
+					else temperature--;
+					updateEfficiency();
+				}
+			}
+			cooldownTicks = 100;
+		} else { // if not running, go back to environment temperature
+			long envTemperature = WD.envTemp(worldObj, xCoord, yCoord, zCoord);
+			if (temperature != envTemperature) {
+				if (cooldownTicks > 0) cooldownTicks--;
+				if (cooldownTicks <= 0) {
+					cooldownTicks = 10;
+					if (temperature > envTemperature) temperature--;
+					else temperature++;
+				}
+			}
 		}
+	}
 
-		if (temperature > getTemperatureMax(SIDE_ANY) || temperature < -OPTIMAL_TEMPERATURE) {
+	protected void updateEfficiency() {
+		if (temperature > OPTIMAL_TEMPERATURE + 100 || temperature < OPTIMAL_TEMPERATURE - 100) {
 			efficiency = 0;
 		} else {
-			efficiency = (Math.abs(OPTIMAL_TEMPERATURE - temperature) / OPTIMAL_TEMPERATURE)
+			efficiency = (short)(10000 - (Math.abs(OPTIMAL_TEMPERATURE - temperature) * 100));
 		}
 	}
 
@@ -81,12 +84,12 @@ public class MTEEngineDiesel extends MultiTileEntityEngineBase implements ITileE
 	public String getTileEntityName() {return "gt6x.multitileentity.generator.engine_diesel";}
 
 	@Override
-	public long getTemperatureValue(byte aSide) {
+	public long getTemperatureValue(byte side) {
 		return temperature;
 	}
 
 	@Override
-	public long getTemperatureMax(byte aSide) {
-		return OPTIMAL_TEMPERATURE * 2;
+	public long getTemperatureMax(byte side) {
+		return OPTIMAL_TEMPERATURE;
 	}
 }
