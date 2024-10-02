@@ -233,8 +233,8 @@ public abstract class MultiTileEntityEngineBase extends TileEntityBase10FacingDo
             case 3 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[0], PX_N[1], PX_P[1], PX_P[1], PX_N[0], PX_N[1]));
             case 4 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_N[1], PX_N[1], PX_P[1], PX_N[0], PX_N[0], PX_N[1]));
             // lower, middle engine block, cylinder cap block
-            case 5 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[3], PX_P[1], PX_P[1], PX_N[3], PX_P[4], PX_N[1]));
-            case 6 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[4], PX_P[4], PX_P[1], PX_N[4], PX_P[8], PX_N[1]));
+            case 5 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[4], PX_P[1], PX_P[1], PX_N[4], PX_P[4], PX_N[1]));
+            case 6 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[3], PX_P[4], PX_P[1], PX_N[3], PX_P[8], PX_N[1]));
             case 7 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[5], PX_P[8], PX_P[1], PX_N[5], PX_N[3], PX_N[1]));
             // 4+1 sides
             case 8 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[4], PX_P[8], PX_P[1], PX_N[4], PX_N[4], PX_P[2]));
@@ -254,14 +254,14 @@ public abstract class MultiTileEntityEngineBase extends TileEntityBase10FacingDo
         };
     }
 
-    private ITexture getRotatedFlippedTexture(int idx, boolean mirror) {
+    protected ITexture getRotatedFlippedTexture(int idx, boolean mirror) {
         IIconContainer baseIcon = new IconRotated.RotatableIconContainer(baseIcons[idx], ROLL_INDEXES[mFacing][mSecondFacing], mirror, false);
         IIconContainer overlayIcon = new IconRotated.RotatableIconContainer((activity.mState>0? activeIcons : passiveIcons)[idx], ROLL_INDEXES[mFacing][mSecondFacing], mirror, false);
 
         return BlockTextureMulti.get(BlockTextureDefault.get(baseIcon, mRGBa), BlockTextureDefault.get(overlayIcon));
     }
 
-    private ITexture getTextureByIndex(int idx) {
+    protected ITexture getTextureByIndex(int idx) {
         return BlockTextureMulti.get(BlockTextureDefault.get(baseIcons[idx], mRGBa), BlockTextureDefault.get((activity.mState>0? activeIcons : passiveIcons)[idx]));
     }
 

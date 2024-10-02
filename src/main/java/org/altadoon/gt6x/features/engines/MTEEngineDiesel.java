@@ -2,13 +2,20 @@ package org.altadoon.gt6x.features.engines;
 
 import gregapi.block.multitileentity.MultiTileEntityContainer;
 import gregapi.data.LH;
+import gregapi.old.Textures;
+import gregapi.render.BlockTextureDefault;
+import gregapi.render.BlockTextureMulti;
+import gregapi.render.IIconContainer;
+import gregapi.render.ITexture;
 import gregapi.tileentity.data.ITileEntityTemperature;
 import gregapi.util.UT;
 import gregapi.util.WD;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import org.altadoon.gt6x.common.rendering.Geometry;
 
 import static gregapi.data.CS.*;
 
@@ -91,5 +98,78 @@ public class MTEEngineDiesel extends MultiTileEntityEngineBase implements ITileE
 	@Override
 	public long getTemperatureMax(byte side) {
 		return OPTIMAL_TEMPERATURE;
+	}
+
+	@Override
+	public int getRenderPasses2(Block block, boolean[] shouldSideBeRendered) {
+		return super.getRenderPasses2(block, shouldSideBeRendered) + 11;
+	}
+
+	@Override
+	public boolean setBlockBounds2(Block block, int renderPass, boolean[] shouldSideBeRendered) {
+		return switch (renderPass - super.getRenderPasses2(block, shouldSideBeRendered)) {
+			// top blocks
+			case 0 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[6], PX_N[4], PX_P[1], PX_N[6], PX_N[2], PX_N[1]));
+			case 1 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[5], PX_N[2], PX_P[1], PX_N[5], PX_N[0], PX_N[5]));
+			// side pipes
+			case 2 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_N[4], PX_N[3], PX_P[1], PX_N[2], PX_N[1], PX_N[1]));
+			case 3 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[2], PX_N[4], PX_P[1], PX_P[4], PX_N[2], PX_N[1]));
+			// top pipes
+			case 4 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[2], PX_N[2], PX_N[5], PX_N[3], PX_N[0], PX_N[3]));
+			case 5 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[1], PX_N[3], PX_P[5], PX_N[4], PX_N[1], PX_P[7]));
+			// small perpendicular pipes
+			case 6 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[1], PX_N[7], PX_P[5], PX_P[3], PX_N[3], PX_P[7]));
+			case 7 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[2], PX_N[7], PX_N[5], PX_P[4], PX_N[4], PX_N[3]));
+			// bottom pipes
+			case 8 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_N[2], PX_P[1], PX_P[4], PX_N[0], PX_P[4], PX_P[6]));
+			case 9 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_N[2], PX_P[1], PX_N[6], PX_N[0], PX_P[4], PX_N[4]));
+			// display
+			case 10 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_N[1], PX_P[4], PX_P[4], PX_N[0], PX_N[4], PX_N[4]));
+			default -> super.setBlockBounds2(block, renderPass, shouldSideBeRendered);
+		};
+	}
+
+	protected ITexture getDieselTextureByIndex(int idx) {
+		return BlockTextureMulti.get(BlockTextureDefault.get(dieselBaseIcons[idx], mRGBa), BlockTextureDefault.get((activity.mState>0? dieselActiveIcons : dieselPassiveIcons)[idx]));
+	}
+
+	protected ITexture getThermometerTexture() {
+		return BlockTextureMulti.get(
+				BlockTextureDefault.get(dieselBaseIcons[1], mRGBa),
+				BlockTextureDefault.get(dieselPassiveIcons[1]),
+				BlockTextureDefault.get(dieselThermometerIcons[0])
+		);
+	}
+
+	@Override
+	public ITexture getTexture2(Block block, int renderPass, byte side, boolean[] shouldSideBeRendered) {
+		return switch (renderPass - super.getRenderPasses2(block, shouldSideBeRendered)) {
+			case 2, 3, 4 -> getDieselTextureByIndex(0);
+			case 10 -> {
+				if (side == mFacing || side == OPOS[mFacing] || side == mSecondFacing || side == OPOS[mSecondFacing]) {
+					yield super.getTexture2(block, renderPass, side, shouldSideBeRendered);
+				} else {
+					yield getThermometerTexture();
+				}
+			}
+			default -> super.getTexture2(block, renderPass, side, shouldSideBeRendered);
+		};
+	}
+
+	public static IIconContainer[] dieselBaseIcons = new IIconContainer[] {
+			new Textures.BlockIcons.CustomIcon("machines/generators/engine_diesel/colored/pipes_colored"),
+			new Textures.BlockIcons.CustomIcon("machines/generators/engine_diesel/colored/thermometer"),
+	}, dieselPassiveIcons = new IIconContainer[] {
+			new Textures.BlockIcons.CustomIcon("machines/generators/engine_diesel/overlay/pipes_colored"),
+			new Textures.BlockIcons.CustomIcon("machines/generators/engine_diesel/overlay/thermometer"),
+	}, dieselActiveIcons = new IIconContainer[] {
+			new Textures.BlockIcons.CustomIcon("machines/generators/engine_diesel/overlay_active/pipes_colored"),
+			null,
+	}, dieselThermometerIcons = new IIconContainer[1];
+
+	static {
+		for (int i = 0; i < dieselThermometerIcons.length; i++) {
+			dieselThermometerIcons[i] = new Textures.BlockIcons.CustomIcon("machines/generators/engine_diesel/thermometer_scale/" + (i < 10 ? "0" : "") + i);
+		}
 	}
 }
