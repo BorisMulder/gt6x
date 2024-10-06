@@ -18,6 +18,7 @@ import net.minecraft.world.World;
 import org.altadoon.gt6x.common.rendering.Geometry;
 
 import static gregapi.data.CS.*;
+import static org.altadoon.gt6x.common.Log.LOG;
 
 public class MTEEngineDiesel extends MultiTileEntityEngineBase implements ITileEntityTemperature {
 	public static final long OPTIMAL_TEMPERATURE = 360;
@@ -26,11 +27,15 @@ public class MTEEngineDiesel extends MultiTileEntityEngineBase implements ITileE
 	protected int warmupTicks = 0;
 	protected int cooldownTicks = 100;
 	protected long temperature = DEF_ENV_TEMP;
+	protected int thermometerIndex = 0;
 
 	@Override
 	public void readFromNBT2(NBTTagCompound nbt) {
 		super.readFromNBT2(nbt);
-		if (nbt.hasKey(NBT_TEMPERATURE)) temperature = nbt.getLong(NBT_TEMPERATURE);
+		if (nbt.hasKey(NBT_TEMPERATURE)) {
+			temperature = nbt.getLong(NBT_TEMPERATURE);
+			updateThermometerIndex();
+		}
 	}
 
 	@Override
@@ -48,11 +53,13 @@ public class MTEEngineDiesel extends MultiTileEntityEngineBase implements ITileE
 	public boolean onPlaced(ItemStack stack, EntityPlayer player, MultiTileEntityContainer container, World world, int x, int y, int z, byte side, float hitX, float hitY, float hitZ) {
 		super.onPlaced(stack, player, container, world, x, y, z, side, hitX, hitY, hitZ);
 		temperature = WD.envTemp(worldObj, xCoord, yCoord, zCoord);
+		updateThermometerIndex();
 		return true;
 	}
 
 	protected void updateTemperature() {
 		long tempDiff;
+		long previousTemp = temperature;
 		if (activity.mState > 0) { // if running, approach optimal temperature
 			tempDiff = OPTIMAL_TEMPERATURE - temperature;
 			if (tempDiff != 0) {
@@ -77,13 +84,24 @@ public class MTEEngineDiesel extends MultiTileEntityEngineBase implements ITileE
 				}
 			}
 		}
+		if (temperature != previousTemp) {
+			updateThermometerIndex();
+		}
+	}
+
+	protected void updateThermometerIndex() {
+		long temp_diff = temperature - OPTIMAL_TEMPERATURE;
+		thermometerIndex = (int)Math.ceil(temp_diff / (100.0 / 7.0) + 9.5);
+		if (thermometerIndex < 0) thermometerIndex = 0;
+		if (thermometerIndex >= dieselThermometerIcons.length) thermometerIndex = dieselThermometerIcons.length - 1;
 	}
 
 	protected void updateEfficiency() {
 		if (temperature > OPTIMAL_TEMPERATURE + 100 || temperature < OPTIMAL_TEMPERATURE - 100) {
 			efficiency = 0;
 		} else {
-			efficiency = (short)(10000 - (Math.abs(OPTIMAL_TEMPERATURE - temperature) * 100));
+			long temp_diff = Math.abs(OPTIMAL_TEMPERATURE - temperature);
+			efficiency = (short)(10000 - (temp_diff * 100));
 		}
 	}
 
@@ -137,8 +155,18 @@ public class MTEEngineDiesel extends MultiTileEntityEngineBase implements ITileE
 		return BlockTextureMulti.get(
 				BlockTextureDefault.get(dieselBaseIcons[1], mRGBa),
 				BlockTextureDefault.get(dieselPassiveIcons[1]),
-				BlockTextureDefault.get(dieselThermometerIcons[0])
+				BlockTextureDefault.get(dieselThermometerIcons[thermometerIndex])
 		);
+	}
+
+	@Override
+	public void setVisualData(byte data) {
+		activity.mState = (byte)(data & 3);
+		thermometerIndex = (data & 124) >>2;
+	}
+
+	@Override public byte getVisualData() {
+		return  (byte)(activity.mState | (thermometerIndex <<2));
 	}
 
 	@Override
@@ -165,7 +193,7 @@ public class MTEEngineDiesel extends MultiTileEntityEngineBase implements ITileE
 	}, dieselActiveIcons = new IIconContainer[] {
 			new Textures.BlockIcons.CustomIcon("machines/generators/engine_diesel/overlay_active/pipes_colored"),
 			null,
-	}, dieselThermometerIcons = new IIconContainer[1];
+	}, dieselThermometerIcons = new IIconContainer[20];
 
 	static {
 		for (int i = 0; i < dieselThermometerIcons.length; i++) {
