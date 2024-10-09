@@ -1,6 +1,7 @@
 package org.altadoon.gt6x.features.engines;
 
 import gregapi.block.multitileentity.MultiTileEntityContainer;
+import gregapi.code.TagData;
 import gregapi.data.LH;
 import gregapi.old.Textures;
 import gregapi.render.BlockTextureDefault;
@@ -11,23 +12,28 @@ import gregapi.tileentity.data.ITileEntityTemperature;
 import gregapi.util.UT;
 import gregapi.util.WD;
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import org.altadoon.gt6x.common.rendering.Geometry;
 
+import java.util.List;
+
 import static gregapi.data.CS.*;
-import static org.altadoon.gt6x.common.Log.LOG;
 
 public class MTEEngineDiesel extends MultiTileEntityEngineBase implements ITileEntityTemperature {
 	public static final long OPTIMAL_TEMPERATURE = 360;
-	public static final int WARMUP_FACTOR = 10;
+	public static final int WARMUP_FACTOR = 1;
+	public static final int WARMUP_DIVISOR = 2;
 	public static final int WARMUP_CONSTANT = 10;
 	protected int warmupTicks = 0;
 	protected int cooldownTicks = 100;
 	protected long temperature = DEF_ENV_TEMP;
-	protected int thermometerIndex = 0;
+	protected byte thermometerIndex = 0;
+	protected byte oldThermometerIndex = 0;
 
 	@Override
 	public void readFromNBT2(NBTTagCompound nbt) {
@@ -57,6 +63,15 @@ public class MTEEngineDiesel extends MultiTileEntityEngineBase implements ITileE
 		return true;
 	}
 
+	@Override
+	public void onTick2(long timer, boolean isServerSide) {
+		if (isServerSide) {
+			updateTemperature();
+			updateEfficiency();
+		}
+		super.onTick2(timer, isServerSide);
+	}
+
 	protected void updateTemperature() {
 		long tempDiff;
 		long previousTemp = temperature;
@@ -64,12 +79,11 @@ public class MTEEngineDiesel extends MultiTileEntityEngineBase implements ITileE
 			tempDiff = OPTIMAL_TEMPERATURE - temperature;
 			if (tempDiff != 0) {
 				warmupTicks++;
-				int next_temp_change = (int)(100 - Math.abs(tempDiff)) * WARMUP_FACTOR + WARMUP_CONSTANT;
+				int next_temp_change = (int)((100 - Math.abs(tempDiff)) * WARMUP_FACTOR) / WARMUP_DIVISOR + WARMUP_CONSTANT;
 				if (warmupTicks >= next_temp_change) {
 					warmupTicks = 0;
 					if (tempDiff > 0) temperature++;
 					else temperature--;
-					updateEfficiency();
 				}
 			}
 			cooldownTicks = 100;
@@ -86,14 +100,21 @@ public class MTEEngineDiesel extends MultiTileEntityEngineBase implements ITileE
 		}
 		if (temperature != previousTemp) {
 			updateThermometerIndex();
+			updateEfficiency();
 		}
+	}
+
+	@Override
+	public long onToolClick2(String tool, long remainingDurability, long quality, Entity player, List<String> chatReturn, IInventory playerInventory, boolean sneaking, ItemStack stack, byte side, float hitX, float hitY, float hitZ) {
+		if (tool.equals(TOOL_thermometer)) {if (chatReturn != null) chatReturn.add("Temperature: " + temperature + "K"); return 10000;}
+		return super.onToolClick2(tool, remainingDurability, quality, player, chatReturn, playerInventory, sneaking, stack, side, hitX, hitY, hitZ);
 	}
 
 	protected void updateThermometerIndex() {
 		long temp_diff = temperature - OPTIMAL_TEMPERATURE;
-		thermometerIndex = (int)Math.ceil(temp_diff / (100.0 / 7.0) + 9.5);
+		thermometerIndex = (byte)Math.ceil(temp_diff / (100.0 / 7.0) + 9.5);
 		if (thermometerIndex < 0) thermometerIndex = 0;
-		if (thermometerIndex >= dieselThermometerIcons.length) thermometerIndex = dieselThermometerIcons.length - 1;
+		if (thermometerIndex >= dieselThermometerIcons.length) thermometerIndex = (byte)(dieselThermometerIcons.length - 1);
 	}
 
 	protected void updateEfficiency() {
@@ -117,6 +138,8 @@ public class MTEEngineDiesel extends MultiTileEntityEngineBase implements ITileE
 	public long getTemperatureMax(byte side) {
 		return OPTIMAL_TEMPERATURE;
 	}
+
+	@Override public long getEnergySizeOutputMin(TagData energyType, byte side) { return 0; }
 
 	@Override
 	public int getRenderPasses2(Block block, boolean[] shouldSideBeRendered) {
@@ -160,9 +183,20 @@ public class MTEEngineDiesel extends MultiTileEntityEngineBase implements ITileE
 	}
 
 	@Override
+	public boolean onTickCheck(long aTimer) {
+		return thermometerIndex != oldThermometerIndex || super.onTickCheck(aTimer);
+	}
+
+	@Override
+	public void onTickResetChecks(long aTimer, boolean aIsServerSide) {
+		super.onTickResetChecks(aTimer, aIsServerSide);
+		oldThermometerIndex = thermometerIndex;
+	}
+
+	@Override
 	public void setVisualData(byte data) {
 		activity.mState = (byte)(data & 3);
-		thermometerIndex = (data & 124) >>2;
+		thermometerIndex = (byte) ((data & 124) >>2);
 	}
 
 	@Override public byte getVisualData() {

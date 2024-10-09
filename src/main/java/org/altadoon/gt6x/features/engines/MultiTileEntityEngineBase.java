@@ -88,11 +88,12 @@ public abstract class MultiTileEntityEngineBase extends TileEntityBase10FacingDo
     @Override
     public void onTick2(long timer, boolean isServerSide) {
         if (isServerSide) {
-            if (energy >= rate) {
-                ITileEntityEnergy.Util.emitEnergyToNetwork(energyTypeEmitted, rate, 1, this);
-                energy -= rate;
+            long currentRate = UT.Code.units(rate, 10000, efficiency, false);
+            if (energy >= currentRate) {
+                ITileEntityEnergy.Util.emitEnergyToNetwork(energyTypeEmitted, currentRate, 1, this);
+                energy -= currentRate;
             }
-            if (energy < rate * 2 && !stopped) {
+            if (energy < currentRate * 2 && efficiency > 0 && !stopped) {
                 activity.mActive = false;
                 Recipe recipe = recipes.findRecipe(this, lastRecipe, true, Long.MAX_VALUE, NI, tanks[0].AS_ARRAY, ZL_IS);
                 if (recipe != null) {
@@ -102,7 +103,7 @@ public abstract class MultiTileEntityEngineBase extends TileEntityBase10FacingDo
                             lastRecipe = recipe;
                             energy += UT.Code.units(recipe.getAbsoluteTotalPower(), 10000, efficiency, false);
                             if (recipe.mFluidOutputs.length > 0) tanks[1].fill(recipe.mFluidOutputs[0]);
-                            while (energy < rate * 2 && (recipe.mFluidOutputs.length == 0 || tanks[1].canFillAll(recipe.mFluidOutputs[0])) && recipe.isRecipeInputEqual(true, false, tanks[0].AS_ARRAY, ZL_IS)) {
+                            while (energy < currentRate * 2 && (recipe.mFluidOutputs.length == 0 || tanks[1].canFillAll(recipe.mFluidOutputs[0])) && recipe.isRecipeInputEqual(true, false, tanks[0].AS_ARRAY, ZL_IS)) {
                                 energy += UT.Code.units(recipe.getAbsoluteTotalPower(), 10000, efficiency, false);
                                 if (recipe.mFluidOutputs.length > 0) tanks[1].fill(recipe.mFluidOutputs[0]);
                                 if (tanks[0].isEmpty()) break;
