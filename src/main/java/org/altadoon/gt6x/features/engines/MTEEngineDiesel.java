@@ -143,29 +143,25 @@ public class MTEEngineDiesel extends MultiTileEntityEngineBase implements ITileE
 
 	@Override
 	public int getRenderPasses2(Block block, boolean[] shouldSideBeRendered) {
-		return super.getRenderPasses2(block, shouldSideBeRendered) + 11;
+		return super.getRenderPasses2(block, shouldSideBeRendered) + 8;
 	}
 
 	@Override
 	public boolean setBlockBounds2(Block block, int renderPass, boolean[] shouldSideBeRendered) {
 		return switch (renderPass - super.getRenderPasses2(block, shouldSideBeRendered)) {
-			// top blocks
-			case 0 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[6], PX_N[4], PX_P[1], PX_N[6], PX_N[2], PX_N[1]));
-			case 1 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[5], PX_N[2], PX_P[1], PX_N[5], PX_N[0], PX_N[5]));
-			// side pipes
-			case 2 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_N[4], PX_N[3], PX_P[1], PX_N[2], PX_N[1], PX_N[1]));
-			case 3 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[2], PX_N[4], PX_P[1], PX_P[4], PX_N[2], PX_N[1]));
+			// middle pipes
+			case 0 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[4], PX_N[4], PX_P[1], PX_P[6], PX_N[2], PX_N[1]));
+			case 1 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_N[6], PX_N[4], PX_P[1], PX_N[4], PX_N[2], PX_N[1]));
 			// top pipes
-			case 4 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[2], PX_N[2], PX_N[5], PX_N[3], PX_N[0], PX_N[3]));
-			case 5 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[1], PX_N[3], PX_P[5], PX_N[4], PX_N[1], PX_P[7]));
-			// small perpendicular pipes
-			case 6 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[1], PX_N[7], PX_P[5], PX_P[3], PX_N[3], PX_P[7]));
-			case 7 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[2], PX_N[7], PX_N[5], PX_P[4], PX_N[4], PX_N[3]));
+			case 2 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_N[4], PX_N[3], PX_P[1], PX_N[2], PX_N[1], PX_N[1]));
+			case 3 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[1], PX_N[3], PX_P[5], PX_N[4], PX_N[1], PX_P[7]));
+			// small vertical pipe
+			case 4 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_P[1], PX_N[7], PX_P[5], PX_P[3], PX_N[3], PX_P[7]));
 			// bottom pipes
-			case 8 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_N[2], PX_P[1], PX_P[4], PX_N[0], PX_P[4], PX_P[6]));
-			case 9 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_N[2], PX_P[1], PX_N[6], PX_N[0], PX_P[4], PX_N[4]));
+			case 5 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_N[2], PX_P[1], PX_P[4], PX_N[0], PX_P[4], PX_P[6]));
+			case 6 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_N[2], PX_P[1], PX_N[6], PX_N[0], PX_P[4], PX_N[4]));
 			// display
-			case 10 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_N[1], PX_P[4], PX_P[4], PX_N[0], PX_N[4], PX_N[4]));
+			case 7 -> box(block, Geometry.rotateTwice(mFacing, mSecondFacing, PX_N[1], PX_P[4], PX_P[4], PX_N[0], PX_N[4], PX_N[4]));
 			default -> super.setBlockBounds2(block, renderPass, shouldSideBeRendered);
 		};
 	}
@@ -206,8 +202,8 @@ public class MTEEngineDiesel extends MultiTileEntityEngineBase implements ITileE
 	@Override
 	public ITexture getTexture2(Block block, int renderPass, byte side, boolean[] shouldSideBeRendered) {
 		return switch (renderPass - super.getRenderPasses2(block, shouldSideBeRendered)) {
-			case 2, 3, 4 -> getDieselTextureByIndex(0);
-			case 10 -> {
+			case 0, 1 -> getDieselTextureByIndex(0);
+			case 7 -> {
 				if (side == mFacing || side == OPOS[mFacing] || side == mSecondFacing || side == OPOS[mSecondFacing]) {
 					yield super.getTexture2(block, renderPass, side, shouldSideBeRendered);
 				} else {
