@@ -3,16 +3,23 @@ package org.altadoon.gt6x.features.engines;
 import com.google.common.collect.Iterables;
 import gregapi.block.multitileentity.MultiTileEntityRegistry;
 import gregapi.data.*;
+import gregapi.oredict.OreDictItemData;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.recipes.Recipe;
 import gregapi.util.ST;
 import gregapi.util.UT;
+import gregtech.tileentity.tools.MultiTileEntityBasin;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.Fluid;
 import org.altadoon.gt6x.common.*;
 
 import static org.altadoon.gt6x.common.Log.LOG;
 import static org.altadoon.gt6x.common.RMx.FMx;
+
+import org.altadoon.gt6x.common.items.ILx;
+import org.altadoon.gt6x.common.utils.CrucibleUtils;
 import org.altadoon.gt6x.features.GT6XFeature;
 
 import java.util.Arrays;
@@ -23,7 +30,6 @@ import static gregapi.data.CS.*;
 import static gregapi.data.CS.NBT_ENERGY_EMITTED;
 
 public class Engines extends GT6XFeature {
-
     @Override
     public String name() {
         return "EngineOverhaul";
@@ -59,9 +65,12 @@ public class Engines extends GT6XFeature {
 
         for (int i = 0; i < ENGINE_OUTPUTS.length; i++) {
             OreDictMaterial mat = ENGINE_MATERIALS[i];
+            reg.add("Engine Block ("+mat.getLocal()+")", "Engines",  MTEx.IDs.EngineBlock[i].get(), 1304, MTEEngineBlockRaw.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F));
             reg.add("Petrol Engine ("+mat.getLocal()+")", "Engines",  MTEx.IDs.PetrolEngine[i].get(), 1304, MTEEnginePetrol.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_FUELMAP, FMx.Petrol, NBT_EFFICIENCY, 10000, NBT_OUTPUT, ENGINE_OUTPUTS[i], NBT_ENERGY_EMITTED, TD.Energy.RU), "PLP", "SMS", "GPC", 'M', OP.casingMachineDouble.dat(mat), 'P', OP.plateCurved.dat(mat), 'S', OP.stick.dat(mat), 'G', OP.gearGt.dat(mat), 'C', OP.gearGtSmall.dat(mat), 'L', OD.itemLubricant);
             reg.add("Diesel Engine ("+mat.getLocal()+")", "Engines",  MTEx.IDs.DieselEngine[i].get(), 1304, MTEEngineDiesel.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_FUELMAP, FMx.Diesel, NBT_EFFICIENCY, 10000, NBT_OUTPUT, ENGINE_OUTPUTS[i], NBT_ENERGY_EMITTED, TD.Energy.RU), "PLP", "SMS", "GPC", 'M', OP.casingMachineDouble.dat(mat), 'P', OP.plateCurved.dat(mat), 'S', OP.stick.dat(mat), 'G', OP.gearGt.dat(mat), 'C', OP.gearGtSmall.dat(mat), 'L', OD.itemLubricant);
         }
+
+        CrucibleUtils.addSpecialMolds(MTEMoldEngineBlock.class, "Basin", MTEx.IDs.EngineBlockMolds.get(), ILx.Ceramic_Engine_Block_Mold_Raw, ILx.Ceramic_Engine_Block_Mold_Ceramic, "PPP", "P P", "hPy", 'P');
     }
 
     private void moveOldEngineRecipes() {

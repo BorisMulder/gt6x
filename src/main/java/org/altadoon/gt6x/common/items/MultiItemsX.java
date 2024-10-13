@@ -27,5 +27,6 @@ public class MultiItemsX extends MultiItemRandom {
         RM.add_smelting(ILx.Fireclay_Ball.get(1), OP.ingot.mat(MTx.Firebrick, 1), false, false, false);
         RM.add_smelting(dust.mat(MTx.Fireclay, 1), ingot.mat(MTx.Firebrick, 1));
         ILx.Rosin.set(addItem(1, "Rosin", "Solid Conifer Resin", TC.stack(TC.ARBOR, 1))); if (COMPAT_FR != null) COMPAT_FR.addToBackpacks("forester", last());
+        ILx.Ceramic_Engine_Block_Mold_Raw.set(addItem(2, "Clay Engine Block Mold", "Put in Furnace to harden", new OreDictItemData(MTx.Fireclay, 6*U)));
     }
 }

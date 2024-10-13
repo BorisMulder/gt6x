@@ -271,8 +271,8 @@ public abstract class MultiTileEntityEngineBase extends TileEntityBase10FacingDo
         switch(renderPass) {
             case 0, 1:
                 if (side == mFacing || side == OPOS[mFacing]) {
-                    if (renderPass == 0) return getTextureByIndex(renderPass);
-                    else return getRotatedFlippedTexture(renderPass, side == mFacing);
+                    if (renderPass == 0) return getTextureByIndex(0);
+                    else return getRotatedFlippedTexture(1, side == mFacing);
                 }
                 if (side == mSecondFacing) return null;
                 return getTextureByIndex(2);

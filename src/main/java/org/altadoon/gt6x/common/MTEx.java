@@ -138,6 +138,15 @@ public class MTEx {
         DieselEngine5(515),
         DieselEngine6(516),
         DieselEngine7(517),
+        EngineBlock1a(520),
+        EngineBlock1b(521),
+        EngineBlock2(522),
+        EngineBlock3(523),
+        EngineBlock4(524),
+        EngineBlock5(525),
+        EngineBlock6(526),
+        EngineBlock7(527),
+        EngineBlockMolds(530), // 530-580
         ;
 
         public static final IDs[] Hydrocracker = { null, Hydrocracker1, Hydrocracker2, Hydrocracker3, Hydrocracker4 };
@@ -148,6 +157,7 @@ public class MTEx {
         public static final IDs[] Soldering = { null, Soldering1, Soldering2, Soldering3, Soldering4, Soldering5 };
         public static final IDs[] Ionizer = { null, Ionizer1, Ionizer2, Ionizer3, Ionizer4, Ionizer5 };
         public static final IDs[] VacuumChamber = { null, VacuumChamber1, VacuumChamber2, VacuumChamber3, VacuumChamber4, VacuumChamber5 };
+        public static final IDs[] EngineBlock = { EngineBlock1a, EngineBlock1b, EngineBlock2, EngineBlock3, EngineBlock4, EngineBlock5, EngineBlock6, EngineBlock7 };
         public static final IDs[] PetrolEngine = { PetrolEngine1a, PetrolEngine1b, PetrolEngine2, PetrolEngine3, PetrolEngine4, PetrolEngine5, PetrolEngine6, PetrolEngine7 };
         public static final IDs[] DieselEngine = { DieselEngine1a, DieselEngine1b, DieselEngine2, DieselEngine3, DieselEngine4, DieselEngine5, DieselEngine6, DieselEngine7 };
 

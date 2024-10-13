@@ -149,7 +149,9 @@ public class ILx implements IItemContainer {
             LCD = new ILx("LCD"),
             LCDMonitor = new ILx("LCDMonitor"),
             SolarPanelCdTe = new ILx("SolarPanelCdTe"),
-            SolarPanelCIGS = new ILx("SolarPanelCIGS");
+            SolarPanelCIGS = new ILx("SolarPanelCIGS"),
+            Ceramic_Engine_Block_Mold_Raw = new ILx("Ceramic_Engine_Block_Mold_Raw"),
+            Ceramic_Engine_Block_Mold_Ceramic = new ILx("Ceramic_Engine_Block_Mold_Ceramic");
 
     // Photomasks & Wafers
     public static final int NUM_WAFER_TIERS = 3; // PMOS, NMOS, CMOS
