@@ -1,4 +1,4 @@
-package org.altadoon.gt6x.features.engines;
+package org.altadoon.gt6x.features.engines.blocks;
 
 import gregapi.block.multitileentity.MultiTileEntityContainer;
 import gregapi.code.TagData;

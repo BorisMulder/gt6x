@@ -46,7 +46,7 @@ public class Electronics extends GT6XFeature {
         .setCategoryName("polyGems")
         .setLocalItemName("Polycrystalline ", "")
         .setMaterialStats(U)
-        .add(TD.Prefix.RECYCLABLE)
+        .add(TD.Prefix.RECYCLABLE, TD.Prefix.TOOLTIP_MATERIAL, TD.Prefix.UNIFICATABLE)
         .setCondition(ICondition.FALSE)
         .forceItemGeneration(PolyGemMaterials);
 

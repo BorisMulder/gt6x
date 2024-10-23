@@ -1,4 +1,4 @@
-package org.altadoon.gt6x.features.engines;
+package org.altadoon.gt6x.features.engines.blocks;
 
 import net.minecraft.block.Block;
 import org.altadoon.gt6x.common.rendering.Geometry;

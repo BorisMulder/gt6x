@@ -32,6 +32,7 @@ import java.util.*;
 import static gregapi.data.CS.*;
 import static gregapi.data.OP.*;
 import static gregapi.data.TD.Atomic.ANTIMATTER;
+import static gregapi.data.TD.Prefix.*;
 import static gregapi.data.TD.Processing.BLACKLISTED_SMELTER;
 import static gregapi.data.TD.Processing.EXTRUDER;
 import static gregapi.oredict.OreDictMaterialCondition.fullforge;
@@ -90,7 +91,8 @@ public class Metallurgy extends GT6XFeature {
             .setLocalItemName("", " Sinter")
             .setCondition(ICondition.FALSE)
             .setMaterialStats(-1, U)
-            .forceItemGeneration(MT.Fe2O3, MT.OREMATS.Magnetite, MTx.FeO, MT.OREMATS.Garnierite, MT.OREMATS.Cassiterite, MT.OREMATS.Chromite, MT.OREMATS.YellowLimonite, MT.OREMATS.BrownLimonite, MT.OREMATS.Malachite, MTx.PbO, MTx.ZnO, MT.MnO2, MTx.MnO, MTx.Co3O4, MTx.CoO, MT.SiO2, MTx.Sb2O3);
+            .forceItemGeneration(MT.Fe2O3, MT.OREMATS.Magnetite, MTx.FeO, MT.OREMATS.Garnierite, MT.OREMATS.Cassiterite, MT.OREMATS.Chromite, MT.OREMATS.YellowLimonite, MT.OREMATS.BrownLimonite, MT.OREMATS.Malachite, MTx.PbO, MTx.ZnO, MT.MnO2, MTx.MnO, MTx.Co3O4, MTx.CoO, MT.SiO2, MTx.Sb2O3)
+            .add(TOOLTIP_MATERIAL, UNIFICATABLE);
         PrefixItem item = new PrefixItem(MOD_ID, MD.GT.mID, "gt6x.meta.sinter" , sinter); if (COMPAT_FR != null) COMPAT_FR.addToBackpacks("miner", ST.make(item, 1, W));
     }
 

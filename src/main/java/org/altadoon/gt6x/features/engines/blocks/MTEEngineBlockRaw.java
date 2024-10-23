@@ -1,4 +1,4 @@
-package org.altadoon.gt6x.features.engines;
+package org.altadoon.gt6x.features.engines.blocks;
 
 import gregapi.old.Textures;
 import gregapi.render.BlockTextureDefault;
@@ -76,4 +76,5 @@ public class MTEEngineBlockRaw extends TileEntityBase09FacingSingle {
 	@Override public byte getDefaultSide() { return SIDE_FRONT; }
 	@Override public boolean allowCovers(byte aSide) { return false; }
 	@Override public boolean canDrop(int aSlot) { return false; }
+	@Override public boolean addDefaultCollisionBoxToList() {return false;}
 }
