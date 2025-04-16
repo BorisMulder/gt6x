@@ -18,7 +18,9 @@ public class MTEx {
     public static MultiTileEntityRegistry gt6xMTEReg = new MultiTileEntityRegistry("gt6x.multitileentity");
     public static MultiTileEntityRegistry gt6Registry = MultiTileEntityRegistry.getRegistry("gt.multitileentity");
 
-    public static final int gt6xMTERegId = Block.getIdFromBlock(MTEx.gt6xMTEReg.mBlock);
+    public static final String NBT_MTE_MULTIBLOCK_PART_REG = "gt6x.mte.part.reg";
+    public static final int gt6xMTERegId = Block.getIdFromBlock(gt6xMTEReg.mBlock);
+    public static final int gt6MTERegId = Block.getIdFromBlock(gt6Registry.mBlock);
 
     public static MultiTileEntityBlock PlasticBlock = MultiTileEntityBlock.getOrCreate(Gt6xMod.MOD_ID, "redstoneLight", Material.redstoneLight, Block.soundTypeWood, TOOL_saw, 0, 0, 15, false, false);
     public static MultiTileEntityBlock MachineBlock = MultiTileEntityBlock.getOrCreate(Gt6xMod.MOD_ID, "machine", MaterialMachines.instance, Block.soundTypeMetal, TOOL_wrench, 0, 0, 15, false, false);
@@ -35,6 +37,8 @@ public class MTEx {
         Hydrocracker2(51),
         Hydrocracker3(52),
         Hydrocracker4(53),
+        DistTower(60),
+        CryoDistTower(61),
 
         // Ceramics: 100-199
         AluminaBricks(100),
@@ -120,6 +124,58 @@ public class MTEx {
         SolarPanelPolySi(470),
         SolarPanelMonoSi(471),
         SolarPanelMJ(472),
+        // Engines: 500-799
+        PetrolEngine1a(500),
+        PetrolEngine1b(501),
+        PetrolEngine2(502),
+        PetrolEngine3(503),
+        PetrolEngine4(504),
+        PetrolEngine5(505),
+        PetrolEngine6(506),
+        PetrolEngine7(507),
+
+        DieselEngine1a(510),
+        DieselEngine1b(511),
+        DieselEngine2(512),
+        DieselEngine3(513),
+        DieselEngine4(514),
+        DieselEngine5(515),
+        DieselEngine6(516),
+        DieselEngine7(517),
+        EngineBlock1a(520),
+        EngineBlock1b(521),
+        EngineBlock2(522),
+        EngineBlock3(523),
+        EngineBlock4(524),
+        EngineBlock5(525),
+        EngineBlock6(526),
+        EngineBlock7(527),
+        EngineBlockMolds(530), // 530-579
+        EngineBlockA6061(580),
+        NitroEngine(581),
+
+        // Engine Pipes and drums
+        DrumCastIron(590),
+        DrumHastelloy(592),
+        DrumTi6Al4V(593),
+        DrumTMS196(594),
+        PipesCastIron(600), // 600-619
+        PipesAlusil(620), // 620-639
+        PipesHastelloy(640), // 640-659
+        PipesTi6Al4V(660), // 660-679
+        PipesTMS196(680), // 680-699
+        PipesA6061(700), // 700-719
+
+        // Gas Turbines: 800-810
+        GasTurbine1(801),
+        GasTurbine2(802),
+        GasTurbine3(803),
+        GasTurbine4(804),
+        GasTurbine5(805),
+        // Dense Walls: 811-820
+        DenseWallHastelloy(811),
+        DenseWallTi6Al4V(812),
+        DenseWallTMS196(813),
         ;
 
         public static final IDs[] Hydrocracker = { null, Hydrocracker1, Hydrocracker2, Hydrocracker3, Hydrocracker4 };
@@ -130,6 +186,10 @@ public class MTEx {
         public static final IDs[] Soldering = { null, Soldering1, Soldering2, Soldering3, Soldering4, Soldering5 };
         public static final IDs[] Ionizer = { null, Ionizer1, Ionizer2, Ionizer3, Ionizer4, Ionizer5 };
         public static final IDs[] VacuumChamber = { null, VacuumChamber1, VacuumChamber2, VacuumChamber3, VacuumChamber4, VacuumChamber5 };
+        public static final IDs[] EngineBlock = { EngineBlock1a, EngineBlock1b, EngineBlock2, EngineBlock3, EngineBlock4, EngineBlock5, EngineBlock6, EngineBlock7 };
+        public static final IDs[] PetrolEngine = { PetrolEngine1a, PetrolEngine1b, PetrolEngine2, PetrolEngine3, PetrolEngine4, PetrolEngine5, PetrolEngine6, PetrolEngine7 };
+        public static final IDs[] DieselEngine = { DieselEngine1a, DieselEngine1b, DieselEngine2, DieselEngine3, DieselEngine4, DieselEngine5, DieselEngine6, DieselEngine7 };
+        public static final IDs[] GasTurbine = { GasTurbine1, GasTurbine2, GasTurbine3, GasTurbine4 };
 
         private final int id;
 
@@ -146,7 +206,7 @@ public class MTEx {
     public static final float[] HARDNESS_HEAT = { 4.0F, 6.0F, 4.0F, 9.0F, 12.5F };
     public static final float[] HARDNESS_ELECTRIC = { 4.0F, 4.0F, 4.0F, 4.0F, 4.0F, 4.0F };
 
-    public void disableGT6MTE(short id) {
+    public static void disableGT6MTE(short id) {
         if (gt6Registry.mRegistry.containsKey(id)) {
             ItemStack it = gt6Registry.getItem(id);
             ST.hide(it);

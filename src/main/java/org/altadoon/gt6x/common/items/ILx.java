@@ -66,6 +66,8 @@ public class ILx implements IItemContainer {
     public static ILx
             Display_OMStack = new ILx("Display_OMStack"),
             Fireclay_Ball = new ILx("Fireclay_Ball"),
+
+            // circuit components
             Filament_Molybdenum = new ILx("Filament_Molybdenum"),
             Cathode_Molybdenum = new ILx("Cathode_Molybdenum"),
             ElectronTube_Molybdenum = new ILx("ElectronTube_Molybdenum"),
@@ -149,7 +151,15 @@ public class ILx implements IItemContainer {
             LCD = new ILx("LCD"),
             LCDMonitor = new ILx("LCDMonitor"),
             SolarPanelCdTe = new ILx("SolarPanelCdTe"),
-            SolarPanelCIGS = new ILx("SolarPanelCIGS");
+            SolarPanelCIGS = new ILx("SolarPanelCIGS"),
+
+            // Engine parts, molds & shapes
+            Ceramic_Engine_Block_Mold_Raw = new ILx("Ceramic_Engine_Block_Mold_Raw"),
+            Ceramic_Engine_Block_Mold = new ILx("Ceramic_Engine_Block_Mold"),
+            Shape_Extruder_Catalytic_Converter = new ILx("Shape_Extruder_Catalytic_Converter"),
+            Shape_SimpleEx_Catalytic_Converter = new ILx("Shape_SimpleEx_Catalytic_Converter"),
+            SparkPlugs = new ILx("SparkPlugs"),
+            SuperCharger = new ILx("SuperCharger");
 
     // Photomasks & Wafers
     public static final int NUM_WAFER_TIERS = 3; // PMOS, NMOS, CMOS

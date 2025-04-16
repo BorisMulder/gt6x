@@ -2,6 +2,7 @@ package org.altadoon.gt6x.common;
 
 import gregapi.code.TagData;
 import gregapi.data.*;
+import gregapi.old.Textures;
 import gregapi.oredict.OreDictManager;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.render.TextureSet;
@@ -35,15 +36,32 @@ public class MTx {
     }
 
     private static void addPlasma(OreDictMaterial mat) {
-        FLx.createPlasma(mat.put(PLASMA));
+        mat.put(PLASMA);
+        FL.create("plasma."+mat.mNameInternal.toLowerCase(), new Textures.BlockIcons.CustomIcon(Gt6xMod.MOD_ID + ":fluids/" + "plasma."+mat.mNameInternal.toLowerCase()), mat.mNameLocal + " Plasma", mat, null, STATE_PLASMA, 2000, mat.mPlasmaPoint, null, null, 0).setLuminosity(15);
     }
 
     static {
         // change some properties of vanilla GT6 materials
-        MT.NH3    .uumMcfg(1, MT.N, U, MT.H, 3*U);
-        MT.Ethanol.setMcfg(0, MT.C, 2*U, MT.H, 6*U, MT.O, U);
-        MT.PigIron.uumMcfg(5, MT.Fe, 5*U, MT.C, U).heat(MT.WroughtIron).qual(3, 4.0, 128, 2);
-        MT.Steel  .uumMcfg(100, MT.Fe, 100*U, MT.C, U).heat(MT.WroughtIron);
+        MT.NH3      .uumMcfg(1, MT.N, U, MT.H, 3*U);
+        MT.Ethanol  .setMcfg(0, MT.C, 2*U, MT.H, 6*U, MT.O, U).heat(159, 351);
+        MT.Ethylene .setMcfg(0, MT.C, 2*U, MT.H, 4*U).heat(104, 169);
+        MT.Propylene.setMcfg(0, MT.C, 3*U, MT.H, 6*U).heat(88, 225);
+        MT.Propane  .setMcfg(0, MT.C, 3*U, MT.H, 8*U).heat(86, 231);
+        MT.Butane   .setMcfg(0, MT.C, 4*U, MT.H, 10*U).heat(136, 273);
+
+        MT.Petrol.heat(220, 70+C);
+        MT.Kerosine.heat(240, 200+C);
+        MT.Diesel.heat(250, 300+C);
+        MT.Fuel.heat(260, 400+C).setRGBa(50, 50, 0, 255).setLocal("Fuel Oil");
+
+        MT.CH4.heat(91, 112);
+        MT.CO.heat(68, 82);
+        MT.CO2.heat(195, 195);
+
+        MT.PigIron .uumMcfg(5, MT.Fe, 5*U, MT.C, U).heat(1445, MT.Fe.mBoilingPoint).qual(3, 4.0, 128, 2).setAllToTheOutputOf(MT.PigIron);
+        MT.IronCast.setMcfg(8, MT.Fe, 8*U, MT.C, U).heat(1260+C, MT.Fe.mBoilingPoint).qual(3, 5.0, 256, 2).setAllToTheOutputOf(MT.IronCast).hide(false).add(DUSTS, PIPES);
+        MT.Fe.mReRegistrations.remove(MT.IronCast); MT.IronCast.mToThis.remove(MT.Fe);
+        MT.Steel   .uumMcfg(100, MT.Fe, 100*U, MT.C, U).heat(MT.WroughtIron);
         MT.Sodalite.uumMcfg(0, MT.Na, 8*U, MT.Al, 6*U, MT.Si, 6*U, MT.O, 24*U, MT.Cl, 2*U);
         MT.Lazurite.uumMcfg(0, MT.Na, 7*U, MT.Ca, U, MT.Al, 6*U, MT.Si, 6*U, MT.S, 4*U, MT.O, 28*U, MT.H2O, 3*U)
                 .tooltip("Na" + NUM_SUB[7] + "CaAl" + NUM_SUB[6] + "Si" + NUM_SUB[6] + "O" + NUM_SUB[24] + "(SO" + NUM_SUB[4] + ")S" + NUM_SUB[3] + "(H" + NUM_SUB[2] + "O)");
@@ -86,6 +104,7 @@ public class MTx {
         MT.Eu.hide(false);
         MT.Te.hide(false);
         MT.Tl.hide(false);
+        registerLiquid(MT.BioFuel.hide(false));
 
         MT.OREMATS.Wolframite.setLocal("Magnesium Tungstate").addSourceOf(MT.Mg);
         MT.OREMATS.Tungstate.setLocal("Lithium Tungstate");
@@ -94,7 +113,9 @@ public class MTx {
         MT.H3BO3.setLocal("Boric Acid");
         MT.FeO3H3.setLocal("Ferric Hydroxide");
         MT.DarkAsh.setLocal("Coal Ash");
+        MT.AluminiumAlloy.setLocal("Aluminium Alloy 4015");
 
+        addMolten(MT.IronCast, 144);
         addMolten(MT.K2S2O7, 144);
         addMolten(MT.Na2S2O7, 144);
         addMolten(MT.Quicklime, 144);
@@ -188,19 +209,19 @@ public class MTx {
     // PGM
     CaO = MT.Quicklime.put("CalciumOxide"),
     NH4 = create(16001, "Ammonium", 0, 100, 255, 255)
-            .setMcfg(1, MT.N, U, MT.H, 4*U), //TODO tooltip not working
+            .setMcfg(1, MT.N, U, MT.H, 4*U),
     AmmoniumHexachloroplatinate = dustdcmp(16002, "Ammonium Hexachloroplatinate", SET_FINE, 255, 220, 10, 255)
             .setMcfg(0, NH4, U*2, MT.Pt, U, MT.Cl, U*6)
             .heat(653)
             .tooltip("(NH" + NUM_SUB[4] + ")" + NUM_SUB[2] + "PtCl" + NUM_SUB[6]),
-    PalladiumChloride = dustdcmp(16003, "Palladium Chloride", SET_FINE, 90, 70, 50, 255)
+    PdCl2 = dustdcmp(16003, "Palladium Chloride", SET_FINE, 90, 70, 50, 255)
             .uumMcfg(0, MT.Pd, U, MT.Cl, U*2)
             .heat(952),
     PtPdLeachingSolution = registerLiquid(lqudaciddcmp(16004, "Platinum Palladium Leaching Solution", 255, 100, 70, 255)
-            .uumMcfg(0, MT.ChloroplatinicAcid, 5*9*U, PalladiumChloride, 2*3*U, MT.H2O, U*3*16)
+            .uumMcfg(0, MT.ChloroplatinicAcid, 5*9*U, PdCl2, 2*3*U, MT.H2O, U*3*16)
             .heat(MT.H2O)),
-    PdChlorideSolution = registerLiquid(lqudaciddcmp(16005, "Palladium Chloride Solution", 255, 180, 90, 255)
-            .uumMcfg(0, PalladiumChloride, U, MT.H2O, U*3*8, MT.HCl, U*2*4)
+    PdCl2Solution = registerLiquid(lqudaciddcmp(16005, "Palladium Chloride Solution", 255, 180, 90, 255)
+            .uumMcfg(0, PdCl2, 3*U, MT.H2O, U*3*8, MT.HCl, U*2*4)
             .heat(MT.H2O)),
     TetraamminepalladiumChloride = dustdcmp(16006, "Tetraamminepalladium Chloride", SET_DULL, 255, 200, 25, 255)
             .uumMcfg(0, MT.Pd, U, MT.NH3, U*4, MT.Cl, U*2),
@@ -236,8 +257,7 @@ public class MTx {
     IrRhOxide = dustdcmp(16016,  "Iridium-Rhodium Oxide Mixture", SET_FINE, 200, 200, 200, 255)
             .uumMcfg(0, MT.Ir, U, MT.Rh, U, MT.O, U*4),
     NH4Cl = dustdcmp(16017, "Ammonium Chloride", SET_CUBE, 250, 250, 250, 255)
-            .setMcfg(0, NH4, U, MT.Cl, U)
-            .tooltip("NH" + NUM_SUB[4] + "Cl")
+            .setMcfg(1, MT.N, U, MT.H, 4*U, MT.Cl, U)
             .heat(338+C, 520+C ),
     RhodiumPotassiumSulfate = dustdcmp(16018, "Rhodium-Potassium Sulfate Mixture", SET_CUBE_SHINY, 255, 100, 150, 255)
             .uumMcfg(0, RhodiumSulfate, 17*U, MT.K2SO4, U*6*7)
@@ -251,23 +271,33 @@ public class MTx {
             .addSourceOf(MT.Cu)
             .heat(1400)
             .put(FURNACE, G_GEM_ORES),
+    PGMResidue = oredustdcmp(16021, "Platinum Group Leaching Residue", SET_SHINY, 160, 170, 200, 255)
+            .uumMcfg(0, MT.Ru, U, MT.Rh, U, MT.Os, U, MT.Ir, U)
+            .heat(2900),
 
     // Oil industry
-    Naphtha = registerLiquid(lqudexpl( 16025, "Naphtha", 255, 200, 0, 255)
-            .heat( 100,  400)
+    LPG = registerLiquid(lqudflam(16022, "LPG", 216, 150, 150, 100)
+            .heat(110, 252)
+            .setLocal("Liquefied Petroleum Gas")),
+    Naphtha = registerLiquid(lqudexpl( 16023, "Naphtha", 255, 227, 0, 255)
+            .heat(C-60, C+90)
             .aspects(TC.MORTUUS, 1, TC.POTENTIA, 1)),
-    NaphthaLowSulfur = registerLiquid(lqudexpl( 16026, "Low-Sulfur Naphtha", 255, 255, 0, 255)
-            .heat( 100,  400)
+    NaphthaLowSulfur = registerLiquid(lqudexpl( 16024, "Low-Sulfur Naphtha", 0, 0, 0, 255)
+            .stealLooks(Naphtha)
+            .heat(Naphtha)
             .aspects(TC.MORTUUS, 1, TC.POTENTIA, 1)),
-    KerosineLowSulfur = registerLiquid(lqudflam( 16027, "Low-Sulfur Kerosine", 0, 0, 255, 255)
-            .heat( 100,  400)
+    JetFuel = registerLiquid(lqudflam(16025, "Jet Fuel", 150, 150, 255, 255)
+            .heat(MT.Kerosine)
             .aspects(TC.MORTUUS, 1, TC.POTENTIA, 1)),
-    DieselLowSulfur = registerLiquid(lqudflam( 16028, "Low-Sulfur Diesel", 255, 255, 0, 255)
-            .heat( 100,  400)
-            .aspects(TC.MORTUUS, 1, TC.POTENTIA, 1)),
-    FuelLowSulfur = registerLiquid(lqudflam( 16029, "Low-Sulfur Fuel Oil", 255, 255, 0, 255)
-            .heat( 100,  400)
-            .aspects(TC.MORTUUS, 1, TC.POTENTIA, 1)),
+    LAGO = registerLiquid(lqudflam(16026, "LAGO", 0, 0, 0, 0)
+            .stealLooks(MT.Diesel)
+            .heat(MT.Diesel)
+            .aspects(TC.MORTUUS, 1, TC.POTENTIA, 1)
+            .setLocal("Gas Oil")),
+    ResidueOil = registerLiquid(lqudflam(16028, "Atmospheric Residue Oil", 30, 20, 10, 255)
+            .heat(MT.Oil)),
+    VDUFeed = registerLiquid(lqudflam(16029, "Depressurized Residue Oil", 150, 140, 130, 200)
+            .heat(100, 300)),
     Ethane = registerGas(gasdcmp( 16030, "Ethane", 255, 0, 100, 25)
             .uumMcfg(1, MT.C, U*2, MT.H, U*6)
             .heat(90, 185)
@@ -321,14 +351,12 @@ public class MTx {
     C2F4 = registerGas(gasdcmp( 16046, "Tetrafluoroethylene", 150, 255, 255, 255)
             .uumMcfg(1, MT.C, U*2, MT.F, U*4)
             .heat(131, 197)),
-    PGMResidue = oredustdcmp(16047, "Platinum Group Leaching Residue", SET_SHINY, 160, 170, 200, 255)
-            .uumMcfg(0, MT.Ru, U, MT.Rh, U, MT.Os, U, MT.Ir, U)
-            .heat(2900),
-    Synoil = registerLiquid(lqudflam( 16048, "Synthetic Oil", 210, 210, 0, 255)
-            .heat(100, 400)),
-    SCNaphtha = registerLiquid(lqudflam( 16049, "Steam-Cracked Naphtha", 255, 255, 100, 255)
-            .heat( 100,  400)
-            .aspects(TC.MORTUUS, 1, TC.POTENTIA, 1)),
+
+    //TODO 16047-48 free
+    CrackerGas = registerGas(gasdcmp(16049, "Olefins", 150, 0, 150, 255)
+            .heat(MT.Propylene)
+            .put(FLAMMABLE)
+            .setLocal("Cracker Gas")),
     EthyleneDichloride = registerLiquid(lqudflam( 16050, "Ethylene Dichloride", 100, 255, 100, 255)
             .uumMcfg(1, MT.C, 2*U, MT.H, U*4, MT.Cl, U*2)
             .heat( 238,  357)),
@@ -343,11 +371,9 @@ public class MTx {
             .put(FLAMMABLE, EXPLOSIVE)
             .heat(91, 112)
             .setLocal("Liquefied Natural Gas")),
-    FccOffgas = registerGas(gas(16054, "FCC Offgas", 125, 0, 150, 200)
-            .put(FLAMMABLE, EXPLOSIVE)
-            .heat(100, 200)
-            .setLocal("Catalytic Cracker Offgas")
-    ),
+    Synoil = registerLiquid(lqudflam( 16054, "Synoil", 210, 210, 0, 255)
+            .heat(100, 400)
+            .setLocal("Fischer-Tropsch Syncrude")),
 
     // Metallurgy
     Slag = create( 16055, "Slag", 255, 240, 200, 255)
@@ -542,7 +568,6 @@ public class MTx {
             .setMcfg(3, MT.MeteoricIron, 3*U, MT.C, U)
             .heat(MT.MeteoricIron),
     ImpureCementite = dustdcmp(16115, "Slag-rich Cementite", SET_METALLIC, 100, 50, 0, 255)
-            .setLocal("Impure Cementite")
             .setMcfg(0, Cementite, 8*3*U, FerrousSlag, 7*3*U)
             .heat(Cementite),
     MgOC = machine(16116, "MgO-C", SET_QUARTZ, 100, 100, 100, 255, UNBURNABLE)
@@ -576,7 +601,7 @@ public class MTx {
     HSST1 = alloymachine(16123, "HSS-T1", SET_METALLIC, 50, 50, 150)
             .setMcfg(0, MT.Fe, 80*U, MT.C, 4*U, MT.W, 6*U, MT.Cr, 4*U, MT.V, U)
             .heat(2086, MT.Fe.mBoilingPoint)
-            .qual(3, 12.0, 6144, 4),
+            .qual(3, 12.0, 6144, 5),
     HSSM2 = alloymachine(16124, "HSS-M2", SET_METALLIC, 130, 130, 150)
             .setMcfg(0, MT.Fe, 80*U, MT.C, 4*U, MT.W, 2*U, MT.Cr, 4*U, MT.V, 2*U, MT.Mo, 2*U)
             .heat(2075, MT.Fe.mBoilingPoint)
@@ -708,7 +733,7 @@ public class MTx {
             .setMcfg(0, MT.Hg, 9*U, MT.Ga, U)
             .heat(MT.Hg)),
     NH4NO3 = dustdcmp(16164, "Ammonium Nitrate", SET_SHARDS, 255, 255, 255, 255)
-            .setMcfg(0, NH4, U, MT.N, U, MT.O, 3*U)
+            .setMcfg(5, NH4, U, MT.N, U, MT.O, 3*U)
             .tooltip("NH" + NUM_SUB[4] + "NO" + NUM_SUB[3])
             .heat(443, 483)
             .put(FLAMMABLE, EXPLOSIVE),
@@ -722,7 +747,7 @@ public class MTx {
     NDopedGe = dopedSemiconductor(16169, "N-Doped Germanium", MT.Ge, true),
     PDopedSiGe = dopedSemiconductor(16170, "P-Doped Silicon-Germanium", SiGe, true),
     NDopedSiGe = dopedSemiconductor(16171, "N-Doped Silicon-Germanium", SiGe, true),
-    Naphthalene = registerGas(gasdcmp(16172, "Naphthalene", 255, 255, 255, 255)
+    Naphthalene = registerLiquid(lquddcmp(16172, "Naphthalene", 255, 255, 255, 255)
             .setMcfg(1, MT.C, 10*U, MT.H, 8*U)
             .heat(351, 424)
             .put(FLAMMABLE)),
@@ -819,7 +844,7 @@ public class MTx {
             .setMcfg(0, MT.Kr, U, MT.F, U)
             .heat(MT.Kr)),
     CeO2 = dustdcmp(16205, "Cerium(IV) Oxide", SET_DULL, 255, 255, 204, 255)
-            .setMcfg(0, MT.Ce, U, MT.O, 2*U)
+            .setMcfg(1, MT.Ce, U, MT.O, 2*U)
             .heat(2670, 3770),
     NitratoCericAcid = registerLiquid(lqudaciddcmp(16206, "Nitrato Ceric Acid", 255, 100, 0, 255)
             .setMcfg(0, MT.H, 2*U, MT.Ce, U, MT.N, 6*U, MT.O, 18*U)
@@ -846,12 +871,13 @@ public class MTx {
             .setMcfg(0, MT.Y, 2*U, MT.O, 3*U)
             .heat(2698, 4570),
     YAlO3 = machine(16213, "Yttria-Alumina", SET_DULL, 200, 255, 255, 255, PIPES)
-            .setMcfg(0, MT.Al2O3, U, Y2O3, U)
+            .setMcfg(0, MT.Al2O3, 5*U, Y2O3, 2*U)
             .heat(Y2O3),
     SiF4 = registerGas(gasdcmp(16214, "Tetrafluorosilane", 50, 50, 100, 200)
             .uumMcfg(1, MT.Si, U, MT.F, 4*U)
             .heat(178, 182)),
-    //TODO 16215 free
+    Alusil = alloymachine(16215, "Alusil", SET_COPPER, 149, 168, 173, PIPES, "A390")
+            .uumAloy(0, MT.Al, 11*U, MT.Si, 3*U, MT.Cu, U, MT.Mg, U),
     H3AsO3 = registerLiquid(lqudaciddcmp(16216, "Arsenous Acid", 150, 200, 175, 255)
             .setMcfg(0, MT.H, 3*U, MT.As, U, MT.O, 3*U)
             .heat(MT.H2O)),
@@ -945,11 +971,12 @@ public class MTx {
             .put(ELECTROLYSER),
     Pentanol = registerLiquid(lquddcmp(16249, "Pentanol", 255, 0, 150, 200)
             .setMcfg(1, MT.C, 5*U, MT.H, 12*U, MT.O, U)
+            .setLocal("1-Pentanol")
             .heat(195, 411)),
     Chloropentane = registerLiquid(lquddcmp(16250, "Chloropentane", 255, 255, 100, 200)
             .setMcfg(1, MT.C, 5*U, MT.H, 11*U, MT.Cl, U)
             .heat(174, 381)),
-    Butylene = registerGas(gasdcmp(16251, "Butylene", 150, 0, 75, 200)
+    Butylene = registerGas(gasdcmp(16251, "Butylene", 110, 80, 180, 200)
             .setMcfg(1, MT.C, 4*U, MT.H, 8*U)
             .heat(88, 267)),
     AceticAcid = registerLiquid(lqudaciddcmp(16252, "Acetic Acid", 255, 255, 255, 200)
@@ -1007,7 +1034,7 @@ public class MTx {
     GeGaInSulfateSolution = registerLiquid(lqudaciddcmp(16271, "Ge-Ga-In Sulfate Solution", 255, 150, 50, 255)
             .setMcfg(0, MT.Ga, U, MT.Ge, U, MT.In, U, MT.S, 5*U, MT.O, 20*U, MT.H2O, 6*3*U)
             .heat(MT.H2O))
-            .tooltip("(Ga, In, Ge)\u2098(SO" + NUM_SUB[4] + ")\u2099"),
+            .tooltip("(Ga, In, Ge)ₘ(SO" + NUM_SUB[4] + ")ₙ"),
     Tannin = registerLiquid(lquddcmp(16272, "Tannin", 100, 50, 0, 250)
             .heat(MT.H2O)),
     TannicAcid = dustdcmp(16273, "Tannic Acid", SET_QUARTZ, 220, 130, 0, 255)
@@ -1033,7 +1060,8 @@ public class MTx {
             .heat(MT.DarkAsh),
     CoalAshLeachingSolution = registerLiquid(lquddcmp(16281, "Coal ash leaching solution", 150, 150, 150, 200)
             .heat(MT.H2O)),
-    //TODO 16282 free
+    Hastelloy = alloymachine(16282, "Hastelloy", SET_COPPER, 230, 210, 180, PIPES)
+            .uumAloy(0, MT.Ni, 5*U, MT.Cr, 2*U, MT.Mo, U, MT.Co, U),
     OxalicAcid = dustdcmp(16283, "Oxalic Acid", SET_CUBE, 220, 235, 255, 200)
             .uumMcfg(0, MT.H, 2*U, MT.C, 2*U, MT.O, 4*U)
             .heat(463),
@@ -1068,35 +1096,35 @@ public class MTx {
             .uumMcfg(0, MT.Eu, 2*U, MT.O, 3*U)
             .heat(2620, 4391),
     BaS = dustdcmp(16295, "Barium Sulfide", SET_DULL, 255, 255, 255, 255)
-            .uumMcfg(0, MT.Ba, U, MT.S, U)
+            .uumMcfg(1, MT.Ba, U, MT.S, U)
             .heat(2508),
     BaO = dustdcmp(16296, "Barium Oxide", SET_FINE, 255, 255, 255, 255)
-            .uumMcfg(0, MT.Ba, U, MT.O, U)
+            .uumMcfg(1, MT.Ba, U, MT.O, U)
             .heat(2196, 2270),
     BaCO3 = dustdcmp(16297, "Barium Carbonate", SET_CUBE, 255, 255, 255, 255)
-            .uumMcfg(0, MT.Ba, U, MT.C, U, MT.O, 3*U)
+            .uumMcfg(1, MT.Ba, U, MT.C, U, MT.O, 3*U)
             .heat(1360+C)
             .setSmelting(BaO, 2*U5),
     BaNO3 = dustdcmp(16298, "Barium Nitrate", SET_CUBE, 255, 255, 255, 255)
-            .uumMcfg(0, MT.Ba, U, MT.N, 2*U, MT.O, 6*U)
+            .uumMcfg(1, MT.Ba, U, MT.N, 2*U, MT.O, 6*U)
             .tooltip("Ba(NO" + NUM_SUB[3] + ")" + NUM_SUB[2])
             .heat(865)
             .setSmelting(BaO, 2*U5),
     SrS = dustdcmp(16299, "Strontium Sulfide", SET_DULL, 255, 255, 255, 255)
-            .uumMcfg(0, MT.Sr, U, MT.S, U)
+            .uumMcfg(1, MT.Sr, U, MT.S, U)
             .heat(2275),
     SrO = dustdcmp(16300, "Strontium Oxide", SET_FINE, 255, 255, 255, 255)
-            .uumMcfg(0, MT.Sr, U, MT.O, U)
+            .uumMcfg(1, MT.Sr, U, MT.O, U)
             .heat(2804, 3470),
     SrCO3 = dustdcmp(16301, "Strontium Carbonate", SET_CUBE, 255, 255, 255, 255)
-            .uumMcfg(0, MT.Sr, U, MT.C, U, MT.O, 3*U)
+            .uumMcfg(1, MT.Sr, U, MT.C, U, MT.O, 3*U)
             .heat(1767)
             .setSmelting(SrO, 2*U5),
     BaSrCaCO3 = dustdcmp(16302, "Barium-Strontium-Calcium Carbonate", SET_CUBE, 255, 255, 255, 255)
-            .setMcfg(0, BaCO3, 6*U, MT.CaCO3, 2*U, SrCO3, U)
+            .setMcfg(1, BaCO3, 6*U, MT.CaCO3, 2*U, SrCO3, U)
             .heat(BaCO3),
     BaSrCaO3 = dustdcmp(16303, "Barium-Strontium-Calcium Oxide", SET_CUBE, 255, 255, 255, 255)
-            .setMcfg(0, BaO, 6*U, CaO, 2*U, SrO, U)
+            .setMcfg(1, BaO, 6*U, CaO, 2*U, SrO, U)
             .heat(BaO)
             .put(CENTRIFUGE),
     Aquadag = dustdcmp(16304, "Aquadag", SET_FOOD, 10, 10, 10, 255)
@@ -1292,7 +1320,121 @@ public class MTx {
             .setMcfg(0, MT.Cs, U, MT.Cl, U)
             .heat(919, 1570),
     CsRbClSolution = registerLiquid(lquddcmp(16382, "Caesium-Rubidium Chloride Solution", 255, 200, 0, 200)
-            .setMcfg(0, CsCl, 5*U, RbCl, U, MT.H2O, 3*3*U))
+            .setMcfg(0, CsCl, 5*U, RbCl, U, MT.H2O, 3*3*U)),
+
+    // Engines, more oil processing
+    Ti6Al4V = alloymachine(16383, "Ti-6Al-4V", SET_COPPER, 191, 145, 255, "Titanium Alloy", PIPES)
+            .uumAloy(0, MT.Ti, 24*U, MT.Al, 3*U, MT.V, U)
+            .heat(1632+C),
+    TMS196 = alloymachine(16384, "TMS-196", SET_SHINY, 255, 255, 204, PIPES)
+            .uumAloy(0, MT.Ni, 42*U, MT.Al, 8*U, MT.Cr, 4*U, MT.Co, 4*U, MT.Ru, 2*U, MT.Ta, U, MT.Mo, U, MT.W, U, MT.Re, U)
+            .setLocal("TMS-196 Superalloy"),
+    Xylene = registerLiquid(lqudflam(16386, "Xylene", 255, 255, 255, 255)
+            .setMcfg(1, MT.C, 8*U, MT.H, 10*U)
+            .heat(226, 412)),
+    MTBE = registerLiquid(lqudflam(16387, "MTBE", 255, 255, 255, 200)
+            .setMcfg(1, MT.C, 5*U, MT.H, 12*U, MT.O, U)
+            .heat(165, 328)
+            .setLocal("Methyl Tert-Butyl Ether")),
+    Super95E10 = registerLiquid(lqudflam(16388, "Super 95 E10", 0, 121, 88, 255)
+            .heat(MT.Petrol)),
+    SuperPlus98E5 = registerLiquid(lqudflam(16389, "SuperPlus 98 E5", 0, 85, 85, 255)
+            .heat(MT.Petrol)),
+    E85 = registerLiquid(lqudflam(16390, "E85", 255, 100, 0, 255)
+            .heat(MT.Ethanol)),
+
+    VacuumResidue = create(16392, "Vacuum Residue Oil", 22, 22, 22, 255).setTextures(SET_ROUGH).put(DECOMPOSABLE, INGOTS)
+            .heat(MT.Asphalt),
+    DAO = registerLiquid(lqudflam(16393, "DAO", 200, 150, 0, 255)
+            .setLocal("De-Asphalted Oil")
+            .heat(MT.Fuel)),
+    LVGO = registerLiquid(lqudflam(16394, "LVGO", 110, 105, 0, 255)
+            .setLocal("Light Vacuum Gas Oil")
+            .heat(200, 400)),
+    HVGO = registerLiquid(lqudflam(16395, "HVGO", 150, 100, 0, 255)
+            .setLocal("Heavy Vacuum Gas Oil")
+            .heat(225, 525)),
+    CGO = registerLiquid(lqudflam(16396, "CGO", 100, 100, 0, 200)
+            .setLocal("Coker Gas Oil")),
+    Butanone = registerLiquid(lquddcmp(16397, "Butanone", 255, 255, 255, 150, "MEK", "Methyl Ethyl Ketone", "Ethyl Methyl Ketone")
+            .heat(187, 353)
+            .setLocal("Methyl Ethyl Ketone")), MEK = Butanone,
+    DewaxedMEKSolution = registerLiquid(lquddcmp(16398, "Solvent-dewaxed MEK Solution", 255, 230, 200, 255)
+            .heat(MEK)),
+    Butadiene = registerGas(gasdcmp(16399, "Butadiene", 120, 70, 150, 255, FLAMMABLE)
+            .setMcfg(1, MT.C, 4*U, MT.H, 6*U)
+            .heat(164, 269)),
+    Styrene = registerLiquid(lquddcmp(16400, "Styrene", 230, 255, 200, 255, FLAMMABLE)
+            .setMcfg(1, MT.C, 8*U, MT.H, 8*U)
+            .heat(243, 418)),
+    Ethylbenzene = registerLiquid(lquddcmp(16401, "Ethylbenzene", 255, 230, 200, 255, FLAMMABLE)
+            .setMcfg(1, MT.C, 8*U, MT.H, 10*U)
+            .heat(178, 409)),
+    Polystyrene = plastic(16402, "Polystyrene", SET_CUBE, 255, 255, 255, 255, "Styrofoam")
+            .setMcfg(1, Styrene, U)
+            .heat(513, 703),
+    Sulfolane = registerLiquid(lquddcmp(16404, "Sulfolane", 255, 255, 210, 255)
+            .setMcfg(1, MT.C, 4*U, MT.H, 8*U, MT.S, U, MT.O, 2*U)
+            .heat(300, 558)),
+    Pygas = registerLiquid(lqudflam(16405, "Pygas", 255, 255, 255, 255, "Pyrolysis Gasoline")
+            .setLocal("Pyrolysis Gasoline")
+            .heat(C-62, C+204)),
+    AromaticsMix = registerLiquid(lqudflam(16406, "Aromatics-Rich Distillate", 255, 255, 255, 255)
+            .heat(Toluene)),
+    Reformate = registerLiquid(lqudflam(16407, "Reformate", 255, 50, 0, 255)),
+    BTXSolution = registerLiquid(lquddcmp(16408, "BTX Solution", 255, 255, 230, 255)
+            .heat(Sulfolane)),
+    DistillersGrains = dustdcmp(16409, "Distillers Grains", SET_POWDER, 255, 255, 120, 255)
+            .put(FOOD, MORTAR, ANY.FlourGrains, ANY.Flour, FLAMMABLE)
+            .aspects(TC.MESSIS, 2).setBurning(MT.Ash, U9),
+    Nitromethane = registerLiquid(lquddcmp(16410, "Nitromethane", 220, 255, 100, 255, FLAMMABLE, EXPLOSIVE)
+            .heat(245, 374)),
+    A6061 = alloymachine(16411, "A6061", SET_COPPER, 179, 208, 230, PIPES)
+            .uumAloy(0, MT.Al, 96*U, MT.Si, U, MT.Mg, U, MT.Cr, U, MT.Cu, U)
+            .setLocal("Aluminium Alloy 6061"),
+    ZrO2 = dustdcmp(16412, "Zirconia", SET_ROUGH, 255, 255, 255, 255)
+            .uumMcfg(1, MT.Zr, U, MT.O, 2*U)
+            .heat(2988, 4570),
+    ZrOCl2 = dustdcmp(16413, "Zirconyl Chloride", SET_COPPER, 255, 255, 255, 255)
+            .setMcfg(0, MT.Zr, U, MT.O, U, MT.Cl, 2*U)
+            .heat(400+C),
+    ZrO4H4 = dustdcmp(16414, "Zirconium Hydroxide", SET_DULL, 255, 255, 255, 255)
+            .setMcfg(2, MT.Zr, U, MT.O, 4*U, MT.H, 4*U)
+            .tooltip("Zr(OH)" + NUM_SUB[4])
+            .setSmelting(ZrO2, U2)
+            .heat(550+C),
+    YZrOH = dustdcmp(16415, "Yttrium-Zirconium Hydroxide", SET_DULL, 255, 255, 255, 255)
+            .setMcfg(15, MT.Zr, 5*U, MT.Y, U, MT.O, 23*U, MT.H, 23*U)
+            .tooltip("(Zr(OH)" + NUM_SUB[4] +")" + NUM_SUB[15] + "Y(OH)" + NUM_SUB[3])
+            .heat(ZrO4H4),
+    YSZ = dustdcmp(16416, "YSZ", SET_CUBE_SHINY, 255, 255, 255, 255)
+            .setMcfg(15, ZrO2, 10*U, Y2O3, 2*U)
+            .heat(ZrO2)
+            .setLocal("Yttria-Stabilized Zirconia"),
+    La2O3 = dustdcmp(16417, "Lanthana", SET_ROUGH, 255, 255, 255, 255)
+            .setMcfg(2, MT.La, 2*U, MT.O, 3*U)
+            .setDensity(6.51)
+            .heat(2588, 4470),
+    LaNO3 = dustdcmp(16418, "Lanthanum Nitrate", SET_ROUGH, 255, 255, 255, 255)
+            .setMcfg(10, MT.La, U, MT.N, 3*U, MT.O, 9*U)
+            .tooltip("La(NO" + NUM_SUB[3] + ")" + NUM_SUB[3])
+            .heat(313, 399),
+    LaZrOH = dustdcmp(16419, "Lanthanum-Zirconium Hydroxide", SET_DULL, 255, 255, 255, 255)
+            .setMcfg(8, ZrO4H4, 2*U, MT.La, U, MT.O, 3*U, MT.H, 3*U)
+            .tooltip("LaZr(OH)" + NUM_SUB[7])
+            .heat(ZrO4H4),
+    La2Zr2O7 = dustdcmp(16420, "Lanthanum Zirconate", SET_CUBE_SHINY, 255, 255, 255, 255)
+            .setMcfg(8, MT.La, 2*U, MT.Zr, 2*U, MT.O, 7*U)
+            .heat(2788, 4520),
+    NH4NO3Solution = simpleSolution(16421, "Ammonium Nitrate Solution", 255, 255, 255, 255, NH4NO3, 3),
+    Massicot = oredustdcmp(16422, "Massicot", SET_CUBE, 230, 230, 50, 255)
+            .setMcfg(1, PbO, U)
+            .heat(400)
+            .setAllToTheOutputOf(PbO),
+    Zincite = oredustdcmp(16423, "Zincite", SET_COPPER, 255, 150, 0, 255)
+            .setMcfg(1, ZnO, U)
+            .heat(400)
+            .setAllToTheOutputOf(ZnO)
     ;
 
     /* Unused
@@ -1304,9 +1446,30 @@ public class MTx {
     AuGe = alloymachine(16171, "Gold-Germanium", SET_COPPER, 227, 182, 59)
             .uumAloy(0, MT.Au, U, MT.Ge, U)
             .heat(365 + C, (MT.Ge.mBoilingPoint + MT.Au.mBoilingPoint) / 2),
+    Sulfolene = dustdcmp(16403, "Sulfolene", SET_CUBE, 255, 255, 255, 255)
+            .setMcfg(1, MT.C, 4*U, MT.H, 6*U, MT.S, U, MT.O, 2*U)
+            .heat(338),
+    LightNaphtha = registerLiquid(lqudexpl( 16021, "Light Naphtha", 0, 0, 0, 0)
+            .stealLooks(MT.Petrol)
+            .heat(MT.Petrol)
+            .aspects(TC.MORTUUS, 1, TC.POTENTIA, 1)),
+    HeavyNaphtha = registerLiquid(lqudexpl( 16022, "Heavy Naphtha", 255, 200, 0, 255)
+            .heat(C-40, C+120)
+            .aspects(TC.MORTUUS, 1, TC.POTENTIA, 1)),
+    HeavyNaphthaLowSulfur = registerLiquid(lqudexpl( 16025, "Low-Sulfur Heavy Naphtha", 0, 0, 0, 255)
+            .stealLooks(HeavyNaphtha)
+            .heat(HeavyNaphtha)
+            .aspects(TC.MORTUUS, 1, TC.POTENTIA, 1)),
+    HAGO = registerLiquid(lqudflam(16027, "Heavy Atmospheric Gas Oil", 0, 0, 0, 0)
+            .stealLooks(MT.Fuel)
+            .heat(260, 350+C)
+            .aspects(TC.MORTUUS, 1, TC.POTENTIA, 1)),
     */
 
     static {
+        Zincite.remove(DUSTS); Zincite.remove(PLANTS);
+        Massicot.remove(DUSTS); Massicot.remove(PLANTS);
+
         MT.BlueSapphire  .uumMcfg(6, MT.Al2O3, 5*U, MT.Fe2O3, U);
         MT.Ruby          .uumMcfg(6, MT.Al2O3, 5*U, Cr2O3, U);
         MT.GreenSapphire .uumMcfg(6, MT.Al2O3, 5*U, MgO, U);
