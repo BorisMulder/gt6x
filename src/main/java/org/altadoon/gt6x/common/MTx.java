@@ -1,11 +1,15 @@
 package org.altadoon.gt6x.common;
 
+import gregapi.code.HashSetNoNulls;
 import gregapi.code.TagData;
 import gregapi.data.*;
 import gregapi.old.Textures;
 import gregapi.oredict.OreDictManager;
 import gregapi.oredict.OreDictMaterial;
+import gregapi.oredict.OreDictMaterialStack;
+import gregapi.render.IIconContainer;
 import gregapi.render.TextureSet;
+import gregapi.util.UT;
 import net.minecraft.enchantment.Enchantment;
 import org.altadoon.gt6x.Gt6xMod;
 
@@ -22,22 +26,63 @@ import static gregapi.render.TextureSet.SET_FINE;
 
 /** Materials for GT6X */
 public class MTx {
+    public static final HashSetNoNulls<OreDictMaterial> ALL_MATERIALS_REGISTERED_HERE = new HashSetNoNulls<>();
+
     public static void touch() {}
 
     public static final TagData POLYMER = TagData.createTagData("PROPERTIES.Polymer", "Polymer");
     public static final TagData SIMPLE_SOLUTION = TagData.createTagData("PROPERTIES.SimpleSolution", "SimpleSolution");
+    public static final TagData VAPORIZING = TagData.createTagData("PROCESSING.Vaporizing", "Vaporizable");
+    public static final TagData IONIZING = TagData.createTagData("PROCESSING.Ionizing", "Ionizable");
 
-    private static void addMolten(OreDictMaterial mat, long litersPerUnit) {
-        FL.createMolten(mat.put(MELTING, MOLTEN), litersPerUnit);
+    private static void addMolten(OreDictMaterial mat) {
+        addMolten(mat, mat.mMeltingPoint <= 0 ? 1000 : mat.mMeltingPoint < 300 ? Math.min(300, mat.mBoilingPoint - 1) : mat.mMeltingPoint);
     }
+
+	private static void addMolten(OreDictMaterial mat, long temperature) {
+		mat.put(MELTING, MOLTEN);
+		FL.create(
+			"molten." + mat.mNameInternal.toLowerCase(),
+			mat.mTextureSetsBlock.get(IconsGT.INDEX_BLOCK_MOLTEN),
+			"Molten " + mat.mNameLocal,
+			mat, mat.mRGBaLiquid, STATE_LIQUID, 144, temperature, null, null, 0
+		).setLuminosity(10);
+	}
 
     private static void addVapour(OreDictMaterial mat) {
-        FL.createVapour(mat.put(VAPORS));
+        mat.put(VAPORIZING);
+        long temperature = mat.mBoilingPoint;
+        if (temperature <= 0) temperature = 3000;
+        else if (temperature < 300) temperature = Math.min(300, mat.mPlasmaPoint - 1);
+
+        FL.create("vapor." + mat.mNameInternal.toLowerCase(), mat.mTextureSetsBlock.get(IconsGT.INDEX_BLOCK_GAS),
+            "Vaporized " + mat.mNameLocal, mat, mat.mRGBaGas, STATE_GASEOUS, 1000,
+                temperature, null, null, 0);
     }
 
-    private static void addPlasma(OreDictMaterial mat) {
-        mat.put(PLASMA);
-        FL.create("plasma."+mat.mNameInternal.toLowerCase(), new Textures.BlockIcons.CustomIcon(Gt6xMod.MOD_ID + ":fluids/" + "plasma."+mat.mNameInternal.toLowerCase()), mat.mNameLocal + " Plasma", mat, null, STATE_PLASMA, 2000, mat.mPlasmaPoint, null, null, 0).setLuminosity(15);
+    public static void addPlasma(OreDictMaterial mat) {
+        addPlasma(mat, false, Math.max(2000, mat.mBoilingPoint + 200)); //TODO change the plasma point into something better
+    }
+
+    public static void addPlasma(OreDictMaterial mat, boolean customTexture, long temperature) {
+        if (mat.mGas == null && !mat.contains(GASES)) {
+            addVapour(mat);
+        }
+        mat.mPlasmaPoint = temperature;
+        mat.put(IONIZING);
+        if (!customTexture) {
+            mat.setRGBaPlasma(UT.Code.bind8(mat.mRGBaGas[0] + 50),
+                              UT.Code.bind8(mat.mRGBaGas[1] + 50),
+                              UT.Code.bind8(mat.mRGBaGas[2] + 50),
+            100);
+        }
+
+        IIconContainer texture = customTexture ?
+                new Textures.BlockIcons.CustomIcon(Gt6xMod.MOD_ID + ":fluids/" + "plasma."+mat.mNameInternal.toLowerCase()) :
+                mat.mTextureSetsBlock.get(IconsGT.INDEX_BLOCK_PLASMA);
+        FL.create("plasma."+mat.mNameInternal.toLowerCase(), texture,
+                mat.mNameLocal + " Plasma", mat, mat.mRGBaPlasma, STATE_PLASMA, 2000,
+                temperature, null, null, 0).setLuminosity(15);
     }
 
     static {
@@ -52,16 +97,23 @@ public class MTx {
         MT.Petrol.heat(220, 70+C);
         MT.Kerosine.heat(240, 200+C);
         MT.Diesel.heat(250, 300+C);
-        MT.Fuel.heat(260, 400+C).setRGBa(50, 50, 0, 255).setLocal("Fuel Oil");
+        MT.Fuel.heat(260, 400+C).setLocal("Fuel Oil");
 
         MT.CH4.heat(91, 112);
         MT.CO.heat(68, 82);
         MT.CO2.heat(195, 195);
 
+        MT.OREMATS.Wollastonite.setMcfg(0, MT.Quicklime, 2*U, MT.SiO2, 3*U).tooltip("CaSiO" + NUM_SUB[3]);
         MT.PigIron .uumMcfg(5, MT.Fe, 5*U, MT.C, U).heat(1445, MT.Fe.mBoilingPoint).qual(3, 4.0, 128, 2).setAllToTheOutputOf(MT.PigIron);
+        MT.PigIron.remove(MOLTEN);
+        addMolten(MT.PigIron, C+1510);
         MT.IronCast.setMcfg(8, MT.Fe, 8*U, MT.C, U).heat(1260+C, MT.Fe.mBoilingPoint).qual(3, 5.0, 256, 2).setAllToTheOutputOf(MT.IronCast).hide(false).add(DUSTS, PIPES);
         MT.Fe.mReRegistrations.remove(MT.IronCast); MT.IronCast.mToThis.remove(MT.Fe);
-        MT.Steel   .uumMcfg(100, MT.Fe, 100*U, MT.C, U).heat(MT.WroughtIron);
+        MT.WroughtIron.heat(MT.Fe.mMeltingPoint, MT.Fe.mBoilingPoint);
+        MT.Steel        .uumMcfg(100, MT.Fe, 100*U, MT.C, U).heat(1780, MT.Fe.mBoilingPoint);
+        ANY.Steel.heat(MT.Steel);
+        MT.DamascusSteel.uumMcfg(100, MT.Fe, 100*U, MT.C, U).heat(MT.Steel).qual(3,  6.0, 480, 2);
+        MT.StainlessSteel.heat(1800, MT.Fe.mBoilingPoint);
         MT.Sodalite.uumMcfg(0, MT.Na, 8*U, MT.Al, 6*U, MT.Si, 6*U, MT.O, 24*U, MT.Cl, 2*U);
         MT.Lazurite.uumMcfg(0, MT.Na, 7*U, MT.Ca, U, MT.Al, 6*U, MT.Si, 6*U, MT.S, 4*U, MT.O, 28*U, MT.H2O, 3*U)
                 .tooltip("Na" + NUM_SUB[7] + "CaAl" + NUM_SUB[6] + "Si" + NUM_SUB[6] + "O" + NUM_SUB[24] + "(SO" + NUM_SUB[4] + ")S" + NUM_SUB[3] + "(H" + NUM_SUB[2] + "O)");
@@ -69,11 +121,12 @@ public class MTx {
 
         MT.Olivine.uumMcfg(0, MT.Mg, U, MT.Fe, U, MT.Si, U, MT.O, 4*U);
 
-        MT.P.setLocal("Phosphorus");
         MT.Apatite.uumMcfg( 0, MT.Ca, 5*U, MT.PO4, 3*5*U, MT.Cl, U).heat(1900).setLocal("Chlorapatite");
         MT.Phosphorite.uumMcfg( 0, MT.Ca, 5*U, MT.PO4, 3*5*U, MT.F, U).heat(1900).setLocal("Fluorapatite");
         for (OreDictMaterial phosphorus : new OreDictMaterial[] { MT.Phosphorus, MT.PhosphorusBlue, MT.PhosphorusRed, MT.PhosphorusWhite}) {
-            phosphorus.setLocal("Tricalcium Phosphate").hide(true);
+            phosphorus.uumMcfg(0, MT.Ca, 3*U, MT.P, 2*U, MT.O, 8*U).tooltip("Ca"+NUM_SUB[3]+"(PO"+NUM_SUB[4]+")"+NUM_SUB[2]);
+            phosphorus.setLocal("Calcium Phosphate");
+            if (phosphorus.mID != MT.Phosphorus.mID) phosphorus.hide(true);
         }
         MT.PO4.hide(true);
         for (OreDictMaterial clay : ANY.Clay.mToThis) {
@@ -81,10 +134,6 @@ public class MTx {
         }
         ANY.Fluorite.addReRegistrationToThis(MT.FluoriteYellow, MT.FluoriteBlack, MT.FluoriteBlue, MT.FluoriteGreen, MT.FluoriteMagenta, MT.FluoriteOrange, MT.FluoritePink, MT.FluoriteRed, MT.FluoriteWhite);
         MT.Kaolinite.heat(2000);
-
-        MT.WroughtIron.qual(3, 6.0, 640, 2);
-
-        MT.AquaRegia.setRGBa(255, 150, 64, 255);
 
         MT.Plastic.put(POLYMER);
         MT.Rubber.put(POLYMER);
@@ -113,20 +162,49 @@ public class MTx {
         MT.H3BO3.setLocal("Boric Acid");
         MT.FeO3H3.setLocal("Ferric Hydroxide");
         MT.DarkAsh.setLocal("Coal Ash");
+        for (OreDictMaterial volcanic : new OreDictMaterial[] { MT.STONES.Komatiite, MT.STONES.Pumice, MT.STONES.Gabbro, MT.STONES.Basalt}) {
+            for (int i = 0; i < volcanic.mComponents.getComponents().size(); i++) {
+                OreDictMaterialStack mat = volcanic.mComponents.getComponents().get(i);
+                OreDictMaterialStack matUndiv = volcanic.mComponents.getUndividedComponents().get(i);
+                if (mat.mMaterial.mID == MT.DarkAsh.mID) {
+                    mat.mMaterial = MT.VolcanicAsh;
+                }
+                if (matUndiv.mMaterial.mID == MT.DarkAsh.mID) {
+                    matUndiv.mMaterial = MT.VolcanicAsh;
+                }
+            }
+        }
         MT.AluminiumAlloy.setLocal("Aluminium Alloy 4015");
 
-        addMolten(MT.IronCast, 144);
-        addMolten(MT.K2S2O7, 144);
-        addMolten(MT.Na2S2O7, 144);
-        addMolten(MT.Quicklime, 144);
-        addMolten(MT.NaCl, 144);
-        addMolten(MT.Ga, 144);
-        addMolten(MT.Nb, 144);
-        addMolten(MT.Cd, 144);
+        addMolten(MT.IronCast);
+        addMolten(MT.K2S2O7);
+        addMolten(MT.Na2S2O7);
+        addMolten(MT.Quicklime);
+        addMolten(MT.NaCl);
+        addMolten(MT.Ga);
+        addMolten(MT.Nb);
+        addMolten(MT.Cd);
 
+        for (OreDictMaterial mat : new OreDictMaterial[] { MT.C, MT.C_13, MT.C_14, MT.As }) {
+            mat.remove(MELTING);
+        }
+
+        addVapour(MT.C.heat(3915, 3915));
+        ANY.C.heat(MT.C);
         addVapour(MT.As.heat(887, 887));
         addVapour(MT.Zn);
         addVapour(MT.Mg);
+        addVapour(MT.P.setLocal("Phosphorus"));
+
+        MT.Graphene.heat(MT.C).put(DUSTS);
+        MT.Graphite.heat(MT.C);
+        MT.C_13.heat(MT.C);
+        MT.C_14.heat(MT.C);
+        MT.SiC.heat(3100, MT.Si.mBoilingPoint).setSmelting(MT.Graphite, U2);
+
+        for (OreDictMaterial mat : new OreDictMaterial[] { MT.H, MT.D, MT.T, MT.He, MT.He_3, MT.Li, MT.Li_6, MT.Be, MT.Be_7, MT.Be_8, MT.B, MT.B_11, MT.C, MT.C_13, MT.C_14, MT.N, MT.O }) {
+            addPlasma(mat);
+        }
     }
 
     public static OreDictMaterial create(int aID, String name, long aR, long aG, long aB, long aA, Object... aRandomData) {
@@ -134,7 +212,9 @@ public class MTx {
             throw new IllegalArgumentException(name + ": GT6X materials should have IDs in the 16001-16999 range");
         }
 
-        return OreDictMaterial.createMaterial(aID, name, name).setRGBa(aR, aG, aB, aA).put(aRandomData).setOriginalMod(Gt6xMod.MOD_DATA);
+        OreDictMaterial result = OreDictMaterial.createMaterial(aID, name, name).setRGBa(aR, aG, aB, aA).put(aRandomData).setOriginalMod(Gt6xMod.MOD_DATA);
+        ALL_MATERIALS_REGISTERED_HERE.add(result);
+        return result;
     }
 
     public static OreDictMaterial liquid(int aID, String name, long aR, long aG, long aB, long aA, Object... aRandomData) { return create(aID, name, aR, aG, aB, aA, LIQUID, aRandomData).setTextures(SET_FLUID).put(G_CONTAINERS, CONTAINERS_FLUID); }
@@ -151,18 +231,29 @@ public class MTx {
     public static OreDictMaterial alloymachine(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, Object... aRandomData) { return machine(aID, aNameOreDict, aSets, aR, aG, aB, 255, aRandomData).put(ALLOY); }
     public static OreDictMaterial plastic(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, long aA, Object... aRandomData) { return create(aID, aNameOreDict, aR, aG, aB, aA, aRandomData).setTextures(aSets).put(G_INGOT_MACHINE, MELTING, EXTRUDER, EXTRUDER_SIMPLE, MORTAR, FURNACE, POLYMER).addReRegistrationToThis(MT.Plastic); }
 
-    public static OreDictMaterial semiconductor(int aID, String aNameOreDict, long r, long g, long b, boolean genItems, Object... aRandomData) {
-        OreDictMaterial mat = dustdcmp(aID, aNameOreDict, SET_METALLIC, r, g, b, 255, aRandomData);
-        if (genItems) {
-            mat.put(INGOTS);
+    public static OreDictMaterial semiconductor(int aID, String aNameOreDict, long r, long g, long b, boolean genBoules) {
+        return semiconductor(aID, aNameOreDict, r, g, b, true, true, genBoules);
+    }
+
+    public static OreDictMaterial semiconductor(int aID, String aNameOreDict, long r, long g, long b, boolean genDusts, boolean genIngots, boolean genBoules, Object... randomData) {
+        OreDictMaterial mat = create(aID, aNameOreDict, r, g, b, 255, randomData);
+        mat.setTextures(SET_METALLIC).put(DECOMPOSABLE);
+        if (genDusts) mat.put(DUSTS);
+        if (genIngots) mat.put(INGOTS);
+        if (genBoules) {
             OP.bouleGt.forceItemGeneration(mat);
             OP.plateGem.forceItemGeneration(mat);
             OP.plateGemTiny.forceItemGeneration(mat);
         }
         return mat;
     }
-    public static OreDictMaterial dopedSemiconductor(int aID, String aNameOreDict, OreDictMaterial mainMaterial, boolean genItems, Object... aRandomData) {
-        return semiconductor(aID, aNameOreDict, 0, 0, 0, genItems, aRandomData)
+
+    public static OreDictMaterial dopedSemiconductor(int aID, String aNameOreDict, OreDictMaterial mainMaterial, boolean genItems) {
+        return dopedSemiconductor(aID, aNameOreDict, mainMaterial, genItems, genItems);
+    }
+
+    public static OreDictMaterial dopedSemiconductor(int aID, String aNameOreDict, OreDictMaterial mainMaterial, boolean genDusts, boolean genBoules, Object... randomData) {
+        return semiconductor(aID, aNameOreDict, 0, 0, 0, genDusts, false, genBoules, randomData)
             .setMcfg(0, mainMaterial, U)
             .setAllToTheOutputOf(mainMaterial)
             .steal(mainMaterial)
@@ -380,7 +471,7 @@ public class MTx {
             .setMcfg( 0, CaO, U, MT.SiO2, 3*U)
             .setTextures(SET_FLINT)
             .put(INGOTS, MORTAR, BRITTLE, GEMS)
-            .heat(1810, 3000)
+            .heat(1720, 3000)
             .setPulver(MT.OREMATS.Wollastonite, U),
     BlastFurnaceGas = registerGas(gas(16056, "Blast Furnace Gas", 0, 20, 30, 200)
             .uumMcfg(0, MT.N, 9*U, MT.CO, 4*U, MT.CO2, 6*U, MT.H, U)
@@ -547,7 +638,7 @@ public class MTx {
             .heat(Fayalite)
             .setPulver(Fayalite, U),
     SpongeIron = dustdcmp(16108, "Sponge Iron", SET_METALLIC, 100, 50, 0, 255, "Bloom")
-            .setMcfg(0, MT.PigIron, 8*5*U, FerrousSlag, 7*5*U)
+            .setMcfg(0, MT.PigIron, 8*U, FerrousSlag, 7*U)
             .heat(1250),
     MgOH2 = dustdcmp(16109, "Magnesium Hydroxide", SET_DULL, 255, 200, 255, 255)
             .uumMcfg(0, MT.Mg, U, MT.O, 2*U, MT.H, 2*U)
@@ -563,10 +654,10 @@ public class MTx {
             .heat(2218),
     Cementite = alloy(16113, "Cementite", SET_METALLIC, 50, 50, 0, "Iron Carbide")
             .uumMcfg(3, MT.Fe, 3*U, MT.C, U)
-            .heat(MT.WroughtIron),
+            .heat(1500),
     MeteoricCementite = alloy(16114, "Meteoric Cementite", SET_METALLIC, 50, 50, 0, 255, "Meteoric Iron Carbide")
             .setMcfg(3, MT.MeteoricIron, 3*U, MT.C, U)
-            .heat(MT.MeteoricIron),
+            .heat(1500),
     ImpureCementite = dustdcmp(16115, "Slag-rich Cementite", SET_METALLIC, 100, 50, 0, 255)
             .setMcfg(0, Cementite, 8*3*U, FerrousSlag, 7*3*U)
             .heat(Cementite),
@@ -618,7 +709,7 @@ public class MTx {
     RefractoryMortar = dustdcmp(16128, "Refractory Mortar", SET_FOOD, 200, 180, 160, 255)
             .heat(CaAlCement),
     RefractoryCeramic = dustdcmp(16129, "Refractory Ceramic", SET_ROUGH, 255, 235, 200, 255)
-            .uumMcfg(0, MT.Ceramic, 2*U, MT.Graphite, U)
+            .uumMcfg(0, MT.Ca, U, MT.Al2O3, 5*U, MT.SiO2, 12*U, MT.C, U)
             .heat(2100),
     Firebrick = create(16130, "Fire Brick", 255, 235, 200, 255, MORTAR, BRITTLE)
             .setMcfg(0, RefractoryCeramic, U)
@@ -627,7 +718,7 @@ public class MTx {
             .setTextures(SET_ROUGH)
             .put(INGOTS),
     Fireclay = oredustdcmp(16131, "Fireclay", SET_ROUGH, 255, 235, 200, 255, MORTAR)
-            .uumMcfg(2, RefractoryCeramic, 2*U, MT.H2O, U)
+            .uumMcfg(0, MT.Kaolinite, 2*U, MT.Graphite, U)
             .heat(RefractoryCeramic)
             .setSmelting(RefractoryCeramic, U),
 
@@ -741,12 +832,12 @@ public class MTx {
             .setMcfg(0, NH4NO3, 10*U, MT.Fuel, U)
             .heat(NH4NO3)
             .put(FLAMMABLE, EXPLOSIVE),
-    PDopedSi = dopedSemiconductor(16166, "P-Doped Silicon", MT.Si, true),
-    NDopedSi = dopedSemiconductor(16167, "N-Doped Silicon", MT.Si, true),
-    PDopedGe = dopedSemiconductor(16168, "P-Doped Germanium", MT.Ge, true),
-    NDopedGe = dopedSemiconductor(16169, "N-Doped Germanium", MT.Ge, true),
-    PDopedSiGe = dopedSemiconductor(16170, "P-Doped Silicon-Germanium", SiGe, true),
-    NDopedSiGe = dopedSemiconductor(16171, "N-Doped Silicon-Germanium", SiGe, true),
+    PDopedSi = dopedSemiconductor(16166, "P-Doped Silicon", MT.Si, false, true),
+    NDopedSi = dopedSemiconductor(16167, "N-Doped Silicon", MT.Si, false, true),
+    PDopedGe = dopedSemiconductor(16168, "P-Doped Germanium", MT.Ge, false, true),
+    NDopedGe = dopedSemiconductor(16169, "N-Doped Germanium", MT.Ge, false, true),
+    PDopedSiGe = dopedSemiconductor(16170, "P-Doped Silicon-Germanium", SiGe, false, true),
+    NDopedSiGe = dopedSemiconductor(16171, "N-Doped Silicon-Germanium", SiGe, false, true),
     Naphthalene = registerLiquid(lquddcmp(16172, "Naphthalene", 255, 255, 255, 255)
             .setMcfg(1, MT.C, 10*U, MT.H, 8*U)
             .heat(351, 424)
@@ -866,9 +957,9 @@ public class MTx {
             .heat(250, 350)),
     CF4 = registerGas(gasdcmp(16211, "Tetrafluoromethane", 200, 255, 255, 200)
             .setMcfg(1, MT.C, U, MT.F, 4*U)
-            .heat(89, 145, 310)),
+            .heat(89, 145)),
     Y2O3 = dustdcmp(16212, "Yttria", SET_SHINY, 255, 255, 255, 255, GEMS)
-            .setMcfg(0, MT.Y, 2*U, MT.O, 3*U)
+            .setMcfg(2, MT.Y, 2*U, MT.O, 3*U)
             .heat(2698, 4570),
     YAlO3 = machine(16213, "Yttria-Alumina", SET_DULL, 200, 255, 255, 255, PIPES)
             .setMcfg(0, MT.Al2O3, 5*U, Y2O3, 2*U)
@@ -886,7 +977,7 @@ public class MTx {
             .heat(MT.H2O)),
     NF3 = registerGas(gasdcmp(16218, "Nitrogen Trifluoride", 0, 240, 255, 200)
             .setMcfg(1, MT.N, U, MT.F, 3*U)
-            .heat(66, 144, 310)),
+            .heat(66, 144)),
     NH4SiF6 = dustdcmp(16219, "Ammonium Hexafluorosilicate", SET_CUBE, 245, 225, 65, 255)
             .setMcfg(0, NH4, 2*U, MT.Si, U, MT.F, 6*U)
             .tooltip("(NH" + NUM_SUB[4] + ")" + NUM_SUB[2] + "SiF" + NUM_SUB[6])
@@ -946,7 +1037,7 @@ public class MTx {
             .heat(Isopropanol)),
     SF6 = registerGas(gasdcmp(16241, "Sulfur Hexafluoride", 240, 255, 200, 150)
             .uumMcfg(1, MT.S, U, MT.F, 6*U)
-            .heat(209, 222, 310)),
+            .heat(209, 222)),
     AlPO4Solution = simpleSolution(16242, "Aluminium Phosphate Solution", 200, 225, 255, 200, AlPO4, 6),
     CoPtCr = alloymachine(16243, "Cobalt-Platinum-Chromium", SET_COPPER, 145, 163, 243)
             .uumAloy(0, MT.Co, 5*U, MT.Pt, U, MT.Cr, 3*U)
@@ -1136,7 +1227,7 @@ public class MTx {
             .setMcfg(0, MT.In, U, MT.F, 3*U)
             .heat(1445)
             .put(ELECTROLYSER),
-    Si3N4 = semiconductor(16307, "Silicon Nitride",  70, 70, 70, false)
+    Si3N4 = semiconductor(16307, "Silicon Nitride",  70, 70, 70, true, false, false)
             .setMcfg(0, MT.Si, 3*U, MT.N, 4*U)
             .heat(2170)
             .setSmelting(MT.Si, 3*U7),
@@ -1184,9 +1275,9 @@ public class MTx {
     H2Se = registerGas(gasdcmp(16320, "Hydrogen Selenide", 255, 210, 60, 150)
             .setMcfg(1, MT.H, 2*U, MT.Se, U)
             .heat(207, 232)),
-    GaP = semiconductor(16321, "Gallium Phosphide", 63, 94, 83, false, INGOTS, DUSTS)
+    GaP = semiconductor(16321, "Gallium Phosphide", 63, 94, 83, false)
             .setMcfg(1, MT.Ga, U, MT.P, U),
-    GaN = semiconductor(16322, "Gallium Nitride", 100, 120, 120, false, INGOTS, DUSTS)
+    GaN = semiconductor(16322, "Gallium Nitride", 100, 120, 120, false)
             .setMcfg(1, MT.Ga, U, MT.N, U),
     GaAsP = semiconductor(16323, "Gallium Arsenide Phosphide", 66, 122, 95, false)
             .setMcfg(2, MT.Ga, 2*U, MT.As, U, MT.P, U),
@@ -1261,11 +1352,11 @@ public class MTx {
             .heat(MT.OREMATS.Cassiterite)
             .setMcfg(1, MT.OREMATS.Cassiterite, U, SnF2, U32)
             .tooltip("SnO" + NUM_SUB[2] + ":F"),
-    NDopedCdS = dopedSemiconductor(16357, "N-doped Cadmium Sulfide", CdS, false),
-    CdTe = semiconductor(16358, "Cadmium Telluride", 50, 50, 50, false)
+    NDopedCdS = dopedSemiconductor(16357, "N-doped Cadmium Sulfide", CdS, true, false),
+    CdTe = semiconductor(16358, "Cadmium Telluride", 50, 50, 50, true, true, false)
             .uumMcfg(0, MT.Cd, U, MT.Te, U)
             .heat(1314, 1320),
-    PDopedCdTe = dopedSemiconductor(16359, "P-doped Cadmium Telluride", CdTe, false),
+    PDopedCdTe = dopedSemiconductor(16359, "P-doped Cadmium Telluride", CdTe, true, false),
     Re2O7 = create(16360, "Rhenium Heptoxide", 230, 255, 0, 255)
             .setMcfg(0, MT.Re, 2*U, MT.O, 7*U)
             .heat(633, 633),
@@ -1314,10 +1405,10 @@ public class MTx {
     Na2SiO3Solution = simpleSolution(16381, "Sodium Metasilicate Solution", 0, 0, 0, 0, Na2SiO3, 6)
             .stealLooks(Na2SiO3),
     RbCl = dustdcmp(16382, "Rubidium Chloride", SET_FINE, 255, 255, 255, 255, ELECTROLYSER)
-            .setMcfg(0, MT.Rb, U, MT.Cl, U)
+            .setMcfg(1, MT.Rb, U, MT.Cl, U)
             .heat(991, 1660),
     CsCl = dustdcmp(16383, "Caesium Chloride", SET_FINE, 255, 255, 255, 255, ELECTROLYSER)
-            .setMcfg(0, MT.Cs, U, MT.Cl, U)
+            .setMcfg(1, MT.Cs, U, MT.Cl, U)
             .heat(919, 1570),
     CsRbClSolution = registerLiquid(lquddcmp(16382, "Caesium-Rubidium Chloride Solution", 255, 200, 0, 200)
             .setMcfg(0, CsCl, 5*U, RbCl, U, MT.H2O, 3*3*U)),
@@ -1327,7 +1418,7 @@ public class MTx {
             .uumAloy(0, MT.Ti, 24*U, MT.Al, 3*U, MT.V, U)
             .heat(1632+C),
     TMS196 = alloymachine(16384, "TMS-196", SET_SHINY, 255, 255, 204, PIPES)
-            .uumAloy(0, MT.Ni, 42*U, MT.Al, 8*U, MT.Cr, 4*U, MT.Co, 4*U, MT.Ru, 2*U, MT.Ta, U, MT.Mo, U, MT.W, U, MT.Re, U)
+            .uumMcfg(0, MT.Ni, 42*U, MT.Al, 8*U, MT.Cr, 4*U, MT.Co, 4*U, MT.Ru, 2*U, MT.Ta, U, MT.Mo, U, MT.W, U, MT.Re, U)
             .setLocal("TMS-196 Superalloy"),
     Xylene = registerLiquid(lqudflam(16386, "Xylene", 255, 255, 255, 255)
             .setMcfg(1, MT.C, 8*U, MT.H, 10*U)
@@ -1434,7 +1525,10 @@ public class MTx {
     Zincite = oredustdcmp(16423, "Zincite", SET_COPPER, 255, 150, 0, 255)
             .setMcfg(1, ZnO, U)
             .heat(400)
-            .setAllToTheOutputOf(ZnO)
+            .setAllToTheOutputOf(ZnO),
+    DRISlag = dustdcmp(16424, "DRI-Slag", SET_FLINT, 100, 100, 50, 255)
+            .put(INGOTS, MORTAR, BRITTLE, GEMS)
+            .heat(ConverterSlag)
     ;
 
     /* Unused
@@ -1485,33 +1579,33 @@ public class MTx {
         MT.Bone.uumMcfg(2, Hydroxyapatite, U).setSmelting(Hydroxyapatite, U2).heat(1000+C);
         MT.SlimyBone.uumMcfg(0, MT.Bone, U);
         MT.VolcanicAsh.setMcfg( 0, MT.Flint, 6*U, MT.Fe2O3, U, MTx.MgO, U);
-        MT.OREMATS.Wollastonite.setMcfg(0, CaO, 2*U, MT.SiO2, 3*U)
-                .tooltip("CaSiO" + NUM_SUB[3]);
+
         // ZSM-5 with n=16
         MT.OREMATS.Zeolite.setMcfg(0, Na2O, 3*U, MT.Al2O3, 5*U, MT.SiO2, 10*3*U, MT.H2O, 6*U)
                 .put(GEMS);
 
-        addMolten(RhodiumPotassiumSulfate, 144);
-        addMolten(AlCl3, 144);
-        addMolten(PbCl2, 144);
-        addMolten(CuCl2, 144);
-        addMolten(Slag, 144);
-        addMolten(FerrousSlag, 144);
-        addMolten(FeCr2, 144);
-        addMolten(ConverterSlag, 144);
-        addMolten(Phenol, 144);
-        addMolten(Epoxy, 144);
-        addMolten(LiF, 144);
-        addMolten(SiGe, 144);
-        addMolten(GaAs, 144);
-        addMolten(InF3, 144);
+        addMolten(RhodiumPotassiumSulfate);
+        addMolten(AlCl3);
+        addMolten(PbCl2);
+        addMolten(CuCl2);
+        addMolten(Slag);
+        addMolten(FerrousSlag);
+        addMolten(FeCr2);
+        addMolten(ConverterSlag);
+        addMolten(DRISlag);
+        addMolten(Phenol);
+        addMolten(Epoxy);
+        addMolten(LiF);
+        addMolten(SiGe);
+        addMolten(GaAs);
+        addMolten(InF3);
 
         addVapour(RuO4);
         addVapour(OsO4);
 
-        addPlasma(CF4);
-        addPlasma(NF3);
-        addPlasma(SF6);
+        addPlasma(CF4, false, 310);
+        addPlasma(NF3, false, 310);
+        addPlasma(SF6, false, 310);
 
         OP.plate.forceItemGeneration(MT.Al2O3);
         OP.wireFine.forceItemGeneration(MT.Ta);

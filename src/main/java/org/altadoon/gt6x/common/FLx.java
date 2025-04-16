@@ -2,9 +2,12 @@ package org.altadoon.gt6x.common;
 
 import com.google.common.collect.Iterables;
 import gregapi.data.FL;
+import gregapi.data.MT;
 import gregapi.lang.LanguageHandler;
 import gregapi.old.Textures;
 import gregapi.oredict.OreDictMaterial;
+import gregapi.render.IIconContainer;
+import gregapi.util.UT;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import org.altadoon.gt6x.Gt6xMod;
@@ -39,14 +42,17 @@ public class FLx {
 
     public static FL[] BIO_OILS = { FL.Oil_Frying, FL.Oil_Seed, FL.Oil_Plant, FL.Oil_Sunflower, FL.Oil_Olive, FL.Oil_Nut, FL.Oil_Lin, FL.Oil_Hemp, FL.Oil_Fish, FL.Oil_Whale, FL.Oil_Canola, FL.Oil_Plant };
 
-    @SafeVarargs public static Fluid createPlasma(OreDictMaterial material, Set<String>... fluidList) {return create("plasma."+material.mNameInternal.toLowerCase(), material.mNameLocal + " Plasma", material, STATE_PLASMA, 2000, material.mPlasmaPoint, fluidList).setLuminosity(15);}
-
     @SafeVarargs public static Fluid create(String name, String localized, OreDictMaterial material, int state, Set<String>... fluidList) {return create(name, localized, material, state, 1000, 300, fluidList);}
-    @SafeVarargs public static Fluid create(String name, String localized, OreDictMaterial material, int state, long amountPerUnit, long temperatureK, Set<String>... fluidList) {return create(name, localized, material, state, amountPerUnit, temperatureK, null, null, 0, fluidList);}
-    @SafeVarargs public static Fluid create(String name, String localized, OreDictMaterial material, int state, long amountPerUnit, long temperatureK, ItemStack fullContainer, ItemStack emptyContainer, int fluidAmount, Set<String>... fluidList) {return FL.create(name, new Textures.BlockIcons.CustomIcon(Gt6xMod.MOD_ID + ":fluids/" + name.toLowerCase()), localized, material, null, state, amountPerUnit, temperatureK, fullContainer, emptyContainer, fluidAmount, fluidList);}
+    @SafeVarargs public static Fluid create(String name, String localized, OreDictMaterial material, int state, long amountPerUnit, long temperatureK, Set<String>... fluidList) {return create(name, localized, material, state, amountPerUnit, temperatureK, new Textures.BlockIcons.CustomIcon(Gt6xMod.MOD_ID + ":fluids/" + name.toLowerCase()), null, null, 0, fluidList);}
+    @SafeVarargs public static Fluid create(String name, String localized, OreDictMaterial material, int state, long amountPerUnit, long temperatureK, IIconContainer texture, ItemStack fullContainer, ItemStack emptyContainer, int fluidAmount, Set<String>... fluidList) {return FL.create(name, texture, localized, material, null, state, amountPerUnit, temperatureK, fullContainer, emptyContainer, fluidAmount, fluidList);}
 
     public static void init() {
         LanguageHandler.set(FL.Fuel.mName, "Heavy Fuel Oil");
+
+        // These need to be created here to override the ones in GT6's Loader_Fluids
+        for (OreDictMaterial mat : new OreDictMaterial[] { MT.He, MT.N }) {
+            MTx.addPlasma(mat);
+        }
 
         if (!FL.Resin       .exists()) create("resin"      , "Resin"       , null, STATE_LIQUID).setDensity(900);
         if (!FL.Resin_Spruce.exists()) create("spruceresin", "Spruce Resin", null, STATE_LIQUID).setDensity(900);

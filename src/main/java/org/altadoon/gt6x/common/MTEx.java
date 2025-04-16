@@ -4,7 +4,6 @@ import gregapi.block.MaterialMachines;
 import gregapi.block.multitileentity.MultiTileEntityBlock;
 import gregapi.block.multitileentity.MultiTileEntityRegistry;
 import gregapi.data.MD;
-import gregapi.util.CR;
 import gregapi.util.ST;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -16,11 +15,11 @@ import static gregapi.data.CS.*;
 public class MTEx {
     public static void touch() {}
     public static MultiTileEntityRegistry gt6xMTEReg = new MultiTileEntityRegistry("gt6x.multitileentity");
-    public static MultiTileEntityRegistry gt6Registry = MultiTileEntityRegistry.getRegistry("gt.multitileentity");
+    public static MultiTileEntityRegistry gt6MTEReg = MultiTileEntityRegistry.getRegistry("gt.multitileentity");
 
     public static final String NBT_MTE_MULTIBLOCK_PART_REG = "gt6x.mte.part.reg";
     public static final int gt6xMTERegId = Block.getIdFromBlock(gt6xMTEReg.mBlock);
-    public static final int gt6MTERegId = Block.getIdFromBlock(gt6Registry.mBlock);
+    public static final int gt6MTERegId = Block.getIdFromBlock(gt6MTEReg.mBlock);
 
     public static MultiTileEntityBlock PlasticBlock = MultiTileEntityBlock.getOrCreate(Gt6xMod.MOD_ID, "redstoneLight", Material.redstoneLight, Block.soundTypeWood, TOOL_saw, 0, 0, 15, false, false);
     public static MultiTileEntityBlock MachineBlock = MultiTileEntityBlock.getOrCreate(Gt6xMod.MOD_ID, "machine", MaterialMachines.instance, Block.soundTypeMetal, TOOL_wrench, 0, 0, 15, false, false);
@@ -45,20 +44,16 @@ public class MTEx {
         AluminaCheckerBricks(101),
         SiCBricks(110),
         SiCWall(111),
-        SiCCrucible(112),
-        SiCCrucibleLarge(113),
-        SicFaucet(114),
-        SiCMold(115),
-        SiCBasin(116),
-        SiCCrossing(117),
+        //SiCCrucible(112),
+        //SiCCrucibleLarge(113),
+        SiCCrucibleParts(114), // 114-117
         MgOCBricks(120),
         MgOCWall(121),
-        MgOCCrucible(122),
-        MgOCCrucibleLarge(123),
-        MgOCFaucet(124),
-        MgOCMold(125),
-        MgOCBasin(126),
-        MgOCCrossing(127),
+        //MgOCCrucible(122),
+        //MgOCCrucibleLarge(123),
+        MgOCCrucibleParts(124), // 124-127
+        FireclayCrucibleParts(130), // 130-135
+        Mortars(140), // 140-144
 
         // Metallurgy: 200-299
         BFPartIron(200),
@@ -176,6 +171,16 @@ public class MTEx {
         DenseWallHastelloy(811),
         DenseWallTi6Al4V(812),
         DenseWallTMS196(813),
+
+        // Crucibles: 900-1199
+        Crucibles(1000),
+        Molds(1050),
+        CrucibleFaucets(1700),
+        Basins(1750),
+        Crossings(1850),
+        LargeCrucibles(17300),
+        Taps(32700),
+        Funnels(32750),
         ;
 
         public static final IDs[] Hydrocracker = { null, Hydrocracker1, Hydrocracker2, Hydrocracker3, Hydrocracker4 };
@@ -207,8 +212,8 @@ public class MTEx {
     public static final float[] HARDNESS_ELECTRIC = { 4.0F, 4.0F, 4.0F, 4.0F, 4.0F, 4.0F };
 
     public static void disableGT6MTE(short id) {
-        if (gt6Registry.mRegistry.containsKey(id)) {
-            ItemStack it = gt6Registry.getItem(id);
+        if (gt6MTEReg.mRegistry.containsKey(id)) {
+            ItemStack it = gt6MTEReg.getItem(id);
             ST.hide(it);
             CRx.disableGt6(it);
         }

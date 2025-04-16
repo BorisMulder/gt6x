@@ -65,7 +65,7 @@ public class CoverSolarPanel extends AbstractCoverAttachment {
         if (!isServerSide) return;
 
         if ((checkSky || receivedBlockUpdate || timer % 600 == 5)) {
-            checkSky = F;
+            checkSky = false;
             skyVisible = data.mTileEntity.getSkyAtSide(SIDE_TOP);
         }
 

@@ -110,46 +110,72 @@ public class MultiTileEntityBlastFurnace extends TileEntityBase10MultiBlockMachi
     }
 
     @Override
-    public DelegatorTileEntity<IInventory> getItemInputTarget(byte aSide) {
+    public DelegatorTileEntity<IInventory> getItemInputTarget(byte side) {
         return null;
     }
 
     @Override
-    public DelegatorTileEntity<TileEntity> getItemOutputTarget(byte aSide) {
-        int tX = xCoord + OFFX[aSide] * 2 - OFFX[mFacing];
-        int tZ = zCoord + OFFZ[aSide] * 2 - OFFZ[mFacing];
-        return WD.te(worldObj, tX, yCoord, tZ, OPOS[aSide], false);
+    public DelegatorTileEntity<TileEntity> getItemOutputTarget(byte side) {
+        int tX = xCoord + OFFX[side] * 2 - OFFX[mFacing];
+        int tZ = zCoord + OFFZ[side] * 2 - OFFZ[mFacing];
+        return WD.te(worldObj, tX, yCoord, tZ, OPOS[side], false);
     }
 
     @Override
-    public DelegatorTileEntity<IFluidHandler> getFluidInputTarget(byte aSide) {
+    public DelegatorTileEntity<IFluidHandler> getFluidInputTarget(byte side) {
         return null;
     }
 
-    public DelegatorTileEntity<IFluidHandler> mFluidOutputTarget = null;
+    public DelegatorTileEntity<IFluidHandler> gasOutputTarget = null;
+    public DelegatorTileEntity<IFluidHandler> metalOutputTarget = null;
+    public DelegatorTileEntity<IFluidHandler> slagOutputTarget = null;
 
     @Override
-    public DelegatorTileEntity<IFluidHandler> getFluidOutputTarget(byte aSide, Fluid aOutput) {
-        if (aOutput == null || !aOutput.isGaseous()) return null;
+    public DelegatorTileEntity<IFluidHandler> getFluidOutputTarget(byte side, Fluid output) {
+        if (output == null) return null;
+        int xCenter = getOffsetXN(mFacing), zCenter = getOffsetZN(mFacing);
 
-        if (mFluidOutputTarget != null && mFluidOutputTarget.exists()) return mFluidOutputTarget;
+        if(output.isGaseous()) {
+            if (gasOutputTarget != null && gasOutputTarget.exists()) return gasOutputTarget;
 
-        int tX = getOffsetXN(mFacing), tY = yCoord+5, tZ = getOffsetZN(mFacing);
-        for (int i = -1; i <= 1; i++) for (int j = -1; j <= 1; j++) {
-            DelegatorTileEntity<TileEntity> tTarget = WD.te(worldObj, tX+i, tY, tZ+j, SIDE_BOTTOM, false);
-            if (tTarget.mTileEntity instanceof IFluidHandler && ((IFluidHandler)tTarget.mTileEntity).canFill(tTarget.getForgeSideOfTileEntity(), aOutput)) {
-                return mFluidOutputTarget = new DelegatorTileEntity<>((IFluidHandler)tTarget.mTileEntity, tTarget);
+            for (int i = -1; i <= 1; i++) for (int j = -1; j <= 1; j++) {
+                DelegatorTileEntity<TileEntity> target = WD.te(worldObj, xCenter+i, yCoord+5, zCenter+j, SIDE_BOTTOM, false);
+                if (target.mTileEntity instanceof IFluidHandler && ((IFluidHandler)target.mTileEntity).canFill(target.getForgeSideOfTileEntity(), output)) {
+                    return gasOutputTarget = new DelegatorTileEntity<>((IFluidHandler)target.mTileEntity, target);
+                }
             }
+            return gasOutputTarget = null;
+        } else if (FL.is(output, "molten.slag")) {
+            if (slagOutputTarget != null && slagOutputTarget.exists()) return slagOutputTarget;
+
+            int i = (mFacing == SIDE_Z_POS) ? -2 : (mFacing == SIDE_Z_NEG) ?  2 : 0;
+            int j = (mFacing == SIDE_X_POS) ?  2 : (mFacing == SIDE_X_NEG) ? -2 : 0;
+            byte delegatorSide = FACING_TO_SIDE[mFacing][SIDE_RIGHT]; // flipped because it's the side of the output block, not the blast furnace part
+            DelegatorTileEntity<TileEntity> target = WD.te(worldObj, xCenter+i, yCoord, zCenter+j, delegatorSide, false);
+            if (target.mTileEntity instanceof IFluidHandler && ((IFluidHandler)target.mTileEntity).canFill(target.getForgeSideOfTileEntity(), output)) {
+                return slagOutputTarget = new DelegatorTileEntity<>((IFluidHandler)target.mTileEntity, target);
+            }
+            return slagOutputTarget = null;
+        } else {
+            if (metalOutputTarget != null && metalOutputTarget.exists()) return metalOutputTarget;
+
+            int i = (mFacing == SIDE_Z_POS) ?  2 : (mFacing == SIDE_Z_NEG) ? -2 : 0;
+            int j = (mFacing == SIDE_X_POS) ? -2 : (mFacing == SIDE_X_NEG) ?  2 : 0;
+            byte delegatorSide = FACING_TO_SIDE[mFacing][SIDE_LEFT];
+            DelegatorTileEntity<TileEntity> target = WD.te(worldObj, xCenter+i, yCoord, zCenter+j, delegatorSide, false);
+            if (target.mTileEntity instanceof IFluidHandler && ((IFluidHandler)target.mTileEntity).canFill(target.getForgeSideOfTileEntity(), output)) {
+                return metalOutputTarget = new DelegatorTileEntity<>((IFluidHandler)target.mTileEntity, target);
+            }
+            return metalOutputTarget = null;
         }
-        return mFluidOutputTarget = null;
     }
 
     @Override
     public void updateAdjacentToggleableEnergySources() {
-        int tX = getOffsetXN(mFacing) - 1, tZ = getOffsetZN(mFacing) - 1;
+        int xCenter = getOffsetXN(mFacing) - 1, zCenter = getOffsetZN(mFacing) - 1;
 
         for (int i = 0; i < 3; i++) for (int j = 0; j < 3; j++) {
-            DelegatorTileEntity<TileEntity> tDelegator = WD.te(worldObj, tX+i, yCoord-1, tZ+j, SIDE_TOP, false);
+            DelegatorTileEntity<TileEntity> tDelegator = WD.te(worldObj, xCenter+i, yCoord-1, zCenter+j, SIDE_TOP, false);
 
             if (tDelegator.mTileEntity instanceof ITileEntityAdjacentOnOff && tDelegator.mTileEntity instanceof ITileEntityEnergy && ((ITileEntityEnergy)tDelegator.mTileEntity).isEnergyEmittingTo(mEnergyTypeAccepted, tDelegator.mSideOfTileEntity, true)) {
                 ((ITileEntityAdjacentOnOff)tDelegator.mTileEntity).setAdjacentOnOff(getStateOnOff());
@@ -157,16 +183,16 @@ public class MultiTileEntityBlastFurnace extends TileEntityBase10MultiBlockMachi
         }
     }
 
-    private boolean pour(ITileEntityMold aMold, byte aSideOfMold, FluidTankGT origin, OreDictMaterial material) {
+    private boolean pour(ITileEntityMold mold, byte sideOfMold, FluidTankGT origin, OreDictMaterial material) {
         if (U % material.mLiquid.amount != 0) {
-            LOG.warn("Melting amount of material " + material.getLocal() + " not a divisor of U. Rounding down...");
+			LOG.warn("Melting amount of material {} not a divisor of U. Rounding down...", material.getLocal());
         }
 
         long units_per_liter = U / material.mLiquid.amount;
         long available_U = origin.amount() * units_per_liter;
         OreDictMaterialStack as_stack = OM.stack(material, available_U);
 
-        long will_pour_U = aMold.fillMold(as_stack, material.mMeltingPoint, aSideOfMold);
+        long will_pour_U = mold.fillMold(as_stack, material.mMeltingPoint, sideOfMold);
         if (will_pour_U > 0 && available_U >= will_pour_U) {
             long will_pour_L = will_pour_U / units_per_liter;
             origin.remove(will_pour_L);
@@ -178,22 +204,22 @@ public class MultiTileEntityBlastFurnace extends TileEntityBase10MultiBlockMachi
     }
 
     @Override
-    public boolean fillMoldAtSide(ITileEntityMold aMold, byte aSide /* north/east */, byte aSideOfMold) {
+    public boolean fillMoldAtSide(ITileEntityMold mold, byte side, byte sideOfMold) {
         if (!checkStructure(false)) return false;
 
-        byte relative_side = FACING_ROTATIONS[mFacing][aSide];
+        byte relative_side = FACING_ROTATIONS[mFacing][side];
 
-        for (FluidTankGT tTank : mTanksOutput) {
-            Fluid tFluid = tTank.fluid();
-            if (tFluid == null) continue;
+        for (FluidTankGT tank : mTanksOutput) {
+            Fluid fluid = tank.fluid();
+            if (fluid == null) continue;
 
-            if (FL.is(tFluid, "molten.slag") && relative_side == SIDE_LEFT) {
-                if (pour(aMold, aSideOfMold, tTank, MTx.Slag)) return true;
+            if (FL.is(fluid, "molten.slag") && relative_side == SIDE_LEFT) {
+                if (pour(mold, sideOfMold, tank, MTx.Slag)) return true;
 
-            } else if (!FL.is(tFluid, "molten.slag") && !tFluid.isGaseous() && relative_side == SIDE_RIGHT) {
-                OreDictMaterialStack tMaterial = OreDictMaterial.FLUID_MAP.get(tFluid.getName());
+            } else if (!FL.is(fluid, "molten.slag") && !fluid.isGaseous() && relative_side == SIDE_RIGHT) {
+                OreDictMaterialStack tMaterial = OreDictMaterial.FLUID_MAP.get(fluid.getName());
                 if (tMaterial == null) continue;
-                if (pour(aMold, aSideOfMold, tTank, tMaterial.mMaterial)) return true;
+                if (pour(mold, sideOfMold, tank, tMaterial.mMaterial)) return true;
             }
         }
         return false;

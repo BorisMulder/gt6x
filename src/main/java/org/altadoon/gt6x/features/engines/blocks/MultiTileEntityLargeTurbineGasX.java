@@ -33,7 +33,7 @@ public class MultiTileEntityLargeTurbineGasX extends MultiTileEntityLargeTurbine
 	}
 	protected State state = State.UNKNOWN;
 	protected long idleTime = 0;
-	protected int partRegId = Block.getIdFromBlock(MTEx.gt6Registry.mBlock);
+	protected int partRegId = Block.getIdFromBlock(MTEx.gt6MTEReg.mBlock);
 
 	@Override
 	public void readFromNBT2(NBTTagCompound nbt) {
@@ -70,7 +70,7 @@ public class MultiTileEntityLargeTurbineGasX extends MultiTileEntityLargeTurbine
 
 		if (worldObj.blockExists(minX, minY, minZ) && worldObj.blockExists(maxX, maxY, maxZ)) {
 			mEmitter = null;
-			boolean success = T;
+			boolean success = true;
 			for (int x = minX; x <= maxX; x++) for (int y = minY; y <= maxY; y++) for (int z = minZ; z <= maxZ; z++) {
 				int bits;
 				if (x == outX && y == outY && z == outZ) {
@@ -82,7 +82,7 @@ public class MultiTileEntityLargeTurbineGasX extends MultiTileEntityLargeTurbine
 						bits = (y == minY ? MultiTileEntityMultiBlockPart.ONLY_ITEM_FLUID_OUT : MultiTileEntityMultiBlockPart.NOTHING);
 					}
 				}
-				if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, x, y, z, mTurbineWalls, partRegId, x == outX && y == outY && z == outZ ? 3 : 0, bits)) success = F;
+				if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, x, y, z, mTurbineWalls, partRegId, x == outX && y == outY && z == outZ ? 3 : 0, bits)) success = false;
 			}
 			return success;
 		}

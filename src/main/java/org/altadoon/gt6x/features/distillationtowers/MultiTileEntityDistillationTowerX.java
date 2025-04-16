@@ -37,7 +37,7 @@ public class MultiTileEntityDistillationTowerX extends MultiTileEntityDistillati
 	public boolean checkStructure2() {
 		int x = getOffsetXN(mFacing), y = yCoord, z = getOffsetZN(mFacing);
 		if (worldObj.blockExists(x-1, y, z-1) && worldObj.blockExists(x+1, y, z-1) && worldObj.blockExists(x-1, y, z+1) && worldObj.blockExists(x+1, y, z+1)) {
-			int gt6RegId = Block.getIdFromBlock(MTEx.gt6Registry.mBlock);
+			int gt6RegId = Block.getIdFromBlock(MTEx.gt6MTEReg.mBlock);
 
 			if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, x-1, y-1, z-1, 18101, gt6RegId, 0, MultiTileEntityMultiBlockPart.ONLY_ENERGY_IN)) return false;
 			if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, x  , y-1, z-1, 18101, gt6RegId, 0, MultiTileEntityMultiBlockPart.ONLY_ENERGY_IN)) return false;
