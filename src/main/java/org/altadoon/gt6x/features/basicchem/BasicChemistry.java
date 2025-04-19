@@ -308,6 +308,10 @@ public class BasicChemistry extends GT6XFeature {
         RM.Bath .addRecipe1(true, 0 , 64, dust     .mat(MT.Al, 1), MT.HCl.gas(6*U , true), MT.H.gas(3*U , false), dust.mat(MTx.AlCl3, 4));
         RM.Bath .addRecipe1(true, 0 , 16, dustSmall.mat(MT.Al, 1), MT.HCl.gas(6*U4, true), MT.H.gas(3*U4, false), dust.mat(MTx.AlCl3, 1));
 
+        // Zn chloride
+        RM.Bath.addRecipe1(true, 0, 64, dust.mat(MT.Zn, 1), MT.HCl.gas(4*U, true), MT.H.gas(2*U, false), dust.mat(MTx.ZnCl2, 3));
+        RM.Bath.addRecipe1(true, 0, 64, dust.mat(MTx.ZnO, 1), MT.HCl.gas(4*U, true), MTx.ZnCl2Solution.liquid(6*U, false), NI);
+
         // Bi chloride
         RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.Bi, 1), MT.Cl.gas(3*U, true), NF, dust.mat(MTx.BiCl3, 4));
 
@@ -360,6 +364,10 @@ public class BasicChemistry extends GT6XFeature {
         RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.Cu, 0), dust.mat(MTx.ZnO, 0), FL.array(MT.CO .gas(2*U, true), MT.H.gas(4*U, true)), FL.array(MTx.Methanol.liquid(U, false)));
         RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.Cu, 0), dust.mat(MTx.ZnO, 0), FL.array(MT.CO2.gas(3*U, true), MT.H.gas(6*U, true)), FL.array(MTx.Methanol.liquid(U, false), MT.H2O.liquid(3*U, false)));
         RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.Fe2O3, 0), dust.mat(MTx.MoO3, 0), FL.array(MTx.Methanol.liquid(U, true), MT.O.gas(U, true)), FL.array(MTx.Formaldehyde.gas(U, false), MT.H2O.liquid(3*U, false)));
+
+        // Trimethylamine
+        RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MT.Al2O3, 0), FL.array(MTx.Methanol.liquid(3*U, true), MT.NH3.gas(U, true)), FL.array(MTx.Trimethylamine.gas(8*U10, false), MT.H2O.liquid(9*U, false)));
+        RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MT.OREMATS.Zeolite, 0), FL.array(MTx.Methanol.liquid(3*U, true), MT.NH3.gas(U, true)), FL.array(MTx.Trimethylamine.gas(U, false), MT.H2O.liquid(9*U, false)));
 
         // Chloromethane, Diethyl ether
         RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MT.Al2O3, 0), FL.array(MT.Ethanol.liquid(U10, true), MT.H2SO4.liquid(U1000, true)), FL.array(MTx.Ether.liquid(U10, false), MT.H2O.liquid(3*U10, false)));

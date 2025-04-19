@@ -4,8 +4,6 @@ import gregapi.oredict.OreDictMaterial;
 import gregapi.oredict.OreDictMaterialStack;
 import gregapi.util.OM;
 
-import java.util.ArrayList;
-
 public class OMx {
 	public static OreDictMaterialStack[] mul(long factor, OreDictMaterialStack... stacks) {
 		OreDictMaterialStack[] result = new OreDictMaterialStack[stacks.length];

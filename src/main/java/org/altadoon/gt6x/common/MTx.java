@@ -118,6 +118,7 @@ public class MTx {
         MT.Lazurite.uumMcfg(0, MT.Na, 7*U, MT.Ca, U, MT.Al, 6*U, MT.Si, 6*U, MT.S, 4*U, MT.O, 28*U, MT.H2O, 3*U)
                 .tooltip("Na" + NUM_SUB[7] + "CaAl" + NUM_SUB[6] + "Si" + NUM_SUB[6] + "O" + NUM_SUB[24] + "(SO" + NUM_SUB[4] + ")S" + NUM_SUB[3] + "(H" + NUM_SUB[2] + "O)");
         MT.VitriolOfClay.tooltip("Al" + NUM_SUB[2] + "(SO" + NUM_SUB[4] + ")" + NUM_SUB[3]);
+        MT.OREMATS.Lepidolite.setMcfg(0, MT.K, U, MT.Li, U, MT.Rb, U, MT.Al, U, MT.Si, 4*U, MT.O, 11*U, MT.H, U, MT.F, U);
 
         MT.Olivine.uumMcfg(0, MT.Mg, U, MT.Fe, U, MT.Si, U, MT.O, 4*U);
 
@@ -207,36 +208,45 @@ public class MTx {
         }
     }
 
-    public static OreDictMaterial create(int aID, String name, long aR, long aG, long aB, long aA, Object... aRandomData) {
-        if (aID <= 16000 || aID > 16999) {
+    public static OreDictMaterial create(int id, String name) {
+        OreDictMaterial result = OreDictMaterial.createMaterial(id, name, name);
+        if (id > 0) {
+            result.setOriginalMod(Gt6xMod.MOD_DATA);
+            ALL_MATERIALS_REGISTERED_HERE.add(result);
+        }
+        return result;
+    }
+
+    public static OreDictMaterial create(int id, String name, long r, long g, long b, long a, Object... randomData) {
+        if (id <= 16000 || id > 16999) {
             throw new IllegalArgumentException(name + ": GT6X materials should have IDs in the 16001-16999 range");
         }
 
-        OreDictMaterial result = OreDictMaterial.createMaterial(aID, name, name).setRGBa(aR, aG, aB, aA).put(aRandomData).setOriginalMod(Gt6xMod.MOD_DATA);
+        OreDictMaterial result = create(id, name).setRGBa(r, g, b, a).put(randomData);
         ALL_MATERIALS_REGISTERED_HERE.add(result);
         return result;
     }
 
-    public static OreDictMaterial liquid(int aID, String name, long aR, long aG, long aB, long aA, Object... aRandomData) { return create(aID, name, aR, aG, aB, aA, LIQUID, aRandomData).setTextures(SET_FLUID).put(G_CONTAINERS, CONTAINERS_FLUID); }
-    public static OreDictMaterial gas (int aID, String name, long aR, long aG, long aB, long aA, Object... aRandomData) { return create(aID, name, aR, aG, aB, aA, GASES, aRandomData).setTextures(SET_GAS).put(G_CONTAINERS, CONTAINERS_GAS); }
-    public static OreDictMaterial dustdcmp(int aID, String name, TextureSet[] aSets, long aR, long aG, long aB, long aA, Object... aRandomData) { return create(aID, name, aR, aG, aB, aA, aRandomData).setTextures(aSets).put(DECOMPOSABLE, G_DUST, MORTAR); }
-    public static OreDictMaterial oredustdcmp(int aID, String name, TextureSet[] aSets, long aR, long aG, long aB, long aA, Object... aRandomData) { return create(aID, name, aR, aG, aB, aA, aRandomData).setTextures(aSets).put(DECOMPOSABLE, G_DUST_ORES, MORTAR); }
-    public static OreDictMaterial lquddcmp (int aID, String name, long aR, long aG, long aB, long aA, Object... aRandomData) { return liquid(aID, name, aR, aG, aB, aA, aRandomData).put(DECOMPOSABLE); }
-    public static OreDictMaterial lqudaciddcmp (int aID, String name, long aR, long aG, long aB, long aA, Object... aRandomData) { return lquddcmp(aID, name, aR, aG, aB, aA, aRandomData).put(ACID); }
-    public static OreDictMaterial gasdcmp(int aID, String name, long aR, long aG, long aB, long aA, Object... aRandomData) { return gas(aID, name, aR, aG, aB, aA, aRandomData).put(DECOMPOSABLE); }
-    public static OreDictMaterial lqudexpl(int aID, String name, long aR, long aG, long aB, long aA, Object... aRandomData) {return liquid(aID, name, aR, aG, aB, aA, aRandomData).put(FLAMMABLE, EXPLOSIVE);}
-    public static OreDictMaterial lqudflam(int aID, String name, long aR, long aG, long aB, long aA, Object... aRandomData) {return liquid(aID, name, aR, aG, aB, aA, aRandomData).put(FLAMMABLE);}
-    public static OreDictMaterial machine(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, long aA, Object... aRandomData) { return create(aID, aNameOreDict, aR, aG, aB, aA, aRandomData).setTextures(aSets).put(DECOMPOSABLE, G_INGOT_MACHINE, SMITHABLE, MELTING, EXTRUDER); }
-    public static OreDictMaterial alloy(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, Object... aRandomData) { return create(aID, aNameOreDict, aR, aG, aB, 255, aRandomData).setTextures(aSets).put(DECOMPOSABLE, ALLOY, G_DUST, INGOTS, MELTING, EXTRUDER); }
-    public static OreDictMaterial alloymachine(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, Object... aRandomData) { return machine(aID, aNameOreDict, aSets, aR, aG, aB, 255, aRandomData).put(ALLOY); }
-    public static OreDictMaterial plastic(int aID, String aNameOreDict, TextureSet[] aSets, long aR, long aG, long aB, long aA, Object... aRandomData) { return create(aID, aNameOreDict, aR, aG, aB, aA, aRandomData).setTextures(aSets).put(G_INGOT_MACHINE, MELTING, EXTRUDER, EXTRUDER_SIMPLE, MORTAR, FURNACE, POLYMER).addReRegistrationToThis(MT.Plastic); }
+    public static OreDictMaterial liquid(int id, String name, long r, long g, long b, long a, Object... randomData) { return create(id, name, r, g, b, a, LIQUID, randomData).setTextures(SET_FLUID).put(G_CONTAINERS, CONTAINERS_FLUID); }
+    public static OreDictMaterial gas (int id, String name, long r, long g, long b, long a, Object... randomData) { return create(id, name, r, g, b, a, GASES, randomData).setTextures(SET_GAS).put(G_CONTAINERS, CONTAINERS_GAS); }
+    public static OreDictMaterial dustdcmp(int id, String name, TextureSet[] aSets, long r, long g, long b, long a, Object... randomData) { return create(id, name, r, g, b, a, randomData).setTextures(aSets).put(DECOMPOSABLE, G_DUST, MORTAR); }
+    public static OreDictMaterial oredustdcmp(int id, String name, TextureSet[] aSets, long r, long g, long b, long a, Object... randomData) { return create(id, name, r, g, b, a, randomData).setTextures(aSets).put(DECOMPOSABLE, G_DUST_ORES, MORTAR); }
+    public static OreDictMaterial lquddcmp (int id, String name, long r, long g, long b, long a, Object... randomData) { return liquid(id, name, r, g, b, a, randomData).put(DECOMPOSABLE); }
+    public static OreDictMaterial lqudaciddcmp (int id, String name, long r, long g, long b, long a, Object... randomData) { return lquddcmp(id, name, r, g, b, a, randomData).put(ACID); }
+    public static OreDictMaterial gasdcmp(int id, String name, long r, long g, long b, long a, Object... randomData) { return gas(id, name, r, g, b, a, randomData).put(DECOMPOSABLE); }
+    public static OreDictMaterial lqudexpl(int id, String name, long r, long g, long b, long a, Object... randomData) {return liquid(id, name, r, g, b, a, randomData).put(FLAMMABLE, EXPLOSIVE);}
+    public static OreDictMaterial lqudflam(int id, String name, long r, long g, long b, long a, Object... randomData) {return liquid(id, name, r, g, b, a, randomData).put(FLAMMABLE);}
+    public static OreDictMaterial machine(int id, String nameOreDict, TextureSet[] aSets, long r, long g, long b, long a, Object... randomData) { return create(id, nameOreDict, r, g, b, a, randomData).setTextures(aSets).put(DECOMPOSABLE, G_INGOT_MACHINE, SMITHABLE, MELTING, EXTRUDER); }
+    public static OreDictMaterial alloy(int id, String nameOreDict, TextureSet[] aSets, long r, long g, long b, Object... randomData) { return create(id, nameOreDict, r, g, b, 255, randomData).setTextures(aSets).put(DECOMPOSABLE, ALLOY, G_DUST, INGOTS, MELTING, EXTRUDER); }
+    public static OreDictMaterial alloymachine(int id, String nameOreDict, TextureSet[] aSets, long r, long g, long b, Object... randomData) { return machine(id, nameOreDict, aSets, r, g, b, 255, randomData).put(ALLOY); }
+    public static OreDictMaterial plastic(int id, String nameOreDict, TextureSet[] aSets, long r, long g, long b, long a, Object... randomData) { return create(id, nameOreDict, r, g, b, a, randomData).setTextures(aSets).put(G_INGOT_MACHINE, MELTING, EXTRUDER, EXTRUDER_SIMPLE, MORTAR, FURNACE, POLYMER).addReRegistrationToThis(MT.Plastic); }
 
-    public static OreDictMaterial semiconductor(int aID, String aNameOreDict, long r, long g, long b, boolean genBoules) {
-        return semiconductor(aID, aNameOreDict, r, g, b, true, true, genBoules);
+    public static OreDictMaterial semiconductor(int id, String nameOreDict, long r, long g, long b, boolean genBoules) {
+        return semiconductor(id, nameOreDict, r, g, b, true, true, genBoules);
     }
 
-    public static OreDictMaterial semiconductor(int aID, String aNameOreDict, long r, long g, long b, boolean genDusts, boolean genIngots, boolean genBoules, Object... randomData) {
-        OreDictMaterial mat = create(aID, aNameOreDict, r, g, b, 255, randomData);
+    public static OreDictMaterial semiconductor(int id, String nameOreDict, long r, long g, long b, boolean genDusts, boolean genIngots, boolean genBoules, Object... randomData) {
+        OreDictMaterial mat = create(id, nameOreDict, r, g, b, 255, randomData);
         mat.setTextures(SET_METALLIC).put(DECOMPOSABLE);
         if (genDusts) mat.put(DUSTS);
         if (genIngots) mat.put(INGOTS);
@@ -248,12 +258,12 @@ public class MTx {
         return mat;
     }
 
-    public static OreDictMaterial dopedSemiconductor(int aID, String aNameOreDict, OreDictMaterial mainMaterial, boolean genItems) {
-        return dopedSemiconductor(aID, aNameOreDict, mainMaterial, genItems, genItems);
+    public static OreDictMaterial dopedSemiconductor(int id, String nameOreDict, OreDictMaterial mainMaterial, boolean genItems) {
+        return dopedSemiconductor(id, nameOreDict, mainMaterial, genItems, genItems);
     }
 
-    public static OreDictMaterial dopedSemiconductor(int aID, String aNameOreDict, OreDictMaterial mainMaterial, boolean genDusts, boolean genBoules, Object... randomData) {
-        return semiconductor(aID, aNameOreDict, 0, 0, 0, genDusts, false, genBoules, randomData)
+    public static OreDictMaterial dopedSemiconductor(int id, String nameOreDict, OreDictMaterial mainMaterial, boolean genDusts, boolean genBoules, Object... randomData) {
+        return semiconductor(id, nameOreDict, 0, 0, 0, genDusts, false, genBoules, randomData)
             .setMcfg(0, mainMaterial, U)
             .setAllToTheOutputOf(mainMaterial)
             .steal(mainMaterial)
@@ -271,6 +281,8 @@ public class MTx {
     public static OreDictMaterial simpleSolution(int id, String name, long r, long g, long b, long a, OreDictMaterial solute, long waterUnits , Object... randomData) {
         return solution(id, name, r, g, b, a, solute, waterUnits, SIMPLE_SOLUTION, randomData);
     }
+
+    static OreDictMaterial unused(String name) {return create(-1, name).put(UNUSED_MATERIAL, DONT_SHOW_THIS_COMPONENT);}
 
     public static OreDictMaterial registerLiquid(OreDictMaterial mat) {
         FL.createLiquid(mat);
@@ -442,8 +454,9 @@ public class MTx {
     C2F4 = registerGas(gasdcmp( 16046, "Tetrafluoroethylene", 150, 255, 255, 255)
             .uumMcfg(1, MT.C, U*2, MT.F, U*4)
             .heat(131, 197)),
-
-    //TODO 16047-48 free
+    DnqNovolacResist = registerLiquid(lquddcmp(16047, "Photoresist", 84, 145, 84, 200)
+            .heat(MT.H2O)),
+    //TODO 16048 free
     CrackerGas = registerGas(gasdcmp(16049, "Olefins", 150, 0, 150, 255)
             .heat(MT.Propylene)
             .put(FLAMMABLE)
@@ -925,8 +938,7 @@ public class MTx {
     DiluteH2SO4 = registerLiquid(lqudaciddcmp(16200, "Dilute Sulfuric Acid", 255, 192, 128, 200))
             .setMcfg(0, MT.H2SO4, 7*U, MT.H2O, 3*U)
             .heat(MT.H2SO4),
-    DnqNovolacResist = registerLiquid(lquddcmp(16201, "Photoresist", 84, 145, 84, 200)
-            .heat(MT.H2O)),
+    K2SO4Solution = simpleSolution(16201, "Potassium Sulfate Solution", 255, 255, 255, 200, MT.K2SO4, 3),
     Na2SO4Solution = simpleSolution(16202, "Sodium Sulfate Solution", 190, 190, 140, 255, MT.Na2SO4, 3),
     ArF = registerGas(gasdcmp(16203, "Argon-Fluorine", 64, 255, 0, 200)
             .setMcfg(0, MT.Ar, U, MT.F, U)
@@ -1528,37 +1540,85 @@ public class MTx {
             .setAllToTheOutputOf(ZnO),
     DRISlag = dustdcmp(16424, "DRI-Slag", SET_FLINT, 100, 100, 50, 255)
             .put(INGOTS, MORTAR, BRITTLE, GEMS)
-            .heat(ConverterSlag)
+            .heat(ConverterSlag),
+    Li2SO4 = create(16425, "Lithium Sulfate", 255, 255, 255, 255)
+            .setMcfg(0, MT.Li, 2*U, MT.S, U, MT.O, 4*U),
+    Rb2SO4 = create(16426, "Rubidium Sulfate", 255, 255, 255, 255)
+            .setMcfg(0, MT.Rb, 2*U, MT.S, U, MT.O, 4*U),
+
+    LepidoliteLeachingSolution = registerLiquid(lquddcmp(16427, "Lepidolite Leaching Solution", 255, 255, 255, 255)
+            .setMcfg(0, MT.K2SO4, 7*U, Li2SO4, 7*U, Rb2SO4, 7*U, MT.VitriolOfClay, 17*U, MT.H2O, 6*3*U)
+            .heat(MT.H2O)
+            .stealLooks(MT.OREMATS.Lepidolite)),
+    LiKRbSulfateSolution = registerLiquid(lquddcmp(16428, "Lithium-Rubidium-Potassium Sulfate Solution", 255, 255, 255, 255)
+            .setMcfg(0, MT.K2SO4, 28*U, Li2SO4, 7*U, Rb2SO4, 7*U, MT.H2O, 6*3*U)
+            .heat(MT.H2O)
+            .stealLooks(K2SO4Solution)),
+    Diethylbenzene = registerLiquid(lquddcmp(16429, "Diethylbenzene", 255, 255, 255, 255)
+            .setMcfg(1, MT.C, 10*U, MT.H, 14*U)
+            .heat(230, 457)),
+    DVB = registerLiquid(lquddcmp(16430, "DVB", 230, 230, 200, 255)
+            .setLocal("Divinylbenzene")
+            .setMcfg(1, MT.C, 10*U, MT.H, 10*U)
+            .heat(210, 468)),
+    StyDVB = plastic(16431, "Sty-DVB", SET_RUBBER, 255, 240, 200, 255)
+            .setLocal("Styrene-Divinylbenzene Copolymer")
+            .setMcfg(0, Styrene, 10*U, DVB, U)
+            .heat(Polystyrene),
+    Chloromethylstyrene = create(16432, "Chloromethylstyrene", 240, 255, 240, 255)
+            .setMcfg(1, MT.C, 9*U, MT.H, 9*U, MT.Cl, U),
+    ChloromethylStyDVB = plastic(16433, "Chloromethylated Sty-DVB", SET_RUBBER, 240, 255, 240, 255)
+            .setMcfg(0, Chloromethylstyrene, 10*U, DVB, U)
+            .heat(Polystyrene),
+    Trimethylamine = registerGas(gasdcmp(16434, "Trimethylamine", 200, 200, 255, 150)
+            .setMcfg(1, MT.C, 3*U, MT.H, 9*U, MT.N, U)
+            .heat(156, 278)),
+    ZnCl2 = dustdcmp(16435, "Zinc Chloride", SET_DIAMOND, 255, 255, 255, 255)
+            .uumMcfg(0, MT.Zn, U, MT.Cl, 2*U)
+            .heat(564, 1005)
+            .put(ELECTROLYSER),
+    ZnCl2Solution = simpleSolution(16436, "Zinc Chloride Solution", 255, 255, 255, 255, ZnCl2, 3),
+    OH = create(16435, "Hydroxide").setMcfg(0, MT.O, U, MT.H, U),
+    SO4 = create(16436, "Sulfate").setMcfg(0, MT.S, U, MT.O, 4*U),
+    NO3 = create(16437, "Nitrate").setMcfg(0, MT.N, U, MT.O, 3*U)
     ;
 
-    /* Unused
-    AsF3 = registerLiquid(lquddcmp(16215, "Arsenic Trifluoride", 100, 130, 100, 250)
-            .setMcfg(1, MT.As, U, MT.F, 3*U)
-            .heat(265, 334)),
-    Na3VO4 = create(16162, "Sodium Orthovanadate", 255, 255, 255, 0)
-            .setMcfg(0, MT.Na, 3*U, MT.V, U, MT.O, 4*U),
-    AuGe = alloymachine(16171, "Gold-Germanium", SET_COPPER, 227, 182, 59)
-            .uumAloy(0, MT.Au, U, MT.Ge, U)
-            .heat(365 + C, (MT.Ge.mBoilingPoint + MT.Au.mBoilingPoint) / 2),
-    Sulfolene = dustdcmp(16403, "Sulfolene", SET_CUBE, 255, 255, 255, 255)
-            .setMcfg(1, MT.C, 4*U, MT.H, 6*U, MT.S, U, MT.O, 2*U)
-            .heat(338),
-    LightNaphtha = registerLiquid(lqudexpl( 16021, "Light Naphtha", 0, 0, 0, 0)
-            .stealLooks(MT.Petrol)
-            .heat(MT.Petrol)
-            .aspects(TC.MORTUUS, 1, TC.POTENTIA, 1)),
-    HeavyNaphtha = registerLiquid(lqudexpl( 16022, "Heavy Naphtha", 255, 200, 0, 255)
-            .heat(C-40, C+120)
-            .aspects(TC.MORTUUS, 1, TC.POTENTIA, 1)),
-    HeavyNaphthaLowSulfur = registerLiquid(lqudexpl( 16025, "Low-Sulfur Heavy Naphtha", 0, 0, 0, 255)
-            .stealLooks(HeavyNaphtha)
-            .heat(HeavyNaphtha)
-            .aspects(TC.MORTUUS, 1, TC.POTENTIA, 1)),
-    HAGO = registerLiquid(lqudflam(16027, "Heavy Atmospheric Gas Oil", 0, 0, 0, 0)
-            .stealLooks(MT.Fuel)
-            .heat(260, 350+C)
-            .aspects(TC.MORTUUS, 1, TC.POTENTIA, 1)),
-    */
+    @SuppressWarnings("unused")
+    public static class UNUSED {
+        public static OreDictMaterial
+                AsF3 = unused("Arsenic Trifluoride")
+                    .setRGBa(100, 130, 100, 250)
+                    .setMcfg(1, MT.As, U, MT.F, 3 * U)
+                    .heat(265, 334),
+                Na3VO4 = unused("Sodium Orthovanadate")
+                        .setMcfg(0, MT.Na, 3 * U, MT.V, U, MT.O, 4 * U),
+                AuGe = unused("Gold-Germanium")
+                        .setTextures(SET_COPPER)
+                        .setRGBa(227, 182, 59, 255)
+                        .uumAloy(0, MT.Au, U, MT.Ge, U)
+                        .heat(365 + C, (MT.Ge.mBoilingPoint + MT.Au.mBoilingPoint) / 2),
+                Sulfolene = unused("Sulfolene")
+                        .setTextures(SET_CUBE)
+                        .setMcfg(1, MT.C, 4 * U, MT.H, 6 * U, MT.S, U, MT.O, 2 * U)
+                        .heat(338),
+                LightNaphtha = unused("Light Naphtha")
+                        .stealLooks(MT.Petrol)
+                        .heat(MT.Petrol)
+                        .aspects(TC.MORTUUS, 1, TC.POTENTIA, 1),
+                HeavyNaphtha = unused("Heavy Naphtha")
+                        .setRGBa(255, 200, 0, 255)
+                        .heat(C - 40, C + 120)
+                        .aspects(TC.MORTUUS, 1, TC.POTENTIA, 1),
+                HeavyNaphthaLowSulfur = unused("Low-Sulfur Heavy Naphtha")
+                        .stealLooks(HeavyNaphtha)
+                        .heat(HeavyNaphtha)
+                        .aspects(TC.MORTUUS, 1, TC.POTENTIA, 1),
+                HAGO = unused("HAGO")
+                        .setLocal("Heavy Atmospheric Gas Oil")
+                        .stealLooks(MT.Fuel)
+                        .heat(260, 350 + C)
+                        .aspects(TC.MORTUUS, 1, TC.POTENTIA, 1);
+    }
 
     static {
         Zincite.remove(DUSTS); Zincite.remove(PLANTS);
@@ -1588,6 +1648,7 @@ public class MTx {
         addMolten(AlCl3);
         addMolten(PbCl2);
         addMolten(CuCl2);
+        addMolten(ZnCl2);
         addMolten(Slag);
         addMolten(FerrousSlag);
         addMolten(FeCr2);

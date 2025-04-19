@@ -43,7 +43,7 @@ import static org.altadoon.gt6x.Gt6xMod.MOD_ID;
 public class Metallurgy extends GT6XFeature {
     public static final String FEATURE_NAME = "Metallurgy";
 
-    public OreDictPrefix sinter = null;
+    public static OreDictPrefix sinter = null;
 
     @Override
     public String name() {
@@ -103,7 +103,7 @@ public class Metallurgy extends GT6XFeature {
 
         MT.PigIron.setPulver(MT.PigIron, U);
 
-        for (OreDictMaterial removeElectro : new OreDictMaterial[] { MT.Olivine, MT.OREMATS.Garnierite, MT.OREMATS.Smithsonite, MT.OREMATS.Cassiterite, MT.OREMATS.Wollastonite, MT.Phosphorite, MT.Apatite, MT.OREMATS.Sperrylite, MT.OREMATS.Malachite, MT.Azurite, MT.OREMATS.Barite, MT.OREMATS.Celestine, MT.OREMATS.Pollucite }) {
+        for (OreDictMaterial removeElectro : new OreDictMaterial[] { MT.Olivine, MT.OREMATS.Garnierite, MT.OREMATS.Smithsonite, MT.OREMATS.Cassiterite, MT.OREMATS.Wollastonite, MT.Phosphorite, MT.Apatite, MT.OREMATS.Sperrylite, MT.OREMATS.Malachite, MT.Azurite, MT.OREMATS.Barite, MT.OREMATS.Celestine, MT.OREMATS.Pollucite, MT.OREMATS.Lepidolite }) {
             removeElectro.remove(TD.Processing.ELECTROLYSER);
         }
         for (OreDictMaterial removeCent : new OreDictMaterial[] { MT.Phosphorus, MT.PhosphorusBlue, MT.PhosphorusWhite, MT.PhosphorusRed }) {
@@ -143,7 +143,7 @@ public class Metallurgy extends GT6XFeature {
         }
 
         // Sulfides e.a.
-        for (OreDictMaterial mat : new OreDictMaterial[] {MT.OREMATS.BrownLimonite, MT.OREMATS.Sperrylite, MT.OREMATS.Tetrahedrite, MT.Cu, MT.OREMATS.Cooperite, MT.Cu, MT.Ga, MT.Ag, MT.Au, MT.Pt, MT.Se, MT.OREMATS.YellowLimonite, MT.OREMATS.Chalcopyrite, MT.OREMATS.Cobaltite, MT.OREMATS.Sphalerite, MT.OREMATS.Stannite, MT.OREMATS.Kesterite, MT.Alduorite, MT.Ignatius, MT.OREMATS.Celestine }) {
+        for (OreDictMaterial mat : new OreDictMaterial[] {MT.OREMATS.BrownLimonite, MT.OREMATS.Sperrylite, MT.OREMATS.Tetrahedrite, MT.Cu, MT.OREMATS.Cooperite, MT.Cu, MT.Ga, MT.Ag, MT.Au, MT.Pt, MT.Se, MT.OREMATS.YellowLimonite, MT.OREMATS.Chalcopyrite, MT.OREMATS.Cobaltite, MT.OREMATS.Sphalerite, MT.OREMATS.Stannite, MT.OREMATS.Kesterite, MT.Alduorite, MT.Ignatius, MT.OREMATS.Celestine, MT.OREMATS.Lepidolite, MT.OREMATS.Pollucite }) {
             ListIterator<OreDictMaterial> it = mat.mByProducts.listIterator();
             while (it.hasNext()) {
                 OreDictMaterial byproduct = it.next();
@@ -160,10 +160,12 @@ public class Metallurgy extends GT6XFeature {
                 } else if (byproduct.mID == MT.Co.mID) {
                     it.set(MT.OREMATS.Cobaltite);
                 } else if (byproduct.mID == MT.Cd.mID ||
-                        byproduct.mID == MT.Se.mID ||
-                        byproduct.mID == MT.Ga.mID ||
-                        byproduct.mID == MT.In.mID ||
-                        byproduct.mID == MT.Ge.mID
+                           byproduct.mID == MT.Se.mID ||
+                           byproduct.mID == MT.Ga.mID ||
+                           byproduct.mID == MT.In.mID ||
+                           byproduct.mID == MT.Ge.mID ||
+                           byproduct.mID == MT.Rb.mID ||
+                           byproduct.mID == MT.Cs.mID
                 ) {
                     it.remove();
                 }
@@ -534,11 +536,13 @@ public class Metallurgy extends GT6XFeature {
         // GeO2 reduction in mixer
         RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.GeO2, 3), MT.H.gas(4*U, true), MT.H2O.liquid(6*U, false), dust.mat(MT.Ge, 1));
 
-        // Pollucite
+        // Pollucite, Lepidolite
         for (FluidStack water : FL.waters(3000)) {
             RM.Bath.addRecipeX(true, 0, 520, ST.array(dust.mat(MT.OREMATS.Pollucite, 26), dust.mat(MTx.CaO, 8), dust.mat(MT.CaCl2, 3)), water, MTx.CsRbClSolution.liquid(5 * U, false), dust.mat(MT.OREMATS.Wollastonite, 20), dust.mat(MT.Al2O3, 5));
         }
-        //TODO ion-exchange or LLE of RbCl from CsCl
+        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Lepidolite, 21), MT.H2SO4.liquid(21*U, true), MTx.LepidoliteLeachingSolution.liquid(28*U, false), dust.mat(MT.SiO2, 12));
+        RM.Bath.addRecipe1(true, 0, 128, dust.mat(MT.KOH, 9), MTx.LepidoliteLeachingSolution.liquid(28*U, true), MTx.LiKRbSulfateSolution.liquid(30*U, false), dust.mat(MT.AlO3H3, 7));
+        //TODO ion-exchange or LLE of RbCl from CsCl and sulfates
 
         // Sintering dusts into chunks
         RMx.Sintering.add(new RecipeMapHandlerPrefixSintering(dust,      1, NF, 16, 0, 0, NF, ingot , 1, ST.tag(1), NI, true, false, false, lowHeatSintering));

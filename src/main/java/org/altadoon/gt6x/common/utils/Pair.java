@@ -1,4 +1,4 @@
-package org.altadoon.gt6x.common;
+package org.altadoon.gt6x.common.utils;
 
 public class Pair<K, V> {
     public K key;
