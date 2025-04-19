@@ -7,7 +7,7 @@ import gregapi.item.multiitem.MultiItemTool;
 import gregapi.item.multiitem.MultiItemToolWithCompat;
 import gregapi.item.multiitem.tools.IToolStats;
 import net.minecraft.item.ItemStack;
-import org.altadoon.gt6x.common.Pair;
+import org.altadoon.gt6x.common.utils.Pair;
 
 import java.util.HashMap;
 import java.util.Map;
