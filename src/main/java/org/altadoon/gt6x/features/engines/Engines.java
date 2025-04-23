@@ -263,11 +263,9 @@ public class Engines extends GT6XFeature {
         RMx.Thermolysis.addRecipe2(true, 32, 100, dust.mat(MT.Ni, 0), dust.mat(MT.Al2O3, 0), MT.Glycerol.liquid(14*U, true), FL.array(MT.CO.gas(6*U, false), MT.H.gas(8*U, false)));
 
         // Thermal Barrier Coatings
-        for (FluidStack water : FL.waters(3000)) {
-            RM.Mixer.addRecipeX(true, 16, 500, ST.array(ST.tag(5 ), dust.mat(MTx.ZrOCl2, 40), dust.mat(MTx.Y2O3 , 2 )), FL.array(FL.mul(water, 44), MT .HCl      .gas   (4 *U, true), MT.NH3.gas(22*U, true)), FL.array(MTx.NH4ClSolution.liquid(4*22*U, false)), dust.mat(MTx.YZrOH, 30));
-            RM.Mixer.addRecipeX(true, 16, 500, ST.array(ST.tag(10), dust.mat(MTx.ZrOCl2, 40), dust.mat(MTx.Y2O3 , 2 )), FL.array(FL.mul(water, 42), MTx.DiluteHCl.liquid(10*U, true), MT.NH3.gas(22*U, true)), FL.array(MTx.NH4ClSolution.liquid(4*22*U, false)), dust.mat(MTx.YZrOH, 30));
-            RM.Mixer.addRecipeX(true, 16, 500, ST.array(ST.tag(5 ), dust.mat(MTx.ZrOCl2, 8 ), dust.mat(MTx.LaNO3, 20)), FL.array(FL.mul(water, 42), MT.NH3.gas(10*U, true)), FL.array(MTx.NH4ClSolution.liquid(4*4*U, false), MTx.NH4NO3Solution.liquid(4*30*U, false)), dust.mat(MTx.LaZrOH, 16));
-        }
+        RM.Mixer.addRecipeX(true, 16, 500, ST.array(ST.tag(5 ), dust.mat(MTx.ZrOCl2, 40), dust.mat(MTx.Y2O3 , 2 )), FL.array(FL.DistW.make(132000), MT .HCl      .gas   (4 *U, true), MT.NH3.gas(22*U, true)), FL.array(MTx.NH4ClSolution.liquid(4*22*U, false)), dust.mat(MTx.YZrOH, 30));
+        RM.Mixer.addRecipeX(true, 16, 500, ST.array(ST.tag(10), dust.mat(MTx.ZrOCl2, 40), dust.mat(MTx.Y2O3 , 2 )), FL.array(FL.DistW.make(126000), MTx.DiluteHCl.liquid(10*U, true), MT.NH3.gas(22*U, true)), FL.array(MTx.NH4ClSolution.liquid(4*22*U, false)), dust.mat(MTx.YZrOH, 30));
+        RM.Mixer.addRecipeX(true, 16, 500, ST.array(ST.tag(5 ), dust.mat(MTx.ZrOCl2, 8 ), dust.mat(MTx.LaNO3, 20)), FL.array(FL.DistW.make(126000), MT.NH3.gas(10*U, true)), FL.array(MTx.NH4ClSolution.liquid(4*4*U, false), MTx.NH4NO3Solution.liquid(4*30*U, false)), dust.mat(MTx.LaZrOH, 16));
         RMx.Thermolysis.addRecipe1(true, 32, 200, dust.mat(MTx.YZrOH , 30), NF, MT.H2O.liquid(3*23*U, false), dust.mat(MTx.YSZ     , 15));
         RMx.Thermolysis.addRecipe1(true, 32, 500, dust.mat(MTx.LaZrOH, 16), NF, MT.H2O.liquid(3*7 *U, false), dust.mat(MTx.La2Zr2O7, 8 ));
 
