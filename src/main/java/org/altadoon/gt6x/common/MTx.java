@@ -172,6 +172,7 @@ public class MTx {
         MT.OREMATS.Tungstate.setLocal("Lithium Tungstate");
         MT.OREMATS.Huebnerite.setLocal("Hübnerite");
         MT.Glyceryl.setLocal("Nitroglycerin");
+        MT.HCl.setLocal("Hydrogen Chloride");
         MT.H3BO3.setLocal("Boric Acid");
         MT.FeO3H3.setLocal("Ferric Hydroxide");
         MT.DarkAsh.setLocal("Coal Ash");
@@ -190,10 +191,11 @@ public class MTx {
         MT.AluminiumAlloy.setLocal("Aluminium Alloy 4015");
 
         addMolten(MT.IronCast);
+        addMolten(MT.NaCl);
+        addMolten(MT.KCl);
         addMolten(MT.K2S2O7);
         addMolten(MT.Na2S2O7);
         addMolten(MT.Quicklime);
-        addMolten(MT.NaCl);
         addMolten(MT.Ga);
         addMolten(MT.Nb);
         addMolten(MT.Cd);
@@ -207,6 +209,7 @@ public class MTx {
         addVapour(MT.As.heat(887, 887));
         addVapour(MT.Zn);
         addVapour(MT.Mg);
+        addVapour(MT.K);
         addVapour(MT.P.setLocal("Phosphorus"));
 
         MT.Graphene.heat(MT.C).put(DUSTS);
@@ -1347,7 +1350,7 @@ public class MTx {
     BiCl3 = dustdcmp(16343, "Bismuth Chloride", SET_ROUGH, 255, 255, 200, 255)
             .setMcfg(0, MT.Bi, U, MT.Cl, 3*U)
             .heat(500, 720),
-    DiluteHCl = registerLiquid(lqudaciddcmp(16344, "Dilute Hydrochloric Acid", 50, 255, 178, 200)
+    ConcHCl = registerLiquid(lqudaciddcmp(16344, "Concentrated Hydrochloric Acid", 50, 255, 178, 200)
             .setMcfg(0, MT.HCl, 2*U, MT.H2O, 3*U)
             .heat(MT.H2O)),
     PbCl2Solution = simpleSolution(16345, PbCl2, 3),
@@ -1593,7 +1596,9 @@ public class MTx {
     SO4 = create(16436, "Sulfate").setMcfg(0, MT.S, U, MT.O, 4*U).put(ANION, DECOMPOSABLE),
     NO3 = create(16437, "Nitrate").setMcfg(0, MT.N, U, MT.O, 3*U).put(ANION, DECOMPOSABLE),
     HCO3 = create(16438, "Hydrogencarbonate").setMcfg(0, MT.H, U, MT.C, U, MT.O, 3*U).put(ANION, DECOMPOSABLE),
-    KClSolution = simpleSolution(16439, MT.KCl, 6),
+    DiluteHCl = registerLiquid(lqudaciddcmp(16439, "Dilute Hydrochloric Acid", 100, 255, 200, 200)
+            .setMcfg(0, MT.HCl, U, MT.H2O, 3*U)
+            .heat(MT.H2O)),
     RbClSolution = simpleSolution(16440, RbCl, 3),
     CsClSolution = simpleSolution(16441, CsCl, 3),
     NaHCO3Solution = simpleSolution(16442, MT.NaHCO3, 3),

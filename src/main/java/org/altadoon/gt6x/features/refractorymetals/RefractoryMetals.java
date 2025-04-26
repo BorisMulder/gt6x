@@ -7,7 +7,6 @@ import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.worldgen.*;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
 import org.altadoon.gt6x.Gt6xMod;
 import org.altadoon.gt6x.common.Config;
 import org.altadoon.gt6x.common.MTx;
@@ -184,18 +183,18 @@ public class RefractoryMetals extends GT6XFeature {
 
     private void addRecipes() {
         // Mo, W
-        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Powellite , 6 ), FL.array(MTx.DiluteHCl.liquid(10*U, true)), FL.array(MTx.CaCl2Solution.liquid(6*U, false), MT.H2O.liquid(3*U, false)), dust.mat(MTx.H2MoO4, 7));
-        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Wulfenite , 6 ), FL.array(MTx.DiluteHCl.liquid(10*U, true)), FL.array(MTx.PbCl2Solution.liquid(6*U, false), MT.H2O.liquid(3*U, false)), dust.mat(MTx.H2MoO4, 7));
+        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Powellite , 6 ), FL.array(MTx.ConcHCl.liquid(10*U, true)), FL.array(MTx.CaCl2Solution.liquid(6*U, false), MT.H2O.liquid(3*U, false)), dust.mat(MTx.H2MoO4, 7));
+        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Wulfenite , 6 ), FL.array(MTx.ConcHCl.liquid(10*U, true)), FL.array(MTx.PbCl2Solution.liquid(6*U, false), MT.H2O.liquid(3*U, false)), dust.mat(MTx.H2MoO4, 7));
 
-        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Scheelite , 6 ), FL.array(MTx.DiluteHCl.liquid(10*U, true)), FL.array(MTx.CaCl2Solution.liquid(6*U, false), MT.H2O.liquid(3*U, false)), dust.mat(MT.H2WO4, 7));
-        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Wolframite, 6 ), FL.array(MTx.DiluteHCl.liquid(10*U, true)), FL.array(MTx.MgCl2Solution.liquid(6*U, false), MT.H2O.liquid(3*U, false)), dust.mat(MT.H2WO4, 7));
-        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Ferberite , 6 ), FL.array(MTx.DiluteHCl.liquid(10*U, true)), FL.array(MTx.FeCl2Solution.liquid(6*U, false), MT.H2O.liquid(3*U, false)), dust.mat(MT.H2WO4, 7));
-        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Huebnerite, 6 ), FL.array(MTx.DiluteHCl.liquid(10*U, true)), FL.array(MTx.MnCl2Solution.liquid(6*U, false), MT.H2O.liquid(3*U, false)), dust.mat(MT.H2WO4, 7));
-        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Tungstate , 7 ), FL.array(MTx.DiluteHCl.liquid(10*U, true)), FL.array(MTx.LiClSolution .liquid(10*U, false)), dust.mat(MT.H2WO4, 7));
-        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Pinalite  , 11), FL.array(MTx.DiluteHCl.liquid(20*U, true)), FL.array(MTx.PbCl2Solution.liquid(18*U, false), MT.H2O.liquid(6*U, false)), dust.mat(MT.H2WO4, 7));
+        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Scheelite , 6 ), FL.array(MTx.ConcHCl.liquid(10*U, true)), FL.array(MTx.CaCl2Solution.liquid(6*U, false), MT.H2O.liquid(3*U, false)), dust.mat(MT.H2WO4, 7));
+        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Wolframite, 6 ), FL.array(MTx.ConcHCl.liquid(10*U, true)), FL.array(MTx.MgCl2Solution.liquid(6*U, false), MT.H2O.liquid(3*U, false)), dust.mat(MT.H2WO4, 7));
+        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Ferberite , 6 ), FL.array(MTx.ConcHCl.liquid(10*U, true)), FL.array(MTx.FeCl2Solution.liquid(6*U, false), MT.H2O.liquid(3*U, false)), dust.mat(MT.H2WO4, 7));
+        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Huebnerite, 6 ), FL.array(MTx.ConcHCl.liquid(10*U, true)), FL.array(MTx.MnCl2Solution.liquid(6*U, false), MT.H2O.liquid(3*U, false)), dust.mat(MT.H2WO4, 7));
+        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Tungstate , 7 ), FL.array(MTx.ConcHCl.liquid(10*U, true)), FL.array(MTx.LiClSolution .liquid(10*U, false)), dust.mat(MT.H2WO4, 7));
+        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Pinalite  , 11), FL.array(MTx.ConcHCl.liquid(20*U, true)), FL.array(MTx.PbCl2Solution.liquid(18*U, false), MT.H2O.liquid(6*U, false)), dust.mat(MT.H2WO4, 7));
         RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Russellite, 9 ), FL.array(MT .HCl      .gas   (12*U, true)), FL.array(MTx.BiCl3Solution.liquid(14*U, false)), dust.mat(MT.H2WO4, 7));
-        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Stolzite  , 6 ), FL.array(MTx.DiluteHCl.liquid(10*U, true)), FL.array(MTx.PbCl2Solution.liquid(6*U, false), MT.H2O.liquid(3*U, false)), dust.mat(MT.H2WO4, 7));
-        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MTx.Wolframite       , 12), FL.array(MTx.DiluteHCl.liquid(10*U, true)), FL.array(MTx.FeCl2Solution.liquid(3*U, false), MTx.MnCl2Solution.liquid(3*U, false), MT.H2O.liquid(3*U, false)), dust.mat(MT.H2WO4, 7));
+        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Stolzite  , 6 ), FL.array(MTx.ConcHCl.liquid(10*U, true)), FL.array(MTx.PbCl2Solution.liquid(6*U, false), MT.H2O.liquid(3*U, false)), dust.mat(MT.H2WO4, 7));
+        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MTx.Wolframite       , 12), FL.array(MTx.ConcHCl.liquid(10*U, true)), FL.array(MTx.FeCl2Solution.liquid(3*U, false), MTx.MnCl2Solution.liquid(3*U, false), MT.H2O.liquid(3*U, false)), dust.mat(MT.H2WO4, 7));
 
         RMx.Thermolysis.addRecipe1(true, 16, 256, dust.mat(MTx.H2MoO4, 7), NF, FL.Water.make( 3000), dust.mat(MTx.MoO3, 4));
         RMx.Thermolysis.addRecipe1(true, 16, 256, dust.mat(MT .H2WO4 , 7), NF, FL.Water.make( 3000), dust.mat(MT .WO3 , 4));
@@ -251,7 +250,7 @@ public class RefractoryMetals extends GT6XFeature {
         RM.Bath.addRecipe1(true, 0, 512, OM.dust(MT.Mg, U*2), MTx.HfCl4.liquid(5*U, true), NF, OM.dust(MT.Hf), OM.dust(MT.MgCl2, U*2), OM.dust(MT.MgCl2, U*2), OM.dust(MT.MgCl2, U*2));
 
         /// Zirconia
-        RM.Mixer.addRecipe1(true, 16, 64, ST.tag(2), FL.array(MTx.ZrCl4.gas(5*U, true), FL.DistW.make(3000)), FL.array(MT.HCl.gas(4*U, false)), dust.mat(MTx.ZrOCl2, 4));
+        RM.Mixer.addRecipe1(true, 16, 64, ST.tag(2), FL.array(MTx.ZrCl4.liquid(5*U, true), FL.DistW.make(3000)), FL.array(MT.HCl.gas(4*U, false)), dust.mat(MTx.ZrOCl2, 4));
         RM.Mixer.addRecipe2(true, 16, 64, ST.tag(3), dust.mat(MTx.ZrOCl2, 4), FL.array(FL.DistW.make(6000), MT.NH3.gas(2*U, true)), FL.array(MTx.NH4ClSolution.liquid(4*U, false)), dust.mat(MTx.ZrO4H4, 2));
         RMx.Thermolysis.addRecipe1(true, 16, 256, dust.mat(MTx.ZrO4H4, 2), NF, FL.DistW.make(6000), dust.mat(MTx.ZrO2, 1));
 

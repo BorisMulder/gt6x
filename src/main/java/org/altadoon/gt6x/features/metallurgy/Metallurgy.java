@@ -530,7 +530,7 @@ public class Metallurgy extends GT6XFeature {
         RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Lepidolite, 21), MT.H2SO4.liquid(21*U, true), MTx.LepidoliteLeachingSolution.liquid(28*U, false), dust.mat(MT.SiO2, 12));
         RM.Bath.addRecipe1(true, 0, 128, dust.mat(MT.KOH, 9), MTx.LepidoliteLeachingSolution.liquid(28*U, true), MTx.LiKRbSulfateSolution.liquid(30*U, false), dust.mat(MT.AlO3H3, 7));
 
-        RM.Bath.addRecipe1(true, 0, 500, OPx.cationXResin.mat(MT.H, 6), FL.array(MTx.CsRbClSolution.liquid(30*U, true)), FL.array(MTx.DiluteHCl.liquid(30*U, false)), OPx.cationXResin.mat(MT.Cs, 5), OPx.cationXResin.mat(MT.Rb, 1));
+        RM.Bath.addRecipe1(true, 0, 500, OPx.cationXResin.mat(MT.H, 6), FL.array(MTx.CsRbClSolution.liquid(30*U, true)), FL.array(MTx.ConcHCl.liquid(30*U, false)), OPx.cationXResin.mat(MT.Cs, 5), OPx.cationXResin.mat(MT.Rb, 1));
         RM.Bath.addRecipe1(true, 0, 900, OPx.cationXResin.mat(MT.H, 12), MTx.LiKRbSulfateSolution.liquid(60*U, true), MTx.DiluteH2SO4.liquid(60*U, false), OPx.cationXResin.mat(MT.K, 8), OPx.cationXResin.mat(MT.Li, 2), OPx.cationXResin.mat(MT.Rb, 2));
 
         // Sintering dusts into chunks
