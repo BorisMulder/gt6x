@@ -384,7 +384,7 @@ public class Electronics extends GT6XFeature {
 
         // Ru Electroplating
         RM.Roasting.addRecipe1(true, 16, 64, dust.mat(MT.Ru, 1), MT.Cl.gas(3 * U, true), NF, dust.mat(MTx.RuCl3, 4));
-        RM.Mixer.addRecipe1(true, 16, 256, dust.mat(MTx.RuCl3, 8), FL.array(MTx.H3NSO3.liquid(8 * U, true), MTx.DiluteHCl.liquid(10 * U, true)), FL.array(MTx.H3Ru2NCl8H4O2.liquid(20 * U, false), MT.SO2.gas(3 * U, false)));
+        RM.Mixer.addRecipe1(true, 16, 256, dust.mat(MTx.RuCl3, 8), FL.array(MTx.H3NSO3.liquid(8 * U, true), MTx.ConcHCl.liquid(10 * U, true)), FL.array(MTx.H3Ru2NCl8H4O2.liquid(20 * U, false), MT.SO2.gas(3 * U, false)));
         RM.Mixer.addRecipe1(true, 16, 256, dust.mat(MTx.RuCl3, 8), FL.array(MTx.H3NSO3.liquid(8 * U, true), MT.HCl.gas(4 * U, true), FL.DistW.make(3000)), FL.array(MTx.H3Ru2NCl8H4O2.liquid(20 * U, false), MT.SO2.gas(3 * U, false)));
         RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MTx.NH4Cl, 3), FL.array(MTx.H3Ru2NCl8H4O2.liquid(20 * U, true)), FL.array(MTx.RuElectrolyte.liquid(20 * U, false), MT.HCl.gas(6 * U, false)));
 
@@ -657,7 +657,7 @@ public class Electronics extends GT6XFeature {
         /// ARC
         RMx.IonBombardment.addRecipe2(true, 64, 128, ILx.SolarWafers[4][13].get(1), dustDiv72.mat(MT.TiO2, 27), MT.Ar.gas(U100, true), NF, ILx.SolarWafers[4][14].get(1));
         RM.Bath.addRecipe1(true, 0, 128, ILx.SolarWafers[4][14].get(1), FL.array(MTx.NaOHSolution.liquid(12*U8, true)), FL.array(MT.H2O.liquid(9*U8, false)), ILx.SolarWafers[4][15].get(1));
-        RM.Bath.addRecipe1(true, 0, 128, ILx.SolarWafers[4][15].get(1), FL.array(MTx.DiluteHCl.liquid(4*5*U8, true)), FL.array(MT.SaltWater.liquid(2*8*U8, false), MT.HCl.gas(2*2*U8, false)), ILx.SolarWafers[4][16].get(1), dustDiv72.mat(MT.TiO2, 9));
+        RM.Bath.addRecipe1(true, 0, 128, ILx.SolarWafers[4][15].get(1), FL.array(MTx.DiluteHCl.liquid(2*U, true)), FL.array(MT.SaltWater.liquid(2*U, false)), ILx.SolarWafers[4][16].get(1), dustDiv72.mat(MT.TiO2, 9));
         /// Front contact
         RMx.Photolithography.addRecipe2(true, 16, 128, ILx.SolarWafers[4][16].get(1), ILx.Photomasks[MJ_PV_IDX][0][0][PM_FINISHED].get(0), MTx.DnqNovolacResist.liquid(U200, true), NF, ILx.SolarWafers[4][17].get(1));
         for (FluidStack developer : DEVELOPERS)

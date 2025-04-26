@@ -1,9 +1,7 @@
 package org.altadoon.gt6x.features.oil;
 
 import com.google.common.collect.Iterables;
-import gregapi.code.ICondition;
 import gregapi.data.*;
-import gregapi.item.prefixitem.PrefixItem;
 import gregapi.oredict.OreDictItemData;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.oredict.OreDictPrefix;
@@ -30,9 +28,6 @@ import java.util.stream.StreamSupport;
 
 import static gregapi.data.CS.*;
 import static gregapi.data.OP.*;
-import static gregapi.data.TD.Prefix.TOOLTIP_MATERIAL;
-import static gregapi.data.TD.Prefix.UNIFICATABLE;
-import static org.altadoon.gt6x.Gt6xMod.MOD_ID;
 import static org.altadoon.gt6x.common.RMx.FMx;
 
 public class OilProcessing extends GT6XFeature {
@@ -400,14 +395,15 @@ public class OilProcessing extends GT6XFeature {
 
         // Vinyl Acetate e.a.
         RM.Mixer.addRecipe1(true, 16, 2048, OM.dust(MT.WO3, 48*U), FL.array(MT .HCl      .gas   (8 *U, true), MTx.Na4SiO4Solution.liquid(18*U, true), FL.DistW.make(54000)), FL.array(FL.Saltwater.make(32000)), dust.mat(MTx.SilicoTungsticAcid, 96));
-        RM.Mixer.addRecipe1(true, 16, 2048, OM.dust(MT.WO3, 48*U), FL.array(MTx.DiluteHCl.liquid(20*U, true), MTx.Na4SiO4Solution.liquid(18*U, true), FL.DistW.make(18000)), FL.array(FL.Saltwater.make(32000)), dust.mat(MTx.SilicoTungsticAcid, 96));
+        RM.Mixer.addRecipe1(true, 16, 2048, OM.dust(MT.WO3, 48*U), FL.array(MTx.ConcHCl.liquid(20*U, true), MTx.Na4SiO4Solution.liquid(18*U, true), FL.DistW.make(18000)), FL.array(FL.Saltwater.make(32000)), dust.mat(MTx.SilicoTungsticAcid, 96));
+        RM.Mixer.addRecipe1(true, 16, 2048, OM.dust(MT.WO3, 48*U), FL.array(MTx.DiluteHCl.liquid(32*U, true), MTx.Na4SiO4Solution.liquid(18*U, true), FL.DistW.make(6000)), FL.array(FL.Saltwater.make(32000)), dust.mat(MTx.SilicoTungsticAcid, 96));
         RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MTx.SilicoTungsticAcid, 0), FL.array(MT.Ethylene.gas(U, true), MT.O.gas(2*U, true)), FL.array(MTx.AceticAcid.liquid(U, false)));
         RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MT.Pd, 0), FL.array(MT.Ethylene.gas(U, true), MTx.AceticAcid.liquid(U, true), MT.O.gas(U, true)), FL.array(MTx.VinylAcetate.liquid(U, false), MT.H2O.liquid(3*U, false)));
         RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MT.NaSO4, 0), MTx.VinylAcetate.liquid(U, true), NF, dust.mat(MTx.PolyvinylAcetate, 1));
         RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.NaOH, 0), dust.mat(MTx.PolyvinylAcetate, 1), MTx.Methanol.liquid(U, true), MTx.MethylAcetate.liquid(U, false), dust.mat(MTx.PVA, 1));
         RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MTx.PolyvinylAcetate, 1), FL.DistW.make(1000), FL.Glue.make(1000), NI);
         // Hydrolysis of Methyl Acetate
-        RM.Mixer.addRecipe0(true, 16, 64, FL.array(MTx.MethylAcetate.liquid(U, true), FL.DistW.make(3000), MTx.DiluteHCl.liquid(U1000, true)), FL.array(MTx.AceticAcid.liquid(U, false), MTx.Methanol.liquid(U, false)));
+        RM.Mixer.addRecipe0(true, 16, 64, FL.array(MTx.MethylAcetate.liquid(U, true), FL.DistW.make(3000), MTx.ConcHCl.liquid(U1000, true)), FL.array(MTx.AceticAcid.liquid(U, false), MTx.Methanol.liquid(U, false)));
         // Biphenyl via Gomberg-Bachmann
         RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.NaOH, 3), dust.mat(MTx.BenzenediazoniumChloride, 1), FL.array(MTx.Benzene.liquid(U, true), FL.DistW.make(3000)), FL.array(MT.N.gas(2 * U, false), FL.Saltwater.make(8000)), dust.mat(MTx.Biphenyl, 1));
 
