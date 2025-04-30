@@ -13,9 +13,12 @@ A lot of items, machines and recipes are added, from blast furnaces and complex 
 
 Minecraft 1.7.10 with Gregtech 6 and all of its dependencies.
 
-### Building
+### Building and running
 
-TODO provide build instructions
+* Make sure you have Java, Minecraft, and the right version of Gregtech 6 and its dependencies (depends on the gt6x version)
+* Clone the repo
+* Run `./gradlew build` or `.\gradlew.bat build` on windows
+* Copy build/libs/gt6x-<version>.jar to your minecraft mods/ directory
 
 ### Contact
 
