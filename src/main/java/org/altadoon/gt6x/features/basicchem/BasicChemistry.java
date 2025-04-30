@@ -451,8 +451,8 @@ public class BasicChemistry extends GT6XFeature {
         RM.Bath.addRecipe1(true , 0, 512, OPx.anionXResin.mat(MT.CO3, 2), FL.array(MTx.NaOHSolution.liquid(12*U, true)), FL.array(MTx.Na2CO3Solution.liquid(9*U, false), MT.H2O.liquid(3*U, false)), OPx.anionXResin.mat(MTx.OH, 2));
         RM.Bath.addRecipe1(true , 0, 512, OPx.anionXResin.mat(MTx.SO4, 2), FL.array(MTx.NaOHSolution.liquid(12*U, true)), FL.array(MTx.Na2SO4Solution.liquid(10*U, false), MT.H2O.liquid(3*U, false)), OPx.anionXResin.mat(MTx.OH, 2));
         RM.Bath.addRecipe1(true , 0, 512, OPx.anionXResin.mat(MTx.SO4, 2), FL.array(MTx.KOHSolution.liquid(12*U, true)), FL.array(MTx.K2SO4Solution.liquid(10*U, false), MT.H2O.liquid(3*U, false)), OPx.anionXResin.mat(MTx.OH, 2));
-        RM.Bath.addRecipe1(true , 0, 256, OPx.anionXResin.mat(MTx.HCO3, 1), FL.array(MTx.NaOHSolution.liquid(6*U, true)), FL.array(MTx.NaHCO3Solution.liquid(9*U, false)), OPx.anionXResin.mat(MTx.OH, 1));
         RM.Bath.addRecipe1(false, 0, 256, OPx.anionXResin.mat(MTx.NO3, 1), FL.array(MTx.NaOHSolution.liquid(6*U, true)), FL.array(MTx.NaNO3Solution.liquid(8*U, false)), OPx.anionXResin.mat(MTx.OH, 1));
+        RM.Bath.addRecipe1(false, 0, 256, OPx.anionXResin.mat(MT .PO4, 3), FL.array(MTx.NaOHSolution.liquid(18*U, true)), FL.array(MTx.Na3PO4Solution.liquid(14*U, false), MT.H2O.liquid(3*U, false)), OPx.anionXResin.mat(MTx.OH, 1));
 
         RMx.Thermolysis.addRecipe1(false, 16, 128, OPx.cationXResin.mat(MTx.NH4, 1), NF, MT.NH3.gas(U, false), OPx.cationXResin.mat(MT.H, 1));
         RM.Bath.addRecipe1(false, 9, 256, OPx.cationXResin.mat(MTx.NH4, 1), MTx.ConcHCl.liquid(5*U, true), MTx.NH4ClSolution.liquid(4*U, false), OPx.cationXResin.mat(MT.H, 1));
@@ -483,12 +483,22 @@ public class BasicChemistry extends GT6XFeature {
             RM.Bath.addRecipe1(true, 0, 200, OPx.cationXResin.mat(MT.H, 1), saltWater, MTx.DiluteHCl.liquid(8*U, false), OPx.cationXResin.mat(MT.Na, 1));
         }
         RM.Bath.addRecipe1(true, 0, 200, OPx.cationXResin.mat(MT.H, 1), MT.SaltedWater.liquid(8 * U, true), MTx.DiluteHCl.liquid(8*U, false), OPx.cationXResin.mat(MT.K, 1));
-        RM.Bath.addRecipe1(true, 0, 200, OPx.anionXResin.mat(MTx.OH, 1), MTx.DiluteHCl.liquid(8*U, true), FL.Water.make(9000), OPx.anionXResin.mat(MT.Cl, 1));
 
-        RM.Bath.addRecipe1(true, 0, 2000, OPx.cationXResin.mat(MT.H, 8), FL.Water.make(50000), MTx.SlightlySourWater.liquid(50*U, false), OPx.cationXResin.mat(MT.Ca, 4), OPx.cationXResin.mat(MT.Na, 2), OPx.cationXResin.mat(MT.Mg, 1), OPx.cationXResin.mat(MT.K, 1));
-        RM.Bath.addRecipe1(true, 0, 2000, OPx.cationXResin.mat(MT.H, 8), FL.MnWtr.make(10000), MTx.        SourWater.liquid(10*U, false), OPx.cationXResin.mat(MT.Ca, 4), OPx.cationXResin.mat(MT.Na, 2), OPx.cationXResin.mat(MT.Mg, 1), OPx.cationXResin.mat(MT.K, 1));
-        RM.Bath.addRecipe1(true, 0, 2000, OPx.anionXResin.mat(MTx.OH, 8), MTx.SlightlySourWater.liquid(50*U, true), FL.DistW.make(50000), OPx.anionXResin.mat(MTx.HCO3, 3), OPx.anionXResin.mat(MTx.SO4, 2), OPx.anionXResin.mat(MT.Cl, 2), OPx.anionXResin.mat(MTx.NO3, 1));
-        RM.Bath.addRecipe1(true, 0, 2000, OPx.anionXResin.mat(MTx.OH, 8), MTx.        SourWater.liquid(10*U, true), FL.DistW.make(10000), OPx.anionXResin.mat(MTx.HCO3, 3), OPx.anionXResin.mat(MTx.SO4, 2), OPx.anionXResin.mat(MT.Cl, 2), OPx.anionXResin.mat(MTx.NO3, 1));
+        RM.Bath.addRecipe1(true, 0, 2000, OPx.cationXResin.mat(MT.H, 8), FL.array(FL.Water.make(50000)), FL.array(MTx.SlightlySourWater.liquid(50*U, false), MT.CO2.gas(3*U, false)), OPx.cationXResin.mat(MT.Ca, 4), OPx.cationXResin.mat(MT.Na, 2), OPx.cationXResin.mat(MT.Mg, 1), OPx.cationXResin.mat(MT.K, 1));
+        RM.Bath.addRecipe1(true, 0, 2000, OPx.cationXResin.mat(MT.H, 8), FL.array(FL.MnWtr.make(10000)), FL.array(MTx.        SourWater.liquid(10*U, false), MT.CO2.gas(3*U, false)), OPx.cationXResin.mat(MT.Ca, 4), OPx.cationXResin.mat(MT.Na, 2), OPx.cationXResin.mat(MT.Mg, 1), OPx.cationXResin.mat(MT.K, 1));
+        RM.Bath.addRecipe1(true, 0, 2000, OPx.anionXResin.mat(MTx.OH, 5), MTx.SlightlySourWater.liquid(50*U, true), FL.DistW.make(50000), OPx.anionXResin.mat(MTx.SO4, 2), OPx.anionXResin.mat(MT.Cl, 2), OPx.anionXResin.mat(MTx.NO3, 1));
+        RM.Bath.addRecipe1(true, 0, 2000, OPx.anionXResin.mat(MTx.OH, 5), MTx.        SourWater.liquid(10*U, true), FL.DistW.make(10000), OPx.anionXResin.mat(MTx.SO4, 2), OPx.anionXResin.mat(MT.Cl, 2), OPx.anionXResin.mat(MTx.NO3, 1));
+
+        // Acid neutralization
+        RM.Bath.addRecipe1(true, 0, 200, OPx.anionXResin.mat(MTx.OH, 1), MT .HF         .gas   (2 *U, true), MT.H2O.liquid(3*U, false), OPx.anionXResin.mat(MT.F , 1));
+        RM.Bath.addRecipe1(true, 0, 200, OPx.anionXResin.mat(MTx.OH, 1), MTx.HBr        .gas   (2 *U, true), MT.H2O.liquid(3*U, false), OPx.anionXResin.mat(MT.Br, 1));
+        RM.Bath.addRecipe1(true, 0, 200, OPx.anionXResin.mat(MTx.OH, 1), MT .HCl        .gas   (2 *U, true), MT.H2O.liquid(3*U, false), OPx.anionXResin.mat(MT.Cl, 1));
+        RM.Bath.addRecipe1(true, 0, 200, OPx.anionXResin.mat(MTx.OH, 1), MTx.ConcHCl    .liquid(5 *U, true), MT.H2O.liquid(6*U, false), OPx.anionXResin.mat(MT.Cl, 1));
+        RM.Bath.addRecipe1(true, 0, 200, OPx.anionXResin.mat(MTx.OH, 1), MTx.DiluteHCl  .liquid(8 *U, true), MT.H2O.liquid(9*U, false), OPx.anionXResin.mat(MT.Cl, 1));
+        RM.Bath.addRecipe1(true, 0, 200, OPx.anionXResin.mat(MTx.OH, 1), MT .HNO3       .liquid(5 *U, true), MT.H2O.liquid(3*U, false), OPx.anionXResin.mat(MTx.NO3, 1));
+        RM.Bath.addRecipe1(true, 0, 200, OPx.anionXResin.mat(MTx.OH, 2), MT .H2SO4      .liquid(7 *U, true), MT.H2O.liquid(6*U, false), OPx.anionXResin.mat(MTx.SO4, 2));
+        RM.Bath.addRecipe1(true, 0, 200, OPx.anionXResin.mat(MTx.OH, 2), MTx.DiluteH2SO4.liquid(10*U, true), MT.H2O.liquid(9*U, false), OPx.anionXResin.mat(MTx.SO4, 2));
+        RM.Bath.addRecipe1(true, 0, 200, OPx.anionXResin.mat(MTx.OH, 3), MTx.H3PO4      .liquid(8 *U, true), MT.H2O.liquid(9*U, false), OPx.anionXResin.mat(MT.PO4, 3));
     }
 
     private void addOverrideRecipes() {
