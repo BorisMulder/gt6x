@@ -503,10 +503,10 @@ public class BasicChemistry extends GT6XFeature {
         }
         RM.Bath.addRecipe1(true, 0, 200, OPx.cationXResin.mat(MT.H, 1), MT.SaltedWater.liquid(8 * U, true), MTx.DiluteHCl.liquid(8*U, false), OPx.cationXResin.mat(MT.K, 1));
 
-        RM.Bath.addRecipe1(true, 0, 2000, OPx.cationXResin.mat(MT.H, 8), FL.array(FL.Water.make(50000)), FL.array(MTx.SlightlySourWater.liquid(50*U, false), MT.CO2.gas(3*U, false)), OPx.cationXResin.mat(MT.Ca, 4), OPx.cationXResin.mat(MT.Na, 2), OPx.cationXResin.mat(MT.Mg, 1), OPx.cationXResin.mat(MT.K, 1));
-        RM.Bath.addRecipe1(true, 0, 2000, OPx.cationXResin.mat(MT.H, 8), FL.array(FL.MnWtr.make(10000)), FL.array(MTx.        SourWater.liquid(10*U, false), MT.CO2.gas(3*U, false)), OPx.cationXResin.mat(MT.Ca, 4), OPx.cationXResin.mat(MT.Na, 2), OPx.cationXResin.mat(MT.Mg, 1), OPx.cationXResin.mat(MT.K, 1));
-        RM.Bath.addRecipe1(true, 0, 2000, OPx.anionXResin.mat(MTx.OH, 5), MTx.SlightlySourWater.liquid(50*U, true), FL.DistW.make(50000), OPx.anionXResin.mat(MTx.SO4, 2), OPx.anionXResin.mat(MT.Cl, 2), OPx.anionXResin.mat(MTx.NO3, 1));
-        RM.Bath.addRecipe1(true, 0, 2000, OPx.anionXResin.mat(MTx.OH, 5), MTx.        SourWater.liquid(10*U, true), FL.DistW.make(10000), OPx.anionXResin.mat(MTx.SO4, 2), OPx.anionXResin.mat(MT.Cl, 2), OPx.anionXResin.mat(MTx.NO3, 1));
+        RM.Bath.addRecipe1(true, 0, 2000, OPx.cationXResin.mat(MT.H, 8), FL.array(FL.Water.make(50000)), FL.array(MTx.DecatWater.liquid(50*U, false), MT.CO2.gas(3*U, false)), OPx.cationXResin.mat(MT.Ca, 4), OPx.cationXResin.mat(MT.Na, 2), OPx.cationXResin.mat(MT.Mg, 1), OPx.cationXResin.mat(MT.K, 1));
+        RM.Bath.addRecipe1(true, 0, 2000, OPx.cationXResin.mat(MT.H, 8), FL.array(FL.MnWtr.make(10000)), FL.array(MTx.DecatMnWtr.liquid(10*U, false), MT.CO2.gas(3*U, false)), OPx.cationXResin.mat(MT.Ca, 4), OPx.cationXResin.mat(MT.Na, 2), OPx.cationXResin.mat(MT.Mg, 1), OPx.cationXResin.mat(MT.K, 1));
+        RM.Bath.addRecipe1(true, 0, 2000, OPx.anionXResin.mat(MTx.OH, 5), MTx.DecatWater.liquid(50*U, true), FL.DistW.make(50000), OPx.anionXResin.mat(MTx.SO4, 2), OPx.anionXResin.mat(MT.Cl, 2), OPx.anionXResin.mat(MTx.NO3, 1));
+        RM.Bath.addRecipe1(true, 0, 2000, OPx.anionXResin.mat(MTx.OH, 5), MTx.DecatMnWtr.liquid(10*U, true), FL.DistW.make(10000), OPx.anionXResin.mat(MTx.SO4, 2), OPx.anionXResin.mat(MT.Cl, 2), OPx.anionXResin.mat(MTx.NO3, 1));
 
         // Acid neutralization
         RM.Bath.addRecipe1(true, 0, 200, OPx.anionXResin.mat(MTx.OH, 1), MT .HF         .gas   (2 *U, true), MT.H2O.liquid(3*U, false), OPx.anionXResin.mat(MT.F , 1));
