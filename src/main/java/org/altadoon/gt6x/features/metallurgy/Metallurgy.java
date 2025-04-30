@@ -459,8 +459,10 @@ public class Metallurgy extends GT6XFeature {
         RM.Bath.addRecipe1(true,  0,  256, new long[] {10000, 5000, 5000, 5000, 5000, 5000}, crushedPurified    .mat(MT.Au, 1), FL.array(MTx.KCNSolution .liquid(6*U, true)), FL.array(MTx.KAuC2N2 .liquid(3*U, false), MTx.KOHSolution .liquid(3*U, false), MT.H2O.liquid(3*U4, false)), crushedCentrifuged.mat(MT.Au, 1), crushedCentrifugedTiny.mat(MT.Au, 2), crushedCentrifugedTiny.mat(MT.Au, 2), crushedCentrifugedTiny.mat(MT.Au, 2), crushedCentrifugedTiny.mat(MT.Au, 2), crushedCentrifugedTiny.mat(MT.Au, 2));
         RM.Bath.addRecipe1(true,  0,  256, new long[] {10000, 5000, 5000, 5000, 5000, 5000}, crushedPurifiedTiny.mat(MT.Au, 9), FL.array(MTx.KCNSolution .liquid(6*U, true)), FL.array(MTx.KAuC2N2 .liquid(3*U, false), MTx.KOHSolution .liquid(3*U, false), MT.H2O.liquid(3*U4, false)), crushedCentrifuged.mat(MT.Au, 1), crushedCentrifugedTiny.mat(MT.Au, 2), crushedCentrifugedTiny.mat(MT.Au, 2), crushedCentrifugedTiny.mat(MT.Au, 2), crushedCentrifugedTiny.mat(MT.Au, 2), crushedCentrifugedTiny.mat(MT.Au, 2));
 
-        RM.Electrolyzer.addRecipe1(true, 32, 64, ST.tag(0), FL.array(MTx.NaAuC2N2.liquid(6*U, true), FL.DistW.make(6000)), FL.array(MTx.HCN.gas(6*U, false), MT.H.gas(U, false), MT.O.gas(U, false)), dust.mat(MT.Au, 1), dust.mat(MT.NaOH, 3));
-        RM.Electrolyzer.addRecipe1(true, 32, 64, ST.tag(0), FL.array(MTx.KAuC2N2 .liquid(6*U, true), FL.DistW.make(6000)), FL.array(MTx.HCN.gas(6*U, false), MT.H.gas(U, false), MT.O.gas(U, false)), dust.mat(MT.Au, 1), dust.mat(MT.KOH , 3));
+        for (FluidStack water : FL.waters(6000)) {
+            RM.Electrolyzer.addRecipe1(true, 32, 64, ST.tag(0), FL.array(MTx.NaAuC2N2.liquid(6 * U, true), water), FL.array(MTx.HCN.gas(6 * U, false), MT.H.gas(U, false), MT.O.gas(U, false)), dust.mat(MT.Au, 1), dust.mat(MT.NaOH, 3));
+            RM.Electrolyzer.addRecipe1(true, 32, 64, ST.tag(0), FL.array(MTx.KAuC2N2.liquid(6 * U, true), water), FL.array(MTx.HCN.gas(6 * U, false), MT.H.gas(U, false), MT.O.gas(U, false)), dust.mat(MT.Au, 1), dust.mat(MT.KOH, 3));
+        }
 
         // Reduction of As, Sb with Fe
         RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MTx.As2O3, 5), dust.mat(MT.Fe, 2), ZL_FS, FL.array(MT.As.gas(2*U, false)), dust.mat(MT.Fe2O3, 5));
@@ -473,8 +475,10 @@ public class Metallurgy extends GT6XFeature {
             RM.BurnMixer.addRecipe2(true, 16, 32, dust.mat(MT.OREMATS.Celestine, 6), dust.mat(coal, 2), NF, MT.CO2.gas(6*U, false), dust.mat(MTx.SrS, 1));
         }
         RM.Bath.addRecipe1(true, 0, 64, dust.mat(MTx.BaS, 1), MT.NitricAcid.liquid(10*U, true), MT.H2S.gas(3*U, false), dust.mat(MTx.BaNO3, 1));
-        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.BaS, 1), FL.array(FL.DistW.make(3000), MT.CO2.gas(3 * U, true)), FL.array(MT.H2S.gas(3 * U, false)), dust.mat(MTx.BaCO3, 1));
-        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.SrS, 1), FL.array(FL.DistW.make(3000), MT.CO2.gas(3 * U, true)), FL.array(MT.H2S.gas(3 * U, false)), dust.mat(MTx.SrCO3, 1));
+        for (FluidStack water : FL.waters(3000)) {
+            RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.BaS, 1), FL.array(water, MT.CO2.gas(3 * U, true)), FL.array(MT.H2S.gas(3 * U, false)), dust.mat(MTx.BaCO3, 1));
+            RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.SrS, 1), FL.array(water, MT.CO2.gas(3 * U, true)), FL.array(MT.H2S.gas(3 * U, false)), dust.mat(MTx.SrCO3, 1));
+        }
         RM.Bath.addRecipe1(true, 0, 64, dust.mat(MTx.BaO, 3), MT.Al.liquid(2*U, true), MT.Ba.liquid(3*U, false), dust.mat(MT.Al2O3, 5));
         RM.Bath.addRecipe1(true, 0, 64, dust.mat(MTx.SrO, 3), MT.Al.liquid(2*U, true), MT.Sr.liquid(3*U, false), dust.mat(MT.Al2O3, 5));
 
@@ -495,8 +499,10 @@ public class Metallurgy extends GT6XFeature {
         RM.Drying.addRecipe0(true, 16, 6000, MTx.BayerLiquor.liquid(6*U, true), FL.DistW.make(3000), dust.mat(MT.NaOH, 3));
         RM.Electrolyzer.addRecipe1(true, 64, 128, new long[] {10000, 2000}, ST.tag(1), FL.array(MTx.BayerLiquor.liquid(6*U, true), MT.Hg.liquid(9*U8, true)), FL.array(MTx.GaAmalgam.liquid(10*U8, false), MT.H.gas(U2, false), FL.Water.make(2250)), dust.mat(MT.NaOH, 3), dustSmall.mat(MT.V2O5, 7));
 
-        RM.Mixer.addRecipe0(true, 16, 192, FL.array(MTx.GaAmalgam.liquid(10*U, true), MTx.NaOHSolution.liquid(6*U, true), FL.DistW.make(1500), FL.Oxygen.make(1500)), FL.array(MT.Hg.liquid(9*U, false)), dust.mat(MTx.NaGaOH4, 10));
-        RM.Mixer.addRecipe1(true, 16, 192, dust.mat(MT.NaOH, 3), FL.array(MTx.GaAmalgam.liquid(10*U, true), FL.DistW.make(4500), FL.Oxygen.make(1500)), FL.array(MT.Hg.liquid(9*U, false)), dust.mat(MTx.NaGaOH4, 10));
+        for (FluidStack water : FL.waters(1500)) {
+            RM.Mixer.addRecipe0(true, 16, 192, FL.array(MTx.GaAmalgam.liquid(10 * U, true), MTx.NaOHSolution.liquid(6 * U, true), water, FL.Oxygen.make(1500)), FL.array(MT.Hg.liquid(9 * U, false)), dust.mat(MTx.NaGaOH4, 10));
+            RM.Mixer.addRecipe1(true, 16, 192, dust.mat(MT.NaOH, 3), FL.array(MTx.GaAmalgam.liquid(10 * U, true), FL.mul(water, 3), FL.Oxygen.make(1500)), FL.array(MT.Hg.liquid(9 * U, false)), dust.mat(MTx.NaGaOH4, 10));
+        }
         RM.Electrolyzer.addRecipe2(true, 64, 512, ST.tag(1), dust.mat(MTx.NaGaOH4, 10), ZL_FS, FL.array(FL.Water.make(1500), FL.Oxygen.make(1500), MTx.NaOHSolution.liquid(6*U, false)), dust.mat(MT.Ga, 1));
         RM.Bath.addRecipe1(true, 0, 100, dust.mat(MTx.NaGaOH4, 20), MT.HCl.gas(4*U, true), FL.Saltwater.make(16000), dust.mat(MTx.Ga2O3, 5));
         RM.Roasting.addRecipe1(true, 16, 64, dust.mat(MT.Ga, 2), MT.O.gas(3*U, true), NF, dust.mat(MTx.Ga2O3, 5));
@@ -507,8 +513,11 @@ public class Metallurgy extends GT6XFeature {
         RM.Bath.addRecipe1(true, 0, 512, dust.mat(MTx.ZnSlag, 1), MT.H2SO4.liquid(8*U, true), MTx.GeGaInSulfateSolution.liquid(7*U, false), dust.mat(MT.SiO2, 1), dust.mat(MT.CaSO4, 1));
         RM.Bath.addRecipe1(true, 0, 512, dust.mat(MTx.ZRR, 1), MT.H2SO4.liquid(8*U, true), MTx.GeGaInSulfateSolution.liquid(7*U, false), dust.mat(MTx.Tl2SO4, 1));
         RM.Bath.addRecipe1(true, 0, 256, dust.mat(MTx.TannicAcid, 1), MTx.GeGaInSulfateSolution.liquid(7*U, true), MTx.GaInSulfateSolution.liquid(7*U, false), dust.mat(MTx.GeTannate, 1));
-        RM.Electrolyzer.addRecipe1(true, 64, 64, dust.mat(MTx.Tl2SO4, 7), FL.array(FL.DistW.make(3000)), FL.array(MT.H2SO4.liquid(7*U, false), MT.O.gas(U, false)), dust.mat(MT.Tl, 2));
-        RM.Bath.addRecipe1(true, 0, 512, dust.mat(MTx.GeTannate, 1), FL.DistW.make(2000), MTx.Tannin.liquid(2*U, false), dust.mat(MTx.GeO2, 1));
+
+        for (FluidStack water : FL.waters(1000)) {
+            RM.Electrolyzer.addRecipe1(true, 64, 64, dust.mat(MTx.Tl2SO4, 7), FL.array(FL.mul(water, 3)), FL.array(MT.H2SO4.liquid(7 * U, false), MT.O.gas(U, false)), dust.mat(MT.Tl, 2));
+            RM.Bath.addRecipe1(true, 0, 512, dust.mat(MTx.GeTannate, 1), FL.mul(water, 2), MTx.Tannin.liquid(2 * U, false), dust.mat(MTx.GeO2, 1));
+        }
         RM.Bath.addRecipe1(true, 0, 64, dust.mat(MT.NaOH, 2*3), MTx.GaInSulfateSolution.liquid(7*U, true), MTx.GaOHNa2SO4Solution.liquid(11*U, false), dust.mat(MTx.InO3H3, 2), dustTiny.mat(MTx.InO3H3, 3));
         RM.Drying.addRecipe1(true, 16, 18000, dust.mat(MTx.InO3H3, 14), NF, FL.DistW.make(9000), dust.mat(MTx.In2O3, 5));
         RM.Bath.addRecipe1(true, 0, 256, dust.mat(MT.NaOH, 1), MTx.GaOHNa2SO4Solution.liquid(11*U, true), MTx.Na2SO4Solution.liquid(10*U, false), dust.mat(MTx.NaGaOH4, 3), dustTiny.mat(MTx.NaGaOH4, 3));
@@ -526,7 +535,8 @@ public class Metallurgy extends GT6XFeature {
         RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.GeO2, 3), MT.H.gas(4*U, true), MT.H2O.liquid(6*U, false), dust.mat(MT.Ge, 1));
 
         // Pollucite, Lepidolite
-        RM.Bath.addRecipeX(true, 0, 520, ST.array(dust.mat(MT.OREMATS.Pollucite, 26), dust.mat(MTx.CaO, 8), dust.mat(MT.CaCl2, 3)), FL.DistW.make(3000), MTx.CsRbClSolution.liquid(5 * U, false), dust.mat(MT.OREMATS.Wollastonite, 20), dust.mat(MT.Al2O3, 5));
+        for (FluidStack water : FL.waters(3000))
+            RM.Bath.addRecipeX(true, 0, 520, ST.array(dust.mat(MT.OREMATS.Pollucite, 26), dust.mat(MTx.CaO, 8), dust.mat(MT.CaCl2, 3)), water, MTx.CsRbClSolution.liquid(5 * U, false), dust.mat(MT.OREMATS.Wollastonite, 20), dust.mat(MT.Al2O3, 5));
         RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.OREMATS.Lepidolite, 21), MT.H2SO4.liquid(21*U, true), MTx.LepidoliteLeachingSolution.liquid(28*U, false), dust.mat(MT.SiO2, 12));
         RM.Bath.addRecipe1(true, 0, 128, dust.mat(MT.KOH, 9), MTx.LepidoliteLeachingSolution.liquid(28*U, true), MTx.LiKRbSulfateSolution.liquid(30*U, false), dust.mat(MT.AlO3H3, 7));
 
@@ -702,9 +712,11 @@ public class Metallurgy extends GT6XFeature {
         RM.MagneticSeparator.addRecipe1(true, 16, 1296, new long[]{9640, 5832, 5832, 5832, 5832, 5832}, blockDust.mat(MT.SluiceSand, 1), dust.mat(MT.Stone, 9), dustTiny.mat(MT.Fe2O3, 5), dustTiny.mat(MT.Nd, 1), dustTiny.mat(MT.OREMATS.Garnierite, 1), dustTiny.mat(MTx.Co3O4, 2), dustTiny.mat(MT.MnO2, 1));
 
         // Copper anode sludge: M2X (M = Cu, Pb, Bi, Ag, Au, Pt; X = Se, Te (O, S, As, Sb, Ba, SO4: mostly ignored))
-        RM.Electrolyzer.addRecipe1(true, 64, 64, new long[]{10000, 150}, ST.tag(1), FL.array(MT.BlueVitriol.liquid(6 * U, true), FL.DistW.make(3000)), FL.array(MT.H2SO4.liquid(7 * U, true), MT.O.gas(U, false)), OM.dust(MT.Cu), dustTiny.mat(MTx.CuAnodeSludge, 9));
-        RM.Bath.addRecipe1(true, 16, 48, new long[]{4000, 2500, 2000, 1000, 300, 200}, dust.mat(MTx.CuAnodeSludgeRoast, 4), FL.DistW.make(3000), MTx.Na2TeSeO3Solution.liquid(6*U, false), dustTiny.mat(MT.Cu, 9), dustTiny.mat(MTx.PbO, 9), dustTiny.mat(MTx.Bi2O3, 9), dustTiny.mat(MT.Ag, 9), dustTiny.mat(MT.Au, 9), dustTiny.mat(MT.PlatinumGroupSludge, 9));
-        RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.TeO2, 1), FL.array(MT.SO2.gas(6*U, true), FL.DistW.make(6000)), MT.H2SO4.liquid(14*U, false), dust.mat(MT.Te, 1));
+        for (FluidStack water : FL.waters(3000)) {
+            RM.Electrolyzer.addRecipe1(true, 64, 64, new long[]{10000, 150}, ST.tag(1), FL.array(MT.BlueVitriol.liquid(6 * U, true), water), FL.array(MT.H2SO4.liquid(7 * U, true), MT.O.gas(U, false)), OM.dust(MT.Cu), dustTiny.mat(MTx.CuAnodeSludge, 9));
+            RM.Bath.addRecipe1(true, 16, 48, new long[]{4000, 2500, 2000, 1000, 300, 200}, dust.mat(MTx.CuAnodeSludgeRoast, 4), water, MTx.Na2TeSeO3Solution.liquid(6 * U, false), dustTiny.mat(MT.Cu, 9), dustTiny.mat(MTx.PbO, 9), dustTiny.mat(MTx.Bi2O3, 9), dustTiny.mat(MT.Ag, 9), dustTiny.mat(MT.Au, 9), dustTiny.mat(MT.PlatinumGroupSludge, 9));
+            RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.TeO2, 1), FL.array(MT.SO2.gas(6 * U, true), FL.mul(water, 2)), MT.H2SO4.liquid(14 * U, false), dust.mat(MT.Te, 1));
+        }
         RM.BurnMixer.addRecipeX(true, 16, 48, ST.array(dust.mat(MTx.CuAnodeSludge, 3), dust.mat(MT.Na2CO3, 6)), MT.O.gas(2*U, true), MT.CO2.gas(3*U, false), dust.mat(MTx.CuAnodeSludgeRoast, 8));
         RM.Mixer.addRecipe1(true, 16, 168, ST.tag(0), FL.array(MTx.Na2TeSeO3Solution.liquid(24*U, true), MT.H2SO4.liquid(14*U, true)), MTx.Na2SO4H2SeO3Solution.liquid(35*U, false), dust.mat(MTx.TeO2, 1));
         RM.Mixer.addRecipe1(true, 16, 280, ST.tag(0), FL.array(MTx.Na2SO4H2SeO3Solution.liquid(35*U, true), MT.SO2.gas(6*U, true)), MTx.NaHSO4Solution.liquid(40*U, false), OM.dust(MT.Se));
@@ -776,8 +788,10 @@ public class Metallurgy extends GT6XFeature {
         RM.Autoclave.addRecipe2(true,  0, 3000, OP.dustTiny .mat(MT.OREMATS.Bauxite,18), OP.dust     .mat(MT.NaOH, 3), FL.Steam.make(96000), FL.DistW.make(600+1500), OP.dust.mat(MT.NaAlO2, 4), crushedCentrifuged.mat(MTx.RedMud, 1));
 
         RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.NaAlO2, 12), FL.array(MT.HF.gas(12*U, true)), FL.array(MT.Na3AlF6.liquid(10*U, false), MT.H2O.liquid(9*U, false)), dust.mat(MT.Al2O3, 5));
-        RM.Bath.addRecipe1(true, 0, 2048, OP.dust.mat(MT.KAlO2, 4), FL.DistW.make(6000), NF, OP.dust.mat(MT.AlO3H3, 4), OP.dust.mat(MT.AlO3H3, 3), OP.dust.mat(MT.KOH, 3));
-        RM.Bath.addRecipe1(true, 0, 2048, OP.dust.mat(MT.NaAlO2, 4), FL.DistW.make(9000), MTx.BayerLiquor.liquid(6*U, false), OP.dust.mat(MT.AlO3H3, 7));
+        for (FluidStack water : FL.waters(3000)) {
+            RM.Bath.addRecipe1(true, 0, 2048, OP.dust.mat(MT.KAlO2, 4), FL.mul(water, 2), NF, OP.dust.mat(MT.AlO3H3, 4), OP.dust.mat(MT.AlO3H3, 3), OP.dust.mat(MT.KOH, 3));
+            RM.Bath.addRecipe1(true, 0, 2048, OP.dust.mat(MT.NaAlO2, 4), FL.mul(water, 3), MTx.BayerLiquor.liquid(6 * U, false), OP.dust.mat(MT.AlO3H3, 7));
+        }
 
         for (OreDictMaterial mat : new OreDictMaterial[] {MT.Zn, MT.OREMATS.Sphalerite, MT.OREMATS.Smithsonite, MTx.ZnO}) {
             RM.Bath.addRecipe1(true, 0,  256, new long[] {10000, 5000, 5000, 5000, 5000, 5000}, crushedPurified    .mat(mat, 1), MT.H2SO4.liquid(7*U2, true), MTx.ZnLeachingSolution.fluid(9*U2, false), crushedCentrifuged.mat(mat, 1), crushedCentrifugedTiny.mat(MTx.ZRR, 2), crushedCentrifugedTiny.mat(MTx.ZRR, 2), crushedCentrifugedTiny.mat(MTx.ZRR, 2), crushedCentrifugedTiny.mat(MTx.ZRR, 2), crushedCentrifugedTiny.mat(MTx.ZRR, 2));
@@ -850,8 +864,10 @@ public class Metallurgy extends GT6XFeature {
             }
         }
 
-        RM.Electrolyzer.addRecipe2(true, 64, 128, dust.mat(MTx.NH4SO4, 7), dust.mat(MTx.SeO2, 1), FL.array(MT.GrayVitriol.liquid(6 * U, true), FL.DistW.make(3000)), FL.array(MT.H2SO4.liquid(14 * U, false), MT.NH3.gas(2 * U, false), MT.O.gas(3 * U, false)), dust.mat(MT.Mn, 1), dust.mat(MT.Se, 1));
-        RM.Electrolyzer.addRecipe1(true, 64, 128, dust.mat(MTx.CdSO4, 6), FL.array(FL.DistW.make(3000)), FL.array(MT.H2SO4.liquid(7 * U, false), MT.O.gas(U, false)), dust.mat(MT.Cd, 1));
+        for (FluidStack water : FL.waters(3000)) {
+            RM.Electrolyzer.addRecipe2(true, 64, 128, dust.mat(MTx.NH4SO4, 7), dust.mat(MTx.SeO2, 1), FL.array(MT.GrayVitriol.liquid(6 * U, true), water), FL.array(MT.H2SO4.liquid(14 * U, false), MT.NH3.gas(2 * U, false), MT.O.gas(3 * U, false)), dust.mat(MT.Mn, 1), dust.mat(MT.Se, 1));
+            RM.Electrolyzer.addRecipe1(true, 64, 128, dust.mat(MTx.CdSO4, 6), FL.array(water), FL.array(MT.H2SO4.liquid(7 * U, false), MT.O.gas(U, false)), dust.mat(MT.Cd, 1));
+        }
         RM.Electrolyzer.addRecipe1(true, 64, 128, dust.mat(MTx.SeO2, 1), FL.array(MT.GrayVitriol.liquid(6 * U, true), MTx.NH4SO4Solution.liquid(10*U, true)), FL.array(MT.H2SO4.liquid(14 * U, false), MT.NH3.gas(2 * U, false), MT.O.gas(3 * U, false)), dust.mat(MT.Mn, 1), dust.mat(MT.Se, 1));
 
         Recipe x = RM.Centrifuge.findRecipe(null, null, true, Long.MAX_VALUE, null, ZL_FS, OM.dust(MT.OREMATS.Cinnabar)); if (x != null) x.mEnabled = false;

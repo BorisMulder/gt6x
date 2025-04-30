@@ -385,7 +385,7 @@ public class Electronics extends GT6XFeature {
         // Ru Electroplating
         RM.Roasting.addRecipe1(true, 16, 64, dust.mat(MT.Ru, 1), MT.Cl.gas(3 * U, true), NF, dust.mat(MTx.RuCl3, 4));
         RM.Mixer.addRecipe1(true, 16, 256, dust.mat(MTx.RuCl3, 8), FL.array(MTx.H3NSO3.liquid(8 * U, true), MTx.ConcHCl.liquid(10 * U, true)), FL.array(MTx.H3Ru2NCl8H4O2.liquid(20 * U, false), MT.SO2.gas(3 * U, false)));
-        RM.Mixer.addRecipe1(true, 16, 256, dust.mat(MTx.RuCl3, 8), FL.array(MTx.H3NSO3.liquid(8 * U, true), MT.HCl.gas(4 * U, true), FL.DistW.make(3000)), FL.array(MTx.H3Ru2NCl8H4O2.liquid(20 * U, false), MT.SO2.gas(3 * U, false)));
+        RM.Mixer.addRecipe1(true, 16, 256, dust.mat(MTx.RuCl3, 8), FL.array(MTx.H3NSO3.liquid(8 * U, true), MT.HCl.gas(4 * U, true), FL.Water.make(3000)), FL.array(MTx.H3Ru2NCl8H4O2.liquid(20 * U, false), MT.SO2.gas(3 * U, false)));
         RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MTx.NH4Cl, 3), FL.array(MTx.H3Ru2NCl8H4O2.liquid(20 * U, true)), FL.array(MTx.RuElectrolyte.liquid(20 * U, false), MT.HCl.gas(6 * U, false)));
 
         // bonding/packaging
@@ -671,12 +671,14 @@ public class Electronics extends GT6XFeature {
         RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.GaP   , 1), FL.array(MT.HCl.gas(6 * U, true)), FL.array(MTx.PH3.gas(U, false)), OM.dust(MTx.GaCl3, U));
         RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.GaAs  , 1), FL.array(MT.HCl.gas(6 * U, true)), FL.array(MTx.AsH3.gas(U, false)), OM.dust(MTx.GaCl3, U));
         RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.GaAsP , 1), FL.array(MT.HCl.gas(6 * U, true)), FL.array(MTx.AsH3.gas(U2, false), MTx.PH3.gas(U2, false)), OM.dust(MTx.GaCl3, U));
-        RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.InGaN , 2), FL.array(MT.HCl.gas(12 * U, true), FL.DistW.make(1000)), FL.array(MT.NH3.gas(2 * U, false), MTx.GaCl3Solution.liquid(2*U, false)), OM.dust(MTx.InCl3, U));
-        RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.InGaP , 2), FL.array(MT.HCl.gas(12 * U, true), FL.DistW.make(1000)), FL.array(MTx.PH3.gas(2 * U, false), MTx.GaCl3Solution.liquid(2*U, false)), OM.dust(MTx.InCl3, U));
-        RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.InGaAs, 2), FL.array(MT.HCl.gas(12 * U, true), FL.DistW.make(1000)), FL.array(MTx.AsH3.gas(2 * U, false), MTx.GaCl3Solution.liquid(2*U, false)), OM.dust(MTx.InCl3, U));
-        RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.AlGaP , 2), FL.array(MT.HCl.gas(12 * U, true), FL.DistW.make(1000)), FL.array(MTx.PH3.gas(2 * U, false), MTx.GaCl3Solution.liquid(2*U, false)), OM.dust(MTx.AlCl3, U));
-        RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.AlGaAs, 2), FL.array(MT.HCl.gas(12 * U, true), FL.DistW.make(1000)), FL.array(MTx.AsH3.gas(2 * U, false), MTx.GaCl3Solution.liquid(2*U, false)), OM.dust(MTx.AlCl3, U));
-        RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.AlInP , 2), FL.array(MT.HCl.gas(12 * U, true), FL.DistW.make(1000)), FL.array(MTx.PH3.gas(2 * U, false), MTx.InCl3Solution.liquid(2*U, false)), OM.dust(MTx.AlCl3, U));
+        for (FluidStack water : FL.waters(1000)) {
+            RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.InGaN , 2), FL.array(MT.HCl.gas(12 * U, true), water), FL.array(MT.NH3.gas(2 * U, false), MTx.GaCl3Solution.liquid(2 * U, false)), OM.dust(MTx.InCl3, U));
+            RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.InGaP , 2), FL.array(MT.HCl.gas(12 * U, true), water), FL.array(MTx.PH3.gas(2 * U, false), MTx.GaCl3Solution.liquid(2 * U, false)), OM.dust(MTx.InCl3, U));
+            RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.InGaAs, 2), FL.array(MT.HCl.gas(12 * U, true), water), FL.array(MTx.AsH3.gas(2 * U, false), MTx.GaCl3Solution.liquid(2 * U, false)), OM.dust(MTx.InCl3, U));
+            RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.AlGaP , 2), FL.array(MT.HCl.gas(12 * U, true), water), FL.array(MTx.PH3.gas(2 * U, false), MTx.GaCl3Solution.liquid(2 * U, false)), OM.dust(MTx.AlCl3, U));
+            RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.AlGaAs, 2), FL.array(MT.HCl.gas(12 * U, true), water), FL.array(MTx.AsH3.gas(2 * U, false), MTx.GaCl3Solution.liquid(2 * U, false)), OM.dust(MTx.AlCl3, U));
+            RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.AlInP , 2), FL.array(MT.HCl.gas(12 * U, true), water), FL.array(MTx.PH3.gas(2 * U, false), MTx.InCl3Solution.liquid(2 * U, false)), OM.dust(MTx.AlCl3, U));
+        }
     }
 
     private void changeRecipes() {
