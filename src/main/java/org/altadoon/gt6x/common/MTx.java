@@ -1601,11 +1601,24 @@ public class MTx {
             .heat(MT.H2O)),
     RbClSolution = simpleSolution(16440, RbCl, 3),
     CsClSolution = simpleSolution(16441, CsCl, 3),
-    NaHCO3Solution = simpleSolution(16442, MT.NaHCO3, 3),
-    SourWater = registerLiquid(lqudaciddcmp(16443, "Decationized mineral water", 240, 255, 220, 255)
+    DecatMnWtr = registerLiquid(lqudaciddcmp(16442, "Decationized Mineral Water", 240, 255, 220, 255)
             .heat(MT.H2O)),
-    SlightlySourWater = registerLiquid(lqudaciddcmp(16444, "Decationized water", 248, 255, 240, 255)
-            .heat(MT.H2O))
+    DecatWater = registerLiquid(lqudaciddcmp(16443, "Decationized Water", 248, 255, 240, 255)
+            .heat(MT.H2O)),
+    REE2O3 = dustdcmp(16444, "Rare-Earth Oxide", SET_ROUGH, 255, 255, 255, 255)
+            .setMcfg(0, MT.RareEarth, 2*U, MT.O, 3*U)
+            .heat(La2O3),
+    REORoasted = dustdcmp(16445, "Roasted Rare-Earth Oxide", SET_ROUGH, 255, 255, 255, 255)
+            .setMcfg(0, CeO2, 3*U, REE2O3, 2*U),
+    REECl3 = create(16446, "Rare-Earth Chloride", 200, 255, 210, 255)
+            .setMcfg(0, MT.RareEarth, U, MT.Cl, 3*U),
+    REECl3Solution = solution(16447, "Rare-Earth Chloride Solution", 200, 255, 210, 255, REECl3, 3),
+    REEHydroxide = dustdcmp(16448, "Rare-Earth Hydroxide Residue", SET_ROUGH, 180, 200, 100, 255)
+            .setMcfg(0, MT.RareEarth, 4*U, MT.Th, U, OH, 15*U)
+            .heat(330+C),
+    ThO2 = dustdcmp(16449, "Thorium Dioxide", SET_RAD, 180, 220, 0, 255)
+            .uumMcfg(0, MT.Th, U, MT.O, 2*U)
+            .heat(3620, 4670)
     ;
 
     @SuppressWarnings("unused")
