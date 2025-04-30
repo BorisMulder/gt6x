@@ -151,7 +151,7 @@ public class MTx {
                 .setLocal("Polycarbonate")
                 .heat(C+302)
                 .hide(false);
-        for (OreDictMaterial mat : new OreDictMaterial[]{MT.N, MT.P, MT.As, MT.O, MT.S, MT.Se, MT.Te, MT.F, MT.Cl, MT.Br, MT.I, MT.At, MT.Ts, MT.CO3}) {
+        for (OreDictMaterial mat : new OreDictMaterial[]{MT.N, MT.P, MT.As, MT.O, MT.S, MT.Se, MT.Te, MT.F, MT.Cl, MT.Br, MT.I, MT.At, MT.Ts, MT.CO3, MT.PO4}) {
             mat.put(ANION);
         }
         for (OreDictMaterial mat : MT.ALL_MATERIALS_REGISTERED_HERE) {
@@ -1595,7 +1595,7 @@ public class MTx {
     OH = create(16435, "Hydroxide").setMcfg(0, MT.O, U, MT.H, U).put(ANION, DECOMPOSABLE),
     SO4 = create(16436, "Sulfate").setMcfg(0, MT.S, U, MT.O, 4*U).put(ANION, DECOMPOSABLE),
     NO3 = create(16437, "Nitrate").setMcfg(0, MT.N, U, MT.O, 3*U).put(ANION, DECOMPOSABLE),
-    HCO3 = create(16438, "Hydrogencarbonate").setMcfg(0, MT.H, U, MT.C, U, MT.O, 3*U).put(ANION, DECOMPOSABLE),
+
     DiluteHCl = registerLiquid(lqudaciddcmp(16439, "Dilute Hydrochloric Acid", 100, 255, 200, 200)
             .setMcfg(0, MT.HCl, U, MT.H2O, 3*U)
             .heat(MT.H2O)),
@@ -1604,7 +1604,7 @@ public class MTx {
     NaHCO3Solution = simpleSolution(16442, MT.NaHCO3, 3),
     SourWater = registerLiquid(lqudaciddcmp(16443, "Sour water", 240, 255, 220, 255)
             .heat(MT.H2O)),
-    SlightlySourWater = registerLiquid(lqudaciddcmp(16444, "Slightly Sour water", 248, 255, 240, 255)
+    SlightlySourWater = registerLiquid(lquddcmp(16444, "Slightly Sour water", 248, 255, 240, 255)
             .heat(MT.H2O))
     ;
 
@@ -1642,7 +1642,11 @@ public class MTx {
                         .setLocal("Heavy Atmospheric Gas Oil")
                         .stealLooks(MT.Fuel)
                         .heat(260, 350 + C)
-                        .aspects(TC.MORTUUS, 1, TC.POTENTIA, 1);
+                        .aspects(TC.MORTUUS, 1, TC.POTENTIA, 1),
+                HCO3 = unused("Hydrogencarbonate")
+                        // .put(ANION, DECOMPOSABLE)
+                        .setMcfg(0, MT.H, U, MT.C, U, MT.O, 3*U)
+                ;
     }
 
     static {
