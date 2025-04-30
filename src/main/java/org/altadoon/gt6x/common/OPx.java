@@ -4,6 +4,7 @@ import gregapi.data.MD;
 import gregapi.item.prefixitem.PrefixItem;
 import gregapi.oredict.OreDictPrefix;
 import org.altadoon.gt6x.common.items.PrefixItemAnion;
+import org.altadoon.gt6x.common.items.PrefixItemCation;
 
 import static gregapi.data.TD.Prefix.TOOLTIP_MATERIAL;
 import static org.altadoon.gt6x.Gt6xMod.MOD_ID;
@@ -26,6 +27,6 @@ public class OPx {
 				.setMaterialStats(-1, -1)
 				.add(TOOLTIP_MATERIAL)
 				.setCondition(MTx.CATION);
-		new PrefixItem(MOD_ID, MD.GT.mID, "gt6x.meta.cationxresin" , cationXResin);
+		new PrefixItemCation(MOD_ID, MD.GT.mID, "gt6x.meta.cationxresin" , cationXResin);
 	}
 }
