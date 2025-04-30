@@ -256,7 +256,8 @@ public class PgmProcessing extends GT6XFeature {
 
         // Rh separation (Yo Greg, wanna buy some international units of amount of substance? I divided some amounts by three here (and the PGMs by 2) because it would become rather annoying otherwise). But it adds up to a closed-loop process now.
         RM.Bath.addRecipe1(true, 0, 100, dust.mat(PGMResidue, 4), FL.array(MT.K2S2O7.liquid(14*U, true)), FL.array(RhodiumPotassiumSulfate.liquid(13*U, false), MT.SO2.gas(3*U, false)), dust.mat(RuOsIrResidue, 3));
-        RM.Mixer.addRecipe0(true, 16, 100, FL.array(RhodiumPotassiumSulfate.liquid(13*U, true) , FL.DistW.make(8000)), FL.array(RhodiumSulfateSolution.liquid(7*U, false)), dust.mat(MT.K2SO4, 14));
+        for (FluidStack water : FL.waters(8000))
+            RM.Mixer.addRecipe0(true, 16, 100, FL.array(RhodiumPotassiumSulfate.liquid(13*U, true) , water), FL.array(RhodiumSulfateSolution.liquid(7*U, false)), dust.mat(MT.K2SO4, 14));
         RM.Bath.addRecipe1(true, 0, 100, dust.mat(MT.Zn, 1), FL.array(RhodiumSulfateSolution.liquid(7*U, true)), FL.array(MT.WhiteVitriol.liquid(6*U, false)), dust.mat(MT.Rh, 1));
 
         // Ir separation

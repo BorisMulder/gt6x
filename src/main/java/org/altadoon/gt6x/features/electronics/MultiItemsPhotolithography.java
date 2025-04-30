@@ -411,7 +411,8 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         // Photoresist stripping
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][3].get(1), MTx.PiranhaEtch.liquid(U10, true), NF, ILx.Wafers[type][tier][4].get(1));
         // Metallization using Cu Electroplating
-        RM.Electrolyzer.addRecipe1(true, 32, 16, ILx.Wafers[type][tier][4].get(1), FL.array(MT.BlueVitriol.liquid(6*U4, true), FL.DistW.make(750)), FL.array(MT.H2SO4.liquid(7*U4, false), MT.O.gas(U4, false)), ILx.Wafers[type][tier][5].get(1));
+        for (FluidStack water : FL.waters(750))
+            RM.Electrolyzer.addRecipe1(true, 32, 16, ILx.Wafers[type][tier][4].get(1), FL.array(MT.BlueVitriol.liquid(6*U4, true), water), FL.array(MT.H2SO4.liquid(7*U4, false), MT.O.gas(U4, false)), ILx.Wafers[type][tier][5].get(1));
         // Metal etching
         RM.Bath.addRecipe1(true, 0, 128, ILx.Wafers[type][tier][5].get(1), MTx.FeCl3Solution.liquid(17*U8, true), MTx.CuFeClSolution.liquid(18*U8, false), ILx.Wafers[type][tier][6].get(1));
         // Dicing
@@ -469,7 +470,8 @@ public class MultiItemsPhotolithography extends MultiItemRandom {
         // Doping with Silicon
         RMx.IonBombardment.addRecipe1(true, 16, 128, ILx.Wafers[type][tier][2].get(1), MTx.SiH4.gas(3*U1000, true), MTx.GaH3.gas(4*U1000, false), ILx.Wafers[type][tier][3].get(1));
         // Metal 1 layer of electroplated Gold
-        RM.Electrolyzer.addRecipe1(true, 32, 22, ILx.Wafers[type][tier][3].get(1), FL.array(MTx.NaAuC2N2.liquid(6*U4, true), FL.DistW.make(1500)), FL.array(MTx.HCN.gas(3*U2, false), MT.H.gas(U4, false), MT.O.gas(U4, false)), ILx.Wafers[type][tier][4].get(1), dustSmall.mat(MT.NaOH, 3));
+        for (FluidStack water : FL.waters(1500))
+            RM.Electrolyzer.addRecipe1(true, 32, 22, ILx.Wafers[type][tier][3].get(1), FL.array(MTx.NaAuC2N2.liquid(6*U4, true), water), FL.array(MTx.HCN.gas(3*U2, false), MT.H.gas(U4, false), MT.O.gas(U4, false)), ILx.Wafers[type][tier][4].get(1), dustSmall.mat(MT.NaOH, 3));
         // Metal 2 layer using Al PVD
         RMx.VacuumChamber.addRecipe1(true, 16, 64, ILx.Wafers[type][tier][4].get(1), MT.Al.liquid(U4, true), NF, ILx.Wafers[type][tier][5].get(1));
         // Photoresist cleaning
