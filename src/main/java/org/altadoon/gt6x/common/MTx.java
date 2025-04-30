@@ -1602,9 +1602,9 @@ public class MTx {
     RbClSolution = simpleSolution(16440, RbCl, 3),
     CsClSolution = simpleSolution(16441, CsCl, 3),
     NaHCO3Solution = simpleSolution(16442, MT.NaHCO3, 3),
-    SourWater = registerLiquid(lqudaciddcmp(16443, "Sour water", 240, 255, 220, 255)
+    SourWater = registerLiquid(lqudaciddcmp(16443, "Decationized mineral water", 240, 255, 220, 255)
             .heat(MT.H2O)),
-    SlightlySourWater = registerLiquid(lquddcmp(16444, "Slightly Sour water", 248, 255, 240, 255)
+    SlightlySourWater = registerLiquid(lqudaciddcmp(16444, "Decationized water", 248, 255, 240, 255)
             .heat(MT.H2O))
     ;
 
