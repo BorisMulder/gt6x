@@ -171,6 +171,7 @@ public class MTx {
         MT.OREMATS.Wolframite.setLocal("Magnesium Tungstate").addSourceOf(MT.Mg);
         MT.OREMATS.Tungstate.setLocal("Lithium Tungstate");
         MT.OREMATS.Huebnerite.setLocal("Hübnerite");
+        MT.OREMATS.Bastnasite.setLocal("Bastnäsite");
         MT.Glyceryl.setLocal("Nitroglycerin");
         MT.HCl.setLocal("Hydrogen Chloride");
         MT.H3BO3.setLocal("Boric Acid");
@@ -481,7 +482,7 @@ public class MTx {
             .heat(MT.Propylene)
             .put(FLAMMABLE)
             .setLocal("Cracker Gas")),
-    EthyleneDichloride = registerLiquid(lqudflam( 16050, "Ethylene Dichloride", 100, 255, 100, 255)
+    EDC = registerLiquid(lqudflam( 16050, "Ethylene Dichloride", 100, 255, 100, 255)
             .uumMcfg(1, MT.C, 2*U, MT.H, U*4, MT.Cl, U*2)
             .heat( 238,  357)),
     H3PO4 = registerLiquid(lqudaciddcmp(16051, "Phosphoric Acid", 150, 200, 0, 255)
@@ -1606,19 +1607,32 @@ public class MTx {
     DecatWater = registerLiquid(lqudaciddcmp(16443, "Decationized Water", 248, 255, 240, 255)
             .heat(MT.H2O)),
     REE2O3 = dustdcmp(16444, "Rare-Earth Oxide", SET_ROUGH, 255, 255, 255, 255)
-            .setMcfg(0, MT.RareEarth, 2*U, MT.O, 3*U)
+            .setMcfg(2, MT.RareEarth, 2*U, MT.O, 3*U)
             .heat(La2O3),
     REORoasted = dustdcmp(16445, "Roasted Rare-Earth Oxide", SET_ROUGH, 255, 255, 255, 255)
-            .setMcfg(0, CeO2, 3*U, REE2O3, 2*U),
+            .setMcfg(0, CeO2, 3*U, REE2O3, 2*U)
+            .heat(REE2O3),
     REECl3 = create(16446, "Rare-Earth Chloride", 200, 255, 210, 255)
             .setMcfg(0, MT.RareEarth, U, MT.Cl, 3*U),
-    REECl3Solution = solution(16447, "Rare-Earth Chloride Solution", 200, 255, 210, 255, REECl3, 3),
+    REECl3Solution = solution(16447, "Rare-Earth Chloride Solution", 200, 255, 210, 255, REECl3, 12),
     REEHydroxide = dustdcmp(16448, "Rare-Earth Hydroxide Residue", SET_ROUGH, 180, 200, 100, 255)
             .setMcfg(0, MT.RareEarth, 4*U, MT.Th, U, OH, 15*U)
             .heat(330+C),
     ThO2 = dustdcmp(16449, "Thorium Dioxide", SET_RAD, 180, 220, 0, 255)
             .uumMcfg(0, MT.Th, U, MT.O, 2*U)
-            .heat(3620, 4670)
+            .heat(3620, 4670),
+    EthyleneDiamine = registerLiquid(lquddcmp(16450, "Ethylenediamine", 255, 255, 255, 255)
+            .setMcfg(1, MT.C, 2*U, MT.H, 8*U, MT.N, 2*U)
+            .heat(281, 389)),
+    EDTA = dustdcmp(16451, "EDTA", SET_CUBE, 200, 200, 200, 255, "Ethylenediaminetetraacetic Acid")
+            .setMcfg(1, MT.C, 10*U, MT.H, 16*U, MT.N, 2*U, MT.O, 8*U)
+            .heat(237+C),
+    Na4EDTA = dustdcmp(16452, "Tetrasodium EDTA", SET_QUARTZ, 255, 255, 255, 255)
+            .setMcfg(1, MT.C, 10*U, MT.H, 12*U, MT.N, 2*U, MT.O, 8*U, MT.Na, 4*U)
+            .heat(300+C),
+    REEEDTA = create(16453, "Rare-Earth EDTA Complex")
+            .setMcfg(0, MT.RareEarth, U, EDTA, U)
+            .put(ANION)
     ;
 
     @SuppressWarnings("unused")
