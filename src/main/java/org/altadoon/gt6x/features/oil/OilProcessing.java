@@ -292,8 +292,8 @@ public class OilProcessing extends GT6XFeature {
         // PVC
         RM.Mixer.addRecipe1(true, 16, 64, ST.tag(2), FL.array(MTx.Ethane.gas(U, true), MT.Cl.gas(4*U, true)), FL.array(MTx.VinylChloride.gas(U, false), MT.HCl.gas(6*U, false)));
         RM.Mixer.addRecipe1(true, 16, 64, ST.tag(3), FL.array(MTx.Ethane.gas(U, true), MT.HCl.gas(2*U, true), MT.O.gas(2*U, true)), FL.array(MTx.VinylChloride.gas(U, false), MT.H2O.liquid(6*U, false)));
-        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.FeCl3, 0), FL.array(MT.Ethylene.gas(U, true), MT.Cl.gas(2*U, true)), FL.array(MTx.EthyleneDichloride.liquid(U, false)));
-        RMx.Thermolysis.addRecipe1(true, 16, 128, ST.tag(0), MTx.EthyleneDichloride.liquid(U, true), FL.array(MTx.VinylChloride.gas(U, false), MT.HCl.gas(2*U, false)));
+        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.FeCl3, 0), FL.array(MT.Ethylene.gas(U, true), MT.Cl.gas(2*U, true)), FL.array(MTx.EDC.liquid(U, false)));
+        RMx.Thermolysis.addRecipe1(true, 16, 128, ST.tag(0), MTx.EDC.liquid(U, true), FL.array(MTx.VinylChloride.gas(U, false), MT.HCl.gas(2*U, false)));
         RM.Mixer.addRecipe1(true, 16,  16, dust.mat(MT.OREMATS.Galena, 0), FL.array(MTx.VinylChloride.gas(U10, false)), ZL_FS, dust.mat(MT.PVC, 1));
 
         // PTFE
