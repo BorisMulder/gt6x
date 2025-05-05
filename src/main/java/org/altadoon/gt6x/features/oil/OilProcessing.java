@@ -72,7 +72,6 @@ public class OilProcessing extends GT6XFeature {
         // delete old recipes and add new
         changeDTowerRecipes();
         changeCrackingRecipes();
-        changeElectrolysisRecipes();
     }
 
     private static final List<FL> LIGHT_OILS = Arrays.asList(FL.Oil_Light, FL.Oil_Light2);
@@ -186,15 +185,6 @@ public class OilProcessing extends GT6XFeature {
         } else {
             RM.CatalyticCracking.addRecipe1(false, 16,  64, new long[]{1500}, dust.mat(MT.Al2O3, 0), FL.array(MT .Fuel.liquid(U10, true)), FL.array(MTx.CrackerGas.gas(10*U1000, false), FL.make(FLx.LPG, 10), FL.Petrol.make(65), FL.Diesel.make(25)), dustTiny.mat(MT.PetCoke, 1));
         }
-    }
-
-    private void changeElectrolysisRecipes() {
-        Recipe r;
-        // change CO2/CO electrolysis
-        r = RM.Electrolyzer.findRecipe(null, null, true, Long.MAX_VALUE, null, FL.array(MT.CO2.gas(3*U, true)), ST.tag(0)); if (r != null) r.mEnabled = false;
-        r = RM.Electrolyzer.findRecipe(null, null, true, Long.MAX_VALUE, null, FL.array(MT.CO.gas(2*U, true)), ST.tag(0)); if (r != null) r.mEnabled = false;
-
-        RM.Electrolyzer.addRecipe1(true, 512, 256, dust.mat(MT.Ce, 0), FL.array(MT.CO2.gas(3*U, true)), FL.array(MT.CO.gas(2*U, false), MT.O.gas(U, false)));
     }
 
     private void addRecipes() {

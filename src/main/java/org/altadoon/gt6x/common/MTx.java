@@ -964,7 +964,7 @@ public class MTx {
     KrF = registerGas(gasdcmp(16204, "Krypton-Fluorine", 192, 255, 128, 200)
             .setMcfg(0, MT.Kr, U, MT.F, U)
             .heat(MT.Kr)),
-    CeO2 = dustdcmp(16205, "Cerium(IV) Oxide", SET_DULL, 255, 255, 204, 255)
+    CeO2 = dustdcmp(16205, "Cerium(IV) Oxide", SET_DULL, 255, 255, 204, 255, "Ceria")
             .setMcfg(1, MT.Ce, U, MT.O, 2*U)
             .heat(2670, 3770),
     NitratoCericAcid = registerLiquid(lqudaciddcmp(16206, "Nitrato Ceric Acid", 255, 100, 0, 255)
@@ -1614,7 +1614,7 @@ public class MTx {
             .heat(REE2O3),
     REECl3 = create(16446, "Rare-Earth Chloride", 200, 255, 210, 255)
             .setMcfg(0, MT.RareEarth, U, MT.Cl, 3*U),
-    REECl3Solution = solution(16447, "Rare-Earth Chloride Solution", 200, 255, 210, 255, REECl3, 12),
+    REECl3Solution = solution(16447, "Rare-Earth Chloride Solution", 200, 255, 210, 255, REECl3, 9),
     REEHydroxide = dustdcmp(16448, "Rare-Earth Hydroxide Residue", SET_ROUGH, 180, 200, 100, 255)
             .setMcfg(0, MT.RareEarth, 4*U, MT.Th, U, OH, 15*U)
             .heat(330+C),
@@ -1632,7 +1632,13 @@ public class MTx {
             .heat(300+C),
     REEEDTA = create(16453, "Rare-Earth EDTA Complex")
             .setMcfg(0, MT.RareEarth, U, EDTA, U)
-            .put(ANION)
+            .put(ANION),
+    Ce2O3 = dustdcmp(16454, "Cerium(III) Oxide", SET_ROUGH, 235, 255, 200, 255, "Cerium Sesquioxide")
+            .setMcfg(2, MT.Ce, 2*U, MT.O, 3*U)
+            .heat(2450, 4000),
+    Ce2S3 = dustdcmp(16455, "Cerium(III) Sulfide", SET_FINE, 255, 0, 0, 255)
+            .setMcfg(2, MT.Ce, 2*U, MT.S, 3*U)
+            .heat(2160, 2300+C)
     ;
 
     @SuppressWarnings("unused")
@@ -1733,6 +1739,7 @@ public class MTx {
         OreDictManager.INSTANCE.addReRegistration("dustIndigo", "dyeMixableBlue");
         OreDictManager.INSTANCE.addReRegistration("dustQuinizarineGreen", "dyeMixableGreen");
         OreDictManager.INSTANCE.addReRegistration("dustAlizarinRed", "dyeMixableRed");
+        OreDictManager.INSTANCE.addReRegistration("dustCerium(III)Oxide", "dyeMixableRed");
         OreDictManager.INSTANCE.addReRegistration("dustSolventYellow", "dyeMixableYellow");
         OreDictManager.INSTANCE.addReRegistration("dustOrganolBrown", "dyeMixableBrown");
         OreDictManager.INSTANCE.addReRegistration("dustSulfurBlack", "dyeMixableBlack");

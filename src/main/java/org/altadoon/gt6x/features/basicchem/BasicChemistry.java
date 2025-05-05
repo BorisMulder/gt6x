@@ -64,6 +64,7 @@ public class BasicChemistry extends GT6XFeature {
 
     public void afterGt6PostInit() {
         changeRecipes();
+        changeElectrolysisRecipes();
     }
 
     private void changeMaterialProperties() {
@@ -654,6 +655,19 @@ public class BasicChemistry extends GT6XFeature {
         RM.Nanofab.addRecipe1(T, 16, 768, ST.tag(15), MT.C.gas(U*3   , true), NF, pipeMedium.mat(MT.C, 1));
         RM.Nanofab.addRecipe1(T, 16,1536, ST.tag(16), MT.C.gas(U*6   , true), NF, pipeLarge.mat(MT.C, 1));
         RM.Nanofab.addRecipe1(T, 16,3072, ST.tag(17), MT.C.gas(U*12  , true), NF, pipeHuge.mat(MT.C, 1));
+    }
+
+    private void changeElectrolysisRecipes() {
+        Recipe r;
+        // change CO2/CO reduction
+        r = RM.Electrolyzer.findRecipe(null, null, true, Long.MAX_VALUE, null, FL.array(MT.CO2.gas(3*U, true)), ST.tag(0)); if (r != null) r.mEnabled = false;
+        r = RM.Electrolyzer.findRecipe(null, null, true, Long.MAX_VALUE, null, FL.array(MT.CO.gas(2*U, true)), ST.tag(0)); if (r != null) r.mEnabled = false;
+
+        RM.Electrolyzer.addRecipe1(true, 256, 15, dust.mat(MTx.CeO2, 0), FL.array(MT.CO2.gas(3*U, true)), FL.array(MT.CO.gas(2*U, false), MT.O.gas(U, false)));
+        RM.Electrolyzer.addRecipe1(true, 256, 15, dust.mat(MTx.YSZ, 0), FL.array(MT.CO2.gas(3*U, true)), FL.array(MT.CO.gas(2*U, false), MT.O.gas(U, false)));
+
+        RMx.VacuumChamber.addRecipe1(true, 32, 64, dust.mat(MTx.Ce2O3, 2), MT.CO2.gas(3*U, false), MT.CO.gas(2*U, false), dust.mat(MTx.CeO2, 2));
+        RMx.VacuumChamber.addRecipe1(true, 32, 64, dust.mat(MTx.Ce2O3, 2), FL.Steam.make(3000L*STEAM_PER_WATER), MT.H.gas(2*U, false), dust.mat(MTx.CeO2, 2));
     }
 
     private void addSolutionRecipes() {
