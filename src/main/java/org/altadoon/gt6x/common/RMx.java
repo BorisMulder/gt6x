@@ -6,11 +6,11 @@ import gregapi.data.MT;
 import gregapi.recipes.Recipe.RecipeMap;
 import gregapi.recipes.maps.RecipeMapFuel;
 import net.minecraftforge.fluids.FluidStack;
+import org.altadoon.gt6x.features.crucibles.recipes.RecipeMapMultiSmelting;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 
 import static gregapi.data.CS.*;
@@ -18,7 +18,6 @@ import static gregapi.data.CS.*;
 /** Common recipe maps */
 public class RMx {
     public static RecipeMap BlastFurnace = null;
-    public static RecipeMap BOF = null;
     public static RecipeMap CowperStove = null;
     public static RecipeMap DirectReduction = null;
     public static RecipeMap HydroCracking = null;
@@ -29,6 +28,12 @@ public class RMx {
     public static RecipeMap Soldering = null;
     public static RecipeMap Thermolysis = null;
     public static RecipeMap VacuumChamber = null;
+
+    public static RecipeMapMultiSmelting Bessemer;
+    public static RecipeMapMultiSmelting BOF;
+    public static RecipeMapMultiSmelting EAF;
+    public static RecipeMapMultiSmelting SSS;
+    public static RecipeMapMultiSmelting Thermite;
 
     public static final FluidStack[] CuttingFluids = { FL.Water.make(1000), FL.SpDew.make(1000), FL.DistW.make(1000), FL.Lubricant.make(1000), FL.LubRoCant.make(1000) };
     public static final long[] CuttingMultiplier = {4, 4, 3, 1, 1};
@@ -103,11 +108,17 @@ public class RMx {
         Soldering        = new RecipeMap    (null, "gt6x.recipe.soldering"       , "Soldering Machine"       , null, 0, 1, RES_PATH_GUI+"machines/Soldering"       , 9, 1, 1, 1, 0, 1, 2, 1, "", 1, "", false, true, true, true, true, false, true, true);
         BlastFurnace     = new RecipeMap    (null, "gt6x.recipe.blastfurnace"    , "Blast Furnace"           , null, 0, 1, RES_PATH_GUI+"machines/BlastFurnace"    , 6, 3, 1, 3, 3, 0, 1, 1, "", 1, "", false, true, true, true, true, false, true, true);
         CowperStove      = new RecipeMap    (null, "gt6x.recipe.cowperstove"     , "Hot Blast Preheating"    , null, 0, 1, RES_PATH_GUI+"machines/Default"         , 0, 0, 0, 1, 1, 1, 1, 1, "", 1, "", false, true, true, true, true, false, true, true);
-        BOF              = new RecipeMap    (null, "gt6x.recipe.bof"             , "Basic Oxygen Steelmaking", null, 0, 1, RES_PATH_GUI+"machines/BlastFurnace"    , 6, 3, 1, 3, 3, 1, 2, 1, "", 1, "", false, true, true, true, true, false, true, true);
         DirectReduction  = new RecipeMap    (null, "gt6x.recipe.directreduction" , "Direct Reduction"        , null, 0, 1, RES_PATH_GUI+"machines/DirectReduction" , 6, 3, 1, 3, 3, 1, 1, 1, "", 1, "", false, true, true, true, true, false, true, true);
 
         FMx.Diesel       = new RecipeMapFuel(null, "gt6x.recipe.fuels.diesel"    , "Diesel Engine Fuels"       , null, 0, 1, RES_PATH_GUI+"machines/Default"         , 1, 2, 0, 1, 3, 0, 1, 1, "", 1, "", true, true, true, false, true, false, false);
         FMx.Petrol       = new RecipeMapFuel(null, "gt6x.recipe.fuels.petrol"    , "Petrol Engine Fuels"       , null, 0, 1, RES_PATH_GUI+"machines/Default"         , 1, 2, 0, 1, 3, 0, 1, 1, "", 1, "", true, true, true, false, true, false, false);
         FMx.Nitro        = new RecipeMapFuel(null, "gt6x.recipe.fuels.nitro"     , "Nitro Fuels"               , null, 0, 1, RES_PATH_GUI+"machines/Default"         , 1, 2, 0, 1, 3, 0, 1, 1, "", 1, "", true, true, true, false, true, false, false);
+
+        //TODO update energy gain
+        EAF      = new RecipeMapMultiSmelting("gt6x.recipe.eafsmelting", "Electric Arc Furnace"    , 80, 96);
+        Bessemer = new RecipeMapMultiSmelting("gt6x.recipe.bessemer"   , "Bessemer Steelmaking"    , 160, 48);
+        BOF      = new RecipeMapMultiSmelting("gt6x.recipe.bof"        , "Basic Oxygen Steelmaking", 80, 96);
+        SSS      = new RecipeMapMultiSmelting("gt6x.recipe.solidstate" , "Solid State Synthesis"   , 72, 96);
+        Thermite = new RecipeMapMultiSmelting("gt6x.recipe.thermite"   , "Metallothermic Reduction", 24, 1024);
     }
 }

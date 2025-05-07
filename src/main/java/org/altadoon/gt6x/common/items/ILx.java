@@ -153,13 +153,57 @@ public class ILx implements IItemContainer {
             SolarPanelCdTe = new ILx("SolarPanelCdTe"),
             SolarPanelCIGS = new ILx("SolarPanelCIGS"),
 
-            // Engine parts, molds & shapes
-            Ceramic_Engine_Block_Mold_Raw = new ILx("Ceramic_Engine_Block_Mold_Raw"),
-            Ceramic_Engine_Block_Mold = new ILx("Ceramic_Engine_Block_Mold"),
+            // Engine parts
             Shape_Extruder_Catalytic_Converter = new ILx("Shape_Extruder_Catalytic_Converter"),
             Shape_SimpleEx_Catalytic_Converter = new ILx("Shape_SimpleEx_Catalytic_Converter"),
             SparkPlugs = new ILx("SparkPlugs"),
-            SuperCharger = new ILx("SuperCharger");
+            SuperCharger = new ILx("SuperCharger"),
+
+            // (Fire)clay items, molds, etc.
+            Fireclay_Tap = new ILx("Fireclay_Tap"), Fireclay_Tap_Raw = new ILx("Fireclay_Tap_Raw"),
+            Fireclay_Funnel = new ILx("Fireclay_Funnel"), Fireclay_Funnel_Raw = new ILx("Fireclay_Funnel_Raw"),
+            Fireclay_Crucible = new ILx("Fireclay_Crucible"), Fireclay_Crucible_Raw = new ILx("Fireclay_Crucible_Raw"),
+            Fireclay_Basin = new ILx("Fireclay_Basin"), Fireclay_Basin_Raw = new ILx("Fireclay_Basin_Raw"),
+            Fireclay_Mold = new ILx("Fireclay_Mold"), Fireclay_Mold_Raw = new ILx("Fireclay_Mold_Raw"),
+                    Fireclay_Ingot_Mold_Raw = new ILx("Fireclay_Ingot_Mold_Raw"),
+                    Fireclay_Billet_Mold_Raw = new ILx("Fireclay_Billet_Mold_Raw"),
+                    Fireclay_Chunk_Mold_Raw = new ILx("Fireclay_Chunk_Mold_Raw"),
+                    Fireclay_Nugget_Mold_Raw = new ILx("Fireclay_Nugget_Mold_Raw"),
+                    Fireclay_Plate_Mold_Raw = new ILx("Fireclay_Plate_Mold_Raw"),
+                    Fireclay_Tiny_Plate_Mold_Raw = new ILx("Fireclay_Tiny_Plate_Mold_Raw"),
+                    Fireclay_Bolt_Mold_Raw = new ILx("Fireclay_Bolt_Mold_Raw"),
+                    Fireclay_Rod_Mold_Raw = new ILx("Fireclay_Rod_Mold_Raw"),
+                    Fireclay_Long_Rod_Mold_Raw = new ILx("Fireclay_Long_Rod_Mold_Raw"),
+                    Fireclay_Item_Casing_Mold_Raw = new ILx("Fireclay_Item_Casing_Mold_Raw"),
+                    Fireclay_Ring_Mold_Raw = new ILx("Fireclay_Ring_Mold_Raw"),
+                    Fireclay_Gear_Mold_Raw = new ILx("Fireclay_Gear_Mold_Raw"),
+                    Fireclay_Small_Gear_Mold_Raw = new ILx("Fireclay_Small_Gear_Mold_Raw"),
+                    Fireclay_Sword_Mold_Raw = new ILx("Fireclay_Sword_Mold_Raw"),
+                    Fireclay_Pickaxe_Mold_Raw = new ILx("Fireclay_Pickaxe_Mold_Raw"),
+                    Fireclay_Spade_Mold_Raw = new ILx("Fireclay_Spade_Mold_Raw"),
+                    Fireclay_Shovel_Mold_Raw = new ILx("Fireclay_Shovel_Mold_Raw"),
+                    Fireclay_Universal_Spade_Mold_Raw = new ILx("Fireclay_Universal_Spade_Mold_Raw"),
+                    Fireclay_Axe_Mold_Raw = new ILx("Fireclay_Axe_Mold_Raw"),
+                    Fireclay_Double_Axe_Mold_Raw = new ILx("Fireclay_Double_Axe_Mold_Raw"),
+                    Fireclay_Saw_Mold_Raw = new ILx("Fireclay_Saw_Mold_Raw"),
+                    Fireclay_Hammer_Mold_Raw = new ILx("Fireclay_Hammer_Mold_Raw"),
+                    Fireclay_File_Mold_Raw = new ILx("Fireclay_File_Mold_Raw"),
+                    Fireclay_Screwdriver_Mold_Raw = new ILx("Fireclay_Screwdriver_Mold_Raw"),
+                    Fireclay_Chisel_Mold_Raw = new ILx("Fireclay_Chisel_Mold_Raw"),
+                    Fireclay_Arrow_Mold_Raw = new ILx("Fireclay_Arrow_Mold_Raw"),
+                    Fireclay_Hoe_Mold_Raw = new ILx("Fireclay_Hoe_Mold_Raw"),
+                    Fireclay_Sense_Mold_Raw = new ILx("Fireclay_Sense_Mold_Raw"),
+                    Fireclay_Plow_Mold_Raw = new ILx("Fireclay_Plow_Mold_Raw"),
+                    Fireclay_Builderwand_Mold_Raw = new ILx("Fireclay_Builderwand_Mold_Raw"),
+            Fireclay_Faucet = new ILx("Fireclay_Faucet"), Fireclay_Faucet_Raw = new ILx("Fireclay_Faucet_Raw"),
+            Fireclay_Crossing = new ILx("Fireclay_Crossing"), Fireclay_Crossing_Raw = new ILx("Fireclay_Crossing_Raw"),
+            Fireclay_Engine_Block_Mold_Raw = new ILx("Fireclay_Engine_Block_Mold_Raw"), Fireclay_Engine_Block_Mold = new ILx("Fireclay_Engine_Block_Mold"),
+
+            Ceramic_Engine_Block_Mold_Raw = new ILx("Ceramic_Engine_Block_Mold_Raw"), Ceramic_Engine_Block_Mold = new ILx("Ceramic_Engine_Block_Mold"),
+            NULL = null;
+
+    // Fireclay crucible parts
+    public static ILx[] FireclayParts = new ILx[] {Fireclay_Faucet, Fireclay_Mold, Fireclay_Basin, Fireclay_Crossing, Fireclay_Funnel, Fireclay_Tap};
 
     // Photomasks & Wafers
     public static final int NUM_WAFER_TIERS = 3; // PMOS, NMOS, CMOS
@@ -264,79 +308,69 @@ public class ILx implements IItemContainer {
     /// internal
 
     public String name;
-    private ItemStack mStack;
-    private boolean mHasNotBeenSet = T;
+    private ItemStack stack;
+    private boolean hasNotBeenSet = true;
 
     public ILx(String name) {
         this.name = name;
     }
 
     private boolean check() {
-        if (mHasNotBeenSet && Abstract_Mod.sFinalized < Abstract_Mod.sModCountUsingGTAPI) ERR.println("The Item '" + name + "' has not been set to an Item at this time!");
-        return !ST.invalid(mStack);
+        if (hasNotBeenSet && Abstract_Mod.sFinalized < Abstract_Mod.sModCountUsingGTAPI) ERR.println("The Item '" + name + "' has not been set to an Item at this time!");
+        return !ST.invalid(stack);
     }
 
     @Override
-    public IItemContainer set(Item aItem) {
-        mHasNotBeenSet = F;
-        if (aItem == null) {
-//          new Exception().printStackTrace(GT_Log.deb);
-            return this;
-        }
-        mStack = ST.amount(1, ST.make(aItem, 1, 0));
-        return this;
+    public IItemContainer set(Item item) {
+        return set(item, 0);
     }
 
-    public IItemContainer set(Item aItem, long aMeta) {
-        mHasNotBeenSet = F;
-        if (aItem == null) {
-//          new Exception().printStackTrace(GT_Log.deb);
+    public IItemContainer set(Item item, long meta) {
+        hasNotBeenSet = false;
+        if (item == null) {
             return this;
         }
-        mStack = ST.amount(1, ST.make(aItem, 1, aMeta));
+        stack = ST.amount(1, ST.make(item, 1, meta));
         return this;
     }
 
     @Override
-    public IItemContainer set(ItemStack aStack) {
-        mHasNotBeenSet = F;
-        if (ST.invalid(aStack)) {
-//          new Exception().printStackTrace(GT_Log.deb);
+    public IItemContainer set(ItemStack newStack) {
+        hasNotBeenSet = false;
+        if (ST.invalid(newStack)) {
             return this;
         }
-        mStack = ST.amount(1, aStack);
+        stack = ST.amount(1, newStack);
         return this;
     }
 
-    public IItemContainer set(Item aItem, OreDictItemData aData, Object... aOreDict) {
-        mHasNotBeenSet = F;
-        if (aItem == null) {
-//          new Exception().printStackTrace(GT_Log.deb);
+    public IItemContainer set(Item item, OreDictItemData data, Object... oreDict) {
+        hasNotBeenSet = false;
+        if (item == null) {
             return this;
         }
-        ItemStack aStack = ST.make(aItem, 1, 0);
-        mStack = ST.amount(1, aStack);
-        if (aData != null && !OM.reg(aData.toString(), ST.make(aItem, 1, W))) OM.data(ST.make(aItem, 1, W), aData);
-        for (Object tOreDict : aOreDict) OM.reg(tOreDict, ST.make(aItem, 1, W));
+        ItemStack aStack = ST.make(item, 1, 0);
+        stack = ST.amount(1, aStack);
+        if (data != null && !OM.reg(data.toString(), ST.make(item, 1, W))) OM.data(ST.make(item, 1, W), data);
+        for (Object tOreDict : oreDict) OM.reg(tOreDict, ST.make(item, 1, W));
         return this;
     }
 
-    public IItemContainer set(ItemStack aStack, OreDictItemData aData, Object... aOreDict) {
-        mHasNotBeenSet = F;
-        if (ST.invalid(aStack)) {
-//          new Exception().printStackTrace(DEB);
+    public IItemContainer set(ItemStack newStack, OreDictItemData data, Object... oreDict) {
+        hasNotBeenSet = false;
+        if (ST.invalid(newStack)) {
             return this;
         }
-        mStack = ST.amount(1, aStack);
-        if (aData != null && !OM.reg(aData.toString(), ST.amount(1, aStack))) OM.data(ST.amount(1, aStack), aData);
-        for (Object tOreDict : aOreDict) OM.reg(tOreDict, ST.amount(1, aStack));
+        stack = ST.amount(1, newStack);
+        if (data != null && !OM.reg(data.toString(), ST.amount(1, newStack))) OM.data(ST.amount(1, newStack), data);
+        for (Object tOreDict : oreDict) OM.reg(tOreDict, ST.amount(1, newStack));
         return this;
     }
 
     @Override
     public Item item() {
         if (!check()) return null;
-        return mStack.getItem();
+        return stack.getItem();
     }
 
     @Override
@@ -346,96 +380,95 @@ public class ILx implements IItemContainer {
 
     @Override
     public boolean exists() {
-        return ST.valid(mStack);
+        return ST.valid(stack);
     }
 
     @Override
     public final boolean hasBeenSet() {
-        return !mHasNotBeenSet;
+        return !hasNotBeenSet;
     }
 
     @Override
-    public boolean equal(Object aStackOrBlock) {
-        return mStack != null && (aStackOrBlock instanceof Block ? aStackOrBlock != NB && ST.block_(mStack) == aStackOrBlock : equal(aStackOrBlock, F, F));
+    public boolean equal(Object stackOrBlock) {
+        return stack != null && (stackOrBlock instanceof Block ? stackOrBlock != NB && ST.block_(stack) == stackOrBlock : equal(stackOrBlock, false, false));
     }
 
     @Override
-    public boolean equal(Object aStack, boolean aWildcard, boolean aIgnoreNBT) {
-        return mStack != null && (aWildcard ? ST.item((ItemStack)aStack) == ST.item_(mStack) : ST.equal((ItemStack)aStack, mStack, aIgnoreNBT));
-    }
-
-
-    @Override
-    public ItemStack get(long aAmount, Object... aReplacements) {
-        if (!check()) return ST.copyFirst(aReplacements);
-        return ST.amount(aAmount, OM.get_(mStack));
+    public boolean equal(Object other, boolean wildcard, boolean aIgnoreNBT) {
+        return stack != null && (wildcard ? ST.item((ItemStack)other) == ST.item_(stack) : ST.equal((ItemStack)other, stack, aIgnoreNBT));
     }
 
     @Override
-    public ItemStack getWildcard(long aAmount, Object... aReplacements) {
-        return wild(aAmount, aReplacements);
+    public ItemStack get(long amount, Object... replacements) {
+        if (!check()) return ST.copyFirst(replacements);
+        return ST.amount(amount, OM.get_(stack));
     }
 
     @Override
-    public ItemStack wild(long aAmount, Object... aReplacements) {
-        if (!check()) return ST.copyFirst(aReplacements);
-        return ST.copyAmountAndMeta(aAmount, W, OM.get_(mStack));
+    public ItemStack getWildcard(long amount, Object... replacements) {
+        return wild(amount, replacements);
     }
 
     @Override
-    public ItemStack getUndamaged(long aAmount, Object... aReplacements) {
-        if (!check()) return ST.copyFirst(aReplacements);
-        return ST.copyAmountAndMeta(aAmount, 0, OM.get_(mStack));
+    public ItemStack wild(long amount, Object... replacements) {
+        if (!check()) return ST.copyFirst(replacements);
+        return ST.copyAmountAndMeta(amount, W, OM.get_(stack));
     }
 
     @Override
-    public ItemStack getAlmostBroken(long aAmount, Object... aReplacements) {
-        if (!check()) return ST.copyFirst(aReplacements);
-        return ST.copyAmountAndMeta(aAmount, mStack.getMaxDamage()-1, OM.get_(mStack));
+    public ItemStack getUndamaged(long amount, Object... replacements) {
+        if (!check()) return ST.copyFirst(replacements);
+        return ST.copyAmountAndMeta(amount, 0, OM.get_(stack));
     }
 
     @Override
-    public ItemStack getWithName(long aAmount, String aDisplayName, Object... aReplacements) {
-        ItemStack rStack = get(1, aReplacements);
+    public ItemStack getAlmostBroken(long amount, Object... replacements) {
+        if (!check()) return ST.copyFirst(replacements);
+        return ST.copyAmountAndMeta(amount, stack.getMaxDamage()-1, OM.get_(stack));
+    }
+
+    @Override
+    public ItemStack getWithName(long amount, String displayName, Object... replacements) {
+        ItemStack rStack = get(1, replacements);
         if (ST.invalid(rStack)) return null;
-        rStack.setStackDisplayName(aDisplayName);
-        return ST.amount(aAmount, rStack);
+        rStack.setStackDisplayName(displayName);
+        return ST.amount(amount, rStack);
     }
 
     @Override
-    public ItemStack getWithNameAndNBT(long aAmount, String aDisplayName, NBTTagCompound aNBT, Object... aReplacements) {
-        ItemStack rStack = get(1, aReplacements);
+    public ItemStack getWithNameAndNBT(long amount, String displayName, NBTTagCompound nbt, Object... replacements) {
+        ItemStack rStack = get(1, replacements);
         if (ST.invalid(rStack)) return null;
-        UT.NBT.set(rStack, aNBT);
-        if (aDisplayName != null) rStack.setStackDisplayName(aDisplayName);
-        return ST.amount(aAmount, rStack);
+        UT.NBT.set(rStack, nbt);
+        if (displayName != null) rStack.setStackDisplayName(displayName);
+        return ST.amount(amount, rStack);
     }
 
     @Override
-    public ItemStack getWithCharge(long aAmount, long aEnergy, Object... aReplacements) {
-        ItemStack rStack = get(1, aReplacements);
+    public ItemStack getWithCharge(long amount, long energy, Object... replacements) {
+        ItemStack rStack = get(1, replacements);
         if (ST.invalid(rStack)) return null;
-        if (rStack.getItem() instanceof IItemEnergy) for (TagData tEnergyType : ((IItemEnergy)rStack.getItem()).getEnergyTypes(rStack)) ((IItemEnergy)rStack.getItem()).setEnergyStored(tEnergyType, rStack, aEnergy);
-        return ST.amount(aAmount, rStack);
+        if (rStack.getItem() instanceof IItemEnergy) for (TagData tEnergyType : ((IItemEnergy)rStack.getItem()).getEnergyTypes(rStack)) ((IItemEnergy)rStack.getItem()).setEnergyStored(tEnergyType, rStack, energy);
+        return ST.amount(amount, rStack);
     }
 
     @Override
-    public ItemStack getWithMeta(long aAmount, long aMetaValue, Object... aReplacements) {
-        if (!check()) return ST.copyFirst(aReplacements);
-        return ST.copyAmountAndMeta(aAmount, aMetaValue, OM.get_(mStack));
+    public ItemStack getWithMeta(long amount, long metaValue, Object... replacements) {
+        if (!check()) return ST.copyFirst(replacements);
+        return ST.copyAmountAndMeta(amount, metaValue, OM.get_(stack));
     }
 
     @Override
-    public ItemStack getWithDamage(long aAmount, long aMetaValue, Object... aReplacements) {
-        if (!check()) return ST.copyFirst(aReplacements);
-        return ST.copyAmountAndMeta(aAmount, aMetaValue, OM.get_(mStack));
+    public ItemStack getWithDamage(long amount, long metaValue, Object... replacements) {
+        if (!check()) return ST.copyFirst(replacements);
+        return ST.copyAmountAndMeta(amount, metaValue, OM.get_(stack));
     }
 
     @Override
-    public ItemStack getWithNBT(long aAmount, NBTTagCompound aNBT, Object... aReplacements) {
-        if (!check()) return ST.copyFirst(aReplacements);
-        ItemStack rStack = ST.amount(aAmount, OM.get_(mStack));
-        UT.NBT.set(rStack, aNBT);
+    public ItemStack getWithNBT(long amount, NBTTagCompound nbt, Object... replacements) {
+        if (!check()) return ST.copyFirst(replacements);
+        ItemStack rStack = ST.amount(amount, OM.get_(stack));
+        UT.NBT.set(rStack, nbt);
         return rStack;
     }
 

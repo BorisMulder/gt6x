@@ -8,10 +8,12 @@ import gregapi.util.ST;
 import gregapi.worldgen.*;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
+import org.altadoon.gt6x.Gt6xMod;
 import org.altadoon.gt6x.common.Config;
 import org.altadoon.gt6x.common.MTx;
 import org.altadoon.gt6x.common.RMx;
 import org.altadoon.gt6x.features.GT6XFeature;
+import org.altadoon.gt6x.features.metallurgy.Metallurgy;
 
 import java.util.List;
 import java.util.ListIterator;
@@ -115,6 +117,14 @@ public class RefractoryMetals extends GT6XFeature {
         if (complexColtanRefining) {
             MT.OREMATS.Coltan.mByProducts.clear();
             MT.OREMATS.Coltan.addOreByProducts(MT.MnO2, MT.OREMATS.Ilmenite, MT.Fe2O3);
+
+            ListIterator<OreDictMaterial> it = MT.Desh.mByProducts.listIterator();
+            while (it.hasNext()) {
+                OreDictMaterial byproduct = it.next();
+                if (byproduct.mID == MT.OREMATS.Columbite.mID || byproduct.mID == MT.OREMATS.Tantalite.mID) {
+                    it.set(MT.OREMATS.Coltan);
+                }
+            }
         }
     }
 
@@ -194,7 +204,9 @@ public class RefractoryMetals extends GT6XFeature {
         RM.Bath.addRecipe1(true, 0, 512*3, dust.mat(MTx.Vanadinite, 21), FL.array(MT.SaltWater.liquid(4*6*U, true)), FL.array(MTx.NaVO3Solution.liquid(3*11*U, false)), dust.mat(MTx.PbCl2, 6), dust.mat(MTx.PbO, 3));
         RM.Bath.addRecipe1(true, 0, 512, dust.mat(MTx.NH4Cl, 1), MTx.NaVO3Solution.liquid(11*U, true), MT.SaltWater.liquid(8*U, false), dust.mat(MTx.NH4VO3, 5));
         RMx.Thermolysis.addRecipe1(true, 16, 128, dust.mat(MTx.NH4VO3, 10), ZL_FS, FL.array(MT.NH3.gas(2*U, false), MT.H2O.liquid(3*U, false)), dust.mat(MT.V2O5, 7));
-        RM.Bath.addRecipe1(true, 0, 512*3, dust.mat(MT.V2O5, 21), FL.array(MT.Al.liquid(10*U, true)), FL.array(MT.V.liquid(6*U, false), MT.Al2O3.liquid(25*U, false)));
+
+        if (!Gt6xMod.isEnabled(Metallurgy.class))
+            RM.Bath.addRecipe1(true, 0, 512*3, dust.mat(MT.V2O5, 21), FL.array(MT.Al.liquid(10*U, true)), FL.array(MT.V.liquid(6*U, false), MT.Al2O3.liquid(25*U, false)));
 
         // Cr
         if (complexChromiumRefining) {
@@ -215,7 +227,9 @@ public class RefractoryMetals extends GT6XFeature {
             for (ItemStack coal : new ItemStack[]{dust.mat(MT.Charcoal, 1), dust.mat(MT.LigniteCoke, 3), dust.mat(MT.CoalCoke, 1), dust.mat(MT.C, 1)}) {
                 RM.BurnMixer.addRecipe2(true, 16, 64, ST.mul(2, coal), dust.mat(MTx.Na2Cr2O7, 11), ZL_FS, MT.CO.gas(2*U, false), dust.mat(MTx.CrSodaMixture, 11));
             }
-            RM.Bath.addRecipe1(true, 0, 512, dust.mat(MTx.Cr2O3, 5), MT.Al.liquid(2*U, true), MT.Cr.liquid(2*U, false), dust.mat(MT.Al2O3, 5));
+
+            if (!Gt6xMod.isEnabled(Metallurgy.class))
+                RM.Bath.addRecipe1(true, 0, 512, dust.mat(MTx.Cr2O3, 5), MT.Al.liquid(2*U, true), MT.Cr.liquid(2*U, false), dust.mat(MT.Al2O3, 5));
 
             RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.Na2Cr2O7, 11), MT.H2SO4.liquid(7*U, true), MTx.Na2SO4Solution.liquid(10*U, false), dust.mat(MTx.CrO3, 8));
             RMx.Thermolysis.addRecipe1(true, 16, 256, dust.mat(MTx.CrO3, 8), NF, FL.Oxygen.make(3000), dust.mat(MTx.Cr2O3, 5));
@@ -230,10 +244,10 @@ public class RefractoryMetals extends GT6XFeature {
             RM.BurnMixer.addRecipeX(true, 16, 192, ST.array(coal, dust.mat(MT.Zircon, 6), dust.mat(MTx.CaO, 2)), FL.array(MT.Cl.gas(4*U, true)), FL.array(MTx.ZrHfCl4.gas(5*U, false), MT.CO2.gas(3*U, false)), gem.mat(MTx.Slag, 5));
         }
         RM.Distillery.addRecipe1(true, 64, 1000, ST.tag(0), FL.array(MTx.ZrHfCl4.gas(5*U, true)), FL.array(MTx.ZrCl4.gas(49*U10, false), MTx.HfCl4.gas(U10, false)));
-        RM.Bath.addRecipe1(true, 0, 512, OM.dust(MT.Na, U*4), MTx.ZrCl4.gas(5*U, T), NF, OM.dust(MT.Zr), OM.dust(MT.NaCl , U*2), OM.dust(MT.NaCl , U*2), OM.dust(MT.NaCl , U*2), OM.dust(MT.NaCl , U*2));
-        RM.Bath.addRecipe1(true, 0, 512, OM.dust(MT.Mg, U*2), MTx.ZrCl4.gas(5*U, T), NF, OM.dust(MT.Zr), OM.dust(MT.MgCl2, U*2), OM.dust(MT.MgCl2, U*2), OM.dust(MT.MgCl2, U*2));
-        RM.Bath.addRecipe1(true, 0, 512, OM.dust(MT.Na, U*4), MTx.HfCl4.gas(5*U, T), NF, OM.dust(MT.Hf), OM.dust(MT.NaCl , U*2), OM.dust(MT.NaCl , U*2), OM.dust(MT.NaCl , U*2), OM.dust(MT.NaCl , U*2));
-        RM.Bath.addRecipe1(true, 0, 512, OM.dust(MT.Mg, U*2), MTx.HfCl4.gas(5*U, T), NF, OM.dust(MT.Hf), OM.dust(MT.MgCl2, U*2), OM.dust(MT.MgCl2, U*2), OM.dust(MT.MgCl2, U*2));
+        RM.Bath.addRecipe1(true, 0, 512, OM.dust(MT.Na, U*4), MTx.ZrCl4.gas(5*U, true), NF, OM.dust(MT.Zr), OM.dust(MT.NaCl , U*2), OM.dust(MT.NaCl , U*2), OM.dust(MT.NaCl , U*2), OM.dust(MT.NaCl , U*2));
+        RM.Bath.addRecipe1(true, 0, 512, OM.dust(MT.Mg, U*2), MTx.ZrCl4.gas(5*U, true), NF, OM.dust(MT.Zr), OM.dust(MT.MgCl2, U*2), OM.dust(MT.MgCl2, U*2), OM.dust(MT.MgCl2, U*2));
+        RM.Bath.addRecipe1(true, 0, 512, OM.dust(MT.Na, U*4), MTx.HfCl4.gas(5*U, true), NF, OM.dust(MT.Hf), OM.dust(MT.NaCl , U*2), OM.dust(MT.NaCl , U*2), OM.dust(MT.NaCl , U*2), OM.dust(MT.NaCl , U*2));
+        RM.Bath.addRecipe1(true, 0, 512, OM.dust(MT.Mg, U*2), MTx.HfCl4.gas(5*U, true), NF, OM.dust(MT.Hf), OM.dust(MT.MgCl2, U*2), OM.dust(MT.MgCl2, U*2), OM.dust(MT.MgCl2, U*2));
 
         /// Zirconia
         for (FluidStack water : FL.waters(3000)) {
@@ -253,9 +267,11 @@ public class RefractoryMetals extends GT6XFeature {
             }
             RMx.Thermolysis.addRecipe0(true, 16, 128, FL.array(MTx.NH4FSolution.liquid(6*U, true)), FL.array(MT.H2O.liquid(3*U, false), MT.HF.gas(2*U, false), MT.NH3.gas(U, false)));
             RM.Mixer.addRecipe1(true, 16, 1024, dust.mat(MT.KF, 8), FL.array(MTx.TaFMIBKSolution.liquid(58*U, true)), FL.array(MTx.MIBK.liquid(38*U, false), MT.HF.gas(8*U, false)), OM.dust(MT.K2TaF7, 20*U));
-            RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.Nb2O5, 7), MT.Ca.liquid(5*U, true), MT.Nb.liquid(2*U, false), dust.mat(MTx.CaO, 10));
-            RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.Ta2O5, 7), MT.Ca.liquid(5*U, true), MTx.CaO.liquid(10*U, false), dust.mat(MT.Ta, 2));
-            RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.Ta2O5, 7), MT.Al.liquid(10*U3, true), MT.Al2O3.liquid(25*U3, false), dust.mat(MT.Ta, 2));
+            if (!Gt6xMod.isEnabled(Metallurgy.class)) {
+                RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.Nb2O5, 7), MT.Ca.liquid(5 * U, true), MT.Nb.liquid(2 * U, false), dust.mat(MTx.CaO, 10));
+                RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.Ta2O5, 7), MT.Ca.liquid(5 * U, true), MTx.CaO.liquid(10 * U, false), dust.mat(MT.Ta, 2));
+                RM.Bath.addRecipe1(true, 0, 512, dust.mat(MT.Ta2O5, 7), MT.Al.liquid(10 * U3, true), MT.Al2O3.liquid(25 * U3, false), dust.mat(MT.Ta, 2));
+            }
         }
 
         // Re

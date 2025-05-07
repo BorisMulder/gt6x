@@ -65,9 +65,16 @@ public class MTEEngineDiesel extends MultiTileEntityEngineBase implements ITileE
 		UT.NBT.setNumber(nbt, NBT_INPUT, storedInputEnergy);
 	}
 
+	static {
+		LH.add("gt6x.tooltip.engine_diesel.1", "Pre-heating can improve starting efficiency (to do this, insert HU to any side).");
+		LH.add("gt6x.tooltip.engine_diesel.2", "For some heavier fuels, this might be necessary to start at all.");
+	}
+
 	@Override
-	protected String getEfficiencyTooltip() {
-		return LH.get(LH.EFFICIENCY) + ": " + LH.Chat.WHITE + "0 - " + LH.percent(efficiency) + "%";
+	protected void addEfficiencyTooltip(List<String> list) {
+		list.add(LH.get(LH.EFFICIENCY) + ": " + LH.Chat.WHITE + "0 - " + LH.percent(efficiency) + "%");
+		list.add(LH.Chat.GRAY + LH.get("gt6x.tooltip.engine_diesel.1"));
+		list.add(LH.Chat.GRAY + LH.get("gt6x.tooltip.engine_diesel.2"));
 	}
 
 	@Override

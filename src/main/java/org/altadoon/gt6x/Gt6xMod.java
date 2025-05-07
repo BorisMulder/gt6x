@@ -9,6 +9,7 @@ import org.altadoon.gt6x.common.items.Tools;
 import org.altadoon.gt6x.features.GT6XFeature;
 import org.altadoon.gt6x.features.basicchem.BasicChemistry;
 import org.altadoon.gt6x.features.ceramics.Ceramics;
+import org.altadoon.gt6x.features.crucibles.Crucibles;
 import org.altadoon.gt6x.features.distillationtowers.DistillationTowers;
 import org.altadoon.gt6x.features.electronics.Compat_Recipes_OpenComputersX;
 import org.altadoon.gt6x.features.electronics.Electronics;
@@ -59,6 +60,7 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 	private static final Class<? extends GT6XFeature>[] allFeatures = new Class[]{
 		BasicChemistry.class,
 		Ceramics.class,
+		Crucibles.class,
 		DistillationTowers.class,
 		Electronics.class,
 		Engines.class,
@@ -70,28 +72,35 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 		ThermoOven.class,
 		VerticalMixers.class,
 	};
-	private final ArrayList<GT6XFeature> enabledFeatures;
+	private static final ArrayList<GT6XFeature> enabledFeatures;
+
+	static {
+		Config modConfig = new Config(allFeatures);
+		enabledFeatures = modConfig.getEnabledFeatures();
+	}
 
 	public Gt6xMod() {
-		MTx.touch();
+		GT.mBeforePreInit.add(this::preGt6PreInit);
+		GT.mAfterPreInit.add(this::postGt6PreInit);
+		GT.mBeforeInit.add(this::preGt6Init);
+		GT.mAfterInit.add(this::postGt6Init);
+		GT.mBeforePostInit.add(this::preGt6PostInit);
+		GT.mAfterPostInit.add(this::postGt6PostInit);
+	}
 
-		Config modConfig = new Config(allFeatures);
-		this.enabledFeatures = modConfig.getEnabledFeatures();
-
-		final Gt6xMod copy = this;
-		GT.mBeforePreInit.add(copy::preGt6PreInit);
-		GT.mAfterPreInit.add(copy::postGt6PreInit);
-		GT.mBeforeInit.add(copy::preGt6Init);
-		GT.mAfterInit.add(copy::postGt6Init);
-		GT.mBeforePostInit.add(copy::preGt6PostInit);
-		GT.mAfterPostInit.add(copy::postGt6PostInit);
+	public static boolean isEnabled(Class<? extends GT6XFeature> feature) {
+		for (GT6XFeature f : enabledFeatures) {
+			if (f.getClass() == feature) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
-	public void onModPreInit2(cpw.mods.fml.common.event.FMLPreInitializationEvent aEvent) {
+	public void onModPreInit2(cpw.mods.fml.common.event.FMLPreInitializationEvent event) {
 		MTEx.touch();
 		MTx.touch();
-		FLx.init();
 		RMx.init();
 		MultiItemsX.init(MOD_ID);
 		MultiItemBottlesX.init(MOD_ID);
@@ -105,14 +114,14 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 	}
 
 	@Override
-	public void onModInit2(cpw.mods.fml.common.event.FMLInitializationEvent aEvent) {
+	public void onModInit2(cpw.mods.fml.common.event.FMLInitializationEvent event) {
 		for (GT6XFeature feature : enabledFeatures) {
 			feature.init();
 		}
 	}
 
 	@Override
-	public void onModPostInit2(cpw.mods.fml.common.event.FMLPostInitializationEvent aEvent) {
+	public void onModPostInit2(cpw.mods.fml.common.event.FMLPostInitializationEvent event) {
 		for (GT6XFeature feature : enabledFeatures) {
 			feature.postInit();
 		}
@@ -125,6 +134,9 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 	}
 
 	private void postGt6PreInit() {
+		MTx.touch();
+		FLx.init();
+
 		for (GT6XFeature feature : enabledFeatures) {
 			feature.afterGt6PreInit();
 		}
@@ -155,22 +167,22 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 	}
 
 	@Override
-	public void onModServerStarting2(cpw.mods.fml.common.event.FMLServerStartingEvent aEvent) {
+	public void onModServerStarting2(cpw.mods.fml.common.event.FMLServerStartingEvent event) {
 		// Insert your ServerStarting Code here and not above
 	}
 
 	@Override
-	public void onModServerStarted2(cpw.mods.fml.common.event.FMLServerStartedEvent aEvent) {
+	public void onModServerStarted2(cpw.mods.fml.common.event.FMLServerStartedEvent event) {
 		// Insert your ServerStarted Code here and not above
 	}
 
 	@Override
-	public void onModServerStopping2(cpw.mods.fml.common.event.FMLServerStoppingEvent aEvent) {
+	public void onModServerStopping2(cpw.mods.fml.common.event.FMLServerStoppingEvent event) {
 		// Insert your ServerStopping Code here and not above
 	}
 
 	@Override
-	public void onModServerStopped2(cpw.mods.fml.common.event.FMLServerStoppedEvent aEvent) {
+	public void onModServerStopped2(cpw.mods.fml.common.event.FMLServerStoppedEvent event) {
 		// Insert your ServerStopped Code here and not above
 	}
 }

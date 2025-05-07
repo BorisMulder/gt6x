@@ -79,14 +79,14 @@ public abstract class MultiTileEntityEngineBase extends TileEntityBase10FacingDo
         tanks[1].writeToNBT(nbt, NBT_TANK+".1");
     }
 
-    protected String getEfficiencyTooltip() {
-        return LH.get(LH.EFFICIENCY) + ": " + LH.Chat.WHITE + LH.percent(efficiency) + "%";
+    protected void addEfficiencyTooltip(List<String> list) {
+        list.add(LH.get(LH.EFFICIENCY) + ": " + LH.Chat.WHITE + LH.percent(efficiency) + "%");
     }
 
     @Override
     public void addToolTips(List<String> list, ItemStack stack, boolean f3_H) {
         list.add(LH.Chat.CYAN     + LH.get(LH.RECIPES) + ": " + LH.Chat.WHITE + LH.get(recipes.mNameInternal));
-        list.add(getEfficiencyTooltip());
+        addEfficiencyTooltip(list);
         LH.addEnergyToolTips(this, list, null, energyTypeEmitted, null, LH.get(LH.FACE_FRONT));
         list.add(LH.Chat.ORANGE   + LH.get(LH.NO_GUI_FUNNEL_TAP_TO_TANK));
         list.add(LH.Chat.DGRAY    + LH.get(LH.TOOL_TO_DETAIL_MAGNIFYINGGLASS));

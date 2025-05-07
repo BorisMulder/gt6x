@@ -1,6 +1,8 @@
 package org.altadoon.gt6x.features.electronics;
 
+import com.google.common.collect.Iterables;
 import gregapi.code.ICondition;
+import gregapi.code.TagData;
 import gregapi.data.*;
 import gregapi.item.prefixitem.PrefixItem;
 import gregapi.oredict.OreDictItemData;
@@ -81,6 +83,7 @@ public class Electronics extends GT6XFeature {
     @Override
     public void afterGt6PostInit() {
         changeRecipes();
+        addFusionRecipes();
     }
 
     private void createPrefixes() {
@@ -115,7 +118,7 @@ public class Electronics extends GT6XFeature {
         for (int tier = 1; tier < 6; tier++) {
             mat = MT.DATA.Electric_T[tier]; MTEx.gt6xMTEReg.add("Ion Acceleration Chamber (" + mat.getLocal() + ")", "Basic Machines", MTEx.IDs.IonBombardment[tier].get(), 20001, aClass, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, MTEx.HARDNESS_ELECTRIC[tier], NBT_RESISTANCE, MTEx.HARDNESS_ELECTRIC[tier], NBT_INPUT, V[tier], NBT_TEXTURE, "ionbombardment", NBT_ENERGY_ACCEPTED, TD.Energy.MU, NBT_RECIPEMAP, RMx.IonBombardment  , NBT_INV_SIDE_IN, SBIT_U|SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_D|SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_TANK_SIDE_IN, SBIT_U|SBIT_L, NBT_TANK_SIDE_AUTO_IN, SIDE_TOP   , NBT_TANK_SIDE_OUT, SBIT_D|SBIT_R, NBT_TANK_SIDE_AUTO_OUT, SIDE_BOTTOM, NBT_ENERGY_ACCEPTED_SIDES, SBIT_B, NBT_PARALLEL, 2 << tier , NBT_PARALLEL_DURATION, T),"TPT","wMh","TST", 'M', casingMachine.dat(mat), 'S', plate.dat(mat), 'T', screw.dat(mat), 'P', pipeMedium.dat(MTx.YAlO3));
             mat = MT.DATA.Electric_T[tier]; MTEx.gt6xMTEReg.add("Soldering Machine (" + VN[tier] + ")"             , "Basic Machines", MTEx.IDs.Soldering     [tier].get(), 20001, aClass, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, MTEx.HARDNESS_ELECTRIC[tier], NBT_RESISTANCE, MTEx.HARDNESS_ELECTRIC[tier], NBT_INPUT, V[tier], NBT_TEXTURE, "soldering"     , NBT_ENERGY_ACCEPTED, TD.Energy.EU, NBT_RECIPEMAP, RMx.Soldering       , NBT_INV_SIDE_IN, SBIT_U|SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_D|SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_TANK_SIDE_IN, SBIT_D|SBIT_L, NBT_TANK_SIDE_AUTO_IN, SIDE_BOTTOM,                                                                        NBT_ENERGY_ACCEPTED_SIDES, SBIT_U, NBT_PARALLEL, 2 << tier , NBT_PARALLEL_DURATION, T),"WRW","CMC","PBw", 'M', casingMachineDouble.dat(mat), 'B', IL.CONVEYERS[tier], 'R', IL.ROBOT_ARMS[tier], 'C', OD_CIRCUITS[tier], 'W', MT.DATA.CABLES_01[tier], 'P', pipeTiny.dat(mat));
-            mat = MT.DATA.Electric_T[tier]; MTEx.gt6xMTEReg.add("Ionizer (" + VN[tier] + ")"                       , "Basic Machines", MTEx.IDs.Ionizer       [tier].get(), 20001, aClass, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, MTEx.HARDNESS_ELECTRIC[tier], NBT_RESISTANCE, MTEx.HARDNESS_ELECTRIC[tier], NBT_INPUT, V[tier], NBT_TEXTURE, "ionizer"       , NBT_ENERGY_ACCEPTED, TD.Energy.EU, NBT_RECIPEMAP, RMx.Ionizer         ,                                                                                                                                      NBT_TANK_SIDE_IN, SBIT_D|SBIT_L, NBT_TANK_SIDE_AUTO_IN, SIDE_TOP   , NBT_TANK_SIDE_OUT, SBIT_D|SBIT_R, NBT_TANK_SIDE_AUTO_OUT, SIDE_BOTTOM, NBT_ENERGY_ACCEPTED_SIDES, SBIT_B, NBT_PARALLEL, 2 << tier , NBT_PARALLEL_DURATION, T),"PWI","WTW","wWO", 'P', IL.PUMPS[tier], 'w', MT.DATA.CABLES_04[tier + 1], 'I', pipeMedium.dat(mat), 'T', MTEx.gt6Registry.getItem(10040 + tier), 'O', pipeMedium.dat(MTx.YAlO3));
+            mat = MT.DATA.Electric_T[tier]; MTEx.gt6xMTEReg.add("Ionizer (" + VN[tier] + ")"                       , "Basic Machines", MTEx.IDs.Ionizer       [tier].get(), 20001, aClass, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, MTEx.HARDNESS_ELECTRIC[tier], NBT_RESISTANCE, MTEx.HARDNESS_ELECTRIC[tier], NBT_INPUT, V[tier], NBT_TEXTURE, "ionizer"       , NBT_ENERGY_ACCEPTED, TD.Energy.EU, NBT_RECIPEMAP, RMx.Ionizer         ,                                                                                                                                      NBT_TANK_SIDE_IN, SBIT_D|SBIT_L, NBT_TANK_SIDE_AUTO_IN, SIDE_TOP   , NBT_TANK_SIDE_OUT, SBIT_D|SBIT_R, NBT_TANK_SIDE_AUTO_OUT, SIDE_BOTTOM, NBT_ENERGY_ACCEPTED_SIDES, SBIT_B, NBT_PARALLEL, 2 << tier , NBT_PARALLEL_DURATION, T),"PWI","WTW","wWO", 'P', IL.PUMPS[tier], 'w', MT.DATA.CABLES_04[tier + 1], 'I', pipeMedium.dat(mat), 'T', MTEx.gt6MTEReg.getItem(10040 + tier), 'O', pipeMedium.dat(MTx.YAlO3));
             mat = MT.DATA.Electric_T[tier]; MTEx.gt6xMTEReg.add("Vacuum Chamber (" + mat.getLocal() + ")"          , "Basic Machines", MTEx.IDs.VacuumChamber [tier].get(), 20001, aClass, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, MTEx.HARDNESS_ELECTRIC[tier], NBT_RESISTANCE, MTEx.HARDNESS_ELECTRIC[tier], NBT_INPUT, V[tier], NBT_TEXTURE, "vacuumchamber" , NBT_ENERGY_ACCEPTED, TD.Energy.EU, NBT_RECIPEMAP, RMx.VacuumChamber, NBT_INV_SIDE_IN, SBIT_U|SBIT_L, NBT_INV_SIDE_AUTO_IN, SIDE_LEFT, NBT_INV_SIDE_OUT, SBIT_D|SBIT_R, NBT_INV_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_TANK_SIDE_IN, SBIT_U|SBIT_L, NBT_TANK_SIDE_AUTO_IN, SIDE_TOP   , NBT_TANK_SIDE_OUT, SBIT_B|SBIT_R, NBT_TANK_SIDE_AUTO_OUT, SIDE_BACK  , NBT_ENERGY_ACCEPTED_SIDES, SBIT_D, NBT_PARALLEL, 2 << tier , NBT_PARALLEL_DURATION, T),"TwT","RMR","VPV", 'M', casingMachineQuadruple.dat(mat), 'T', pipeSmall.dat(mat), 'R', ring.dat(ANY.Rubber), 'V', IL.PUMPS[tier], 'P', pipeMedium.dat(mat));
         }
 
@@ -341,11 +344,18 @@ public class Electronics extends GT6XFeature {
         }
 
         // components
-        for (OreDictItemData leadWire : new OreDictItemData[] { OP.wireFine.dat(MT.Cu), OP.wireFine.dat(MT.Brass) }) {
-            CR.shaped(ILx.Resistor_ThroughHole  .get(2), CR.DEF_REV, " W ", "iPC", " W ", 'W', leadWire, 'P', plateTiny.dat(MT.Ceramic), 'C', dustTiny.dat(ANY.Coal));
-            CR.shaped(ILx.Capacitor_ThroughHole .get(2), CR.DEF_REV, " i ", "PC ", "W W", 'W', leadWire, 'C', plateTiny.dat(MT.Ceramic), 'P', plateTiny.dat(MT.Paper));
-            CR.shaped(ILx.Transistor_ThroughHole.get(4), CR.DEF_REV, " P ", "iS ", "WWW", 'W', leadWire, 'S', BJT_NAME, 'P', plateTiny.dat(MT.Plastic));
-            CR.shaped(ILx.Transistor_ThroughHole.get(4), CR.DEF_REV, " P ", "iS ", "WWW", 'W', leadWire, 'S', ILx.Wafers[MESFET_IDX][0][7].get(1), 'P', plateTiny.dat(MT.Plastic));
+        CR.shaped(ILx.Resistor_ThroughHole  .get(2), CR.DEF_REV, " W ", " CP", " W ", 'W', OP.wireFine.dat(ANY.Cu), 'P', plateTiny.dat(MT.Ceramic), 'C', dustTiny.dat(ANY.Coal));
+        CR.shaped(ILx.Capacitor_ThroughHole .get(2), CR.DEF_REV, "   ", "PC ", "W W", 'W', OP.wireFine.dat(ANY.Cu), 'C', plateTiny.dat(MT.Ceramic), 'P', plateTiny.dat(MT.Paper));
+        CR.shaped(ILx.Transistor_ThroughHole.get(4), CR.DEF_REV, " P ", " S ", "WWW", 'W', OP.wireFine.dat(ANY.Cu), 'S', BJT_NAME, 'P', plateTiny.dat(ANY.Plastic));
+        CR.shaped(ILx.Transistor_ThroughHole.get(4), CR.DEF_REV, " P ", " S ", "WWW", 'W', OP.wireFine.dat(ANY.Cu), 'S', ILx.Wafers[MESFET_IDX][0][7].get(1), 'P', plateTiny.dat(MT.Plastic));
+
+        for (OreDictMaterial cu : ANY.Cu.mToThis) {
+            for (OreDictMaterial coal : ANY.Coal.mToThis) {
+                RM.Press.addRecipeX(false, 16, 32, ST.array(plateTiny.mat(MT.Ceramic, 1), dustTiny.mat(coal, 1), wireFine.mat(cu, 2)), ILx.Resistor_ThroughHole.get(1));
+            }
+            RM.Press.addRecipeX(false, 16, 32, ST.array(plateTiny.mat(MT.Ceramic, 1), plateTiny.mat(MT.Paper, 1), wireFine.mat(cu, 2)), ILx.Capacitor_ThroughHole.get(1));
+            RM.Press.addRecipeX(false, 16, 32, ST.array(plateTiny.mat(MT.Plastic, 1), ILx.BJT_Ge.get(1), wireFine.mat(cu, 3)), ILx.Transistor_ThroughHole.get(1));
+            RM.Press.addRecipeX(false, 16, 32, ST.array(plateTiny.mat(MT.Plastic, 1), ILx.BJT_Si.get(1), wireFine.mat(cu, 3)), ILx.Transistor_ThroughHole.get(1));
         }
 
         RM.RollingMill.addRecipe1(true, 16, 256, ingot.mat(MT.Al2O3, 1), plate.mat(MT.Al2O3, 1));
@@ -366,8 +376,11 @@ public class Electronics extends GT6XFeature {
         // Plasmas
         RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.S, 1), MT.F.gas(6 * U, true), MTx.SF6.gas(U, false), NI);
 
-        for (OreDictMaterial mat : new OreDictMaterial[]{MTx.CF4, MTx.NF3, MTx.SF6}) {
-            RMx.Ionizer.addRecipe0(true, 64, 20, mat.gas(U100, true), mat.plasma(U100, false), NI);
+        for (OreDictMaterial mat : Iterables.concat(MT.ALL_MATERIALS_REGISTERED_HERE, MTx.ALL_MATERIALS_REGISTERED_HERE)) {
+            if (mat.contains(MTx.IONIZING) && mat.mGas != null) {
+                RMx.Ionizer.addRecipe0(true, 64, 2000, mat.gas(U, true), mat.plasma(U, false), NI);
+                RM.Freezer.addRecipe1(true, 16, 256, ST.tag(0), mat.plasma(U, true), mat.gas(U, false), NI);
+            }
         }
 
         // Ru Electroplating
@@ -486,7 +499,7 @@ public class Electronics extends GT6XFeature {
         RM.Welder.addRecipe2(true, 16, 64, plateCurved.mat(MT.Plastic, 4), ring.mat(MT.Plastic, 1), rotor.mat(MT.Plastic, 1));
 
         CR.shaped(ILx.CPU_Fan.get(1), CR.DEF_REV, "PFL", "CMC", " RW", 'P', casingSmall.mat(MT.Polycarbonate, 1), 'F', rotor.mat(MT.Polycarbonate, 1), 'L', OD.itemLubricant, 'C', casingSmall.mat(MT.StainlessSteel, 1), 'M', IL.MOTORS[0], 'W', cableGt02.mat(MT.Cu, 1), 'R', ring.mat(MT.Polycarbonate, 1));
-        CR.shaped(ILx.ComputerCase.get(1), CR.DEF_REM, "TFS", "DCB", "WdS", 'T', MTEx.gt6Registry.getItem(10040), 'F', ILx.CPU_Fan, 'S', screw.mat(MT.StainlessSteel, 1), 'D', DYE_OREDICTS[DYE_INDEX_Black], 'C', casingMachine.mat(MT.SteelGalvanized, 1), 'B', MTEx.gt6Registry.getItem(32711), 'W', cableGt08.mat(MT.Cu, 1));
+        CR.shaped(ILx.ComputerCase.get(1), CR.DEF_REM, "TFS", "DCB", "WdS", 'T', MTEx.gt6MTEReg.getItem(10040), 'F', ILx.CPU_Fan, 'S', screw.mat(MT.StainlessSteel, 1), 'D', DYE_OREDICTS[DYE_INDEX_Black], 'C', casingMachine.mat(MT.SteelGalvanized, 1), 'B', MTEx.gt6MTEReg.getItem(32711), 'W', cableGt08.mat(MT.Cu, 1));
 
         // PCs
         for (int tier = 0; tier < NUM_COMPUTER_TIERS; tier++) {
@@ -565,8 +578,8 @@ public class Electronics extends GT6XFeature {
         RM.Mixer.addRecipe2(true, 16, 16, ST.tag(2), dust.mat(MT.Graphite, 1), FL.DistW.make(1000), NF, dust.mat(MTx.Aquadag, 2));
         RM.Mixer.addRecipe2(true, 16, 16, ST.tag(2), dustSmall.mat(MT.Graphite, 2), FL.DistW.make(500), NF, dust.mat(MTx.Aquadag, 1));
 
-        CR.shaped(ILx.CRT_Black_White.get(1), CR.DEF_REV, " WP", "CAS", " WP", 'W', wireGt02.dat(ANY.Cu), 'P', dust.dat(MTx.WhitePhosphor), 'C', ILx.Cathode_Tungsten, 'A', dust.dat(MT.Al), 'S', plate.dat(MT.Glass));
-        CR.shaped(ILx.CRT_RGB.get(1), CR.DEF_REV, "CWR", "CAS", "CGB", 'W', wireGt04.dat(ANY.Cu), 'C', ILx.Cathode_Tungsten, 'A', dust.dat(MTx.Aquadag), 'S', plate.dat(MT.Glass), 'R', dust.dat(MTx.RedPhosphor), 'G', dust.dat(MTx.GreenPhosphor), 'B', dust.dat(MTx.BluePhosphor));
+        CR.shaped(ILx.CRT_Black_White.get(1), CR.DEF_REV, " WP", "CAS", " WP", 'W', wireGt02.dat(ANY.Cu), 'P', dust.dat(MTx.WhitePhosphor), 'C', ILx.Cathode_Tungsten, 'A', dust.dat(MT.Al), 'S', block.dat(MT.Glass));
+        CR.shaped(ILx.CRT_RGB.get(1), CR.DEF_REV, "CWR", "CSG", "CAB", 'W', wireGt04.dat(ANY.Cu), 'C', ILx.Cathode_Tungsten, 'A', dust.dat(MTx.Aquadag), 'S', block.dat(MT.Glass), 'R', dust.dat(MTx.RedPhosphor), 'G', dust.dat(MTx.GreenPhosphor), 'B', dust.dat(MTx.BluePhosphor));
 
         // LCDs
         RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MTx.AlCl3, 0), dust.mat(MTx.Biphenyl, 1), FL.array(MTx.Chloropentane.liquid(U, true), MT.Br.liquid(U, true)), FL.array(MT.HCl.gas(2 * U, false)), dust.mat(MTx.Bromo4pentylbiphenyl, 1));
@@ -581,7 +594,7 @@ public class Electronics extends GT6XFeature {
         CR.shaped(ILx.LCDElectrodes.get(1), CR.DEF_REV, " C ", " G ", " T ", 'C', ILx.Wafers[LCD_COLOR_IDX][0][6].get(1), 'G', IL.Bottle_Glue, 'T', ILx.Wafers[TFT_IDX][0][10].get(1));
         RM.Injector.addRecipe1(true, 16, 128, ILx.LCDElectrodes.get(1), FL.make(FLx.LiquidCrystal5CB, 1), NF, ILx.LCDElectrodesCrystal.get(1));
         CR.shaped(ILx.LCD.get(1), CR.DEF_REV, "RG ", "PLP", 'R', OreDictToolNames.rollingpin, 'G', IL.Bottle_Glue, 'P', ILx.PolaroidFilter, 'L', ILx.LCDElectrodesCrystal);
-        CR.shaped(ILx.LCDMonitor.get(1), CR.DEF_REV, " IF", "GLB", "OIW", 'I', casingSmall.dat(MT.Polycarbonate), 'F', foil.dat(MT.Polycarbonate), 'G', OP.foil.dat(MT.Glass), 'L', ILx.LCD, 'B', ILx.LEDBacklight, 'O', MTEx.gt6Registry.getItem(32711), 'W', cableGt01.dat(ANY.Cu));
+        CR.shaped(ILx.LCDMonitor.get(1), CR.DEF_REV, " IF", "GLB", "OIW", 'I', casingSmall.dat(MT.Polycarbonate), 'F', foil.dat(MT.Polycarbonate), 'G', OP.foil.dat(MT.Glass), 'L', ILx.LCD, 'B', ILx.LEDBacklight, 'O', MTEx.gt6MTEReg.getItem(32711), 'W', cableGt01.dat(ANY.Cu));
 
         // Casings
         for (OreDictMaterial mat : new OreDictMaterial[] { MT.Plastic, MT.Polycarbonate }) {
@@ -712,7 +725,7 @@ public class Electronics extends GT6XFeature {
 
         // Old solar panels
         for (int id : new int[]{10050, 10051}) {
-            ItemStack stack = MTEx.gt6Registry.getItem(id);
+            ItemStack stack = MTEx.gt6MTEReg.getItem(id);
             CRx.disableGt6(stack);
             ST.hide(stack);
         }
@@ -734,50 +747,50 @@ public class Electronics extends GT6XFeature {
 
         // Crystal Chargers
         for (int tier = 0; tier < 7; tier++) {
-            CRx.overrideShaped(MTEx.gt6Registry.getItem(10130 + tier), CR.DEF_REV_NCC, "FCF", "FCF", "PMC", 'C', OD_CIRCUITS[tier], 'P', PC_NAMES[(tier - 1) / 2], 'F', IL.FIELD_GENERATORS[tier], 'M', OP.casingMachine.dat(MT.DATA.Electric_T[tier]));
-            CRx.overrideShaped(MTEx.gt6Registry.getItem(10140 + tier), CR.DEF_REV_NCC, "FCF", "FCF", "PMC", 'C', OD_CIRCUITS[tier], 'P', PC_NAMES[(tier - 1) / 2], 'F', IL.FIELD_GENERATORS[tier], 'M', MTEx.gt6Registry.getItem(10130+tier));
+            CRx.overrideShaped(MTEx.gt6MTEReg.getItem(10130 + tier), CR.DEF_REV_NCC, "FCF", "FCF", "PMC", 'C', OD_CIRCUITS[tier], 'P', PC_NAMES[(tier - 1) / 2], 'F', IL.FIELD_GENERATORS[tier], 'M', OP.casingMachine.dat(MT.DATA.Electric_T[tier]));
+            CRx.overrideShaped(MTEx.gt6MTEReg.getItem(10140 + tier), CR.DEF_REV_NCC, "FCF", "FCF", "PMC", 'C', OD_CIRCUITS[tier], 'P', PC_NAMES[(tier - 1) / 2], 'F', IL.FIELD_GENERATORS[tier], 'M', MTEx.gt6MTEReg.getItem(10130+tier));
         }
 
         // Quantum Energizers, Laser Absorbers
         for (int tier = 1; tier < 6; tier++) {
-            CRx.overrideShaped(MTEx.gt6Registry.getItem(10120 + tier), CR.DEF_REV_NCC, "PFC", "SME", "CFC", 'M', OP.casingMachine.dat(MT.Osmiridium), 'F', IL.FIELD_GENERATORS[tier], 'S', IL.SENSORS[tier], 'E', IL.EMITTERS[tier], 'P', PC_NAMES[(tier - 1) / 2], 'C', OD_CIRCUITS[tier]);
-            CRx.overrideShaped(MTEx.gt6Registry.getItem(10150 + tier), CR.DEF_REV_NCC, "SCW", "SMC", "SCW", 'M', OP.casingMachine.dat(MT.DATA.Electric_T[tier]), 'S', OP.plateGem.dat(ANY.Si), 'W', MT.DATA.CABLES_01[tier], 'C', OD_CIRCUITS[tier]);
+            CRx.overrideShaped(MTEx.gt6MTEReg.getItem(10120 + tier), CR.DEF_REV_NCC, "PFC", "SME", "CFC", 'M', OP.casingMachine.dat(MT.Osmiridium), 'F', IL.FIELD_GENERATORS[tier], 'S', IL.SENSORS[tier], 'E', IL.EMITTERS[tier], 'P', PC_NAMES[(tier - 1) / 2], 'C', OD_CIRCUITS[tier]);
+            CRx.overrideShaped(MTEx.gt6MTEReg.getItem(10150 + tier), CR.DEF_REV_NCC, "SCW", "SMC", "SCW", 'M', OP.casingMachine.dat(MT.DATA.Electric_T[tier]), 'S', OP.plateGem.dat(ANY.Si), 'W', MT.DATA.CABLES_01[tier], 'C', OD_CIRCUITS[tier]);
         }
 
         // ZPM dechargers
-        CRx.overrideShaped(MTEx.gt6Registry.getItem(11170), CR.DEF_REV_NCC, "PCE", "CMC", "FCF", 'C', OD_CIRCUITS[6], 'P', PC_NAMES[2], 'F', IL.FIELD_GENERATORS[6], 'M', OP.casingMachineDense.dat(MT.Osmiridium), 'E', IL.EMITTERS[6]);
-        CRx.overrideShaped(MTEx.gt6Registry.getItem(11171), CR.DEF_REV_NCC, "PCS", "CMC", "FCF", 'C', OD_CIRCUITS[6], 'P', PC_NAMES[2], 'F', IL.FIELD_GENERATORS[6], 'M', OP.casingMachineDense.dat(MT.Osmiridium), 'S', IL.SENSORS[6]);
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(11170), CR.DEF_REV_NCC, "PCE", "CMC", "FCF", 'C', OD_CIRCUITS[6], 'P', PC_NAMES[2], 'F', IL.FIELD_GENERATORS[6], 'M', OP.casingMachineDense.dat(MT.Osmiridium), 'E', IL.EMITTERS[6]);
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(11171), CR.DEF_REV_NCC, "PCS", "CMC", "FCF", 'C', OD_CIRCUITS[6], 'P', PC_NAMES[2], 'F', IL.FIELD_GENERATORS[6], 'M', OP.casingMachineDense.dat(MT.Osmiridium), 'S', IL.SENSORS[6]);
 
         // Large machines
-        CRx.overrideShaped(MTEx.gt6Registry.getItem(17100), CR.DEF_REV_NCC, "CMC", " R "       , 'M', MTEx.gt6Registry.getItem(18100), 'R', PC_NAMES[0], 'C', OD_CIRCUITS[6]);
-        CRx.overrideShaped(MTEx.gt6Registry.getItem(17102), CR.DEF_REV_NCC, "PSP", "PSP", "RMC", 'M', MTEx.gt6Registry.getItem(18002), 'R', PC_NAMES[0], 'C', OD_CIRCUITS[6], 'P', OP.plateDense.dat(MT.StainlessSteel), 'S', OP.stickLong.dat(MT.StainlessSteel));
-        CRx.overrideShaped(MTEx.gt6Registry.getItem(17103), CR.DEF_REV_NCC, "CMC", " R "       , 'M', MTEx.gt6Registry.getItem(18105), 'R', PC_NAMES[0], 'C', OD_CIRCUITS[6]);
-        CRx.overrideShaped(MTEx.gt6Registry.getItem(17104), CR.DEF_REV_NCC, "CRC", "PMP", "APA", 'M', MTEx.gt6Registry.getItem(18002), 'R', PC_NAMES[0], 'C', OD_CIRCUITS[6], 'P', OP.plateDense.dat(MT.StainlessSteel), 'A', IL.ROBOT_ARMS[2]);
-        CRx.overrideShaped(MTEx.gt6Registry.getItem(17105), CR.DEF_REV_NCC, "CRC", "PMP", "PPP", 'M', MTEx.gt6Registry.getItem(18002), 'R', PC_NAMES[0], 'C', OD_CIRCUITS[6], 'P', OP.plateDense.dat(MT.StainlessSteel));
-        CRx.overrideShaped(MTEx.gt6Registry.getItem(17106), CR.DEF_REV_NCC, "PPP", "PwP", "RMC", 'M', MTEx.gt6Registry.getItem(18007), 'R', PC_NAMES[0], 'C', OD_CIRCUITS[6], 'P', OP.plateDense.dat(MT.Invar));
-        CRx.overrideShaped(MTEx.gt6Registry.getItem(17107), CR.DEF_REV_NCC, "GGG", "SwS", "RMC", 'M', MTEx.gt6Registry.getItem(18006), 'R', PC_NAMES[0], 'C', OD_CIRCUITS[6], 'G', OP.gearGt.dat(MT.Ti), 'S', OP.stick.dat(MT.Ti));
-        CRx.overrideShaped(MTEx.gt6Registry.getItem(17108), CR.DEF_REV_NCC, "GSG", "SGS", "RMC", 'M', MTEx.gt6Registry.getItem(18003), 'R', PC_NAMES[0], 'C', OD_CIRCUITS[6], 'G', OP.gearGt.dat(MT.TungstenSteel), 'S', OP.gearGtSmall.dat(MT.TungstenSteel));
-        CRx.overrideShaped(MTEx.gt6Registry.getItem(17109), CR.DEF_REV_NCC, "SGS", "GSG", "RMC", 'M', MTEx.gt6Registry.getItem(18003), 'R', PC_NAMES[0], 'C', OD_CIRCUITS[6], 'G', OP.gearGt.dat(MT.TungstenSteel), 'S', OP.gearGtSmall.dat(MT.TungstenSteel));
-        CRx.overrideShaped(MTEx.gt6Registry.getItem(17110), CR.DEF_REV_NCC, " P ", "PAP", "RMC", 'M', MTEx.gt6Registry.getItem(18023), 'R', PC_NAMES[0], 'C', OD_CIRCUITS[6], 'P', OP.plateDense.dat(MT.TungstenSteel), 'A', IL.ROBOT_ARMS[2]);
-        CRx.overrideShaped(MTEx.gt6Registry.getItem(17112), CR.DEF_REV_NCC, "CRC", "PMP", "PPP", 'M', MTEx.gt6Registry.getItem(18022), 'R', PC_NAMES[0], 'C', OD_CIRCUITS[6], 'P', OP.plateDense.dat(MT.StainlessSteel));
-        CRx.overrideShaped(MTEx.gt6Registry.getItem(17113), CR.DEF_REV_NCC, "PPP", "CRC", "PMP", 'M', MTEx.gt6Registry.getItem(18002), 'R', PC_NAMES[0], 'C', OD_CIRCUITS[6], 'P', OP.plateDense.dat(MT.StainlessSteel));
-        CRx.overrideShaped(MTEx.gt6Registry.getItem(17114), CR.DEF_REV_NCC, "GSG", "GSG", "RMC", 'M', MTEx.gt6Registry.getItem(18009), 'R', PC_NAMES[0], 'C', OD_CIRCUITS[6], 'G', OP.gearGt.dat(ANY.Steel), 'S', OP.gearGtSmall.dat(ANY.Steel));
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(17100), CR.DEF_REV_NCC, "CMC", " R "       , 'M', MTEx.gt6MTEReg.getItem(18100), 'R', PC_NAMES[0], 'C', OD_CIRCUITS[6]);
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(17102), CR.DEF_REV_NCC, "PSP", "PSP", "RMC", 'M', MTEx.gt6MTEReg.getItem(18002), 'R', PC_NAMES[0], 'C', OD_CIRCUITS[6], 'P', OP.plateDense.dat(MT.StainlessSteel), 'S', OP.stickLong.dat(MT.StainlessSteel));
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(17103), CR.DEF_REV_NCC, "CMC", " R "       , 'M', MTEx.gt6MTEReg.getItem(18105), 'R', PC_NAMES[0], 'C', OD_CIRCUITS[6]);
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(17104), CR.DEF_REV_NCC, "CRC", "PMP", "APA", 'M', MTEx.gt6MTEReg.getItem(18002), 'R', PC_NAMES[0], 'C', OD_CIRCUITS[6], 'P', OP.plateDense.dat(MT.StainlessSteel), 'A', IL.ROBOT_ARMS[2]);
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(17105), CR.DEF_REV_NCC, "CRC", "PMP", "PPP", 'M', MTEx.gt6MTEReg.getItem(18002), 'R', PC_NAMES[0], 'C', OD_CIRCUITS[6], 'P', OP.plateDense.dat(MT.StainlessSteel));
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(17106), CR.DEF_REV_NCC, "PPP", "PwP", "RMC", 'M', MTEx.gt6MTEReg.getItem(18007), 'R', PC_NAMES[0], 'C', OD_CIRCUITS[6], 'P', OP.plateDense.dat(MT.Invar));
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(17107), CR.DEF_REV_NCC, "GGG", "SwS", "RMC", 'M', MTEx.gt6MTEReg.getItem(18006), 'R', PC_NAMES[0], 'C', OD_CIRCUITS[6], 'G', OP.gearGt.dat(MT.Ti), 'S', OP.stick.dat(MT.Ti));
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(17108), CR.DEF_REV_NCC, "GSG", "SGS", "RMC", 'M', MTEx.gt6MTEReg.getItem(18003), 'R', PC_NAMES[0], 'C', OD_CIRCUITS[6], 'G', OP.gearGt.dat(MT.TungstenSteel), 'S', OP.gearGtSmall.dat(MT.TungstenSteel));
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(17109), CR.DEF_REV_NCC, "SGS", "GSG", "RMC", 'M', MTEx.gt6MTEReg.getItem(18003), 'R', PC_NAMES[0], 'C', OD_CIRCUITS[6], 'G', OP.gearGt.dat(MT.TungstenSteel), 'S', OP.gearGtSmall.dat(MT.TungstenSteel));
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(17110), CR.DEF_REV_NCC, " P ", "PAP", "RMC", 'M', MTEx.gt6MTEReg.getItem(18023), 'R', PC_NAMES[0], 'C', OD_CIRCUITS[6], 'P', OP.plateDense.dat(MT.TungstenSteel), 'A', IL.ROBOT_ARMS[2]);
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(17112), CR.DEF_REV_NCC, "CRC", "PMP", "PPP", 'M', MTEx.gt6MTEReg.getItem(18022), 'R', PC_NAMES[0], 'C', OD_CIRCUITS[6], 'P', OP.plateDense.dat(MT.StainlessSteel));
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(17113), CR.DEF_REV_NCC, "PPP", "CRC", "PMP", 'M', MTEx.gt6MTEReg.getItem(18002), 'R', PC_NAMES[0], 'C', OD_CIRCUITS[6], 'P', OP.plateDense.dat(MT.StainlessSteel));
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(17114), CR.DEF_REV_NCC, "GSG", "GSG", "RMC", 'M', MTEx.gt6MTEReg.getItem(18009), 'R', PC_NAMES[0], 'C', OD_CIRCUITS[6], 'G', OP.gearGt.dat(ANY.Steel), 'S', OP.gearGtSmall.dat(ANY.Steel));
 
         // Logistics, Lightning rod, Bedrock Drill
-        CRx.overrideShaped(MTEx.gt6Registry.getItem(17997), CR.DEF_REV_NCC, "CCC", "PSP", "CMC", 'M', OP.casingMachine.dat(MT.SteelGalvanized), 'P', PC_NAMES[1], 'C', OD_CIRCUITS[6], 'S', SCREEN_NAMES[1]);
-        CRx.overrideShaped(MTEx.gt6Registry.getItem(17998), CR.DEF_REV_NCC, "CWC", "PMP", "CWC", 'M', OP.casingMachine.dat(ANY.W), 'W', OP.wireGt16.dat(MT.NiobiumTitanium), 'P', PC_NAMES[1], 'C', OD_CIRCUITS[6]);
-        CRx.overrideShaped(MTEx.gt6Registry.getItem(17999), CR.DEF_REV_NCC, "PYP", "CMC", "GIG", 'M', OP.casingMachineDense.dat(MT.Ti), 'G', OP.gearGt.dat(MT.TungstenSteel), 'I', OP.toolHeadDrill.dat(MT.TungstenSteel), 'P', PC_NAMES[1], 'Y', IL.CONVEYERS[5], 'C', OD_CIRCUITS[6]);
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(17997), CR.DEF_REV_NCC, "CCC", "PSP", "CMC", 'M', OP.casingMachine.dat(MT.SteelGalvanized), 'P', PC_NAMES[1], 'C', OD_CIRCUITS[6], 'S', SCREEN_NAMES[1]);
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(17998), CR.DEF_REV_NCC, "CWC", "PMP", "CWC", 'M', OP.casingMachine.dat(ANY.W), 'W', OP.wireGt16.dat(MT.NiobiumTitanium), 'P', PC_NAMES[1], 'C', OD_CIRCUITS[6]);
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(17999), CR.DEF_REV_NCC, "PYP", "CMC", "GIG", 'M', OP.casingMachineDense.dat(MT.Ti), 'G', OP.gearGt.dat(MT.TungstenSteel), 'I', OP.toolHeadDrill.dat(MT.TungstenSteel), 'P', PC_NAMES[1], 'Y', IL.CONVEYERS[5], 'C', OD_CIRCUITS[6]);
 
         // Quad Core blocks
-        CRx.overrideShaped(MTEx.gt6Registry.getItem(18200), CR.DEF_REV_NCC,"GCH", "RPH", "RMO", 'M', ILx.Motherboards[2], 'O', ILx.ComputerCase,  'R', ILx.RAMSticks[2], 'C', ILx.CPUs[2], 'P', ILx.Thermal_Paste, 'H', ILx.HDDs[2], 'G', ILx.GraphicsCards[2]);
-        CRx.overrideShaped(MTEx.gt6Registry.getItem(18201), CR.DEF_REV_NCC,"CCC", "PPP", "RMO", 'M', ILx.Motherboards[2], 'O', ILx.ComputerCase,  'R', ILx.RAMSticks[2], 'C', ILx.CPUs[2], 'P', ILx.Thermal_Paste);
-        CRx.overrideShaped(MTEx.gt6Registry.getItem(18202), CR.DEF_REV_NCC,"GC ", "GPH", "RMO", 'M', ILx.Motherboards[2], 'O', ILx.ComputerCase,  'R', ILx.RAMSticks[2], 'C', ILx.CPUs[2], 'P', ILx.Thermal_Paste, 'H', ILx.HDDs[2], 'G', ILx.GraphicsCards[2]);
-        CRx.overrideShaped(MTEx.gt6Registry.getItem(18203), CR.DEF_REV_NCC,"HCH", "HPH", "RMO", 'M', ILx.Motherboards[2], 'O', ILx.ComputerCase,  'R', ILx.RAMSticks[2], 'C', ILx.CPUs[2], 'P', ILx.Thermal_Paste, 'H', ILx.HDDs[2]);
-        CRx.overrideShaped(MTEx.gt6Registry.getItem(18204), CR.DEF_REV_NCC,"RCR", "RPR", " MO", 'M', ILx.Motherboards[2], 'O', ILx.ComputerCase,  'R', ILx.RAMSticks[2], 'C', ILx.CPUs[2], 'P', ILx.Thermal_Paste);
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(18200), CR.DEF_REV_NCC,"GCH", "RPH", "RMO", 'M', ILx.Motherboards[2], 'O', ILx.ComputerCase,  'R', ILx.RAMSticks[2], 'C', ILx.CPUs[2], 'P', ILx.Thermal_Paste, 'H', ILx.HDDs[2], 'G', ILx.GraphicsCards[2]);
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(18201), CR.DEF_REV_NCC,"CCC", "PPP", "RMO", 'M', ILx.Motherboards[2], 'O', ILx.ComputerCase,  'R', ILx.RAMSticks[2], 'C', ILx.CPUs[2], 'P', ILx.Thermal_Paste);
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(18202), CR.DEF_REV_NCC,"GC ", "GPH", "RMO", 'M', ILx.Motherboards[2], 'O', ILx.ComputerCase,  'R', ILx.RAMSticks[2], 'C', ILx.CPUs[2], 'P', ILx.Thermal_Paste, 'H', ILx.HDDs[2], 'G', ILx.GraphicsCards[2]);
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(18203), CR.DEF_REV_NCC,"HCH", "HPH", "RMO", 'M', ILx.Motherboards[2], 'O', ILx.ComputerCase,  'R', ILx.RAMSticks[2], 'C', ILx.CPUs[2], 'P', ILx.Thermal_Paste, 'H', ILx.HDDs[2]);
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(18204), CR.DEF_REV_NCC,"RCR", "RPR", " MO", 'M', ILx.Motherboards[2], 'O', ILx.ComputerCase,  'R', ILx.RAMSticks[2], 'C', ILx.CPUs[2], 'P', ILx.Thermal_Paste);
 
         // USB Switches
-        CRx.overrideShaped(MTEx.gt6Registry.getItem(19000), CR.DEF_REV_NCC, "UCU", "TMT", "UdU", 'M', OP.casingMachine.dat(MT.SteelGalvanized), 'T', OP.screw.dat(MT.SteelGalvanized), 'U', OD_USB_CABLES[3], 'C', OD_CIRCUITS[3]);
-        CRx.overrideShaped(MTEx.gt6Registry.getItem(19001), CR.DEF_REV_NCC, "CWC", "TMT", "UdU", 'M', OP.casingMachine.dat(MT.SteelGalvanized), 'T', OP.screw.dat(MT.SteelGalvanized), 'U', OD_USB_CABLES[3], 'C', OD_CIRCUITS[3], 'W', cableGt01.dat(MT.Cu));
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(19000), CR.DEF_REV_NCC, "UCU", "TMT", "UdU", 'M', OP.casingMachine.dat(MT.SteelGalvanized), 'T', OP.screw.dat(MT.SteelGalvanized), 'U', OD_USB_CABLES[3], 'C', OD_CIRCUITS[3]);
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(19001), CR.DEF_REV_NCC, "CWC", "TMT", "UdU", 'M', OP.casingMachine.dat(MT.SteelGalvanized), 'T', OP.screw.dat(MT.SteelGalvanized), 'U', OD_USB_CABLES[3], 'C', OD_CIRCUITS[3], 'W', cableGt01.dat(MT.Cu));
 
         // Logistics Buses
         CRx.overrideShaped(IL.Cover_Logistics_Fluid_Export   .get(1), CR.DEF_REV, "  w", "WQW", "CPC", 'Q', IL.Cover_Blank, 'P', SOC_NAMES[1], 'C', OD_CIRCUITS[4], 'W', OP.wireFine.dat(MT.Os));
@@ -793,18 +806,65 @@ public class Electronics extends GT6XFeature {
 
         // Matter fabs, Mol. Scanners, Matter Reps, Nanoscale Fabricators, Plantalyzers, Bumblelyzers
         for (int tier = 1; tier < 6; tier++) {
-            CRx.overrideShaped(MTEx.gt6Registry.getItem(20410 + tier), CR.DEF_REV_NCC, "PXY", "FMF", "YXY", 'M', OP.casingMachine.dat(MT.Osmiridium), 'P', PC_NAMES[2], 'X', IL.EMITTERS[tier], 'Y', IL.SENSORS[tier], 'F', IL.FIELD_GENERATORS[tier]);
+            CRx.overrideShaped(MTEx.gt6MTEReg.getItem(20410 + tier), CR.DEF_REV_NCC, "PXY", "FMF", "YXY", 'M', OP.casingMachine.dat(MT.Osmiridium), 'P', PC_NAMES[2], 'X', IL.EMITTERS[tier], 'Y', IL.SENSORS[tier], 'F', IL.FIELD_GENERATORS[tier]);
             if (tier == 3)
-                CRx.overrideShaped(MTEx.gt6Registry.getItem(20420 + tier), CR.DEF_REV_NCC, "PFY", "FMF", "YFY", 'M', OP.casingMachine.dat(MT.Osmiridium), 'P', PC_NAMES[2], 'F', IL.FIELD_GENERATORS[tier], 'Y', IL.SENSORS[tier]);
+                CRx.overrideShaped(MTEx.gt6MTEReg.getItem(20420 + tier), CR.DEF_REV_NCC, "PFY", "FMF", "YFY", 'M', OP.casingMachine.dat(MT.Osmiridium), 'P', PC_NAMES[2], 'F', IL.FIELD_GENERATORS[tier], 'Y', IL.SENSORS[tier]);
             
-            CRx.overrideShaped(MTEx.gt6Registry.getItem(20430 + tier), CR.DEF_REV_NCC, "PXH", "FMF", "HXH", 'M', OP.casingMachine.dat(MT.Osmiridium), 'P', PC_NAMES[2], 'H', OD_USB_DRIVES[4], 'X', IL.EMITTERS[tier], 'F', IL.FIELD_GENERATORS[tier]);
-            CRx.overrideShaped(MTEx.gt6Registry.getItem(20440 + tier), CR.DEF_REV_NCC, "KAX", "ZMY", "CSC", 'M', OP.casingMachine.dat(MT.DATA.Electric_T[tier]), 'C', OD_CIRCUITS[6], 'A', IL.Comp_Laser_Gas_Ar, 'K', IL.Comp_Laser_Gas_Kr, 'X', IL.Comp_Laser_Gas_Xe, 'S', PC_NAMES[(tier - 1) / 2], 'Y', IL.EMITTERS[tier], 'Z', IL.SENSORS[tier]);
-            CRx.overrideShaped(MTEx.gt6Registry.getItem(20530 + tier), CR.DEF_REV_NCC, "WXW", "ZMS", "PYC", 'M', OP.casingMachine.dat(MT.DATA.Electric_T[tier]), 'C', OD_CIRCUITS[tier], 'W', MT.DATA.CABLES_01[tier], 'P', PC_NAMES[0], 'S', SCREEN_NAMES[0], 'X', IL.EMITTERS[tier], 'Y', IL.SENSORS[tier], 'Z', OP.treeSapling);
-            CRx.overrideShaped(MTEx.gt6Registry.getItem(20540 + tier), CR.DEF_REV_NCC, "WXW", "ZMS", "PYC", 'M', OP.casingMachine.dat(MT.DATA.Electric_T[tier]), 'C', OD_CIRCUITS[tier], 'W', MT.DATA.CABLES_01[tier], 'P', PC_NAMES[0], 'S', SCREEN_NAMES[0], 'X', IL.EMITTERS[tier], 'Y', IL.SENSORS[tier], 'Z', OD.container1000honey);
+            CRx.overrideShaped(MTEx.gt6MTEReg.getItem(20430 + tier), CR.DEF_REV_NCC, "PXH", "FMF", "HXH", 'M', OP.casingMachine.dat(MT.Osmiridium), 'P', PC_NAMES[2], 'H', OD_USB_DRIVES[4], 'X', IL.EMITTERS[tier], 'F', IL.FIELD_GENERATORS[tier]);
+            CRx.overrideShaped(MTEx.gt6MTEReg.getItem(20440 + tier), CR.DEF_REV_NCC, "KAX", "ZMY", "CSC", 'M', OP.casingMachine.dat(MT.DATA.Electric_T[tier]), 'C', OD_CIRCUITS[6], 'A', IL.Comp_Laser_Gas_Ar, 'K', IL.Comp_Laser_Gas_Kr, 'X', IL.Comp_Laser_Gas_Xe, 'S', PC_NAMES[(tier - 1) / 2], 'Y', IL.EMITTERS[tier], 'Z', IL.SENSORS[tier]);
+            CRx.overrideShaped(MTEx.gt6MTEReg.getItem(20530 + tier), CR.DEF_REV_NCC, "WXW", "ZMS", "PYC", 'M', OP.casingMachine.dat(MT.DATA.Electric_T[tier]), 'C', OD_CIRCUITS[tier], 'W', MT.DATA.CABLES_01[tier], 'P', PC_NAMES[0], 'S', SCREEN_NAMES[0], 'X', IL.EMITTERS[tier], 'Y', IL.SENSORS[tier], 'Z', OP.treeSapling);
+            CRx.overrideShaped(MTEx.gt6MTEReg.getItem(20540 + tier), CR.DEF_REV_NCC, "WXW", "ZMS", "PYC", 'M', OP.casingMachine.dat(MT.DATA.Electric_T[tier]), 'C', OD_CIRCUITS[tier], 'W', MT.DATA.CABLES_01[tier], 'P', PC_NAMES[0], 'S', SCREEN_NAMES[0], 'X', IL.EMITTERS[tier], 'Y', IL.SENSORS[tier], 'Z', OD.container1000honey);
         }
 
         // Misc
         CRx.overrideShaped(IL.Tool_Scanner           .get(1), CR.DEF_REV, "EXR", "CPU", "BXB", 'B', IL.Battery_Alkaline_HV, 'X', OP.plate.dat(MT.Cr), 'U', OD_USB_STICKS[0], 'C', OD_USB_CABLES[0], 'E', IL.EMITTERS[4], 'R', IL.SENSORS[4], 'P', SOC_NAMES[0]);
         CRx.overrideShaped(IL.Aneutronic_Fusion_Empty.get(1), CR.DEF_REV, "VPV", "GFG", "VGV", 'P', SOC_NAMES[2], 'V', OP.plateGemTiny.dat(MT.Vb), 'F', IL.FIELD_GENERATORS[5], 'G', OP.foil.dat(MT.Graphene));
+    }
+
+    private void addFusionRecipes() {
+        RM.Fusion.mRecipeList.clear();
+        RM.Fusion.mRecipeItemMap.clear();
+        RM.Fusion.mRecipeFluidMap.clear();
+
+        // Terrestrial fusion candidates
+        RM.Fusion.addRecipe1(false, -8192,  730, ST.tag(1), FL.array(MT.D     .plasma(U*2, true)                           ), FL.array(MT.He_3  .plasma(  U2, false), MT.T     .plasma(  U2, false)                                                  ), ZL_IS             ).setSpecialNumber(  730L*8192L*16L);
+        RM.Fusion.addRecipe1(false, -8192, 1130, ST.tag(1), FL.array(MT.T     .plasma(U*2, true)                           ), FL.array(MT.He    .plasma(  U , false)                                                                                 ), ZL_IS             ).setSpecialNumber( 1130L*8192L*16L);
+        RM.Fusion.addRecipe1(false, -8192, 1290, ST.tag(1), FL.array(MT.He_3  .plasma(U*2, true)                           ), FL.array(MT.He    .plasma(  U , false), MT.H     .plasma(2*U , false)                                                  ), ZL_IS             ).setSpecialNumber( 1290L*8192L*16L);
+        RM.Fusion.addRecipe1(false, -8192, 1000, ST.tag(2), FL.array(MT.H     .plasma(U  , true), MT.Li_6.plasma(U  , true)), FL.array(MT.Be_7  .plasma(  U , false)                                                                                 ), ZL_IS             ).setSpecialNumber( 1000L*8192L*16L);
+        RM.Fusion.addRecipe1(false, -8192,  800, ST.tag(2), FL.array(MT.H     .plasma(U  , true), MT.Li  .plasma(U  , true)), FL.array(MT.Be_8  .plasma(  U , false)                                                                                 ), ZL_IS             ).setSpecialNumber(  800L*8192L*16L);
+        RM.Fusion.addRecipe1(false, -8192,  546, ST.tag(2), FL.array(MT.H     .plasma(U  , true), MT.B_11.plasma(U  , true)), FL.array(MT.He    .plasma(3*U , false)                                                                                 ), ZL_IS             ).setSpecialNumber( 8469L*8192L*16L);
+        RM.Fusion.addRecipe1(false, -8192,  315, ST.tag(2), FL.array(MT.H     .plasma(U  , true), MT.C   .plasma(U  , true)), FL.array(MT.C_13  .plasma(  U , false)                                                                                 ), ZL_IS             ).setSpecialNumber(  315L*8192L*16L);
+        RM.Fusion.addRecipe1(false, -8192,  754, ST.tag(2), FL.array(MT.H     .plasma(U  , true), MT.C_13.plasma(U  , true)), FL.array(MT.N     .plasma(  U , false)                                                                                 ), ZL_IS             ).setSpecialNumber(  754L*8192L*16L);
+        RM.Fusion.addRecipe1(false, -8192, 1404, ST.tag(2), FL.array(MT.H     .plasma(U*2, true), MT.N   .plasma(U  , true)), FL.array(MT.He    .plasma(  U2, false), MT.C     .plasma(  U2, false), MT.O     .plasma(  U2, false)                   ), ZL_IS             ).setSpecialNumber( 1404L*8192L*16L);
+        RM.Fusion.addRecipe1(false, -8192,  455, ST.tag(2), FL.array(MT.H     .plasma(U*2, true), MT.O   .plasma(U  , true)), FL.array(MT.He    .plasma(  U2, false), MT.F     .gas   (  U2, false), MT.N     .plasma(  U2, false)                   ), ZL_IS             ).setSpecialNumber(  455L*8192L*16L);
+        RM.Fusion.addRecipe1(false, -8192, 1760, ST.tag(2), FL.array(MT.D     .plasma(U  , true), MT.T   .plasma(U  , true)), FL.array(MT.He    .plasma(  U , false)                                                                                 ), ZL_IS             ).setSpecialNumber( 1760L*8192L*16L);
+        RM.Fusion.addRecipe1(false, -8192, 1830, ST.tag(2), FL.array(MT.D     .plasma(U  , true), MT.He_3.plasma(U  , true)), FL.array(MT.He    .plasma(  U , false), MT.H     .plasma(  U , false)                                                  ), ZL_IS             ).setSpecialNumber( 1830L*8192L*16L);
+        RM.Fusion.addRecipe1(false, -8192, 2640, ST.tag(2), FL.array(MT.T     .plasma(U  , true), MT.He_3.plasma(U  , true)), FL.array(MT.He    .plasma(3*U4, false), MT.D     .plasma(  U4, false)                                                  ), ZL_IS             ).setSpecialNumber( 2640L*8192L*16L);
+        RM.Fusion.addRecipe1(false, -8192, 3336, ST.tag(2), FL.array(MT.D     .plasma(U  , true), MT.Li_6.plasma(U  , true)), FL.array(MT.He    .plasma(3*U8, false), MT.He_3  .plasma(  U8, false), MT.Li    .plasma(  U8, false), MT.Be_7  .plasma(  U8, false)), ZL_IS ).setSpecialNumber( 3336L*8192L*16L);
+        RM.Fusion.addRecipe1(false, -8192, 1690, ST.tag(2), FL.array(MT.He_3  .plasma(U  , true), MT.Li_6.plasma(U  , true)), FL.array(MT.He    .plasma(2*U , false), MT.H     .plasma(  U , false)                                                  ), ZL_IS             ).setSpecialNumber( 1690L*8192L*16L);
+
+        // Triple-alpha
+        RM.Fusion.addRecipe1(false, 0    , 1890, ST.tag(1), FL.array(MT.He    .plasma(U*2, true)                           ), FL.array(MT.Be_8  .plasma(  U , false)                                                                                 ), ZL_IS             ).setSpecialNumber( 1890L*8192L*16L);
+        RM.Fusion.addRecipe1(false, -8192,  736, ST.tag(2), FL.array(MT.He    .plasma(U  , true), MT.Be_8.plasma(U  , true)), FL.array(MT.C     .plasma(  U , false)                                                                                 ), ZL_IS             ).setSpecialNumber(  736L*8192L*16L);
+
+        // alpha capture process
+        RM.Fusion.addRecipe1(false, -8192,  716, ST.tag(2), FL.array(MT.He    .plasma(U  , true), MT.C   .plasma(U  , true)), FL.array(MT.O     .plasma(  U , false)                                                                                 ), ZL_IS             ).setSpecialNumber(  716L*8192L*16L);
+        RM.Fusion.addRecipe1(false, -8192,  473, ST.tag(2), FL.array(MT.He    .plasma(U  , true), MT.O   .plasma(U  , true)), FL.array(MT.Ne    .gas   (  U , false)                                                                                 ), ZL_IS             ).setSpecialNumber(  473L*8192L*16L);
+        RM.Fusion.addRecipe1(false, -8192,  932, ST.tag(2), FL.array(MT.He    .plasma(U  , true), MT.Ne  .gas   (U  , true)), FL.array(MT.Mg    .liquid(  U , false)                                                                                 ), ZL_IS             ).setSpecialNumber(  932L*8192L*16L);
+        RM.Fusion.addRecipe1(false, -8192,  998, ST.tag(2), FL.array(MT.He    .plasma(U  , true), MT.Mg  .gas   (U  , true)), FL.array(MT.Si    .liquid(  U , false)                                                                                 ), ZL_IS             ).setSpecialNumber(  998L*8192L*16L);
+        RM.Fusion.addRecipe1(false, -8192,  695, ST.tag(2), FL.array(MT.He    .plasma(U  , true), MT.Si  .liquid(U  , true)), FL.array(MT.S     .liquid(  U , false)                                                                                 ), ZL_IS             ).setSpecialNumber(  695L*8192L*16L);
+        RM.Fusion.addRecipe1(false, -8192,  664, ST.tag(2), FL.array(MT.He    .plasma(U  , true), MT.S   .liquid(U  , true)), FL.array(MT.Ar    .gas   (  U , false)                                                                                 ), ZL_IS             ).setSpecialNumber(  664L*8192L*16L);
+        RM.Fusion.addRecipe1(false, -8192,  704, ST.tag(2), FL.array(MT.He    .plasma(U  , true), MT.Ar  .gas   (U  , true)), FL.array(MT.Ca    .liquid(  U , false)                                                                                 ), ZL_IS             ).setSpecialNumber(  704L*8192L*16L);
+        RM.Fusion.addRecipe1(false, -8192,  513, ST.tag(2), FL.array(MT.He    .plasma(U  , true), MT.Ca  .liquid(U  , true)), FL.array(MT.Ti    .liquid(  U , false)                                                                                 ), ZL_IS             ).setSpecialNumber(  513L*8192L*16L);
+        RM.Fusion.addRecipe1(false, -8192,  770, ST.tag(2), FL.array(MT.He    .plasma(U  , true), MT.Ti  .liquid(U  , true)), FL.array(MT.Cr    .liquid(  U , false)                                                                                 ), ZL_IS             ).setSpecialNumber(  770L*8192L*16L);
+        RM.Fusion.addRecipe1(false, -8192,  794, ST.tag(2), FL.array(MT.He    .plasma(U  , true), MT.Cr  .liquid(U  , true)), FL.array(MT.Fe    .liquid(  U , false)                                                                                 ), ZL_IS             ).setSpecialNumber(  794L*8192L*16L);
+        RM.Fusion.addRecipe1(false, -8192,  800, ST.tag(2), FL.array(MT.He    .plasma(U  , true), MT.Fe  .liquid(U  , true)), FL.array(MT.Ni    .liquid(  U , false)                                                                                 ), ZL_IS             ).setSpecialNumber(  800L*8192L*16L);
+
+        // Burning carbon, oxygen
+        RM.Fusion.addRecipe1(false, -8192,  685, ST.tag(1), FL.array(MT.C     .plasma(U*2, true)), FL.array(MT.Na.liquid(U4, false), MT.Ne.gas(U4, false), MT.Mg.gas(U4, false), MT.O.plasma(U4, false), MT.He.plasma(3*U4, false), MT.H.plasma(U4, false)), ZL_IS).setSpecialNumber( 685L*8192L*16L);
+        RM.Fusion.addRecipe1(false, -8192,  807, ST.tag(1), FL.array(MT.O     .plasma(U*2, true)), FL.array(MT.Si.liquid(U4, false), MT.P .gas(U4, false), MT.Mg.gas(U4, false), MT.S.liquid(U4, false), MT.He.plasma(3*U4, false), MT.H.plasma(U4, false)), ZL_IS).setSpecialNumber( 807L*8192L*16L);
+
+        // Vibranium
+        RM.Fusion.addRecipe1(false, -8192, 1956, ST.tag(2), FL.array(MT.Ad    .liquid(U  , true), MT.Be_7.plasma(U  , true)), FL.array(MT.W     .liquid(  U , false), MT.He.plasma(16*U, false), MT.He_3.plasma(24*U, false),MT.T.plasma(24*U, false)), dust.mat(MT.Vb, 1)).setSpecialNumber(94956L*8192L*16L);
     }
 }
