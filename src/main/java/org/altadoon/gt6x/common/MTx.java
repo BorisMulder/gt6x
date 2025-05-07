@@ -13,6 +13,8 @@ import gregapi.util.UT;
 import net.minecraft.enchantment.Enchantment;
 import org.altadoon.gt6x.Gt6xMod;
 
+import java.util.HashMap;
+
 import static gregapi.data.CS.*;
 import static gregapi.data.TD.Atomic.CHALCOGEN;
 import static gregapi.data.TD.Atomic.POLYATOMIC_NONMETAL;
@@ -27,6 +29,10 @@ import static gregapi.render.TextureSet.SET_FINE;
 /** Materials for GT6X */
 public class MTx {
     public static final HashSetNoNulls<OreDictMaterial> ALL_MATERIALS_REGISTERED_HERE = new HashSetNoNulls<>();
+
+    public static HashMap<OreDictMaterial, OreDictMaterial> REE_TRIOXIDES = new HashMap<>();
+    public static HashMap<OreDictMaterial, OreDictMaterial> REE_OXALATES = new HashMap<>();
+    public static HashMap<OreDictMaterial, OreDictMaterial> REE_FLUORIDES = new HashMap<>();
 
     public static void touch() {}
 
@@ -162,10 +168,12 @@ public class MTx {
 
         MT.Indigo.uumMcfg(1, MT.C, 16*U, MT.H, 10*U, MT.N, 2*U, MT.O, 2*U)
                 .heat(391).setRGBa(75, 0, 130, 255);
-        MT.Sc.hide(false);
-        MT.Eu.hide(false);
-        MT.Te.hide(false);
-        MT.Tl.hide(false);
+
+        for (OreDictMaterial mat : new OreDictMaterial[]{MT.Sc, MT.Te, MT.Tl, MT.Pr, MT.Sm, MT.Eu, MT.Gd, MT.Tb, MT.Dy, MT.Ho, MT.Er, MT.Tm, MT.Yb, MT.Lu}) {
+            mat.hide(false);
+            mat.setRGBa(180, 180, 180, 255);
+        }
+
         registerLiquid(MT.BioFuel.hide(false));
 
         MT.OREMATS.Wolframite.setLocal("Magnesium Tungstate").addSourceOf(MT.Mg);
@@ -254,6 +262,23 @@ public class MTx {
     public static OreDictMaterial alloy(int id, String nameOreDict, TextureSet[] aSets, long r, long g, long b, Object... randomData) { return create(id, nameOreDict, r, g, b, 255, randomData).setTextures(aSets).put(DECOMPOSABLE, ALLOY, G_DUST, INGOTS, MELTING, EXTRUDER); }
     public static OreDictMaterial alloymachine(int id, String nameOreDict, TextureSet[] aSets, long r, long g, long b, Object... randomData) { return machine(id, nameOreDict, aSets, r, g, b, 255, randomData).put(ALLOY); }
     public static OreDictMaterial plastic(int id, String nameOreDict, TextureSet[] aSets, long r, long g, long b, long a, Object... randomData) { return create(id, nameOreDict, r, g, b, a, randomData).setTextures(aSets).put(G_INGOT_MACHINE, MELTING, EXTRUDER, EXTRUDER_SIMPLE, MORTAR, FURNACE, POLYMER).addReRegistrationToThis(MT.Plastic); }
+
+    public static OreDictMaterial ree2o3(int id, OreDictMaterial ree, long r, long g, long b) {
+        OreDictMaterial mat = dustdcmp(id, ree.mNameLocal + "(III) Oxide", SET_DULL, r, g, b, 255)
+                .uumMcfg(2, ree, 2*U, MT.O, 3*U)
+                .put(ree.mNameLocal + " Sesquioxide");
+        REE_TRIOXIDES.put(ree, mat);
+        return mat;
+    }
+
+    public static OreDictMaterial reeOxalate(int id, OreDictMaterial ree, Object... randomData) {
+        OreDictMaterial mat = dustdcmp(id, ree.mNameLocal + " Oxalate", SET_DULL, 255, 255, 255, 255, randomData)
+                .uumMcfg(0, ree, 2*U, MT.C, 6*U, MT.O, 12*U)
+                .heat(850+C)
+                .setSmelting(REE_TRIOXIDES.get(ree), U2);
+        REE_OXALATES.put(ree, mat);
+        return mat;
+    }
 
     public static OreDictMaterial semiconductor(int id, String nameOreDict, long r, long g, long b, boolean genBoules) {
         return semiconductor(id, nameOreDict, r, g, b, true, true, genBoules);
@@ -840,8 +865,7 @@ public class MTx {
             .heat(470, 523),
     RedMud = oredustdcmp(16158, "Red Mud", SET_ROUGH, 179, 62, 30, 255)
             .heat(MT.Fe2O3),
-    Sc2O3 = dustdcmp(16159, "Scandium(III) Oxide", SET_FINE, 255, 255, 255, 255)
-            .setMcfg(0, MT.Sc, 2*U, MT.O, 3*U)
+    Sc2O3 = ree2o3(16159, MT.Sc, 255, 255, 255)
             .heat(2758),
     ScF3 = dustdcmp(16160, "Scandium Fluoride", SET_FINE, 200, 255, 200, 255)
             .setMcfg(0, MT.Sc, U, MT.F, 3*U)
@@ -988,8 +1012,8 @@ public class MTx {
     CF4 = registerGas(gasdcmp(16211, "Tetrafluoromethane", 200, 255, 255, 200)
             .setMcfg(1, MT.C, U, MT.F, 4*U)
             .heat(89, 145)),
-    Y2O3 = dustdcmp(16212, "Yttria", SET_SHINY, 255, 255, 255, 255, GEMS)
-            .setMcfg(2, MT.Y, 2*U, MT.O, 3*U)
+    Y2O3 = ree2o3(16212, MT.Y, 255, 255, 255)
+            .setLocal("Yttria")
             .heat(2698, 4570),
     YAlO3 = machine(16213, "Yttria-Alumina", SET_DULL, 200, 255, 255, 255, PIPES)
             .setMcfg(0, MT.Al2O3, 5*U, Y2O3, 2*U)
@@ -1212,10 +1236,7 @@ public class MTx {
             .heat(CdS),
     WhitePhosphor = dustdcmp(16293, "White Phosphor", SET_RAD, 255, 255, 255, 255)
             .heat(MT.PhosphorusWhite),
-    Eu2O3 = dustdcmp(16294, "Europium Oxide", SET_FINE, 255, 240, 253, 255)
-            .setLocal("Europium (III) Oxide")
-            .uumMcfg(0, MT.Eu, 2*U, MT.O, 3*U)
-            .heat(2620, 4391),
+    //TODO 16294 free
     BaS = dustdcmp(16295, "Barium Sulfide", SET_DULL, 255, 255, 255, 255)
             .uumMcfg(1, MT.Ba, U, MT.S, U)
             .heat(2508),
@@ -1529,10 +1550,7 @@ public class MTx {
             .setMcfg(15, ZrO2, 10*U, Y2O3, 2*U)
             .heat(ZrO2)
             .setLocal("Yttria-Stabilized Zirconia"),
-    La2O3 = dustdcmp(16417, "Lanthana", SET_ROUGH, 255, 255, 255, 255)
-            .setMcfg(2, MT.La, 2*U, MT.O, 3*U)
-            .setDensity(6.51)
-            .heat(2588, 4470),
+    //TODO 16417 free
     LaNO3 = dustdcmp(16418, "Lanthanum Nitrate", SET_ROUGH, 255, 255, 255, 255)
             .setMcfg(10, MT.La, U, MT.N, 3*U, MT.O, 9*U)
             .tooltip("La(NO" + NUM_SUB[3] + ")" + NUM_SUB[3])
@@ -1596,7 +1614,7 @@ public class MTx {
     OH = create(16435, "Hydroxide").setMcfg(0, MT.O, U, MT.H, U).put(ANION, DECOMPOSABLE),
     SO4 = create(16436, "Sulfate").setMcfg(0, MT.S, U, MT.O, 4*U).put(ANION, DECOMPOSABLE),
     NO3 = create(16437, "Nitrate").setMcfg(0, MT.N, U, MT.O, 3*U).put(ANION, DECOMPOSABLE),
-
+    //TODO 16438 free
     DiluteHCl = registerLiquid(lqudaciddcmp(16439, "Dilute Hydrochloric Acid", 100, 255, 200, 200)
             .setMcfg(0, MT.HCl, U, MT.H2O, 3*U)
             .heat(MT.H2O)),
@@ -1606,9 +1624,7 @@ public class MTx {
             .heat(MT.H2O)),
     DecatWater = registerLiquid(lqudaciddcmp(16443, "Decationized Water", 248, 255, 240, 255)
             .heat(MT.H2O)),
-    REE2O3 = dustdcmp(16444, "Rare-Earth Oxide", SET_ROUGH, 255, 255, 255, 255)
-            .setMcfg(2, MT.RareEarth, 2*U, MT.O, 3*U)
-            .heat(La2O3),
+    REE2O3 = ree2o3(16444, MT.RareEarth, 255, 255, 255).heat(2450, 4000),
     REORoasted = dustdcmp(16445, "Roasted Rare-Earth Oxide", SET_ROUGH, 255, 255, 255, 255)
             .setMcfg(0, CeO2, 3*U, REE2O3, 2*U)
             .heat(REE2O3),
@@ -1628,17 +1644,44 @@ public class MTx {
             .setMcfg(1, MT.C, 10*U, MT.H, 16*U, MT.N, 2*U, MT.O, 8*U)
             .heat(237+C),
     Na4EDTA = dustdcmp(16452, "Tetrasodium EDTA", SET_QUARTZ, 255, 255, 255, 255)
-            .setMcfg(1, MT.C, 10*U, MT.H, 12*U, MT.N, 2*U, MT.O, 8*U, MT.Na, 4*U)
+            .setMcfg(1, MT.Na, 4*U, EDTA, U)
             .heat(300+C),
-    REEEDTA = create(16453, "Rare-Earth EDTA Complex")
-            .setMcfg(0, MT.RareEarth, U, EDTA, U)
-            .put(ANION),
-    Ce2O3 = dustdcmp(16454, "Cerium(III) Oxide", SET_ROUGH, 235, 255, 200, 255, "Cerium Sesquioxide")
-            .setMcfg(2, MT.Ce, 2*U, MT.O, 3*U)
-            .heat(2450, 4000),
-    Ce2S3 = dustdcmp(16455, "Cerium(III) Sulfide", SET_FINE, 255, 0, 0, 255)
+    NH4OH = solution(16453, "Ammonia Solution", 150, 200, 255, 200, MT.NH3, 3),
+    La2O3 = ree2o3(16454, MT.La, 255, 255, 255).heat(2588, 4470).setDensity(6.51),
+    Ce2O3 = ree2o3(16455, MT.Ce, 235, 255, 200).heat(2450, 4000),
+    Pr2O3 = ree2o3(16456, MT.Pr, 205, 255, 235).heat(2456, 4030),
+    Nd2O3 = ree2o3(16457, MT.Nd, 200, 200, 225).heat(2506, 4030),
+    Sm2O3 = ree2o3(16458, MT.Sm, 255, 255, 225).heat(2608),
+    Eu2O3 = ree2o3(16459, MT.Eu, 255, 240, 253).heat(2620, 4391),
+    Gd2O3 = ree2o3(16460, MT.Gd, 255, 255, 255).heat(2690),
+    Tb2O3 = ree2o3(16461, MT.Tb, 255, 255, 255).heat(2680),
+    Dy2O3 = ree2o3(16462, MT.Dy, 240, 255, 210).heat(2681),
+    Ho2O3 = ree2o3(16463, MT.Ho, 255, 210, 200).heat(2688, 4170),
+    Er2O3 = ree2o3(16464, MT.Er, 255, 180, 200).heat(2617, 3560),
+    Tm2O3 = ree2o3(16465, MT.Tm, 200, 255, 200).heat(2614, 4218),
+    Yb2O3 = ree2o3(16465, MT.Yb, 255, 255, 255).heat(2628, 4340),
+    Lu2O3 = ree2o3(16467, MT.Lu, 255, 255, 255).heat(2760, 4250),
+    Y2C2O4  = reeOxalate(16468, MT.Y),
+    La2C2O4 = reeOxalate(16469, MT.La),
+    Ce2C2O4 = reeOxalate(16470, MT.Ce),
+    Pr2C2O4 = reeOxalate(16471, MT.Pr),
+    Nd2C2O4 = reeOxalate(16472, MT.Nd),
+    Sm2C2O4 = reeOxalate(16473, MT.Sm),
+    Eu2C2O4 = reeOxalate(16474, MT.Eu),
+    Gd2C2O4 = reeOxalate(16475, MT.Gd),
+    Tb2C2O4 = reeOxalate(16476, MT.Tb),
+    Dy2C2O4 = reeOxalate(16477, MT.Dy),
+    Ho2C2O4 = reeOxalate(16478, MT.Ho),
+    Er2C2O4 = reeOxalate(16479, MT.Er),
+    Tm2C2O4 = reeOxalate(16480, MT.Tm),
+    Yb2C2O4 = reeOxalate(16481, MT.Yb),
+    Lu2C2O4 = reeOxalate(16482, MT.Lu),
+    //TODO ReeF3
+
+    Ce2S3 = dustdcmp(16483, "Cerium(III) Sulfide", SET_FINE, 255, 0, 0, 255)
             .setMcfg(2, MT.Ce, 2*U, MT.S, 3*U)
-            .heat(2160, 2300+C)
+            .heat(2160, 2300+C),
+    EDTASolution = simpleSolution(16484, EDTA, 3)
     ;
 
     @SuppressWarnings("unused")
