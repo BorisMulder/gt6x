@@ -197,7 +197,8 @@ public class BasicChemistry extends GT6XFeature {
         }
 
         // Haber-Bosch process
-        RM.Mixer.addRecipe1(true, 64, 50, dust.mat(MT.Fe, 0), FL.array(MT.H.gas(3*U, true), MT.N.gas(U, true)), FL.array(MT.NH3.gas(U, false)));
+        RM.Mixer.addRecipe1(true, 64, 50, dust.mat(MTx.FeO, 0), FL.array(MT.H.gas(3*U, true), MT.N.gas(U, true)), FL.array(MT.NH3.gas(U, false)));
+        RM.Mixer.addRecipe2(true, 16, 50, dust.mat(MT.Ru, 0),  dust.mat(MTx.La2O3, 0), FL.array(MT.H.gas(3*U, true), MT.N.gas(U, true)), FL.array(MT.NH3.gas(U, false)));
 
         // Ostwald Process
         RM.Mixer.addRecipe1(true, 16, 500, dust.mat(MT.Pt, 0), FL.array(MT.NH3.gas(4*U, true), MT.O.gas(10*U, true)), FL.array(MT.NO.gas(8*U, false), MT.H2O.liquid(18*U, false)));
@@ -334,7 +335,7 @@ public class BasicChemistry extends GT6XFeature {
         // mixing misc solutions
         for (FluidStack water : FL.waters(3000)) {
             RM.Mixer.addRecipe2(true, 16, 192, ST.tag(2), dust.mat(MT.FeCl3, 4), FL.mul(water, 3, 2, true), MTx.FeCl3Solution.liquid(17 * U2, false), NI);
-            RM.Mixer.addRecipe1(true, 16, 16, ST.tag(2), FL.array(MT.NH3.gas(U, true), water), FL.array(MTx.NH4OH.liquid(4*U, false)));
+            // RM.Mixer.addRecipe1(true, 16, 16, ST.tag(2), FL.array(MT.NH3.gas(U, true), water), FL.array(MTx.NH4OH.liquid(4*U, false)));
             RM.Mixer.addRecipe1(true, 16, 192, ST.tag(2), FL.array(MT.H2SO4.liquid(7 * U, true), water), FL.array(MTx.DiluteH2SO4.liquid(10 * U, false)));
             RM.Mixer.addRecipe1(true, 16, 192, ST.tag(2), FL.array(MT.HCl.gas(2 * U, true), water), FL.array(MTx.ConcHCl.liquid(5 * U, false)));
             RM.Mixer.addRecipe1(true, 16, 192, ST.tag(3), FL.array(MT.HCl.gas(2 * U, true), FL.mul(water, 2)), FL.array(MTx.DiluteHCl.liquid(8 * U, false)));
@@ -347,7 +348,7 @@ public class BasicChemistry extends GT6XFeature {
 
         // drying misc solutions
         RM.Drying    .addRecipe0(true, 16, 18000, MTx.FeCl3Solution .liquid(17*U, true ), MT.DistWater.liquid(9*U, false), dust.mat(MT.FeCl3, 8));
-        RM.Drying    .addRecipe0(true, 16, 6000, FL.array(MTx.NH4OH.liquid(4*U, true)), FL.array(MT.DistWater.liquid(3*U, false), MT.NH3.gas(U, false)));
+        // RM.Drying    .addRecipe0(true, 16, 6000, FL.array(MTx.NH4OH.liquid(4*U, true)), FL.array(MT.DistWater.liquid(3*U, false), MT.NH3.gas(U, false)));
         RM.Drying    .addRecipe0(true, 16, 6000, FL.array(MTx.DiluteH2SO4.liquid(10*U, true)), FL.array(MT.DistWater.liquid(3*U, false), MT.H2SO4.liquid(7*U, false)));
         RM.Distillery.addRecipe1(true, 16, 6000, ST.tag(0), FL.array(MTx.DiluteH2SO4.liquid(10*U, true)), FL.array(MT.DistWater.liquid(3*U, false), MT.H2SO4.liquid(7*U, false)));
         RM.Drying    .addRecipe0(true, 16, 6000, FL.array(MTx.ConcHCl.liquid(5*U, true)), FL.array(MT.DistWater.liquid(3*U, false), MT.HCl.gas(2*U, false)));

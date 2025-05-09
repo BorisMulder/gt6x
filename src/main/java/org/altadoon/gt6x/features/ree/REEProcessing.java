@@ -58,6 +58,9 @@ public class REEProcessing  extends GT6XFeature {
         }
         RM.Mixer.addRecipe1(true, 16, 64, ST.tag(3), FL.array(MTx.NaCNSolution.liquid(24*U, true), MTx.EthyleneDiamine.liquid(U, true), MTx.Formaldehyde.gas(4*U, true)), FL.array(MT.NH3.gas(4*U, false)), dust.mat(MTx.Na4EDTA, 1));
         RM.Bath.addRecipe1(true, 0, 64, dust.mat(MTx.Na4EDTA, 1), MTx.DiluteHCl.liquid(32*U, true), MT.SaltWater.liquid(32*U, false), dust.mat(MTx.EDTA, 1));
+        RM.Mixer.addRecipe1(true, 16, 32, ST.tag(2), FL.array(MTx.EDTASolution.liquid(4*U, true), MT.NH3.gas(U, true)), FL.array(MTx.NH4EDTASolution.liquid(5*U, false)));
+        for (FluidStack water : FL.waters(3000))
+            RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.EDTA, 1), FL.array(water, MT.NH3.gas(U, true)), FL.array(MTx.NH4EDTASolution.liquid(5*U, false)));
 
         // IX of REE
         RM.Bath.addRecipe1(true, 0, 256, OPx.cationXResin.mat(MT.H, 3), FL.array(MTx.REECl3Solution.liquid(13*U, true)), FL.array(MTx.ConcHCl.liquid(15*U, false)), OPx.cationXResin.mat(MT.Lu, 3));
@@ -68,7 +71,7 @@ public class REEProcessing  extends GT6XFeature {
         //TODO fix ratios
         //TODO rename cation resin item to indicate range of elements + ammonium
         for (int i = 0; i < ree.length - 1; i++) {
-            RM.Bath.addRecipe2(true, 0, 256, OPx.cationXResin.mat(ree[i], 16), dust.mat(MTx.EDTA, 1), MTx.NH4OH.liquid(4*U, true), FLx.ReeEdta(ree[i], 4000), OPx.cationXResin.mat(ree[i+1], 16));
+            RM.Bath.addRecipe1(true, 0, 256, OPx.cationXResin.mat(ree[i], 16), MTx.NH4EDTASolution.liquid(5*U, true), FLx.ReeEdta(ree[i], 4000), OPx.cationXResin.mat(ree[i+1], 16));
             RM.Bath.addRecipe1(true, 0, 64, dust.mat(MTx.OxalicAcid, 24), FLx.ReeEdta(ree[i], 8000), MTx.EDTASolution.liquid(8*U, false), dust.mat(MTx.REE_OXALATES.get(ree[i]), 20));
             RMx.Thermolysis.addRecipe1(true, 16, 96, dust.mat(MTx.REE_OXALATES.get(ree[i]), 20), ZL_FS, FL.array(MT.CO.gas(6*U, false), MT.CO2.gas(9*U, false)), dust.mat(MTx.REE_TRIOXIDES.get(ree[i]), 2));
             if (ree[i] == MT.Sm || ree[i] == MT.Eu || ree[i] == MT.Tm || ree[i] == MT.Yb) {
@@ -81,6 +84,7 @@ public class REEProcessing  extends GT6XFeature {
             }
         }
 
-        //TODO LuAG lenses for high end lithography
+        //TODO alloyed Nd/Sm-Co magnets
+        //TODO LuAG lenses for high end (DUV) immersion lithography
     }
 }
