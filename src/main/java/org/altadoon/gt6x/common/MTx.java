@@ -164,7 +164,7 @@ public class MTx {
             if (mat.containsAll(TD.Atomic.ELEMENT, TD.Atomic.METAL))
                 mat.put(CATION);
         }
-        MT.H.put(CATION); MT.Ge.put(CATION); MT.Sb.put(CATION);
+        MT.H.put(CATION); MT.Ge.put(CATION); MT.Sb.put(CATION); MT.RareEarth.put(CATION);
 
         MT.Indigo.uumMcfg(1, MT.C, 16*U, MT.H, 10*U, MT.N, 2*U, MT.O, 2*U)
                 .heat(391).setRGBa(75, 0, 130, 255);
@@ -1641,7 +1641,7 @@ public class MTx {
     REEHydroxide = dustdcmp(16448, "Rare-Earth Hydroxide Residue", SET_ROUGH, 180, 200, 100, 255)
             .setMcfg(0, MT.RareEarth, 4*U, MT.Th, U, OH, 15*U)
             .heat(330+C),
-    ThO2 = dustdcmp(16449, "Thorium Dioxide", SET_RAD, 180, 220, 0, 255)
+    ThO2 = oredustdcmp(16449, "Thorium Dioxide", SET_RAD, 180, 220, 0, 255)
             .uumMcfg(0, MT.Th, U, MT.O, 2*U)
             .heat(3620, 4670),
     EthyleneDiamine = registerLiquid(lquddcmp(16450, "Ethylenediamine", 255, 255, 255, 255)
@@ -1699,8 +1699,18 @@ public class MTx {
             .setMcfg(2, MT.Ce, 2*U, MT.S, 3*U)
             .heat(2160, 2300+C),
     NH4EDTASolution = registerLiquid(lquddcmp(16495, "Ammonia-buffered EDTA solution", 240, 240, 255, 200)
-            .setMcfg(0, MT.NH3, U, EDTA, U, MT.H2O, 3*U)
-            .heat(MT.H2O))
+            .setMcfg(4, NH4, U, MT.H, 3*U, EDTA, U, MT.H2O, 3*U)
+            .heat(MT.H2O)),
+    Xenotime = oredustdcmp(16496, "Xenotime", SET_CUBE, 56, 47, 0, 255)
+            .uumMcfg(0, MT.Y, U, MT.P, U, MT.O, 4*U)
+            .heat(MT.Monazite),
+    HREE = create(16497, "Heavy Rare Earth").put(CATION),
+    HREECl3 = create(16446, "Heavy Rare-Earth Chloride", 200, 255, 210, 255)
+            .setMcfg(0, HREE, U, MT.Cl, 3*U),
+    HREECl3Solution = solution(16447, "Heavy Rare-Earth Chloride Solution", 200, 255, 210, 255, HREECl3, 9),
+    HREEHydroxide = dustdcmp(16448, "Heavy Rare-Earth Hydroxide Residue", SET_ROUGH, 180, 200, 100, 255)
+            .setMcfg(0, HREE, 4*U, MT.Th, U, OH, 15*U)
+            .heat(330+C)
     ;
 
     @SuppressWarnings("unused")

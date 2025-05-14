@@ -1,15 +1,18 @@
 package org.altadoon.gt6x.features.ree;
 
-import gregapi.data.FL;
-import gregapi.data.MT;
-import gregapi.data.RM;
-import gregapi.data.TD;
+import gregapi.data.*;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.util.OM;
 import gregapi.util.ST;
+import gregapi.worldgen.WorldgenObject;
+import gregapi.worldgen.WorldgenOresLarge;
 import net.minecraftforge.fluids.FluidStack;
 import org.altadoon.gt6x.common.*;
 import org.altadoon.gt6x.features.GT6XFeature;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.ListIterator;
 
 import static gregapi.data.CS.*;
 import static gregapi.data.OP.dust;
@@ -21,6 +24,7 @@ public class REEProcessing  extends GT6XFeature {
     @Override public void preInit() {
         MT.OREMATS.Bastnasite.remove(TD.Processing.ELECTROLYSER);
         MT.Monazite.remove(TD.Processing.ELECTROLYSER);
+        changeByProducts();
     }
 
     @Override
@@ -29,7 +33,9 @@ public class REEProcessing  extends GT6XFeature {
     }
 
     @Override
-    public void postInit() {}
+    public void postInit() {
+        overrideWorldgen();
+    }
 
     private void addRecipes() {
         RM.Roasting.addRecipe1(true, 16, 128, dust.mat(MT.Y, 1), MT.O.gas(3*U2, true), NF, dust.mat(MTx.Y2O3, 1));
@@ -47,9 +53,11 @@ public class REEProcessing  extends GT6XFeature {
         RM.Roasting.addRecipe1(true, 16, 64, dust.mat(MTx.REE2O3, 1), MT.O.gas(U10, true), NF, dust.mat(MTx.REORoasted, 1));
         RM.Bath.addRecipe1(true, 0, 200, dust.mat(MTx.REORoasted, 5), FL.array(MTx.ConcHCl.liquid(30*U, true)), FL.array(MTx.REECl3Solution.liquid(26*U, false), MT.H2O.liquid(6*U, false)), dust.mat(MTx.CeO2, 3));
 
-        // Monazite
+        // Monazite, Xenotime
         RM.Bath.addRecipe1(true, 0, 600, dust.mat(MT.Monazite, 5*6), FL.array(MTx.NaOHSolution.liquid(15*6*U, true)), FL.array(MTx.Na3PO4Solution.liquid(5*14*U, false), MT.H2O.liquid(15*U, false)), dust.mat(MTx.REEHydroxide, 35));
+        RM.Bath.addRecipe1(true, 0, 600, dust.mat(MTx.Xenotime, 5*6), FL.array(MTx.NaOHSolution.liquid(15*6*U, true)), FL.array(MTx.Na3PO4Solution.liquid(5*14*U, false), MT.H2O.liquid(15*U, false)), dust.mat(MTx.HREEHydroxide, 35));
         RM.Bath.addRecipe1(true, 0, 600, dust.mat(MTx.REEHydroxide, 35), FL.array(MTx.ConcHCl.liquid(60*U, true)), FL.array(MTx.REECl3Solution.liquid(52*U, false), MT.H2O.liquid(13*3*U, false)), dust.mat(MTx.ThO2, 3)); // + 1 H from Th oxidation
+        RM.Bath.addRecipe1(true, 0, 600, dust.mat(MTx.HREEHydroxide, 35), FL.array(MTx.ConcHCl.liquid(60*U, true)), FL.array(MTx.HREECl3Solution.liquid(52*U, false), MT.H2O.liquid(13*3*U, false)), dust.mat(MTx.ThO2, 3)); // + 1 H from Th oxidation
 
         // EDTA
         for (FluidStack water : FL.waters(12000)) {
@@ -63,9 +71,12 @@ public class REEProcessing  extends GT6XFeature {
             RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.EDTA, 1), FL.array(water, MT.NH3.gas(U, true)), FL.array(MTx.NH4EDTASolution.liquid(5*U, false)));
 
         // IX of REE
-        RM.Bath.addRecipe1(true, 0, 256, OPx.cationXResin.mat(MT.H, 3), FL.array(MTx.REECl3Solution.liquid(13*U, true)), FL.array(MTx.ConcHCl.liquid(15*U, false)), OPx.cationXResin.mat(MT.Lu, 3));
+        RM.Bath.addRecipe1(true, 0, 256, OPx.cationXResin.mat(MT.H, 3), FL.array(MTx.REECl3Solution.liquid(13*U, true)), FL.array(MTx.ConcHCl.liquid(15*U, false)), OPx.cationXResin.mat(MT.RareEarth, 3));
+        RM.Bath.addRecipe1(true, 0, 256, OPx.cationXResin.mat(MT.H, 3), FL.array(MTx.HREECl3Solution.liquid(13*U, true)), FL.array(MTx.ConcHCl.liquid(15*U, false)), OPx.cationXResin.mat(MTx.HREE, 3));
 
-        // Y, Eu, Nd, Ce, La
+        RM.Bath.addRecipe1(true, 0, 256, OPx.cationXResin.mat(MT.RareEarth, 20), MTx.NH4EDTASolution.liquid(5*U, true), FLx.ReeEdta(MTx.HREE, 4000), OPx.cationXResin.mat(MT.Eu, 19));
+        RM.Bath.addRecipe1(true, 0, 256, OPx.cationXResin.mat(MT.H, 3), FLx.ReeEdta(MTx.HREE, 4000), MTx.EDTASolution.liquid(5*U, false), OPx.cationXResin.mat(MT.Lu, 3));
+
         //TODO allow to extract other lanthanides optionally.
         OreDictMaterial[] ree = {MT.Lu, MT.Yb, MT.Tm, MT.Er, MT.Ho, MT.Y, MT.Dy, MT.Tb, MT.Gd, MT.Eu, MT.Sm, MT.Nd, MT.Pr, MT.Ce, MT.La, MTx.NH4};
         //TODO fix ratios
@@ -86,5 +97,39 @@ public class REEProcessing  extends GT6XFeature {
 
         //TODO alloyed Nd/Sm-Co magnets
         //TODO LuAG lenses for high end (DUV) immersion lithography
+    }
+
+    private void changeByProducts() {
+        MT.Monazite.addOreByProducts(MTx.Xenotime);
+        MTx.Xenotime.addOreByProducts(MT.Monazite, MT.OREMATS.Pitchblende, MT.OREMATS.Bastnasite, MT.Biotite, MT.Apatite);
+
+        for (OreDictMaterial mat : MT.ALL_MATERIALS_REGISTERED_HERE) {
+            ListIterator<OreDictMaterial> it = mat.mByProducts.listIterator();
+            while (it.hasNext()) {
+                OreDictMaterial byproduct = it.next();
+                if (byproduct.mID == MT.Nd.mID) {
+                    it.set(MT.OREMATS.Bastnasite);
+                } else if (byproduct.mID == MT.RareEarth.mID) {
+                    it.set(MT.Monazite);
+                } else if (byproduct.mID == MT.Th.mID) {
+                    it.set(MTx.ThO2);
+                }
+            }
+        }
+    }
+
+    private void overrideWorldgen() {
+        HashSet<String> toDisable = new HashSet<>(Arrays.asList(
+            "ore.large.monazite"
+        ));
+
+        for (WorldgenObject obj : CS.ORE_OVERWORLD) {
+            if (toDisable.contains(obj.mName)) {
+                obj.mEnabled = false;
+            }
+        }
+
+        new WorldgenOresLarge("ore.large.monazite2", true, true, 20,  40,  30, 3, 16, MT.OREMATS.Bastnasite, MT.OREMATS.Bastnasite, MT.Monazite, MTx.Xenotime, ORE_OVERWORLD, ORE_A97, ORE_ENVM, ORE_CW2_AquaCavern, ORE_CW2_Caveland, ORE_CW2_Cavenia, ORE_CW2_Cavern, ORE_CW2_Caveworld, ORE_EREBUS, ORE_ATUM, ORE_BETWEENLANDS, ORE_MARS, ORE_PLANETS);
+
     }
 }
