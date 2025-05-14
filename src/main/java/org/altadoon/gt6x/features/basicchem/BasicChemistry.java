@@ -123,7 +123,7 @@ public class BasicChemistry extends GT6XFeature {
 
         // Phosphoric Acid
         for (OreDictMaterial phosphorus : new OreDictMaterial[] { MT.Phosphorus, MT.PhosphorusBlue, MT.PhosphorusRed, MT.PhosphorusWhite}) {
-            RM.Mixer.addRecipe1(true, 16,  16, dust.mat(phosphorus, 13), MT.H2SO4.liquid(3*7*U, true), MTx.H3PO4.liquid(16*U, false), dust.mat(MT.CaSO4, 18));
+            RM.Mixer.addRecipe1(true, 16,  16, dust.mat(phosphorus, 13), MTx.DiluteH2SO4.liquid(3*7*U, true), MTx.H3PO4.liquid(16*U, false), dust.mat(MT.CaSO4, 18));
             RM.Mixer.addRecipe1(true, 16,  16, dust.mat(phosphorus, 13), MT.HCl.gas(2*6*U, true), MTx.H3PO4.liquid(16*U, false), dust.mat(MT.CaCl2, 9));
         }
         RM.Bath.addRecipe1(true, 0, 128, dust.mat(MT.Phosphorite, 9), FL.array(MT.H2SO4.liquid(5*7*U, true)), FL.array(MTx.H3PO4.liquid(12*U, false), MT.HF.gas(U*2, false)), dust.mat(MT.CaSO4, 30));

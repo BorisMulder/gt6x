@@ -116,54 +116,59 @@ public class Metallurgy extends GT6XFeature {
         MT.OREMATS.Realgar.put(BLACKLISTED_SMELTER);
     }
 
-    private void changeByProducts() {
-        MT.OREMATS.Cobaltite.mByProducts.removeIf(byproduct -> byproduct.mID == MT.Co.mID);
-        MT.OREMATS.Stibnite.mByProducts.removeIf(byproduct -> byproduct.mID == MT.Sb.mID);
-        MT.OREMATS.Sphalerite.mByProducts.removeIf(byproduct -> byproduct.mID == MT.Zn.mID);
-        MT.OREMATS.Garnierite.mByProducts.removeIf(byproduct -> byproduct.mID == MT.Ni.mID);
-        MT.OREMATS.Galena.mByProducts.removeIf(byproduct -> byproduct.mID == MT.Pb.mID);
-        MT.Lignite.mByProducts.removeIf(byproduct -> byproduct.mID == MT.Ge.mID);
-
-        // Oxide byproducts
-        for (OreDictMaterial mat : new OreDictMaterial[] { MT.OREMATS.Stolzite, MT.OREMATS.Pinalite, MT.OREMATS.Pitchblende, MT.OREMATS.Uraninite }) {
-            ListIterator<OreDictMaterial> it = mat.mByProducts.listIterator();
-            while (it.hasNext()) {
-                OreDictMaterial byproduct = it.next();
-                if (byproduct.mID == MT.Ni.mID) {
-                    it.set(MT.OREMATS.Garnierite);
-                } else if (byproduct.mID == MT.Pb.mID) {
-                    it.set(MTx.Massicot);
-                } else if (byproduct.mID == MT.Zn.mID) {
-                    it.set(MTx.Zincite);
-                }
-            }
+    private boolean containsSulfur(OreDictMaterial mat) {
+        for (OreDictMaterialStack component : mat.mComponents.getComponents()) {
+            if (component.mMaterial.mID == MT.S.mID) return true;
         }
+        return false;
+    }
 
-        // Sulfides e.a.
-        for (OreDictMaterial mat : new OreDictMaterial[] {MT.OREMATS.BrownLimonite, MT.OREMATS.Sperrylite, MT.OREMATS.Tetrahedrite, MT.Cu, MT.OREMATS.Cooperite, MT.Cu, MT.Ga, MT.Ag, MT.Au, MT.Pt, MT.Se, MT.OREMATS.YellowLimonite, MT.OREMATS.Chalcopyrite, MT.OREMATS.Cobaltite, MT.OREMATS.Sphalerite, MT.OREMATS.Stannite, MT.OREMATS.Kesterite, MT.Alduorite, MT.Ignatius, MT.OREMATS.Celestine, MT.OREMATS.Lepidolite, MT.OREMATS.Pollucite }) {
+    private void changeByProducts() {
+        for (OreDictMaterial mat : MT.ALL_MATERIALS_REGISTERED_HERE) {
             ListIterator<OreDictMaterial> it = mat.mByProducts.listIterator();
             while (it.hasNext()) {
                 OreDictMaterial byproduct = it.next();
+                OreDictMaterial newByproduct;
                 if (byproduct.mID == MT.As.mID) {
-                    it.set(MT.OREMATS.Realgar);
+                    newByproduct = MT.OREMATS.Realgar;
                 } else if (byproduct.mID == MT.Ni.mID) {
-                    it.set(MT.OREMATS.Pentlandite);
+                    if (containsSulfur(mat)) newByproduct = MT.OREMATS.Pentlandite;
+                    else newByproduct = MT.OREMATS.Garnierite;
                 } else if (byproduct.mID == MT.Pb.mID) {
-                    it.set(MT.OREMATS.Galena);
+                    if (containsSulfur(mat)) newByproduct = MT.OREMATS.Galena;
+                    else newByproduct = MTx.Massicot;
                 } else if (byproduct.mID == MT.Zn.mID) {
-                    it.set(MT.OREMATS.Sphalerite);
+                    if (containsSulfur(mat)) newByproduct = MT.OREMATS.Sphalerite;
+                    else newByproduct = MTx.Zincite;
                 } else if (byproduct.mID == MT.Sb.mID) {
-                    it.set(MT.OREMATS.Stibnite);
+                    newByproduct = MT.OREMATS.Stibnite;
                 } else if (byproduct.mID == MT.Co.mID) {
-                    it.set(MT.OREMATS.Cobaltite);
+                    newByproduct = MT.OREMATS.Cobaltite;
                 } else if (byproduct.mID == MT.Cd.mID ||
                            byproduct.mID == MT.Se.mID ||
                            byproduct.mID == MT.Ga.mID ||
                            byproduct.mID == MT.In.mID ||
                            byproduct.mID == MT.Ge.mID ||
+                           byproduct.mID == MT.Li.mID ||
+                           byproduct.mID == MT.Na.mID ||
+                           byproduct.mID == MT.K.mID ||
                            byproduct.mID == MT.Rb.mID ||
-                           byproduct.mID == MT.Cs.mID
+                           byproduct.mID == MT.Cs.mID ||
+                           byproduct.mID == MT.Be.mID ||
+                           byproduct.mID == MT.Mg.mID ||
+                           byproduct.mID == MT.Ca.mID ||
+                           byproduct.mID == MT.Sr.mID ||
+                           byproduct.mID == MT.Ba.mID
                 ) {
+                    newByproduct = null;
+                } else {
+                    continue;
+                }
+
+                // Don't add byproducts of itself
+                if (newByproduct != null && newByproduct.mID != mat.mID) {
+                    it.set(newByproduct);
+                } else {
                     it.remove();
                 }
             }

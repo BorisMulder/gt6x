@@ -70,7 +70,7 @@ public class FLx {
         ThermalPaste = create("thermalpaste", "Thermal Paste", null, STATE_LIQUID);
         LiquidCrystal5CB = create("liquidcrystal5cb", "5CB Liquid Crystal", MTx.LiquidCrystal5CB, STATE_LIQUID, 144, 300);
 
-        for (OreDictMaterial ree : new OreDictMaterial[]{MT.Sc, MT.Y, MT.La, MT.Ce, MT.Pr, MT.Nd, MT.Sm, MT.Eu, MT.Gd, MT.Tb, MT.Dy, MT.Ho, MT.Er, MT.Tm, MT.Yb, MT.Lu}) {
+        for (OreDictMaterial ree : new OreDictMaterial[]{MTx.HREE, MT.Sc, MT.Y, MT.La, MT.Ce, MT.Pr, MT.Nd, MT.Sm, MT.Eu, MT.Gd, MT.Tb, MT.Dy, MT.Ho, MT.Er, MT.Tm, MT.Yb, MT.Lu}) {
             Fluid f = FL.create(ree.mNameInternal + "EDTASolution", MT.H2O.mTextureSetsBlock.get(IconsGT.INDEX_BLOCK_MOLTEN), ree.mNameLocal + " EDTA Solution", null, new short[]{180, 220, 255, 200}, STATE_LIQUID, 1000, 300, null, null, 0);
             REE_EDTA_SOLUTIONS.put(ree, f);
             // .setMcfg(0, MT.H, U, MT.La, U, EDTA, U, MT.H2O, 9*U).heat(MT.H2O)),
