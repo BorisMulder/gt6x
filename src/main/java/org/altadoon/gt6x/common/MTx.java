@@ -165,6 +165,7 @@ public class MTx {
                 mat.put(CATION);
         }
         MT.H.put(CATION); MT.Ge.put(CATION); MT.Sb.put(CATION); MT.RareEarth.put(CATION);
+        MT.RareEarth.tooltip("REE");
 
         MT.Indigo.uumMcfg(1, MT.C, 16*U, MT.H, 10*U, MT.N, 2*U, MT.O, 2*U)
                 .heat(391).setRGBa(75, 0, 130, 255);
@@ -265,7 +266,7 @@ public class MTx {
 
     public static OreDictMaterial ree2O3(int id, OreDictMaterial ree, long r, long g, long b) {
         OreDictMaterial mat = dustdcmp(id, ree.mNameLocal + "(III) Oxide", SET_DULL, r, g, b, 255)
-                .uumMcfg(2, ree, 2*U, MT.O, 3*U)
+                .setMcfg(2, ree, 2*U, MT.O, 3*U)
                 .put(ree.mNameLocal + " Sesquioxide");
         REE_TRIOXIDES.put(ree, mat);
         return mat;
@@ -273,7 +274,7 @@ public class MTx {
 
     public static OreDictMaterial reeOxalate(int id, OreDictMaterial ree, Object... randomData) {
         OreDictMaterial mat = dustdcmp(id, ree.mNameLocal + " Oxalate", SET_DULL, 255, 255, 255, 255, randomData)
-                .uumMcfg(0, ree, 2*U, MT.C, 6*U, MT.O, 12*U)
+                .setMcfg(0, ree, 2*U, MT.C, 6*U, MT.O, 12*U)
                 .heat(850+C)
                 .setSmelting(REE_TRIOXIDES.get(ree), U2);
         REE_OXALATES.put(ree, mat);
@@ -282,7 +283,7 @@ public class MTx {
 
     public static OreDictMaterial reeF3(int id, OreDictMaterial ree) {
         OreDictMaterial mat = dustdcmp(id, ree.mNameLocal + " Fluoride", SET_DULL, 255, 255, 255, 255)
-                .uumMcfg(1, ree, U, MT.F, 3*U);
+                .setMcfg(1, ree, U, MT.F, 3*U);
         REE_FLUORIDES.put(ree, mat);
         return mat;
     }
@@ -364,7 +365,7 @@ public class MTx {
     public static final OreDictMaterial
     // PGM
     CaO = MT.Quicklime.put("CalciumOxide"),
-    NH4 = create(16001, "Ammonium", 0, 100, 255, 255, CATION)
+    NH4 = create(16001, "Ammonium", 0, 100, 255, 255, CATION, DECOMPOSABLE)
             .setMcfg(1, MT.N, U, MT.H, 4*U),
     AmmoniumHexachloroplatinate = dustdcmp(16002, "Ammonium Hexachloroplatinate", SET_FINE, 255, 220, 10, 255)
             .setMcfg(0, NH4, U*2, MT.Pt, U, MT.Cl, U*6)
@@ -1618,43 +1619,45 @@ public class MTx {
             .heat(564, 1005)
             .put(ELECTROLYSER),
     ZnCl2Solution = simpleSolution(16436, ZnCl2, 3),
-    OH = create(16435, "Hydroxide").setMcfg(0, MT.O, U, MT.H, U).put(ANION, DECOMPOSABLE),
-    SO4 = create(16436, "Sulfate").setMcfg(0, MT.S, U, MT.O, 4*U).put(ANION, DECOMPOSABLE),
-    NO3 = create(16437, "Nitrate").setMcfg(0, MT.N, U, MT.O, 3*U).put(ANION, DECOMPOSABLE),
-    //TODO 16438 free
-    DiluteHCl = registerLiquid(lqudaciddcmp(16439, "Dilute Hydrochloric Acid", 100, 255, 200, 200)
+    OH = create(16435, "Hydroxide").setMcfg(1, MT.O, U, MT.H, U).put(ANION, DECOMPOSABLE).tooltip("OH"),
+    SO4 = create(16436, "Sulfate").setMcfg(1, MT.S, U, MT.O, 4*U).put(ANION, DECOMPOSABLE).tooltip("SO"+NUM_SUB[4]),
+    NO3 = create(16437, "Nitrate").setMcfg(1, MT.N, U, MT.O, 3*U).put(ANION, DECOMPOSABLE).tooltip("NO"+NUM_SUB[3]),
+    DiluteHCl = registerLiquid(lqudaciddcmp(16438, "Dilute Hydrochloric Acid", 100, 255, 200, 200)
             .setMcfg(0, MT.HCl, U, MT.H2O, 3*U)
             .heat(MT.H2O)),
-    RbClSolution = simpleSolution(16440, RbCl, 3),
-    CsClSolution = simpleSolution(16441, CsCl, 3),
-    DecatMnWtr = registerLiquid(lqudaciddcmp(16442, "Decationized Mineral Water", 240, 255, 220, 255)
+    RbClSolution = simpleSolution(16439, RbCl, 3),
+    CsClSolution = simpleSolution(16440, CsCl, 3),
+    DecatMnWtr = registerLiquid(lqudaciddcmp(16441, "Decationized Mineral Water", 240, 255, 220, 255)
             .heat(MT.H2O)),
-    DecatWater = registerLiquid(lqudaciddcmp(16443, "Decationized Water", 248, 255, 240, 255)
+    DecatWater = registerLiquid(lqudaciddcmp(16442, "Decationized Water", 248, 255, 240, 255)
             .heat(MT.H2O)),
-    REE2O3 = ree2O3(16444, MT.RareEarth, 255, 255, 255).heat(2450, 4000),
-    REORoasted = dustdcmp(16445, "Roasted Rare-Earth Oxide", SET_ROUGH, 255, 255, 255, 255)
+    REE2O3 = ree2O3(16443, MT.RareEarth, 255, 255, 255).heat(2450, 4000),
+    REORoasted = dustdcmp(16444, "Roasted Rare Earth Oxide", SET_ROUGH, 255, 255, 255, 255)
             .setMcfg(0, CeO2, 3*U, REE2O3, 2*U)
             .heat(REE2O3),
-    REECl3 = create(16446, "Rare-Earth Chloride", 200, 255, 210, 255)
+    REECl3 = create(16445, "Rare Earth Chloride", 200, 255, 210, 255, DECOMPOSABLE)
             .setMcfg(0, MT.RareEarth, U, MT.Cl, 3*U),
-    REECl3Solution = solution(16447, "Rare-Earth Chloride Solution", 200, 255, 210, 255, REECl3, 9),
-    REEHydroxide = dustdcmp(16448, "Rare-Earth Hydroxide Residue", SET_ROUGH, 180, 200, 100, 255)
+    REECl3Solution = solution(16446, "Rare Earth Chloride Solution", 200, 255, 210, 255, REECl3, 9),
+    REEHydroxide = dustdcmp(16447, "Rare Earth Hydroxide Residue", SET_ROUGH, 180, 200, 100, 255)
             .setMcfg(0, MT.RareEarth, 4*U, MT.Th, U, OH, 15*U)
             .heat(330+C),
-    ThO2 = oredustdcmp(16449, "Thorium Dioxide", SET_RAD, 180, 220, 0, 255)
-            .uumMcfg(0, MT.Th, U, MT.O, 2*U)
+    ThO2 = oredustdcmp(16448, "Thorium Dioxide", SET_RAD, 180, 220, 0, 255)
+            .setMcfg(1, MT.Th, U, MT.O, 2*U)
             .heat(3620, 4670),
-    EthyleneDiamine = registerLiquid(lquddcmp(16450, "Ethylenediamine", 255, 255, 255, 255)
+    EthyleneDiamine = registerLiquid(lquddcmp(16449, "Ethylenediamine", 255, 255, 255, 255)
             .setMcfg(1, MT.C, 2*U, MT.H, 8*U, MT.N, 2*U)
             .heat(281, 389)),
+    EDT = create(16451, "Ethylenediaminetetraacetate")
+            .put(DECOMPOSABLE)
+            .setMcfg(1, MT.C, 10*U, MT.H, 12*U, MT.N, 2*U, MT.O, 8*U),
     EDTA = dustdcmp(16451, "EDTA", SET_CUBE, 200, 200, 200, 255, "Ethylenediaminetetraacetic Acid")
-            .setMcfg(1, MT.C, 10*U, MT.H, 16*U, MT.N, 2*U, MT.O, 8*U)
+            .setMcfg(1, MT.H, 4*U, EDT, U)
             .heat(237+C),
     Na4EDTA = dustdcmp(16452, "Tetrasodium EDTA", SET_QUARTZ, 255, 255, 255, 255)
-            .setMcfg(1, MT.Na, 4*U, EDTA, U)
+            .setMcfg(1, MT.Na, 4*U, EDT, U)
             .heat(300+C),
     EDTASolution = simpleSolution(16453, EDTA, 3),
-    La2O3 = ree2O3(16454, MT.La, 255, 255, 255).heat(2588, 4470).setDensity(6.51),
+    La2O3 = ree2O3(16454, MT.La, 255, 255, 255).heat(2588, 4470).setDensity(6.51).put(INGOTS),
     Ce2O3 = ree2O3(16455, MT.Ce, 235, 255, 200).heat(2450, 4000),
     Pr2O3 = ree2O3(16456, MT.Pr, 205, 255, 235).heat(2456, 4030),
     Nd2O3 = ree2O3(16457, MT.Nd, 200, 200, 225).heat(2506, 4030),
@@ -1666,7 +1669,7 @@ public class MTx {
     Ho2O3 = ree2O3(16463, MT.Ho, 255, 210, 200).heat(2688, 4170),
     Er2O3 = ree2O3(16464, MT.Er, 255, 180, 200).heat(2617, 3560),
     Tm2O3 = ree2O3(16465, MT.Tm, 200, 255, 200).heat(2614, 4218),
-    Yb2O3 = ree2O3(16465, MT.Yb, 255, 255, 255).heat(2628, 4340),
+    Yb2O3 = ree2O3(16466, MT.Yb, 255, 255, 255).heat(2628, 4340),
     Lu2O3 = ree2O3(16467, MT.Lu, 255, 255, 255).heat(2760, 4250),
     Y2C2O4  = reeOxalate(16468, MT.Y),
     La2C2O4 = reeOxalate(16469, MT.La),
@@ -1698,17 +1701,17 @@ public class MTx {
     Ce2S3 = dustdcmp(16494, "Cerium(III) Sulfide", SET_FINE, 255, 0, 0, 255)
             .setMcfg(2, MT.Ce, 2*U, MT.S, 3*U)
             .heat(2160, 2300+C),
-    NH4EDTASolution = registerLiquid(lquddcmp(16495, "Ammonia-buffered EDTA solution", 240, 240, 255, 200)
-            .setMcfg(4, NH4, U, MT.H, 3*U, EDTA, U, MT.H2O, 3*U)
+    NH4EDTASolution = registerLiquid(lquddcmp(16495, "Ammonia-buffered EDTA solution", 240, 240, 255, 200, "Triammonium EDTA Solution")
+            .setMcfg(4, NH4, 3*U, MT.H, U, EDT, U, MT.H2O, 3*U)
             .heat(MT.H2O)),
     Xenotime = oredustdcmp(16496, "Xenotime", SET_CUBE, 56, 47, 0, 255)
             .uumMcfg(0, MT.Y, U, MT.P, U, MT.O, 4*U)
             .heat(MT.Monazite),
-    HREE = create(16497, "Heavy Rare Earth").put(CATION),
-    HREECl3 = create(16446, "Heavy Rare-Earth Chloride", 200, 255, 210, 255)
+    HREE = create(16497, "Heavy Rare Earth").tooltip("HREE"),
+    HREECl3 = create(16498, "Heavy Rare Earth Chloride", 200, 255, 210, 255, DECOMPOSABLE)
             .setMcfg(0, HREE, U, MT.Cl, 3*U),
-    HREECl3Solution = solution(16447, "Heavy Rare-Earth Chloride Solution", 200, 255, 210, 255, HREECl3, 9),
-    HREEHydroxide = dustdcmp(16448, "Heavy Rare-Earth Hydroxide Residue", SET_ROUGH, 180, 200, 100, 255)
+    HREECl3Solution = solution(16499, "Heavy Rare Earth Chloride Solution", 200, 255, 210, 255, HREECl3, 9),
+    HREEHydroxide = dustdcmp(16500, "Heavy Rare Earth Hydroxide Residue", SET_ROUGH, 180, 200, 100, 255)
             .setMcfg(0, HREE, 4*U, MT.Th, U, OH, 15*U)
             .heat(330+C)
     ;

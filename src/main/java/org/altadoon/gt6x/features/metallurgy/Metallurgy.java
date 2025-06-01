@@ -117,6 +117,7 @@ public class Metallurgy extends GT6XFeature {
     }
 
     private boolean containsSulfur(OreDictMaterial mat) {
+        if (mat == null || mat.mComponents == null) return false;
         for (OreDictMaterialStack component : mat.mComponents.getComponents()) {
             if (component.mMaterial.mID == MT.S.mID) return true;
         }
