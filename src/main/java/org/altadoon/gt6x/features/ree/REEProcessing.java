@@ -2,6 +2,7 @@ package org.altadoon.gt6x.features.ree;
 
 import gregapi.data.*;
 import gregapi.oredict.OreDictMaterial;
+import gregapi.recipes.Recipe;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.worldgen.WorldgenObject;
@@ -15,7 +16,7 @@ import java.util.HashSet;
 import java.util.ListIterator;
 
 import static gregapi.data.CS.*;
-import static gregapi.data.OP.dust;
+import static gregapi.data.OP.*;
 
 public class REEProcessing  extends GT6XFeature {
     public static final String FEATURE_NAME = "REEProcessing";
@@ -37,13 +38,15 @@ public class REEProcessing  extends GT6XFeature {
         overrideWorldgen();
     }
 
+    @Override
+    public void afterGt6PostInit() {
+        changeRecipes();
+    }
+
     private void addRecipes() {
-        RM.Roasting.addRecipe1(true, 16, 128, dust.mat(MT.Y, 1), MT.O.gas(3*U2, true), NF, dust.mat(MTx.Y2O3, 1));
-        RM.Roasting.addRecipe1(true, 16, 128, dust.mat(MT.La, 1), MT.O.gas(3*U2, true), NF, dust.mat(MTx.La2O3, 1));
         RM.Roasting.addRecipe1(true, 16, 128, dust.mat(MT.Ce, 1), MT.O.gas(2*U, true), NF, dust.mat(MTx.CeO2, 1));
         RMx.Thermolysis.addRecipe1(true, 128, 64, dust.mat(MTx.CeO2, 1), NF, MT.O.gas(U2, false), dust.mat(MTx.Ce2O3, 1));
         RM.Roasting.addRecipe1(true, 16, 16, dust.mat(MTx.Ce2O3, 1), MT.O.gas(U2, true), NF, dust.mat(MTx.CeO2, 1));
-        RM.Roasting.addRecipe1(true, 16, 128, dust.mat(MT.Eu, 1), MT.O.gas(3*U2, true), NF, dust.mat(MTx.Eu2O3, 1));
         RM.Bath.addRecipe1(true, 0, 3*128, dust.mat(MTx.La2O3, 2), MT.HNO3.liquid(30*U, true), MT.H2O.liquid(9*U, false), dust.mat(MTx.LaNO3, 20));
         RM.Bath.addRecipe1(true, 0, 3*128, dust.mat(MTx.CeO2, 1), FL.array(MT.HNO3.liquid(30*U, true)), FL.array(MTx.NitratoCericAcid.liquid(27*U, false), MT.H2O.liquid(6*U, false)));
         RM.Roasting.addRecipe1(true, 16, 64, dust.mat(MTx.Ce2O3, 2), MT.H2S.gas(9*U, true), MT.H2O.liquid(9*U, false), dust.mat(MTx.Ce2S3, 2));
@@ -54,10 +57,10 @@ public class REEProcessing  extends GT6XFeature {
         RM.Bath.addRecipe1(true, 0, 200, dust.mat(MTx.REORoasted, 5), FL.array(MTx.ConcHCl.liquid(30*U, true)), FL.array(MTx.REECl3Solution.liquid(26*U, false), MT.H2O.liquid(6*U, false)), dust.mat(MTx.CeO2, 3));
 
         // Monazite, Xenotime
-        RM.Bath.addRecipe1(true, 0, 600, dust.mat(MT.Monazite, 5*6), FL.array(MTx.NaOHSolution.liquid(15*6*U, true)), FL.array(MTx.Na3PO4Solution.liquid(5*14*U, false), MT.H2O.liquid(15*U, false)), dust.mat(MTx.REEHydroxide, 35));
-        RM.Bath.addRecipe1(true, 0, 600, dust.mat(MTx.Xenotime, 5*6), FL.array(MTx.NaOHSolution.liquid(15*6*U, true)), FL.array(MTx.Na3PO4Solution.liquid(5*14*U, false), MT.H2O.liquid(15*U, false)), dust.mat(MTx.HREEHydroxide, 35));
-        RM.Bath.addRecipe1(true, 0, 600, dust.mat(MTx.REEHydroxide, 35), FL.array(MTx.ConcHCl.liquid(60*U, true)), FL.array(MTx.REECl3Solution.liquid(52*U, false), MT.H2O.liquid(13*3*U, false)), dust.mat(MTx.ThO2, 3)); // + 1 H from Th oxidation
-        RM.Bath.addRecipe1(true, 0, 600, dust.mat(MTx.HREEHydroxide, 35), FL.array(MTx.ConcHCl.liquid(60*U, true)), FL.array(MTx.HREECl3Solution.liquid(52*U, false), MT.H2O.liquid(13*3*U, false)), dust.mat(MTx.ThO2, 3)); // + 1 H from Th oxidation
+        RM.Bath.addRecipe1(true, 0, 600, dust.mat(MT .Monazite, 5*6), FL.array(MTx.NaOHSolution.liquid(15*6*U, true)), FL.array(MTx.Na3PO4Solution.liquid(5*14*U, false), MT.H2O.liquid(15*U, false), MT.He.gas(15*U, false)), dust.mat(MTx.REEHydroxide, 35));
+        RM.Bath.addRecipe1(true, 0, 600, dust.mat(MTx.Xenotime, 5*6), FL.array(MTx.NaOHSolution.liquid(15*6*U, true)), FL.array(MTx.Na3PO4Solution.liquid(5*14*U, false), MT.H2O.liquid(15*U, false), MT.He.gas(15*U, false)), dust.mat(MTx.HREEHydroxide, 35));
+        RM.Bath.addRecipe1(true, 0, 600, dust.mat(MTx.REEHydroxide, 35), FL.array(MTx.ConcHCl.liquid(60*U, true)), FL.array(MTx.REECl3Solution.liquid(52*U, false), MT.H2O.liquid(13*3*U, false)), dust.mat(MTx.ThO2, 1)); // + 1 H from Th oxidation
+        RM.Bath.addRecipe1(true, 0, 600, dust.mat(MTx.HREEHydroxide, 35), FL.array(MTx.ConcHCl.liquid(60*U, true)), FL.array(MTx.HREECl3Solution.liquid(52*U, false), MT.H2O.liquid(13*3*U, false)), dust.mat(MT.OREMATS.Uraninite, 1)); // + 1 H from U oxidation
 
         // EDTA
         for (FluidStack water : FL.waters(12000)) {
@@ -66,28 +69,41 @@ public class REEProcessing  extends GT6XFeature {
         }
         RM.Mixer.addRecipe1(true, 16, 64, ST.tag(3), FL.array(MTx.NaCNSolution.liquid(24*U, true), MTx.EthyleneDiamine.liquid(U, true), MTx.Formaldehyde.gas(4*U, true)), FL.array(MT.NH3.gas(4*U, false)), dust.mat(MTx.Na4EDTA, 1));
         RM.Bath.addRecipe1(true, 0, 64, dust.mat(MTx.Na4EDTA, 1), MTx.DiluteHCl.liquid(32*U, true), MT.SaltWater.liquid(32*U, false), dust.mat(MTx.EDTA, 1));
-        RM.Mixer.addRecipe1(true, 16, 32, ST.tag(2), FL.array(MTx.EDTASolution.liquid(4*U, true), MT.NH3.gas(U, true)), FL.array(MTx.NH4EDTASolution.liquid(5*U, false)));
+        RM.Mixer.addRecipe1(true, 16, 32, ST.tag(2), FL.array(MTx.EDTASolution.liquid(4*U, true), MT.NH3.gas(3*U, true)), FL.array(MTx.NH4EDTASolution.liquid(4*U, false)));
         for (FluidStack water : FL.waters(3000))
-            RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.EDTA, 1), FL.array(water, MT.NH3.gas(U, true)), FL.array(MTx.NH4EDTASolution.liquid(5*U, false)));
+            RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.EDTA, 1), FL.array(water, MT.NH3.gas(3*U, true)), FL.array(MTx.NH4EDTASolution.liquid(4*U, false)));
 
         // IX of REE
         RM.Bath.addRecipe1(true, 0, 256, OPx.cationXResin.mat(MT.H, 3), FL.array(MTx.REECl3Solution.liquid(13*U, true)), FL.array(MTx.ConcHCl.liquid(15*U, false)), OPx.cationXResin.mat(MT.RareEarth, 3));
         RM.Bath.addRecipe1(true, 0, 256, OPx.cationXResin.mat(MT.H, 3), FL.array(MTx.HREECl3Solution.liquid(13*U, true)), FL.array(MTx.ConcHCl.liquid(15*U, false)), OPx.cationXResin.mat(MTx.HREE, 3));
 
-        RM.Bath.addRecipe1(true, 0, 256, OPx.cationXResin.mat(MT.RareEarth, 20), MTx.NH4EDTASolution.liquid(5*U, true), FLx.ReeEdta(MTx.HREE, 4000), OPx.cationXResin.mat(MT.Eu, 19));
-        RM.Bath.addRecipe1(true, 0, 256, OPx.cationXResin.mat(MT.H, 3), FLx.ReeEdta(MTx.HREE, 4000), MTx.EDTASolution.liquid(5*U, false), OPx.cationXResin.mat(MT.Lu, 3));
+        RM.Bath.addRecipe1(true, 0, 256, OPx.cationXResin.mat(MT.RareEarth, 20), MTx.NH4EDTASolution.liquid(4*U, true), FLx.ReeEdta(MTx.HREE, 4000), OPx.cationXResin.mat(MT.Gd, 20));
+        RM.Bath.addRecipe1(true, 0, 256, OPx.cationXResin.mat(MT.H, 3), FLx.ReeEdta(MTx.HREE, 4000), MTx.EDTASolution.liquid(4*U, false), OPx.cationXResin.mat(MT.Lu, 3));
 
-        //TODO allow to extract other lanthanides optionally.
-        OreDictMaterial[] ree = {MT.Lu, MT.Yb, MT.Tm, MT.Er, MT.Ho, MT.Y, MT.Dy, MT.Tb, MT.Gd, MT.Eu, MT.Sm, MT.Nd, MT.Pr, MT.Ce, MT.La, MTx.NH4};
-        //TODO fix ratios
-        //TODO rename cation resin item to indicate range of elements + ammonium
-        for (int i = 0; i < ree.length - 1; i++) {
-            RM.Bath.addRecipe1(true, 0, 256, OPx.cationXResin.mat(ree[i], 16), MTx.NH4EDTASolution.liquid(5*U, true), FLx.ReeEdta(ree[i], 4000), OPx.cationXResin.mat(ree[i+1], 16));
+        OreDictMaterial[] ree = {MT.Lu, MT.Yb, MT.Tm, MT.Er, MT.Ho, MT.Y, MT.Dy, MT.Tb, MT.Gd, MT.Eu, MT.Sm, MT.Nd, MT.Pr, MT.Ce, MT.La};
+        int[] ratios = {1, 1, 1, 2, 1, 10, 3, 1, 1, 1, 1, 4, 1, 7, 5};
+        for (int i = 0; i < ree.length; i++) {
+            OreDictMaterial next;
+            if (ree[i] == MT.Tb || ree[i] == MT.La) {
+                next = MTx.NH4;
+            } else {
+                next = ree[i+1];
+            }
+            int n = ratios[i];
+            // Ion Exchange Chromatography - Elution using ammonium EDTA
+            RM.Bath.addRecipe1(true, 0, 256, OPx.cationXResin.mat(ree[i], 20), MTx.NH4EDTASolution.liquid(n*4*U, true), FLx.ReeEdta(ree[i], n*4000), OPx.cationXResin.mat(next, 20));
+            // Precipitation
             RM.Bath.addRecipe1(true, 0, 64, dust.mat(MTx.OxalicAcid, 24), FLx.ReeEdta(ree[i], 8000), MTx.EDTASolution.liquid(8*U, false), dust.mat(MTx.REE_OXALATES.get(ree[i]), 20));
+            // Decomposition of oxalate to oxide
             RMx.Thermolysis.addRecipe1(true, 16, 96, dust.mat(MTx.REE_OXALATES.get(ree[i]), 20), ZL_FS, FL.array(MT.CO.gas(6*U, false), MT.CO2.gas(9*U, false)), dust.mat(MTx.REE_TRIOXIDES.get(ree[i]), 2));
+            // Oxidation
+            if (ree[i] != MT.Ce) {
+                RM.Roasting.addRecipe1(true, 16, 128, dust.mat(ree[i], 1), MT.O.gas(3*U2, true), NF, dust.mat(MTx.REE_TRIOXIDES.get(ree[i]), 1));
+            }
+            // Reduction
             if (ree[i] == MT.Sm || ree[i] == MT.Eu || ree[i] == MT.Tm || ree[i] == MT.Yb) {
                 // Lanthanothermic reduction of Sm, Eu, Tm, Yb (produces gases)
-                RMx.Thermite.addRecipe(0, 2, OMx.stacks(MTx.REE_TRIOXIDES.get(ree[i]), U, MT.La, U), 1500+C, OM.stack(ree[i], U), OM.stack(MTx.La2O3, 1));
+                RMx.Thermite.addRecipe(0, 2, OMx.stacks(MTx.REE_TRIOXIDES.get(ree[i]), U, MT.La, U), 1500+C, OM.stack(ree[i], U), OM.stack(MTx.La2O3, U));
             } else {
                 // Calcinothermic reduction of other REE
                 RM.Bath.addRecipe1(true, 0, 64, dust.mat(MTx.REE_TRIOXIDES.get(ree[i]), 2), MT.HF.gas(12*U, true), MT.H2O.liquid(9*U, false), dust.mat(MTx.REE_FLUORIDES.get(ree[i]), 2));
@@ -97,6 +113,18 @@ public class REEProcessing  extends GT6XFeature {
 
         //TODO alloyed Nd/Sm-Co magnets
         //TODO LuAG lenses for high end (DUV) immersion lithography
+    }
+
+    private void changeRecipes() {
+        for (Recipe r : RM.Smelter.mRecipeList) {
+            if (r.mOutputs.length == 1 && (
+                r.mOutputs[0].isItemEqual(dustTiny.mat(MT.RareEarth, 1)) ||
+                r.mOutputs[0].isItemEqual(dustSmall.mat(MT.RareEarth, 1)) ||
+                r.mOutputs[0].isItemEqual(dust.mat(MT.RareEarth, 1))
+            )) {
+                r.mEnabled = false;
+            }
+        }
     }
 
     private void changeByProducts() {
