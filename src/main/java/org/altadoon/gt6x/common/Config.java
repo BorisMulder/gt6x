@@ -5,6 +5,7 @@ import net.minecraftforge.common.config.Configuration;
 import org.altadoon.gt6x.features.GT6XFeature;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import static org.altadoon.gt6x.common.Log.LOG;
@@ -28,7 +29,7 @@ public class Config {
 
         for (Class<? extends GT6XFeature> featureClass : allFeatures) {
             try {
-                GT6XFeature feature = featureClass.newInstance();
+                GT6XFeature feature = featureClass.getDeclaredConstructor().newInstance();
                 String name = feature.name();
 
                 boolean enabled = cfg.get(name, "enabled", true).getBoolean();
@@ -36,7 +37,7 @@ public class Config {
                     feature.configure(this);
                     result.add(feature);
                 }
-            } catch (InstantiationException | IllegalAccessException e) {
+            } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
                 LOG.error("{}: ctor invocation failed. Your GT6X feature class should have a public nullary constructor. Disabling feature...", featureClass.getCanonicalName());
             }
         }

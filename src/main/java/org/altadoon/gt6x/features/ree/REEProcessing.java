@@ -1,8 +1,12 @@
 package org.altadoon.gt6x.features.ree;
 
+import gregapi.code.ICondition;
 import gregapi.data.*;
 import gregapi.oredict.OreDictMaterial;
+import gregapi.recipes.IRecipeMapHandler;
 import gregapi.recipes.Recipe;
+import gregapi.recipes.handlers.RecipeMapHandlerMaterial;
+import gregapi.util.CR;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.worldgen.WorldgenObject;
@@ -11,12 +15,16 @@ import net.minecraftforge.fluids.FluidStack;
 import org.altadoon.gt6x.common.*;
 import org.altadoon.gt6x.features.GT6XFeature;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.ListIterator;
 
 import static gregapi.data.CS.*;
 import static gregapi.data.OP.*;
+import static gregapi.data.TD.Atomic.ANTIMATTER;
+import static gregapi.data.TD.Compounds.COATED;
+import static org.altadoon.gt6x.common.Log.LOG;
 
 public class REEProcessing  extends GT6XFeature {
     public static final String FEATURE_NAME = "REEProcessing";
@@ -26,6 +34,10 @@ public class REEProcessing  extends GT6XFeature {
         MT.OREMATS.Bastnasite.remove(TD.Processing.ELECTROLYSER);
         MT.Monazite.remove(TD.Processing.ELECTROLYSER);
         changeByProducts();
+    }
+
+    @Override public void beforeGt6Init() {
+        changeItemRecipes();
     }
 
     @Override
@@ -115,6 +127,21 @@ public class REEProcessing  extends GT6XFeature {
         //TODO LuAG lenses for high end (DUV) immersion lithography
     }
 
+    private void changeItemRecipes() {
+        CRx.overrideShaped(IL.MOTORS[5].get(1), CR.DEF_REM_REV, "CWR", "WIW", "PWC", 'I', OP.stick    .dat(MTx.SmCo5Magnetic)  , 'P', OP.plateCurved.dat(MT.DATA.Electric_T[5]), 'R', OP.stick.dat(MT.DATA.Electric_T[5]), 'W', OP.wireGt05.dat(MT.AnnealedCopper), 'C', MT.DATA.CABLES_01[5]);
+        CRx.overrideShaped(IL.MOTORS[6].get(1), CR.DEF_REM_REV, "CWR", "WIW", "PWC", 'I', OP.stick    .dat(MTx.SmCo5Magnetic)  , 'P', OP.plateCurved.dat(MT.DATA.Electric_T[6]), 'R', OP.stick.dat(MT.DATA.Electric_T[6]), 'W', OP.wireGt06.dat(MT.AnnealedCopper), 'C', MT.DATA.CABLES_01[6]);
+        CRx.overrideShaped(IL.MOTORS[7].get(1), CR.DEF_REM_REV, "CWR", "WIW", "PWC", 'I', OP.stickLong.dat(MTx.SmCo5Magnetic)  , 'P', OP.plateCurved.dat(MT.DATA.Electric_T[7]), 'R', OP.stick.dat(MT.DATA.Electric_T[7]), 'W', OP.wireGt07.dat(MT.AnnealedCopper), 'C', MT.DATA.CABLES_01[7]);
+        CRx.overrideShaped(IL.MOTORS[8].get(1), CR.DEF_REM_REV, "CWR", "WIW", "PWC", 'I', OP.stickLong.dat(MTx.SmCo5Magnetic)  , 'P', OP.plateCurved.dat(MT.DATA.Electric_T[8]), 'R', OP.stick.dat(MT.DATA.Electric_T[8]), 'W', OP.wireGt08.dat(MT.AnnealedCopper), 'C', MT.DATA.CABLES_01[8]);
+        CRx.overrideShaped(IL.MOTORS[9].get(1), CR.DEF_REM_REV, "CWR", "WIW", "PWC", 'I', OP.stickLong.dat(MTx.SmCo5Magnetic)  , 'P', OP.plateCurved.dat(MT.DATA.Electric_T[9]), 'R', OP.stick.dat(MT.DATA.Electric_T[9]), 'W', OP.wireGt09.dat(MT.AnnealedCopper), 'C', MT.DATA.CABLES_01[9]);
+
+        for (int i = 5; i < 10; i++) {
+            CRx.overrideItemData(IL.PUMPS      [i].get(1), "TXO", "dPw", "OMT", 'M', IL.MOTORS[i], 'O', OP.ring.dat(ANY.Rubber), 'X', OP.rotor.dat(MT.DATA.Electric_T[i]), 'T', OP.screw.dat(MT.DATA.Electric_T[i]), 'P', OP.plateCurved.dat(MT.DATA.Electric_T[i]));
+            CRx.overrideItemData(IL.CONVEYERS  [i].get(1), "RRR", "MCM", "RRR", 'M', IL.MOTORS[i], 'C', MT.DATA.CABLES_01[i], 'R', OP.plate.dat(ANY.Rubber));
+            CRx.overrideItemData(IL.PISTONS    [i].get(1), "TPP", "dSS", "TMG", 'M', IL.MOTORS[i], 'P', OP.plate.dat(MT.DATA.Electric_T[i]), 'S', OP.stick.dat(MT.DATA.Electric_T[i]), 'G', OP.gearGtSmall.dat(MT.DATA.Electric_T[i]), 'T', OP.screw.dat(MT.DATA.Electric_T[i]));
+            CRx.overrideItemData(IL.ROBOT_ARMS [i].get(1), "CCC", "MSM", "PES", 'M', IL.MOTORS[i], 'C', MT.DATA.CABLES_01[i], 'E', OD_CIRCUITS[i], 'S', OP.stick.dat(MT.DATA.Electric_T[i]), 'P', IL.PISTONS[i]);
+        }
+    }
+
     private void changeRecipes() {
         for (Recipe r : RM.Smelter.mRecipeList) {
             if (r.mOutputs.length == 1 && (
@@ -125,6 +152,33 @@ public class REEProcessing  extends GT6XFeature {
                 r.mEnabled = false;
             }
         }
+
+        // Get rid of polarizer recipes for pure Nd
+        for (ListIterator<IRecipeMapHandler> it = RM.Polarizer.mRecipeMapHandlers.listIterator(); it.hasNext(); ) {
+            IRecipeMapHandler handler = it.next();
+            if (handler instanceof RecipeMapHandlerMaterial handlerMaterial) {
+                try {
+                    Field f = handlerMaterial.getClass().getDeclaredField("mInputMaterial");
+                    f.setAccessible(true);
+                    OreDictMaterial mat = (OreDictMaterial) f.get(handlerMaterial);
+                    if (mat.mID == MT.Nd.mID) {
+                        it.remove();
+                    }
+                } catch (NoSuchFieldException e) {
+                    LOG.error("mInputMaterial not in RecipeMapHandlerMaterial");
+                    throw new RuntimeException(e);
+                } catch (IllegalAccessException e) {
+                    LOG.error("mInputMaterial not accessible in RecipeMapHandlerMaterial");
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+        @SuppressWarnings({"rawtypes", "unchecked"})
+        ICondition condition = new ICondition.And(ANTIMATTER.NOT, COATED.NOT);
+
+        RM.Polarizer.add(new RecipeMapHandlerMaterial(MTx.SmCo5, NF, 128, 144, NF, MTx.SmCo5Magnetic, NI, true, condition));
+        RM.Polarizer.add(new RecipeMapHandlerMaterial(MTx.Nd2Fe14B, NF, 128, 144, NF, MT.NeodymiumMagnetic, NI, true, condition));
     }
 
     private void changeByProducts() {
