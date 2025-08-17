@@ -166,6 +166,11 @@ public class MTx {
         }
         MT.H.put(CATION); MT.Ge.put(CATION); MT.Sb.put(CATION); MT.RareEarth.put(CATION);
         MT.RareEarth.tooltip("REE");
+        MT.RareEarth.mSourceOf.remove(MT.Cs);
+        MT.RareEarth.mSourceOf.remove(MT.Cd);
+        MT.RareEarth.mSourceOf.remove(MT.Nd); // for the right order
+        MT.RareEarth.addSourceOf(MT.Pr, MT.Nd, MT.Sm, MT.Eu, MT.Gd);
+        MT.Monazite.addSourceOf(MT.RareEarth, MT.P);
 
         MT.Indigo.uumMcfg(1, MT.C, 16*U, MT.H, 10*U, MT.N, 2*U, MT.O, 2*U)
                 .heat(391).setRGBa(75, 0, 130, 255);
@@ -247,6 +252,10 @@ public class MTx {
             throw new IllegalArgumentException(name + ": GT6X materials should have IDs in the 16001-16999 range");
         }
 
+        if (OreDictMaterial.MATERIAL_ARRAY[id] != null) {
+            ERR.println("NOTICE: Two Materials used the same ID: " + id + " - Names: " + name + " and " + OreDictMaterial.MATERIAL_ARRAY[id].mNameInternal);
+        }
+
         return create(id, name).setRGBa(r, g, b, a).put(randomData);
     }
 
@@ -262,6 +271,7 @@ public class MTx {
     public static OreDictMaterial machine(int id, String nameOreDict, TextureSet[] aSets, long r, long g, long b, long a, Object... randomData) { return create(id, nameOreDict, r, g, b, a, randomData).setTextures(aSets).put(DECOMPOSABLE, G_INGOT_MACHINE, SMITHABLE, MELTING, EXTRUDER); }
     public static OreDictMaterial alloy(int id, String nameOreDict, TextureSet[] aSets, long r, long g, long b, Object... randomData) { return create(id, nameOreDict, r, g, b, 255, randomData).setTextures(aSets).put(DECOMPOSABLE, ALLOY, G_DUST, INGOTS, MELTING, EXTRUDER); }
     public static OreDictMaterial alloymachine(int id, String nameOreDict, TextureSet[] aSets, long r, long g, long b, Object... randomData) { return machine(id, nameOreDict, aSets, r, g, b, 255, randomData).put(ALLOY); }
+    public static OreDictMaterial alloymachnd(int id, String nameOreDict, TextureSet[] aSets, long r, long g, long b, Object... randomData) { return create(id, nameOreDict, r, g, b, 255, randomData).setTextures(aSets).put(DECOMPOSABLE, ALLOY, G_INGOT_ND_MACHINE, MELTING, EXTRUDER); }
     public static OreDictMaterial plastic(int id, String nameOreDict, TextureSet[] aSets, long r, long g, long b, long a, Object... randomData) { return create(id, nameOreDict, r, g, b, a, randomData).setTextures(aSets).put(G_INGOT_MACHINE, MELTING, EXTRUDER, EXTRUDER_SIMPLE, MORTAR, FURNACE, POLYMER).addReRegistrationToThis(MT.Plastic); }
 
     public static OreDictMaterial ree2O3(int id, OreDictMaterial ree, long r, long g, long b) {
@@ -1075,7 +1085,7 @@ public class MTx {
             .setMcfg(0, MT.N, 4*U, MT.H, 16*U, MT.Ru, 2*U, MT.Cl, 8*U, MT.O, 2*U)
             .tooltip("(NH" + NUM_SUB[4] + ")" + NUM_SUB[3] + "Ru" + NUM_SUB[2]+ "NCl" + NUM_SUB[8]+ "(H" + NUM_SUB[2] + "O)"+ NUM_SUB[2])
             .heat(MT.H2O)),
-    PdAg = alloymachine(16232, "Palladium-Silver", SET_SHINY, 174, 174, 192, 255)
+    PdAg = alloymachine(16232, "Palladium-Silver", SET_SHINY, 174, 174, 192)
             .uumAloy(0, MT.Pd, U, MT.Ag, U)
             .heat(1475, 1762),
     AlEtch = registerLiquid(lqudaciddcmp(16233, "Aluminium Etchant", 100, 200, 0, 255)
@@ -1460,14 +1470,7 @@ public class MTx {
             .setMcfg(0, MT.Na, 2*U, MT.Si, U, MT.O, 3*U)
             .heat(1361),
     Na2SiO3Solution = simpleSolution(16381, Na2SiO3, 6),
-    RbCl = dustdcmp(16382, "Rubidium Chloride", SET_FINE, 255, 255, 255, 255, ELECTROLYSER)
-            .setMcfg(1, MT.Rb, U, MT.Cl, U)
-            .heat(991, 1660),
-    CsCl = dustdcmp(16383, "Caesium Chloride", SET_FINE, 255, 255, 255, 255, ELECTROLYSER)
-            .setMcfg(1, MT.Cs, U, MT.Cl, U)
-            .heat(919, 1570),
-    CsRbClSolution = registerLiquid(lquddcmp(16382, "Caesium-Rubidium Chloride Solution", 255, 200, 0, 200)
-            .setMcfg(0, CsCl, 5*U, RbCl, U, MT.H2O, 3*3*U)),
+    //TODO 16382 free
 
     // Engines, more oil processing
     Ti6Al4V = alloymachine(16383, "Ti-6Al-4V", SET_COPPER, 191, 145, 255, "Titanium Alloy", PIPES)
@@ -1625,8 +1628,12 @@ public class MTx {
     DiluteHCl = registerLiquid(lqudaciddcmp(16438, "Dilute Hydrochloric Acid", 100, 255, 200, 200)
             .setMcfg(0, MT.HCl, U, MT.H2O, 3*U)
             .heat(MT.H2O)),
-    RbClSolution = simpleSolution(16439, RbCl, 3),
-    CsClSolution = simpleSolution(16440, CsCl, 3),
+    RbCl = dustdcmp(16439, "Rubidium Chloride", SET_FINE, 255, 255, 255, 255, ELECTROLYSER)
+            .setMcfg(1, MT.Rb, U, MT.Cl, U)
+            .heat(991, 1660),
+    CsCl = dustdcmp(16440, "Caesium Chloride", SET_FINE, 255, 255, 255, 255, ELECTROLYSER)
+            .setMcfg(1, MT.Cs, U, MT.Cl, U)
+            .heat(919, 1570),
     DecatMnWtr = registerLiquid(lqudaciddcmp(16441, "Decationized Mineral Water", 240, 255, 220, 255)
             .heat(MT.H2O)),
     DecatWater = registerLiquid(lqudaciddcmp(16442, "Decationized Water", 248, 255, 240, 255)
@@ -1647,7 +1654,7 @@ public class MTx {
     EthyleneDiamine = registerLiquid(lquddcmp(16449, "Ethylenediamine", 255, 255, 255, 255)
             .setMcfg(1, MT.C, 2*U, MT.H, 8*U, MT.N, 2*U)
             .heat(281, 389)),
-    EDT = create(16451, "Ethylenediaminetetraacetate")
+    EDT = create(16450, "Ethylenediaminetetraacetate")
             .put(DECOMPOSABLE)
             .setMcfg(1, MT.C, 10*U, MT.H, 12*U, MT.N, 2*U, MT.O, 8*U),
     EDTA = dustdcmp(16451, "EDTA", SET_CUBE, 200, 200, 200, 255, "Ethylenediaminetetraacetic Acid")
@@ -1706,14 +1713,31 @@ public class MTx {
             .heat(MT.H2O)),
     Xenotime = oredustdcmp(16496, "Xenotime", SET_CUBE, 56, 47, 0, 255)
             .uumMcfg(0, MT.Y, U, MT.P, U, MT.O, 4*U)
-            .heat(MT.Monazite),
+            .heat(MT.Monazite)
+            .addSourceOf(MT.He, MT.Y, MT.P),
     HREE = create(16497, "Heavy Rare Earth").tooltip("HREE"),
     HREECl3 = create(16498, "Heavy Rare Earth Chloride", 200, 255, 210, 255, DECOMPOSABLE)
             .setMcfg(0, HREE, U, MT.Cl, 3*U),
     HREECl3Solution = solution(16499, "Heavy Rare Earth Chloride Solution", 200, 255, 210, 255, HREECl3, 9),
     HREEHydroxide = dustdcmp(16500, "Heavy Rare Earth Hydroxide Residue", SET_ROUGH, 180, 200, 100, 255)
-            .setMcfg(0, HREE, 4*U, MT.Th, U, OH, 15*U)
-            .heat(330+C)
+            .setMcfg(0, HREE, 4*U, MT.U_238, U, OH, 15*U)
+            .heat(330+C),
+    Nd2Fe14B = alloymachine(16501, "Neodymium-Iron-Boron Alloy", SET_METALLIC, 0, 0, 0)
+            .stealLooks(MT.Nd)
+            .uumAloy(0, MT.Nd, 2*U, MT.Fe, 14*U, MT.B, U)
+            .heat(1412+C, 2600+C),
+    SmCo5 = alloymachine(16502, "SamariumCobalt", SET_METALLIC, 96, 96, 238)
+            .setLocal("Samarium-Cobalt")
+            .uumAloy(0, MT.Sm, U, MT.Co, 5*U)
+            .heat(1325+C),
+    SmCo5Magnetic = alloymachnd(16503, "SamariumCobaltMagnetic", SET_MAGNETIC, 96, 96, 238, MORTAR, MAGNETIC_ACTIVE, AUTO_COLLECTING)
+            .uumMcfg(0, SmCo5, U)
+            .setBending(SmCo5, U).setCompressing(SmCo5, U).setPulver(SmCo5, U).setSmashing(SmCo5, U).setSmelting(SmCo5, U).setWorking(SmCo5, U).setForging(SmCo5, U).steal(SmCo5)
+            .setLocal("Magnetic Samarium-Cobalt"),
+    RbClSolution = simpleSolution(16504, RbCl, 3),
+    CsClSolution = simpleSolution(16505, CsCl, 3),
+    CsRbClSolution = registerLiquid(lquddcmp(16506, "Caesium-Rubidium Chloride Solution", 255, 200, 0, 200)
+            .setMcfg(0, CsCl, 5*U, RbCl, U, MT.H2O, 3*3*U))
     ;
 
     @SuppressWarnings("unused")
@@ -1822,5 +1846,8 @@ public class MTx {
 
         HSST1.addEnchantmentForWeapons(Enchantment.sharpness, 4).addEnchantmentForAmmo(Enchantment.sharpness, 4).addEnchantmentForRanged(Enchantment.power, 4);
         HSSM2.addEnchantmentForWeapons(Enchantment.sharpness, 4).addEnchantmentForAmmo(Enchantment.sharpness, 4).addEnchantmentForRanged(Enchantment.power, 4);
+
+        MT.NeodymiumMagnetic.uumMcfg(0, Nd2Fe14B, U)
+                .setBending(Nd2Fe14B, U).setCompressing(Nd2Fe14B, U).setPulver(Nd2Fe14B, U).setSmashing(Nd2Fe14B, U).setSmelting(Nd2Fe14B, U).setWorking(Nd2Fe14B, U).setForging(Nd2Fe14B, U);
     }
 }
