@@ -28,15 +28,16 @@ public class VerticalMixers extends GT6XFeature {
         enableRotationalMixer = config.cfg.getBoolean("enableRotationalMixerVertical", FEATURE_NAME,true,"enable rotational version of vertical mixers.");
     }
 
-    @Override
-    public void preInit() {}
+    @Override public void preInit() {}
+    @Override public void init() {}
+    @Override public void postInit() {}
 
     private static final int MIXER_ID = 20180;
     private static final int MIXER_ELECTRIC_ID = 20350;
     private static final OreDictPrefix[] plates = { OP.plate, OP.plate, OP.plateDouble, OP.plateTriple, OP.plateQuadruple, OP.plateQuadruple };
 
     @Override
-    public void init() {
+    public void afterGt6Init() {
         Class<? extends TileEntity> aClass; OreDictMaterial mat;
         /* RU */
         if(enableRotationalMixer){
@@ -58,6 +59,5 @@ public class VerticalMixers extends GT6XFeature {
         }
     }
 
-    @Override
-    public void postInit() {}
+
 }

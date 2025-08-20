@@ -48,11 +48,10 @@ public class OilProcessing extends GT6XFeature {
         vacuumDistillation = cfg.cfg.getBoolean(VACUUM_DIST, FEATURE_NAME, true, "Splits the distillation of crude oil into an atmospheric and a vacuum distillation process");
     }
 
-    @Override
-    public void preInit() {}
+    @Override public void preInit() {}
+    @Override public void init() {}
 
-    @Override
-    public void init() {
+    @Override public void afterGt6Init() {
         addMTEs();
     }
 
