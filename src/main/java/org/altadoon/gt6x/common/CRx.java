@@ -37,15 +37,15 @@ public class CRx {
         HashMap<Character, OreDictItemData> itemDataMap = new HashMap<>();
         for (; i < recipe.length; i += 2) {
             Object input = recipe[i + 1];
-            if (recipe[i] instanceof IItemContainer) {
-                recipe[i] = ((IItemContainer)recipe[i]).get(1);
-                if (recipe[i] == null) continue;
-            } else if (recipe[i] instanceof Enum) {
-                recipe[i] = ((Enum<?>)recipe[i]).name();
-            } else if (recipe[i] instanceof Item) {
-                recipe[i] = ST.make((Item)recipe[i], 1, W);
-            } else if (recipe[i] instanceof Block) {
-                recipe[i] = ST.make((Block) recipe[i], 1, W);
+            if (input instanceof IItemContainer container) {
+                input = container.get(1);
+                if (input == null) continue;
+            } else if (input instanceof Enum e) {
+                input = e.name();
+            } else if (input instanceof Item item) {
+                input = ST.make(item, 1, W);
+            } else if (input instanceof Block block) {
+                input = ST.make(block, 1, W);
             }
 
             if (input instanceof ItemStack stack) {

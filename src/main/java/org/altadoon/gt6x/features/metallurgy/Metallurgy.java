@@ -60,8 +60,9 @@ public class Metallurgy extends GT6XFeature {
         OreDictManager.INSTANCE.addListener(new RecyclingProcessingSublimation());
     }
 
-    @Override
-    public void init() {
+    @Override public void init() {}
+
+    @Override public void afterGt6Init() {
         addMTEs();
     }
 

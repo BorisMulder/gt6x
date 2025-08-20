@@ -9,6 +9,7 @@ import gregapi.recipes.handlers.RecipeMapHandlerMaterial;
 import gregapi.util.CR;
 import gregapi.util.OM;
 import gregapi.util.ST;
+import gregapi.util.UT;
 import gregapi.worldgen.WorldgenObject;
 import gregapi.worldgen.WorldgenOresLarge;
 import net.minecraftforge.fluids.FluidStack;
@@ -43,6 +44,10 @@ public class REEProcessing  extends GT6XFeature {
     @Override
     public void init() {
         addRecipes();
+    }
+
+    @Override public void afterGt6Init() {
+        changeMTERecipes();
     }
 
     @Override
@@ -140,6 +145,19 @@ public class REEProcessing  extends GT6XFeature {
             CRx.overrideItemData(IL.PISTONS    [i].get(1), "TPP", "dSS", "TMG", 'M', IL.MOTORS[i], 'P', OP.plate.dat(MT.DATA.Electric_T[i]), 'S', OP.stick.dat(MT.DATA.Electric_T[i]), 'G', OP.gearGtSmall.dat(MT.DATA.Electric_T[i]), 'T', OP.screw.dat(MT.DATA.Electric_T[i]));
             CRx.overrideItemData(IL.ROBOT_ARMS [i].get(1), "CCC", "MSM", "PES", 'M', IL.MOTORS[i], 'C', MT.DATA.CABLES_01[i], 'E', OD_CIRCUITS[i], 'S', OP.stick.dat(MT.DATA.Electric_T[i]), 'P', IL.PISTONS[i]);
         }
+    }
+
+    private void changeMTERecipes() {
+        OreDictMaterial mat = MT.DATA.Electric_T[5];
+        // E. Engine + Motor + Dynamo (IV)
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(10015), CR.DEF_REM_REV, "PhP", "CIC", "PwP", 'P', OP.plateTriple.dat(mat), 'I', OP.stickLong.dat(MTx.SmCo5Magnetic), 'C', OP.wireGt16.dat(MT.AnnealedCopper));
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(10025), CR.DEF_REM_REV, "TIT", "CMC", "TGd", 'M', OP.casingMachineDouble.dat(mat), 'G', OP.gearGt.dat(mat), 'T', OP.screw.dat(mat), 'I', OP.stickLong.dat(MTx.SmCo5Magnetic), 'C', OP.wireGt16.dat(MT.AnnealedCopper));
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(10115), CR.DEF_REM_REV, "TGT", "CMC", "TId", 'M', OP.casingMachineDouble.dat(mat), 'T', OP.screw.dat(mat), 'G', OP.gearGt.dat(mat), 'I', OP.stickLong.dat(MTx.SmCo5Magnetic), 'C', OP.wireGt16.dat(MT.AnnealedCopper));
+        // Flux Engine + Motor + Dynamo (IV)
+        mat = MT.DATA.Flux_T[5];
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(11015), CR.DEF_REM_REV, "G", "M", "G", 'M', MTEx.gt6MTEReg.getItem(10015), 'G', OP.gearGt.dat(mat));
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(11025), CR.DEF_REM_REV, "GMG", 'M', MTEx.gt6MTEReg.getItem(10025), 'G', OP.gearGt.dat(mat));
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(11115), CR.DEF_REM_REV, "SMS", "SGS", 'M', MTEx.gt6MTEReg.getItem(10115), 'G', OP.gearGt.dat(mat), 'S', OP.stickLong.dat(mat));
     }
 
     private void changeRecipes() {

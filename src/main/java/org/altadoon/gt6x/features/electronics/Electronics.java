@@ -69,8 +69,9 @@ public class Electronics extends GT6XFeature {
         addOredictReRegistrations();
     }
 
-    @Override
-    public void init() {
+    @Override public void init() {}
+
+    @Override public void afterGt6Init() {
         addMTEs();
     }
 
