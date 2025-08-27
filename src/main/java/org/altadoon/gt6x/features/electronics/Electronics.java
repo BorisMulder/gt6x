@@ -384,9 +384,8 @@ public class Electronics extends GT6XFeature {
         }
 
         // Ru Electroplating
-        RM.Roasting.addRecipe1(true, 16, 64, dust.mat(MT.Ru, 1), MT.Cl.gas(3 * U, true), NF, dust.mat(MTx.RuCl3, 4));
-        RM.Mixer.addRecipe1(true, 16, 256, dust.mat(MTx.RuCl3, 8), FL.array(MTx.H3NSO3.liquid(8 * U, true), MTx.ConcHCl.liquid(10 * U, true)), FL.array(MTx.H3Ru2NCl8H4O2.liquid(20 * U, false), MT.SO2.gas(3 * U, false)));
-        RM.Mixer.addRecipe1(true, 16, 256, dust.mat(MTx.RuCl3, 8), FL.array(MTx.H3NSO3.liquid(8 * U, true), MT.HCl.gas(4 * U, true), FL.Water.make(3000)), FL.array(MTx.H3Ru2NCl8H4O2.liquid(20 * U, false), MT.SO2.gas(3 * U, false)));
+        RM.Mixer.addRecipe1(true, 16, 256, dust.mat(MTx.RuCl3, 2), FL.array(MTx.H3NSO3.liquid(8 * U, true), MTx.ConcHCl.liquid(10 * U, true)), FL.array(MTx.H3Ru2NCl8H4O2.liquid(20 * U, false), MT.SO2.gas(3 * U, false)));
+        RM.Mixer.addRecipe1(true, 16, 256, dust.mat(MTx.RuCl3, 2), FL.array(MTx.H3NSO3.liquid(8 * U, true), MT.HCl.gas(4 * U, true), FL.Water.make(3000)), FL.array(MTx.H3Ru2NCl8H4O2.liquid(20 * U, false), MT.SO2.gas(3 * U, false)));
         RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MTx.NH4Cl, 3), FL.array(MTx.H3Ru2NCl8H4O2.liquid(20 * U, true)), FL.array(MTx.RuElectrolyte.liquid(20 * U, false), MT.HCl.gas(6 * U, false)));
 
         // bonding/packaging

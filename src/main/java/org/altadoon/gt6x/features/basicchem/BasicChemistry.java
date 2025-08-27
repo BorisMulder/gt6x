@@ -165,6 +165,10 @@ public class BasicChemistry extends GT6XFeature {
         }
         RM.Electrolyzer.addRecipe1(true, 16, 2560, ST.tag(0), FL.array(MTx.NaBrSolution.liquid(5*U2, true)), FL.array(MT.Br.liquid(U2, false), MT.H.gas(U2, false)), OM.dust(MT.NaOH, 3 * U2));
 
+        // Iodine chemistry
+        RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MT.I, 1), MT.H.gas(U, true), MTx.HI.gas(U, false), ZL_IS);
+        RM.Mixer.addRecipe0(true, 16, 32, FL.array(MTx.HI.gas(2*U, true), MT.O.gas(U, true)), FL.array(MT.H2O.liquid(3*U, false)), dust.mat(MT.I, 2));
+
         // Acid mixtures
         RM.Mixer.addRecipe0(true, 16, 64, FL.array(MT.H2O2.liquid(4*U, true), MT.H2SO4.liquid(7*U, true)), FL.array(MTx.PiranhaEtch.liquid(11*U, false)));
 
@@ -322,9 +326,6 @@ public class BasicChemistry extends GT6XFeature {
 
         // Bi chloride
         RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.Bi, 1), MT.Cl.gas(3*U, true), NF, dust.mat(MTx.BiCl3, 4));
-
-        // Pd chlorination
-        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.Pd, 1), MT.Cl.gas(2*U, true), NF, dust.mat(MTx.PdCl2, 3));
 
         // Sn fluoride
         RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MT.Sn, 1), MT.HF.gas(4*U, true), MT.H.gas(2*U, false), dust.mat(MTx.SnF2, 1));

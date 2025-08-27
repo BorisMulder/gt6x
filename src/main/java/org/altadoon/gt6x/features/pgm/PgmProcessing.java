@@ -242,6 +242,11 @@ public class PgmProcessing extends GT6XFeature {
             map.addRecipe1(true, 16, 64 , dust.mat(MTx.RuO4 , 5), MT.H.gas(8*U, true), MT.H2O.liquid(12*U, false), dust.mat(MT.Ru, 1));
             map.addRecipe1(true, 16, 64 , dust.mat(MTx.OsO4 , 5), MT.H.gas(8*U, true), MT.H2O.liquid(12*U, false), dust.mat(MT.Os, 1));
         }
+
+        // Chlorination
+        RM.Roasting.addRecipe1(true, 16, 64, dust.mat(MT.Pd, 1), MT.Cl.gas(2*U, true), NF, dust.mat(MTx.PdCl2, 3));
+        RM.Roasting.addRecipe1(true, 16, 64, dust.mat(MT.Ru, 1), MT.Cl.gas(3*U, true), NF, dust.mat(MTx.RuCl3, 1));
+        RM.Roasting.addRecipe1(true, 16, 64, dust.mat(MT.Ir, 1), MT.Cl.gas(3*U, true), NF, dust.mat(MTx.IrCl3, 1));
     }
 
     public void addComplexRecipes() {

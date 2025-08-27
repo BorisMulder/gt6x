@@ -47,15 +47,15 @@ public class MTx {
         addMolten(mat, mat.mMeltingPoint <= 0 ? 1000 : mat.mMeltingPoint < 300 ? Math.min(300, mat.mBoilingPoint - 1) : mat.mMeltingPoint);
     }
 
-	private static void addMolten(OreDictMaterial mat, long temperature) {
-		mat.put(MELTING, MOLTEN);
-		FL.create(
-			"molten." + mat.mNameInternal.toLowerCase(),
-			mat.mTextureSetsBlock.get(IconsGT.INDEX_BLOCK_MOLTEN),
-			"Molten " + mat.mNameLocal,
-			mat, mat.mRGBaLiquid, STATE_LIQUID, 144, temperature, null, null, 0
-		).setLuminosity(10);
-	}
+    private static void addMolten(OreDictMaterial mat, long temperature) {
+        mat.put(MELTING, MOLTEN);
+        FL.create(
+            "molten." + mat.mNameInternal.toLowerCase(),
+            mat.mTextureSetsBlock.get(IconsGT.INDEX_BLOCK_MOLTEN),
+            "Molten " + mat.mNameLocal,
+            mat, mat.mRGBaLiquid, STATE_LIQUID, 144, temperature, null, null, 0
+        ).setLuminosity(10);
+    }
 
     private static void addVapour(OreDictMaterial mat) {
         mat.put(VAPORIZING);
@@ -1070,7 +1070,7 @@ public class MTx {
             .heat(MT.H2O)),
     KOHSolution = simpleSolution(16226, "Potassium Hydroxide Solution", 200, 100, 200, 250, MT.KOH, 3),
     RuCl3 = dustdcmp(16227, "Ruthenium(III) Chloride", SET_METALLIC, 20, 20, 20, 255)
-            .uumMcfg(0, MT.Ru, U, MT.Cl, 3*U)
+            .uumMcfg(1, MT.Ru, U, MT.Cl, 3*U)
             .heat(500 + C),
     Urea = dustdcmp(16228, "Urea", SET_CUBE, 255, 255, 255, 255)
             .uumMcfg(0, MT.C, U, MT.O, U, MT.N, 2*U, MT.H, 4*U)
@@ -1737,7 +1737,21 @@ public class MTx {
     RbClSolution = simpleSolution(16504, RbCl, 3),
     CsClSolution = simpleSolution(16505, CsCl, 3),
     CsRbClSolution = registerLiquid(lquddcmp(16506, "Caesium-Rubidium Chloride Solution", 255, 200, 0, 200)
-            .setMcfg(0, CsCl, 5*U, RbCl, U, MT.H2O, 3*3*U))
+            .setMcfg(0, CsCl, 5*U, RbCl, U, MT.H2O, 3*3*U)),
+    HI = registerGas(gasdcmp(16507, "Hydrogen Iodide", 20, 0, 50, 200)
+            .uumMcfg(1, MT.H, U, MT.I, U)
+            .heat(222, 237)),
+    IrCl3 = dustdcmp(16508, "Iridium(III) Chloride", SET_ROUGH, 40, 40, 40, 255)
+            .uumMcfg(1, MT.Ir, U, MT.Cl, 3*U)
+            .heat(1036).setSmelting(MT.Ir, U),
+    IrC3O3I3 = dustdcmp(16509, "Iridium Tricarbonyl Triiodide", SET_ROUGH, 60, 40, 80, 255)
+            .setMcfg(1, MT.Ir, 3*U, MT.C, 3*U, MT.O, 3*U, MT.I, 3*U)
+            .tooltip("Ir(CO)" + NUM_SUB[3] + "I" + NUM_SUB[3])
+            .heat(IrCl3),
+    HIrC2O2I2 = dustdcmp(16510, "Hydrogen Diiododicarbonyliridate", SET_DULL, 40, 20, 80, 255)
+            .setMcfg(1, MT.H, U, MT.Ir, U, MT.C, 2*U, MT.O, 2*U, MT.I, 2*U)
+            .tooltip("HIr(CO)" + NUM_SUB[2] + "I" + NUM_SUB[2])
+            .heat(IrC3O3I3)
     ;
 
     @SuppressWarnings("unused")
