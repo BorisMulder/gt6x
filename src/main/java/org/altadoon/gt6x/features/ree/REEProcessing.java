@@ -128,8 +128,12 @@ public class REEProcessing  extends GT6XFeature {
             }
         }
 
-        //TODO alloyed Nd/Sm-Co magnets
+        // TODO YBCO superconductor coils for fusion reactor
         //TODO LuAG lenses for high end (DUV) immersion lithography
+		//TODO La-using Ni-MH batteries
+		// TODO LaF3-fiberglass (ZBLAN), Er doped
+		// TODO Tb-based green phosphors
+		//TODO Solid-State lasers for higher LU generation
     }
 
     private void changeItemRecipes() {
