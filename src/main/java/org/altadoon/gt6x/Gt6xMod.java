@@ -16,6 +16,7 @@ import org.altadoon.gt6x.features.distillationtowers.DistillationTowers;
 import org.altadoon.gt6x.features.electronics.Compat_Recipes_OpenComputersX;
 import org.altadoon.gt6x.features.electronics.Electronics;
 import org.altadoon.gt6x.features.engines.Engines;
+import org.altadoon.gt6x.features.fusion.Fusion;
 import org.altadoon.gt6x.features.oil.OilProcessing;
 import org.altadoon.gt6x.features.pgm.PgmProcessing;
 import org.altadoon.gt6x.features.metallurgy.Metallurgy;
@@ -66,6 +67,7 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 		DistillationTowers.class,
 		Electronics.class,
 		Engines.class,
+		Fusion.class,
 		Metallurgy.class,
 		OilProcessing.class,
 		PgmProcessing.class,

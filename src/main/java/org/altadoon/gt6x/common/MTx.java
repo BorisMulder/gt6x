@@ -1751,7 +1751,10 @@ public class MTx {
     HIrC2O2I2 = dustdcmp(16510, "Hydrogen Diiododicarbonyliridate", SET_DULL, 40, 20, 80, 255)
             .setMcfg(1, MT.H, U, MT.Ir, U, MT.C, 2*U, MT.O, 2*U, MT.I, 2*U)
             .tooltip("HIr(CO)" + NUM_SUB[2] + "I" + NUM_SUB[2])
-            .heat(IrC3O3I3)
+            .heat(IrC3O3I3),
+    YBCO = create(16511, "YBCO", 10, 10, 10, 255, "Yttrium Barium Copper Oxide", "Yttrium Barium Cuprate")
+			.setMcfg(0, MT.Y, U, MT.Ba, 2*U, MT.Cu, 3*U, MT.O, 7*U)
+			.setLocal("Yttrium Barium Copper Oxide")
     ;
 
     @SuppressWarnings("unused")
