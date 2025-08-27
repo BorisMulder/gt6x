@@ -389,7 +389,14 @@ public class OilProcessing extends GT6XFeature {
             RM.Mixer.addRecipe1(true, 16, 2048, OM.dust(MT.WO3, 48 * U), FL.array(MTx.ConcHCl.liquid(20 * U, true), MTx.Na4SiO4Solution.liquid(18 * U, true), FL.mul(water, 6)), FL.array(FL.Saltwater.make(32000)), dust.mat(MTx.SilicoTungsticAcid, 96));
             RM.Mixer.addRecipe1(true, 16, 2048, OM.dust(MT.WO3, 48 * U), FL.array(MTx.DiluteHCl.liquid(32 * U, true), MTx.Na4SiO4Solution.liquid(18 * U, true), FL.mul(water, 2)), FL.array(FL.Saltwater.make(32000)), dust.mat(MTx.SilicoTungsticAcid, 96));
         }
+
+        // Acetic acid from direct Ethylene oxidation
         RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MTx.SilicoTungsticAcid, 0), FL.array(MT.Ethylene.gas(U, true), MT.O.gas(2*U, true)), FL.array(MTx.AceticAcid.liquid(U, false)));
+        // Acetic acid from Cativa process (incl. catalyst synthesis)
+        RM.Mixer.addRecipe1(true, 16, 256, dust.mat(MTx.IrCl3, 1), FL.array(MT.CO.gas(6*U, true), MTx.HI.gas(3*U, true)), FL.array(MT.HCl.gas(6*U, false)), dust.mat(MTx.IrC3O3I3, 1));
+        RM.Mixer.addRecipe1(true, 16, 256, dust.mat(MTx.IrC3O3I3, 1), MT.H.gas(2*U, true), MTx.HI.gas(U, false), dust.mat(MTx.HIrC2O2I2, 1));
+        RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MTx.HIrC2O2I2, 0), FL.array(MTx.Methanol.liquid(U, true), MT.CO.gas(2*U, true)), FL.array(MTx.AceticAcid.liquid(U, false)));
+
         RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MT.Pd, 0), FL.array(MT.Ethylene.gas(U, true), MTx.AceticAcid.liquid(U, true), MT.O.gas(U, true)), FL.array(MTx.VinylAcetate.liquid(U, false), MT.H2O.liquid(3*U, false)));
         RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MT.NaSO4, 0), MTx.VinylAcetate.liquid(U, true), NF, dust.mat(MTx.PolyvinylAcetate, 1));
         RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.NaOH, 0), dust.mat(MTx.PolyvinylAcetate, 1), MTx.Methanol.liquid(U, true), MTx.MethylAcetate.liquid(U, false), dust.mat(MTx.PVA, 1));
