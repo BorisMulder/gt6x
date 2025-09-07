@@ -18,6 +18,10 @@ public class Fusion extends GT6XFeature {
 
 	@Override public void init() {}
 
+	@Override public void afterGt6Init() {
+		addMTEs();
+	}
+
 	@Override public void postInit() {
 		addRecipes();
 	}
@@ -25,6 +29,10 @@ public class Fusion extends GT6XFeature {
 	@Override
 	public void afterGt6PostInit() {
 		changeFusionRecipes();
+	}
+
+	private void addMTEs() {
+
 	}
 
 	private void addRecipes() {
@@ -35,8 +43,8 @@ public class Fusion extends GT6XFeature {
 		//CeO2 layer
 		//YSZ buffer layer
 		//CeO2 layer (all 3 sputtered/ionbomb)
-		//YBCO (Dy doped?) using MOVPE (using Y/Ba/Cu 6,6-tetramethyl-3,5-heptane dionate (-)) vapour in vacuum chamber
-		//Silver layer (PVD?)
+		//YBCO (Dy/Gd doped?) using MOVPE (using Y/Ba/Cu 6,6-tetramethyl-3,5-heptane dionate (-)) vapour in vacuum chamber
+		//Silver + copper layer (PVD+electroplated)
 		//Impregnated with epoxy
 
 		/// Thermal/electrical multi-layer insulation (MLI)
