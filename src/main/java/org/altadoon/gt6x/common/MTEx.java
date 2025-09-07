@@ -172,7 +172,7 @@ public class MTEx {
         DenseWallTi6Al4V(812),
         DenseWallTMS196(813),
 
-        // Crucibles: 900-1199
+        // Crucibles: 900-1199 / same as GT6
         Crucibles(1000),
         Molds(1050),
         CrucibleFaucets(1700),

@@ -1722,9 +1722,10 @@ public class MTx {
     HREEHydroxide = dustdcmp(16500, "Heavy Rare Earth Hydroxide Residue", SET_ROUGH, 180, 200, 100, 255)
             .setMcfg(0, HREE, 4*U, MT.U_238, U, OH, 15*U)
             .heat(330+C),
-    Nd2Fe14B = alloymachine(16501, "Neodymium-Iron-Boron Alloy", SET_METALLIC, 0, 0, 0)
+    Nd2Fe14B = alloymachine(16501, "Dysprosium-doped Neodymium-Iron-Boron Alloy", SET_METALLIC, 0, 0, 0)
             .stealLooks(MT.Nd)
-            .uumAloy(0, MT.Nd, 2*U, MT.Fe, 14*U, MT.B, U)
+            .uumAloy(0, MT.Nd, 17*U, MT.Dy, U, MT.Fe, 126*U, MT.B, 9*U)
+			.tooltip("Nd" + NUM_SUB[2] + "Fe" + NUM_SUB[14] + "B:Dy")
             .heat(1412+C, 2600+C),
     SmCo5 = alloymachine(16502, "SamariumCobalt", SET_METALLIC, 96, 96, 238)
             .setLocal("Samarium-Cobalt")
@@ -1754,8 +1755,28 @@ public class MTx {
             .heat(IrC3O3I3),
     YBCO = create(16511, "YBCO", 10, 10, 10, 255, "Yttrium Barium Copper Oxide", "Yttrium Barium Cuprate")
 			.setMcfg(0, MT.Y, U, MT.Ba, 2*U, MT.Cu, 3*U, MT.O, 7*U)
-			.setLocal("Yttrium Barium Copper Oxide")
-    ;
+			.setLocal("Yttrium Barium Copper Oxide"),
+	Durene = dustdcmp(16512, "Durene", SET_CUBE, 255, 255, 255, 255)
+			.setMcfg(1, MT.C, 10*U, MT.H, 14*U)
+			.heat(352, 465),
+	PMDA = dustdcmp(16513, "PMDA", SET_CUBE, 255, 255, 255, 255)
+			.setMcfg(1, MT.C, 10*U, MT.H, 2*U, MT.O, 6*U)
+			.heat(556, 670)
+			.setLocal("Pyromellitic dianhydride"),
+	Chlorobenzene = lqudflam(16514, "Chlorobenzene", 255, 255, 255, 200).put(DECOMPOSABLE)
+			.setMcfg(1, MT.C, 6*U, MT.H, 5*U, MT.Cl, U)
+			.heat(228, 405),
+	Nitrochlorobenzene = dustdcmp(16515, "Nitrochlorobenzene", SET_DULL, 255, 255, 180, 255)
+			.setMcfg(1, MT.C, 6*U, MT.H, 4*U, MT.Cl, U, MT.N, U, MT.O, 2*U)
+			.heat(357, 515),
+	DNDPE = dustdcmp(16516, "4,4'-Dinitrodiphenyl Ether", SET_FINE, 255, 255, 255, 255)
+			.setMcfg(1, MT.C, 12*U, MT.H, 8*U, MT.N, 2*U, MT.O, 3*U)
+			.heat(413, 676),
+	ODA = dustdcmp(16517, "4,4'-Oxydianiline", SET_FINE, 255, 255, 255, 255)
+			.setMcfg(1, MT.C, 12*U, MT.H, 12*U, MT.N, 2*U, MT.O, U)
+			.heat(461, 492),
+	Kapton = plastic(16518, "Kapton", SET_SHINY, 196, 176, 75, 255)
+	;
 
     @SuppressWarnings("unused")
     public static class UNUSED {

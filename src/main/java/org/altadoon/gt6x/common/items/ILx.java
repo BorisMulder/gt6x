@@ -200,6 +200,13 @@ public class ILx implements IItemContainer {
             Fireclay_Engine_Block_Mold_Raw = new ILx("Fireclay_Engine_Block_Mold_Raw"), Fireclay_Engine_Block_Mold = new ILx("Fireclay_Engine_Block_Mold"),
 
             Ceramic_Engine_Block_Mold_Raw = new ILx("Ceramic_Engine_Block_Mold_Raw"), Ceramic_Engine_Block_Mold = new ILx("Ceramic_Engine_Block_Mold"),
+
+			// Superconductor wire stages
+			HTSTape_Buffer = new ILx("HTSTape_Buffer"),
+			HTSTape_REBCO = new ILx("HTSTape_REBCO"),
+			HTSTape_AgCu = new ILx("HTSTape_AgCu"),
+			HTSTape_Insulated = new ILx("HTSTape_Insulated"),
+
             NULL = null;
 
     // Fireclay crucible parts
