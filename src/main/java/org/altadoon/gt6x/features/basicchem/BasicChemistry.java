@@ -255,14 +255,16 @@ public class BasicChemistry extends GT6XFeature {
         RM.Lightning.addRecipe1(true, 64, 100, ST.tag(3), MT.O.gas(3*U, true), MTx.Ozone.gas(2*U, false), NI);
 
         // Roasting stuff
-        for (String tOxygen : FluidsGT.OXYGEN) if (FL.exists(tOxygen)) {
-            RM.Roasting.addRecipe1(true, 16, 512, OM.dust(MTx.Chalcocite), FL.make(tOxygen, 667), MT.SO2.gas(3*U3, false), OM.dust(MT.Cu, 2*U3));
-            RM.Roasting.addRecipe1(true, 16, 256, OM.dust(MT.P), FL.make(tOxygen, 2500), NF, OM.dust(MTx.P2O5, 7*U2));
+        for (String oxygen : FluidsGT.OXYGEN) if (FL.exists(oxygen)) {
+            RM.Roasting.addRecipe1(true, 16, 512, OM.dust(MTx.Chalcocite), FL.make(oxygen, 667), MT.SO2.gas(3*U3, false), OM.dust(MT.Cu, 2*U3));
+            RM.Roasting.addRecipe1(true, 16, 256, OM.dust(MT.P), FL.make(oxygen, 2500), NF, OM.dust(MTx.P2O5, 7*U2));
+			RM.Roasting.addRecipe1(true, 16, 256, OM.dust(MT.Cu), FL.make(oxygen, 1000), NF, OM.dust(MTx.CuO, U));
         }
-        final long[] tChances = new long[] {8000};
-        for (String tAir : FluidsGT.AIR) if (FL.exists(tAir)) {
-            RM.Roasting.addRecipe1(true, 16, 512, tChances, OM.dust(MTx.Chalcocite), FL.make(tAir, 3000), MT.SO2.gas(3*U3, false), OM.dust(MT.Cu, 2*U3));
-            RM.Roasting.addRecipe1(true, 16, 256, tChances, OM.dust(MT.P), FL.make(tAir, 7500), NF, OM.dust(MTx.P2O5, 7*U2));
+        final long[] chances = new long[] {8000};
+        for (String air : FluidsGT.AIR) if (FL.exists(air)) {
+            RM.Roasting.addRecipe1(true, 16, 512, chances, OM.dust(MTx.Chalcocite), FL.make(air, 3000), MT.SO2.gas(3*U3, false), OM.dust(MT.Cu, 2*U3));
+            RM.Roasting.addRecipe1(true, 16, 256, OM.dust(MT.P), FL.make(air, 7500), NF, OM.dust(MTx.P2O5, 7*U2));
+			RM.Roasting.addRecipe1(true, 16, 256, OM.dust(MT.Cu), FL.make(air, 3000), NF, OM.dust(MTx.CuO, U));
         }
 
         // Misc ores
@@ -324,18 +326,17 @@ public class BasicChemistry extends GT6XFeature {
         RM.Bath .addRecipe1(true, 0 , 64, dust     .mat(MT.Al, 1), MT.HCl.gas(6*U , true), MT.H.gas(3*U , false), dust.mat(MTx.AlCl3, 4));
         RM.Bath .addRecipe1(true, 0 , 16, dustSmall.mat(MT.Al, 1), MT.HCl.gas(6*U4, true), MT.H.gas(3*U4, false), dust.mat(MTx.AlCl3, 1));
 
-        // Zn chloride
+        // Other chlorides
         RM.Bath.addRecipe1(true, 0, 64, dust.mat(MT.Zn, 1), MT.HCl.gas(4*U, true), MT.H.gas(2*U, false), dust.mat(MTx.ZnCl2, 3));
         RM.Bath.addRecipe1(true, 0, 64, dust.mat(MTx.ZnO, 1), MT.HCl.gas(4*U, true), MTx.ZnCl2Solution.liquid(6*U, false), NI);
-
-        // Bi chloride
         RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.Bi, 1), MT.Cl.gas(3*U, true), NF, dust.mat(MTx.BiCl3, 4));
+		RM.Bath.addRecipe1(true, 0, 32, dust.mat(MT.Cu, 1), MT.Cl.gas(2*U, true), NF, dust.mat(MTx.CuCl2, 3));
+
+		// LiCl solution
+		RM.Electrolyzer.addRecipe1(true, 16, 6400, ST.tag(0), FL.array(MTx.LiClSolution.liquid(5*U, true)), FL.array(MT.Cl.gas(U, false), MT.H.gas(U, false)), OM.dust(MT.LiOH, 3*U));
 
         // Sn fluoride
         RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MT.Sn, 1), MT.HF.gas(4*U, true), MT.H.gas(2*U, false), dust.mat(MTx.SnF2, 1));
-
-        // LiCl solution
-        RM.Electrolyzer.addRecipe1(true, 16, 6400, ST.tag(0), FL.array(MTx.LiClSolution.liquid(5*U, true)), FL.array(MT.Cl.gas(U, false), MT.H.gas(U, false)), OM.dust(MT.LiOH, 3*U));
 
         // mixing misc solutions
         for (FluidStack water : FL.waters(3000)) {

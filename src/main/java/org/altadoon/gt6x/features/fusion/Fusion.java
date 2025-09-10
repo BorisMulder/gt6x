@@ -3,6 +3,7 @@ package org.altadoon.gt6x.features.fusion;
 import gregapi.data.FL;
 import gregapi.data.MT;
 import gregapi.data.RM;
+import gregapi.oredict.OreDictMaterial;
 import gregapi.util.ST;
 import org.altadoon.gt6x.common.MTx;
 import org.altadoon.gt6x.common.RMx;
@@ -39,18 +40,26 @@ public class Fusion extends GT6XFeature {
 	}
 
 	private void addRecipes() {
+		// YBCO MOVPE precursors
+		RM.Mixer.addRecipe0(false, 16, 128, FL.array(MTx.TMHD.liquid(U, true), MTx.NaOHSolution.liquid(6*U, true)), FL.array(MTx.NaTMHDSolution.liquid(7*U, false)));
+		RM.Bath.addRecipe1(true, 0, 96, dust.mat(MTx.YNO33, 4), FL.array(MTx.NaTMHDSolution.liquid(21*U, false)), FL.array(MTx.NaNO3Solution.liquid(8*3*U, false), MT.H2O.liquid(9*U, false)), dust.mat(MTx.YTMHD, 1));
+		RM.Bath.addRecipe1(true, 0, 64, dust.mat(MTx.BaCl2, 1), MTx.NaTMHDSolution.liquid(14*U, false), MT.SaltWater.liquid(16*U, false), dust.mat(MTx.BaTMHD, 1));
+		RM.Bath.addRecipe1(true, 0, 64, dust.mat(MTx.CuCl2, 3), MTx.NaTMHDSolution.liquid(14*U, false), MT.SaltWater.liquid(16*U, false), dust.mat(MTx.CuTMHD, 1));
+
+		for (OreDictMaterial mat : new OreDictMaterial[] {MTx.YTMHD, MTx.BaTMHD, MTx.CuTMHD}) {
+			RM.Smelter.addRecipe1(false, 512, 8, dustSmall.mat(mat, 1), NF, mat.gas(U4, false), NI);
+			RM.Smelter.addRecipe1(false, 512, 32, dust.mat(mat, 1), NF, mat.gas(U, false), NI);
+			RM.Smelter.addRecipe1(false, 512, 32*9, blockDust.mat(mat, 1), NF, mat.gas(9*U, false), NI);
+		}
+
+		RM.Mixer.addRecipe1(true, 16, 128, ST.tag(3), FL.array(MTx.YTMHD.gas(U, true), MTx.BaTMHD.gas(2*U, true), MTx.CuTMHD.gas(3*U, true)), FL.array(MTx.YBaCuTMHD.gas(6*U, false)));
+
 		// Superconductors
 		RMx.IonBombardment.addRecipeX(false, 64, 64, ST.array(foil.mat(MTx.Hastelloy, 1), dustDiv72.mat(MTx.CeO2, 2), dustDiv72.mat(MTx.YSZ, 1)), ILx.HTSTape_Buffer.get(1));
 		RMx.VacuumChamber.addRecipe1(false, 64, 64, ILx.HTSTape_Buffer.get(1));
-
-		/// Wire layers
-		//Hastelloy substrate
-		//CeO2 layer
-		//YSZ buffer layer
-		//CeO2 layer (all 3 sputtered/ionbomb)
-		//YBCO (Dy/Gd doped?) using MOVPE (using Y/Ba/Cu 6,6-tetramethyl-3,5-heptane dionate (-)) vapour in vacuum chamber
-		//Silver + copper layer (PVD+electroplated)
-		//Impregnated with epoxy
+		RMx.Thermolysis.addRecipe1(false, 32, 256, ILx.HTSTape_Buffer.get(1), FL.array(MTx.YBaCuTMHD.gas(U8, true), MT.O.gas(10*U, true)), FL.array(MT.H2O.liquid(9*U, false), MT.CO2.gas(9*U, false)), ILx.HTSTape_REBCO.get(1));
+		RMx.IonBombardment.addRecipeX(false, 64, 64, ST.array(ILx.HTSTape_REBCO.get(1), dustTiny.mat(MT.Ag, 1), dustTiny.mat(MT.Cu, 1)), ILx.HTSTape_AgCu.get(1));
+		RM.Press.addRecipe2(false, 16, 32, ILx.HTSTape_AgCu.get(1), foil.mat(MTx.Kapton, 1), MTx.Epoxy.liquid(U4, true), NF, ILx.HTSTape_Insulated.get(1));
 
 		/// Thermal/electrical multi-layer insulation (MLI)
 		// BoPET: PET extruded into foils (mylar), then Al gas PVD metallization

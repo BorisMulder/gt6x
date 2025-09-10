@@ -331,7 +331,7 @@ public class MultiItemsElectronics extends MultiItemRandom {
 		// Superconductor wires
 		ILx.HTSTape_Buffer   .set(addItem(1000, "HTS Tape (Substrate + Buffer layers)", "Part of a High-Temperature Superconductor"), new OreDictItemData(OM.stack(MTx.Hastelloy, U4), OM.stack(MTx.CeO2, U36), OM.stack(MTx.YSZ, U72)));
 		ILx.HTSTape_REBCO    .set(addItem(1001, "HTS Tape (YBCO)",                      "Part of a High-Temperature Superconductor"), new OreDictItemData(OM.stack(MTx.Hastelloy, U4), OM.stack(MTx.CeO2, U36), OM.stack(MTx.YSZ, U72), OM.stack(MTx.YBCO, U9)));
-		ILx.HTSTape_AgCu     .set(addItem(1002, "HTS Tape (Ag + Cu layers)",            "Part of a High-Temperature Superconductor"), new OreDictItemData(OM.stack(MTx.Hastelloy, U4), OM.stack(MTx.CeO2, U36), OM.stack(MTx.YSZ, U72), OM.stack(MTx.YBCO, U9), OM.stack(MT.Ag, U9), OM.stack(MT.Cu, U4)));
-		ILx.HTSTape_Insulated.set(addItem(1003, "HTS Tape (Insulated)",                 "Part of a High-Temperature Superconductor"), new OreDictItemData(OM.stack(MTx.Hastelloy, U4), OM.stack(MTx.CeO2, U36), OM.stack(MTx.YSZ, U72), OM.stack(MTx.YBCO, U9), OM.stack(MT.Ag, U9), OM.stack(MT.Cu, U4), OM.stack(MTx.Kapton, U4)));
+		ILx.HTSTape_AgCu     .set(addItem(1002, "HTS Tape (Ag + Cu layers)",            "Part of a High-Temperature Superconductor"), new OreDictItemData(OM.stack(MTx.Hastelloy, U4), OM.stack(MTx.CeO2, U36), OM.stack(MTx.YSZ, U72), OM.stack(MTx.YBCO, U9), OM.stack(MT.Ag, U9), OM.stack(MT.Cu, U9)));
+		ILx.HTSTape_Insulated.set(addItem(1003, "HTS Tape (Insulated)",                 "Part of a High-Temperature Superconductor"), new OreDictItemData(OM.stack(MTx.Hastelloy, U4), OM.stack(MTx.CeO2, U36), OM.stack(MTx.YSZ, U72), OM.stack(MTx.YBCO, U9), OM.stack(MT.Ag, U9), OM.stack(MT.Cu, U9), OM.stack(MTx.Kapton, U4)));
     }
 }

@@ -808,7 +808,7 @@ public class MTx {
             .heat(181, 254)),
     PF = plastic(16134, "Phenol Formaldehyde Resin", SET_DULL, 136, 73, 7, 255)
             .heat(600, 600),
-    CuCl2 = dustdcmp(16135, "Cupric Chloride", SET_DULL, 184, 135, 0, 255, ELECTROLYSER)
+    CuCl2 = dustdcmp(16135, "Copper(II) Chloride", SET_DULL, 184, 135, 0, 255, ELECTROLYSER, "Cupric Chloride")
             .uumMcfg(0, MT.Cu, U, MT.Cl, 2*U)
             .heat(771, 1266),
     CuFeClSolution = registerLiquid(lquddcmp(16136, "Cupric-Ferrous Chloride Solution", 66, 245, 206, 255)
@@ -1563,7 +1563,9 @@ public class MTx {
             .setMcfg(15, ZrO2, 10*U, Y2O3, 2*U)
             .heat(ZrO2)
             .setLocal("Yttria-Stabilized Zirconia"),
-    //TODO 16417 free
+    CuO = dustdcmp(16417, "Copper(II) Oxide", SET_CUBE, 20, 20, 0, 255)
+			.uumMcfg(1, MT.Cu, U, MT.O, U)
+			.heat(1599, 2270),
     LaNO3 = dustdcmp(16418, "Lanthanum Nitrate", SET_ROUGH, 255, 255, 255, 255)
             .setMcfg(10, MT.La, U, MT.N, 3*U, MT.O, 9*U)
             .tooltip("La(NO" + NUM_SUB[3] + ")" + NUM_SUB[3])
@@ -1755,9 +1757,11 @@ public class MTx {
             .setMcfg(1, MT.H, U, MT.Ir, U, MT.C, 2*U, MT.O, 2*U, MT.I, 2*U)
             .tooltip("HIr(CO)" + NUM_SUB[2] + "I" + NUM_SUB[2])
             .heat(IrC3O3I3),
-    YBCO = create(16511, "YBCO", 10, 10, 10, 255, "Yttrium Barium Copper Oxide", "Yttrium Barium Cuprate")
-			.setMcfg(0, MT.Y, U, MT.Ba, 2*U, MT.Cu, 3*U, MT.O, 7*U)
-			.setLocal("Yttrium Barium Copper Oxide"),
+    YBCO = dustdcmp(16511, "YBCO", SET_DULL, 10, 10, 10, 255, "Yttrium Barium Copper Oxide", "Yttrium Barium Cuprate")
+			.setMcfg(0, Y2O3, U, BaO, 2*U, MT.Cu, 3*U, MT.O, 7*U)
+			.tooltip("YBa" + NUM_SUB[2] + "Cu" + NUM_SUB[3] + "O" + NUM_SUB[7])
+			.setLocal("Yttrium Barium Copper Oxide")
+			.put(INGOTS, CENTRIFUGE),
 	Durene = dustdcmp(16512, "Durene", SET_CUBE, 255, 255, 255, 255)
 			.setMcfg(1, MT.C, 10*U, MT.H, 14*U)
 			.heat(352, 465),
@@ -1809,9 +1813,37 @@ public class MTx {
 	Methylpivalate = registerLiquid(lquddcmp(16529, "Methyl Pivalate", 255, 255, 255, 150)
 			.setMcfg(1, MT.C, 6*U, MT.H, 12*U, MT.O, 2*U)
 			.heat(270, 374)),
-	TMHD = registerLiquid(lquddcmp(16530, "Dipivaloylmethane", 255, 255, 255, 255, "2,2,6,6-Tetramethyl-3,5-heptanedione")
+	TMHD = registerLiquid(lquddcmp(16530, "TMHD", 255, 255, 255, 255, "2,2,6,6-Tetramethyl-3,5-heptanedione", "Dipivaloylmethane")
 			.setMcfg(1, MT.C, 11*U, MT.H, 20*U, MT.O, 2*U)
-			.heat(343, 400))
+			.setLocal("Dipivaloylmethane")
+			.heat(343, 400)),
+	NaTMHD = dustdcmp(16531, "Sodium TMHD", SET_FINE, 100, 0, 150, 255)
+			.setMcfg(1, MT.Na, U, TMHD, U)
+			.heat(TMHD.mMeltingPoint+100),
+	NaTMHDSolution = simpleSolution(16532, NaTMHD, 6),
+	YTMHD = dustdcmp(16533, "Yttrium TMHD complex", SET_DULL, 200, 255, 150, 255)
+			.setMcfg(1, MT.Y, U, TMHD, 3*U)
+			.heat(175+C)
+			.setBurning(Y2O3, U),
+	BaTMHD = dustdcmp(16534, "Barium TMHD complex", SET_DULL, 200, 255, 150, 255)
+			.setMcfg(1, MT.Ba, U, TMHD, 2*U)
+			.heat(100+C)
+			.setBurning(BaO, U),
+	CuTMHD = dustdcmp(16535, "Copper TMHD complex", SET_DULL, 200, 255, 150, 255)
+			.setMcfg(1, MT.Cu, U, TMHD, 2*U)
+			.heat(150+C)
+			.setBurning(CuO, U),
+	YBaCuTMHD = dustdcmp(16536, "Yttrium Barium Copper TMHD complex mixture", SET_DULL, 200, 255, 150, 255)
+			.setMcfg(0, YTMHD, U, BaTMHD, 2*U, CuTMHD, 3*U)
+			.heat(150+C, 250+C)
+			.setBurning(YBCO, U),
+	YNO33 = dustdcmp(16537, "Yttrium Nitrate", SET_SHARDS, 250, 255, 255, 255)
+			.setMcfg(4, MT.Y, U, NO3, 3*U)
+			.tooltip("Y(NO" + NUM_SUB[3] + ")" + NUM_SUB[3])
+			.heat(600+C).setSmelting(Y2O3, U),
+	BaCl2 = dustdcmp(16538, "Barium Chloride", SET_CUBE, 250, 250, 250, 255)
+			.setMcfg(1, MT.Ba, U, MT.Cl, 2*U)
+			.heat(1235, 1830)
 	;
 
     @SuppressWarnings("unused")
@@ -1898,6 +1930,10 @@ public class MTx {
 
         addVapour(RuO4);
         addVapour(OsO4);
+		addVapour(YTMHD);
+		addVapour(BaTMHD);
+		addVapour(CuTMHD);
+		addVapour(YBaCuTMHD);
 
         addPlasma(CF4, false, 310);
         addPlasma(NF3, false, 310);
