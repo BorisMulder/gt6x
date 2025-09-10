@@ -482,12 +482,12 @@ public class Metallurgy extends GT6XFeature {
             RM.BurnMixer.addRecipe2(true, 16, 32, dust.mat(MT.OREMATS.Celestine, 6), dust.mat(coal, 2), NF, MT.CO2.gas(6*U, false), dust.mat(MTx.SrS, 1));
         }
         RM.Bath.addRecipe1(true, 0, 64, dust.mat(MTx.BaS, 1), MT.NitricAcid.liquid(10*U, true), MT.H2S.gas(3*U, false), dust.mat(MTx.BaNO3, 1));
-		RM.Bath.addRecipe1(true, 0, 64, dust.mat(MTx.BaS, 1), MT.HCl.gas(4*U, true), MT.H2S.gas(3*U, false), dust.mat(MTx.BaCl2, 1));
+        RM.Bath.addRecipe1(true, 0, 64, dust.mat(MTx.BaS, 1), MT.HCl.gas(4*U, true), MT.H2S.gas(3*U, false), dust.mat(MTx.BaCl2, 1));
         for (FluidStack water : FL.waters(3000)) {
             RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.BaS, 1), FL.array(water, MT.CO2.gas(3 * U, true)), FL.array(MT.H2S.gas(3 * U, false)), dust.mat(MTx.BaCO3, 1));
             RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.SrS, 1), FL.array(water, MT.CO2.gas(3 * U, true)), FL.array(MT.H2S.gas(3 * U, false)), dust.mat(MTx.SrCO3, 1));
         }
-		RM.Bath.addRecipe1(true, 0, 64, dust.mat(MTx.BaCO3, 1), FL.array(MT.HCl.gas(4*U, true)), FL.array(MT.H2O.liquid(3*U, false), MT.CO2.gas(3*U, false)), dust.mat(MTx.BaCl2, 1));
+        RM.Bath.addRecipe1(true, 0, 64, dust.mat(MTx.BaCO3, 1), FL.array(MT.HCl.gas(4*U, true)), FL.array(MT.H2O.liquid(3*U, false), MT.CO2.gas(3*U, false)), dust.mat(MTx.BaCl2, 1));
         RM.Bath.addRecipe1(true, 0, 64, dust.mat(MTx.BaO, 3), MT.Al.liquid(2*U, true), MT.Ba.liquid(3*U, false), dust.mat(MT.Al2O3, 5));
         RM.Bath.addRecipe1(true, 0, 64, dust.mat(MTx.SrO, 3), MT.Al.liquid(2*U, true), MT.Sr.liquid(3*U, false), dust.mat(MT.Al2O3, 5));
 

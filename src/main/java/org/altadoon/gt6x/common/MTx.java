@@ -266,8 +266,8 @@ public class MTx {
     public static OreDictMaterial lquddcmp (int id, String name, long r, long g, long b, long a, Object... randomData) { return liquid(id, name, r, g, b, a, randomData).put(DECOMPOSABLE); }
     public static OreDictMaterial lqudaciddcmp (int id, String name, long r, long g, long b, long a, Object... randomData) { return lquddcmp(id, name, r, g, b, a, randomData).put(ACID); }
     public static OreDictMaterial gasdcmp(int id, String name, long r, long g, long b, long a, Object... randomData) { return gas(id, name, r, g, b, a, randomData).put(DECOMPOSABLE); }
-	public static OreDictMaterial lqudflam(int id, String name, long r, long g, long b, long a, Object... randomData) {return lquddcmp(id, name, r, g, b, a, randomData).put(FLAMMABLE);}
-	public static OreDictMaterial lqudexpl(int id, String name, long r, long g, long b, long a, Object... randomData) {return lqudflam(id, name, r, g, b, a, randomData).put(EXPLOSIVE);}
+    public static OreDictMaterial lqudflam(int id, String name, long r, long g, long b, long a, Object... randomData) {return lquddcmp(id, name, r, g, b, a, randomData).put(FLAMMABLE);}
+    public static OreDictMaterial lqudexpl(int id, String name, long r, long g, long b, long a, Object... randomData) {return lqudflam(id, name, r, g, b, a, randomData).put(EXPLOSIVE);}
     public static OreDictMaterial machine(int id, String nameOreDict, TextureSet[] aSets, long r, long g, long b, long a, Object... randomData) { return create(id, nameOreDict, r, g, b, a, randomData).setTextures(aSets).put(DECOMPOSABLE, G_INGOT_MACHINE, SMITHABLE, MELTING, EXTRUDER); }
     public static OreDictMaterial alloy(int id, String nameOreDict, TextureSet[] aSets, long r, long g, long b, Object... randomData) { return create(id, nameOreDict, r, g, b, 255, randomData).setTextures(aSets).put(DECOMPOSABLE, ALLOY, G_DUST, INGOTS, MELTING, EXTRUDER); }
     public static OreDictMaterial alloymachine(int id, String nameOreDict, TextureSet[] aSets, long r, long g, long b, Object... randomData) { return machine(id, nameOreDict, aSets, r, g, b, 255, randomData).put(ALLOY); }
@@ -585,8 +585,8 @@ public class MTx {
             .uumMcfg(0, MT.Co, U, MT.O, U)
             .heat(2206),
     CuI = dustdcmp(16066, "Copper Iodide", SET_DULL, 170, 150, 160, 255)
-			.uumMcfg(0, MT.Cu, U, MT.I, U)
-			.heat(879, 1560),
+            .uumMcfg(0, MT.Cu, U, MT.I, U)
+            .heat(879, 1560),
     Na2CrO4 = dustdcmp(16067, "Sodium Chromate", SET_CUBE, 255, 255, 0, 255)
             .uumMcfg(0, MT.Na, 2*U, MT.Cr, U, MT.O, 4*U)
             .heat(1065),
@@ -1564,8 +1564,8 @@ public class MTx {
             .heat(ZrO2)
             .setLocal("Yttria-Stabilized Zirconia"),
     CuO = dustdcmp(16417, "Copper(II) Oxide", SET_CUBE, 20, 20, 0, 255)
-			.uumMcfg(1, MT.Cu, U, MT.O, U)
-			.heat(1599, 2270),
+            .uumMcfg(1, MT.Cu, U, MT.O, U)
+            .heat(1599, 2270),
     LaNO3 = dustdcmp(16418, "Lanthanum Nitrate", SET_ROUGH, 255, 255, 255, 255)
             .setMcfg(10, MT.La, U, MT.N, 3*U, MT.O, 9*U)
             .tooltip("La(NO" + NUM_SUB[3] + ")" + NUM_SUB[3])
@@ -1729,7 +1729,7 @@ public class MTx {
     Nd2Fe14B = alloymachine(16501, "Dysprosium-doped Neodymium-Iron-Boron Alloy", SET_METALLIC, 0, 0, 0)
             .stealLooks(MT.Nd)
             .uumAloy(0, MT.Nd, 17*U, MT.Dy, U, MT.Fe, 126*U, MT.B, 9*U)
-			.tooltip("Nd" + NUM_SUB[2] + "Fe" + NUM_SUB[14] + "B:Dy")
+            .tooltip("Nd" + NUM_SUB[2] + "Fe" + NUM_SUB[14] + "B:Dy")
             .heat(1412+C, 2600+C),
     SmCo5 = alloymachine(16502, "SamariumCobalt", SET_METALLIC, 96, 96, 238)
             .setLocal("Samarium-Cobalt")
@@ -1758,93 +1758,93 @@ public class MTx {
             .tooltip("HIr(CO)" + NUM_SUB[2] + "I" + NUM_SUB[2])
             .heat(IrC3O3I3),
     YBCO = dustdcmp(16511, "YBCO", SET_DULL, 10, 10, 10, 255, "Yttrium Barium Copper Oxide", "Yttrium Barium Cuprate")
-			.setMcfg(0, Y2O3, U, BaO, 2*U, MT.Cu, 3*U, MT.O, 7*U)
-			.tooltip("YBa" + NUM_SUB[2] + "Cu" + NUM_SUB[3] + "O" + NUM_SUB[7])
-			.setLocal("Yttrium Barium Copper Oxide")
-			.put(INGOTS, CENTRIFUGE),
-	Durene = dustdcmp(16512, "Durene", SET_CUBE, 255, 255, 255, 255)
-			.setMcfg(1, MT.C, 10*U, MT.H, 14*U)
-			.heat(352, 465),
-	PMDA = dustdcmp(16513, "PMDA", SET_CUBE, 255, 255, 255, 255)
-			.setMcfg(1, MT.C, 10*U, MT.H, 2*U, MT.O, 6*U)
-			.heat(556, 670)
-			.setLocal("Pyromellitic dianhydride"),
-	Chlorobenzene = registerLiquid(lqudflam(16514, "Chlorobenzene", 255, 255, 255, 200)
-			.setMcfg(1, MT.C, 6*U, MT.H, 5*U, MT.Cl, U)
-			.heat(228, 405)),
-	Nitrochlorobenzene = dustdcmp(16515, "Nitrochlorobenzene", SET_DULL, 255, 255, 180, 255)
-			.setMcfg(1, MT.C, 6*U, MT.H, 4*U, MT.Cl, U, MT.N, U, MT.O, 2*U)
-			.heat(357, 515),
-	DNDPE = dustdcmp(16516, "4,4'-Dinitrodiphenyl Ether", SET_FINE, 255, 255, 255, 255)
-			.setMcfg(1, MT.C, 12*U, MT.H, 8*U, MT.N, 2*U, MT.O, 3*U)
-			.heat(413, 676),
-	ODA = dustdcmp(16517, "4,4'-Oxydianiline", SET_FINE, 255, 255, 255, 255)
-			.setMcfg(1, MT.C, 12*U, MT.H, 12*U, MT.N, 2*U, MT.O, U)
-			.heat(461, 492),
-	Kapton = plastic(16518, "Kapton", SET_SHINY, 196, 176, 75, 255)
-			.heat(600+C),
-	CsOH = dustdcmp(16519, "Caesium Hydroxide", SET_CUBE, 255, 255, 255, 255)
-			.uumMcfg(0, MT.Cs, U, MT.O, U, MT.H, U)
-			.heat(545),
-	CsOHSolution = simpleSolution(16520, CsOH, 3),
-	Cs2CO3 = dustdcmp(16521, "Caesium Carbonate", SET_FINE, 255, 255, 255, 255)
-			.uumMcfg(0, MT.Cs, 2*U, MT.C, U, MT.O, 3*U)
-			.heat(883),
-	Pinacol = dustdcmp(16522, "Pinacol", SET_FINE, 255, 255, 255, 255)
-			.setMcfg(1, MT.C, 6*U, MT.H, 14*U, MT.O, 2*U)
-			.heat(313, 444),
-	Pinacolone = registerLiquid(lqudflam(16523, "Pinacolone", 255, 255, 255, 200)
-			.setMcfg(1, MT.C, 6*U, MT.H, 12*U, MT.O, U, MT.N, U, MT.O, 2*U)
-			.heat(221, 376)),
-	MethanesulfonicAcid = registerLiquid(lqudaciddcmp(16524, "Methanesulfonic Acid", 255, 230, 255, 200)
-			.setMcfg(1, MT.C, U, MT.H, 4*U, MT.S, U, MT.O, 3*U)
-			.heat(290, 440)),
-	TriflicAcid = registerLiquid(lqudaciddcmp(16525, "Triflic Acid", 200, 230, 250, 100, "Trifluoromethanesulfonic Acid")
-			.setMcfg(1, MT.C, U, MT.F, 3*U, MT.S, U, MT.O, 3*U, MT.H, U)
-			.heat(233, 435)),
-	ScandiumTriflate = dustdcmp(16526, "Scandium Triflate", SET_FINE, 255, 255, 255, 255)
-			.setMcfg(1, MT.Sc, U, MT.C, 3*U, MT.F, 9*U, MT.S, 3*U, MT.O, 9*U)
-			.tooltip("Sc(CF"+NUM_SUB[3]+"SO"+NUM_SUB[3]+")" + NUM_SUB[3])
-			.heat(300+C),
-	MgOH2Solution = simpleSolution(16527, MgOH2, 3),
-	PivalicAcid = registerLiquid(lqudaciddcmp(16528, "Pivalic Acid", 240, 255, 245, 150)
-			.setMcfg(1, MT.C, 5*U, MT.H, 10*U, MT.O, 2*U)
-			.heat(308, 437)),
-	Methylpivalate = registerLiquid(lquddcmp(16529, "Methyl Pivalate", 255, 255, 255, 150)
-			.setMcfg(1, MT.C, 6*U, MT.H, 12*U, MT.O, 2*U)
-			.heat(270, 374)),
-	TMHD = registerLiquid(lquddcmp(16530, "TMHD", 255, 255, 255, 255, "2,2,6,6-Tetramethyl-3,5-heptanedione", "Dipivaloylmethane")
-			.setMcfg(1, MT.C, 11*U, MT.H, 20*U, MT.O, 2*U)
-			.setLocal("Dipivaloylmethane")
-			.heat(343, 400)),
-	NaTMHD = dustdcmp(16531, "Sodium TMHD", SET_FINE, 100, 0, 150, 255)
-			.setMcfg(1, MT.Na, U, TMHD, U)
-			.heat(TMHD.mMeltingPoint+100),
-	NaTMHDSolution = simpleSolution(16532, NaTMHD, 6),
-	YTMHD = dustdcmp(16533, "Yttrium TMHD complex", SET_DULL, 200, 255, 150, 255)
-			.setMcfg(1, MT.Y, U, TMHD, 3*U)
-			.heat(175+C)
-			.setBurning(Y2O3, U),
-	BaTMHD = dustdcmp(16534, "Barium TMHD complex", SET_DULL, 200, 255, 150, 255)
-			.setMcfg(1, MT.Ba, U, TMHD, 2*U)
-			.heat(100+C)
-			.setBurning(BaO, U),
-	CuTMHD = dustdcmp(16535, "Copper TMHD complex", SET_DULL, 200, 255, 150, 255)
-			.setMcfg(1, MT.Cu, U, TMHD, 2*U)
-			.heat(150+C)
-			.setBurning(CuO, U),
-	YBaCuTMHD = dustdcmp(16536, "Yttrium Barium Copper TMHD complex mixture", SET_DULL, 200, 255, 150, 255)
-			.setMcfg(0, YTMHD, U, BaTMHD, 2*U, CuTMHD, 3*U)
-			.heat(150+C, 250+C)
-			.setBurning(YBCO, U),
-	YNO33 = dustdcmp(16537, "Yttrium Nitrate", SET_SHARDS, 250, 255, 255, 255)
-			.setMcfg(4, MT.Y, U, NO3, 3*U)
-			.tooltip("Y(NO" + NUM_SUB[3] + ")" + NUM_SUB[3])
-			.heat(600+C).setSmelting(Y2O3, U),
-	BaCl2 = dustdcmp(16538, "Barium Chloride", SET_CUBE, 250, 250, 250, 255)
-			.setMcfg(1, MT.Ba, U, MT.Cl, 2*U)
-			.heat(1235, 1830)
-	;
+            .setMcfg(0, Y2O3, U, BaO, 2*U, MT.Cu, 3*U, MT.O, 7*U)
+            .tooltip("YBa" + NUM_SUB[2] + "Cu" + NUM_SUB[3] + "O" + NUM_SUB[7])
+            .setLocal("Yttrium Barium Copper Oxide")
+            .put(INGOTS, CENTRIFUGE),
+    Durene = dustdcmp(16512, "Durene", SET_CUBE, 255, 255, 255, 255)
+            .setMcfg(1, MT.C, 10*U, MT.H, 14*U)
+            .heat(352, 465),
+    PMDA = dustdcmp(16513, "PMDA", SET_CUBE, 255, 255, 255, 255)
+            .setMcfg(1, MT.C, 10*U, MT.H, 2*U, MT.O, 6*U)
+            .heat(556, 670)
+            .setLocal("Pyromellitic dianhydride"),
+    Chlorobenzene = registerLiquid(lqudflam(16514, "Chlorobenzene", 255, 255, 255, 200)
+            .setMcfg(1, MT.C, 6*U, MT.H, 5*U, MT.Cl, U)
+            .heat(228, 405)),
+    Nitrochlorobenzene = dustdcmp(16515, "Nitrochlorobenzene", SET_DULL, 255, 255, 180, 255)
+            .setMcfg(1, MT.C, 6*U, MT.H, 4*U, MT.Cl, U, MT.N, U, MT.O, 2*U)
+            .heat(357, 515),
+    DNDPE = dustdcmp(16516, "4,4'-Dinitrodiphenyl Ether", SET_FINE, 255, 255, 255, 255)
+            .setMcfg(1, MT.C, 12*U, MT.H, 8*U, MT.N, 2*U, MT.O, 3*U)
+            .heat(413, 676),
+    ODA = dustdcmp(16517, "4,4'-Oxydianiline", SET_FINE, 255, 255, 255, 255)
+            .setMcfg(1, MT.C, 12*U, MT.H, 12*U, MT.N, 2*U, MT.O, U)
+            .heat(461, 492),
+    Kapton = plastic(16518, "Kapton", SET_SHINY, 196, 176, 75, 255)
+            .heat(600+C),
+    CsOH = dustdcmp(16519, "Caesium Hydroxide", SET_CUBE, 255, 255, 255, 255)
+            .uumMcfg(0, MT.Cs, U, MT.O, U, MT.H, U)
+            .heat(545),
+    CsOHSolution = simpleSolution(16520, CsOH, 3),
+    Cs2CO3 = dustdcmp(16521, "Caesium Carbonate", SET_FINE, 255, 255, 255, 255)
+            .uumMcfg(0, MT.Cs, 2*U, MT.C, U, MT.O, 3*U)
+            .heat(883),
+    Pinacol = dustdcmp(16522, "Pinacol", SET_FINE, 255, 255, 255, 255)
+            .setMcfg(1, MT.C, 6*U, MT.H, 14*U, MT.O, 2*U)
+            .heat(313, 444),
+    Pinacolone = registerLiquid(lqudflam(16523, "Pinacolone", 255, 255, 255, 200)
+            .setMcfg(1, MT.C, 6*U, MT.H, 12*U, MT.O, U, MT.N, U, MT.O, 2*U)
+            .heat(221, 376)),
+    MethanesulfonicAcid = registerLiquid(lqudaciddcmp(16524, "Methanesulfonic Acid", 255, 230, 255, 200)
+            .setMcfg(1, MT.C, U, MT.H, 4*U, MT.S, U, MT.O, 3*U)
+            .heat(290, 440)),
+    TriflicAcid = registerLiquid(lqudaciddcmp(16525, "Triflic Acid", 200, 230, 250, 100, "Trifluoromethanesulfonic Acid")
+            .setMcfg(1, MT.C, U, MT.F, 3*U, MT.S, U, MT.O, 3*U, MT.H, U)
+            .heat(233, 435)),
+    ScandiumTriflate = dustdcmp(16526, "Scandium Triflate", SET_FINE, 255, 255, 255, 255)
+            .setMcfg(1, MT.Sc, U, MT.C, 3*U, MT.F, 9*U, MT.S, 3*U, MT.O, 9*U)
+            .tooltip("Sc(CF"+NUM_SUB[3]+"SO"+NUM_SUB[3]+")" + NUM_SUB[3])
+            .heat(300+C),
+    MgOH2Solution = simpleSolution(16527, MgOH2, 3),
+    PivalicAcid = registerLiquid(lqudaciddcmp(16528, "Pivalic Acid", 240, 255, 245, 150)
+            .setMcfg(1, MT.C, 5*U, MT.H, 10*U, MT.O, 2*U)
+            .heat(308, 437)),
+    Methylpivalate = registerLiquid(lquddcmp(16529, "Methyl Pivalate", 255, 255, 255, 150)
+            .setMcfg(1, MT.C, 6*U, MT.H, 12*U, MT.O, 2*U)
+            .heat(270, 374)),
+    TMHD = registerLiquid(lquddcmp(16530, "TMHD", 255, 255, 255, 255, "2,2,6,6-Tetramethyl-3,5-heptanedione", "Dipivaloylmethane")
+            .setMcfg(1, MT.C, 11*U, MT.H, 20*U, MT.O, 2*U)
+            .setLocal("Dipivaloylmethane")
+            .heat(343, 400)),
+    NaTMHD = dustdcmp(16531, "Sodium TMHD", SET_FINE, 100, 0, 150, 255)
+            .setMcfg(1, MT.Na, U, TMHD, U)
+            .heat(TMHD.mMeltingPoint+100),
+    NaTMHDSolution = simpleSolution(16532, NaTMHD, 6),
+    YTMHD = dustdcmp(16533, "Yttrium TMHD complex", SET_DULL, 200, 255, 150, 255)
+            .setMcfg(1, MT.Y, U, TMHD, 3*U)
+            .heat(175+C)
+            .setBurning(Y2O3, U),
+    BaTMHD = dustdcmp(16534, "Barium TMHD complex", SET_DULL, 200, 255, 150, 255)
+            .setMcfg(1, MT.Ba, U, TMHD, 2*U)
+            .heat(100+C)
+            .setBurning(BaO, U),
+    CuTMHD = dustdcmp(16535, "Copper TMHD complex", SET_DULL, 200, 255, 150, 255)
+            .setMcfg(1, MT.Cu, U, TMHD, 2*U)
+            .heat(150+C)
+            .setBurning(CuO, U),
+    YBaCuTMHD = dustdcmp(16536, "Yttrium Barium Copper TMHD complex mixture", SET_DULL, 200, 255, 150, 255)
+            .setMcfg(0, YTMHD, U, BaTMHD, 2*U, CuTMHD, 3*U)
+            .heat(150+C, 250+C)
+            .setBurning(YBCO, U),
+    YNO33 = dustdcmp(16537, "Yttrium Nitrate", SET_SHARDS, 250, 255, 255, 255)
+            .setMcfg(4, MT.Y, U, NO3, 3*U)
+            .tooltip("Y(NO" + NUM_SUB[3] + ")" + NUM_SUB[3])
+            .heat(600+C).setSmelting(Y2O3, U),
+    BaCl2 = dustdcmp(16538, "Barium Chloride", SET_CUBE, 250, 250, 250, 255)
+            .setMcfg(1, MT.Ba, U, MT.Cl, 2*U)
+            .heat(1235, 1830)
+    ;
 
     @SuppressWarnings("unused")
     public static class UNUSED {
@@ -1930,10 +1930,10 @@ public class MTx {
 
         addVapour(RuO4);
         addVapour(OsO4);
-		addVapour(YTMHD);
-		addVapour(BaTMHD);
-		addVapour(CuTMHD);
-		addVapour(YBaCuTMHD);
+        addVapour(YTMHD);
+        addVapour(BaTMHD);
+        addVapour(CuTMHD);
+        addVapour(YBaCuTMHD);
 
         addPlasma(CF4, false, 310);
         addPlasma(NF3, false, 310);
@@ -1958,6 +1958,6 @@ public class MTx {
         HSSM2.addEnchantmentForWeapons(Enchantment.sharpness, 4).addEnchantmentForAmmo(Enchantment.sharpness, 4).addEnchantmentForRanged(Enchantment.power, 4);
 
         MT.NeodymiumMagnetic.uumMcfg(0, Nd2Fe14B, U)
-                .setBending(Nd2Fe14B, U).setCompressing(Nd2Fe14B, U).setPulver(Nd2Fe14B, U).setSmashing(Nd2Fe14B, U).setSmelting(Nd2Fe14B, U).setWorking(Nd2Fe14B, U).setForging(Nd2Fe14B, U);
+                .setAllToTheOutputOf(Nd2Fe14B);
     }
 }
