@@ -266,8 +266,8 @@ public class MTx {
     public static OreDictMaterial lquddcmp (int id, String name, long r, long g, long b, long a, Object... randomData) { return liquid(id, name, r, g, b, a, randomData).put(DECOMPOSABLE); }
     public static OreDictMaterial lqudaciddcmp (int id, String name, long r, long g, long b, long a, Object... randomData) { return lquddcmp(id, name, r, g, b, a, randomData).put(ACID); }
     public static OreDictMaterial gasdcmp(int id, String name, long r, long g, long b, long a, Object... randomData) { return gas(id, name, r, g, b, a, randomData).put(DECOMPOSABLE); }
-    public static OreDictMaterial lqudexpl(int id, String name, long r, long g, long b, long a, Object... randomData) {return liquid(id, name, r, g, b, a, randomData).put(FLAMMABLE, EXPLOSIVE);}
-    public static OreDictMaterial lqudflam(int id, String name, long r, long g, long b, long a, Object... randomData) {return liquid(id, name, r, g, b, a, randomData).put(FLAMMABLE);}
+	public static OreDictMaterial lqudflam(int id, String name, long r, long g, long b, long a, Object... randomData) {return lquddcmp(id, name, r, g, b, a, randomData).put(FLAMMABLE);}
+	public static OreDictMaterial lqudexpl(int id, String name, long r, long g, long b, long a, Object... randomData) {return lqudflam(id, name, r, g, b, a, randomData).put(EXPLOSIVE);}
     public static OreDictMaterial machine(int id, String nameOreDict, TextureSet[] aSets, long r, long g, long b, long a, Object... randomData) { return create(id, nameOreDict, r, g, b, a, randomData).setTextures(aSets).put(DECOMPOSABLE, G_INGOT_MACHINE, SMITHABLE, MELTING, EXTRUDER); }
     public static OreDictMaterial alloy(int id, String nameOreDict, TextureSet[] aSets, long r, long g, long b, Object... randomData) { return create(id, nameOreDict, r, g, b, 255, randomData).setTextures(aSets).put(DECOMPOSABLE, ALLOY, G_DUST, INGOTS, MELTING, EXTRUDER); }
     public static OreDictMaterial alloymachine(int id, String nameOreDict, TextureSet[] aSets, long r, long g, long b, Object... randomData) { return machine(id, nameOreDict, aSets, r, g, b, 255, randomData).put(ALLOY); }
@@ -584,14 +584,16 @@ public class MTx {
     CoO = dustdcmp(16065, "Cobalt Monoxide", SET_DULL, 50, 50, 100, 255)
             .uumMcfg(0, MT.Co, U, MT.O, U)
             .heat(2206),
-    //TODO 16066 free
+    CuI = dustdcmp(16066, "Copper Iodide", SET_DULL, 170, 150, 160, 255)
+			.uumMcfg(0, MT.Cu, U, MT.I, U)
+			.heat(879, 1560),
     Na2CrO4 = dustdcmp(16067, "Sodium Chromate", SET_CUBE, 255, 255, 0, 255)
             .uumMcfg(0, MT.Na, 2*U, MT.Cr, U, MT.O, 4*U)
             .heat(1065),
     Na2Cr2O7 = dustdcmp(16068, "Sodium Dichromate", SET_DULL, 255, 125, 0, 255)
             .uumMcfg(0, MT.Na, 2*U, MT.Cr, 2*U, MT.O, 7*U)
             .heat(629, 673),
-    Na2CrO4Solution = simpleSolution(16069, "Sodium Chromate Solution", 255, 255, 0, 255, Na2CrO4, 3),
+    Na2CrO4Solution = simpleSolution(16069, Na2CrO4, 3),
     DichromateSoda = registerLiquid(lquddcmp(16070, "Sodium Dichromate-Bicarbonate Solution", 255, 125, 0, 255)
             .uumMcfg(0, Na2Cr2O7, 11*U, MT.NaHCO3, 12*U, MT.H2O, 9*U)
             .heat(MT.H2O)),
@@ -1763,9 +1765,9 @@ public class MTx {
 			.setMcfg(1, MT.C, 10*U, MT.H, 2*U, MT.O, 6*U)
 			.heat(556, 670)
 			.setLocal("Pyromellitic dianhydride"),
-	Chlorobenzene = lqudflam(16514, "Chlorobenzene", 255, 255, 255, 200).put(DECOMPOSABLE)
+	Chlorobenzene = registerLiquid(lqudflam(16514, "Chlorobenzene", 255, 255, 255, 200)
 			.setMcfg(1, MT.C, 6*U, MT.H, 5*U, MT.Cl, U)
-			.heat(228, 405),
+			.heat(228, 405)),
 	Nitrochlorobenzene = dustdcmp(16515, "Nitrochlorobenzene", SET_DULL, 255, 255, 180, 255)
 			.setMcfg(1, MT.C, 6*U, MT.H, 4*U, MT.Cl, U, MT.N, U, MT.O, 2*U)
 			.heat(357, 515),
@@ -1776,6 +1778,40 @@ public class MTx {
 			.setMcfg(1, MT.C, 12*U, MT.H, 12*U, MT.N, 2*U, MT.O, U)
 			.heat(461, 492),
 	Kapton = plastic(16518, "Kapton", SET_SHINY, 196, 176, 75, 255)
+			.heat(600+C),
+	CsOH = dustdcmp(16519, "Caesium Hydroxide", SET_CUBE, 255, 255, 255, 255)
+			.uumMcfg(0, MT.Cs, U, MT.O, U, MT.H, U)
+			.heat(545),
+	CsOHSolution = simpleSolution(16520, CsOH, 3),
+	Cs2CO3 = dustdcmp(16521, "Caesium Carbonate", SET_FINE, 255, 255, 255, 255)
+			.uumMcfg(0, MT.Cs, 2*U, MT.C, U, MT.O, 3*U)
+			.heat(883),
+	Pinacol = dustdcmp(16522, "Pinacol", SET_FINE, 255, 255, 255, 255)
+			.setMcfg(1, MT.C, 6*U, MT.H, 14*U, MT.O, 2*U)
+			.heat(313, 444),
+	Pinacolone = registerLiquid(lqudflam(16523, "Pinacolone", 255, 255, 255, 200)
+			.setMcfg(1, MT.C, 6*U, MT.H, 12*U, MT.O, U, MT.N, U, MT.O, 2*U)
+			.heat(221, 376)),
+	MethanesulfonicAcid = registerLiquid(lqudaciddcmp(16524, "Methanesulfonic Acid", 255, 230, 255, 200)
+			.setMcfg(1, MT.C, U, MT.H, 4*U, MT.S, U, MT.O, 3*U)
+			.heat(290, 440)),
+	TriflicAcid = registerLiquid(lqudaciddcmp(16525, "Triflic Acid", 200, 230, 250, 100, "Trifluoromethanesulfonic Acid")
+			.setMcfg(1, MT.C, U, MT.F, 3*U, MT.S, U, MT.O, 3*U, MT.H, U)
+			.heat(233, 435)),
+	ScandiumTriflate = dustdcmp(16526, "Scandium Triflate", SET_FINE, 255, 255, 255, 255)
+			.setMcfg(1, MT.Sc, U, MT.C, 3*U, MT.F, 9*U, MT.S, 3*U, MT.O, 9*U)
+			.tooltip("Sc(CF"+NUM_SUB[3]+"SO"+NUM_SUB[3]+")" + NUM_SUB[3])
+			.heat(300+C),
+	MgOH2Solution = simpleSolution(16527, MgOH2, 3),
+	PivalicAcid = registerLiquid(lqudaciddcmp(16528, "Pivalic Acid", 240, 255, 245, 150)
+			.setMcfg(1, MT.C, 5*U, MT.H, 10*U, MT.O, 2*U)
+			.heat(308, 437)),
+	Methylpivalate = registerLiquid(lquddcmp(16529, "Methyl Pivalate", 255, 255, 255, 150)
+			.setMcfg(1, MT.C, 6*U, MT.H, 12*U, MT.O, 2*U)
+			.heat(270, 374)),
+	TMHD = registerLiquid(lquddcmp(16530, "Dipivaloylmethane", 255, 255, 255, 255, "2,2,6,6-Tetramethyl-3,5-heptanedione")
+			.setMcfg(1, MT.C, 11*U, MT.H, 20*U, MT.O, 2*U)
+			.heat(343, 400))
 	;
 
     @SuppressWarnings("unused")
