@@ -4,10 +4,13 @@ import gregapi.data.FL;
 import gregapi.data.MT;
 import gregapi.data.RM;
 import gregapi.util.ST;
+import org.altadoon.gt6x.common.MTx;
+import org.altadoon.gt6x.common.RMx;
+import org.altadoon.gt6x.common.items.ILx;
 import org.altadoon.gt6x.features.GT6XFeature;
 
 import static gregapi.data.CS.*;
-import static gregapi.data.OP.dust;
+import static gregapi.data.OP.*;
 
 public class Fusion extends GT6XFeature {
 	public static final String FEATURE_NAME = "FusionOverhaul";
@@ -37,6 +40,8 @@ public class Fusion extends GT6XFeature {
 
 	private void addRecipes() {
 		// Superconductors
+		RMx.IonBombardment.addRecipeX(false, 64, 64, ST.array(foil.mat(MTx.Hastelloy, 1), dustDiv72.mat(MTx.CeO2, 2), dustDiv72.mat(MTx.YSZ, 1)), ILx.HTSTape_Buffer.get(1));
+		RMx.VacuumChamber.addRecipe1(false, 64, 64, ILx.HTSTape_Buffer.get(1));
 
 		/// Wire layers
 		//Hastelloy substrate

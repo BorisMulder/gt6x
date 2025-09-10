@@ -168,6 +168,7 @@ public class BasicChemistry extends GT6XFeature {
         // Iodine chemistry
         RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MT.I, 1), MT.H.gas(U, true), MTx.HI.gas(U, false), ZL_IS);
         RM.Mixer.addRecipe0(true, 16, 32, FL.array(MTx.HI.gas(2*U, true), MT.O.gas(U, true)), FL.array(MT.H2O.liquid(3*U, false)), dust.mat(MT.I, 2));
+		RM.Mixer.addRecipe2(true, 16, 16, dust.mat(MT.Cu, 1), dust.mat(MT.I, 1), dust.mat(MTx.CuI, 2));
 
         // Acid mixtures
         RM.Mixer.addRecipe0(true, 16, 64, FL.array(MT.H2O2.liquid(4*U, true), MT.H2SO4.liquid(7*U, true)), FL.array(MTx.PiranhaEtch.liquid(11*U, false)));
@@ -274,7 +275,7 @@ public class BasicChemistry extends GT6XFeature {
             RM.BurnMixer.addRecipe2(true, 16, 128, dust.mat(MT.CaSO4, 12), coal, ZL_FS, FL.array(MT.CO2.gas(3 * U, false), MT.SO2.gas(6 * U, false)), dust.mat(MTx.CaO, 4));
         }
 
-        // sodium/potassium/calcium/magnesium salts and related chemistry
+        // Alkali/Alkaline Earth metal salts and related chemistry
         RM.Bath .addRecipe1(true, 0, 128, dust.mat(MTx.MgO, 2), MT.HCl.gas(4*U, true), MTx.MgCl2Solution.liquid(6*U, false), NI);
         RM.Bath .addRecipe1(true, 0, 64 , dust.mat(MTx.CaOH2, 5), MTx.MgCl2Solution.liquid(6*U, true), MTx.CaCl2Solution.liquid(6*U, false), dust.mat(MTx.MgOH2, 5));
         RM.Bath .addRecipe1(true, 0, 64 , dust.mat(MTx.CaOH2, 5), MT.HCl.gas(4*U, true), FL.array(MTx.CaCl2Solution.liquid(6*U, false), MT.H2O.liquid(3*U, false)));
@@ -295,6 +296,9 @@ public class BasicChemistry extends GT6XFeature {
             RM.Mixer.addRecipe2(true, 16, 64*3, ST.tag(3), dust.mat(MT.Na2SO4, 7), FL.array(MTx.CaCl2Solution.liquid(6*U, true), FL.mul(water, 3)), MT.SaltWater.liquid(16*U, false), dust.mat(MT.CaSO4, 6));
             RM.Mixer.addRecipeX(true, 16, 64*3, ST.array(ST.tag(3), dust.mat(MT.Na2SO4, 7), dust.mat(MT.CaCl2, 3)), FL.mul(water, 4), MT.SaltWater.liquid(16*U, false), dust.mat(MT.CaSO4, 6));
         }
+
+		RM.Electrolyzer.addRecipe1(true, 64, 64, ST.tag(1), FL.array(MTx.CsClSolution.liquid(8*U, true)), FL.array(MT.H.gas(U, false), MT.Cl.gas(U, false), MTx.CsOHSolution.liquid(6*U, false)));
+		RM.Mixer.addRecipe0(true, 16, 32, FL.array(MTx.CsOHSolution.liquid(12*U, true), MT.CO2.gas(3*U, true)), FL.array(MT.H2O.liquid(9*U, false)), dust.mat(MTx.Cs2CO3, 6));
 
         RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.Na2S, 3), FL.array(MT.O.gas(3*U, true), MT.CO2.gas(3*U, true)), FL.array(MT.SO2.gas(3*U, false)), dust.mat(MT.Na2CO3, 6));
         RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.K2S, 3), FL.array(MT.O.gas(3*U, true), MT.CO2.gas(3*U, true)), FL.array(MT.SO2.gas(3*U, false)), dust.mat(MT.K2CO3, 6));
@@ -523,6 +527,11 @@ public class BasicChemistry extends GT6XFeature {
         RM.Bath.addRecipe1(true, 0, 200, OPx.anionXResin.mat(MTx.OH, 2), MT .H2SO4      .liquid(7 *U, true), MT.H2O.liquid(6*U, false), OPx.anionXResin.mat(MTx.SO4, 2));
         RM.Bath.addRecipe1(true, 0, 200, OPx.anionXResin.mat(MTx.OH, 2), MTx.DiluteH2SO4.liquid(10*U, true), MT.H2O.liquid(9*U, false), OPx.anionXResin.mat(MTx.SO4, 2));
         RM.Bath.addRecipe1(true, 0, 200, OPx.anionXResin.mat(MTx.OH, 3), MTx.H3PO4      .liquid(8 *U, true), MT.H2O.liquid(9*U, false), OPx.anionXResin.mat(MT.PO4, 3));
+
+		// Triflates
+		RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.KSO4, 0), FL.array(MT.CH4.gas(U, true), MT.H2S2O7.liquid(11*U, true)), FL.array(MTx.MethanesulfonicAcid.liquid(U, false), MT.H2SO4.liquid(7*U, false)));
+		RM.Electrolyzer.addRecipe1(true, 16, 128, ST.tag(2), FL.array(MTx.MethanesulfonicAcid.liquid(U, true), MT.HF.gas(6*U, true)), FL.array(MTx.TriflicAcid.liquid(U, false), MT.H.gas(6*U, false)));
+		RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.Sc2O3, 1), MTx.TriflicAcid.liquid(3*U, true), MT.H2O.liquid(9*U2, false), dust.mat(MTx.ScandiumTriflate, 1));
     }
 
     private void addOverrideRecipes() {

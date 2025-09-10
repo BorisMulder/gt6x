@@ -536,7 +536,24 @@ public class OilProcessing extends GT6XFeature {
             }
         }
 
-    }
+		// Polyimide/Kapton
+		RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.AlCl3, 0), FL.array(MTx.Xylene.liquid(U, true), MTx.CH3Cl.gas(2*U, true)), FL.array(MT.HCl.gas(4*U, false)), dust.mat(MTx.Durene, 1));
+		RM.Mixer.addRecipe1(true, 16, 96, dust.mat(MTx.Durene, 1), MT.O.gas(12*U, true), MT.H2O.liquid(6*3*U, false), dust.mat(MTx.PMDA, 1));
+
+		RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MT.FeCl3, 0), FL.array(MTx.Benzene.liquid(U, true), MT.Cl.gas(2*U, true)), FL.array(MTx.Chlorobenzene.liquid(U, false), MT.HCl.gas(2*U, false)));
+		RM.Mixer.addRecipe0(true, 16, 64, FL.array(MTx.Chlorobenzene.liquid(U, true), MT.H2SO4.liquid(7*U, true), MT.HNO3.liquid(5*U, true)), FL.array(MTx.DiluteH2SO4.liquid(10*U, false)), dust.mat(MTx.Nitrochlorobenzene, 1));
+		RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MTx.Nitrochlorobenzene, 1), dust.mat(MTx.CuI, 0), FL.array(MTx.NaOHSolution.liquid(12*U, true), FL.DistW.make(3000)), FL.array(MT.SaltWater.liquid(16*U, false)), dust.mat(MTx.DNDPE, 1));
+		RM.Mixer.addRecipeX(true, 16, 64, ST.array(dust.mat(MTx.DNDPE, 1), dustTiny.mat(MT.Pd, 0), dust.mat(MT.C, 0)), MT.H.gas(12*U, true), MT.H2O.liquid(4*3*U, false), dust.mat(MTx.ODA, 1));
+		/// See "Surface Characterization of Polyamic Acid and Polyimide Films Prepared by Vapor Deposition Polymerization by Using Sum-Frequency Generation, Miyamae et. al."
+		RMx.VacuumChamber.addRecipe2(true, 16, 128, dust.mat(MTx.PMDA, 1), dust.mat(MTx.ODA, 1), NF, MT.H2O.liquid(6*U, false), foil.mat(MTx.Kapton, 8));
+
+		// TMHD (2,2,6,6-tetramethyl-3,5-heptanedione)
+		RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.Mg, 1), FL.array(MTx.Acetone.liquid(2*U, true), MT.H2O.liquid(9*U, true)), FL.array(MTx.MgOH2Solution.liquid(8*U, false)), dust.mat(MTx.Pinacol, 1));
+		RM.Bath.addRecipe1(true, 0, 128, dust.mat(MTx.Pinacol, 1), MT.H2SO4.liquid(7*U, true), MTx.DiluteH2SO4.liquid(10*U, false), dust.mat(MTx.Pinacolone, 1));
+		RM.Mixer.addRecipe1(false, 16, 96, ST.tag(5), FL.array(MTx.Butylene.liquid(U, true), MT.CO.gas(2*U, true), MT.DistWater.liquid(3*U, true), MT.HF.gas(6*U1000, true), MTx.BF3.gas(U1000, true)), FL.array(MTx.PivalicAcid.liquid(U, false)));
+		RM.Mixer.addRecipe1(true, 16, 96, dust.mat(MTx.ScandiumTriflate, 0), FL.array(MTx.PivalicAcid.liquid(U, true), MTx.Methanol.liquid(U, true)), FL.array(MTx.Methylpivalate.liquid(U, false), MT.H2O.liquid(3*U, false)));
+		RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MTx.Cs2CO3, 0), FL.array(MTx.Methylpivalate.liquid(U, true), MTx.Pinacolone.liquid(U, true)), FL.array(MTx.TMHD.liquid(U, false), MTx.Methanol.liquid(U, false)));
+	}
 
     private static final OreDictPrefix[] CRACKER_PLATES = { plate, plateDouble, plateTriple, plateQuadruple, plateQuintuple };
 
