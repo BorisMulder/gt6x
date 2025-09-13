@@ -501,11 +501,11 @@ public class MTx {
             .heat(248, 391)
             .put(FLAMMABLE)),
     Epoxy = plastic( 16041, "Epoxy", SET_DULL, 9, 86, 0, 255)
-            .heat(400),
-    VinylChloride = registerGas(gasdcmp(16042, "Vinyl Chloride", 150, 255, 150, 50)
-            .uumMcfg(1, MT.C, 2*U, MT.H, U*3, MT.Cl, U)
-            .heat(119, 260)
-            .put(FLAMMABLE)),
+            .heat(400)
+            .setSmelting(MT.Ash, U9).setBurning(MT.Ash, U9),
+    EpoxyResin = registerLiquid(lquddcmp( 16042, "Epoxy Resin", 9, 86, 0, 255)
+            .heat(350)
+            .setSolidifying(Epoxy, U)),
     Phosgene = registerGas(gasdcmp(16043, "Phosgene", 255, 255, 255, 50, "Carbonyl Dichloride")
             .setMcfg(1, MT.C, U, MT.O, U, MT.Cl, 2*U)
             .heat(155, 281)),
@@ -520,7 +520,10 @@ public class MTx {
             .heat(131, 197)),
     DnqNovolacResist = registerLiquid(lquddcmp(16047, "Photoresist", 84, 145, 84, 200)
             .heat(MT.H2O)),
-    NaFSolution = simpleSolution(16048, MT.NaF, 3),
+    VinylChloride = registerGas(gasdcmp(16048, "Vinyl Chloride", 150, 255, 150, 50)
+            .uumMcfg(1, MT.C, 2*U, MT.H, U*3, MT.Cl, U)
+            .heat(119, 260)
+            .put(FLAMMABLE)),
     CrackerGas = registerGas(gasdcmp(16049, "Olefins", 150, 0, 150, 255)
             .heat(MT.Propylene)
             .put(FLAMMABLE)
@@ -1256,7 +1259,7 @@ public class MTx {
             .heat(CdS),
     WhitePhosphor = dustdcmp(16293, "White Phosphor", SET_RAD, 255, 255, 255, 255)
             .heat(MT.PhosphorusWhite),
-    //TODO 16294 free
+    NaFSolution = simpleSolution(16294, MT.NaF, 3),
     BaS = dustdcmp(16295, "Barium Sulfide", SET_DULL, 255, 255, 255, 255)
             .uumMcfg(1, MT.Ba, U, MT.S, U)
             .heat(2508),
@@ -1922,7 +1925,6 @@ public class MTx {
         addMolten(ConverterSlag);
         addMolten(DRISlag);
         addMolten(Phenol);
-        addMolten(Epoxy);
         addMolten(LiF);
         addMolten(SiGe);
         addMolten(GaAs);
