@@ -580,7 +580,7 @@ public class BasicChemistry extends GT6XFeature {
         @SuppressWarnings({"unchecked", "rawtypes"})
         ICondition condition = new ICondition.Nor(PREFIX_UNUSED, PLANT_DROP, IS_CONTAINER, DUST_BASED, ORE, ORE_PROCESSING_BASED, scrapGt, ingotHot);
         for (OreDictMaterial mat : ANY.WoodUntreated.mToThis) {
-            RM.Bath.add(new RecipeMapHandlerMaterial(mat, MTx.Epoxy.liquid(U12, true), 0, 144, NF, MT.WoodTreated, NI, true, condition));
+            RM.Bath.add(new RecipeMapHandlerMaterial(mat, MTx.EpoxyResin.liquid(U12, true), 0, 144, NF, MT.WoodTreated, NI, true, condition));
             RM.Bath.add(new RecipeMapHandlerMaterial(mat, FL.Resin_Spruce.make(12), 0, 144, NF, MT.WoodTreated, NI, true, condition));
             RM.Bath.add(new RecipeMapHandlerMaterial(mat, FL.Resin       .make(12), 0, 144, NF, MT.WoodTreated, NI, true, condition));
             RM.Bath.add(new RecipeMapHandlerMaterial(mat, FL.make(FLx.Varnish, 12), 0, 144, NF, MT.WoodTreated, NI, true, condition));

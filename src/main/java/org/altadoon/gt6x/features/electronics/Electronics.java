@@ -159,7 +159,7 @@ public class Electronics extends GT6XFeature {
 
         // pastes
         RM.Mixer.addRecipe2(true, 16, 64, ILx.Rosin.get(1), dust.mat(MT.SolderingAlloy, 2), MTx.Isopropanol.liquid(2 * U, true), MTx.SolderingPaste.liquid(4 * U, false), NI);
-        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.ZnO, 1), MTx.Epoxy.liquid(U, true), FL.make(FLx.ThermalPaste, 288), NI);
+        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.ZnO, 1), MTx.EpoxyResin.liquid(U, true), FL.make(FLx.ThermalPaste, 288), NI);
 
         // glass fibres
         CR.shaped(ILx.PlatinumBushing.get(1), CR.DEF_REV, " e ", " P ", "   ", 'P', OP.plate.mat(MT.Pt, 1));
@@ -177,7 +177,7 @@ public class Electronics extends GT6XFeature {
         CR.shapeless(ILx.Plywood.get(3), new Object[]{ plate.dat(ANY.Wood), plate.dat(ANY.Wood), plate.dat(ANY.Wood), IL.Bottle_Glue });
         CR.shaped(ILx.Circuit_Plate_Wood.get(1), CR.DEF_REV, "WWW", "WBW", "WWW", 'W', wireFine.dat(ANY.Cu), 'B', ILx.Plywood);
         RM.Laminator.addRecipe2(true, 16, 128, OP.foil.mat(MTx.PF, 4), ST.make(Items.paper, 1, W), ILx.FR1_Board.get(1));
-        RM.Bath.addRecipe1(true, 16, 128, ILx.GlassFibres.get(1), MTx.Epoxy.liquid(U, true), NF, ILx.FR4_Board.get(1));
+        RM.Bath.addRecipe1(true, 16, 128, ILx.GlassFibres.get(1), MTx.EpoxyResin.liquid(U, true), NF, ILx.FR4_Board.get(1));
 
         // Copper-clad laminates e.a.
         RM.Laminator.addRecipe2(true, 16, 128, ILx.FR1_Board.get(1), OP.foil.mat(MT.Cu, 4), ILx.CCL.get(1));
@@ -567,7 +567,7 @@ public class Electronics extends GT6XFeature {
         RM.Press.addRecipeX(true, 16, 64, ST.array(ILx.LEDs[2][0].get(16), dust     .mat(MTx.YellowPhosphor, 1)), ILx.LEDs[3][0].get(16));
         // LED Encapsulation
         for (int color = 0; color < ILx.LEDColors.length; color++) {
-            RM.Bath.addRecipe1(true, 0, 16, ILx.LEDs[color][0].get(1), MTx.Epoxy.liquid(U16, true), NF, ILx.LEDs[color][1].get(1));
+            RM.Bath.addRecipe1(true, 0, 16, ILx.LEDs[color][0].get(1), MTx.EpoxyResin.liquid(U16, true), NF, ILx.LEDs[color][1].get(1));
         }
 
         // CRTs
