@@ -178,6 +178,8 @@ public class Metallurgy extends GT6XFeature {
 
         MT.OREMATS.Barite.addOreByProducts(MT.OREMATS.Celestine, MT.Gypsum);
         MT.OREMATS.Celestine.addOreByProducts(MT.Gypsum);
+        MTx.FeCO3.addOreByProducts(MTx.MnCO3, MT.OREMATS.Smithsonite, MT.MgCO3, MT.OREMATS.Barite, MT.CaF2);
+        MTx.MnCO3.addOreByProducts(MTx.FeCO3, MT.OREMATS.Smithsonite, MT.MgCO3, MT.OREMATS.Barite, MT.CaF2);
     }
 
     private void removeAlloySmeltingRecipe(OreDictMaterial mat) {
@@ -450,7 +452,8 @@ public class Metallurgy extends GT6XFeature {
         RM.Bath.addRecipe1(true, 0, 256, dust.mat(MTx.CdSO4, 6), FL.array(MT.H2S.gas(3*U, true)), FL.array(MT.H2SO4.liquid(7*U, false)), dust.mat(MTx.CdS, 2));
         RM.Bath.addRecipe1(true, 0, 256, dust.mat(MT.OREMATS.Garnierite, 1), FL.array(MT.H2SO4.liquid(7*U, true)), FL.array(MT.CyanVitriol.liquid(6*U, false), MT.H2O.liquid(3*U, false)));
         RM.Bath.addRecipe1(true, 0, 256, dust.mat(MTx.CoO, 2), FL.array(MT.H2SO4.liquid(7*U, true)), FL.array(MT.RedVitriol.liquid(6*U, false), MT.H2O.liquid(3*U, false)));
-        RM.Bath.addRecipe1(true, 0, 256, dust.mat(MT.MnO2, 1), FL.array(MT.H2SO4.liquid(7*U, true)), FL.array(MT.GrayVitriol.liquid(6*U, false), MT.H2O.liquid(3*U, false), MT.O.gas(U, false)));
+        RM.Bath.addRecipe1(true, 0, 256, dust.mat(MTx.MnO, 1), FL.array(MT.H2SO4.liquid(7*U, true)), FL.array(MT.GrayVitriol.liquid(6*U, false), MT.H2O.liquid(3*U, false)));
+        RM.Bath.addRecipe1(true, 0, 256, dust.mat(MT.MnO2, 1), MT.SO2.gas(3*U, true), MT.GrayVitriol.liquid(6*U, false), NI);
         RM.Bath.addRecipe1(true, 0, 256, dust.mat(MT.OREMATS.Cassiterite, 1), FL.array(MT.HCl.gas(8*U, true)), FL.array(MT.StannicChloride.liquid(5*U, false), MT.H2O.liquid(6*U, false)));
         RM.Bath.addRecipe1(true, 0, 256, dust.mat(MTx.Fayalite, 7), MT.HCl.gas(8*U, true), MTx.FeCl2Solution.liquid(12*U, false), dust.mat(MT.SiO2, 3));
         RM.Bath.addRecipe1(true, 0, 256, dust.mat(MT.Olivine, 7), FL.array(MT.HCl.gas(8*U, true)), FL.array(MTx.FeCl2Solution.liquid(6*U, false), MTx.MgCl2Solution.liquid(6*U, false)), dust.mat(MT.SiO2, 3));
@@ -491,15 +494,24 @@ public class Metallurgy extends GT6XFeature {
         RM.Bath.addRecipe1(true, 0, 64, dust.mat(MTx.BaO, 3), MT.Al.liquid(2*U, true), MT.Ba.liquid(3*U, false), dust.mat(MT.Al2O3, 5));
         RM.Bath.addRecipe1(true, 0, 64, dust.mat(MTx.SrO, 3), MT.Al.liquid(2*U, true), MT.Sr.liquid(3*U, false), dust.mat(MT.Al2O3, 5));
 
+        // Carbonates, Acetates
+        for (FluidStack water : FL.waters(3000)) {
+            RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.Na2CO3, 6), FL.array(MT.GrayVitriol.liquid(6*U, true), water), FL.array(MTx.Na2SO4Solution.liquid(10 * U, false)), dust.mat(MTx.MnCO3, 2));
+            RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.MnCO3, 2), FL.array(MTx.AceticAcid.liquid(2*U, true), FL.mul(water, 3)), FL.array(MT.CO2.gas(3*U, false)), dust.mat(MTx.MnOAc2, 5));
+            RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.CoO, 2), FL.array(MTx.AceticAcid.liquid(2*U, true), FL.mul(water, 3)), ZL_FS, dust.mat(MTx.CoOAc2, 5));
+        }
+        RM.Mixer.addRecipe0(true, 16, 64, FL.array(MT.GrayVitriol.liquid(6 * U, true), MTx.Na2CO3Solution.liquid(9*U, true)), FL.array(MTx.Na2SO4Solution.liquid(10 * U, false)), dust.mat(MTx.MnCO3, 2));
+
         // Metal oxides from thermal decomposition
         RMx.Thermolysis.addRecipe1(true, 16, 256, dust.mat(MTx.BaCO3, 1), NF, MT.CO2.gas(3*U, false), dust.mat(MTx.BaO, 1));
         RMx.Thermolysis.addRecipe1(true, 16, 256, dust.mat(MTx.BaNO3, 1), ZL_FS, FL.array(MT.NO2.gas(6*U, false), MT.O.gas(U, false)), dust.mat(MTx.BaO, 1));
         RMx.Thermolysis.addRecipe1(true, 16, 256, dust.mat(MTx.SrCO3, 1), NF, MT.CO2.gas(3*U, false), dust.mat(MTx.SrO, 1));
+        RMx.Thermolysis.addRecipe1(true, 16, 256, dust.mat(MTx.MnCO3, 2), NF, MT.CO2.gas(3*U, false), dust.mat(MTx.MnO, 1));
+        RMx.Thermolysis.addRecipe1(true, 16, 256, dust.mat(MTx.FeCO3, 2), NF, MT.CO2.gas(3*U, false), dust.mat(MTx.FeO, 2));
         RMx.Thermolysis.addRecipe1(true, 16, 256, dust.mat(MTx.Co3O4, 7), NF, MT.O.gas(U, false), dust.mat(MTx.CoO, 6));
         RMx.Thermolysis.addRecipe0(true, 16, 512, FL.array(MT.GreenVitriol.liquid(12*U, true)), FL.array(MT.SO2.gas(3*U, false), MT.SO3.gas(4*U, false)), dust.mat(MT.Fe2O3, 5));
         RMx.Thermolysis.addRecipe0(true, 16, 256, FL.array(MT.PinkVitriol.liquid(6*U, true)), FL.array(MT.SO2.gas(3*U, false), MT.O.gas(U, false)), dust.mat(MTx.MgO, 2));
-        RMx.Thermolysis.addRecipe1(true, 16, 256, dust.mat(MTx.HgO, 1), ZL_FS, FL.array(MT.Hg.liquid(U2, false), MT.O.gas(U2, false)));
-        RMx.Thermolysis.addRecipe1(true, 16, 256, dust.mat(MT.OREMATS.Smithsonite, 5), ZL_FS, FL.array(MT.CO2.gas(3*U, false)), dust.mat(MTx.ZnO, 1));
+        RMx.Thermolysis.addRecipe1(true, 16, 128, dust.mat(MTx.HgO, 1), ZL_FS, FL.array(MT.Hg.liquid(U2, false), MT.O.gas(U2, false)));
 
         // Bayer waste products processing
         RM.Centrifuge.addRecipe1(true, 16, 256, new long[] {10000, 3000, 2000, 1000, 1000, 500, 50}, dust.mat(MTx.RedMud, 1), dustTiny.mat(MT.Fe2O3, 9), dustTiny.mat(MT.Sodalite, 9), dustTiny.mat(MT.OREMATS.Wollastonite, 9), dustTiny.mat(MT.TiO2, 9), dustTiny.mat(MT.AlO3H3, 9), dustTiny.mat(MTx.Sc2O3, 9));
@@ -932,6 +944,7 @@ public class Metallurgy extends GT6XFeature {
             }
         }
 
+        new WorldgenOresLarge("ore.large.siderite"     , true, true, 30,  60,  30, 5, 16, MT.MgCO3                        , MT.OREMATS.Smithsonite         , MTx.MnCO3                      , MTx.FeCO3             , ORE_OVERWORLD, ORE_A97, ORE_ENVM, ORE_CW2_AquaCavern, ORE_CW2_Caveland, ORE_CW2_Cavenia, ORE_CW2_Cavern, ORE_CW2_Caveworld, ORE_EREBUS, ORE_ATUM, ORE_BETWEENLANDS, ORE_MARS, ORE_PLANETS);
         new WorldgenOresLarge("ore.large.galena2"      , true, true, 30,  60,  40, 5, 16, MT.OREMATS.Galena               , MT.OREMATS.Galena              , MT.Ag                          , MT.OREMATS.Galena     , ORE_OVERWORLD, ORE_A97, ORE_ENVM, ORE_CW2_AquaCavern, ORE_CW2_Caveland, ORE_CW2_Cavenia, ORE_CW2_Cavern, ORE_CW2_Caveworld, ORE_EREBUS, ORE_ATUM, ORE_BETWEENLANDS, ORE_MARS, ORE_PLANETS);
         new WorldgenOresLarge("ore.large.nickel2"      , true, true, 10,  40,  40, 3, 16, MT.OREMATS.Garnierite           , MT.OREMATS.Garnierite          , MT.OREMATS.Cobaltite           , MT.OREMATS.Pentlandite, ORE_OVERWORLD, ORE_A97, ORE_ENVM, ORE_CW2_AquaCavern, ORE_CW2_Caveland, ORE_CW2_Cavenia, ORE_CW2_Cavern, ORE_CW2_Caveworld, ORE_EREBUS, ORE_ATUM, ORE_BETWEENLANDS, ORE_MARS);
         new WorldgenOresLarge("ore.large.graphite2"    , true, true, 50,  80,  80, 6, 32, MT.Coal                         , MT.Coal                        , MT.Graphite                    , MT.Graphite           , ORE_OVERWORLD, ORE_A97, ORE_ENVM, ORE_CW2_AquaCavern, ORE_CW2_Caveland, ORE_CW2_Cavenia, ORE_CW2_Cavern, ORE_CW2_Caveworld, ORE_EREBUS, ORE_ATUM);

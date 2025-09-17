@@ -86,6 +86,7 @@ public class ILx implements IItemContainer {
             Resistor_SMD = new ILx("Resistor_SMD"),
             PlatinumBushing = new ILx("PlatinumBushing"),
             GlassFibres = new ILx("GlassFibres"),
+            FiberglassScrim = new ILx("FiberglassScrim"),
 
             // Boards
             FR1_Board = new ILx("FR1_Board"),

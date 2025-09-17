@@ -368,6 +368,7 @@ public class BasicChemistry extends GT6XFeature {
         RMx.Thermolysis.addRecipe1(false, 64, 128, ST.tag(0), MT.HCl.gas(U, true), FL.array(MT.H.gas(U2, false), MT.Cl.gas(U2, false)));
         RMx.Thermolysis.addRecipe1(true, 16, 256, dust.mat(MT.CaCO3, 5), NF, MT.CO2.gas(3*U, false), dust.mat(MTx.CaO, 2));
         RMx.Thermolysis.addRecipe1(true, 16, 256, dust.mat(MT.MgCO3, 5), NF, MT.CO2.gas(3*U, false), dust.mat(MTx.MgO, 2));
+        RMx.Thermolysis.addRecipe1(true, 16, 256, dust.mat(MT.OREMATS.Smithsonite, 5), ZL_FS, FL.array(MT.CO2.gas(3*U, false)), dust.mat(MTx.ZnO, 1));
         //RMx.Thermolysis.addRecipe1(true, 16, 256, dust.mat(MT.Na2CO3, 6), NF, MT.CO2.gas(3*U, false), dust.mat(MTx.Na2O, 3));
         RMx.Thermolysis.addRecipe1(true, 16, 256, dust.mat(MT.NaHCO3, 12), ZL_FS, FL.array(MT.H2O.liquid(3*U, false), MT.CO2.gas(3*U, false)), dust.mat(MT.Na2CO3, 6));
         RMx.Thermolysis.addRecipe0(true, 16, 128, FL.array(MTx.MgHCO3.liquid(11*U, true)), FL.array(MT.H2O.liquid(3*U, false), MT.CO2.gas(3*U, false)), dust.mat(MT.MgCO3, 5));
@@ -390,9 +391,25 @@ public class BasicChemistry extends GT6XFeature {
         RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MT.Al2O3, 0), FL.array(MTx.Methanol.liquid(3*U, true), MT.NH3.gas(U, true)), FL.array(MTx.Trimethylamine.gas(8*U10, false), MT.H2O.liquid(9*U, false)));
         RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MT.OREMATS.Zeolite, 0), FL.array(MTx.Methanol.liquid(3*U, true), MT.NH3.gas(U, true)), FL.array(MTx.Trimethylamine.gas(U, false), MT.H2O.liquid(9*U, false)));
 
-        // Chloromethane, Diethyl ether
-        RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MT.Al2O3, 0), FL.array(MT.Ethanol.liquid(U10, true), MT.H2SO4.liquid(U1000, true)), FL.array(MTx.Ether.liquid(U10, false), MT.H2O.liquid(3*U10, false)));
+        // Chloromethanes
         RM.Mixer.addRecipe0(true, 16, 32, FL.array(MTx.Methanol.liquid(U, true), MT.HCl.gas(2*U, true)), FL.array(MTx.CH3Cl.gas(U, false), MT.H2O.liquid(3*U, false)));
+        ///  Methane chlorination
+        RMx.Thermolysis.addRecipe1(true, 16, 50, ST.tag(4), FL.array(MT.CH4.gas(U, true), MT.Cl.gas(4*U, true)), FL.array(MTx.CH3Cl.gas(4*U10, false), MTx.CH2Cl2.liquid(3*U10, false), MTx.CHCl3.liquid(2*U10, false), MTx.CCl4.liquid(U10, false), MT.HCl.gas(4*4*U, false)));
+        RMx.Thermolysis.addRecipe1(true, 16, 50, ST.tag(5), FL.array(MT.CH4.gas(U, true), MT.Cl.gas(5*U, true)), FL.array(MTx.CH3Cl.gas(U4, false), MTx.CH2Cl2.liquid(U4, false), MTx.CHCl3.liquid(U4, false), MTx.CCl4.liquid(U4, false), MT.HCl.gas(5*U, false)));
+        RMx.Thermolysis.addRecipe1(true, 16, 50, ST.tag(6), FL.array(MT.CH4.gas(U, true), MT.Cl.gas(6*U, true)), FL.array(MTx.CH3Cl.gas(U10, false), MTx.CH2Cl2.liquid(2*U10, false), MTx.CHCl3.liquid(3*U10, false), MTx.CCl4.liquid(4*U10, false), MT.HCl.gas(6*U, false)));
+        RMx.Thermolysis.addRecipe1(true, 16, 50, ST.tag(8), FL.array(MT.CH4.gas(U, true), MT.Cl.gas(8*U, true)), FL.array(MTx.CCl4.liquid(U, false), MT.HCl.gas(8*U, false)));
+        /// CH3Cl chlorination
+
+        /// CH2Cl2 chlorination
+
+        /// CHCl3 chlorination
+        RMx.Thermolysis.addRecipe0(true, 16, 64, FL.array(MTx.CHCl3.liquid(U, true), MT.Cl.gas(2*U, true)), FL.array(MTx.CCl4.liquid(U, false), MT.HCl.gas(2*U, false)));
+
+        // Carbon Tetrafluoride
+        RM.Mixer.addRecipe0(true, 16, 64, FL.array(MTx.CCl4.liquid(U, true), MT.HF.gas(8*U, true)), FL.array(MTx.CF4.gas(U, false), MT.HCl.gas(8*U, false)));
+
+        // Diethyl ether
+        RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MT.Al2O3, 0), FL.array(MT.Ethanol.liquid(U10, true), MT.H2SO4.liquid(U1000, true)), FL.array(MTx.Ether.liquid(U10, false), MT.H2O.liquid(3*U10, false)));
 
         // Ethylene from ethanol and reverse
         RMx.Thermolysis.addRecipe1(true, 16, 64, ST.tag(1), FL.array(MTx.Ether.liquid(U10, true)), FL.array(MT.Ethylene.gas(U10, false), FL.Water.make(300)));

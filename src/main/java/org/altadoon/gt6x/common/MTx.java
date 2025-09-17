@@ -96,11 +96,11 @@ public class MTx {
     static {
         // change some properties of vanilla GT6 materials
         MT.NH3      .uumMcfg(1, MT.N, U, MT.H, 3*U);
-        MT.Ethanol  .setMcfg(0, MT.C, 2*U, MT.H, 6*U, MT.O, U).heat(159, 351);
-        MT.Ethylene .setMcfg(0, MT.C, 2*U, MT.H, 4*U).heat(104, 169);
-        MT.Propylene.setMcfg(0, MT.C, 3*U, MT.H, 6*U).heat(88, 225);
-        MT.Propane  .setMcfg(0, MT.C, 3*U, MT.H, 8*U).heat(86, 231);
-        MT.Butane   .setMcfg(0, MT.C, 4*U, MT.H, 10*U).heat(136, 273);
+        MT.Ethanol  .setMcfg(1, MT.C, 2*U, MT.H, 6*U, MT.O, U).heat(159, 351);
+        MT.Ethylene .setMcfg(1, MT.C, 2*U, MT.H, 4*U).heat(104, 169);
+        MT.Propylene.setMcfg(1, MT.C, 3*U, MT.H, 6*U).heat(88, 225);
+        MT.Propane  .setMcfg(1, MT.C, 3*U, MT.H, 8*U).heat(86, 231);
+        MT.Butane   .setMcfg(1, MT.C, 4*U, MT.H, 10*U).heat(136, 273);
 
         MT.Petrol.heat(220, 70+C);
         MT.Kerosine.heat(240, 200+C);
@@ -272,7 +272,13 @@ public class MTx {
     public static OreDictMaterial alloy(int id, String nameOreDict, TextureSet[] aSets, long r, long g, long b, Object... randomData) { return create(id, nameOreDict, r, g, b, 255, randomData).setTextures(aSets).put(DECOMPOSABLE, ALLOY, G_DUST, INGOTS, MELTING, EXTRUDER); }
     public static OreDictMaterial alloymachine(int id, String nameOreDict, TextureSet[] aSets, long r, long g, long b, Object... randomData) { return machine(id, nameOreDict, aSets, r, g, b, 255, randomData).put(ALLOY); }
     public static OreDictMaterial alloymachnd(int id, String nameOreDict, TextureSet[] aSets, long r, long g, long b, Object... randomData) { return create(id, nameOreDict, r, g, b, 255, randomData).setTextures(aSets).put(DECOMPOSABLE, ALLOY, G_INGOT_ND_MACHINE, MELTING, EXTRUDER); }
-    public static OreDictMaterial plastic(int id, String nameOreDict, TextureSet[] aSets, long r, long g, long b, long a, Object... randomData) { return create(id, nameOreDict, r, g, b, a, randomData).setTextures(aSets).put(G_INGOT_MACHINE, MELTING, EXTRUDER, EXTRUDER_SIMPLE, MORTAR, FURNACE, POLYMER).addReRegistrationToThis(MT.Plastic); }
+
+    public static OreDictMaterial plastic(int id, String nameOreDict, TextureSet[] sets, long r, long g, long b, long a, Object... randomData) {
+        OreDictMaterial mat = create(id, nameOreDict, r, g, b, a, randomData).setTextures(sets)
+                .put(G_INGOT_MACHINE, MELTING, EXTRUDER, EXTRUDER_SIMPLE, MORTAR, FURNACE, POLYMER);
+        ANY.Plastic.addReRegistrationToThis(mat);
+        return mat;
+    }
 
     public static OreDictMaterial ree2O3(int id, OreDictMaterial ree, long r, long g, long b) {
         OreDictMaterial mat = dustdcmp(id, ree.mNameLocal + "(III) Oxide", SET_DULL, r, g, b, 255)
@@ -509,7 +515,7 @@ public class MTx {
     Phosgene = registerGas(gasdcmp(16043, "Phosgene", 255, 255, 255, 50, "Carbonyl Dichloride")
             .setMcfg(1, MT.C, U, MT.O, U, MT.Cl, 2*U)
             .heat(155, 281)),
-    CHCl3 = registerLiquid(lquddcmp( 16044, "Chloroform", 150, 255, 200, 255)
+    CHCl3 = registerLiquid(lquddcmp( 16044, "Chloroform", 150, 255, 200, 255, "Trichloromethane")
             .uumMcfg(1, MT.C, U, MT.H, U, MT.Cl, U*3)
             .heat(210, 334)),
     CHClF2 = registerGas(gasdcmp( 16045, "Chlorodifluoromethane", 150, 200, 255, 255)
@@ -1029,7 +1035,7 @@ public class MTx {
     CrNO3Solution = registerLiquid(lqudaciddcmp(16209, "Chromium Nitrate-Cerous Ammonium Nitrate Solution", 50, 0, 50, 255)
             .tooltip("Cr(NO" + NUM_SUB[3] + ")" + NUM_SUB[3] + " + 3 (NH" + NUM_SUB[4] + ")" + NUM_SUB[2] + "Ce(" + "NO" + NUM_SUB[3] + ")" + NUM_SUB[5] + " + n HNO" + NUM_SUB[3])
             .heat(MT.H2O)),
-    CCl4 = registerLiquid(lquddcmp(16210, "Tetrachloromethane", 200, 255, 200, 200)
+    CCl4 = registerLiquid(lquddcmp(16210, "Tetrachloromethane", 200, 255, 200, 200, "Carbon Tetrachloride")
             .setMcfg(1, MT.C, U, MT.Cl, 4*U)
             .heat(250, 350)),
     CF4 = registerGas(gasdcmp(16211, "Tetrafluoromethane", 200, 255, 255, 200)
@@ -1778,10 +1784,12 @@ public class MTx {
     Nitrochlorobenzene = dustdcmp(16515, "Nitrochlorobenzene", SET_DULL, 255, 255, 180, 255)
             .setMcfg(1, MT.C, 6*U, MT.H, 4*U, MT.Cl, U, MT.N, U, MT.O, 2*U)
             .heat(357, 515),
-    DNDPE = dustdcmp(16516, "4,4'-Dinitrodiphenyl Ether", SET_FINE, 255, 255, 255, 255)
+    DNDPE = dustdcmp(16516, "DNDPE", SET_FINE, 255, 255, 255, 255)
+            .setLocal("4,4'-Dinitrodiphenyl Ether")
             .setMcfg(1, MT.C, 12*U, MT.H, 8*U, MT.N, 2*U, MT.O, 3*U)
             .heat(413, 676),
-    ODA = dustdcmp(16517, "4,4'-Oxydianiline", SET_FINE, 255, 255, 255, 255)
+    ODA = dustdcmp(16517, "ODA", SET_FINE, 255, 255, 255, 255)
+            .setLocal("4,4'-Oxydianiline")
             .setMcfg(1, MT.C, 12*U, MT.H, 12*U, MT.N, 2*U, MT.O, U)
             .heat(461, 492),
     Kapton = plastic(16518, "Kapton", SET_SHINY, 196, 176, 75, 255)
@@ -1846,7 +1854,40 @@ public class MTx {
             .heat(600+C).setSmelting(Y2O3, U),
     BaCl2 = dustdcmp(16538, "Barium Chloride", SET_CUBE, 250, 250, 250, 255)
             .setMcfg(1, MT.Ba, U, MT.Cl, 2*U)
-            .heat(1235, 1830)
+            .heat(1235, 1830),
+    MnCO3 = oredustdcmp(16539, "Rhodochrosite", SET_CUBE_SHINY, 255, 66, 114, 250)
+            .uumMcfg(2, MT.Mn, U, MT.CO3, U)
+            .heat(473)
+            .setSmelting(MnO, U2),
+    MnOAc2 = dustdcmp(16540, "Manganese(II) Acetate", SET_FINE, 255, 222, 244, 255)
+            .setMcfg(5, MT.Mn, U, MT.C, 2*U, MT.O, 4*U, MT.H, 6*U, MT.H2O, 4*3*U)
+            .tooltip("Mn(CH"+NUM_SUB[3]+"COO)"+NUM_SUB[2]+"·4H"+NUM_SUB[2]+"O")
+            .heat(80+C),
+    CoOAc2 = dustdcmp(16541, "Cobalt(II) Acetate", SET_FINE, 255, 140, 217, 255)
+            .setMcfg(5, MT.Co, U, MT.C, 2*U, MT.O, 4*U, MT.H, 6*U, MT.H2O, 4*3*U)
+            .tooltip("Co(CH"+NUM_SUB[3]+"COO)"+NUM_SUB[2]+"·4H"+NUM_SUB[2]+"O")
+            .heat(140+C),
+    FeCO3 = oredustdcmp(16542, "Siderite", SET_SHARDS, 190, 170, 80, 255)
+            .uumMcfg(0, MT.Fe, U, MT.CO3, U)
+            .heat(773)
+            .setSmelting(FeO, U),
+    TPA = dustdcmp(16543, "Terephthalic Acid", SET_FINE, 255, 255, 255, 255)
+            .setMcfg(1, MT.C, 8*U, MT.H, 6*U, MT.O, 4*U)
+            .heat(573),
+    Oxirane = registerGas(gasdcmp(16544, "Oxirane", 255, 255, 255, 100, "Ethylene Oxide", "Epoxyethane", "Oxacyclopropane")
+            .setLocal("Ethylene Oxide")
+            .setMcfg(1, MT.C, 2*U, MT.H, 4*U, MT.O, U)
+            .heat(161, 284)),
+    MEG = registerLiquid(lqudflam(16545, "MEG", 255, 255, 255, 200, "Ethane-1,2-diol", "Ethylene Glycol")
+            .setLocal("Ethylene Glycol")
+            .setMcfg(1, MT.C, 2*U, MT.H, 6*U, MT.O, 2*U)
+            .heat(260, 470)),
+    PET = plastic(16546, "PET", SET_DULL, 180, 180, 180, 150, "Polyethylene Terephthalate")
+            .setMcfg(1, MT.C, 10*U, MT.H, 8*U, MT.O, 4*U)
+            .heat(523, 623),
+    CH2Cl2 = registerLiquid(lqudflam(16547, "Dichloromethane", 255, 255, 255, 200)
+            .uumMcfg(0, MT.C, U, MT.H, 2*U, MT.Cl, 2*U)
+            .heat(177, 313))
     ;
 
     @SuppressWarnings("unused")

@@ -32,6 +32,9 @@ public class MTEx {
         PTFETubes(20), // 20-39
         PVCCan(40),
         PTFECan(41),
+        PETCan(42),
+        PETCell(48),
+        PETJug(49),
         Hydrocracker1(50),
         Hydrocracker2(51),
         Hydrocracker3(52),

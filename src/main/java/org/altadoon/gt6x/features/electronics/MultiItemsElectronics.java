@@ -121,11 +121,6 @@ public class MultiItemsElectronics extends MultiItemRandom {
         ILx.Circuit_Plate_Platinum_Tiny.set(addItem(191, "Tiny Circuit Plate (Platinum)", tooltip), new OreDictItemData(MT.Pt, U8, MTx.Epoxy, U4));
         ILx.Circuit_Plate_Platinum_Long.set(addItem(192, "Expansion Card Base (Platinum)", tooltip), new OreDictItemData(MT.Pt, U4, MTx.Epoxy, U2));
 
-        ILx.GlassFibres.set(addItem(200, "Glass Fibre", "Small threads of glass"), new OreDictItemData(MT.Glass, U8));
-
-        ILx.PlatinumBushing.set(addItem(201, "Platinum Bushing", "Basically a very expensive cheese grater"), new OreDictItemData(MT.Pt, U));
-        BooksGT.BOOK_REGISTER.put(new ItemStackContainer(ILx.PlatinumBushing.get(1)), (byte)45);
-
         ILx.EtchMask_Trace      .set(addItem(202, "Etching Mask (Circuit Trace)"      , "Protects parts of your PCB from etch"), new OreDictItemData(MT.PVC, U));
         ILx.EtchMask_Trace_Small.set(addItem(203, "Etching Mask (Small Circuit Trace)", "Protects parts of your PCB from etch"), new OreDictItemData(MT.PVC, U));
         ILx.EtchMask_Trace_Tiny .set(addItem(204, "Etching Mask (Tiny Circuit Trace)" , "Protects parts of your PCB from etch"), new OreDictItemData(MT.PVC, U));
