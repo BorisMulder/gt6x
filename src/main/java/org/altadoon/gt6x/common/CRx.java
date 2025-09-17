@@ -4,6 +4,7 @@ import gregapi.code.IItemContainer;
 import gregapi.oredict.OreDictItemData;
 import gregapi.oredict.OreDictManager;
 import gregapi.oredict.OreDictMaterialStack;
+import gregapi.recipes.AdvancedCraftingShaped;
 import gregapi.recipes.AdvancedCraftingShapeless;
 import gregapi.util.CR;
 import gregapi.util.OM;
@@ -25,7 +26,7 @@ import static gregapi.util.CR.REV;
 
 public class CRx {
 	public static void disableGt6(ItemStack output) {
-		CR.BUFFER.removeIf(r -> ST.equal(r.getRecipeOutput(), output));
+		CR.BUFFER.removeIf(r -> r instanceof AdvancedCraftingShaped && ST.equal(r.getRecipeOutput(), output));
 	}
 
 	public static void overrideItemData(ItemStack output, Object ... recipe) {

@@ -55,11 +55,10 @@ public class Fusion extends GT6XFeature {
 		RM.Mixer.addRecipe1(true, 16, 128, ST.tag(3), FL.array(MTx.YTMHD.gas(U, true), MTx.BaTMHD.gas(2*U, true), MTx.CuTMHD.gas(3*U, true)), FL.array(MTx.YBaCuTMHD.gas(6*U, false)));
 
 		// Superconductors
-		RMx.IonBombardment.addRecipeX(false, 64, 64, ST.array(foil.mat(MTx.Hastelloy, 1), dustDiv72.mat(MTx.CeO2, 2), dustDiv72.mat(MTx.YSZ, 1)), ILx.HTSTape_Buffer.get(1));
-		RMx.VacuumChamber.addRecipe1(false, 64, 64, ILx.HTSTape_Buffer.get(1));
+		RMx.IonBombardment.addRecipeX(false, 64, 64, ST.array(foil.mat(MTx.Hastelloy, 1), dustDiv72.mat(MTx.CeO2, 2), dustDiv72.mat(MTx.YSZ, 1)), MT.Ar.gas(U100, true), NF, ILx.HTSTape_Buffer.get(1));
 		RMx.Thermolysis.addRecipe1(false, 32, 256, ILx.HTSTape_Buffer.get(1), FL.array(MTx.YBaCuTMHD.gas(U8, true), MT.O.gas(10*U, true)), FL.array(MT.H2O.liquid(9*U, false), MT.CO2.gas(9*U, false)), ILx.HTSTape_REBCO.get(1));
-		RMx.IonBombardment.addRecipeX(false, 64, 64, ST.array(ILx.HTSTape_REBCO.get(1), dustTiny.mat(MT.Ag, 1), dustTiny.mat(MT.Cu, 1)), ILx.HTSTape_AgCu.get(1));
-		RM.Press.addRecipe2(false, 16, 32, ILx.HTSTape_AgCu.get(1), foil.mat(MTx.Kapton, 1), MTx.EpoxyResin.liquid(U4, true), NF, ILx.HTSTape_Insulated.get(1));
+		RMx.IonBombardment.addRecipeX(false, 64, 64, ST.array(ILx.HTSTape_REBCO.get(1), dustTiny.mat(MT.Ag, 1), dustTiny.mat(MT.Cu, 1)), MT.Ar.gas(U100, true), NF, ILx.HTSTape_AgCu.get(1));
+		RM.Bath.addRecipe2(false, 0, 128, ILx.HTSTape_AgCu.get(1), foil.mat(MTx.Kapton, 1), MTx.EpoxyResin.liquid(U4, true), NF, ILx.HTSTape_Insulated.get(1));
 
 		/// Thermal/electrical multi-layer insulation (MLI)
 		// BoPET: PET extruded into foils (mylar), then Al gas PVD metallization
