@@ -234,7 +234,7 @@ public class REEProcessing  extends GT6XFeature {
             }
         }
 
-        new WorldgenOresLarge("ore.large.monazite2", true, true, 20,  40,  30, 3, 16, MT.OREMATS.Bastnasite, MT.OREMATS.Bastnasite, MT.Monazite, MTx.Xenotime, ORE_OVERWORLD, ORE_A97, ORE_ENVM, ORE_CW2_AquaCavern, ORE_CW2_Caveland, ORE_CW2_Cavenia, ORE_CW2_Cavern, ORE_CW2_Caveworld, ORE_EREBUS, ORE_ATUM, ORE_BETWEENLANDS, ORE_MARS, ORE_PLANETS);
+        new WorldgenOresLarge("ore.large.monazite2", true, true, 20,  40,  30, 3, 16, MT.OREMATS.Bastnasite, MTx.Xenotime, MT.Monazite, MT.OREMATS.Bastnasite, ORE_OVERWORLD, ORE_A97, ORE_ENVM, ORE_CW2_AquaCavern, ORE_CW2_Caveland, ORE_CW2_Cavenia, ORE_CW2_Cavern, ORE_CW2_Caveworld, ORE_EREBUS, ORE_ATUM, ORE_BETWEENLANDS, ORE_MARS, ORE_PLANETS);
 
     }
 }

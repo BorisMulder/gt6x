@@ -1,5 +1,6 @@
 package org.altadoon.gt6x.common.items;
 
+import gregapi.code.ItemStackContainer;
 import gregapi.data.*;
 import gregapi.item.IPrefixItem;
 import gregapi.item.multiitem.MultiItemRandom;
@@ -45,6 +46,12 @@ public class MultiItemsX extends MultiItemRandom {
 
         ILx.SuperCharger.set(addItem(6, "Supercharger", "Forces air into engines"));
         CR.shaped(ILx.SuperCharger.get(1), CR.DEF_REV, "PUP", "RSR", "TUT", 'P', pipeSmall.dat(MT.Al), 'U', plateCurved.dat(MT.Magnalium), 'R', tbcCoatedRotor.dat(MT.Magnalium), 'S', stick.dat(MTx.HSSM2), 'T', stick.dat(MT.Teflon));
+
+        ILx.PlatinumBushing.set(addItem(7, "Platinum Bushing", "Basically a very expensive cheese grater"), new OreDictItemData(MT.Pt, U));
+        BooksGT.BOOK_REGISTER.put(new ItemStackContainer(ILx.PlatinumBushing.get(1)), (byte)45);
+        ILx.GlassFibres.set(addItem(8, "Glass Fibre", "Small threads of glass"), new OreDictItemData(MT.Glass, U72));
+        ILx.FiberglassScrim.set(addItem(9, "Fibreglass Scrim", "Mesh made of glass fibers"), new OreDictItemData(MT.Glass, U2));
+
     }
 
     public void addClayItems() {

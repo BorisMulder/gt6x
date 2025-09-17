@@ -164,20 +164,25 @@ public class Electronics extends GT6XFeature {
         // glass fibres
         CR.shaped(ILx.PlatinumBushing.get(1), CR.DEF_REV, " e ", " P ", "   ", 'P', OP.plate.mat(MT.Pt, 1));
 
-        final long EUt = 16, durationPerUnit = 64 * 6;
-        for (OreDictPrefix tPrefix : OreDictPrefix.VALUES)
-            if (tPrefix != null && tPrefix.containsAny(TD.Prefix.EXTRUDER_FODDER, TD.Prefix.INGOT_BASED, TD.Prefix.GEM_BASED, TD.Prefix.DUST_BASED) && U % tPrefix.mAmount == 0) {
-                ItemStack stack = tPrefix.mat(MT.Glass, U / tPrefix.mAmount);
-                if (stack != null && stack.stackSize <= stack.getMaxStackSize()) {
-                    RM.Extruder.addRecipe2(true, false, false, false, true, EUt, durationPerUnit, stack, ILx.PlatinumBushing.get(0), ILx.GlassFibres.get(8));
+        final long EUt = 16;
+        for (OreDictPrefix prefix : OreDictPrefix.VALUES) {
+            if (prefix != null && prefix.containsAny(TD.Prefix.EXTRUDER_FODDER, TD.Prefix.INGOT_BASED, TD.Prefix.GEM_BASED, TD.Prefix.DUST_BASED)) {
+                if (prefix.mAmount % U72 == 0) {
+                    ItemStack stack = prefix.mat(MT.Glass, 1);
+                    long multiplier = prefix.mAmount / U72;
+                    if (stack != null) {
+                        RM.Extruder.addRecipe2(true, false, false, false, true, EUt, 5 * multiplier, stack, ILx.PlatinumBushing.get(0), ILx.GlassFibres.get(multiplier));
+                    }
                 }
             }
+        }
+        RM.Loom.addRecipe2(true, 16, 32, ST.tag(2), ILx.GlassFibres.get(36), ILx.FiberglassScrim.get(1));
 
         // boards
         CR.shapeless(ILx.Plywood.get(3), new Object[]{ plate.dat(ANY.Wood), plate.dat(ANY.Wood), plate.dat(ANY.Wood), IL.Bottle_Glue });
         CR.shaped(ILx.Circuit_Plate_Wood.get(1), CR.DEF_REV, "WWW", "WBW", "WWW", 'W', wireFine.dat(ANY.Cu), 'B', ILx.Plywood);
         RM.Laminator.addRecipe2(true, 16, 128, OP.foil.mat(MTx.PF, 4), ST.make(Items.paper, 1, W), ILx.FR1_Board.get(1));
-        RM.Bath.addRecipe1(true, 16, 128, ILx.GlassFibres.get(1), MTx.EpoxyResin.liquid(U, true), NF, ILx.FR4_Board.get(1));
+        RM.Bath.addRecipe1(true, 16, 128, ILx.GlassFibres.get(18), MTx.EpoxyResin.liquid(U, true), NF, ILx.FR4_Board.get(1));
 
         // Copper-clad laminates e.a.
         RM.Laminator.addRecipe2(true, 16, 128, ILx.FR1_Board.get(1), OP.foil.mat(MT.Cu, 4), ILx.CCL.get(1));
@@ -503,8 +508,8 @@ public class Electronics extends GT6XFeature {
         }
 
         // Phosphors
-        RM.BurnMixer.addRecipeX(true, 16, 32, ST.array(dust.mat(MTx.Y2O3, 1), dust.mat(MT.S, 1), dustTiny.mat(MTx.Eu2O3, 1)), MT.H.gas(2*U, true), MT.H2O.liquid(3*U, false), dust.mat(MTx.RedPhosphor, 5));
-        RM.BurnMixer.addRecipeX(true, 16, 32, ST.array(dust.mat(MTx.Y2O3, 1), dust.mat(MT.S, 1), dustTiny.mat(MTx.Eu2O3, 1)), MT.CO.gas(2*U, true), MT.CO2.gas(3*U, false), dust.mat(MTx.RedPhosphor, 5));
+        RM.BurnMixer.addRecipeX(true, 16, 32, ST.array(dustTiny.mat(MTx.Y2O3, 17), dust.mat(MT.S, 1), dustTiny.mat(MTx.Eu2O3, 1)), MT.H.gas(2*U, true), MT.H2O.liquid(3*U, false), dust.mat(MTx.RedPhosphor, 5));
+        RM.BurnMixer.addRecipeX(true, 16, 32, ST.array(dustTiny.mat(MTx.Y2O3, 17), dust.mat(MT.S, 1), dustTiny.mat(MTx.Eu2O3, 1)), MT.CO.gas(2*U, true), MT.CO2.gas(3*U, false), dust.mat(MTx.RedPhosphor, 5));
         RM.Mixer.addRecipe2(true, 16, 16, dust.mat(MT.OREMATS.Sphalerite, 1), dustTiny.mat(MT.Ag, 1), dust.mat(MTx.BluePhosphor, 1));
         RM.Mixer.addRecipe2(true, 16, 16, dust.mat(MT.OREMATS.Sphalerite, 1), dustTiny.mat(MT.Cu, 1), dust.mat(MTx.GreenPhosphor, 1));
         RM.Mixer.addRecipeX(true, 16, 16, ST.array(dust.mat(MT.OREMATS.Sphalerite, 1), dust.mat(MTx.CdS, 1), dustTiny.mat(MT.Ag, 2)), dust.mat(MTx.YellowPhosphor, 2));
@@ -815,5 +820,7 @@ public class Electronics extends GT6XFeature {
         // Misc
         CRx.overrideShaped(IL.Tool_Scanner           .get(1), CR.DEF_REV, "EXR", "CPU", "BXB", 'B', IL.Battery_Alkaline_HV, 'X', OP.plate.dat(MT.Cr), 'U', OD_USB_STICKS[0], 'C', OD_USB_CABLES[0], 'E', IL.EMITTERS[4], 'R', IL.SENSORS[4], 'P', SOC_NAMES[0]);
         CRx.overrideShaped(IL.Aneutronic_Fusion_Empty.get(1), CR.DEF_REV, "VPV", "GFG", "VGV", 'P', SOC_NAMES[2], 'V', OP.plateGemTiny.dat(MT.Vb), 'F', IL.FIELD_GENERATORS[5], 'G', OP.foil.dat(MT.Graphene));
+        CRx.overrideShaped(IL.Duct_Tape              .get(1), CR.DEF    , "PPP", " S ", " G ", 'P', OP.foil.dat(ANY.Plastic), 'S', ILx.FiberglassScrim, 'G', OD.itemGlue);
+        CRx.overrideShaped(IL.Brain_Tape             .get(1), CR.DEF    , "PPP", " S ", " G ", 'P', OP.foil.dat(ANY.W), 'S', ILx.FiberglassScrim, 'G', OD.itemGlue);
     }
 }
