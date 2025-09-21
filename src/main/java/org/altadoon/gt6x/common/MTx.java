@@ -512,7 +512,7 @@ public class MTx {
     EpoxyResin = registerLiquid(lquddcmp( 16042, "Epoxy Resin", 9, 86, 0, 255)
             .heat(350)
             .setSolidifying(Epoxy, U)),
-    Phosgene = registerGas(gasdcmp(16043, "Phosgene", 255, 255, 255, 50, "Carbonyl Dichloride")
+    COCl2 = registerGas(gasdcmp(16043, "Phosgene", 255, 255, 255, 50, "Carbonyl Dichloride")
             .setMcfg(1, MT.C, U, MT.O, U, MT.Cl, 2*U)
             .heat(155, 281)),
     CHCl3 = registerLiquid(lquddcmp( 16044, "Chloroform", 150, 255, 200, 255, "Trichloromethane")
@@ -1886,8 +1886,11 @@ public class MTx {
             .setMcfg(1, MT.C, 10*U, MT.H, 8*U, MT.O, 4*U)
             .heat(523, 623),
     CH2Cl2 = registerLiquid(lqudflam(16547, "Dichloromethane", 255, 255, 255, 200)
-            .uumMcfg(0, MT.C, U, MT.H, 2*U, MT.Cl, 2*U)
-            .heat(177, 313))
+            .setMcfg(1, MT.C, U, MT.H, 2*U, MT.Cl, 2*U)
+            .heat(177, 313)),
+    SbF3 = dustdcmp(16548, "Antimony Trifluoride", SET_SHARDS, 210, 210, 210, 255)
+            .setMcfg(1, MT.Sb, U, MT.F, 3*U)
+            .heat(565, 649)
     ;
 
     @SuppressWarnings("unused")
