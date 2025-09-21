@@ -227,7 +227,9 @@ public class BasicChemistry extends GT6XFeature {
         RM.Mixer.addRecipe0(true, 16, 256, FL.array(MT.H2SiF6.liquid(9*U, true), MT.NH3.gas(2*U, true)), ZL_FS, dust.mat(MTx.NH4SiF6, 9));
 
         // Urea, Sulphamic Acid
-        RM.Mixer.addRecipe0(true, 16, 128, FL.array(MT.NH3.gas(2*U, true), MT.CO2.gas(3*U, true)), FL.array(MT.H2O.liquid(3*U, false)), dust.mat(MTx.Urea, 8*U));
+        for (FluidStack water : FL.waters(6000))
+            RM.Mixer.addRecipe0(true, 16, 64, FL.array(MT.NH3.gas(4*U, true), MTx.COCl2.gas(U, true), water), MTx.NH4ClSolution.liquid(8*U, false), dust.mat(MTx.Urea, 8));
+        RM.Mixer.addRecipe0(true, 16, 128, FL.array(MT.NH3.gas(2*U, true), MT.CO2.gas(3*U, true)), FL.array(MT.H2O.liquid(3*U, false)), dust.mat(MTx.Urea, 8));
         RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.Urea, 8), FL.array(MT.H2SO4.liquid(7*U, true), MT.SO3.gas(4*U, true)), FL.array(MTx.H3NSO3.liquid(16*U, false), MT.CO2.gas(3*U, false)));
 
         // NF3 recipe
@@ -235,7 +237,8 @@ public class BasicChemistry extends GT6XFeature {
 
         // HCN, Phosgene
         RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MT.Pt, 0), FL.array(MT.CH4.gas(U, true), MT.NH3.gas(U, true), MT.O.gas(3*U, true)), FL.array(MTx.HCN.liquid(3*U, false), MT.H2O.liquid(9*U, false)));
-        RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MT.C, 0), FL.array(MT.CO.gas(2*U, true), MT.Cl.gas(2*U, true)), MTx.Phosgene.gas(U, false), NI);
+        RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MT.C, 0), FL.array(MT.CO.gas(2*U, true), MT.Cl.gas(2*U, true)), MTx.COCl2.gas(U, false), NI);
+        RM.Mixer.addRecipe0(true, 16, 64, FL.array(MT.CO2.gas(3*U, true), MTx.CCl4.liquid(U, true)), FL.array(MTx.COCl2.gas(2*U, false)));
 
         // NaCN, KCN, CuCN
         RM.Bath.addRecipe1(true, 0, 96, dust.mat(MT.NaOH, 3), MTx.HCN.gas(3*U, true), MTx.NaCNSolution.liquid(6*U, false), NI);
@@ -336,8 +339,10 @@ public class BasicChemistry extends GT6XFeature {
         // LiCl solution
         RM.Electrolyzer.addRecipe1(true, 16, 6400, ST.tag(0), FL.array(MTx.LiClSolution.liquid(5*U, true)), FL.array(MT.Cl.gas(U, false), MT.H.gas(U, false)), OM.dust(MT.LiOH, 3*U));
 
-        // Sn fluoride
+        // Other fluorides
         RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MT.Sn, 1), MT.HF.gas(4*U, true), MT.H.gas(2*U, false), dust.mat(MTx.SnF2, 1));
+        RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MT.Sb, 1), MT.F.gas(3*U, true), NF, dust.mat(MTx.SbF3, 1));
+        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.Sb2O3, 5), MT.HF.gas(12*U, true), MT.H2O.liquid(9*U, false), dust.mat(MTx.SbF3, 2));
 
         // mixing misc solutions
         for (FluidStack water : FL.waters(3000)) {
@@ -347,7 +352,7 @@ public class BasicChemistry extends GT6XFeature {
             RM.Mixer.addRecipe1(true, 16, 192, ST.tag(2), FL.array(MT.HCl.gas(2 * U, true), water), FL.array(MTx.ConcHCl.liquid(5 * U, false)));
             RM.Mixer.addRecipe1(true, 16, 192, ST.tag(3), FL.array(MT.HCl.gas(2 * U, true), FL.mul(water, 2)), FL.array(MTx.DiluteHCl.liquid(8 * U, false)));
             RM.Mixer.addRecipe1(true, 16, 32, ST.tag(3), FL.array(MTx.ConcHCl.liquid(5 * U, true), water), FL.array(MTx.DiluteHCl.liquid(8 * U, false)));
-            RM.Mixer.addRecipe0(true, 16, 128, FL.array(MTx.Phosgene.gas(4 * U, true), water), FL.array(MT.CO2.gas(3 * U, false), MT.HCl.gas(4 * U, false)));
+            RM.Mixer.addRecipe0(true, 16, 128, FL.array(MTx.COCl2.gas(U, true), water), FL.array(MT.CO2.gas(3 * U, false), MT.HCl.gas(4 * U, false)));
             RM.Mixer.addRecipe1(true, 16, 192, ST.tag(3), FL.array(MTx.FeCl2Solution.liquid(6 * U, true), MT.Cl.gas(U, true), FL.mul(water, 1, 2, true)), MTx.FeCl3Solution.liquid(17 * U2, true), NI);
         }
         RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.NaHCO3, 6), FL.array(MTx.ConcHCl.liquid(5*U, true)), FL.array(FL.Saltwater.make(8000), MT.CO2.gas(3*U, false)));
@@ -393,20 +398,24 @@ public class BasicChemistry extends GT6XFeature {
 
         // Chloromethanes
         RM.Mixer.addRecipe0(true, 16, 32, FL.array(MTx.Methanol.liquid(U, true), MT.HCl.gas(2*U, true)), FL.array(MTx.CH3Cl.gas(U, false), MT.H2O.liquid(3*U, false)));
-        ///  Methane chlorination
-        RMx.Thermolysis.addRecipe1(true, 16, 50, ST.tag(4), FL.array(MT.CH4.gas(U, true), MT.Cl.gas(4*U, true)), FL.array(MTx.CH3Cl.gas(4*U10, false), MTx.CH2Cl2.liquid(3*U10, false), MTx.CHCl3.liquid(2*U10, false), MTx.CCl4.liquid(U10, false), MT.HCl.gas(4*4*U, false)));
-        RMx.Thermolysis.addRecipe1(true, 16, 50, ST.tag(5), FL.array(MT.CH4.gas(U, true), MT.Cl.gas(5*U, true)), FL.array(MTx.CH3Cl.gas(U4, false), MTx.CH2Cl2.liquid(U4, false), MTx.CHCl3.liquid(U4, false), MTx.CCl4.liquid(U4, false), MT.HCl.gas(5*U, false)));
-        RMx.Thermolysis.addRecipe1(true, 16, 50, ST.tag(6), FL.array(MT.CH4.gas(U, true), MT.Cl.gas(6*U, true)), FL.array(MTx.CH3Cl.gas(U10, false), MTx.CH2Cl2.liquid(2*U10, false), MTx.CHCl3.liquid(3*U10, false), MTx.CCl4.liquid(4*U10, false), MT.HCl.gas(6*U, false)));
-        RMx.Thermolysis.addRecipe1(true, 16, 50, ST.tag(8), FL.array(MT.CH4.gas(U, true), MT.Cl.gas(8*U, true)), FL.array(MTx.CCl4.liquid(U, false), MT.HCl.gas(8*U, false)));
+        /// CH4 chlorination
+        RMx.Thermolysis.addRecipe1(false, 16, 20, ST.tag(4), FL.array(MT .CH4   .gas   (U10, true), MT.Cl.gas(4*U20, true)), FL.array(MT.CH4.gas(15*U1000, false), MTx.CH3Cl.gas(25*U1000, false), MTx.CH2Cl2.liquid(25*U1000, false), MTx.CHCl3.liquid(20*U1000, false), MTx.CCl4.liquid(15*U1000, false), MT.HCl.gas(4*U20, false)));
+        RMx.Thermolysis.addRecipe1(false, 16, 25, ST.tag(5), FL.array(MT .CH4   .gas   (U10, true), MT.Cl.gas(5*U20, true)), FL.array(MT.CH4.gas(5 *U1000, false), MTx.CH3Cl.gas(15*U1000, false), MTx.CH2Cl2.liquid(25*U1000, false), MTx.CHCl3.liquid(25*U1000, false), MTx.CCl4.liquid(30*U1000, false), MT.HCl.gas(5*U20, false)));
+        RMx.Thermolysis.addRecipe1(false, 16, 30, ST.tag(6), FL.array(MT .CH4   .gas   (U10, true), MT.Cl.gas(6*U20, true)), FL.array(MT.CH4.gas(3 *U1000, false), MTx.CH3Cl.gas(10*U1000, false), MTx.CH2Cl2.liquid(20*U1000, false), MTx.CHCl3.liquid(20*U1000, false), MTx.CCl4.liquid(50*U1000, false), MT.HCl.gas(6*U20, false)));
+        RMx.Thermolysis.addRecipe1(false, 16, 40, ST.tag(8), FL.array(MT .CH4   .gas   (U10, true), MT.Cl.gas(8*U20, true)), FL.array(MTx.CCl4.liquid(U10, false), MT.HCl.gas(8*U20, false)));
         /// CH3Cl chlorination
-
+        RMx.Thermolysis.addRecipe1(false, 16, 25, ST.tag(3), FL.array(MTx.CH3Cl .gas   (U10, true), MT.Cl.gas(3*U20, true)), FL.array(MTx.CH3Cl.gas(20*U1000, false), MTx.CH2Cl2.liquid(32*U1000, false), MTx.CHCl3.liquid(26*U1000, false), MTx.CCl4.liquid(22*U1000, false), MT.HCl.gas(3*U20, false)));
+        RMx.Thermolysis.addRecipe1(false, 16, 20, ST.tag(4), FL.array(MTx.CH3Cl .gas   (U10, true), MT.Cl.gas(4*U20, true)), FL.array(MTx.CH3Cl.gas(10*U1000, false), MTx.CH2Cl2.liquid(25*U1000, false), MTx.CHCl3.liquid(25*U1000, false), MTx.CCl4.liquid(40*U1000, false), MT.HCl.gas(4*U20, false)));
+        RMx.Thermolysis.addRecipe1(false, 16, 30, ST.tag(6), FL.array(MTx.CH3Cl .gas   (U10, true), MT.Cl.gas(6*U20, true)), FL.array(MTx.CCl4.liquid(U10, false), MT.HCl.gas(6*U20, false)));
         /// CH2Cl2 chlorination
-
+        RMx.Thermolysis.addRecipe1(false, 16, 10, ST.tag(2), FL.array(MTx.CH2Cl2.liquid(U10, true), MT.Cl.gas(2*U20, true)), FL.array(MTx.CH2Cl2.liquid(32*U1000, false), MTx.CHCl3.liquid(36*U1000, false), MTx.CCl4.liquid(32*U1000, false), MT.HCl.gas(2*U20, false)));
+        RMx.Thermolysis.addRecipe1(false, 16, 15, ST.tag(3), FL.array(MTx.CH2Cl2.liquid(U10, true), MT.Cl.gas(3*U20, true)), FL.array(MTx.CH2Cl2.liquid(12*U1000, false), MTx.CHCl3.liquid(26*U1000, false), MTx.CCl4.liquid(62*U1000, false), MT.HCl.gas(3*U20, false)));
+        RMx.Thermolysis.addRecipe1(false, 16, 20, ST.tag(4), FL.array(MTx.CH2Cl2.liquid(U10, true), MT.Cl.gas(4*U20, true)), FL.array(MTx.CCl4.liquid(U10, false), MT.HCl.gas(4*U20, false)));
         /// CHCl3 chlorination
-        RMx.Thermolysis.addRecipe0(true, 16, 64, FL.array(MTx.CHCl3.liquid(U, true), MT.Cl.gas(2*U, true)), FL.array(MTx.CCl4.liquid(U, false), MT.HCl.gas(2*U, false)));
+        RMx.Thermolysis.addRecipe1(false, 16, 10, ST.tag(2), FL.array(MTx.CHCl3 .liquid(U10, true), MT.Cl.gas(2*U20, true)), FL.array(MTx.CCl4.liquid(U, false), MT.HCl.gas(2*U, false)));
 
         // Carbon Tetrafluoride
-        RM.Mixer.addRecipe0(true, 16, 64, FL.array(MTx.CCl4.liquid(U, true), MT.HF.gas(8*U, true)), FL.array(MTx.CF4.gas(U, false), MT.HCl.gas(8*U, false)));
+        RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.SbF3, 0), FL.array(MTx.CCl4.liquid(U, true), MT.HF.gas(8*U, true)), FL.array(MTx.CF4.gas(U, false), MT.HCl.gas(8*U, false)));
 
         // Diethyl ether
         RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MT.Al2O3, 0), FL.array(MT.Ethanol.liquid(U10, true), MT.H2SO4.liquid(U1000, true)), FL.array(MTx.Ether.liquid(U10, false), MT.H2O.liquid(3*U10, false)));
@@ -422,6 +431,7 @@ public class BasicChemistry extends GT6XFeature {
         // Phosphine, Phosphorous Acid
         RM.Mixer.addRecipe1(true, 16, 16, dust.mat(MT.P, 1), MT.Cl.gas(3*U, true), MTx.PCl3.liquid(4*U, false), NI);
         RM.Mixer.addRecipe0(true, 16, 32, FL.array(MTx.PCl3.liquid(4*U, true), MT.O.gas(U, true)), MTx.POCl3.liquid(5*U, false), NI);
+        RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.P2O5, 7), FL.array(MTx.CCl4.liquid(3*U, true)), FL.array(MTx.POCl3.liquid(10*U, false), MTx.COCl2.gas(3*U, false)), NI);
         for (FluidStack water : FL.waters(9000))
             RM.Mixer.addRecipe0(true, 16, 32, FL.array(MTx.PCl3.liquid(4 * U, true), water), MT.HCl.gas(6*U, false), dust.mat(MTx.H3PO3, 7));
         RMx.Thermolysis.addRecipe1(true, 16, 128, dust.mat(MTx.H3PO3, 7), NF, FL.array(MTx.H3PO4.liquid(3*8*U4, false), MTx.PH3.gas(U4, false)));

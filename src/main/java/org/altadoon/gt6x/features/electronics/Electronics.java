@@ -245,23 +245,23 @@ public class Electronics extends GT6XFeature {
         RM.Bath.addRecipe1(true, 0, 256, dust.mat(MTx.Mg2Si, 3), MT.HCl.gas(8 * U, true), MTx.SiH4.gas(U, false), dust.mat(MT.MgCl2, 6));
         RM.Bath.addRecipe1(true, 0, 128, dust.mat(MT.Si, 1), FL.array(MT.HCl.gas(6*U, true)), FL.array(MTx.HCl3Si.gas(U, false), MT.H.gas(2*U, false)));
 
-        RMx.Thermolysis.addRecipe1(true, 16, 16, ST.tag(1), MTx.GaH3.gas(U, true), MT.H.gas(3*U, false), dust.mat(MT.Ga, 1));
+        RMx.Thermolysis.addRecipe1(true, 16, 64, ST.tag(1), MTx.GaH3.gas(U, true), MT.H.gas(3*U, false), ingot.mat(MT.Ga, 1));
 
         RMx.Thermolysis.addRecipe1(true, 16, 128, ST.tag(1), MTx.GeH4  .gas(U, true), MT.H.gas(4 * U, false), polyGem.mat(MT.Ge, 1));
         RMx.Thermolysis.addRecipe1(true, 16, 128, ST.tag(1), MTx.SiH4  .gas(U, true), MT.H.gas(4 * U, false), polyGem.mat(MT.Si, 1));
         RMx.Thermolysis.addRecipe1(true, 16, 128, ST.tag(2), FL.array(MTx.SiH4.gas(U2, true), MTx.GeH4.gas(U2, true)), MT.H.gas(4 * U, false), polyGem.mat(MTx.SiGe, 1));
-        RMx.Thermolysis.addRecipe1(true, 16, 512, ST.tag(1), FL.array(MTx.HCl3Si.gas(U, true), MT.H.gas(2*U, true)), FL.array(MT.HCl.gas(6*U, false)), polyGem.mat(MT.Si, 1));
+        RMx.Thermolysis.addRecipe1(true, 16, 512, ST.tag(1), FL.array(MTx.HCl3Si.gas(U, true)), FL.array(MT.HCl.gas(2*U, false), MT.Cl.gas(2*U, false)), polyGem.mat(MT.Si, 1));
 
         RMx.Thermolysis.addRecipe1(true, 16, 128, ST.tag(4), FL.array(MTx.SiH4  .gas(U, true), MTx.B2H6.gas(U1000, true)), MT.H.gas(4 * U + 6 * U1000, false), polyGem.mat(MTx.PDopedSi, 1));
         RMx.Thermolysis.addRecipe1(true, 16, 128, ST.tag(4), FL.array(MTx.GeH4  .gas(U, true), MTx.B2H6.gas(U1000, true)), MT.H.gas(4 * U + 6 * U1000, false), polyGem.mat(MTx.PDopedGe, 1));
         RMx.Thermolysis.addRecipe1(true, 16, 128, ST.tag(5), FL.array(MTx.SiH4.gas(U2, true), MTx.GeH4.gas(U2, true), MTx.B2H6.gas(U1000, true)), MT.H.gas(4 * U + 6 * U1000, false), polyGem.mat(MTx.PDopedSiGe, 1));
-        RMx.Thermolysis.addRecipe1(true, 16, 512, ST.tag(4), FL.array(MTx.HCl3Si.gas(U, true), MTx.B2H6.gas(U1000, true) , MT.H.gas(2 * U - 6 * U1000, true)), FL.array(MT.HCl.gas(6*U, false)), polyGem.mat(MTx.PDopedSi, 1));
+        RMx.Thermolysis.addRecipe1(true, 16, 512, ST.tag(4), FL.array(MTx.HCl3Si.gas(U, true), MTx.B2H6.gas(U1000, true)), FL.array(MT.HCl.gas(2*U, false), MT.Cl.gas(2*U, false)), polyGem.mat(MTx.PDopedSi, 1));
 
         for (OreDictMaterial nDopant : new OreDictMaterial[] {MTx.PH3, MTx.AsH3}) {
             RMx.Thermolysis.addRecipe1(true, 16, 128, ST.tag(6), FL.array(MTx.SiH4  .gas(U, true), nDopant.gas(U500, true)), MT.H.gas(4 * U + 3 * U500, false), polyGem.mat(MTx.NDopedSi, 1));
             RMx.Thermolysis.addRecipe1(true, 16, 128, ST.tag(6), FL.array(MTx.GeH4  .gas(U, true), nDopant.gas(U500, true)), MT.H.gas(4 * U + 3 * U500, false), polyGem.mat(MTx.NDopedGe, 1));
             RMx.Thermolysis.addRecipe1(true, 16, 128, ST.tag(7), FL.array(MTx.SiH4.gas(U2, true), MTx.GeH4.gas(U2, true), nDopant.gas(U500, true)), MT.H.gas(4 * U + 3 * U500, false), polyGem.mat(MTx.NDopedSiGe, 1));
-            RMx.Thermolysis.addRecipe1(true, 16, 512, ST.tag(6), FL.array(MTx.HCl3Si.gas(U, true), nDopant.gas(U500, true) , MT.H.gas(2 * U - 3 * U500, true)), FL.array(MT.HCl.gas(6*U, false)), polyGem.mat(MTx.NDopedSi, 1));
+            RMx.Thermolysis.addRecipe1(true, 16, 512, ST.tag(6), FL.array(MTx.HCl3Si.gas(U, true), nDopant.gas(U500, true)), FL.array(MT.HCl.gas(2*U, false), MT.Cl.gas(2*U, false)), polyGem.mat(MTx.NDopedSi, 1));
         }
 
         RMx.Thermolysis.addRecipe1(true, 16, 256, ST.tag(2), FL.array(MT.Ga.liquid(U, true), MT.As.gas(U, true)), ZL_FS, polyGem.mat(MTx.GaAs, 1));
