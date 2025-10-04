@@ -33,6 +33,7 @@ public class FLx {
     public static Fluid LNG = MTx.LNG.mLiquid.getFluid();
     public static int NG_PER_LNG = 600;
     public static Fluid Synoil = MTx.Synoil.mLiquid.getFluid();
+    public static Fluid LiquidNitrogen = null;
 
     public static List<String> ALCOHOLS = StreamSupport.stream(Iterables.concat(
             FluidsGT.RUM, FluidsGT.WHISKEY, FluidsGT.VINEGAR,
@@ -75,5 +76,9 @@ public class FLx {
             REE_EDTA_SOLUTIONS.put(ree, f);
             // .setMcfg(0, MT.H, U, MT.La, U, EDTA, U, MT.H2O, 9*U).heat(MT.H2O)),
         }
+
+        OreDictMaterial mat = MT.N;
+        mat.setRGBaLiquid(255, 255, 255, 200);
+        LiquidNitrogen = create("liquid." + mat.mNameInternal.toLowerCase(), "Liquid " + mat.mNameLocal, mat, STATE_LIQUID, 144, mat.mBoilingPoint);
     }
 }

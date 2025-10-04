@@ -202,11 +202,13 @@ public class ILx implements IItemContainer {
 
             Ceramic_Engine_Block_Mold_Raw = new ILx("Ceramic_Engine_Block_Mold_Raw"), Ceramic_Engine_Block_Mold = new ILx("Ceramic_Engine_Block_Mold"),
 
-			// Superconductor wire stages
-			HTSTape_Buffer = new ILx("HTSTape_Buffer"),
-			HTSTape_REBCO = new ILx("HTSTape_REBCO"),
-			HTSTape_AgCu = new ILx("HTSTape_AgCu"),
-			HTSTape_Insulated = new ILx("HTSTape_Insulated"),
+            // Superconductor wire stages
+            HTSTape_Buffer = new ILx("HTSTape_Buffer"),
+            HTSTape_REBCO = new ILx("HTSTape_REBCO"),
+            HTSTape_AgCu = new ILx("HTSTape_AgCu"),
+            HTSTape_Insulated = new ILx("HTSTape_Insulated"),
+            SuperconductorEmpty = new ILx("SuperconductorEmpty"),
+            MLIBlanket = new ILx("MLIBlanket"),
 
             NULL = null;
 
