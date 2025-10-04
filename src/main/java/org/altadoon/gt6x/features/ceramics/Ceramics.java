@@ -7,7 +7,6 @@ import gregapi.oredict.OreDictItemData;
 import gregapi.oredict.OreDictManager;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.oredict.OreDictPrefix;
-import gregapi.oredict.configurations.OreDictConfigurationComponent;
 import gregapi.recipes.Recipe;
 import gregapi.recipes.handlers.RecipeMapHandlerPrefixShredding;
 import gregapi.tileentity.multiblocks.MultiTileEntityMultiBlockPart;
@@ -15,19 +14,14 @@ import gregapi.util.CR;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import gregtech.tileentity.tools.MultiTileEntityBasin;
-import gregtech.tileentity.tools.MultiTileEntityCrossing;
-import gregtech.tileentity.tools.MultiTileEntityFaucet;
-import gregtech.tileentity.tools.MultiTileEntityMold;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import org.altadoon.gt6x.common.*;
 import org.altadoon.gt6x.common.items.ILx;
+import org.altadoon.gt6x.common.items.MultiItemsX;
 import org.altadoon.gt6x.features.GT6XFeature;
-import org.altadoon.gt6x.features.ceramics.crucibles.MultiTileEntityCrucibleX;
-import org.altadoon.gt6x.features.ceramics.crucibles.MultiTileEntitySmelteryX;
+import org.altadoon.gt6x.features.crucibles.recipes.CrucibleUtils;
 
 import static gregapi.data.CS.*;
 import static gregapi.data.OP.*;
@@ -42,18 +36,23 @@ public class Ceramics extends GT6XFeature {
 
     @Override
     public void preInit() {
+        changeMaterialProperties();
         createPrefixes();
         addAlloyingRecipes();
     }
 
     @Override
-    public void init() {
+    public void init() {}
+
+    @Override
+    public void afterGt6Init() {
         addMTEs();
     }
 
     @Override
     public void beforeGt6PostInit() {
         changeCraftingRecipes();
+        MultiItemsX.instance.addClayItems();
     }
 
     @Override
@@ -65,6 +64,11 @@ public class Ceramics extends GT6XFeature {
     @Override
     public void afterGt6PostInit() {
         changeRecipes();
+    }
+
+    private void changeMaterialProperties() {
+        MT.Ceramic.heat(MT.Clay);
+        MT.Brick.heat(MT.Clay);
     }
 
     private void createPrefixes() {
@@ -79,12 +83,11 @@ public class Ceramics extends GT6XFeature {
     }
 
     private void addAlloyingRecipes() {
-        MT.SiC.addAlloyingRecipe(new OreDictConfigurationComponent(2, OM.stack(MT.SiO2, 3*U), OM.stack(MT.C, 2*U)));
+        RMx.SSS.addRecipe(0, OMx.stacks(OM.stack(MT.SiO2, 3*U), OM.stack(MT.C, 2*U)), 1700+C, OM.stack(MT.SiC, U));
 
+        RMx.SSS.addRecipe(0, OMx.stacks(OM.stack(MT.Gypsum, U), OM.stack(MTx.CaO, 4*9*U), OM.stack(MT.STONES.Shale, 3*9*U)), 1450+C, OM.stack(MTx.Cement, 4*9*U+U));
         for (OreDictMaterial ash : ANY.Ash.mToThis)
-            MTx.Cement.addAlloyingRecipe(new OreDictConfigurationComponent(4, OM.stack(MT.Gypsum, U9), OM.stack(MTx.CaO, 5*U), OM.stack(ash, 2*U)));
-
-        MTx.Cement.addAlloyingRecipe(new OreDictConfigurationComponent(4, OM.stack(MT.Gypsum, U9), OM.stack(MTx.CaO, 4*U), OM.stack(MT.STONES.Shale, 3*U)));
+            RMx.SSS.addRecipe(0, OMx.stacks(OM.stack(MT.Gypsum, U), OM.stack(MTx.CaO, 5*9*U), OM.stack(ash, 2*9*U)), 1450+C, OM.stack(MTx.Cement, 4*9*U+U));
     }
 
     private void changePrefixNames() {
@@ -95,44 +98,36 @@ public class Ceramics extends GT6XFeature {
     }
 
     private void addMTEs() {
-        OreDictMaterial mat;
+        OreDictMaterial mat = MT.Ceramic;
+        MTEx.gt6xMTEReg.add("Mortar", "Misc Tool Blocks", MTEx.IDs.Mortars.get()  , 32720, MultiTileEntityMortarX.class, 0, 16, MTEx.StoneBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,   1.0F, NBT_RESISTANCE,   5.0F, NBT_RECIPEMAP, RM.Mortar , NBT_DESIGN, 0), "P", "B", 'B', IL.Ceramic_Bowl, 'P', OP.ingot.dat(MT.Bronze));
+        MTEx.gt6xMTEReg.add("Mortar", "Misc Tool Blocks", MTEx.IDs.Mortars.get()+1, 32720, MultiTileEntityMortarX.class, 0, 16, MTEx.StoneBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,   1.0F, NBT_RESISTANCE,   5.0F, NBT_RECIPEMAP, RM.Mortar , NBT_DESIGN, 1), "P", "B", 'B', IL.Ceramic_Bowl, 'P', OP.ingot.dat(MT.BismuthBronze));
+        MTEx.gt6xMTEReg.add("Mortar", "Misc Tool Blocks", MTEx.IDs.Mortars.get()+2, 32720, MultiTileEntityMortarX.class, 0, 16, MTEx.StoneBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,   1.0F, NBT_RESISTANCE,   5.0F, NBT_RECIPEMAP, RM.Mortar , NBT_DESIGN, 2), "P", "B", 'B', IL.Ceramic_Bowl, 'P', OP.ingot.dat(MT.BlackBronze));
+        MTEx.gt6xMTEReg.add("Mortar", "Misc Tool Blocks", MTEx.IDs.Mortars.get()+3, 32720, MultiTileEntityMortarX.class, 0, 16, MTEx.StoneBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,   1.0F, NBT_RESISTANCE,   5.0F, NBT_RECIPEMAP, RM.Mortar , NBT_DESIGN, 3), "P", "B", 'B', IL.Ceramic_Bowl, 'P', OP.ingot.dat(MT.ArsenicBronze));
+        MTEx.gt6xMTEReg.add("Mortar", "Misc Tool Blocks", MTEx.IDs.Mortars.get()+4, 32720, MultiTileEntityMortarX.class, 0, 16, MTEx.StoneBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,   1.0F, NBT_RESISTANCE,   5.0F, NBT_RECIPEMAP, RM.Mortar , NBT_DESIGN, 4), "P", "B", 'B', IL.Ceramic_Bowl, 'P', OP.ingot.dat(MT.ArsenicCopper));
+
         mat = MT.Al2O3;
-        MTEx.gt6xMTEReg.add("Alumina Checker Bricks"                 , "Multiblock Machines", MTEx.IDs.AluminaBricks       .get(), 17101, MultiTileEntityMultiBlockPart.class, mat.mToolQuality, 64, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  8.0F, NBT_RESISTANCE,  8.0F, NBT_TEXTURE, "checkerbricks"    , NBT_DESIGNS, 1), "CIC", "IrI", "CIC", 'I', ingot.dat(mat), 'C', dust.dat(MTx.RefractoryMortar));
-        MTEx.gt6xMTEReg.add("Alumina Refractory Bricks"              , "Multiblock Machines", MTEx.IDs.AluminaCheckerBricks.get(), 17101, MultiTileEntityMultiBlockPart.class, mat.mToolQuality, 64, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  8.0F, NBT_RESISTANCE,  8.0F, NBT_TEXTURE, "refractorybricks" , NBT_DESIGNS, 1), "ICI", "CrC", "ICI", 'I', ingot.dat(mat), 'C', dust.dat(MTx.RefractoryMortar));
+        MTEx.gt6xMTEReg.add("Alumina Refractory Bricks"              , "Multiblock Machines", MTEx.IDs.AluminaBricks       .get(), 17101, MultiTileEntityMultiBlockPart.class, mat.mToolQuality, 64, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  8.0F, NBT_RESISTANCE,  8.0F, NBT_TEXTURE, "refractorybricks" , NBT_DESIGNS, 1), "ICI", "CrC", "ICI", 'I', ingot.dat(mat), 'C', dust.dat(MTx.RefractoryMortar));
+        MTEx.gt6xMTEReg.add("Alumina Checker Bricks"                 , "Multiblock Machines", MTEx.IDs.AluminaCheckerBricks.get(), 17101, MultiTileEntityMultiBlockPart.class, mat.mToolQuality, 64, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  8.0F, NBT_RESISTANCE,  8.0F, NBT_TEXTURE, "checkerbricks"    , NBT_DESIGNS, 1), "CIC", "IrI", "CIC", 'I', ingot.dat(mat), 'C', dust.dat(MTx.RefractoryMortar));
+
+        mat = MTx.RefractoryCeramic;
+        CrucibleUtils.addCrucibleMaterial(mat, 12, 6.0F, false, true, MTEx.StoneBlock, null, ILx.FireclayParts);
 
         mat = MT.SiC;
         MTEx.gt6xMTEReg.add("Silicon Carbide Refractory Bricks"      , "Multiblock Machines", MTEx.IDs.SiCBricks           .get(), 17101, MultiTileEntityMultiBlockPart.class, mat.mToolQuality, 64, MTEx.StoneBlock  , UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  6.0F, NBT_RESISTANCE,  6.0F, NBT_TEXTURE, "refractorybricks" , NBT_DESIGNS, 1), "ICI", "CrC", "ICI", 'I', ingot.dat(mat), 'C', dust.dat(MTx.RefractoryMortar));
-        MTEx.gt6xMTEReg.add(mat.getLocal()+" Wall"                   , "Multiblock Machines", MTEx.IDs.SiCWall             .get(), 17101, MultiTileEntityMultiBlockPart.class, mat.mToolQuality, 64, MTEx.StoneBlock  , UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  6.0F, NBT_RESISTANCE,  6.0F, NBT_TEXTURE, "metalwall"        , NBT_DESIGNS, 7), "wPP", "hPP", 'P', OP.plate.dat(mat)); RM.Welder.addRecipe2(F, 16, 256, OP.plate.mat(mat, 4), ST.tag(10), MTEx.gt6xMTEReg.getItem());
-        //TODO texture invisible
-        MTEx.gt6xMTEReg.add("Large "+mat.getLocal()+" Crucible"      , "Multiblock Machines", MTEx.IDs.SiCCrucibleLarge    .get(), 17101, MultiTileEntityCrucibleX.class, mat.mToolQuality, 16, MTEx.StoneBlock  , UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  6.0F, NBT_RESISTANCE,  6.0F, NBT_TEXTURE, "crucible"         , NBT_DESIGN, MTEx.IDs.SiCWall.get(), NBT_ACIDPROOF, false), "hMy", 'M', MTEx.gt6xMTEReg.getItem(MTEx.IDs.SiCWall.get()));
-        MTEx.gt6xMTEReg.add("Smelting Crucible ("+mat.getLocal()+")" , "Smelting Crucibles" , MTEx.IDs.SiCCrucible         .get(), 1022 , MultiTileEntitySmelteryX.class, mat.mToolQuality, 16, MTEx.StoneBlock  , UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  6.0F, NBT_RESISTANCE,  6.0F, NBT_RECIPEMAP, RM.CrucibleAlloying , NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_ACIDPROOF, false, NBT_HIDDEN, false), "BhB", "ByB", "BBB", 'B', plate.dat(mat));
-        MTEx.gt6xMTEReg.add("Crucible Faucet ("+mat.getLocal()+")"   , "Crucibles Faucets"  , MTEx.IDs.SicFaucet           .get(), 1722 , MultiTileEntityFaucet   .class, mat.mToolQuality, 16, MTEx.StoneBlock  , UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  6.0F, NBT_RESISTANCE,  6.0F, NBT_ACIDPROOF, false, NBT_HIDDEN, false), "h y", "B B", " B ", 'B', plate.dat(mat));
-        MTEx.gt6xMTEReg.add("Mold ("+mat.getLocal()+")"              , "Molds"              , MTEx.IDs.SiCMold             .get(), 1072 , MultiTileEntityMold     .class, mat.mToolQuality, 16, MTEx.StoneBlock  , UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  6.0F, NBT_RESISTANCE,  6.0F, NBT_ACIDPROOF, false, NBT_HIDDEN, false), "h y", "B B", "BBB", 'B', plate.dat(mat));
-        MTEx.gt6xMTEReg.add("Basin ("+mat.getLocal()+")"             , "Molds"              , MTEx.IDs.SiCBasin            .get(), 1072 , MultiTileEntityBasin    .class, mat.mToolQuality, 16, MTEx.StoneBlock  , UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  6.0F, NBT_RESISTANCE,  6.0F, NBT_ACIDPROOF, false, NBT_HIDDEN, false), "BhB", "ByB", " B ", 'B', plate.dat(mat));
-        MTEx.gt6xMTEReg.add("Crucible Crossing ("+mat.getLocal()+")" , "Molds"              , MTEx.IDs.SiCCrossing         .get(), 1072 , MultiTileEntityCrossing .class, mat.mToolQuality, 16, MTEx.StoneBlock  , UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  6.0F, NBT_RESISTANCE,  6.0F, NBT_ACIDPROOF, false, NBT_HIDDEN, false), "hBy", "BBB", " B ", 'B', plate.dat(mat));
+        MTEx.gt6xMTEReg.add(mat.getLocal()+" Wall"                   , "Multiblock Machines", MTEx.IDs.SiCWall             .get(), 17101, MultiTileEntityMultiBlockPart.class, mat.mToolQuality, 64, MTEx.StoneBlock  , UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  6.0F, NBT_RESISTANCE,  6.0F, NBT_TEXTURE, "metalwall"        , NBT_DESIGNS, 7), "wPP", "hPP", 'P', OP.plate.dat(mat)); RM.Welder.addRecipe2(false, 16, 256, OP.plate.mat(mat, 4), ST.tag(10), MTEx.gt6xMTEReg.getItem());
+        CrucibleUtils.addCrucibleMaterial(mat, 13, 6.0F, false, false, MTEx.StoneBlock, OP.plate);
 
         mat = MTx.MgOC;
         MTEx.gt6xMTEReg.add("MgO-C Refractory Bricks"                , "Multiblock Machines", MTEx.IDs.MgOCBricks          .get(), 17101, MultiTileEntityMultiBlockPart.class, mat.mToolQuality, 64, MTEx.StoneBlock  , UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  8.0F, NBT_RESISTANCE,  8.0F, NBT_TEXTURE, "refractorybricks" , NBT_DESIGNS, 1), "ICI", "CrC", "ICI", 'I', ingot.dat(mat), 'C', dust.dat(MTx.RefractoryMortar));
-        MTEx.gt6xMTEReg.add(mat.getLocal()+" Wall"                   , "Multiblock Machines", MTEx.IDs.MgOCWall            .get(), 17101, MultiTileEntityMultiBlockPart.class, mat.mToolQuality, 64, MTEx.StoneBlock  , UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  8.0F, NBT_RESISTANCE,  8.0F, NBT_TEXTURE, "metalwall"        , NBT_DESIGNS, 7), "wPP", "hPP", 'P', OP.plate.dat(mat)); RM.Welder.addRecipe2(F, 16, 256, OP.plate.mat(mat, 4), ST.tag(10), MTEx.gt6xMTEReg.getItem());
-        MTEx.gt6xMTEReg.add("Large "+mat.getLocal()+" Crucible"      , "Multiblock Machines", MTEx.IDs.MgOCCrucibleLarge   .get(), 17101, MultiTileEntityCrucibleX     .class, mat.mToolQuality, 16, MTEx.StoneBlock  , UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  8.0F, NBT_RESISTANCE,  8.0F, NBT_TEXTURE, "crucible"         , NBT_DESIGN, MTEx.IDs.MgOCWall.get(), NBT_ACIDPROOF, true), "hMy", 'M', MTEx.gt6xMTEReg.getItem(MTEx.IDs.MgOCWall.get()));
-        MTEx.gt6xMTEReg.add("Smelting Crucible ("+mat.getLocal()+")" , "Smelting Crucibles" , MTEx.IDs.MgOCCrucible        .get(), 1022 , MultiTileEntitySmelteryX     .class, mat.mToolQuality, 16, MTEx.StoneBlock  , UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  8.0F, NBT_RESISTANCE,  8.0F, NBT_RECIPEMAP, RM.CrucibleAlloying , NBT_ENERGY_ACCEPTED, TD.Energy.HU, NBT_ACIDPROOF, true , NBT_HIDDEN, false), "BhB", "ByB", "BBB", 'B', plate.dat(mat));
-        MTEx.gt6xMTEReg.add("Crucible Faucet ("+mat.getLocal()+")"   , "Crucibles Faucets"  , MTEx.IDs.MgOCFaucet          .get(), 1722 , MultiTileEntityFaucet        .class, mat.mToolQuality, 16, MTEx.StoneBlock  , UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  8.0F, NBT_RESISTANCE,  8.0F, NBT_ACIDPROOF, true , NBT_HIDDEN, false), "h y", "B B", " B ", 'B', plate.dat(mat));
-        MTEx.gt6xMTEReg.add("Mold ("+mat.getLocal()+")"              , "Molds"              , MTEx.IDs.MgOCMold            .get(), 1072 , MultiTileEntityMold          .class, mat.mToolQuality, 16, MTEx.StoneBlock  , UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  8.0F, NBT_RESISTANCE,  8.0F, NBT_ACIDPROOF, true , NBT_HIDDEN, false), "h y", "B B", "BBB", 'B', plate.dat(mat));
-        MTEx.gt6xMTEReg.add("Basin ("+mat.getLocal()+")"             , "Molds"              , MTEx.IDs.MgOCBasin           .get(), 1072 , MultiTileEntityBasin         .class, mat.mToolQuality, 16, MTEx.StoneBlock  , UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  8.0F, NBT_RESISTANCE,  8.0F, NBT_ACIDPROOF, true , NBT_HIDDEN, false), "BhB", "ByB", " B ", 'B', plate.dat(mat));
-        MTEx.gt6xMTEReg.add("Crucible Crossing ("+mat.getLocal()+")" , "Molds"              , MTEx.IDs.MgOCCrossing        .get(), 1072 , MultiTileEntityCrossing      .class, mat.mToolQuality, 16, MTEx.StoneBlock  , UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  8.0F, NBT_RESISTANCE,  8.0F, NBT_ACIDPROOF, true , NBT_HIDDEN, false), "hBy", "BBB", " B ", 'B', plate.dat(mat));
-
-        IL.Ceramic_Crucible.set(MTEx.gt6Registry.getItem(1005), new OreDictItemData(MTx.RefractoryCeramic, U*7));
+        MTEx.gt6xMTEReg.add(mat.getLocal()+" Wall"                   , "Multiblock Machines", MTEx.IDs.MgOCWall            .get(), 17101, MultiTileEntityMultiBlockPart.class, mat.mToolQuality, 64, MTEx.StoneBlock  , UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  8.0F, NBT_RESISTANCE,  8.0F, NBT_TEXTURE, "metalwall"        , NBT_DESIGNS, 7), "wPP", "hPP", 'P', OP.plate.dat(mat)); RM.Welder.addRecipe2(false, 16, 256, OP.plate.mat(mat, 4), ST.tag(10), MTEx.gt6xMTEReg.getItem());
+        CrucibleUtils.addCrucibleMaterial(mat, 14, 8.0F, true, false, MTEx.StoneBlock, OP.plate);
     }
 
     private void addRecipes() {
         // Fire clay
-        for (OreDictMaterial clay : ANY.Clay.mToThis) {
-            RM.Mixer.addRecipe2(true, 16, 192, dust.mat(clay, 2), dust.mat(MT.Graphite, 1), dust.mat(MTx.Fireclay, 3));
-        }
+        RM.Mixer.addRecipe2(true, 16, 192, dust.mat(MT.Kaolinite, 2), dust.mat(MT.Graphite, 1), dust.mat(MTx.Fireclay, 3));
         for (FluidStack water : FL.waters(125, 100)) {
-            for (ItemStack clay : ST.array(ST.make(Items.clay_ball, 2, 0), IL.Clay_Ball_Blue.get(2), IL.Clay_Ball_Brown.get(2), IL.Clay_Ball_Red.get(2), IL.Clay_Ball_White.get(2), IL.Clay_Ball_Yellow.get(2))) {
-                RM.Mixer.addRecipe2(true, 16, 192, clay, dust.mat(MT.Graphite, 1), FL.mul(water, 5), NF, ILx.Fireclay_Ball.get(3));
-            }
+            RM.Mixer.addRecipe2(true, 16, 192, IL.Clay_Ball_White.get(2), dust.mat(MT.Graphite, 1), FL.mul(water, 5), NF, ILx.Fireclay_Ball.get(3));
             RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.RefractoryCeramic, 1), FL.mul(water, 5), NF, ILx.Fireclay_Ball.get(1));
             RM.Bath.addRecipe1(true, 0, 64, dust.mat(MTx.Fireclay, 1), water, NF, ILx.Fireclay_Ball.get(1));
         }
@@ -206,68 +201,18 @@ public class Ceramics extends GT6XFeature {
         }
     }
 
-    private void changeClayCruciblePart(IL raw_part, IL baked_part, long clayCount, String recipeA, String recipeB, String recipeC) {
-        OreDictManager.INSTANCE.setItemData(raw_part.get(1), new OreDictItemData(MTx.Fireclay, U*clayCount));
-        OreDictManager.INSTANCE.setItemData(baked_part.get(1), new OreDictItemData(MTx.RefractoryCeramic, U*clayCount));
-        CRx.overrideShaped(raw_part.get(1), CR.DEF, recipeA, recipeB, recipeC, 'C', ILx.Fireclay_Ball.get(1), 'R', OreDictToolNames.rollingpin);
-        CRx.overrideShapeless(raw_part.get(1), ILx.Fireclay_Ball.get(clayCount));
-    }
-
     private void changeCraftingRecipes() {
         // Masonry
         CR.shaped(ST.make(Blocks.brick_block, 1, 0), CR.DEF_REM, "BMB", "M M", "BMB", 'B', ST.make(Items.brick, 1, 0), 'M', OM.dust(MTx.Mortar));
         CR.shaped(ST.make(Blocks.nether_brick, 1, 0), CR.DEF_REM, "BMB", "M M", "BMB", 'B', ST.make(Items.netherbrick, 1, 0), 'M', OM.dust(MTx.Mortar));
 
-        CRx.overrideShaped(MTEx.gt6Registry.getItem(1199), CR.DEF_REV_NCC, "BBB", "BBB", "BFB", 'B', OP.ingot.dat(MTx.Firebrick), 'F', OD.craftingFirestarter);
-        OreDictManager.INSTANCE.setItemData(MTEx.gt6Registry.getItem(1199), new OreDictItemData(MTx.Firebrick, 8*U));
+        // Brick burning box
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(1199), CR.DEF_REV_NCC, "BBB", "BBB", "BFB", 'B', OP.ingot.dat(MTx.Firebrick), 'F', OD.craftingFirestarter);
+        OreDictManager.INSTANCE.setItemData(MTEx.gt6MTEReg.getItem(1199), new OreDictItemData(MTx.Firebrick, 8*U));
 
-        CRx.overrideShaped(MTEx.gt6Registry.getItem(18000), CR.DEF_REV_NCC, "MBM", "B B", "MBM", 'B', ingot.mat(MTx.Firebrick, 1), 'M', OM.dust(MTx.Mortar));
-        OreDictManager.INSTANCE.setItemData(MTEx.gt6Registry.getItem(18000), new OreDictItemData(MTx.Firebrick, 4*U));
-
-        // Crucible parts
-        changeClayCruciblePart(IL.Ceramic_Tap_Raw, IL.Ceramic_Tap, 3,"CCR", "kC ", "   ");
-        changeClayCruciblePart(IL.Ceramic_Funnel_Raw, IL.Ceramic_Funnel, 3,"CRC", "kC ", "   ");
-        changeClayCruciblePart(IL.Ceramic_Crucible_Raw, IL.Ceramic_Crucible, 7,"CkC", "CRC", "CCC");
-        changeClayCruciblePart(IL.Ceramic_Basin_Raw, IL.Ceramic_Basin, 5,"CkC", "CRC", " C ");
-        changeClayCruciblePart(IL.Ceramic_Mold_Raw, IL.Ceramic_Mold, 5,"kCR", "CCC", "   ");
-        changeClayCruciblePart(IL.Ceramic_Faucet_Raw, IL.Ceramic_Faucet, 3,"C C", "kCR", "   ");
-        changeClayCruciblePart(IL.Ceramic_Crossing_Raw, IL.Ceramic_Crossing, 5,"kCR", "CCC", " C ");
-
-        for (IL mold : new IL[] {
-                IL.Ceramic_Ingot_Mold_Raw,
-                IL.Ceramic_Chunk_Mold_Raw,
-                IL.Ceramic_Plate_Mold_Raw,
-                IL.Ceramic_Tiny_Plate_Mold_Raw,
-                IL.Ceramic_Bolt_Mold_Raw,
-                IL.Ceramic_Rod_Mold_Raw,
-                IL.Ceramic_Long_Rod_Mold_Raw,
-                IL.Ceramic_Item_Casing_Mold_Raw,
-                IL.Ceramic_Ring_Mold_Raw,
-                IL.Ceramic_Gear_Mold_Raw,
-                IL.Ceramic_Small_Gear_Mold_Raw,
-                IL.Ceramic_Sword_Mold_Raw,
-                IL.Ceramic_Pickaxe_Mold_Raw,
-                IL.Ceramic_Spade_Mold_Raw,
-                IL.Ceramic_Shovel_Mold_Raw,
-                IL.Ceramic_Universal_Spade_Mold_Raw,
-                IL.Ceramic_Axe_Mold_Raw,
-                IL.Ceramic_Double_Axe_Mold_Raw,
-                IL.Ceramic_Saw_Mold_Raw,
-                IL.Ceramic_Hammer_Mold_Raw,
-                IL.Ceramic_File_Mold_Raw,
-                IL.Ceramic_Screwdriver_Mold_Raw,
-                IL.Ceramic_Chisel_Mold_Raw,
-                IL.Ceramic_Arrow_Mold_Raw,
-                IL.Ceramic_Hoe_Mold_Raw,
-                IL.Ceramic_Sense_Mold_Raw,
-                IL.Ceramic_Plow_Mold_Raw,
-                IL.Ceramic_Builderwand_Mold_Raw,
-                IL.Ceramic_Nugget_Mold_Raw,
-                IL.Ceramic_Billet_Mold_Raw,
-        }) {
-            OreDictManager.INSTANCE.setItemData(mold.get(1), new OreDictItemData(MTx.Fireclay, U*5));
-            CRx.overrideShapeless(mold.get(1), ILx.Fireclay_Ball.get(5));
-        }
+        // Fire bricks block
+        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(18000), CR.DEF_REV_NCC, "MBM", "B B", "MBM", 'B', ingot.mat(MTx.Firebrick, 1), 'M', OM.dust(MTx.Mortar));
+        OreDictManager.INSTANCE.setItemData(MTEx.gt6MTEReg.getItem(18000), new OreDictItemData(MTx.Firebrick, 4*U));
     }
 
     private void changeRecipes() {

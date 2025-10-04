@@ -1,5 +1,6 @@
 package org.altadoon.gt6x.features.basicchem;
 
+import com.google.common.collect.Iterables;
 import gregapi.code.ICondition;
 import gregapi.data.*;
 import gregapi.oredict.OreDictMaterial;
@@ -14,7 +15,6 @@ import gregapi.worldgen.WorldgenObject;
 import gregapi.worldgen.WorldgenOresLarge;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
-import org.altadoon.gt6x.common.Config;
 import org.altadoon.gt6x.common.FLx;
 import org.altadoon.gt6x.common.MTx;
 import org.altadoon.gt6x.common.RMx;
@@ -65,11 +65,14 @@ public class BasicChemistry extends GT6XFeature {
     }
 
     private void changeMaterialProperties() {
-        MT.Dolomite.setSmelting(MTx.CalcinedDolomite, 2*U5);
-        MT.CaCO3.setSmelting(MTx.CaO, 2*U5);
+        MT.STONES.Marble.setMcfg(0, MT.CaCO3, 5*U, MT.MgCO3, 5*U);
+        for (OreDictMaterial dolomite : new OreDictMaterial[] {MT.Dolomite, MT.STONES.Marble})
+            dolomite.setSmelting(MTx.CalcinedDolomite, 2*U5);
+        for (OreDictMaterial lime : new OreDictMaterial[] {MT.CaCO3, MT.STONES.Limestone, MT.Chalk})
+            lime.setSmelting(MTx.CaO, 2*U5);
         MT.MgCO3.setSmelting(MTx.MgO, 2*U5);
 
-        for (OreDictMaterial mat : new OreDictMaterial[]{ MT.H3BO3, MT.Bone, MT.NaOH, MT.PO4, MT.Sodalite, MT.Lazurite, MT.Glycerol, MT.Glyceryl }) {
+        for (OreDictMaterial mat : new OreDictMaterial[]{ MT.H3BO3, MT.Bone, MT.NaOH, MT.PO4, MT.Sodalite, MT.Lazurite, MT.Glycerol, MT.Glyceryl, MT.SiC }) {
             mat.remove(TD.Processing.ELECTROLYSER);
         }
     }
@@ -117,7 +120,8 @@ public class BasicChemistry extends GT6XFeature {
 
         // Phosphoric Acid
         for (OreDictMaterial phosphorus : new OreDictMaterial[] { MT.Phosphorus, MT.PhosphorusBlue, MT.PhosphorusRed, MT.PhosphorusWhite}) {
-            RM.Mixer.addRecipe1(true, 16,  16, dust.mat(phosphorus, 5), FL.array(MT.H2SO4.liquid(3*7*U, true)), FL.array(MTx.H3PO4.liquid(8*U, false)), dust.mat(MT.CaSO4, 18));
+            RM.Mixer.addRecipe1(true, 16,  16, dust.mat(phosphorus, 13), MT.H2SO4.liquid(3*7*U, true), MTx.H3PO4.liquid(16*U, false), dust.mat(MT.CaSO4, 18));
+            RM.Mixer.addRecipe1(true, 16,  16, dust.mat(phosphorus, 13), MT.HCl.gas(2*6*U, true), MTx.H3PO4.liquid(16*U, false), dust.mat(MT.CaCl2, 9));
         }
         RM.Bath.addRecipe1(true, 0, 128, dust.mat(MT.Phosphorite, 9), FL.array(MT.H2SO4.liquid(5*7*U, true)), FL.array(MTx.H3PO4.liquid(12*U, false), MT.HF.gas(U*2, false)), dust.mat(MT.CaSO4, 30));
         RM.Bath.addRecipe1(true, 0, 128, dust.mat(MT.Apatite, 9), FL.array(MT.H2SO4.liquid(5*7*U, true)), FL.array(MTx.H3PO4.liquid(12*U, false), MT.HCl.gas(U*2, false)), dust.mat(MT.CaSO4, 30));
@@ -416,6 +420,28 @@ public class BasicChemistry extends GT6XFeature {
         RM.Drying.addRecipe1(true, 16, 128, ST.tag(1), MTx.Tannin.liquid(2*U, true), NF, dust.mat(MTx.TannicAcid, 1));
         RM.Distillery.addRecipe1(true, 16, 128, ST.tag(1), MTx.Tannin.liquid(2*U, true), NF, dust.mat(MTx.TannicAcid, 1));
         //TODO leather tanning
+
+        // Vaporization/precipitation of vapours
+        for (OreDictMaterial mat : Iterables.concat(MT.ALL_MATERIALS_REGISTERED_HERE, MTx.ALL_MATERIALS_REGISTERED_HERE)) {
+            if (mat.contains(MTx.VAPORIZING)) {
+                // crucible: 1 HU = +1K per 100kg
+                if (mat.mLiquid != null && mat.mMeltingPoint != mat.mBoilingPoint) {
+                    long duration = (long)(((double)(FL.temperature(mat.mGas) - FL.temperature(mat.mLiquid)) * (mat.getWeight(U) / 100.0)) / 128.0);
+                    if (duration < 1) duration = 1;
+                    RM.Smelter.addRecipe0(true, 64, duration, mat.liquid(U, true), mat.gas(U, false), NI);
+                    RM.Bath   .addRecipe1(true, 0, duration*16, ST.tag(0), mat.gas(U, true), mat.liquid(U, false), NI);
+                    RM.Freezer.addRecipe1(true, 16, duration, ST.tag(0), mat.gas(U, true), mat.liquid(U, false), NI);
+                } else {
+                    long duration = (long)(((double)(FL.temperature(mat.mGas) - mat.mMeltingPoint) * (mat.getWeight(U) / 100.0)) / 128.0);
+                    if (duration < 1) duration = 1;
+                    RM.Smelter.addRecipe1(true, 64, duration, dust.mat(mat, 1), NF, mat.gas(U, false), NI);
+                    OreDictMaterialStack targetSolid = mat.mTargetSolidifying;
+                    ItemStack item = OM.gem(targetSolid);
+                    if (item == null) item = OM.dustOrIngot(targetSolid);
+                    RM.Freezer.addRecipe1(true, 16, duration, ST.tag(0), mat.gas(U, true), NF, item);
+                }
+            }
+        }
     }
 
     private void addOverrideRecipes() {
@@ -513,6 +539,38 @@ public class BasicChemistry extends GT6XFeature {
             RM.BurnMixer.addRecipeX(false, 16,  256, ST.array(OM.dust(MT.TiO2, 1*U), OM.dust(coke, 1*U), dust.mat(MT.CaCO3, 1)), FL.array(MT.Cl.gas(4*U, true)), FL.array(MT.TiCl4.liquid(U* 5, false), MT.CO2.gas(3*U + 3*U5, false)), gem.mat(MTx.Slag, 1));
             RM.BurnMixer.addRecipeX(false, 16,  256, ST.array(OM.dust(MT.TiO2, 2*U), OM.dust(coke, 2*U), dust.mat(MT.CaCO3, 2)), FL.array(MT.Cl.gas(8*U, true)), FL.array(MT.TiCl4.liquid(U*10, false), MT.CO2.gas(6*U + 6*U5, false)), gem.mat(MTx.Slag, 2));
         }
+
+        // Graphene from carbon vapour (PVD) instead of dust
+        for (Recipe r : RM.Nanofab.mRecipeList) {
+            if (r.mInputs.length > 1 && (
+                r.mInputs[1].isItemEqual(dust.mat(MT.C, 1)) ||
+                r.mInputs[1].isItemEqual(dustSmall.mat(MT.C, 1)) ||
+                r.mInputs[1].isItemEqual(dustTiny.mat(MT.C, 1)) ||
+                r.mInputs[1].isItemEqual(dustDiv72.mat(MT.C, 1)) ||
+                r.mInputs[1].isItemEqual(blockDust.mat(MT.C, 1))
+            )) {
+                r.mEnabled = false;
+            }
+        }
+
+        RM.Nanofab.addRecipe1(T, 16,  64, ST.tag( 0), MT.C.gas(U4, true), NF, foil.mat(MT.Graphene, 1));
+        RM.Nanofab.addRecipe1(T, 16, 256, ST.tag( 1), MT.C.gas(U , true), NF, plate.mat(MT.Graphene, 1));
+        RM.Nanofab.addRecipe1(T, 16, 256, ST.tag( 2), MT.C.gas(U , true), NF, plateCurved.mat(MT.Graphene, 1));
+        RM.Nanofab.addRecipe1(T, 16, 128, ST.tag( 3), MT.C.gas(U2, true), NF, casingSmall.mat(MT.Graphene, 1));
+        RM.Nanofab.addRecipe1(T, 16,  64, ST.tag( 4), MT.C.gas(U8, true), NF, wireFine.mat(MT.Graphene, 1));
+        RM.Nanofab.addRecipe1(T, 16, 128, ST.tag( 5), MT.C.gas(U2, true), NF, wireGt01.mat(MT.Graphene, 1));
+        RM.Nanofab.addRecipe1(T, 16,  64, ST.tag( 6), MT.C.gas(U8, true), NF, bolt.mat(MT.Graphene, 1));
+        RM.Nanofab.addRecipe1(T, 16, 128, ST.tag( 7), MT.C.gas(U2, true), NF, stick.mat(MT.Graphene, 1));
+        RM.Nanofab.addRecipe1(T, 16, 256, ST.tag( 8), MT.C.gas(U , true), NF, stickLong.mat(MT.Graphene, 1));
+        RM.Nanofab.addRecipe1(T, 16,  64, ST.tag( 9), MT.C.gas(U4, true), NF, ring.mat(MT.Graphene, 1));
+        RM.Nanofab.addRecipe1(T, 16, 256, ST.tag(10), MT.C.gas(U , true), NF, gearGtSmall.mat(MT.Graphene, 1));
+        RM.Nanofab.addRecipe1(T, 16, 128, ST.tag(13), MT.C.gas(U2, true), NF, pipeTiny.mat(MT.C, 1));
+        RM.Nanofab.addRecipe1(T, 16, 256, ST.tag(14), MT.C.gas(U , true), NF, pipeSmall.mat(MT.C, 1));
+        RM.Nanofab.addRecipe1(T, 16,1024, ST.tag(11), MT.C.gas(U*4   , true), NF, gearGt.mat(MT.Graphene, 1));
+        RM.Nanofab.addRecipe1(T, 16,1088, ST.tag(12), MT.C.gas(U*4+U4, true), NF, rotor.mat(MT.Graphene, 1));
+        RM.Nanofab.addRecipe1(T, 16, 768, ST.tag(15), MT.C.gas(U*3   , true), NF, pipeMedium.mat(MT.C, 1));
+        RM.Nanofab.addRecipe1(T, 16,1536, ST.tag(16), MT.C.gas(U*6   , true), NF, pipeLarge.mat(MT.C, 1));
+        RM.Nanofab.addRecipe1(T, 16,3072, ST.tag(17), MT.C.gas(U*12  , true), NF, pipeHuge.mat(MT.C, 1));
     }
 
     private void addSolutionRecipes() {

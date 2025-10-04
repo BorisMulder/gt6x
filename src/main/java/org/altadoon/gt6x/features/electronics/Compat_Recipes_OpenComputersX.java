@@ -71,10 +71,10 @@ public class Compat_Recipes_OpenComputersX extends CompatMods {
         }
 
         CRx.overrideShapelessCompat(ST.make(MD.OC, "cable", 4, 0), OP.cableGt01.dat(ANY.Cu), OP.cableGt01.dat(ANY.Cu), OP.cableGt01.dat(ANY.Cu), OP.cableGt01.dat(ANY.Cu));
-        CRx.overrideShapelessCompat(ST.make(MD.OC, "powerConverter", 1, 0), MTEx.gt6Registry.getItem(10041), ST.make(MD.OC, "cable", 4, 0));
+        CRx.overrideShapelessCompat(ST.make(MD.OC, "powerConverter", 1, 0), MTEx.gt6MTEReg.getItem(10041), ST.make(MD.OC, "cable", 4, 0));
 
         // Solar generator upgrade
-        CRx.overrideShapelessCompat(ST.make(MD.OC, "item", 1, 34), MTEx.gt6Registry.getItem(10050));
+        CRx.overrideShapelessCompat(ST.make(MD.OC, "item", 1, 34), MTEx.gt6MTEReg.getItem(10050));
 
         // Remove shaped raw crafting recipes of storage mediums, but not shapeless (for formatting, copying, dyeing, ...)
         CR.remout(ST.make(MD.OC, "eeprom", 1, 0), true, true, false, true);
@@ -144,8 +144,8 @@ public class Compat_Recipes_OpenComputersX extends CompatMods {
         CR.shaped(ST.make(MD.OC, "item", 1, 33), CR.DEF_REM, "AB ", 'A', OP.plateTiny.dat(MT.Al), 'B', ILx.Circuit_Plate_Copper_Long);
 
         // Screens
-        CR.shaped(ST.make(MD.OC, "screen1", 1, 0), CR.DEF_REM, "CBC", "PSP", "WMT", 'B', MTEx.gt6Registry.getItem(32711), 'P', OD_CIRCUITS[2], 'S', ILx.CRT_Black_White, 'M', OP.casingMachine.dat(ANY.Plastic)     , 'T', TRANSISTOR_NAME, 'C', CAPACITOR_NAME);
-        CR.shaped(ST.make(MD.OC, "screen2", 1, 0), CR.DEF_REM, "CBC", "PSP", "WMT", 'B', MTEx.gt6Registry.getItem(32711), 'P', OD_CIRCUITS[3], 'S', ILx.CRT_RGB        , 'M', OP.casingMachine.dat(MT.Polycarbonate), 'T', TRANSISTOR_NAME, 'C', CAPACITOR_NAME);
+        CR.shaped(ST.make(MD.OC, "screen1", 1, 0), CR.DEF_REM, "CBC", "PSP", "WMT", 'B', MTEx.gt6MTEReg.getItem(32711), 'P', OD_CIRCUITS[2], 'S', ILx.CRT_Black_White, 'M', OP.casingMachine.dat(ANY.Plastic)     , 'T', TRANSISTOR_NAME, 'C', CAPACITOR_NAME);
+        CR.shaped(ST.make(MD.OC, "screen2", 1, 0), CR.DEF_REM, "CBC", "PSP", "WMT", 'B', MTEx.gt6MTEReg.getItem(32711), 'P', OD_CIRCUITS[3], 'S', ILx.CRT_RGB        , 'M', OP.casingMachine.dat(MT.Polycarbonate), 'T', TRANSISTOR_NAME, 'C', CAPACITOR_NAME);
         CRx.overrideShapelessCompat(ST.make(MD.OC, "screen3", 1, 0), ILx.LCDMonitor);
     }
 }

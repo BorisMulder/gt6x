@@ -15,7 +15,7 @@ import gregapi.util.UT;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
-import org.altadoon.gt6x.features.metallurgy.utils.EAFSmeltingRecipe;
+import org.altadoon.gt6x.common.RMx;
 import org.altadoon.gt6x.features.metallurgy.multiblocks.MultiTileEntityEAF;
 
 import java.awt.*;
@@ -28,12 +28,12 @@ public class ContainerClientEAF extends ContainerClient {
     public ContainerClientEAF(InventoryPlayer inventoryPlayer, MultiTileEntityEAF tileEntity, int guiID, String guiTexture) {
         super(new ContainerCommonEAF(inventoryPlayer, tileEntity, guiID), guiTexture);
         ySize = 114 + 6 * 18;
-        this.customNeiButtonName = EAFSmeltingRecipe.FakeRecipes.mNameNEI;
+        this.customNeiButtonName = RMx.EAF.fakeRecipes.mNameNEI;
     }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-        fontRendererObj.drawString(LH.get(EAFSmeltingRecipe.FakeRecipes.mNameInternal), 8,  4, 4210752);
+        fontRendererObj.drawString(LH.get(RMx.EAF.fakeRecipes.mNameInternal), 8,  4, 4210752);
     }
 
     static {

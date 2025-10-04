@@ -1,6 +1,5 @@
 package org.altadoon.gt6x.features.metallurgy.utils;
 
-import gregapi.data.FL;
 import gregapi.data.RM;
 import gregapi.oredict.OreDictMaterialStack;
 import gregapi.oredict.event.IOreDictListenerRecyclable;
@@ -14,6 +13,10 @@ import static gregapi.data.CS.*;
 import static gregapi.data.TD.Prefix.ORE;
 import static gregapi.data.TD.Prefix.ORE_PROCESSING_DIRTY;
 
+/**
+ * This class makes sure that materials which have a melting point equal to their boiling point
+ * (i.e. that sublime instead of melt), such as arsenic, are converted to a gas in the smelter.
+ */
 public class RecyclingProcessingSublimation extends Loader_OreProcessing.RecyclingProcessing implements IOreDictListenerRecyclable {
     @Override
     public void onRecycleableRegistration(OreDictRecyclingContainer container) {
@@ -25,7 +28,7 @@ public class RecyclingProcessingSublimation extends Loader_OreProcessing.Recycli
                 // skip ores
                 if (container.mItemData.mPrefix != null && container.mItemData.mPrefix.containsAny(ORE_PROCESSING_DIRTY, ORE)) return;
 
-                OreDictMaterialStack targetStack = OM.stack(UT.Code.units(originalStack.mAmount, U, smeltingStack.mAmount, F), smeltingStack.mMaterial);
+                OreDictMaterialStack targetStack = OM.stack(UT.Code.units(originalStack.mAmount, U, smeltingStack.mAmount, false), smeltingStack.mMaterial);
                 FluidStack targetFluidStack = targetStack.mMaterial.gas(targetStack.mAmount, false);
                 RM.Smelter.addRecipe1(true, 16, (long)Math.max(16, (OM.weight(container.mItemData.getAllMaterialStacks()) * (Math.max(originalStack.mMaterial.mMeltingPoint, targetFluidStack.getFluid().getTemperature())-DEF_ENV_TEMP))/1600), container.mStack, NF, targetFluidStack, ZL_IS);
             }

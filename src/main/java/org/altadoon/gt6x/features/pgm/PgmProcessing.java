@@ -237,9 +237,6 @@ public class PgmProcessing extends GT6XFeature {
     }
 
     private void addCommonRecipes() {
-        RM.Bath.addRecipe1(true, 0, 32, ST.tag(0), OsO4.gas(5*U, true), NF, dust.mat(RuO4, 5));
-        RM.Bath.addRecipe1(true, 0, 32, ST.tag(0), RuO4.gas(5*U, true), NF, dust.mat(RuO4, 5));
-
         for (Recipe.RecipeMap map : hydrogenReduction) {
             map.addRecipe1(true, 16, 64 , dust.mat(MTx.IrO2 , 3), MT.H.gas(4*U, true), MT.H2O.liquid(6*U, false), dust.mat(MT.Ir, 1));
             map.addRecipe1(true, 16, 64 , dust.mat(MTx.RuO4 , 5), MT.H.gas(8*U, true), MT.H2O.liquid(12*U, false), dust.mat(MT.Ru, 1));
