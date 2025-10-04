@@ -221,6 +221,7 @@ public class MTx {
 
         addVapour(MT.C.heat(3915, 3915));
         ANY.C.heat(MT.C);
+        addVapour(MT.Al);
         addVapour(MT.As.heat(887, 887));
         addVapour(MT.Zn);
         addVapour(MT.Mg);
@@ -1890,7 +1891,12 @@ public class MTx {
             .heat(177, 313)),
     SbF3 = dustdcmp(16548, "Antimony Trifluoride", SET_SHARDS, 210, 210, 210, 255)
             .setMcfg(1, MT.Sb, U, MT.F, 3*U)
-            .heat(565, 649)
+            .heat(565, 649),
+    MetallisedBoPET = create(16549, "Metallised BoPET", 190, 190, 192, 255)
+            .heat(PET)
+            .setTextures(SET_SHINY)
+            .put(FOILS)
+            .setAllToTheOutputOf(PET)
     ;
 
     @SuppressWarnings("unused")

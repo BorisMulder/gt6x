@@ -1,10 +1,12 @@
 package org.altadoon.gt6x.features.fusion;
 
-import gregapi.data.FL;
-import gregapi.data.MT;
-import gregapi.data.RM;
+import gregapi.data.*;
 import gregapi.oredict.OreDictMaterial;
+import gregapi.tileentity.multiblocks.MultiTileEntityMultiBlockPart;
+import gregapi.util.CR;
 import gregapi.util.ST;
+import gregapi.util.UT;
+import org.altadoon.gt6x.common.MTEx;
 import org.altadoon.gt6x.common.MTx;
 import org.altadoon.gt6x.common.RMx;
 import org.altadoon.gt6x.common.items.ILx;
@@ -36,7 +38,9 @@ public class Fusion extends GT6XFeature {
 	}
 
 	private void addMTEs() {
-
+		OreDictMaterial mat;
+		mat = MT.Superconductor;
+		MTEx.gt6xMTEReg.add("Large Superconductor Coil", "Multiblock Machines", 18045, 17101, MultiTileEntityMultiBlockPart.class, mat.mToolQuality, 64, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_TEXTURE, "coil", NBT_DESIGNS, 1), "WWW", "WxW", "WWW", 'W', OP.wireGt04.dat(mat));
 	}
 
 	private void addRecipes() {
@@ -59,16 +63,14 @@ public class Fusion extends GT6XFeature {
 		RMx.Thermolysis.addRecipe1(false, 32, 256, ILx.HTSTape_Buffer.get(1), FL.array(MTx.YBaCuTMHD.gas(U8, true), MT.O.gas(10*U, true)), FL.array(MT.H2O.liquid(9*U, false), MT.CO2.gas(9*U, false)), ILx.HTSTape_REBCO.get(1));
 		RMx.IonBombardment.addRecipeX(false, 64, 64, ST.array(ILx.HTSTape_REBCO.get(1), dustTiny.mat(MT.Ag, 1), dustTiny.mat(MT.Cu, 1)), MT.Ar.gas(U100, true), NF, ILx.HTSTape_AgCu.get(1));
 		RM.Bath.addRecipe2(false, 0, 128, ILx.HTSTape_AgCu.get(1), foil.mat(MTx.Kapton, 1), MTx.EpoxyResin.liquid(U4, true), NF, ILx.HTSTape_Insulated.get(1));
-
 		/// Thermal/electrical multi-layer insulation (MLI)
-		// BoPET: PET extruded into foils (mylar), then Al gas PVD metallization
-		// Kapton
-
+		RM.Bath.addRecipe1(true, 0, 64, foil.mat(MTx.PET, 1), MT.Al.gas(U500, true), NF, foil.mat(MTx.MetallisedBoPET, 1));
+		RM.Laminator.addRecipe2(true, 16, 32, foil.mat(MTx.MetallisedBoPET, 5), ILx.FiberglassScrim.get(4), ILx.MLIBlanket.get(1));
 		/// Vacuum pipes around it:
-		// Stainless steel pipes or G10 fiberglass around it
-
+		CR.shaped(ILx.SuperconductorEmpty.get(1), CR.DEF_REV, "PF ", "ATB", "xF ", 'A', pipeTiny.dat(MT.StainlessSteel), 'B', pipeSmall.dat(MT.StainlessSteel), 'F', ILx.MLIBlanket, 'P', IL.PUMPS[4], 'T', ILx.HTSTape_Insulated);
 		/// Coolant:
-		// Liquid nitrogen
+		RM.Freezer.addRecipe1(true, 128, 32, ST.tag(0), MT.N.gas(U, true), MT.N.liquid(U, false), NI);
+		RM.Canner.addRecipe1(false, 128, 16, ILx.SuperconductorEmpty.get(1), MT.N.liquid(U9, true), NF, wireGt04.mat(MT.Superconductor, 1));
 	}
 
 	private void changeFusionRecipes() {
