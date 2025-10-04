@@ -207,6 +207,8 @@ public class ILx implements IItemContainer {
 			HTSTape_REBCO = new ILx("HTSTape_REBCO"),
 			HTSTape_AgCu = new ILx("HTSTape_AgCu"),
 			HTSTape_Insulated = new ILx("HTSTape_Insulated"),
+			SuperconductorEmpty = new ILx("SuperconductorEmpty"),
+			MLIBlanket = new ILx("MLIBlanket"),
 
 			NULL = null;
 

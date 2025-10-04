@@ -328,5 +328,7 @@ public class MultiItemsElectronics extends MultiItemRandom {
 		ILx.HTSTape_REBCO    .set(addItem(1001, "HTS Tape (YBCO)",                      "Part of a High-Temperature Superconductor"), new OreDictItemData(OM.stack(MTx.Hastelloy, U4), OM.stack(MTx.CeO2, U36), OM.stack(MTx.YSZ, U72), OM.stack(MTx.YBCO, U9)));
 		ILx.HTSTape_AgCu     .set(addItem(1002, "HTS Tape (Ag + Cu layers)",            "Part of a High-Temperature Superconductor"), new OreDictItemData(OM.stack(MTx.Hastelloy, U4), OM.stack(MTx.CeO2, U36), OM.stack(MTx.YSZ, U72), OM.stack(MTx.YBCO, U9), OM.stack(MT.Ag, U9), OM.stack(MT.Cu, U9)));
 		ILx.HTSTape_Insulated.set(addItem(1003, "HTS Tape (Insulated)",                 "Part of a High-Temperature Superconductor"), new OreDictItemData(OM.stack(MTx.Hastelloy, U4), OM.stack(MTx.CeO2, U36), OM.stack(MTx.YSZ, U72), OM.stack(MTx.YBCO, U9), OM.stack(MT.Ag, U9), OM.stack(MT.Cu, U9), OM.stack(MTx.Kapton, U4)));
+		ILx.MLIBlanket       .set(addItem(1004, "Multi-layer insulation blanket",       "Used for insulating the cryogenic superconductor magnets from high temperatures", new OreDictItemData(MTx.MetallisedBoPET, 5*U4, MT.Glass, 2*U)));
+		ILx.SuperconductorEmpty.set(addItem(1005, "Superconductor Wire (Empty)",        "Needs cryogenic coolant"));
 	}
 }
