@@ -40,7 +40,11 @@ public class Fusion extends GT6XFeature {
 	private void addMTEs() {
 		OreDictMaterial mat;
 		mat = MT.Superconductor;
-		MTEx.gt6xMTEReg.add("Large Superconductor Coil", "Multiblock Machines", 18045, 17101, MultiTileEntityMultiBlockPart.class, mat.mToolQuality, 64, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_TEXTURE, "coil", NBT_DESIGNS, 1), "WWW", "WxW", "WWW", 'W', OP.wireGt04.dat(mat));
+		MTEx.gt6xMTEReg.add("Large Superconductor Coil", "Multiblock Machines", MTEx.IDs.SuperconductorCoil.get(), 17101, MultiTileEntityMultiBlockPart.class, mat.mToolQuality, 64, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_TEXTURE, "coil", NBT_DESIGNS, 1), "WWW", "WxW", "WWW", 'W', OP.wireGt04.dat(mat));
+		mat = MT.W;
+		MTEx.gt6xMTEReg.add("Boronized Tungsten Wall"  , "Multiblock Machines", MTEx.IDs.BWWall            .get(), 17101, MultiTileEntityMultiBlockPart.class, mat.mToolQuality, 64, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, 12.5F, NBT_RESISTANCE, 12.5F, NBT_TEXTURE, "metalwall", NBT_DESIGNS, 1));
+		mat = MT.SteelGalvanized;
+		MTEx.gt6xMTEReg.add("Fusion Reactor"           , "Multiblock Machines", MTEx.IDs.FusionReactor     .get(), 17101, MTEFusionReactor             .class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, 12.5F, NBT_RESISTANCE, 12.5F, NBT_TEXTURE, "fusionreactor", NBT_INPUT, 8192, NBT_INPUT_MIN, 1, NBT_INPUT_MAX, 16384, NBT_ENERGY_ACCEPTED, TD.Energy.TU, NBT_RECIPEMAP, RM.Fusion, NBT_ENERGY_ACCEPTED_2, TD.Energy.LU, NBT_ENERGY_EMITTED, TD.Energy.EU, NBT_SPECIAL_IS_START_ENERGY, T, NBT_NO_CONSTANT_POWER, T), "CPC", "CSC", "CWC", 'C', ILx.PCs[3], 'P', IL.PUMPS[5], 'S', ILx.LCDMonitor, 'W', MTEx.gt6xMTEReg.getItem(MTEx.IDs.SuperconductorCoil.get()));
 	}
 
 	private void addRecipes() {
@@ -71,6 +75,9 @@ public class Fusion extends GT6XFeature {
 		/// Coolant:
 		RM.Freezer.addRecipe1(true, 128, 32, ST.tag(0), MT.N.gas(U, true), MT.N.liquid(U, false), NI);
 		RM.Canner.addRecipe1(false, 128, 16, ILx.SuperconductorEmpty.get(1), MT.N.liquid(U9, true), NF, wireGt04.mat(MT.Superconductor, 1));
+
+		// Boronization of Tungsten Walls
+		RMx.VacuumChamber.addRecipe1(false, 32, 256, MTEx.gt6MTEReg.getItem(18004), MTx.B2H6.gas(U100, true), NF, MTEx.gt6xMTEReg.getItem(MTEx.IDs.BWWall.get()));
 	}
 
 	private void changeFusionRecipes() {
