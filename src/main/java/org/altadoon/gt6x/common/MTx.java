@@ -1896,7 +1896,11 @@ public class MTx {
 			.heat(PET)
 			.setTextures(SET_SHINY)
 			.put(FOILS)
-			.setAllToTheOutputOf(PET)
+			.setAllToTheOutputOf(PET),
+	BoronizedW = dustdcmp(16550, "Boronized Tungsten", SET_METALLIC, 80, 80, 80, 255)
+			.setMcfg(0, MT.W, U)
+			.heat(MT.W)
+			.setAllToTheOutputOf(MT.W)
 	;
 
 	@SuppressWarnings("unused")
