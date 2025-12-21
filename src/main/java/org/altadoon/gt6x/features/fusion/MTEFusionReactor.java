@@ -13,11 +13,13 @@ import java.util.ListIterator;
 import static gregapi.data.CS.*;
 
 public class MTEFusionReactor extends MultiTileEntityFusionReactor {
+	private boolean success;
+
 	@Override
 	public boolean checkStructure2() {
 		int x = getOffsetXN(mFacing, 2), y = yCoord, z = getOffsetZN(mFacing, 2);
 		if (worldObj.blockExists(x-9, y, z-9) && worldObj.blockExists(x+9, y, z-9) && worldObj.blockExists(x-9, y, z+9) && worldObj.blockExists(x+9, y, z+9)) {
-			boolean success = true;
+			success = true;
 
 			// Central Solenoid
 			for (int i = -2; i <= 2; i++) for (int j = -2; j <= 2; j++) for (int k = -2; k <= 2; k++) {
@@ -49,35 +51,35 @@ public class MTEFusionReactor extends MultiTileEntityFusionReactor {
 
 			for (int i = 0; i < 19; i++) for (int j = 0; j < 19; j++) {
 				if (OCTAGONS[0][i][j]) {
-					if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, x+i, y-1, z+j, MTEx.IDs.SuperconductorCoil.get(), MTEx.gt6MTERegId, 0, MultiTileEntityMultiBlockPart.ONLY_ITEM_FLUID)) success = false;
+					if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, x+i, y-1, z+j, 18003, MTEx.gt6MTERegId, 0, MultiTileEntityMultiBlockPart.ONLY_ITEM_FLUID)) success = false;
 					if ((i == 9 && (j == 0 || j == 18)) || (j == 9 && (i == 0 || i == 18))) {
-						if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, x+i, y  , z+j, MTEx.IDs.SuperconductorCoil.get(), MTEx.gt6MTERegId, 2, MultiTileEntityMultiBlockPart.ONLY_ENERGY_OUT)) success = false;
+						if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, x+i, y  , z+j, MTEx.IDs.SuperconductorCoil.get(), MTEx.gt6xMTERegId, 2, MultiTileEntityMultiBlockPart.ONLY_ENERGY_OUT)) success = false;
 					} else {
-						if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, x+i, y  , z+j, MTEx.IDs.SuperconductorCoil.get(), MTEx.gt6MTERegId, mActive ? 6 : 5, MultiTileEntityMultiBlockPart.ONLY_ENERGY_IN)) success = false;
+						if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, x+i, y  , z+j, MTEx.IDs.SuperconductorCoil.get(), MTEx.gt6xMTERegId, mActive ? 4 : 3, MultiTileEntityMultiBlockPart.ONLY_ENERGY_IN)) success = false;
 					}
-					if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, x+i, y+1, z+j, MTEx.IDs.SuperconductorCoil.get(), MTEx.gt6MTERegId, 0, MultiTileEntityMultiBlockPart.ONLY_ITEM_FLUID)) success = false;
+					if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, x+i, y+1, z+j, 18003, MTEx.gt6MTERegId, 0, MultiTileEntityMultiBlockPart.ONLY_ITEM_FLUID)) success = false;
 				}
 				if (OCTAGONS[1][i][j]) {
-					if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, x+i, y-2, z+j, MTEx.IDs.SuperconductorCoil.get(), MTEx.gt6MTERegId, 0, MultiTileEntityMultiBlockPart.ONLY_ITEM_FLUID)) success = false;
+					if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, x+i, y-2, z+j, 18003, MTEx.gt6MTERegId, 0, MultiTileEntityMultiBlockPart.ONLY_ITEM_FLUID)) success = false;
 
-					if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, x+i, y-1, z+j, MTEx.IDs.SuperconductorCoil.get(), MTEx.gt6MTERegId, 0, MultiTileEntityMultiBlockPart.NOTHING)) success = false;
+					if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, x+i, y-1, z+j, MTEx.IDs.SuperconductorCoil.get(), MTEx.gt6xMTERegId, 0, MultiTileEntityMultiBlockPart.NOTHING)) success = false;
 
-					if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, x+i, y  , z+j, MTEx.IDs.BWWall.get(), MTEx.gt6MTERegId, 0, MultiTileEntityMultiBlockPart.NOTHING)) success = false;
+					if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, x+i, y  , z+j, MTEx.IDs.BWWall.get(), MTEx.gt6xMTERegId, 0, MultiTileEntityMultiBlockPart.NOTHING)) success = false;
 
-					if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, x+i, y+1, z+j, MTEx.IDs.SuperconductorCoil.get(), MTEx.gt6MTERegId, 0, MultiTileEntityMultiBlockPart.NOTHING)) success = false;
+					if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, x+i, y+1, z+j, MTEx.IDs.SuperconductorCoil.get(), MTEx.gt6xMTERegId, 0, MultiTileEntityMultiBlockPart.NOTHING)) success = false;
 
-					if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, x+i, y+2, z+j, MTEx.IDs.SuperconductorCoil.get(), MTEx.gt6MTERegId, 0, MultiTileEntityMultiBlockPart.ONLY_ITEM_FLUID)) success = false;
+					if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, x+i, y+2, z+j, 18003, MTEx.gt6MTERegId, 0, MultiTileEntityMultiBlockPart.ONLY_ITEM_FLUID)) success = false;
 				}
 				if (OCTAGONS[2][i][j]) {
-					if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, x+i, y-2, z+j, MTEx.IDs.SuperconductorCoil.get(), MTEx.gt6MTERegId, 0, MultiTileEntityMultiBlockPart.ONLY_ITEM_FLUID)) success = false;
+					if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, x+i, y-2, z+j, MTEx.IDs.SuperconductorCoil.get(), MTEx.gt6xMTERegId, 0, MultiTileEntityMultiBlockPart.ONLY_ITEM_FLUID)) success = false;
 
-					if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, x+i, y-1, z+j, MTEx.IDs.BWWall.get(), MTEx.gt6MTERegId, 0, MultiTileEntityMultiBlockPart.NOTHING)) success = false;
+					if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, x+i, y-1, z+j, MTEx.IDs.BWWall.get(), MTEx.gt6xMTERegId, 0, MultiTileEntityMultiBlockPart.NOTHING)) success = false;
 
-					if (getAir(x+i, y, z+j)) worldObj.setBlockToAir(xCoord, yCoord+1, zCoord); else success = false;
+					if (getAir(x+i, y, z+j)) worldObj.setBlockToAir(x+i, y, z+j); else success = false;
 
-					if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, x+i, y+1, z+j, MTEx.IDs.BWWall.get(), MTEx.gt6MTERegId, 0, MultiTileEntityMultiBlockPart.NOTHING)) success = false;
+					if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, x+i, y+1, z+j, MTEx.IDs.BWWall.get(), MTEx.gt6xMTERegId, 0, MultiTileEntityMultiBlockPart.NOTHING)) success = false;
 
-					if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, x+i, y+2, z+j, MTEx.IDs.SuperconductorCoil.get(), MTEx.gt6MTERegId, 0, MultiTileEntityMultiBlockPart.ONLY_ITEM_FLUID)) success = false;
+					if (!ITileEntityMultiBlockController.Util.checkAndSetTarget(this, x+i, y+2, z+j, MTEx.IDs.SuperconductorCoil.get(), MTEx.gt6xMTERegId, 0, MultiTileEntityMultiBlockPart.ONLY_ITEM_FLUID)) success = false;
 				}
 			}
 			return success;
@@ -86,7 +88,9 @@ public class MTEFusionReactor extends MultiTileEntityFusionReactor {
 	}
 
 	static {
-		LH.add("gt6x.tooltip.multiblock.fusionreactor.2", "144 Boronized Tungsten Walls, 656 Superconductor Coils, 6 Regular Stainless Steel Walls.");
+		LH.add("gt6x.tooltip.multiblock.fusionreactor.2", "Central solenoid: 80 Superconductor Coils (including controller).");
+		LH.add("gt6x.tooltip.multiblock.fusionreactor.3", "In-between: 6 Stainless Steel Walls.");
+		LH.add("gt6x.tooltip.multiblock.fusionreactor.4", "Outer toroid: 288 Tungstensteel Walls, 144 Boronized Tungsten Walls, 288 additional Superconductor Coils.");
 	}
 
 	@Override
@@ -97,9 +101,10 @@ public class MTEFusionReactor extends MultiTileEntityFusionReactor {
 			String tooltip = i.next();
 			if (tooltip.equals(LH.Chat.WHITE + LH.get("gt.tooltip.multiblock.fusionreactor.2"))) {
 				i.set(LH.Chat.WHITE + LH.get("gt6x.tooltip.multiblock.fusionreactor.2"));
-			} else if (tooltip.equals(LH.Chat.WHITE + LH.get("gt.tooltip.multiblock.fusionreactor.3")) ||
-					   tooltip.equals(LH.Chat.WHITE + LH.get("gt.tooltip.multiblock.fusionreactor.4"))) {
-				i.remove();
+			} else if (tooltip.equals(LH.Chat.WHITE + LH.get("gt.tooltip.multiblock.fusionreactor.3"))) {
+				i.set(LH.Chat.WHITE + LH.get("gt6x.tooltip.multiblock.fusionreactor.3"));
+			} else if (tooltip.equals(LH.Chat.WHITE + LH.get("gt.tooltip.multiblock.fusionreactor.4"))) {
+				i.set(LH.Chat.WHITE + LH.get("gt6x.tooltip.multiblock.fusionreactor.4"));
 			}
 		}
 	}

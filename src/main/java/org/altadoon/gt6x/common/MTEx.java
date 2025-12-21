@@ -185,10 +185,10 @@ public class MTEx {
 		Taps(32700),
 		Funnels(32750),
 
-		SuperconductorCoil(40002),
-		BWWall(40001),
-		FusionReactor(40010)
-		;
+		BWWall(2001),
+		SuperconductorCoil(2002),
+		FusionReactor(2010),
+		; // max: 32767
 
 		public static final IDs[] Hydrocracker = { null, Hydrocracker1, Hydrocracker2, Hydrocracker3, Hydrocracker4 };
 		public static final IDs[] VertMixer = { null, VertMixer1, VertMixer2, VertMixer3, VertMixer4 };
