@@ -39,7 +39,6 @@ public class MTx {
 	public static final TagData POLYMER = TagData.createTagData("PROPERTIES.Polymer", "Polymer");
 	public static final TagData SIMPLE_SOLUTION = TagData.createTagData("PROPERTIES.SimpleSolution", "SimpleSolution");
 	public static final TagData VAPORIZING = TagData.createTagData("PROCESSING.Vaporizing", "Vaporizable");
-	public static final TagData IONIZING = TagData.createTagData("PROCESSING.Ionizing", "Ionizable");
 	public static final TagData ANION = TagData.createTagData("PROPERTIES.Anion", "Anion");
 	public static final TagData CATION = TagData.createTagData("PROPERTIES.Cation", "Cation");
 
@@ -66,31 +65,6 @@ public class MTx {
 		FL.create("vapor." + mat.mNameInternal.toLowerCase(), mat.mTextureSetsBlock.get(IconsGT.INDEX_BLOCK_GAS),
 			"Vaporized " + mat.mNameLocal, mat, mat.mRGBaGas, STATE_GASEOUS, 1000,
 				temperature, null, null, 0);
-	}
-
-	public static void addPlasma(OreDictMaterial mat) {
-		addPlasma(mat, false, Math.max(2000, mat.mBoilingPoint + 200)); //TODO change the plasma point into something better
-	}
-
-	public static void addPlasma(OreDictMaterial mat, boolean customTexture, long temperature) {
-		if (mat.mGas == null && !mat.contains(GASES)) {
-			addVapour(mat);
-		}
-		mat.mPlasmaPoint = temperature;
-		mat.put(IONIZING);
-		if (!customTexture) {
-			mat.setRGBaPlasma(UT.Code.bind8(mat.mRGBaGas[0] + 50),
-							  UT.Code.bind8(mat.mRGBaGas[1] + 50),
-							  UT.Code.bind8(mat.mRGBaGas[2] + 50),
-			100);
-		}
-
-		IIconContainer texture = customTexture ?
-				new Textures.BlockIcons.CustomIcon(Gt6xMod.MOD_ID + ":fluids/" + "plasma."+mat.mNameInternal.toLowerCase()) :
-				mat.mTextureSetsBlock.get(IconsGT.INDEX_BLOCK_PLASMA);
-		FL.create("plasma."+mat.mNameInternal.toLowerCase(), texture,
-				mat.mNameLocal + " Plasma", mat, mat.mRGBaPlasma, STATE_PLASMA, 2000,
-				temperature, null, null, 0).setLuminosity(15);
 	}
 
 	static {
@@ -1990,10 +1964,6 @@ public class MTx {
 		addVapour(BaTMHD);
 		addVapour(CuTMHD);
 		addVapour(YBaCuTMHD);
-
-		addPlasma(CF4, false, 310);
-		addPlasma(NF3, false, 310);
-		addPlasma(SF6, false, 310);
 
 		OP.plate.forceItemGeneration(MT.Al2O3);
 		OP.wireFine.forceItemGeneration(MT.Ta);
