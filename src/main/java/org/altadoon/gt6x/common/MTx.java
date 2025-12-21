@@ -1892,7 +1892,7 @@ public class MTx {
 	SbF3 = dustdcmp(16548, "Antimony Trifluoride", SET_SHARDS, 210, 210, 210, 255)
 			.setMcfg(1, MT.Sb, U, MT.F, 3*U)
 			.heat(565, 649),
-	MetallisedBoPET = create(16549, "Metallised BoPET", 190, 190, 192, 255)
+	MetallisedBoPET = create(16549, "Metallised BoPET", 190, 190, 230, 255, "Mylar")
 			.heat(PET)
 			.setTextures(SET_SHINY)
 			.put(FOILS)

@@ -20,6 +20,7 @@ public class RMx {
 	public static RecipeMap BlastFurnace = null;
 	public static RecipeMap CowperStove = null;
 	public static RecipeMap DirectReduction = null;
+	public static RecipeMap Fusion = null;
 	public static RecipeMap HydroCracking = null;
 	public static RecipeMap IonBombardment = null;
 	public static RecipeMap Ionizer = null;
@@ -109,6 +110,7 @@ public class RMx {
 		BlastFurnace     = new RecipeMap    (null, "gt6x.recipe.blastfurnace"    , "Blast Furnace"           , null, 0, 1, RES_PATH_GUI+"machines/BlastFurnace"    , 6, 3, 1, 3, 3, 0, 1, 1, "", 1, "", false, true, true, true, true, false, true, true);
 		CowperStove      = new RecipeMap    (null, "gt6x.recipe.cowperstove"     , "Hot Blast Preheating"    , null, 0, 1, RES_PATH_GUI+"machines/Default"         , 0, 0, 0, 1, 1, 1, 1, 1, "", 1, "", false, true, true, true, true, false, true, true);
 		DirectReduction  = new RecipeMap    (null, "gt6x.recipe.directreduction" , "Direct Reduction"        , null, 0, 1, RES_PATH_GUI+"machines/DirectReduction" , 6, 3, 1, 3, 3, 1, 1, 1, "", 1, "", false, true, true, true, true, false, true, true);
+		Fusion           = new RecipeMap    (null, "gt6x.recipe.fusion"          , "Fusion Reactor"          , null, 0, 1, RES_PATH_GUI+"machines/FusionX"         , 3, 6, 1, 3, 6, 0, 2, 1, "Start: ", 1, " LU", false, true, true, true, true, true, false, false);
 
 		FMx.Diesel       = new RecipeMapFuel(null, "gt6x.recipe.fuels.diesel"    , "Diesel Engine Fuels"       , null, 0, 1, RES_PATH_GUI+"machines/Default"         , 1, 2, 0, 1, 3, 0, 1, 1, "", 1, "", true, true, true, false, true, false, false);
 		FMx.Petrol       = new RecipeMapFuel(null, "gt6x.recipe.fuels.petrol"    , "Petrol Engine Fuels"       , null, 0, 1, RES_PATH_GUI+"machines/Default"         , 1, 2, 0, 1, 3, 0, 1, 1, "", 1, "", true, true, true, false, true, false, false);
