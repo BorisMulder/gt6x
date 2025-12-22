@@ -59,11 +59,6 @@ public class FLx {
 	public static void init() {
 		LanguageHandler.set(FL.Fuel.mName, "Heavy Fuel Oil");
 
-		// These need to be created here to override the ones in GT6's Loader_Fluids
-		for (OreDictMaterial mat : new OreDictMaterial[] { MT.He, MT.N }) {
-			MTx.addPlasma(mat);
-		}
-
 		if (!FL.Resin       .exists()) create("resin"      , "Resin"       , null, STATE_LIQUID).setDensity(900);
 		if (!FL.Resin_Spruce.exists()) create("spruceresin", "Spruce Resin", null, STATE_LIQUID).setDensity(900);
 		if (!FL.Turpentine  .exists()) create("turpentine" , "Turpentine"  , null, STATE_LIQUID);
