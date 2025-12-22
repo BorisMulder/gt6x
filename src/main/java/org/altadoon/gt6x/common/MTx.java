@@ -194,6 +194,8 @@ public class MTx {
 		}
 
 		addVapour(MT.C.heat(3915, 3915));
+		addVapour(MT.C_13);
+		addVapour(MT.C_14);
 		ANY.C.heat(MT.C);
 		addVapour(MT.Al);
 		addVapour(MT.As.heat(887, 887));
@@ -207,10 +209,6 @@ public class MTx {
 		MT.C_13.heat(MT.C);
 		MT.C_14.heat(MT.C);
 		MT.SiC.heat(3100, MT.Si.mBoilingPoint).setSmelting(MT.Graphite, U2);
-
-		for (OreDictMaterial mat : new OreDictMaterial[] { MT.H, MT.D, MT.T, MT.He, MT.He_3, MT.Li, MT.Li_6, MT.Be, MT.Be_7, MT.Be_8, MT.B, MT.B_11, MT.C, MT.C_13, MT.C_14, MT.N, MT.O }) {
-			addPlasma(mat);
-		}
 	}
 
 	public static OreDictMaterial create(int id, String name) {
