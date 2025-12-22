@@ -158,12 +158,4 @@ public class MTEFusionReactor extends MultiTileEntityFusionReactor {
 			default -> Collections.emptyList();
 		};
 	}
-
-	/*
-	1000mw = 2.7 billion kg coal/y or 250kg D+T/y (https://www.iter.org/machine/supporting-systems/fuelling)
-	so a factor of 10 million
-	1 unit coal = 8 smelts = 1600 ticks = 40k EU
-	U1000 coal = 40EU
-	U1000 D + U1000 T = 80EU * 10mil = 800mil EU
-	 */
 }
