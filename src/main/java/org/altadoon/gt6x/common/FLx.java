@@ -74,6 +74,6 @@ public class FLx {
 
 		OreDictMaterial mat = MT.N;
 		mat.setRGBaLiquid(255, 255, 255, 200);
-		LiquidNitrogen = create("liquid." + mat.mNameInternal.toLowerCase(), "Liquid " + mat.mNameLocal, mat, STATE_LIQUID, 144, mat.mBoilingPoint);
+		LiquidNitrogen = create("liquid." + mat.mNameInternal.toLowerCase(), "Liquid " + mat.mNameLocal, mat, STATE_LIQUID, 100, mat.mBoilingPoint);
 	}
 }
