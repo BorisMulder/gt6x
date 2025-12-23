@@ -3,6 +3,7 @@ package org.altadoon.gt6x.common;
 import gregapi.data.FL;
 import gregapi.data.FM;
 import gregapi.data.MT;
+import gregapi.data.RM;
 import gregapi.recipes.Recipe.RecipeMap;
 import gregapi.recipes.maps.RecipeMapFuel;
 import net.minecraftforge.fluids.FluidStack;
@@ -110,7 +111,7 @@ public class RMx {
 		BlastFurnace     = new RecipeMap    (null, "gt6x.recipe.blastfurnace"    , "Blast Furnace"           , null, 0, 1, RES_PATH_GUI+"machines/BlastFurnace"    , 6, 3, 1, 3, 3, 0, 1, 1, "", 1, "", false, true, true, true, true, false, true, true);
 		CowperStove      = new RecipeMap    (null, "gt6x.recipe.cowperstove"     , "Hot Blast Preheating"    , null, 0, 1, RES_PATH_GUI+"machines/Default"         , 0, 0, 0, 1, 1, 1, 1, 1, "", 1, "", false, true, true, true, true, false, true, true);
 		DirectReduction  = new RecipeMap    (null, "gt6x.recipe.directreduction" , "Direct Reduction"        , null, 0, 1, RES_PATH_GUI+"machines/DirectReduction" , 6, 3, 1, 3, 3, 1, 1, 1, "", 1, "", false, true, true, true, true, false, true, true);
-		Fusion           = new RecipeMap    (null, "gt6x.recipe.fusion"          , "Fusion Reactor"          , null, 0, 1, RES_PATH_GUI+"machines/FusionX"         , 3, 6, 1, 3, 6, 0, 2, 1, "Start: ", 1, " LU", false, true, true, true, true, true, false, false);
+		Fusion           = new RecipeMap    (null, "gt6x.recipe.fusion"          , "Fusion Reactor"          , null, 0, 1, RES_PATH_GUI+"machines/FusionX"         , 3, 6, 1, 6, 6, 0, 2, 1, "Start: ", 1, " LU", false, true, true, true, true, true, false, false);
 
 		FMx.Diesel       = new RecipeMapFuel(null, "gt6x.recipe.fuels.diesel"    , "Diesel Engine Fuels"       , null, 0, 1, RES_PATH_GUI+"machines/Default"         , 1, 2, 0, 1, 3, 0, 1, 1, "", 1, "", true, true, true, false, true, false, false);
 		FMx.Petrol       = new RecipeMapFuel(null, "gt6x.recipe.fuels.petrol"    , "Petrol Engine Fuels"       , null, 0, 1, RES_PATH_GUI+"machines/Default"         , 1, 2, 0, 1, 3, 0, 1, 1, "", 1, "", true, true, true, false, true, false, false);
@@ -122,5 +123,11 @@ public class RMx {
 		BOF      = new RecipeMapMultiSmelting("gt6x.recipe.bof"        , "Basic Oxygen Steelmaking", 80, 96);
 		SSS      = new RecipeMapMultiSmelting("gt6x.recipe.solidstate" , "Solid State Synthesis"   , 72, 96);
 		Thermite = new RecipeMapMultiSmelting("gt6x.recipe.thermite"   , "Metallothermic Reduction", 24, 1024);
+	}
+
+	public static void clearGt6(RecipeMap rm) {
+		rm.mRecipeList.clear();
+		rm.mRecipeItemMap.clear();
+		rm.mRecipeFluidMap.clear();
 	}
 }

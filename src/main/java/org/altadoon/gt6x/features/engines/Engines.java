@@ -137,9 +137,7 @@ public class Engines extends GT6XFeature {
 
 	private void removeOldEngineRecipes() {
 		// Disable old engine recipes
-		FM.Engine.mRecipeList.clear();
-		FM.Engine.mRecipeItemMap.clear();
-		FM.Engine.mRecipeFluidMap.clear();
+		RMx.clearGt6(FM.Engine);
 
 		// Replace nitro fuel recipe
 		for (Recipe r : RM.Mixer.mRecipeList) {
