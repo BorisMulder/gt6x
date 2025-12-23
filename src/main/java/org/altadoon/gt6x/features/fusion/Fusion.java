@@ -16,6 +16,7 @@ import org.altadoon.gt6x.features.GT6XFeature;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.ListIterator;
 
 import static gregapi.data.CS.*;
 import static gregapi.data.OP.*;
@@ -122,12 +123,11 @@ public class Fusion extends GT6XFeature {
 		addFusionRecipes(   9, MT.He  .gas   (U1000  , true), MT.Ne  .gas   (U1000  , true), FL.array(MT.Mg  .gas   (  U1000, false)                                                                                               ),  932L, true );
 		addFusionRecipes(7*10, MT.He  .gas   (U144   , true), MT.Mg  .liquid(U144   , true), FL.array(MT.Si  .liquid(  U144 , false)                                                                                               ),  998L, true );
 		addFusionRecipes(7* 7, MT.He  .gas   (U144   , true), MT.Si  .liquid(U144   , true), FL.array(MT.S   .liquid(  U144 , false)                                                                                               ),  695L, true );
-		addFusionRecipes(7* 6, MT.He  .gas   (U144   , true), MT.S   .liquid(U144   , true), FL.array(MT.Ar  .gas   (  U144 , false)                                                                                               ),  664L, true );
+		addFusionRecipes(7* 6, MT.He  .gas   (U144   , true), MT.S   .liquid(U144   , true), FL.array(MT.Ar  .gas   (  U144 , false) /* Ar-36 */                                                                                   ),  664L, true );
 		addFusionRecipes(7* 7, MT.He  .gas   (U144   , true), MT.Ar  .gas   (U144   , true), FL.array(MT.Ca  .liquid(  U144 , false)                                                                                               ),  704L, true );
-		addFusionRecipes(7* 5, MT.He  .gas   (U144   , true), MT.Ca  .liquid(U144   , true), FL.array(MT.Ti  .liquid(  U144 , false)                                                                                               ),  513L, true );
-		addFusionRecipes(7* 8, MT.He  .gas   (U144   , true), MT.Ti  .liquid(U144   , true), FL.array(MT.Cr  .liquid(  U144 , false)                                                                                               ),  770L, true );
-		addFusionRecipes(7* 8, MT.He  .gas   (U144   , true), MT.Cr  .liquid(U144   , true), FL.array(MT.Fe  .liquid(  U144 , false)                                                                                               ),  794L, true );
-		addFusionRecipes(7* 8, MT.He  .gas   (U144   , true), MT.Fe  .liquid(U144   , true), FL.array(MT.Ni  .liquid(  U144 , false)                                                                                               ),  800L, true );
+		addFusionRecipes(7*13, MT.He  .gas   (U144 *2, true), MT.Ca  .liquid(U144   , true), FL.array(MT.Ti  .liquid(  U144 , false) /* Ti-44 -> Sc-44 -> Ca-44 + He-4 -> Cr-48 -> V-48 -> Ti-48 */                                ),  513L, true );
+		addFusionRecipes(7* 8, MT.He  .gas   (U144   , true), MT.Ti  .liquid(U144   , true), FL.array(MT.Cr  .liquid(  U144 , false) /* Fe-52 -> Mn-52 -> Cr-52 */                                                                 ),  770L, true );
+		addFusionRecipes(7* 8, MT.He  .gas   (U144   , true), MT.Cr  .liquid(U144   , true), FL.array(MT.Fe  .liquid(  U144 , false) /* Ni-56 -> Co-56 -> Fe-56 */                                                                 ),  794L, true );
 
 		// Burning carbon, oxygen
 		addFusionRecipes(7* 4, MT.C   .gas   (U24    , true), null                         , FL.array(MT.Na  .liquid(  U144 , false), MT.Ne.gas(U144, false), MT.Mg.gas   (U144, false), MT.He.gas(  U144, false)                  ),  685L, true );
@@ -155,23 +155,27 @@ public class Fusion extends GT6XFeature {
 	private void addFusionRecipe(long duration, FluidStack coolant, FluidStack heatant, FluidStack input1, FluidStack input2, FluidStack[] outputs, long LUInputMultiplier, ItemStack... outputItems) {
 		if (input1 == null) throw new IllegalArgumentException("No input fuel for fusion recipe");
 
-		ArrayList<FluidStack> inputList = new ArrayList<>(Arrays.asList(input1));
+		ArrayList<FluidStack> inputList = new ArrayList<>();
+		inputList.add(input1);
 		if (input2 != null) inputList.add(input2);
 		inputList.add(MT.N.liquid(U100*duration, true));
 
 		boolean coolantIsReagent = false;
-		for (FluidStack reagent : inputList) {
+		for (ListIterator<FluidStack> i = inputList.listIterator(); i.hasNext();) {
+			FluidStack reagent = i.next();
 			if (reagent.isFluidEqual(coolant)) {
 				coolantIsReagent = true;
-				reagent.amount += coolant.amount;
+				coolant.amount += reagent.amount;
+				i.remove();
 				break;
 			}
 		}
-		if (!coolantIsReagent) inputList.add(coolant);
+		inputList.add(coolant);
 
-		ArrayList<FluidStack> outputList = new ArrayList<>(Arrays.asList(outputs));
-		outputList.add(MT.N.gas(U100*duration, true));
+		ArrayList<FluidStack> outputList = new ArrayList<>();
 		outputList.add(heatant);
+		outputList.add(MT.N.gas(U100*duration, true));
+		outputList.addAll(Arrays.asList(outputs));
 
 		RMx.Fusion.addRecipe1(true, 8192, duration, ST.tag(inputList.size() + (coolantIsReagent ? 4 : 0)), inputList.toArray(ZL_FS), outputList.toArray(ZL_FS), outputItems)
 			.setSpecialNumber(LUInputMultiplier);
