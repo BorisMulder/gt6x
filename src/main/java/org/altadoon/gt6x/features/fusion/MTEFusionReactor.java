@@ -115,10 +115,9 @@ public class MTEFusionReactor extends MultiTileEntityFusionReactor {
 				i.set(LH.Chat.WHITE + LH.get("gt6x.tooltip.multiblock.fusionreactor.5"));
 			} else if (tooltip.equals(LH.Chat.WHITE + LH.get("gt.tooltip.multiblock.fusionreactor.7"))) {
 				i.set(LH.Chat.WHITE + LH.get("gt6x.tooltip.multiblock.fusionreactor.7"));
+				i.add(LH.Chat.WHITE + LH.get("gt6x.tooltip.multiblock.fusionreactor.8"));
 			}
 		}
-
-		list.add(LH.Chat.WHITE + LH.get("gt6x.tooltip.multiblock.fusionreactor.8"));
 	}
 	
 	@Override public String getTileEntityName() {return "gt6x.multitileentity.multiblock.fusionreactor";}
