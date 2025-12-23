@@ -2,15 +2,20 @@ package org.altadoon.gt6x.features.fusion;
 
 import gregapi.data.*;
 import gregapi.oredict.OreDictMaterial;
+import gregapi.recipes.Recipe;
 import gregapi.tileentity.multiblocks.MultiTileEntityMultiBlockPart;
 import gregapi.util.CR;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
 import org.altadoon.gt6x.common.*;
 import org.altadoon.gt6x.common.items.ILx;
 import org.altadoon.gt6x.features.GT6XFeature;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static gregapi.data.CS.*;
 import static gregapi.data.OP.*;
@@ -94,47 +99,86 @@ public class Fusion extends GT6XFeature {
 		*/
 
 		// Terrestrial fusion candidates
-		RMx.Fusion.addRecipe1(false, 8192, 2* 7, ST.tag(1), FL.array(MT.N.liquid(U100* 14, true), MT.D   .gas   (U1000*4, true)                               ), FL.array(MT.N.gas(U100* 14, true), MT.He_3.gas   (  U1000, false), MT.T     .gas(  U1000, false), MT.H.gas(  U1000, false)                                       ), ZL_IS).setSpecialNumber(  730L*8192L*16L);
-		RMx.Fusion.addRecipe1(false, 8192,   11, ST.tag(1), FL.array(MT.N.liquid(U100* 11, true), MT.T   .gas   (U1000*2, true)                               ), FL.array(MT.N.gas(U100* 11, true), MT.He  .gas   (  U1000, false)                                                                                                ), ZL_IS).setSpecialNumber( 1130L*8192L*16L);
-		RMx.Fusion.addRecipe1(false, 8192,   13, ST.tag(1), FL.array(MT.N.liquid(U100* 13, true), MT.He_3.gas   (U1000*2, true)                               ), FL.array(MT.N.gas(U100* 13, true), MT.He  .gas   (  U1000, false), MT.H     .gas(2*U1000, false)                                                                 ), ZL_IS).setSpecialNumber( 1290L*8192L*16L);
-		RMx.Fusion.addRecipe1(false, 8192,   72, ST.tag(2), FL.array(MT.N.liquid(U100* 72, true), MT.H   .gas   (U144   , true), MT.Li_6.liquid(U144   , true)), FL.array(MT.N.gas(U100* 72, true), MT.Be_7.liquid(  U144 , false)                                                                                                ), ZL_IS).setSpecialNumber( 1000L*8192L*16L);
-		RMx.Fusion.addRecipe1(false, 8192,   50, ST.tag(2), FL.array(MT.N.liquid(U100* 50, true), MT.H   .gas   (U144   , true), MT.Li  .liquid(U144   , true)), FL.array(MT.N.gas(U100* 50, true), MT.He  .gas   (2*U144 , false)                                                                                                ), ZL_IS).setSpecialNumber(  800L*8192L*16L);
-		RMx.Fusion.addRecipe1(false, 8192,   80, ST.tag(2), FL.array(MT.N.liquid(U100* 80, true), MT.H   .gas   (U144   , true), MT.B_11.liquid(U144   , true)), FL.array(MT.N.gas(U100* 80, true), MT.He  .gas   (3*U144 , false)                                                                                                ), ZL_IS).setSpecialNumber( 8469L*8192L*16L);
-		RMx.Fusion.addRecipe1(false, 8192,    3, ST.tag(2), FL.array(MT.N.liquid(U100*  3, true), MT.H   .gas   (U1000  , true), MT.C   .gas   (U1000  , true)), FL.array(MT.N.gas(U100*  3, true), MT.C_13.gas   (  U1000, false)                                                                                                ), ZL_IS).setSpecialNumber(  315L*8192L*16L);
-		RMx.Fusion.addRecipe1(false, 8192,   14, ST.tag(2), FL.array(MT.N.liquid(U100* 14, true), MT.H   .gas   (U1000*2, true), MT.N   .gas   (U1000  , true)), FL.array(MT.N.gas(U100* 14, true), MT.He  .gas   (  U1000, false), MT.C     .gas(  U1000, false)                                                                 ), ZL_IS).setSpecialNumber( 1404L*8192L*16L);
-		RMx.Fusion.addRecipe1(false, 8192,    4, ST.tag(2), FL.array(MT.N.liquid(U100*  4, true), MT.H   .gas   (U1000*2, true), MT.O   .gas   (U1000  , true)), FL.array(MT.N.gas(U100*  4, true), MT.He  .gas   (  U1000, false), MT.N     .gas(  U1000, false)                                                                 ), ZL_IS).setSpecialNumber(  455L*8192L*16L);
-		RMx.Fusion.addRecipe1(false, 8192,   40, ST.tag(2), FL.array(MT.N.liquid(U100* 40, true), MT.D   .gas   (U1000  , true), MT.T   .gas   (U1000  , true)), FL.array(MT.N.gas(U100* 40, true), MT.He  .gas   (  U1000, false)                                                                                                ), ZL_IS).setSpecialNumber( 1760L*8192L*16L);
-		RMx.Fusion.addRecipe1(false, 8192,   40, ST.tag(2), FL.array(MT.N.liquid(U100* 40, true), MT.D   .gas   (U1000  , true), MT.He_3.gas   (U1000  , true)), FL.array(MT.N.gas(U100* 40, true), MT.He  .gas   (  U1000, false), MT.H     .gas(  U1000 , false)                                                                ), ZL_IS).setSpecialNumber( 1830L*8192L*16L);
-		RMx.Fusion.addRecipe1(false, 8192, 4*26, ST.tag(2), FL.array(MT.N.liquid(U100*104, true), MT.T   .gas   (U1000*4, true), MT.He_3.gas   (U1000*4, true)), FL.array(MT.N.gas(U100*104, true), MT.He  .gas   (3*U1000, false), MT.D     .gas(  U1000, false)                                                                 ), ZL_IS).setSpecialNumber( 2640L*8192L*16L);
-		RMx.Fusion.addRecipe1(false, 8192,  180, ST.tag(2), FL.array(MT.N.liquid(U100*180, true), MT.D   .gas   (U144 *8, true), MT.Li_6.liquid(U144 *8, true)), FL.array(MT.N.gas(U100*180, true), MT.He  .gas   (3*U144 , false), MT.He_3  .gas(  U144 , false), MT.Li  .liquid(  U144 , false), MT.Be_7.liquid(  U144 , false) ), ZL_IS).setSpecialNumber( 3336L*8192L*16L);
-		RMx.Fusion.addRecipe1(false, 8192,  160, ST.tag(2), FL.array(MT.N.liquid(U100*160, true), MT.He_3.gas   (U144   , true), MT.Li_6.liquid(U144   , true)), FL.array(MT.N.gas(U100*160, true), MT.He  .gas   (2*U144 , false), MT.H     .gas(  U144 , false)                                                                 ), ZL_IS).setSpecialNumber( 1690L*8192L*16L);
+		addFusionRecipes(  14, MT.D   .gas   (U1000*4, true), null                         , FL.array(MT.He_3.gas   (  U1000, false), MT.T     .gas(  U1000, false), MT.H.gas(  U1000, false)                                      ), 730L, false);
+		addFusionRecipes(  13, MT.He_3.gas   (U1000*2, true), null                         , FL.array(MT.He  .gas   (  U1000, false), MT.H     .gas(2*U1000, false)                                                                ), 1290L, false);
+		addFusionRecipes(  72, MT.H   .gas   (U144   , true), MT.Li_6.liquid(U144   , true), FL.array(MT.Be_7.liquid(  U144 , false)                                                                                               ), 1000L, false);
+		addFusionRecipes(  50, MT.H   .gas   (U144   , true), MT.Li  .liquid(U144   , true), FL.array(MT.He  .gas   (2*U144 , false)                                                                                               ),  800L, false);
+		addFusionRecipes(  80, MT.H   .gas   (U144   , true), MT.B_11.liquid(U144   , true), FL.array(MT.He  .gas   (3*U144 , false)                                                                                               ), 8469L, false);
+		addFusionRecipes(   3, MT.H   .gas   (U1000  , true), MT.C   .gas   (U1000  , true), FL.array(MT.C_13.gas   (  U1000, false)                                                                                               ),  315L, false);
+		addFusionRecipes(  14, MT.H   .gas   (U1000*2, true), MT.N   .gas   (U1000  , true), FL.array(MT.He  .gas   (  U1000, false), MT.C     .gas(  U1000, false)                                                                ), 1404L, false);
+		addFusionRecipes(   4, MT.H   .gas   (U1000*2, true), MT.O   .gas   (U1000  , true), FL.array(MT.He  .gas   (  U1000, false), MT.N     .gas(  U1000, false)                                                                ),  455L, false);
+		addFusionRecipes(  40, MT.D   .gas   (U1000  , true), MT.T   .gas   (U1000  , true), FL.array(MT.He  .gas   (  U1000, false)                                                                                               ), 1760L, false);
+		addFusionRecipes(  40, MT.D   .gas   (U1000  , true), MT.He_3.gas   (U1000  , true), FL.array(MT.He  .gas   (  U1000, false), MT.H     .gas(  U1000, false)                                                                ), 1830L, false);
+		addFusionRecipes(4*26, MT.T   .gas   (U1000*4, true), MT.He_3.gas   (U1000*4, true), FL.array(MT.He  .gas   (3*U1000, false), MT.D     .gas(  U1000, false)                                                                ), 2640L, false);
+		addFusionRecipes( 180, MT.D   .gas   (U144 *8, true), MT.Li_6.liquid(U144 *8, true), FL.array(MT.He  .gas   (3*U144 , false), MT.He_3  .gas(  U144 , false), MT.Li  .liquid(  U144 , false), MT.Be_7.liquid(  U144 , false)), 3336L, false);
+		addFusionRecipes( 160, MT.He_3.gas   (U144   , true), MT.Li_6.liquid(U144   , true), FL.array(MT.He  .gas   (2*U144 , false), MT.H     .gas(  U144 , false)                                                                ), 1690L, false);
 
 		// Triple-alpha
-		RMx.Fusion.addRecipe1(false, 8192,    7, ST.tag(1), FL.array(MT.N.liquid(U100*  7, true), MT.He  .gas   (U1000*3, true)                               ), FL.array(MT.C   .gas   (  U1000, false)                                                                                                ), ZL_IS).setSpecialNumber(736L*8192L*16L);
+		addFusionRecipes(   7, MT.He  .gas   (U1000*3, true), null                         , FL.array(MT.C   .gas   (  U1000, false)                                                                                               ),  736L, true );
 
 		// alpha capture process
-		RMx.Fusion.addRecipe1(false, 8192,    7, ST.tag(2), FL.array(MT.N.liquid(U100*   7, true), MT.He  .gas   (U1000  , true), MT.C   .gas   (U1000  , true)), FL.array(MT.N.gas(U100*  7, true), MT.O   .gas   (  U1000, false)                                                                                                ), ZL_IS).setSpecialNumber(  716L*8192L*16L);
-		RMx.Fusion.addRecipe1(false, 8192,    5, ST.tag(2), FL.array(MT.N.liquid(U100*   5, true), MT.He  .gas   (U1000  , true), MT.O   .gas   (U1000  , true)), FL.array(MT.N.gas(U100*  5, true), MT.Ne  .gas   (  U1000, false)                                                                                                ), ZL_IS).setSpecialNumber(  473L*8192L*16L);
-		RMx.Fusion.addRecipe1(false, 8192,    9, ST.tag(2), FL.array(MT.N.liquid(U100*   9, true), MT.He  .gas   (U1000  , true), MT.Ne  .gas   (U1000  , true)), FL.array(MT.N.gas(U100*  9, true), MT.Mg  .gas   (  U1000, false)                                                                                                ), ZL_IS).setSpecialNumber(  932L*8192L*16L);
-		RMx.Fusion.addRecipe1(false, 8192, 1250, ST.tag(2), FL.array(MT.N.liquid(U8  *1000, true), MT.He  .gas   (U8     , true), MT.Mg  .liquid(U8     , true)), FL.array(MT.N.gas(U8  *1000, true), MT.Si  .liquid(  U8   , false)                                                                                                ), ZL_IS).setSpecialNumber(  998L*8192L*16L);
-		RMx.Fusion.addRecipe1(false, 8192,  875, ST.tag(2), FL.array(MT.N.liquid(U8  * 700, true), MT.He  .gas   (U8     , true), MT.Si  .liquid(U8     , true)), FL.array(MT.N.gas(U8  * 700, true), MT.S   .liquid(  U8   , false)                                                                                                ), ZL_IS).setSpecialNumber(  695L*8192L*16L);
-		RMx.Fusion.addRecipe1(false, 8192,  875, ST.tag(2), FL.array(MT.N.liquid(U8  * 700, true), MT.He  .gas   (U8     , true), MT.S   .liquid(U8     , true)), FL.array(MT.N.gas(U8  * 700, true), MT.Ar  .gas   (  U8   , false)                                                                                                ), ZL_IS).setSpecialNumber(  664L*8192L*16L);
-		RMx.Fusion.addRecipe1(false, 8192,  875, ST.tag(2), FL.array(MT.N.liquid(U8  * 700, true), MT.He  .gas   (U8     , true), MT.Ar  .gas   (U8     , true)), FL.array(MT.N.gas(U8  * 700, true), MT.Ca  .liquid(  U8   , false)                                                                                                ), ZL_IS).setSpecialNumber(  704L*8192L*16L);
-		RMx.Fusion.addRecipe1(false, 8192,  625, ST.tag(2), FL.array(MT.N.liquid(U8  * 500, true), MT.He  .gas   (U8     , true), MT.Ca  .liquid(U8     , true)), FL.array(MT.N.gas(U8  * 500, true), MT.Ti  .liquid(  U8   , false)                                                                                                ), ZL_IS).setSpecialNumber(  513L*8192L*16L);
-		RMx.Fusion.addRecipe1(false, 8192, 1000, ST.tag(2), FL.array(MT.N.liquid(U   *  10, true), MT.He  .gas   (U8     , true), MT.Ti  .liquid(U8     , true)), FL.array(MT.N.gas(U   *  10, true), MT.Cr  .liquid(  U8   , false)                                                                                                ), ZL_IS).setSpecialNumber(  770L*8192L*16L);
-		RMx.Fusion.addRecipe1(false, 8192, 1000, ST.tag(2), FL.array(MT.N.liquid(U   *  10, true), MT.He  .gas   (U8     , true), MT.Cr  .liquid(U8     , true)), FL.array(MT.N.gas(U   *  10, true), MT.Fe  .liquid(  U8   , false)                                                                                                ), ZL_IS).setSpecialNumber(  794L*8192L*16L);
-		RMx.Fusion.addRecipe1(false, 8192, 1000, ST.tag(2), FL.array(MT.N.liquid(U   *  10, true), MT.He  .gas   (U8     , true), MT.Fe  .liquid(U8     , true)), FL.array(MT.N.gas(U   *  10, true), MT.Ni  .liquid(  U8   , false)                                                                                                ), ZL_IS).setSpecialNumber(  800L*8192L*16L);
+		addFusionRecipes(   7, MT.He  .gas   (U1000  , true), MT.C   .gas   (U1000  , true), FL.array(MT.O   .gas   (  U1000, false)                                                                                               ),  716L, true );
+		addFusionRecipes(   5, MT.He  .gas   (U1000  , true), MT.O   .gas   (U1000  , true), FL.array(MT.Ne  .gas   (  U1000, false)                                                                                               ),  473L, true );
+		addFusionRecipes(   9, MT.He  .gas   (U1000  , true), MT.Ne  .gas   (U1000  , true), FL.array(MT.Mg  .gas   (  U1000, false)                                                                                               ),  932L, true );
+		addFusionRecipes(7*10, MT.He  .gas   (U144   , true), MT.Mg  .liquid(U144   , true), FL.array(MT.Si  .liquid(  U144 , false)                                                                                               ),  998L, true );
+		addFusionRecipes(7* 7, MT.He  .gas   (U144   , true), MT.Si  .liquid(U144   , true), FL.array(MT.S   .liquid(  U144 , false)                                                                                               ),  695L, true );
+		addFusionRecipes(7* 6, MT.He  .gas   (U144   , true), MT.S   .liquid(U144   , true), FL.array(MT.Ar  .gas   (  U144 , false)                                                                                               ),  664L, true );
+		addFusionRecipes(7* 7, MT.He  .gas   (U144   , true), MT.Ar  .gas   (U144   , true), FL.array(MT.Ca  .liquid(  U144 , false)                                                                                               ),  704L, true );
+		addFusionRecipes(7* 5, MT.He  .gas   (U144   , true), MT.Ca  .liquid(U144   , true), FL.array(MT.Ti  .liquid(  U144 , false)                                                                                               ),  513L, true );
+		addFusionRecipes(7* 8, MT.He  .gas   (U144   , true), MT.Ti  .liquid(U144   , true), FL.array(MT.Cr  .liquid(  U144 , false)                                                                                               ),  770L, true );
+		addFusionRecipes(7* 8, MT.He  .gas   (U144   , true), MT.Cr  .liquid(U144   , true), FL.array(MT.Fe  .liquid(  U144 , false)                                                                                               ),  794L, true );
+		addFusionRecipes(7* 8, MT.He  .gas   (U144   , true), MT.Fe  .liquid(U144   , true), FL.array(MT.Ni  .liquid(  U144 , false)                                                                                               ),  800L, true );
 
 		// Burning carbon, oxygen
-		RMx.Fusion.addRecipe1(false, 8192, 3500, ST.tag(1), FL.array(MT.N.liquid(U2  *  70, true), MT.C   .gas   (U      , true)), FL.array(MT.N.gas(U2  *  70, true), MT.Na.liquid(U8, false), MT.Ne.gas(U8, false), MT.Mg.gas(U8, false), MT.O.gas   (U8, false), MT.He.gas(3*U8, false)), ZL_IS).setSpecialNumber(  685L*8192L*16L);
-		RMx.Fusion.addRecipe1(false, 8192, 4000, ST.tag(1), FL.array(MT.N.liquid(U   *  40, true), MT.O   .gas   (U      , true)), FL.array(MT.N.gas(U2  *  70, true), MT.Si.liquid(U8, false), MT.P .gas(U8, false), MT.Mg.gas(U8, false), MT.S.liquid(U8, false), MT.He.gas(3*U8, false)), ZL_IS).setSpecialNumber(  807L*8192L*16L);
+		addFusionRecipes(7* 4, MT.C   .gas   (U24    , true), null                         , FL.array(MT.Na  .liquid(  U144 , false), MT.Ne.gas(U144, false), MT.Mg.gas   (U144, false), MT.He.gas(  U144, false)                  ),  685L, true );
+		addFusionRecipes(7*16, MT.O   .gas   (U18    , true), null                         , FL.array(MT.Si  .liquid(  U144 , false), MT.P .gas(U144, false), MT.S .liquid(U144, false), MT.H .gas(3*U144, false)                  ),  807L, true );
 
 		// Vibranium
-		RMx.Fusion.addRecipe1(false, 8192, 2000, ST.tag(2), FL.array(MT.N.liquid(U    * 20, true), MT.Ad  .liquid(U      , true), MT.Be_7.liquid(U      , true)), FL.array(MT.W   .liquid(U, false), MT.He.gas(16*U, false), MT.He_3.gas(24*U, false), MT.T.gas(24*U, false)), dust.mat(MT.Vb, 1)).setSpecialNumber(94956L*8192L*16L);
+		addFusionRecipes(  28, MT.Ad  .liquid(U72    , true), MT.Be_7.liquid(U72    , true), FL.array(MT.W   .liquid(  U72  , false), MT.He.gas(16*U72, false), MT.He_3.gas(24*U72, false), MT.T.gas(24*U72, false)                ), 94956L, true , dustDiv72.mat(MT.Vb, 1));
+	}
+
+	private void addFusionRecipes(long duration, FluidStack input1, FluidStack input2, FluidStack[] outputs, long LUInputMultiplier, boolean lowOutput, ItemStack... outputItems) {
+		long totalEnergy = lowOutput ? duration * 8192 * 2 : duration * 196608;
+
+		addFusionRecipe(duration, FL.DistW.make(                      totalEnergy / EU_PER_WATER           ), FL.Steam               .make(totalEnergy * STEAM_PER_EU           ), input1, input2, outputs, LUInputMultiplier, outputItems);
+		addFusionRecipe(duration, FL.Coolant_IC2.make(                totalEnergy / EU_PER_COOLANT         ), FL.Coolant_IC2_Hot     .make(totalEnergy / EU_PER_COOLANT         ), input1, input2, outputs, LUInputMultiplier, outputItems);
+		addFusionRecipe(duration, FL.make(MT.HDO .mLiquid.getFluid(), totalEnergy / EU_PER_SEMI_HEAVY_WATER), FL.Hot_Semi_Heavy_Water.make(totalEnergy / EU_PER_SEMI_HEAVY_WATER), input1, input2, outputs, LUInputMultiplier, outputItems);
+		addFusionRecipe(duration, FL.make(MT.D2O .mLiquid.getFluid(), totalEnergy / EU_PER_HEAVY_WATER     ), FL.Hot_Heavy_Water     .make(totalEnergy / EU_PER_HEAVY_WATER     ), input1, input2, outputs, LUInputMultiplier, outputItems);
+		addFusionRecipe(duration, FL.make(MT.T2O .mLiquid.getFluid(), totalEnergy / EU_PER_TRITIATED_WATER ), FL.Hot_Tritiated_Water .make(totalEnergy / EU_PER_TRITIATED_WATER ), input1, input2, outputs, LUInputMultiplier, outputItems);
+		addFusionRecipe(duration, FL.make(MT.Na  .mLiquid.getFluid(), totalEnergy / EU_PER_SODIUM          ), FL.Hot_Molten_Sodium   .make(totalEnergy / EU_PER_SODIUM          ), input1, input2, outputs, LUInputMultiplier, outputItems);
+		addFusionRecipe(duration, FL.make(MT.Sn  .mLiquid.getFluid(), totalEnergy / EU_PER_TIN             ), FL.Hot_Molten_Tin      .make(totalEnergy / EU_PER_TIN             ), input1, input2, outputs, LUInputMultiplier, outputItems);
+		addFusionRecipe(duration, FL.make(MT.CO2 .mGas   .getFluid(), totalEnergy / EU_PER_CO2             ), FL.Hot_Carbon_Dioxide  .make(totalEnergy / EU_PER_SODIUM          ), input1, input2, outputs, LUInputMultiplier, outputItems);
+		addFusionRecipe(duration, FL.make(MT.He  .mGas   .getFluid(), totalEnergy / EU_PER_HELIUM          ), FL.Hot_Helium          .make(totalEnergy / EU_PER_HELIUM          ), input1, input2, outputs, LUInputMultiplier, outputItems);
+		addFusionRecipe(duration, FL.make(MT.LiCl.mLiquid.getFluid(), totalEnergy / EU_PER_LICL            ), FL.Hot_Molten_LiCl     .make(totalEnergy / EU_PER_LICL            ), input1, input2, outputs, LUInputMultiplier, outputItems);
+	}
+
+	private void addFusionRecipe(long duration, FluidStack coolant, FluidStack heatant, FluidStack input1, FluidStack input2, FluidStack[] outputs, long LUInputMultiplier, ItemStack... outputItems) {
+		if (input1 == null) throw new IllegalArgumentException("No input fuel for fusion recipe");
+
+		ArrayList<FluidStack> inputList = new ArrayList<>(Arrays.asList(input1));
+		if (input2 != null) inputList.add(input2);
+		inputList.add(MT.N.liquid(U100*duration, true));
+
+		boolean coolantIsReagent = false;
+		for (FluidStack reagent : inputList) {
+			if (reagent.isFluidEqual(coolant)) {
+				coolantIsReagent = true;
+				reagent.amount += coolant.amount;
+				break;
+			}
+		}
+		if (!coolantIsReagent) inputList.add(coolant);
+
+		ArrayList<FluidStack> outputList = new ArrayList<>(Arrays.asList(outputs));
+		outputList.add(MT.N.gas(U100*duration, true));
+		outputList.add(heatant);
+
+		RMx.Fusion.addRecipe1(true, 8192, duration, ST.tag(inputList.size() + (coolantIsReagent ? 4 : 0)), inputList.toArray(ZL_FS), outputList.toArray(ZL_FS), outputItems)
+			.setSpecialNumber(LUInputMultiplier);
 	}
 
 	private void removeGt6Fusion() {
-		RM.Fusion.mRecipeList.clear();
+		RMx.clearGt6(RM.Fusion);
 		RM.Fusion.mRecipeItemMap.clear();
 		RM.Fusion.mRecipeFluidMap.clear();
 		ItemStack fusionReactor = MTEx.gt6MTEReg.getItem(17198);
