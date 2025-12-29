@@ -659,7 +659,8 @@ public class Metallurgy extends GT6XFeature {
 		RMx.Thermite.addRecipe(0, 4, OMx.stacks(MT.Ca, 4*U, MT.OREMATS.Magnetite, 7*U), 600, OM.stack(MT.Fe, 3*U), OM.stack(MTx.CaO, 8*U));
 		RMx.Thermite.addRecipe(0, 2, OMx.stacks(MT.Ca, U  , MTx.FeO  , 2*U), 600, OM.stack(MT.Fe,   U), OM.stack(MTx.CaO, 2 *U));
 		RMx.Thermite.addRecipe(0, 4, OMx.stacks(MT.Ca, 4*U, MTx.Co3O4, 7*U), 600, OM.stack(MT.Co, 3*U), OM.stack(MTx.CaO, 8 *U));
-		RMx.Thermite.addRecipe(0, 3, OMx.stacks(MT.Ca, 3*U, MTx.ScF3 , 8*U), 600, OM.stack(MT.Sc, 2*U), OM.stack(MT.CaF2     , 9 *U));
+		RMx.Thermite.addRecipe(0, 3, OMx.stacks(MT.Ca, 3*U, MTx.ScF3 , 8*U), 600, OM.stack(MT.Sc, 2*U), OM.stack(MT.CaF2, 9 *U));
+		RMx.Thermite.addRecipe(0, 4, OMx.stacks(MT.Ca, 4*U, MT.Adamantine, 7*U), 600, OM.stack(MT.Ad, 3*U), OM.stack(MTx.CaO, 8*U));
 
 		// (Acidic/simple) Bessemer Process
 		RMx.Bessemer.addRecipe(0, 1, OMx.stacks(OM.stack(MT .PigIron          , 4*U), OM.stack(MT.Air, 2*U)), MT .PigIron          .mMeltingPoint, OM.stack(MT.Steel        , 3*U));

@@ -74,6 +74,7 @@ public class Engines extends GT6XFeature {
 	@Override
 	public void beforeGt6PostInit() {
 		addFuels();
+		overrideMiscRecipes();
 	}
 
 	@Override
@@ -205,6 +206,10 @@ public class Engines extends GT6XFeature {
 		for (FL oil : FLx.BIO_OILS) if (oil.exists()) {
 			FMx.burn(32, 10, oil.make(1), 10, 1);
 		}
+	}
+
+	private void overrideMiscRecipes() {
+		RM.generify(FL.Steam_IC2_Superheated.make(1), FL.make(FLx.HPSteam, 1));
 	}
 
 	private void addRecipes() {

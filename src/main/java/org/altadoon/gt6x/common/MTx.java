@@ -1872,7 +1872,17 @@ public class MTx {
 	BoronizedW = dustdcmp(16550, "Boronized Tungsten", SET_METALLIC, 80, 80, 80, 255)
 			.setMcfg(0, MT.W, U)
 			.heat(MT.W)
-			.setAllToTheOutputOf(MT.W)
+			.setAllToTheOutputOf(MT.W),
+	HPSteam = create(16551, "High-pressure Steam")
+			.setMcfg(0, MT.H2O, U)
+			.tooltip("H" + NUM_SUB[2] + "O")
+			.setDensity(0.777) // @25MPa, 280°C
+			.heat(271, 647), // boiling point means critical point here
+	SCSteam = create(16552, "Supercritical Steam")
+			.setMcfg(0, MT.H2O, U)
+			.tooltip("H" + NUM_SUB[2] + "O")
+			.setDensity(0.09) // @25MPa, 500°C
+			.heat(HPSteam)
 	;
 
 	@SuppressWarnings("unused")
