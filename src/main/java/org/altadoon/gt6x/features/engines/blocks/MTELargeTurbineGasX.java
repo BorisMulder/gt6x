@@ -20,7 +20,7 @@ import java.util.ListIterator;
 import static gregapi.data.CS.*;
 import static org.altadoon.gt6x.common.MTEx.NBT_MTE_MULTIBLOCK_PART_REG;
 
-public class MultiTileEntityLargeTurbineGasX extends MultiTileEntityLargeTurbineGas {
+public class MTELargeTurbineGasX extends MultiTileEntityLargeTurbineGas {
 	@Override public String getTileEntityName() {return "gt6x.multitileentity.multiblock.turbine.gas";}
 
 	protected         Sound START_SOUND   = new         Sound(Gt6xMod.MOD_ID.toLowerCase() + ":" + "machines.gasturbine_starting", 300);

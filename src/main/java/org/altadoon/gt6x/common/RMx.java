@@ -1,9 +1,7 @@
 package org.altadoon.gt6x.common;
 
-import gregapi.data.FL;
-import gregapi.data.FM;
-import gregapi.data.MT;
-import gregapi.data.RM;
+import gregapi.code.TagData;
+import gregapi.data.*;
 import gregapi.recipes.Recipe.RecipeMap;
 import gregapi.recipes.maps.RecipeMapFuel;
 import net.minecraftforge.fluids.FluidStack;
@@ -19,6 +17,7 @@ import static gregapi.data.CS.*;
 /** Common recipe maps */
 public class RMx {
 	public static RecipeMap BlastFurnace = null;
+	public static RecipeMap CentrifugalPump = null;
 	public static RecipeMap CowperStove = null;
 	public static RecipeMap DirectReduction = null;
 	public static RecipeMap Fusion = null;
@@ -39,6 +38,8 @@ public class RMx {
 
 	public static final FluidStack[] CuttingFluids = { FL.Water.make(1000), FL.SpDew.make(1000), FL.DistW.make(1000), FL.Lubricant.make(1000), FL.LubRoCant.make(1000) };
 	public static final long[] CuttingMultiplier = {4, 4, 3, 1, 1};
+
+	public static final TagData STEAM_SC = TagData.createTagData("ENERGY.SCSTEAM", "SC Steam", "Supercritical Steam", LH.Chat.GRAY);
 
 	public static class FMx {
 		public static RecipeMapFuel Diesel = null;
@@ -111,6 +112,7 @@ public class RMx {
 		BlastFurnace     = new RecipeMap    (null, "gt6x.recipe.blastfurnace"    , "Blast Furnace"           , null, 0, 1, RES_PATH_GUI+"machines/BlastFurnace"    , 6, 3, 1, 3, 3, 0, 1, 1, "", 1, "", false, true, true, true, true, false, true, true);
 		CowperStove      = new RecipeMap    (null, "gt6x.recipe.cowperstove"     , "Hot Blast Preheating"    , null, 0, 1, RES_PATH_GUI+"machines/Default"         , 0, 0, 0, 1, 1, 1, 1, 1, "", 1, "", false, true, true, true, true, false, true, true);
 		DirectReduction  = new RecipeMap    (null, "gt6x.recipe.directreduction" , "Direct Reduction"        , null, 0, 1, RES_PATH_GUI+"machines/DirectReduction" , 6, 3, 1, 3, 3, 1, 1, 1, "", 1, "", false, true, true, true, true, false, true, true);
+		CentrifugalPump  = new RecipeMap    (null, "gt6x.recipe.centpump"        , "Centrifugal Pump"        , null, 0, 1, RES_PATH_GUI+"machines/CentPump"        , 0, 0, 0, 1, 1, 1, 1, 1, "", 1, "", false, true, true, true, true, false, true, true);
 		Fusion           = new RecipeMap    (null, "gt6x.recipe.fusion"          , "Fusion Reactor"          , null, 0, 1, RES_PATH_GUI+"machines/FusionX"         , 3, 6, 1, 6, 6, 0, 2, 1, "Start: ", 1, " LU", false, true, true, true, true, true, false, false);
 
 		FMx.Diesel       = new RecipeMapFuel(null, "gt6x.recipe.fuels.diesel"    , "Diesel Engine Fuels"       , null, 0, 1, RES_PATH_GUI+"machines/Default"         , 1, 2, 0, 1, 3, 0, 1, 1, "", 1, "", true, true, true, false, true, false, false);
