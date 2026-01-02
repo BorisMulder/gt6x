@@ -74,7 +74,6 @@ public class Engines extends GT6XFeature {
 	@Override
 	public void beforeGt6PostInit() {
 		addFuels();
-		overrideMiscRecipes();
 	}
 
 	@Override
@@ -208,10 +207,6 @@ public class Engines extends GT6XFeature {
 		}
 	}
 
-	private void overrideMiscRecipes() {
-		RM.generify(FL.Steam_IC2_Superheated.make(1), FL.make(FLx.HPSteam, 1));
-	}
-
 	private void addRecipes() {
 		List<OreDictMaterial> allEngineMats = new ArrayList<>(Arrays.asList(ENGINE_MATERIALS));
 		allEngineMats.add(MTx.A6061);
@@ -261,6 +256,9 @@ public class Engines extends GT6XFeature {
 			RM.Mixer.addRecipe1(true, 16, 150, dust.mat(MT.NaOH, 0), FL.array(oil.make(200), MTx.Methanol.liquid(30*U1000, true)), FL.array(FL.BioFuel.make(200), MT.Glycerol.liquid(15*U1000, false)));
 			RM.Mixer.addRecipe1(true, 16, 150, dust.mat(MT.KOH , 0), FL.array(oil.make(200), MTx.Methanol.liquid(30*U1000, true)), FL.array(FL.BioFuel.make(200), MT.Glycerol.liquid(15*U1000, false)));
 		}
+
+		// High pressure water for SC reactors
+		RM.Compressor.addRecipe0(true, 2048, 10, FL.DistW.make(1000), FL.make(FLx.HPWater, 750), ZL_IS);
 
 		// Thermal cracking of glycerol
 		RMx.Thermolysis.addRecipe2(true, 32, 100, dust.mat(MT.Ni, 0), dust.mat(MT.Al2O3, 0), MT.Glycerol.liquid(14*U, true), FL.array(MT.CO.gas(6*U, false), MT.H.gas(8*U, false)));

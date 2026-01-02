@@ -3,13 +3,10 @@ package org.altadoon.gt6x.common;
 import gregapi.code.HashSetNoNulls;
 import gregapi.code.TagData;
 import gregapi.data.*;
-import gregapi.old.Textures;
 import gregapi.oredict.OreDictManager;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.oredict.OreDictMaterialStack;
-import gregapi.render.IIconContainer;
 import gregapi.render.TextureSet;
-import gregapi.util.UT;
 import net.minecraft.enchantment.Enchantment;
 import org.altadoon.gt6x.Gt6xMod;
 
@@ -1873,16 +1870,11 @@ public class MTx {
 			.setMcfg(0, MT.W, U)
 			.heat(MT.W)
 			.setAllToTheOutputOf(MT.W),
-	HPSteam = create(16551, "High-pressure Steam")
+	HPWater = create(16551, "High-pressure Water")
 			.setMcfg(0, MT.H2O, U)
 			.tooltip("H" + NUM_SUB[2] + "O")
 			.setDensity(0.777) // @25MPa, 280°C
-			.heat(271, 647), // boiling point means critical point here
-	SCSteam = create(16552, "Supercritical Steam")
-			.setMcfg(0, MT.H2O, U)
-			.tooltip("H" + NUM_SUB[2] + "O")
-			.setDensity(0.09) // @25MPa, 500°C
-			.heat(HPSteam)
+			.heat(271, 647) // boiling point means critical point here
 	;
 
 	@SuppressWarnings("unused")
