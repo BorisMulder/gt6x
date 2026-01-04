@@ -1,9 +1,7 @@
 package org.altadoon.gt6x.common;
 
-import gregapi.data.FL;
-import gregapi.data.FM;
-import gregapi.data.MT;
-import gregapi.data.RM;
+import gregapi.code.TagData;
+import gregapi.data.*;
 import gregapi.recipes.Recipe.RecipeMap;
 import gregapi.recipes.maps.RecipeMapFuel;
 import net.minecraftforge.fluids.FluidStack;
@@ -39,6 +37,8 @@ public class RMx {
 
 	public static final FluidStack[] CuttingFluids = { FL.Water.make(1000), FL.SpDew.make(1000), FL.DistW.make(1000), FL.Lubricant.make(1000), FL.LubRoCant.make(1000) };
 	public static final long[] CuttingMultiplier = {4, 4, 3, 1, 1};
+
+	public static final TagData STEAM_SC = TagData.createTagData("ENERGY.SCSTEAM", "SC Steam", "Supercritical Steam", LH.Chat.GRAY);
 
 	public static class FMx {
 		public static RecipeMapFuel Diesel = null;

@@ -164,16 +164,22 @@ public class MTEx {
 		PipesTMS196(680), // 680-699
 		PipesA6061(700), // 700-719
 
-		// Gas Turbines: 800-810
-		GasTurbine1(801),
-		GasTurbine2(802),
-		GasTurbine3(803),
-		GasTurbine4(804),
-		GasTurbine5(805),
-		// Dense Walls: 811-820
-		DenseWallHastelloy(811),
-		DenseWallTi6Al4V(812),
-		DenseWallTMS196(813),
+		// Dense Walls: 800-810
+		DenseWallHastelloy(801),
+		DenseWallTi6Al4V(802),
+		DenseWallTMS196(803),
+		// Gas Turbines: 811-820
+		GasTurbine1(811),
+		GasTurbine2(812),
+		GasTurbine3(813),
+		GasTurbine4(814),
+		GasTurbine5(815),
+		// SC Steam Turbines: 821-830
+		SCSteamTurbine1(821),
+		SCSteamTurbine2(822),
+		SCSteamTurbine3(823),
+		SCSteamTurbine4(824),
+		SCSteamTurbine5(825),
 
 		// Crucibles: 900-1199 / same as GT6
 		Crucibles(1000),
