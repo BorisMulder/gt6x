@@ -1,7 +1,9 @@
 package org.altadoon.gt6x.common;
 
 import com.google.common.collect.Iterables;
+import gregapi.code.TagData;
 import gregapi.data.FL;
+import gregapi.data.LH;
 import gregapi.data.MT;
 import gregapi.lang.LanguageHandler;
 import gregapi.old.Textures;
@@ -39,16 +41,16 @@ public class FLx {
 	 * If water has a density of 1000 kg/m3 and 1 water = 160 steam then GT6 steam has a density of 1000/160 = 6.25 kg/m3 (this occurs at ~12.5 bar and ~200C, but eh)
 	 * Let's use water at 25MPa and 280°C (inlet) to 500°C (supercritical steam)
 	 * see https://www.nuclear-power.com/nuclear-engineering/materials-nuclear-engineering/properties-steam-what-is-steam/supercritical-fluid-supercritical-water/properties-of-supercritical-water/
-	 * Then, the density of the inlet HP steam would be 777kg/m3 which means we need 124 times as much steam for the same weight (lets use 120 for simplicity)
+	 * Then, the density of the inlet HP water would be 777kg/m3 which means we need 124 times as much steam for the same weight (lets use 120 for simplicity)
 	 * The density of SC steam is lower at 90 kg/m3 which would mean 1L of HP water would produce 8.63 L of SC steam.
 	 * The enthalpy of normal steam is 2675 kJ/kg, for SC steam 3165, so 1.18 times larger.
-	 * 80L of steam = 1 EU = 80*6.25/1000 = 0.5kg
-	 * 0.5kg of SC steam would be 5.56L, but because of increased enthalpy 4.7L would give 1 EU.
+	 * 2L of steam = 1 EU = 2*6.25/1000 = 0.0125kg
+	 * 0.0125kg of SC steam would be 0.14L, but because of increased enthalpy 0.12L would give 1 EU, or 1L would give about 8 EU.
 	 */
 	public static Fluid HPWater = null;
 	public static Fluid SCSteam = null;
 	public static int SC_STEAM_PER_HP_WATER = 8;
-	public static int SC_STEAM_PER_EU = 5;
+	public static int EU_PER_SC_STEAM = 8;
 
 	public static List<String> ALCOHOLS = StreamSupport.stream(Iterables.concat(
 			FluidsGT.RUM, FluidsGT.WHISKEY, FluidsGT.VINEGAR,
