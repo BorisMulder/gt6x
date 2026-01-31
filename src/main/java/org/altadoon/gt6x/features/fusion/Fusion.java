@@ -3,6 +3,7 @@ package org.altadoon.gt6x.features.fusion;
 import gregapi.data.*;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.recipes.Recipe;
+import gregapi.tileentity.machines.MultiTileEntityBasicMachine;
 import gregapi.tileentity.multiblocks.MultiTileEntityMultiBlockPart;
 import gregapi.util.CR;
 import gregapi.util.OM;
@@ -52,6 +53,12 @@ public class Fusion extends GT6XFeature {
 		OM.data(MTEx.gt6xMTEReg.getItem(), mat, U*4);
 		mat = MT.SteelGalvanized;
 		MTEx.gt6xMTEReg.add("Fusion Reactor"           , "Multiblock Machines", MTEx.IDs.FusionReactor     .get(), 17101, MTEFusionReactor             .class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_TEXTURE, "fusionreactor", NBT_INPUT, 8192, NBT_INPUT_MIN, 1, NBT_INPUT_MAX, 16384, NBT_ENERGY_ACCEPTED, TD.Energy.EU, NBT_RECIPEMAP, RMx.Fusion, NBT_ENERGY_ACCEPTED_2, TD.Energy.LU, NBT_SPECIAL_IS_START_ENERGY, T, NBT_NO_CONSTANT_POWER, T), "CPC", "CSC", "CWC", 'C', ILx.PCs[2], 'P', IL.PUMPS[5], 'S', ILx.LCDMonitor, 'W', MTEx.gt6xMTEReg.getItem(MTEx.IDs.SuperconductorCoil.get()));
+
+		// Centrifugal Pumps
+		mat = MT.DATA.Kinetic_T[1]; MTEx.gt6xMTEReg.add("Centrifugal Pump ("+mat.getLocal()+")", "Basic Machines", MTEx.IDs.CentPump1.get(), 20001, MultiTileEntityBasicMachine.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,   7.0F, NBT_RESISTANCE,   7.0F, NBT_INPUT,   32, NBT_TEXTURE, "centrifugalpump", NBT_ENERGY_ACCEPTED, TD.Energy.RU, NBT_RECIPEMAP, RMx.CentrifugalPump, NBT_TANK_SIDE_IN, SBIT_L, NBT_TANK_SIDE_AUTO_IN, SIDE_LEFT, NBT_TANK_SIDE_OUT, SBIT_R, NBT_TANK_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_ENERGY_ACCEPTED_SIDES, SBIT_D, NBT_PARALLEL, 1, NBT_PARALLEL_DURATION, true, NBT_CHEAP_OVERCLOCKING, true), "RRw", "SMP", "GXh", 'M', OP.casingMachineQuadruple.dat(mat), 'R', OP.rotor.dat(mat), 'P', OP.pipeLarge.dat(mat), 'G', OP.gearGt.dat(mat), 'X', gearGtSmall.dat(mat), 'S', OP.stick.dat(mat));
+		mat = MT.DATA.Kinetic_T[2]; MTEx.gt6xMTEReg.add("Centrifugal Pump ("+mat.getLocal()+")", "Basic Machines", MTEx.IDs.CentPump2.get(), 20001, MultiTileEntityBasicMachine.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,   6.0F, NBT_RESISTANCE,   6.0F, NBT_INPUT,  128, NBT_TEXTURE, "centrifugalpump", NBT_ENERGY_ACCEPTED, TD.Energy.RU, NBT_RECIPEMAP, RMx.CentrifugalPump, NBT_TANK_SIDE_IN, SBIT_L, NBT_TANK_SIDE_AUTO_IN, SIDE_LEFT, NBT_TANK_SIDE_OUT, SBIT_R, NBT_TANK_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_ENERGY_ACCEPTED_SIDES, SBIT_D, NBT_PARALLEL, 2, NBT_PARALLEL_DURATION, true, NBT_CHEAP_OVERCLOCKING, true), "RRw", "SMP", "GXh", 'M', OP.casingMachineQuadruple.dat(mat), 'R', OP.rotor.dat(mat), 'P', OP.pipeLarge.dat(mat), 'G', OP.gearGt.dat(mat), 'X', gearGtSmall.dat(mat), 'S', OP.stick.dat(mat));
+		mat = MT.DATA.Kinetic_T[3]; MTEx.gt6xMTEReg.add("Centrifugal Pump ("+mat.getLocal()+")", "Basic Machines", MTEx.IDs.CentPump3.get(), 20001, MultiTileEntityBasicMachine.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,   9.0F, NBT_RESISTANCE,   9.0F, NBT_INPUT,  512, NBT_TEXTURE, "centrifugalpump", NBT_ENERGY_ACCEPTED, TD.Energy.RU, NBT_RECIPEMAP, RMx.CentrifugalPump, NBT_TANK_SIDE_IN, SBIT_L, NBT_TANK_SIDE_AUTO_IN, SIDE_LEFT, NBT_TANK_SIDE_OUT, SBIT_R, NBT_TANK_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_ENERGY_ACCEPTED_SIDES, SBIT_D, NBT_PARALLEL, 4, NBT_PARALLEL_DURATION, true, NBT_CHEAP_OVERCLOCKING, true), "RRw", "SMP", "GXh", 'M', OP.casingMachineQuadruple.dat(mat), 'R', OP.rotor.dat(mat), 'P', OP.pipeLarge.dat(mat), 'G', OP.gearGt.dat(mat), 'X', gearGtSmall.dat(mat), 'S', OP.stick.dat(mat));
+		mat = MT.DATA.Kinetic_T[4]; MTEx.gt6xMTEReg.add("Centrifugal Pump ("+mat.getLocal()+")", "Basic Machines", MTEx.IDs.CentPump4.get(), 20001, MultiTileEntityBasicMachine.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  12.5F, NBT_RESISTANCE,  12.5F, NBT_INPUT, 2048, NBT_TEXTURE, "centrifugalpump", NBT_ENERGY_ACCEPTED, TD.Energy.RU, NBT_RECIPEMAP, RMx.CentrifugalPump, NBT_TANK_SIDE_IN, SBIT_L, NBT_TANK_SIDE_AUTO_IN, SIDE_LEFT, NBT_TANK_SIDE_OUT, SBIT_R, NBT_TANK_SIDE_AUTO_OUT, SIDE_RIGHT, NBT_ENERGY_ACCEPTED_SIDES, SBIT_D, NBT_PARALLEL, 8, NBT_PARALLEL_DURATION, true, NBT_CHEAP_OVERCLOCKING, true), "RRw", "SMP", "GXh", 'M', OP.casingMachineQuadruple.dat(mat), 'R', OP.rotor.dat(mat), 'P', OP.pipeLarge.dat(mat), 'G', OP.gearGt.dat(mat), 'X', gearGtSmall.dat(mat), 'S', OP.stick.dat(mat));
 	}
 
 	private void addRecipes() {
@@ -85,6 +92,9 @@ public class Fusion extends GT6XFeature {
 
 		// Boronization of Tungsten Walls
 		RMx.VacuumChamber.addRecipe1(false, 32, 256, MTEx.gt6MTEReg.getItem(18004), MTx.B2H6.gas(U100, true), NF, MTEx.gt6xMTEReg.getItem(MTEx.IDs.BWWall.get()));
+
+		// Fluid Compression
+		RMx.CentrifugalPump.addRecipe0(false, 64, 32, FL.DistW.make(100), FL.make(FLx.HPWater, 100), ZL_IS);
 
 		// Fusion Recipes
 		/*

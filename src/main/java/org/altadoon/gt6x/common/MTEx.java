@@ -180,6 +180,11 @@ public class MTEx {
 		SCSteamTurbine3(823),
 		SCSteamTurbine4(824),
 		SCSteamTurbine5(825),
+		// Centrifugal Pumps: 831-840
+		CentPump1(831),
+		CentPump2(832),
+		CentPump3(833),
+		CentPump4(834),
 
 		// Crucibles: 900-1199 / same as GT6
 		Crucibles(1000),
