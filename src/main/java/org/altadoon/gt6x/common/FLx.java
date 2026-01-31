@@ -93,7 +93,7 @@ public class FLx {
 		mat.setRGBaLiquid(255, 255, 255, 200);
 		LiquidNitrogen = create("liquid." + mat.mNameInternal.toLowerCase(), "Liquid " + mat.mNameLocal, mat, STATE_LIQUID, 100, mat.mBoilingPoint);
 
-		HPWater = create("hpwater", "High-Pressure Water", MTx.HPWater, STATE_LIQUID, 1000, 300, SIMPLE, LIQUID, POWER_CONDUCTING);
+		HPWater = create("hpwater", "High-Pressure Water", MTx.HPWater, STATE_LIQUID, 1000, 300, SIMPLE, LIQUID);
 		SCSteam = create("scsteam", "Supercritical Steam", MTx.HPWater, STATE_GASEOUS, 8000, 500 + C, SIMPLE, GAS, STEAM, POWER_CONDUCTING);
 	}
 }
