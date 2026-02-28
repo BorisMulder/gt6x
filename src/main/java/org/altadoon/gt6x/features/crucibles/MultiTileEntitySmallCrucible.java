@@ -1,6 +1,5 @@
 package org.altadoon.gt6x.features.crucibles;
 
-import net.minecraft.tileentity.TileEntity;
 import gregapi.GT_API_Proxy;
 import gregapi.block.multitileentity.IMultiTileEntity;
 import gregapi.block.multitileentity.MultiTileEntityContainer;
@@ -138,7 +137,7 @@ public class MultiTileEntitySmallCrucible extends TileEntityBase07Paintable impl
 	@Override
 	public boolean removedByPlayer(World world, EntityPlayer player, boolean willHarvest) {
 		if (interior.currentTemperature >= 1300 && isServerSide() && !UT.Entities.isCreative(player)) {
-			UT.Sounds.send(SFX.MC_FIZZ, (TileEntity) this);
+			UT.Sounds.send(SFX.MC_FIZZ, this);
 			interior.trashAll();
 			interior.damageEntities(this);
 			interior.causeFire(this, interior.currentTemperature / 25);
