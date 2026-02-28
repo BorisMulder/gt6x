@@ -1,5 +1,6 @@
 package org.altadoon.gt6x.features.crucibles;
 
+import net.minecraft.tileentity.TileEntity;
 import gregapi.code.ArrayListNoNulls;
 import gregapi.code.HashSetNoNulls;
 import gregapi.code.TagData;
@@ -175,7 +176,7 @@ public class CrucibleInterior {
 			OreDictItemData itemData = OM.anydata_(inputItem);
 			if (itemData == null) {
 				exterior.slotTrash(0);
-				UT.Sounds.send(SFX.MC_FIZZ, exterior);
+				UT.Sounds.send(SFX.MC_FIZZ, (TileEntity) exterior);
 			} else {
 				long oreMultiplier = 0;
 				if (itemData.mPrefix != null) {
@@ -362,7 +363,7 @@ public class CrucibleInterior {
 				contentChanged = true;
 			} else if (!gasProof && hasState(stack, MaterialState.GAS_OR_PLASMA)) {
 				GarbageGT.trash(content.remove(i--));
-				UT.Sounds.send(SFX.MC_FIZZ, exterior);
+				UT.Sounds.send(SFX.MC_FIZZ, (TileEntity) exterior);
 				if (stack.mMaterial.mBoilingPoint >=  320) damageEntities(exterior);
 				if (stack.mMaterial.mBoilingPoint >= 2000) causeFire(exterior, stack.mAmount);
 			} else if (currentTemperature > C + 40 &&
@@ -370,14 +371,14 @@ public class CrucibleInterior {
 					!stack.mMaterial.containsAny(TD.Properties.UNBURNABLE, TD.Processing.MELTING))
 			{
 				GarbageGT.trash(content.remove(i));
-				UT.Sounds.send(SFX.MC_FIZZ, exterior);
+				UT.Sounds.send(SFX.MC_FIZZ, (TileEntity) exterior);
 				if (stack.mMaterial.contains(TD.Properties.EXPLOSIVE))
 					exterior.explode(UT.Code.scale(stack.mAmount, maxTotalUnits*U, 8, false));
 				return result;
 			} else if (!acidProof && stack.mMaterial.contains(TD.Properties.ACID)) {
 				GarbageGT.trash(content);
 				GarbageGT.trash(toBeAdded);
-				UT.Sounds.send(SFX.MC_FIZZ, exterior);
+				UT.Sounds.send(SFX.MC_FIZZ, (TileEntity) exterior);
 				exterior.setToAir();
 				return result;
 			} else if (currentTemperature >= stack.mMaterial.mMeltingPoint && (oldTemperature <  stack.mMaterial.mMeltingPoint || hasNewContent)) {
@@ -429,7 +430,7 @@ public class CrucibleInterior {
 
 		// Check for meltdown
 		if (currentTemperature > maxTemperature) {
-			UT.Sounds.send(SFX.MC_FIZZ, exterior);
+			UT.Sounds.send(SFX.MC_FIZZ, (TileEntity) exterior);
 			if (currentTemperature > 320) damageEntities(exterior);
 			causeFire(exterior, currentTemperature / 25);
 			currentTemperature = maxTemperature;

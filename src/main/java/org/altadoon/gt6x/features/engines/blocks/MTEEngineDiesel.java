@@ -1,5 +1,6 @@
 package org.altadoon.gt6x.features.engines.blocks;
 
+import net.minecraft.tileentity.TileEntity;
 import gregapi.block.multitileentity.MultiTileEntityContainer;
 import gregapi.code.TagData;
 import gregapi.data.LH;
@@ -166,7 +167,7 @@ public class MTEEngineDiesel extends MultiTileEntityEngineBase implements ITileE
 
 		if (temperature > getTemperatureMax(SIDE_INSIDE)) {
 			// melt down
-			UT.Sounds.send(SFX.MC_FIZZ, this);
+			UT.Sounds.send(SFX.MC_FIZZ, (TileEntity) this);
 
 			if (temperature >= 320) try {
 				for (EntityLivingBase tLiving : (List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class, box(-GAS_RANGE, -1, -GAS_RANGE, GAS_RANGE+1, GAS_RANGE+1, GAS_RANGE+1)))
