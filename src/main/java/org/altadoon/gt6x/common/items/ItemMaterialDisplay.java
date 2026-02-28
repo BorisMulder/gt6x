@@ -10,14 +10,12 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import gregapi.data.*;
-import gregapi.gui.ContainerClient;
 import gregapi.item.IItemGT;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.oredict.OreDictMaterialStack;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -189,14 +187,14 @@ public class ItemMaterialDisplay extends Item implements IItemGT {
 	@SideOnly(Side.CLIENT)
 	public static void initClientNEI() {
 		try {
-			codechicken.nei.guihook.GuiContainerManager.addInputHandler(new ItemMaterialDisplayNeiHandler());
+			GuiContainerManager.addInputHandler(new ItemMaterialDisplayNeiHandler());
 		} catch (Throwable t) {
 			// NEI may not be present; ignore.
 		}
 	}
 
 	@SideOnly(Side.CLIENT)
-	public static class ItemMaterialDisplayNeiHandler implements codechicken.nei.guihook.IContainerInputHandler {
+	public static class ItemMaterialDisplayNeiHandler implements IContainerInputHandler {
 		protected boolean canHandle(net.minecraft.client.gui.inventory.GuiContainer gui) {
 			return gui instanceof gregapi.gui.ContainerClient;
 		}
@@ -204,28 +202,28 @@ public class ItemMaterialDisplay extends Item implements IItemGT {
 		protected boolean showUsages(net.minecraft.item.ItemStack stackover) {
 			gregapi.oredict.OreDictMaterial mat = ItemMaterialDisplay.UnDisplay(stackover).mMaterial;
 			if (mat != gregapi.data.MT.NULL)
-				return codechicken.nei.recipe.GuiUsageRecipe.openRecipeGui("item", gregapi.data.OP.dust.mat(mat, 1));
+				return GuiUsageRecipe.openRecipeGui("item", gregapi.data.OP.dust.mat(mat, 1));
 			return false;
 		}
 
 		protected boolean showRecipes(net.minecraft.item.ItemStack stackover) {
 			gregapi.oredict.OreDictMaterial mat = ItemMaterialDisplay.UnDisplay(stackover).mMaterial;
 			if (mat != gregapi.data.MT.NULL)
-				return codechicken.nei.recipe.GuiCraftingRecipe.openRecipeGui("item", gregapi.data.OP.ingot.mat(mat, 1));
+				return GuiCraftingRecipe.openRecipeGui("item", gregapi.data.OP.ingot.mat(mat, 1));
 			return false;
 		}
 
 		@Override
 		public boolean keyTyped(net.minecraft.client.gui.inventory.GuiContainer gui, char keyChar, int keyCode) {
-			net.minecraft.item.ItemStack stackover = codechicken.nei.guihook.GuiContainerManager.getStackMouseOver(gui);
+			net.minecraft.item.ItemStack stackover = GuiContainerManager.getStackMouseOver(gui);
 			if (stackover == null) return false;
 
-			if (keyCode == codechicken.nei.NEIClientConfig.getKeyBinding("gui.usage")
-					|| (keyCode == codechicken.nei.NEIClientConfig.getKeyBinding("gui.recipe")
-					&& codechicken.nei.NEIClientUtils.shiftKey()))
+			if (keyCode == NEIClientConfig.getKeyBinding("gui.usage")
+					|| (keyCode == NEIClientConfig.getKeyBinding("gui.recipe")
+					&& NEIClientUtils.shiftKey()))
 				return showRecipes(stackover);
 
-			if (keyCode == codechicken.nei.NEIClientConfig.getKeyBinding("gui.recipe"))
+			if (keyCode == NEIClientConfig.getKeyBinding("gui.recipe"))
 				return showUsages(stackover);
 
 			return false;
@@ -235,7 +233,7 @@ public class ItemMaterialDisplay extends Item implements IItemGT {
 		public boolean mouseClicked(net.minecraft.client.gui.inventory.GuiContainer gui, int mousex, int mousey, int button) {
 			if (!canHandle(gui)) return false;
 
-			net.minecraft.item.ItemStack stackover = codechicken.nei.guihook.GuiContainerManager.getStackMouseOver(gui);
+			net.minecraft.item.ItemStack stackover = GuiContainerManager.getStackMouseOver(gui);
 			if (stackover == null) return false;
 
 			if (button == 0) return showRecipes(stackover);
