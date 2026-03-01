@@ -95,7 +95,7 @@ public class ItemMaterialDisplay extends Item implements IItemGT {
 			list.add(LH.Chat.BLINKING_RED + "CLIENTSIDE MATERIAL IS NULL!!!");
 		}
 
-		list.add(LH.Chat.BLUE + String.format("Content: %.3f Units of %s", (double)mat.mAmount / U, mat.mMaterial.getLocal()));
+		list.add(LH.Chat.BLUE + String.format("Content: %.3f Units of %s", (double) mat.mAmount / U, mat.mMaterial.getLocal()));
 
 		if (mat.mMaterial.mTooltipChemical != null) {
 			list.add(LH.Chat.YELLOW + mat.mMaterial.mTooltipChemical);
@@ -106,7 +106,7 @@ public class ItemMaterialDisplay extends Item implements IItemGT {
 			list.add(LH.Chat.WHITE + "State: " + (
 					temperature < mat.mMaterial.mMeltingPoint ? "solid" :
 							temperature < mat.mMaterial.mBoilingPoint ? "liquid" :
-									temperature < mat.mMaterial.mPlasmaPoint  ? "gas" :
+									temperature < mat.mMaterial.mPlasmaPoint ? "gas" :
 											"plasma"
 			));
 		}
@@ -178,12 +178,23 @@ public class ItemMaterialDisplay extends Item implements IItemGT {
 		return mat.mMaterial.getLocal();
 	}
 
-	@Override public final Item setUnlocalizedName(String aName) {return this;}
-	@Override public final String getUnlocalizedName() {return name;}
-	@Override public ItemStack getContainerItem(ItemStack aStack) {
+	@Override
+	public final Item setUnlocalizedName(String aName) {
+		return this;
+	}
+
+	@Override
+	public final String getUnlocalizedName() {
+		return name;
+	}
+
+	@Override
+	public ItemStack getContainerItem(ItemStack aStack) {
 		return null;
 	}
-	@Override public final boolean hasContainerItem(ItemStack aStack) {
+
+	@Override
+	public final boolean hasContainerItem(ItemStack aStack) {
 		return false;
 	}
 
@@ -191,11 +202,10 @@ public class ItemMaterialDisplay extends Item implements IItemGT {
 	public static void initClientNEI() {
 		if (!Loader.isModLoaded("NotEnoughItems")) return;
 		GuiContainerManager.addInputHandler(new ItemMaterialDisplayNeiHandler());
-		}
 	}
 
 	@SideOnly(Side.CLIENT)
-	public static class ItemMaterialDisplayNeiHandler implements IContainerInputHandler {
+	static class ItemMaterialDisplayNeiHandler implements IContainerInputHandler {
 		protected boolean canHandle(GuiContainer gui) {
 			return gui instanceof ContainerClient;
 		}
@@ -243,11 +253,34 @@ public class ItemMaterialDisplay extends Item implements IItemGT {
 			return false;
 		}
 
-		@Override public void onKeyTyped(GuiContainer gui, char keyChar, int keyID) {}
-		@Override public boolean lastKeyTyped(GuiContainer gui, char keyChar, int keyID) { return false; }
-		@Override public void onMouseClicked(GuiContainer gui, int mousex, int mousey, int button) {}
-		@Override public void onMouseUp(GuiContainer gui, int mousex, int mousey, int button) {}
-		@Override public boolean mouseScrolled(GuiContainer gui, int mousex, int mousey, int scrolled) { return false; }
-		@Override public void onMouseScrolled(GuiContainer gui, int mousex, int mousey, int scrolled) {}
-		@Override public void onMouseDragged(GuiContainer gui, int mousex, int mousey, int button, long heldTime) {}
+		@Override
+		public void onKeyTyped(GuiContainer gui, char keyChar, int keyID) {
+		}
+
+		@Override
+		public boolean lastKeyTyped(GuiContainer gui, char keyChar, int keyID) {
+			return false;
+		}
+
+		@Override
+		public void onMouseClicked(GuiContainer gui, int mousex, int mousey, int button) {
+		}
+
+		@Override
+		public void onMouseUp(GuiContainer gui, int mousex, int mousey, int button) {
+		}
+
+		@Override
+		public boolean mouseScrolled(GuiContainer gui, int mousex, int mousey, int scrolled) {
+			return false;
+		}
+
+		@Override
+		public void onMouseScrolled(GuiContainer gui, int mousex, int mousey, int scrolled) {
+		}
+
+		@Override
+		public void onMouseDragged(GuiContainer gui, int mousex, int mousey, int button, long heldTime) {
+		}
 	}
+}
