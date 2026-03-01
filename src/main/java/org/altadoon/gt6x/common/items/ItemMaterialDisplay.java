@@ -190,7 +190,6 @@ public class ItemMaterialDisplay extends Item implements IItemGT {
 	@SideOnly(Side.CLIENT)
 	public static void initClientNEI() {
 		if (!Loader.isModLoaded("NotEnoughItems")) return;
-		// Safe to call NEI API now
 		GuiContainerManager.addInputHandler(new ItemMaterialDisplayNeiHandler());
 		}
 	}
