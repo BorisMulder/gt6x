@@ -126,16 +126,11 @@ public class Ceramics extends GT6XFeature {
 	private void addRecipes() {
 		// Fire clay
 		RM.Mixer.addRecipe2(true, 16, 192, dust.mat(MT.Kaolinite, 2), dust.mat(MT.Graphite, 1), dust.mat(MTx.Fireclay, 3));
-
-		FluidStack[] waterFluids = FL.waters(125, 100);
-		if (waterFluids != null && waterFluids.length > 0) {
-			for (FluidStack primaryWater : waterFluids) {
-				if (primaryWater == null) continue;
-				RM.Mixer.addRecipe2(true, 16, 192, IL.Clay_Ball_White.get(2), dust.mat(MT.Graphite, 1), FL.mul(primaryWater, 5), NF, ILx.Fireclay_Ball.get(3));
-				RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.RefractoryCeramic, 1), FL.mul(primaryWater, 5), NF, ILx.Fireclay_Ball.get(1));
-				RM.Bath.addRecipe1(true, 0, 64, dust.mat(MTx.Fireclay, 1), primaryWater, NF, ILx.Fireclay_Ball.get(1));
+        for (FluidStack water : FL.waters(125, 100)) {
+				RM.Mixer.addRecipe2(true, 16, 192, IL.Clay_Ball_White.get(2), dust.mat(MT.Graphite, 1), FL.mul(water, 5), NF, ILx.Fireclay_Ball.get(3));
+				RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MTx.RefractoryCeramic, 1), FL.mul(water, 5), NF, ILx.Fireclay_Ball.get(1));
+				RM.Bath.addRecipe1(true, 0, 64, dust.mat(MTx.Fireclay, 1), water, NF, ILx.Fireclay_Ball.get(1));
 			}
-		}
 
 		RM.Furnace.addRecipe1(true, 16, 64, dust.mat(MTx.Fireclay, 1), ingot.mat(MTx.Firebrick, 1));
 

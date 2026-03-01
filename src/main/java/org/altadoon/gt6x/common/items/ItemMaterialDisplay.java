@@ -6,17 +6,18 @@ import codechicken.nei.guihook.GuiContainerManager;
 import codechicken.nei.guihook.IContainerInputHandler;
 import codechicken.nei.recipe.GuiCraftingRecipe;
 import codechicken.nei.recipe.GuiUsageRecipe;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import gregapi.data.*;
-import gregapi.gui.ContainerClient;
 import gregapi.item.IItemGT;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.oredict.OreDictMaterialStack;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
+import gregapi.gui.ContainerClient;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -188,54 +189,53 @@ public class ItemMaterialDisplay extends Item implements IItemGT {
 
 	@SideOnly(Side.CLIENT)
 	public static void initClientNEI() {
-		try {
-			codechicken.nei.guihook.GuiContainerManager.addInputHandler(new ItemMaterialDisplayNeiHandler());
-		} catch (Throwable t) {
-			// NEI may not be present; ignore.
+		if (!Loader.isModLoaded("NotEnoughItems")) return;
+		// Safe to call NEI API now
+		GuiContainerManager.addInputHandler(new ItemMaterialDisplayNeiHandler());
 		}
 	}
 
 	@SideOnly(Side.CLIENT)
-	public static class ItemMaterialDisplayNeiHandler implements codechicken.nei.guihook.IContainerInputHandler {
-		protected boolean canHandle(net.minecraft.client.gui.inventory.GuiContainer gui) {
-			return gui instanceof gregapi.gui.ContainerClient;
+	public static class ItemMaterialDisplayNeiHandler implements IContainerInputHandler {
+		protected boolean canHandle(GuiContainer gui) {
+			return gui instanceof ContainerClient;
 		}
 
-		protected boolean showUsages(net.minecraft.item.ItemStack stackover) {
-			gregapi.oredict.OreDictMaterial mat = ItemMaterialDisplay.UnDisplay(stackover).mMaterial;
-			if (mat != gregapi.data.MT.NULL)
-				return codechicken.nei.recipe.GuiUsageRecipe.openRecipeGui("item", gregapi.data.OP.dust.mat(mat, 1));
+		protected boolean showUsages(ItemStack stackover) {
+			OreDictMaterial mat = ItemMaterialDisplay.UnDisplay(stackover).mMaterial;
+			if (mat != MT.NULL)
+				return GuiUsageRecipe.openRecipeGui("item", OP.dust.mat(mat, 1));
 			return false;
 		}
 
-		protected boolean showRecipes(net.minecraft.item.ItemStack stackover) {
-			gregapi.oredict.OreDictMaterial mat = ItemMaterialDisplay.UnDisplay(stackover).mMaterial;
-			if (mat != gregapi.data.MT.NULL)
-				return codechicken.nei.recipe.GuiCraftingRecipe.openRecipeGui("item", gregapi.data.OP.ingot.mat(mat, 1));
+		protected boolean showRecipes(ItemStack stackover) {
+			OreDictMaterial mat = ItemMaterialDisplay.UnDisplay(stackover).mMaterial;
+			if (mat != MT.NULL)
+				return GuiCraftingRecipe.openRecipeGui("item", OP.ingot.mat(mat, 1));
 			return false;
 		}
 
 		@Override
-		public boolean keyTyped(net.minecraft.client.gui.inventory.GuiContainer gui, char keyChar, int keyCode) {
-			net.minecraft.item.ItemStack stackover = codechicken.nei.guihook.GuiContainerManager.getStackMouseOver(gui);
+		public boolean keyTyped(GuiContainer gui, char keyChar, int keyCode) {
+			ItemStack stackover = GuiContainerManager.getStackMouseOver(gui);
 			if (stackover == null) return false;
 
-			if (keyCode == codechicken.nei.NEIClientConfig.getKeyBinding("gui.usage")
-					|| (keyCode == codechicken.nei.NEIClientConfig.getKeyBinding("gui.recipe")
-					&& codechicken.nei.NEIClientUtils.shiftKey()))
+			if (keyCode == NEIClientConfig.getKeyBinding("gui.usage")
+					|| (keyCode == NEIClientConfig.getKeyBinding("gui.recipe")
+					&& NEIClientUtils.shiftKey()))
 				return showRecipes(stackover);
 
-			if (keyCode == codechicken.nei.NEIClientConfig.getKeyBinding("gui.recipe"))
+			if (keyCode == NEIClientConfig.getKeyBinding("gui.recipe"))
 				return showUsages(stackover);
 
 			return false;
 		}
 
 		@Override
-		public boolean mouseClicked(net.minecraft.client.gui.inventory.GuiContainer gui, int mousex, int mousey, int button) {
+		public boolean mouseClicked(GuiContainer gui, int mousex, int mousey, int button) {
 			if (!canHandle(gui)) return false;
 
-			net.minecraft.item.ItemStack stackover = codechicken.nei.guihook.GuiContainerManager.getStackMouseOver(gui);
+			ItemStack stackover = GuiContainerManager.getStackMouseOver(gui);
 			if (stackover == null) return false;
 
 			if (button == 0) return showRecipes(stackover);
@@ -244,12 +244,11 @@ public class ItemMaterialDisplay extends Item implements IItemGT {
 			return false;
 		}
 
-		@Override public void onKeyTyped(net.minecraft.client.gui.inventory.GuiContainer gui, char keyChar, int keyID) {}
-		@Override public boolean lastKeyTyped(net.minecraft.client.gui.inventory.GuiContainer gui, char keyChar, int keyID) { return false; }
-		@Override public void onMouseClicked(net.minecraft.client.gui.inventory.GuiContainer gui, int mousex, int mousey, int button) {}
-		@Override public void onMouseUp(net.minecraft.client.gui.inventory.GuiContainer gui, int mousex, int mousey, int button) {}
-		@Override public boolean mouseScrolled(net.minecraft.client.gui.inventory.GuiContainer gui, int mousex, int mousey, int scrolled) { return false; }
-		@Override public void onMouseScrolled(net.minecraft.client.gui.inventory.GuiContainer gui, int mousex, int mousey, int scrolled) {}
-		@Override public void onMouseDragged(net.minecraft.client.gui.inventory.GuiContainer gui, int mousex, int mousey, int button, long heldTime) {}
+		@Override public void onKeyTyped(GuiContainer gui, char keyChar, int keyID) {}
+		@Override public boolean lastKeyTyped(GuiContainer gui, char keyChar, int keyID) { return false; }
+		@Override public void onMouseClicked(GuiContainer gui, int mousex, int mousey, int button) {}
+		@Override public void onMouseUp(GuiContainer gui, int mousex, int mousey, int button) {}
+		@Override public boolean mouseScrolled(GuiContainer gui, int mousex, int mousey, int scrolled) { return false; }
+		@Override public void onMouseScrolled(GuiContainer gui, int mousex, int mousey, int scrolled) {}
+		@Override public void onMouseDragged(GuiContainer gui, int mousex, int mousey, int button, long heldTime) {}
 	}
-}
