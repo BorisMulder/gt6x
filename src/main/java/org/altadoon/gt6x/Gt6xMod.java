@@ -33,10 +33,10 @@ import static gregapi.data.CS.GT;
  */
 @cpw.mods.fml.common.Mod(modid= Gt6xMod.MOD_ID, name= Gt6xMod.MOD_NAME, version= Gt6xMod.VERSION, dependencies="required-after:gregapi_post;after:"+ CS.ModIDs.GT)
 public final class Gt6xMod extends gregapi.api.Abstract_Mod {
-	public static final String MOD_ID = "GRADLETOKEN_MODID";
-	public static final String MOD_NAME = "GRADLETOKEN_MODNAME";
-	public static final String VERSION = "GRADLETOKEN_VERSION";
-	public static final String GROUPNAME = "GRADLETOKEN_GROUPNAME";
+	public static final String MOD_ID = "gt6x";
+	public static final String MOD_NAME = "GregTech 6 eXtended";
+	public static final String VERSION = Tags.VERSION;
+	public static final String GROUPNAME = "org.altadoon.gt6x";
 	public static gregapi.code.ModData MOD_DATA = new gregapi.code.ModData(MOD_ID, MOD_NAME);
 
 	@cpw.mods.fml.common.SidedProxy(modId = MOD_ID, clientSide = "gregapi.api.example.Example_Proxy_Client", serverSide = "gregapi.api.example.Example_Proxy_Server")

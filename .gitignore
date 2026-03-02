@@ -26,7 +26,6 @@ whitelist.json
 *.iml
 *.ipr
 *.iws
-src/main/resources/mixins.*([!.]).json
 *.bat
 *.DS_Store
 !gradlew.bat
@@ -35,7 +34,4 @@ addon.local.gradle
 addon.local.gradle.kts
 addon.late.local.gradle
 addon.late.local.gradle.kts
-/.jdk/
-/.github/.jdk/
-src/main/resources/assets/boris/
-*~
+layout.json
