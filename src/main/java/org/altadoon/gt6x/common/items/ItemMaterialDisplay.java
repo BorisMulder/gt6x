@@ -179,24 +179,16 @@ public class ItemMaterialDisplay extends Item implements IItemGT {
 	}
 
 	@Override
-	public final Item setUnlocalizedName(String aName) {
-		return this;
-	}
+	public final Item setUnlocalizedName(String aName) {return this;}
 
 	@Override
-	public final String getUnlocalizedName() {
-		return name;
-	}
+	public final String getUnlocalizedName() {return name;}
 
 	@Override
-	public ItemStack getContainerItem(ItemStack aStack) {
-		return null;
-	}
+	public ItemStack getContainerItem(ItemStack aStack){return null;}
 
 	@Override
-	public final boolean hasContainerItem(ItemStack aStack) {
-		return false;
-	}
+	public final boolean hasContainerItem(ItemStack aStack) {return false;}
 
 	@SideOnly(Side.CLIENT)
 	public static void initClientNEI() {
@@ -258,29 +250,21 @@ public class ItemMaterialDisplay extends Item implements IItemGT {
 		}
 
 		@Override
-		public boolean lastKeyTyped(GuiContainer gui, char keyChar, int keyID) {
-			return false;
-		}
+		public boolean lastKeyTyped(GuiContainer gui, char keyChar, int keyID) {return false;}
 
 		@Override
-		public void onMouseClicked(GuiContainer gui, int mousex, int mousey, int button) {
-		}
+		public void onMouseClicked(GuiContainer gui, int mousex, int mousey, int button) {}
 
 		@Override
-		public void onMouseUp(GuiContainer gui, int mousex, int mousey, int button) {
-		}
+		public void onMouseUp(GuiContainer gui, int mousex, int mousey, int button) {}
 
 		@Override
-		public boolean mouseScrolled(GuiContainer gui, int mousex, int mousey, int scrolled) {
-			return false;
-		}
+		public boolean mouseScrolled(GuiContainer gui, int mousex, int mousey, int scrolled) {return false;}
 
 		@Override
-		public void onMouseScrolled(GuiContainer gui, int mousex, int mousey, int scrolled) {
-		}
+		public void onMouseScrolled(GuiContainer gui, int mousex, int mousey, int scrolled) {}
 
 		@Override
-		public void onMouseDragged(GuiContainer gui, int mousex, int mousey, int button, long heldTime) {
-		}
+		public void onMouseDragged(GuiContainer gui, int mousex, int mousey, int button, long heldTime) {}
 	}
 }
