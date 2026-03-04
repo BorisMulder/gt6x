@@ -1873,7 +1873,7 @@ public class MTx {
 	HPWater = create(16551, "High-pressure Water")
 			.setMcfg(0, MT.H2O, U)
 			.tooltip("H" + NUM_SUB[2] + "O")
-			.setDensity(0.777) // @25MPa, 280°C
+			.setDensity(1.008) // @25MPa, 280°C
 			.heat(271, 647) // boiling point means critical point here
 	;
 

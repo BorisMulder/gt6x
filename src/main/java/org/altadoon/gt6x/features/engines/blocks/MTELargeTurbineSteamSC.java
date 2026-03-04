@@ -51,7 +51,7 @@ public class MTELargeTurbineSteamSC extends MultiTileEntityLargeTurbineSteam {
 		return super.getMultiTileEntityRegistryID();
 	}
 
-	public static final int SC_STEAM_PER_WATER = SC_STEAM_PER_HP_WATER * 4 * 19 / (3 * 20); // 4 water = 3 HP water, emit 95% (19/20)
+	public static final int SC_STEAM_PER_WATER = SC_STEAM_PER_HP_WATER * 100 * 19 / (99 * 20); // 100 water = 99 HP water, emit 95% (19/20)
 
 	@Override
 	public void doConversion(long aTimer) {
