@@ -23,6 +23,7 @@ servers.dat
 usercache.json
 whitelist.json
 /out/
+boris/
 *.iml
 *.ipr
 *.iws

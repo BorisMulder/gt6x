@@ -1,9 +1,7 @@
 package org.altadoon.gt6x.common;
 
 import com.google.common.collect.Iterables;
-import gregapi.code.TagData;
 import gregapi.data.FL;
-import gregapi.data.LH;
 import gregapi.data.MT;
 import gregapi.lang.LanguageHandler;
 import gregapi.old.Textures;
@@ -94,6 +92,6 @@ public class FLx {
 		LiquidNitrogen = create("liquid." + mat.mNameInternal.toLowerCase(), "Liquid " + mat.mNameLocal, mat, STATE_LIQUID, 100, mat.mBoilingPoint);
 
 		HPWater = create("hpwater", "High-Pressure Water", MTx.HPWater, STATE_LIQUID, 1000, 300, SIMPLE, LIQUID);
-		SCSteam = create("scsteam", "Supercritical Steam", MTx.HPWater, STATE_GASEOUS, 8000, 500 + C, SIMPLE, GAS, STEAM, POWER_CONDUCTING);
+		SCSteam = create("scsteam", "Supercritical Water", MTx.HPWater, STATE_GASEOUS, 8000, 500 + C, SIMPLE, GAS, STEAM, POWER_CONDUCTING);
 	}
 }
