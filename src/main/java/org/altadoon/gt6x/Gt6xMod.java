@@ -1,8 +1,10 @@
 package org.altadoon.gt6x;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import gregapi.data.CS;
 import gregapi.data.MD;
 import org.altadoon.gt6x.common.*;
+import org.altadoon.gt6x.common.items.ItemMaterialDisplay;
 import org.altadoon.gt6x.common.items.MultiItemBottlesX;
 import org.altadoon.gt6x.common.items.MultiItemsX;
 import org.altadoon.gt6x.common.items.Tools;
@@ -117,6 +119,10 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 	public void onModInit2(cpw.mods.fml.common.event.FMLInitializationEvent event) {
 		for (GT6XFeature feature : enabledFeatures) {
 			feature.init();
+		}
+
+		if (FMLCommonHandler.instance().getSide().isClient()) {
+			ItemMaterialDisplay.initClientNEI();
 		}
 	}
 

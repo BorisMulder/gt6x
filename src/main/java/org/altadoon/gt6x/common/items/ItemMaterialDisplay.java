@@ -186,10 +186,12 @@ public class ItemMaterialDisplay extends Item implements IItemGT {
         return false;
     }
 
-    static {
+    @SideOnly(Side.CLIENT)
+    public static void initClientNEI() {
         GuiContainerManager.addInputHandler(new ItemMaterialDisplayNeiHandler());
     }
 
+    @SideOnly(Side.CLIENT)
     public static class ItemMaterialDisplayNeiHandler implements IContainerInputHandler {
         protected boolean canHandle(GuiContainer gui) {
             return gui instanceof ContainerClient;
