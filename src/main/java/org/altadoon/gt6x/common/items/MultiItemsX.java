@@ -47,10 +47,26 @@ public class MultiItemsX extends MultiItemRandom {
 		ILx.SuperCharger.set(addItem(6, "Supercharger", "Forces air into engines"));
 		CR.shaped(ILx.SuperCharger.get(1), CR.DEF_REV, "PUP", "RSR", "TUT", 'P', pipeSmall.dat(MT.Al), 'U', plateCurved.dat(MT.Magnalium), 'R', tbcCoatedRotor.dat(MT.Magnalium), 'S', stick.dat(MTx.HSSM2), 'T', stick.dat(MT.Teflon));
 
-		ILx.PlatinumBushing.set(addItem(7, "Platinum Bushing", "Basically a very expensive cheese grater"), new OreDictItemData(MT.Pt, U));
+		ILx.FuelInjectorCopper   .set(addItem(7, "Fuel Injector (Copper)", "Sprays pressurized fuel into engines"));
+		ILx.FuelInjectorSteel    .set(addItem(8, "Fuel Injector (Steel)", "Sprays pressurized fuel into engines"));
+		ILx.FuelInjectorTerfenolD.set(addItem(9, "Fuel Injector (Magnetostrictive)", "Sprays pressurized fuel into engines more smartly"));
+
+		CR.shaped(ILx.FuelInjectorCopper   .get(1), CR.DEF_REV, "hRw", " P ", " B ", 'R', ring.dat(MT.Rubber), 'P', pipeTiny.dat(MT.Cu), 'B', bolt.dat(MT.Cu));
+		CR.shaped(ILx.FuelInjectorSteel    .get(1), CR.DEF_REV, "hRw", " P ", " B ", 'R', ring.dat(MT.Rubber), 'P', pipeTiny.dat(MT.Steel), 'B', bolt.dat(MT.Steel));
+		CR.shaped(ILx.FuelInjectorTerfenolD.get(1), CR.DEF_REV, "hRw", " PM", " B ", 'R', ring.dat(MT.Teflon), 'P', pipeTiny.dat(MT.StainlessSteel), 'B', bolt.dat(MTx.TerfenolD), 'M', bolt.dat(MT.SteelMagnetic));
+
+		ILx.FuelInjectorSetCopper   .set(addItem(10, "Fuel Injector System (Copper)", "Sprays pressurized fuel into engines"));
+		ILx.FuelInjectorSetSteel    .set(addItem(11, "Fuel Injector System (Steel)", "Sprays pressurized fuel into engines"));
+		ILx.FuelInjectorSetTerfenolD.set(addItem(12, "Fuel Injector System (Magnetostrictive)", "Sprays pressurized fuel into engines more smartly"));
+
+		CR.shaped(ILx.FuelInjectorSetCopper   .get(1), CR.DEF_REV, "wP ", "III", "I  ", 'P', pipeSmall.dat(MT.Cu), 'I', ILx.FuelInjectorCopper);
+		CR.shaped(ILx.FuelInjectorSetSteel    .get(1), CR.DEF_REV, "wP ", "III", "I  ", 'P', pipeSmall.dat(MT.Steel), 'I', ILx.FuelInjectorSteel);
+		CR.shaped(ILx.FuelInjectorSetTerfenolD.get(1), CR.DEF_REV, "wP ", "III", "I  ", 'P', pipeSmall.dat(MT.StainlessSteel), 'I', ILx.FuelInjectorTerfenolD);
+
+		ILx.PlatinumBushing.set(addItem(13, "Platinum Bushing", "Basically a very expensive cheese grater"), new OreDictItemData(MT.Pt, U));
 		BooksGT.BOOK_REGISTER.put(new ItemStackContainer(ILx.PlatinumBushing.get(1)), (byte)45);
-		ILx.GlassFibres.set(addItem(8, "Glass Fibre", "Small threads of glass"), new OreDictItemData(MT.Glass, U72));
-		ILx.FiberglassScrim.set(addItem(9, "Fibreglass Scrim", "Mesh made of glass fibers"), new OreDictItemData(MT.Glass, U2));
+		ILx.GlassFibres.set(addItem(14, "Glass Fibre", "Small threads of glass"), new OreDictItemData(MT.Glass, U72));
+		ILx.FiberglassScrim.set(addItem(15, "Fibreglass Scrim", "Mesh made of glass fibers"), new OreDictItemData(MT.Glass, U2));
 
 	}
 

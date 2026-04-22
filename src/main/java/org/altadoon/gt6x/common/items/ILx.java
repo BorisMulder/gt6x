@@ -159,6 +159,12 @@ public class ILx implements IItemContainer {
 			Shape_SimpleEx_Catalytic_Converter = new ILx("Shape_SimpleEx_Catalytic_Converter"),
 			SparkPlugs = new ILx("SparkPlugs"),
 			SuperCharger = new ILx("SuperCharger"),
+			FuelInjectorCopper = new ILx("FuelInjectorCopper"),
+			FuelInjectorSteel = new ILx("FuelInjectorSteel"),
+			FuelInjectorTerfenolD = new ILx("FuelInjectorTerfenolD"),
+			FuelInjectorSetCopper = new ILx("FuelInjectorSetCopper"),
+			FuelInjectorSetSteel = new ILx("FuelInjectorSetSteel"),
+			FuelInjectorSetTerfenolD = new ILx("FuelInjectorSetTerfenolD"),
 
 	// (Fire)clay items, molds, etc.
 	Fireclay_Tap = new ILx("Fireclay_Tap"), Fireclay_Tap_Raw = new ILx("Fireclay_Tap_Raw"),

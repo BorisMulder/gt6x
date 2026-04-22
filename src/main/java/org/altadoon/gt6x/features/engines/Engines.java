@@ -12,7 +12,6 @@ import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
 import gregtech.loaders.b.Loader_OreProcessing;
-import gregtech.tileentity.multiblocks.MultiTileEntityLargeTurbineSteam;
 import gregtech.tileentity.tanks.MultiTileEntityBarrelMetal;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
@@ -38,6 +37,7 @@ import static org.altadoon.gt6x.features.engines.OreDictPrefixes.*;
 
 public class Engines extends GT6XFeature {
 	private static final OreDictMaterial[] ENGINE_MATERIALS = new OreDictMaterial[] { MT.Bronze, MT.ArsenicCopper, MT.ArsenicBronze, MT.IronCast, MTx.Alusil, MTx.Hastelloy, MTx.Ti6Al4V, MTx.TMS196 };
+	private static final ILx[] FUEL_INJECTORS = new ILx[] { ILx.FuelInjectorSetCopper, ILx.FuelInjectorSetCopper, ILx.FuelInjectorSetCopper, ILx.FuelInjectorSetSteel, ILx.FuelInjectorSetSteel, ILx.FuelInjectorSetSteel, ILx.FuelInjectorSetTerfenolD, ILx.FuelInjectorSetTerfenolD};
 	private static final long[] ENGINE_OUTPUTS = new long[] { 16, 16, 24, 32, 64, 128, 256, 512 };
 	private static final OreDictMaterial[] CATALYTIC_CONVERTER_MATERIALS = new OreDictMaterial[] { MT.Pt, MT.Pd, MT.Rh };
 
@@ -97,7 +97,7 @@ public class Engines extends GT6XFeature {
 			reg.add("Engine Block ("+mat.getLocal()+")" , "Engines",  MTEx.IDs.EngineBlock[i].get(), 1304, MTEEngineBlockRaw.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F));
 			OreDictPrefixes.registerCustomPrefixItem(OreDictPrefixes.engineBlock, mat, reg.getItem());
 			reg.add("Petrol Engine ("+mat.getLocal()+")", "Engines",  MTEx.IDs.PetrolEngine[i].get(), 1304, MTEEnginePetrol.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_FUELMAP, FMx.Petrol, NBT_EFFICIENCY, 10000, NBT_OUTPUT, ENGINE_OUTPUTS[i], NBT_ENERGY_EMITTED, TD.Energy.RU), "PUP", "PMP", "LSC", 'M', OreDictPrefixes.engineBlock.dat(mat), 'P', piston.dat(mat), 'S', OP.stick.dat(mat), 'C', catalyticConverter.dat(MT.Pd), 'L', OD.itemLubricant, 'U', ILx.SparkPlugs);
-			reg.add("Diesel Engine ("+mat.getLocal()+")", "Engines",  MTEx.IDs.DieselEngine[i].get(), 1304, MTEEngineDiesel.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_FUELMAP, FMx.Diesel, NBT_EFFICIENCY, 10000, NBT_OUTPUT, ENGINE_OUTPUTS[i], NBT_ENERGY_EMITTED, TD.Energy.RU), "PNP", "PMP", "LSC", 'M', OreDictPrefixes.engineBlock.dat(mat), 'P', piston.dat(mat), 'S', OP.stick.dat(mat), 'C', catalyticConverter.dat(MT.Pt), 'L', OD.itemLubricant, 'N', OP.pipeNonuple.dat(mat));
+			reg.add("Diesel Engine ("+mat.getLocal()+")", "Engines",  MTEx.IDs.DieselEngine[i].get(), 1304, MTEEngineDiesel.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_FUELMAP, FMx.Diesel, NBT_EFFICIENCY, 10000, NBT_OUTPUT, ENGINE_OUTPUTS[i], NBT_ENERGY_EMITTED, TD.Energy.RU), "PNP", "PMP", "LSC", 'M', OreDictPrefixes.engineBlock.dat(mat), 'P', piston.dat(mat), 'S', OP.stick.dat(mat), 'C', catalyticConverter.dat(MT.Pt), 'L', OD.itemLubricant, 'N', FUEL_INJECTORS[i]);
 		}
 
 		// Some nitro engine blocks are made from A6061. Source: https://sbj.net/stories/2024-coolest-things-made-in-the-ozarks-billet-aluminum-engine-block,93860
