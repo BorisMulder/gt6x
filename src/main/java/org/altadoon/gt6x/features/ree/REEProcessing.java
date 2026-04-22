@@ -129,7 +129,6 @@ public class REEProcessing  extends GT6XFeature {
 			}
 		}
 
-		// TODO YBCO superconductor coils for fusion reactor
 		//TODO LuAG lenses for high end (DUV) immersion lithography
 		//TODO La-using Ni-MH batteries
 		// TODO LaF3-fiberglass (ZBLAN), Er doped
