@@ -716,16 +716,16 @@ public class MTx {
             .heat(MT.Al2O3),
     RefractoryMortar = dustdcmp(16128, "Refractory Mortar", SET_FOOD, 200, 180, 160, 255)
             .heat(CaAlCement),
-    RefractoryCeramic = dustdcmp(16129, "Refractory Ceramic", SET_ROUGH, 255, 235, 200, 255)
+    RefractoryCeramic = dustdcmp(16129, "Refractory Ceramic", SET_ROUGH, 255, 235, 200, 255, PLATES, BRITTLE)
             .uumMcfg(0, MT.Ca, U, MT.Al2O3, 5*U, MT.SiO2, 12*U, MT.C, U)
-            .heat(2100),
+            .heat(2100).setCompressing(null, 0).setBending(null, 0).setForging(null, 0).setSmashing(null, 0),
     Firebrick = create(16130, "Fire Brick", 255, 235, 200, 255, MORTAR, BRITTLE)
             .setMcfg(0, RefractoryCeramic, U)
             .setAllToTheOutputOf(RefractoryCeramic)
             .heat(RefractoryCeramic)
             .setTextures(SET_ROUGH)
             .put(INGOTS),
-    Fireclay = oredustdcmp(16131, "Fireclay", SET_ROUGH, 255, 235, 200, 255, MORTAR)
+    Fireclay = oredustdcmp(16131, "Fireclay", SET_ROUGH, 255, 235, 200, 255, MORTAR, PLATES)
             .uumMcfg(0, MT.Kaolinite, 2*U, MT.Graphite, U)
             .heat(RefractoryCeramic)
             .setSmelting(RefractoryCeramic, U),
