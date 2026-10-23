@@ -5,9 +5,11 @@ import gregapi.data.*;
 import gregapi.oredict.OreDictItemData;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.oredict.OreDictPrefix;
+import gregapi.recipes.AdvancedCraftingShaped;
 import gregapi.recipes.Recipe;
 import gregapi.tileentity.connectors.MultiTileEntityPipeFluid;
 import gregapi.tileentity.machines.MultiTileEntityBasicMachine;
+import gregapi.util.CR;
 import gregapi.util.OM;
 import gregapi.util.ST;
 import gregapi.util.UT;
@@ -73,6 +75,7 @@ public class OilProcessing extends GT6XFeature {
         changeDTowerRecipes();
         changeCrackingRecipes();
         changeElectrolysisRecipes();
+        disableGunpowderTNTRecipes();
     }
 
     private static final List<FL> LIGHT_OILS = Arrays.asList(FL.Oil_Light, FL.Oil_Light2);
@@ -571,5 +574,34 @@ public class OilProcessing extends GT6XFeature {
 
         // nitroglycerin
         RM.Mixer.addRecipe0(true, 16, 800, FL.array(MT.Glycerol.liquid(14*U, true), MT.HNO3.liquid(15*U, true), MT.H2SO4.liquid(21*U, true)), MT.Glyceryl.liquid(20*U, false), MTx.DiluteH2SO4.liquid(U*30, false));
+
+        // TNT must be made from trinitrotoluene, remove gunpowder + sand crafting recipes
+        // (GT6's own gunpowder recipes are only buffered during its postInit, see disableGunpowderTNTRecipes)
+        ItemStack gunpowder = ST.make(Items.gunpowder, 1, 0), sand = ST.make(Blocks.sand, 1, 0);
+        CR.remove(gunpowder, sand, gunpowder, sand, gunpowder, sand, gunpowder, sand, gunpowder);
+        CR.shaped(ST.make(Blocks.tnt, 4, 0), CR.DEF, "PTP", "T T", "PTP", 'P', OD.paperEmpty, 'T', dust.dat(MTx.TNT));
+    }
+
+    private static boolean isGunpowder(Object o) {
+        if (!(o instanceof ItemStack stack)) return false;
+        OreDictItemData data = OM.anydata_(stack);
+        return data != null && data.mMaterial != null && data.mMaterial.mMaterial == MT.Gunpowder;
+    }
+
+    private static boolean containsGunpowder(Object[] inputs) {
+        for (Object input : inputs) {
+            if (isGunpowder(input)) return true;
+            if (input instanceof Collection<?> stacks) for (Object o : stacks) if (isGunpowder(o)) return true;
+        }
+        return false;
+    }
+
+    private void disableGunpowderTNTRecipes() {
+        CR.BUFFER.removeIf(r -> ST.equal(r.getRecipeOutput(), ST.make(Blocks.tnt, 1, 0)) && r instanceof AdvancedCraftingShaped sh && containsGunpowder(sh.getInput()));
+        for (Recipe r : RM.Press.mRecipeList) {
+            if (r.mOutputs.length == 1 && ST.equal(r.mOutputs[0], ST.make(Blocks.tnt, 1, 0))) {
+                r.mEnabled = false;
+            }
+        }
     }
 }
