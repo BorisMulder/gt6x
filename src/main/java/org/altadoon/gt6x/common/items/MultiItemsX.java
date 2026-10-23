@@ -38,7 +38,7 @@ public class MultiItemsX extends MultiItemRandom {
         ILx.Shape_Extruder_Catalytic_Converter.set(addItem(3, "Extruder Shape (Catalytic Converter)", "Extruder Shape for making Catalytic Converters"));
         ILx.Shape_SimpleEx_Catalytic_Converter.set(addItem(4, "Low Heat Extruder Shape (Catalytic Converter)", "Extruder Shape for making Catalytic Converters"));
         CR.shaped(ILx.Shape_Extruder_Catalytic_Converter.get(1), CR.DEF_REV, " e ", " P ", "   ", 'P', IL.Shape_Extruder_Empty);
-        CR.shaped(ILx.Shape_SimpleEx_Catalytic_Converter.get(1), CR.DEF_REV, " e ", " P ", "   ", 'P', IL.Shape_SimpleEx_Empty);
+        CR.shaped(ILx.Shape_SimpleEx_Catalytic_Converter.get(1), CR.DEF_REV, " g ", " P ", "   ", 'P', IL.Shape_SimpleEx_Empty);
 
         ILx.SparkPlugs.set(addItem(5, "Spark Plugs", "Used to power spark-ignition engines", TC.stack(TC.ELECTRUM, 1)));
         CR.shaped(ILx.SparkPlugs.get(1), CR.DEF_REV, "BCB", "CAC", "BMB", 'B', bolt.dat(MT.Invar), 'C', cableGt01.dat(ANY.Cu), 'M', IL.MOTORS[1], 'A', "gt:re-battery1");
