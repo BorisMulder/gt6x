@@ -206,10 +206,6 @@ public class Ceramics extends GT6XFeature {
         CR.shaped(ST.make(Blocks.brick_block, 1, 0), CR.DEF_REM, "BMB", "M M", "BMB", 'B', ST.make(Items.brick, 1, 0), 'M', OM.dust(MTx.Mortar));
         CR.shaped(ST.make(Blocks.nether_brick, 1, 0), CR.DEF_REM, "BMB", "M M", "BMB", 'B', ST.make(Items.netherbrick, 1, 0), 'M', OM.dust(MTx.Mortar));
 
-        // Brick burning box
-        CRx.overrideShaped(MTEx.gt6MTEReg.getItem(1199), CR.DEF_REV_NCC, "BBB", "BBB", "BFB", 'B', OP.ingot.dat(MTx.Firebrick), 'F', OD.craftingFirestarter);
-        OreDictManager.INSTANCE.setItemData(MTEx.gt6MTEReg.getItem(1199), new OreDictItemData(MTx.Firebrick, 8*U));
-
         // Fire bricks block
         CRx.overrideShaped(MTEx.gt6MTEReg.getItem(18000), CR.DEF_REV_NCC, "MBM", "B B", "MBM", 'B', ingot.mat(MTx.Firebrick, 1), 'M', OM.dust(MTx.Mortar));
         OreDictManager.INSTANCE.setItemData(MTEx.gt6MTEReg.getItem(18000), new OreDictItemData(MTx.Firebrick, 4*U));
