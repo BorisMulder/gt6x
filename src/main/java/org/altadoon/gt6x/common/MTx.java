@@ -189,8 +189,12 @@ public class MTx {
             mat.remove(MELTING);
         }
 
+        for (OreDictMaterial mat : new OreDictMaterial[] { MT.Coal, MT.CoalCoke, MT.PetCoke, MT.Charcoal, MT.Lignite, MT.LigniteCoke }) {
+            mat.heat(1200, mat.mBoilingPoint);
+        }
+
         addVapour(MT.C.heat(3915, 3915));
-        ANY.C.heat(MT.C);
+        ANY.C.heat(MT.C).addReRegistrationToThis(MT.C_13, MT.C_14);
         addVapour(MT.As.heat(887, 887));
         addVapour(MT.Zn);
         addVapour(MT.Mg);

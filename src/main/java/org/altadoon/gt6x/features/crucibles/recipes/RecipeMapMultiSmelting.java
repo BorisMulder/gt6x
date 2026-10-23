@@ -52,9 +52,9 @@ public class RecipeMapMultiSmelting {
 		}
 
 		if (SmeltsFrom.containsKey(result.mMaterial)) {
-			SmeltsInto.get(result.mMaterial).add(recipe);
+			SmeltsFrom.get(result.mMaterial).add(recipe);
 		} else {
-			SmeltsInto.put(result.mMaterial, new ArrayListNoNulls<>(false, recipe));
+			SmeltsFrom.put(result.mMaterial, new ArrayListNoNulls<>(false, recipe));
 		}
 
 		addFakeRecipe(recipe);

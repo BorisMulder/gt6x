@@ -3,6 +3,7 @@ package org.altadoon.gt6x.features.crucibles;
 import gregapi.code.ArrayListNoNulls;
 import gregapi.code.HashSetNoNulls;
 import gregapi.code.TagData;
+import gregapi.data.ANY;
 import gregapi.data.FL;
 import gregapi.data.MT;
 import gregapi.data.OP;
@@ -367,7 +368,8 @@ public class CrucibleInterior {
 				if (stack.mMaterial.mBoilingPoint >= 2000) causeFire(exterior, stack.mAmount);
 			} else if (currentTemperature > C + 40 &&
 					stack.mMaterial.contains(TD.Properties.FLAMMABLE) &&
-					!stack.mMaterial.containsAny(TD.Properties.UNBURNABLE, TD.Processing.MELTING))
+					!stack.mMaterial.containsAny(TD.Properties.UNBURNABLE, TD.Processing.MELTING) &&
+					!isCarbon(stack.mMaterial))
 			{
 				GarbageGT.trash(content.remove(i));
 				UT.Sounds.send(SFX.MC_FIZZ, exterior);
@@ -443,6 +445,11 @@ public class CrucibleInterior {
 		}
 
 		return result;
+	}
+
+	/** Carbon is flammable but does not melt, yet it should not burn in a crucible since it is needed as a reducing agent */
+	private static boolean isCarbon(OreDictMaterial mat) {
+		return mat == ANY.C || ANY.C.mToThis.contains(mat);
 	}
 
 	public void causeFire(TileEntityBase07Paintable exterior, long amount) {
