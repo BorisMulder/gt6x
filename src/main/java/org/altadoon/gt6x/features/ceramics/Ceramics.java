@@ -133,6 +133,11 @@ public class Ceramics extends GT6XFeature {
         }
         RM.Furnace.addRecipe1(true, 16, 64, dust.mat(MTx.Fireclay, 1), ingot.mat(MTx.Firebrick, 1));
 
+        // Refractory ceramic plates
+        CR.shaped(plate.mat(MTx.Fireclay, 1), CR.DEF_NCC, "R", "C", 'R', OreDictToolNames.rollingpin, 'C', ILx.Fireclay_Ball);
+        RM.RollingMill.addRecipe1(true, 16, 32, ILx.Fireclay_Ball.get(1), plate.mat(MTx.Fireclay, 1));
+        RM.add_smelting(plate.mat(MTx.Fireclay, 1), plate.mat(MTx.RefractoryCeramic, 1));
+
         // Magnesia-Carbon
         RMx.Sintering.addRecipeX(true, 64, 256, ST.array(ST.tag(2), dust.mat(MTx.MgO, 1), dust.mat(MT.Graphite, 1)), ingot.mat(MTx.MgOC, 2));
 

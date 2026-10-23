@@ -96,5 +96,8 @@ public class Crucibles extends GT6XFeature {
 		mat = MT.DATA.Heat_T[2]; CRx.overrideShaped(gt6MTEReg.getItem(20242), CR.DEF, "wUh", "PMP", "BCB", 'M', OP.casingMachine.dat(mat), 'U', gt6xMTEReg.getItem(IDs.Crucibles.get()+19), 'C', OP.plateDouble.dat(ANY.Cu), 'B', Blocks.brick_block, 'P', OP.pipeMedium.dat(mat));
 		mat = MT.DATA.Heat_T[3]; CRx.overrideShaped(gt6MTEReg.getItem(20243), CR.DEF, "wUh", "PMP", "BCB", 'M', OP.casingMachine.dat(mat), 'U', gt6xMTEReg.getItem(IDs.Crucibles.get()+19), 'C', OP.plateDouble.dat(ANY.Cu), 'B', Blocks.brick_block, 'P', OP.pipeMedium.dat(mat));
 		mat = MT.DATA.Heat_T[4]; CRx.overrideShaped(gt6MTEReg.getItem(20244), CR.DEF, "wUh", "PMP", "BCB", 'M', OP.casingMachine.dat(mat), 'U', gt6xMTEReg.getItem(IDs.Crucibles.get()+43), 'C', OP.plateDouble.dat(ANY.Cu), 'B', Blocks.brick_block, 'P', OP.pipeMedium.dat(mat));
+
+		// Melter
+		mat = ANY.Iron;          CRx.overrideShaped(gt6MTEReg.getItem(22010), CR.DEF, "wUh", "PMP", "BCB", 'M', OP.casingMachine.dat(mat), 'U', gt6xMTEReg.getItem(IDs.Crucibles.get()+12), 'C', OP.plateDouble.dat(ANY.Cu), 'B', Blocks.brick_block, 'P', OP.pipeMedium.dat(mat));
 	}
 }
