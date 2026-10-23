@@ -193,6 +193,10 @@ public class MTx {
             mat.heat(1200, mat.mBoilingPoint);
         }
 
+        for (OreDictMaterial mat : new OreDictMaterial[] { MT.CaCO3, MT.STONES.Limestone, MT.Chalk }) {
+            mat.heat(1250, mat.mBoilingPoint);
+        }
+
         addVapour(MT.C.heat(3915, 3915));
         ANY.C.heat(MT.C).addReRegistrationToThis(MT.C_13, MT.C_14);
         addVapour(MT.As.heat(887, 887));
