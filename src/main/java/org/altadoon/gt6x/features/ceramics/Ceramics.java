@@ -212,6 +212,10 @@ public class Ceramics extends GT6XFeature {
     }
 
     private void changeRecipes() {
+        // GT6's 2 bricks -> brick slab recipe is only buffered during its postInit, so replace it here
+        CRx.disableGt6(ST.make(Blocks.stone_slab, 1, 4));
+        CR.shaped(ST.make(Blocks.stone_slab, 1, 4), CR.DEF_REM, "BM", "MB", 'B', ST.make(Items.brick, 1, 0), 'M', OM.dust(MTx.Mortar));
+
         for (Recipe r : RM.Mixer.mRecipeList) {
             if (r.mOutputs.length == 1 && r.mOutputs[0] != null && (
                     r.mOutputs[0].isItemEqual(dust.mat(MT.Concrete, 11)) ||
@@ -223,5 +227,7 @@ public class Ceramics extends GT6XFeature {
 
         Recipe x = RM.Boxinator.findRecipe(null, null, true, Long.MAX_VALUE, null, ZL_FS, ST.make(Items.brick, 4, 0), ST.tag(4)); if (x != null) x.mEnabled = false;
                x = RM.Boxinator.findRecipe(null, null, true, Long.MAX_VALUE, null, ZL_FS, ST.make(Items.netherbrick, 4, 0), ST.tag(4)); if (x != null) x.mEnabled = false;
+               x = RM.Boxinator.findRecipe(null, null, true, Long.MAX_VALUE, null, ZL_FS, ST.make(Items.brick, 2, 0), ST.tag(2)); if (x != null) x.mEnabled = false;
+               x = RM.Boxinator.findRecipe(null, null, true, Long.MAX_VALUE, null, ZL_FS, ST.make(Items.netherbrick, 2, 0), ST.tag(2)); if (x != null) x.mEnabled = false;
     }
 }
