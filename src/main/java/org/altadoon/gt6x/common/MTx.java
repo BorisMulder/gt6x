@@ -1536,7 +1536,11 @@ public class MTx {
             .setAllToTheOutputOf(ZnO),
     DRISlag = dustdcmp(16424, "DRI-Slag", SET_FLINT, 100, 100, 50, 255)
             .put(INGOTS, MORTAR, BRITTLE, GEMS)
-            .heat(ConverterSlag)
+            .heat(ConverterSlag),
+    Ironsand = dustdcmp(16425, "Ironsand", SET_METALLIC, 35, 35, 35, 255, MELTING, MAGNETIC_PASSIVE)
+            .setMcfg(0, MT.OREMATS.Magnetite, 7*U, MT.SiO2, 3*U)
+            .heat(MT.Fe.mMeltingPoint)
+            .addSourceOf(MT.Fe)
     ;
 
     /* Unused
