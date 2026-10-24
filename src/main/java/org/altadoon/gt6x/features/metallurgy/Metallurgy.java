@@ -1,12 +1,14 @@
 package org.altadoon.gt6x.features.metallurgy;
 
 import gregapi.code.ICondition;
+import gregapi.code.ItemStackContainer;
 import gregapi.data.*;
 import gregapi.item.prefixitem.PrefixItem;
 import gregapi.oredict.*;
 import gregapi.oredict.configurations.IOreDictConfigurationComponent;
 import gregapi.oredict.configurations.OreDictConfigurationComponent;
 import gregapi.recipes.Recipe;
+import gregapi.render.BlockTextureCopied;
 import gregapi.tileentity.machines.MultiTileEntityBasicMachine;
 import gregapi.tileentity.multiblocks.MultiTileEntityMultiBlockPart;
 import gregapi.util.CR;
@@ -19,6 +21,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.FluidStack;
+import org.altadoon.gt6x.common.Log;
 import org.altadoon.gt6x.common.MTEx;
 import org.altadoon.gt6x.common.MTx;
 import org.altadoon.gt6x.common.OMx;
@@ -66,6 +69,12 @@ public class Metallurgy extends GT6XFeature {
     }
 
     @Override
+    public void beforeGt6Init() {
+        // The GT API buffers OreDict registrations until its own init, so the Black Sand item data only exists from here on
+        registerIronsand();
+    }
+
+    @Override
     public void init() {
         addMTEs();
     }
@@ -93,9 +102,37 @@ public class Metallurgy extends GT6XFeature {
             .setLocalItemName("", " Sinter")
             .setCondition(ICondition.FALSE)
             .setMaterialStats(-1, U)
-            .forceItemGeneration(MT.Fe2O3, MT.OREMATS.Magnetite, MTx.FeO, MT.OREMATS.Garnierite, MT.OREMATS.Cassiterite, MT.OREMATS.Chromite, MT.OREMATS.Malachite, MTx.PbO, MTx.ZnO, MT.MnO2, MTx.MnO, MTx.Co3O4, MTx.CoO, MT.SiO2, MTx.Sb2O3)
+            .forceItemGeneration(MT.Fe2O3, MT.OREMATS.Magnetite, MTx.Ironsand, MT.OREMATS.BasalticMineralSand, MT.OREMATS.GraniticMineralSand, MTx.FeO,
+                    MT.OREMATS.Garnierite, MT.OREMATS.Cassiterite, MT.OREMATS.Chromite, MT.OREMATS.Malachite, MTx.PbO, MTx.ZnO, MT.MnO2, MTx.MnO, MTx.Co3O4, MTx.CoO, MT.SiO2, MTx.Sb2O3)
             .add(TOOLTIP_MATERIAL, UNIFICATABLE);
         PrefixItem item = new PrefixItem(MOD_ID, MD.GT.mID, "gt6x.meta.sinter" , sinter); if (COMPAT_FR != null) COMPAT_FR.addToBackpacks("miner", ST.make(item, 1, W));
+
+        // Black Sand is the Ironsand Dust Block
+        blockDust.disableItemGeneration(MTx.Ironsand);
+    }
+
+    private void registerIronsand() {
+        // GT6 registered Black Sand as Magnetite, so remove that association and register it as Ironsand instead
+        ItemStack blackSand = ST.make(BlocksGT.Sands, 1, 0);
+        Map<?, ?> itemData = (Map<?, ?>) UT.Reflection.getFieldContent(OreDictManager.INSTANCE, "sItemStack2DataMap");
+        Map<?, ?> unificationTargets = (Map<?, ?>) UT.Reflection.getFieldContent(OreDictManager.INSTANCE, "sName2StackMap");
+        if (itemData != null) itemData.remove(new ItemStackContainer(blackSand));
+        if (unificationTargets != null) unificationTargets.remove(blockDust.dat(MT.OREMATS.Magnetite).toString());
+
+        OM.reg(blockDust, MTx.Ironsand, blackSand);
+        OreDictItemData data = OM.anydata(blackSand);
+        if (data == null || data.mMaterial == null || data.mMaterial.mMaterial != MTx.Ironsand)
+            Log.LOG.warn("Failed to register Black Sand as Ironsand, its item data is: {}", data);
+        MTx.Ironsand.mTextureDust = BlockTextureCopied.get(BlocksGT.Sands, SIDE_TOP, 0);
+    }
+
+    private static OreDictMaterial[][] mineralSands() {
+        // {sand, secondary component}
+        return new OreDictMaterial[][] {
+                {MTx.Ironsand, MT.Sand},
+                {MT.OREMATS.BasalticMineralSand, MT.STONES.Basalt},
+                {MT.OREMATS.GraniticMineralSand, MT.STONES.GraniteBlack},
+        };
     }
 
     private void changeMaterialProperties() {
@@ -113,8 +150,10 @@ public class Metallurgy extends GT6XFeature {
         }
 
         // to make smelting bloom in crucibles easier
-        for (OreDictMaterial magnetite : new OreDictMaterial[] { MT.OREMATS.Magnetite, MT.OREMATS.BasalticMineralSand, MT.OREMATS.GraniticMineralSand })
-            magnetite.heat(MT.Fe2O3);
+        MT.OREMATS.Magnetite.heat(MT.Fe2O3);
+
+        MT.OREMATS.BasalticMineralSand.setMcfg(0, MT.OREMATS.Magnetite, 7*U, MT.STONES.Basalt      , 3*U);
+        MT.OREMATS.GraniticMineralSand.setMcfg(0, MT.OREMATS.Magnetite, 7*U, MT.STONES.GraniteBlack, 3*U);
 
         // to prevent smelting As in a smelter to liquid (it should sublime)
         MT.As.put(BLACKLISTED_SMELTER);
@@ -213,8 +252,6 @@ public class Metallurgy extends GT6XFeature {
         MTx.SpongeIron.addAlloyingRecipe(new OreDictConfigurationComponent(3, OM.stack(MTx.FeO                       , 4 *U), OM.stack(MT.C, 4 *U)));
         MTx.SpongeIron.addAlloyingRecipe(new OreDictConfigurationComponent(3, OM.stack(MT.Fe2O3                      , 5 *U), OM.stack(MT.C, 4 *U)));
         MTx.SpongeIron.addAlloyingRecipe(new OreDictConfigurationComponent(9, OM.stack(MT.OREMATS.Magnetite          , 14*U), OM.stack(MT.C, 12*U)));
-        MTx.SpongeIron.addAlloyingRecipe(new OreDictConfigurationComponent(9, OM.stack(MT.OREMATS.BasalticMineralSand, 14*U), OM.stack(MT.C, 12*U)));
-        MTx.SpongeIron.addAlloyingRecipe(new OreDictConfigurationComponent(9, OM.stack(MT.OREMATS.GraniticMineralSand, 14*U), OM.stack(MT.C, 12*U)));
 
         // Carburisation of Meteoric Iron
         MTx.MeteoricCementite.addAlloyingRecipe(new OreDictConfigurationComponent(1, OM.stack(MT.MeteoricIron, U), OM.stack(MT.C, U3)));
@@ -328,9 +365,13 @@ public class Metallurgy extends GT6XFeature {
         for (OreDictMaterialStack[] stacks : smeltLiquidSlag) {
             long mult = stacks[1].mAmount % 2 == 0 ? 1 : 2;
 
-            for (ItemStack coal : ST.array(dust.mat(MT.PetCoke, 1), dust.mat(MT.CoalCoke, 1), dust.mat(MT.LigniteCoke, 3), dust.mat(MT.Charcoal, 2), dust.mat(MT.C, 1), gem.mat(MT.PetCoke, 1), gem.mat(MT.CoalCoke, 1), gem.mat(MT.LigniteCoke, 3), gem.mat(MT.Charcoal, 2))) {
-                RMx.Sintering.addRecipeX(true, 16, 32 * mult, ST.array(ST.tag(3), dust.mat(stacks[0].mMaterial, stacks[0].mAmount), ST.mul(mult, coal), dust.mat(MT.CaCO3, mult)), sinter.mat(stacks[0].mMaterial, stacks[0].mAmount));
+            for (ItemStack coalDust : ST.array(dust.mat(MT.PetCoke, 1), dust.mat(MT.CoalCoke, 1), dust.mat(MT.LigniteCoke, 3), dust.mat(MT.Charcoal, 2), dust.mat(MT.C, 1))) {
+                for (OreDictMaterial flux : new OreDictMaterial[]{MT.CaCO3, MT.STONES.Limestone, MT.Chalk}) {
+                    RMx.Sintering.addRecipeX(true, 16, 32 * mult, ST.array(ST.tag(3), dust.mat(stacks[0].mMaterial, stacks[0].mAmount), ST.mul(mult, coalDust), dust.mat(flux, mult)), sinter.mat(stacks[0].mMaterial, stacks[0].mAmount));
+                }
+            }
 
+            for (ItemStack coal : ST.array(ingot.mat(MT.PetCoke, 1), ingot.mat(MT.CoalCoke, 1), ingot.mat(MT.LigniteCoke, 3), ingot.mat(MT.Charcoal, 2), gem.mat(MT.PetCoke, 1), gem.mat(MT.CoalCoke, 1), gem.mat(MT.LigniteCoke, 3), gem.mat(MT.Charcoal, 2))) {
                 for (OreDictMaterial flux : new OreDictMaterial[] {MT.CaCO3, MT.STONES.Limestone, MT.Chalk}) {
                     // ore dusts (least efficent)
                     RMx.BlastFurnace.addRecipeX(true, 8, 512 * mult,
@@ -346,6 +387,7 @@ public class Metallurgy extends GT6XFeature {
                             FL.array(stacks[1].mMaterial.liquid(stacks[1].mAmount * mult * U, false), MTx.Slag.liquid(mult * U, false), MTx.BlastFurnaceGas.gas(mult * 3 * 5 * U, false))
                     );
                 }
+
                 // sinters
                 RMx.BlastFurnace.addRecipeX(true, 8, 256 * mult,
                         ST.array(sinter.mat(stacks[0].mMaterial, stacks[0].mAmount * mult), ST.mul(2 * mult, coal)),
@@ -363,9 +405,13 @@ public class Metallurgy extends GT6XFeature {
         for (OreDictMaterialStack[] stacks : smeltSolidSlag) {
             long mult = stacks[1].mAmount % 2 == 0 ? 1 : 2;
 
-            for (ItemStack coal : ST.array(dust.mat(MT.PetCoke, 1), dust.mat(MT.CoalCoke, 1), dust.mat(MT.LigniteCoke, 3), dust.mat(MT.Charcoal, 2), dust.mat(MT.C, 1), gem.mat(MT.PetCoke, 1), gem.mat(MT.CoalCoke, 1), gem.mat(MT.LigniteCoke, 3), gem.mat(MT.Charcoal, 2))) {
-                RMx.Sintering.addRecipeX(true, 16, 32 * mult, ST.array(ST.tag(3), dust.mat(stacks[0].mMaterial, stacks[0].mAmount), ST.mul(mult, coal), dust.mat(MT.CaCO3, mult)), sinter.mat(stacks[0].mMaterial, stacks[0].mAmount));
+            for (ItemStack coalDust : ST.array(dust.mat(MT.PetCoke, 1), dust.mat(MT.CoalCoke, 1), dust.mat(MT.LigniteCoke, 3), dust.mat(MT.Charcoal, 2), dust.mat(MT.C, 1))) {
+                for (OreDictMaterial flux : new OreDictMaterial[]{MT.CaCO3, MT.STONES.Limestone, MT.Chalk}) {
+                    RMx.Sintering.addRecipeX(true, 16, 32 * mult, ST.array(ST.tag(3), dust.mat(stacks[0].mMaterial, stacks[0].mAmount), ST.mul(mult, coalDust), dust.mat(flux, mult)), sinter.mat(stacks[0].mMaterial, stacks[0].mAmount));
+                }
+            }
 
+            for (ItemStack coal : ST.array(ingot.mat(MT.PetCoke, 1), ingot.mat(MT.CoalCoke, 1), ingot.mat(MT.LigniteCoke, 3), ingot.mat(MT.Charcoal, 2), gem.mat(MT.PetCoke, 1), gem.mat(MT.CoalCoke, 1), gem.mat(MT.LigniteCoke, 3), gem.mat(MT.Charcoal, 2))) {
                 for (OreDictMaterial flux : new OreDictMaterial[] {MT.CaCO3, MT.STONES.Limestone, MT.Chalk}) {
                     // ore dusts (least efficent)
                     RMx.BlastFurnace.addRecipeX(true, 8, 512 * mult,
@@ -399,21 +445,45 @@ public class Metallurgy extends GT6XFeature {
             }
         }
 
-        for (ItemStack coal : ST.array(dust.mat(MT.PetCoke, 1), dust.mat(MT.CoalCoke, 1), dust.mat(MT.LigniteCoke, 3), dust.mat(MT.Charcoal, 2), dust.mat(MT.C, 1), gem.mat(MT.PetCoke, 1), gem.mat(MT.CoalCoke, 1), gem.mat(MT.LigniteCoke, 3), gem.mat(MT.Charcoal, 2))) {
+        for (ItemStack coalDust : ST.array(dust.mat(MT.PetCoke, 1), dust.mat(MT.CoalCoke, 1), dust.mat(MT.LigniteCoke, 3), dust.mat(MT.Charcoal, 2), dust.mat(MT.C, 1))) {
+            for (OreDictMaterial flux : new OreDictMaterial[]{MT.CaCO3, MT.STONES.Limestone, MT.Chalk}) {
+                RMx.Sintering.addRecipeX(true, 16, 32, ST.array(ST.tag(3), dust.mat(MTx.ZnO, 2), coalDust, dust.mat(flux, 1)), sinter.mat(MTx.ZnO, 2));
+
+                for (OreDictMaterial limonite : new OreDictMaterial[] {MT.OREMATS.YellowLimonite, MT.OREMATS.BrownLimonite}) {
+                    RMx.Sintering.addRecipeX(true, 16, 32, ST.array(ST.tag(3), dust.mat(limonite, 8), ST.mul(1, coalDust), dust.mat(flux, 1)), sinter.mat(MT.Fe2O3, 5));
+                }
+
+                for (OreDictMaterial[] mineralSand : mineralSands()) {
+                    RMx.Sintering.addRecipeX(true, 16, 32, ST.array(ST.tag(3), dust.mat(mineralSand[0], 10), ST.mul(1, coalDust), dust.mat(flux, 6)), sinter.mat(mineralSand[0], 10));
+                }
+            }
+
+            RMx.Sintering.addRecipeX(true, 16, 32, ST.array(ST.tag(3), dust.mat(MT.SiO2, 6), coalDust), sinter.mat(MT.SiO2, 6));
+        }
+
+        for (ItemStack coal : ST.array(ingot.mat(MT.PetCoke, 1), ingot.mat(MT.CoalCoke, 1), ingot.mat(MT.LigniteCoke, 3), ingot.mat(MT.Charcoal, 2), gem.mat(MT.PetCoke, 1), gem.mat(MT.CoalCoke, 1), gem.mat(MT.LigniteCoke, 3), gem.mat(MT.Charcoal, 2))) {
             // Zn is special since it goes into the off gas and produces different slag
             for (OreDictMaterial flux : new OreDictMaterial[] {MT.CaCO3, MT.STONES.Limestone, MT.Chalk}) {
-                RMx.Sintering.addRecipeX(true, 16, 32, ST.array(ST.tag(3), dust.mat(MTx.ZnO, 2), coal, dust.mat(flux, 1)), sinter.mat(MTx.ZnO, 2));
+
                 RMx.BlastFurnace.addRecipeX(true, 8, 512, ST.array(dust  .mat(MTx.ZnO, 2), ST.mul(4, coal), dust.mat(flux, 1)), FL.Air.make  (10000), MTx.ZnBlastFurnaceGas.gas(14*U, false), gem.mat(MTx.ZnSlag, 1));
                 RMx.BlastFurnace.addRecipeX(true, 8, 256, ST.array(dust  .mat(MTx.ZnO, 2), ST.mul(3, coal), dust.mat(flux, 1)), FL.mul(blast, 7500 ), MTx.ZnBlastFurnaceGas.gas(14*U, false), gem.mat(MTx.ZnSlag, 1));
 
-                RMx.Sintering.addRecipeX(true, 16, 32, ST.array(ST.tag(3), dust.mat(MT.OREMATS.YellowLimonite     , 8 ), ST.mul(1, coal), dust.mat(flux, 1)), sinter.mat(MT.Fe2O3, 5));
-                RMx.Sintering.addRecipeX(true, 16, 32, ST.array(ST.tag(3), dust.mat(MT.OREMATS.BrownLimonite      , 8 ), ST.mul(1, coal), dust.mat(flux, 1)), sinter.mat(MT.Fe2O3, 5));
+                // Mineral sands: Contain more SiO2
+                for (OreDictMaterial[] mineralSand : mineralSands()) {
+                    RMx.BlastFurnace.addRecipeX(true, 8, 512, ST.array(dust.mat(mineralSand[0], 10), ST.mul(4, coal), dust.mat(flux, 6)), FL.array(FL.Air.make  (10000)), FL.array(MT.PigIron.liquid(3*U, false), MTx.Slag.liquid(6 * U, false), MTx.BlastFurnaceGas.gas(20*U, false)));
+                    RMx.BlastFurnace.addRecipeX(true, 8, 256, ST.array(dust.mat(mineralSand[0], 10), ST.mul(3, coal), dust.mat(flux, 6)), FL.array(FL.mul(blast, 7500 )), FL.array(MT.PigIron.liquid(3*U, false), MTx.Slag.liquid(6 * U, false), MTx.BlastFurnaceGas.gas(15*U, false)));
+                }
             }
 
             RMx.BlastFurnace.addRecipeX(true, 8, 256, ST.array(sinter.mat(MTx.ZnO, 2), ST.mul(2, coal)                       ), FL.Air.make  (7500 ), MTx.ZnBlastFurnaceGas.gas(14*U, false), gem.mat(MTx.ZnSlag, 1));
             RMx.BlastFurnace.addRecipeX(true, 8, 128, ST.array(sinter.mat(MTx.ZnO, 2), ST.mul(1, coal)                       ), FL.mul(blast, 5000 ), MTx.ZnBlastFurnaceGas.gas(14*U, false), gem.mat(MTx.ZnSlag, 1));
+
+            for (OreDictMaterial[] mineralSand : mineralSands()) {
+                RMx.BlastFurnace.addRecipeX(true, 8, 256, ST.array(sinter.mat(mineralSand[0], 10), ST.mul(2, coal)), FL.array(FL.Air.make  (7500)), FL.array(MT.PigIron.liquid(3*U, false), MTx.Slag.liquid(6 * U, false), MTx.BlastFurnaceGas.gas(15*U, false)));
+                RMx.BlastFurnace.addRecipeX(true, 8, 128, ST.array(sinter.mat(mineralSand[0], 10), ST.mul(1, coal)), FL.array(FL.mul(blast, 5000 )), FL.array(MT.PigIron.liquid(3*U, false), MTx.Slag.liquid(6 * U, false), MTx.BlastFurnaceGas.gas(10*U, false)));
+            }
+
             // Si is special since it does not use calcite (Otherwise calcium silicate would form instead of silicon)
-            RMx.Sintering.addRecipeX(true, 16, 32, ST.array(ST.tag(3), dust.mat(MT.SiO2, 6), coal), sinter.mat(MT.SiO2, 6));
             RMx.BlastFurnace.addRecipe2(true, 8, 512, dust  .mat(MT.SiO2, 6), ST.mul(4, coal), FL.array(FL.Air.make  (10000)), FL.array(MT.Si.liquid(2*U, false), MTx.BlastFurnaceGas.gas(15*U, false)));
             RMx.BlastFurnace.addRecipe2(true, 8, 256, dust  .mat(MT.SiO2, 6), ST.mul(3, coal), FL.array(FL.mul(blast, 7500 )), FL.array(MT.Si.liquid(2*U, false), MTx.BlastFurnaceGas.gas(15*U, false)));
             RMx.BlastFurnace.addRecipe2(true, 8, 256, sinter.mat(MT.SiO2, 6), ST.mul(2, coal), FL.array(FL.Air.make  (7500 )), FL.array(MT.Si.liquid(2*U, false), MTx.BlastFurnaceGas.gas(15*U, false)));
@@ -428,6 +498,12 @@ public class Metallurgy extends GT6XFeature {
         RM.CryoDistillationTower.addRecipe0(true, 64,  128, FL.array(MTx.BlastFurnaceGas.gas(4*U10, true)), FL.array(MT.N.gas(177*U1000, false), MT.CO.gas(4*20*U1000, true), MT.CO2.gas(4*30*U1000, true), MT.H.gas(4*5*U1000, true), MT.He.gas(U1000, true), MT.Ne.gas(U1000, true), MT.Ar.gas(U1000, true)));
         FM.Burn.addRecipe0(true, -16, 1, MTx.BlastFurnaceGas.gas(3*U1000, true), FL.CarbonDioxide.make(1), ZL_IS);
         RM.Distillery.addRecipe1(true, 16, 64, ST.tag(0), FL.array(MTx.ZnBlastFurnaceGas.gas(7*U, true)), FL.array(MT.Cd.liquid(U9, false), MTx.BlastFurnaceGas.gas(6*U, false)), OM.dust(MT.Zn, 8*U9));
+
+        // Separation of mineral sands. The sifter is only half as efficient
+        for (OreDictMaterial[] mineralSand : mineralSands()) {
+            RM.MagneticSeparator.addRecipe1(true, 16, 32, new long[]{10000, 10000, 1000, 2500, 1000}, dust.mat(mineralSand[0], 10), dust.mat(MT.OREMATS.Magnetite, 7), dust.mat(mineralSand[1], 3), nugget.mat(MT.Au, 1), dustTiny.mat(MT.V2O5, 1), dustTiny.mat(MT.TiO2, 1));
+            RM.Sifting          .addRecipe1(true, 16, 64, new long[]{10000, 10000, 1000, 2500, 1000}, dust.mat(mineralSand[0], 20), dust.mat(MT.OREMATS.Magnetite, 7), dust.mat(mineralSand[1], 3), nugget.mat(MT.Au, 1), dustTiny.mat(MT.V2O5, 1), dustTiny.mat(MT.TiO2, 1));
+        }
 
         // Wrought Iron
         RM.Anvil.addRecipe2(false, 64, 192, scrapGt.mat(MTx.SpongeIron, 9), scrapGt.mat(MTx.SpongeIron, 9), ingot.mat(MT.WroughtIron, 1), scrapGt.mat(MTx.FerrousSlag, 8));
@@ -589,12 +665,10 @@ public class Metallurgy extends GT6XFeature {
             RMx.DirectReduction.addRecipe2(true, 64, 48, ST.tag(3), dust.mat(limonite, 8), FL.array(MT.CH4.gas(8  *     U15 , true), MT.H.gas(23  * 2 * U15 , true)), FL.array(MT.H2O.liquid(39  * 3 * U15  + 3 * U, false)), dust.mat(MTx.ImpureCementite, 3));
         }
 
-        for(OreDictMaterial magnetite : new OreDictMaterial[] {MT.OREMATS.Magnetite, MT.OREMATS.GraniticMineralSand, MT.OREMATS.BasalticMineralSand }) {
-            RMx.DirectReduction.addRecipe2(true, 64, 64*3, ST.tag(0), dust.mat(magnetite, 14), FL.array(MT.CO .gas(24  * 2 * U25 , true), MT.H.gas(254 * 2 * U25 , true)), FL.array(MT.H2O.liquid(254 * 3 * U25 , false)), dust.mat(MTx.SpongeIron, 9));
-            RMx.DirectReduction.addRecipe2(true, 64, 64*3, ST.tag(1), dust.mat(magnetite, 14), FL.array(MT.CO .gas(218 * 2 * U100, true), MT.H.gas(654 * 2 * U100, true)), FL.array(MT.H2O.liquid(654 * 3 * U100, false), MT.CO2.gas(122 * 3 * U100, false)), dust.mat(MTx.SpongeIron, 9));
-            RMx.DirectReduction.addRecipe2(true, 64, 64*3, ST.tag(2), dust.mat(magnetite, 14), FL.array(MT.CO .gas(218 * 2 * U50 , true), MT.H.gas(218 * 2 * U50 , true)), FL.array(MT.H2O.liquid(218 * 3 * U50 , false), MT.CO2.gas(170 * 3 * U50 , false)), dust.mat(MTx.SpongeIron, 9));
-            RMx.DirectReduction.addRecipe2(true, 64, 32*3, ST.tag(3), dust.mat(magnetite, 14), FL.array(MT.CH4.gas(8   *     U5  , true), MT.H.gas(18  * 2 * U5  , true)), FL.array(MT.H2O.liquid(34  * 3 * U5  , false)), dust.mat(MTx.ImpureCementite, 9));
-        }
+        RMx.DirectReduction.addRecipe2(true, 64, 64*3, ST.tag(0), dust.mat(MT.OREMATS.Magnetite, 14), FL.array(MT.CO .gas(24  * 2 * U25 , true), MT.H.gas(254 * 2 * U25 , true)), FL.array(MT.H2O.liquid(254 * 3 * U25 , false)), dust.mat(MTx.SpongeIron, 9));
+        RMx.DirectReduction.addRecipe2(true, 64, 64*3, ST.tag(1), dust.mat(MT.OREMATS.Magnetite, 14), FL.array(MT.CO .gas(218 * 2 * U100, true), MT.H.gas(654 * 2 * U100, true)), FL.array(MT.H2O.liquid(654 * 3 * U100, false), MT.CO2.gas(122 * 3 * U100, false)), dust.mat(MTx.SpongeIron, 9));
+        RMx.DirectReduction.addRecipe2(true, 64, 64*3, ST.tag(2), dust.mat(MT.OREMATS.Magnetite, 14), FL.array(MT.CO .gas(218 * 2 * U50 , true), MT.H.gas(218 * 2 * U50 , true)), FL.array(MT.H2O.liquid(218 * 3 * U50 , false), MT.CO2.gas(170 * 3 * U50 , false)), dust.mat(MTx.SpongeIron, 9));
+        RMx.DirectReduction.addRecipe2(true, 64, 32*3, ST.tag(3), dust.mat(MT.OREMATS.Magnetite, 14), FL.array(MT.CH4.gas(8   *     U5  , true), MT.H.gas(18  * 2 * U5  , true)), FL.array(MT.H2O.liquid(34  * 3 * U5  , false)), dust.mat(MTx.ImpureCementite, 9));
 
         // Misc direct reduction
         RMx.DirectReduction.addRecipe1(true, 16, 64 , dust.mat(MTx.PbO  , 1), MT.H.gas(2*U, true), MT.H2O.liquid(3*U, false), dust.mat(MT.Pb, 1));
@@ -743,8 +817,6 @@ public class Metallurgy extends GT6XFeature {
                 RM.Roasting.addRecipe1(true, 16, 512, OM.dust(MT.OREMATS.Cinnabar), FL.make(tOxygen, 1500), MT.SO2.gas(3 * U2, false), OM.dust(MTx.HgO, U));
                 RM.Roasting.addRecipe1(true, 16, 512, OM.dust(MTx.FeS), FL.make(tOxygen, 1083), MT.SO2.gas(3 * U2, false), OM.dust(MT.Fe2O3, 5 * U4));
                 RM.Roasting.addRecipe1(true, 16, 512, OP.dust.mat(MT.OREMATS.Magnetite          , 7), FL.make(tOxygen, 500), NF, OM.dust(MT.Fe2O3, 15*U2));
-                RM.Roasting.addRecipe1(true, 16, 512, OP.dust.mat(MT.OREMATS.GraniticMineralSand, 7), FL.make(tOxygen, 500), NF, OM.dust(MT.Fe2O3, 15*U2));
-                RM.Roasting.addRecipe1(true, 16, 512, OP.dust.mat(MT.OREMATS.BasalticMineralSand, 7), FL.make(tOxygen, 500), NF, OM.dust(MT.Fe2O3, 15*U2));
                 RM.Roasting.addRecipe1(true, 16, 512, OM.dust(MT.Se), FL.make(tOxygen, 2000), NF, OM.dust(MTx.SeO2, U));
                 RM.Roasting.addRecipe1(true, 16, 512, OM.dust(MT.OREMATS.Sperrylite), FL.make(tOxygen, 1000), NF, OM.dust(MT.Pt, U3), OM.dust(MTx.As2O3, 5*U3));
             }
@@ -768,8 +840,6 @@ public class Metallurgy extends GT6XFeature {
                 RM.Roasting.addRecipe1(true, 16, 512, tChances, OM.dust(MT.OREMATS.Cinnabar), FL.make(tAir, 4000), MT.SO2.gas(3 * U2, false), OM.dust(MTx.HgO, U));
                 RM.Roasting.addRecipe1(true, 16, 512, tChances, OM.dust(MTx.FeS), FL.make(tAir, 4000), MT.SO2.gas(3 * U2, false), OM.dust(MT.Fe2O3, 5 * U4));
                 RM.Roasting.addRecipe1(true, 16, 512, tChances, OP.dust.mat(MT.OREMATS.Magnetite, 7), FL.make(tAir, 2000), NF, OM.dust(MT.Fe2O3, 15 * U2));
-                RM.Roasting.addRecipe1(true, 16, 512, tChances, OP.dust.mat(MT.OREMATS.GraniticMineralSand, 7), FL.make(tAir, 2000), NF, OM.dust(MT.Fe2O3, 15 * U2));
-                RM.Roasting.addRecipe1(true, 16, 512, tChances, OP.dust.mat(MT.OREMATS.BasalticMineralSand, 7), FL.make(tAir, 2000), NF, OM.dust(MT.Fe2O3, 15 * U2));
                 RM.Roasting.addRecipe1(true, 16, 512, tChances, OM.dust(MT.OREMATS.Sperrylite), FL.make(tAir, 1000), NF, OM.dust(MT.Pt, U3), OM.dust(MTx.As2O3, 5*U3));
             }
         }
@@ -800,15 +870,6 @@ public class Metallurgy extends GT6XFeature {
             RM.Bath.addRecipe1(true, 0,  256, new long[] {10000, 5000, 5000, 5000, 5000, 5000}, crushedPurifiedTiny.mat(mat, 9), MT.H2SO4.liquid(7*U2, true), MTx.ZnLeachingSolution.fluid(9*U2, false), crushedCentrifuged.mat(mat, 1), crushedCentrifugedTiny.mat(MTx.ZRR, 2), crushedCentrifugedTiny.mat(MTx.ZRR, 2), crushedCentrifugedTiny.mat(MTx.ZRR, 2), crushedCentrifugedTiny.mat(MTx.ZRR, 2), crushedCentrifugedTiny.mat(MTx.ZRR, 2));
         }
 
-        RM.Sifting          .addRecipe1(true, 16, 144, new long[]{7500, 5000, 2500, 2500, 2500}, ST.make(BlocksGT.Sands, 1, 0), dust.mat(MT.STONES.Deepslate   , 3), dust.mat(MT.RedSand, 3), nugget.mat(MT.MnO2, 6), nugget.mat(MT.OREMATS.Cassiterite, 12), nugget.mat(MTx.ZnO, 3));
-        RM.MagneticSeparator.addRecipe1(true, 16, 144, new long[]{7500, 5000, 2500, 2500, 2500}, ST.make(BlocksGT.Sands, 1, 0), dust.mat(MT.STONES.Deepslate   , 3), dust.mat(MT.RedSand, 6), dustTiny.mat(MT.MnO2, 12), dustTiny.mat(MT.OREMATS.Cassiterite, 6), dustTiny.mat(MTx.ZnO, 6));
-        RM.Centrifuge       .addRecipe1(true, 16, 288, new long[]{7500, 5000, 2500, 2500, 2500}, ST.make(BlocksGT.Sands, 1, 0), dust.mat(MT.STONES.Deepslate   , 6), dust.mat(MT.RedSand, 3), dustTiny.mat(MT.V2O5, 12), dustTiny.mat(MT.OREMATS.Cassiterite, 6), dustTiny.mat(MTx.ZnO, 3));
-        RM.Sifting          .addRecipe1(true, 16, 144, new long[]{7500, 5000, 2500, 2500, 2500}, ST.make(BlocksGT.Sands, 1, 1), dust.mat(MT.STONES.Gabbro      , 3), dust.mat(MT.RedSand, 3), nugget.mat(MT.Au, 6), nugget.mat(MT.Cu, 12), nugget.mat(MT.OREMATS.Garnierite, 3));
-        RM.MagneticSeparator.addRecipe1(true, 16, 144, new long[]{7500, 5000, 2500, 2500, 2500}, ST.make(BlocksGT.Sands, 1, 1), dust.mat(MT.STONES.Gabbro      , 3), dust.mat(MT.RedSand, 6), dustTiny.mat(MT.Au, 12), dustTiny.mat(MT.Cu, 6), dustTiny.mat(MT.OREMATS.Garnierite, 6));
-        RM.Centrifuge       .addRecipe1(true, 16, 288, new long[]{7500, 5000, 2500, 2500, 2500}, ST.make(BlocksGT.Sands, 1, 1), dust.mat(MT.STONES.Gabbro      , 6), dust.mat(MT.RedSand, 3), dustTiny.mat(MT.V2O5, 12), dustTiny.mat(MT.Cu, 6), dustTiny.mat(MT.OREMATS.Garnierite, 3));
-        RM.Sifting          .addRecipe1(true, 16, 144, new long[]{7500, 5000, 2500, 2500, 2500}, ST.make(BlocksGT.Sands, 1, 2), dust.mat(MT.STONES.GraniteBlack, 3), dust.mat(MT.RedSand, 3), nugget.mat(MT.Ag, 6), nugget.mat(MTx.PbO, 12), nugget.mat(MTx.Co3O4, 7));
-        RM.MagneticSeparator.addRecipe1(true, 16, 144, new long[]{7500, 5000, 2500, 2500, 2500}, ST.make(BlocksGT.Sands, 1, 2), dust.mat(MT.STONES.GraniteBlack, 3), dust.mat(MT.RedSand, 6), dustTiny.mat(MT.Ag, 12), dustTiny.mat(MTx.PbO, 6), dustTiny.mat(MTx.Co3O4, 14));
-        RM.Centrifuge       .addRecipe1(true, 16, 288, new long[]{7500, 5000, 2500, 2500, 2500}, ST.make(BlocksGT.Sands, 1, 2), dust.mat(MT.STONES.GraniteBlack, 6), dust.mat(MT.RedSand, 3), dustTiny.mat(MT.V2O5, 12), dustTiny.mat(MTx.PbO, 6), dustTiny.mat(MTx.Co3O4, 7));
         if (IL.PFAA_Sands.exists()) {
             RM.Sifting          .addRecipe1(true, 16, 144, new long[]{7500, 5000, 2500, 2500, 2500}, IL.PFAA_Sands.getWithMeta(1, 0), dust.mat(MT.STONES.Basalt , 4), dust.mat(MT.RedSand, 4), nugget.mat(MT.Au, 8), nugget.mat(MT.Cu, 16), nugget.mat(MT.OREMATS.Garnierite, 4));
             RM.MagneticSeparator.addRecipe1(true, 16, 144, new long[]{7500, 5000, 2500, 2500, 2500}, IL.PFAA_Sands.getWithMeta(1, 0), dust.mat(MT.STONES.Basalt , 4), dust.mat(MT.RedSand, 8), dustTiny.mat(MT.Au, 16), dustTiny.mat(MT.Cu, 8), dustTiny.mat(MT.OREMATS.Garnierite, 8));
@@ -873,6 +934,14 @@ public class Metallurgy extends GT6XFeature {
 
         Recipe x = RM.Centrifuge.findRecipe(null, null, true, Long.MAX_VALUE, null, ZL_FS, OM.dust(MT.OREMATS.Cinnabar)); if (x != null) x.mEnabled = false;
 
+        // Black sands are separated into their components from dust instead
+        for (Recipe.RecipeMap map : new Recipe.RecipeMap[] {RM.Sifting, RM.MagneticSeparator, RM.Centrifuge}) {
+            for (Recipe r : map.mRecipeList) {
+                if (r.mInputs.length == 1 && r.mInputs[0] != null && ST.block(r.mInputs[0].getItem()) == BlocksGT.Sands)
+                    r.mEnabled = false;
+            }
+        }
+
         // Hints
         for (Recipe r : RM.DidYouKnow.mRecipeList) {
             if (r.mOutputs.length >= 1 && r.mOutputs[0] != null && (
@@ -880,7 +949,25 @@ public class Metallurgy extends GT6XFeature {
                 r.mOutputs[0].isItemEqual(IL.Bottle_Mercury.get(1))
             ))
                 r.mEnabled = false;
+            else if (r.mOutputs.length >= 2 && r.mOutputs[1] != null && r.mOutputs[1].isItemEqual(dust.mat(MT.OREMATS.BasalticMineralSand, 1)))
+                r.mEnabled = false;
         }
+
+        RM.DidYouKnow.addFakeRecipe(false, ST.array(
+                  ST.make(BlocksGT.Sands, 1, 0, "Black Sand can be found at Rivers")
+                , ST.make(BlocksGT.Sands, 1, 1, "Black Sand can be found at Rivers")
+                , ST.make(BlocksGT.Sands, 1, 2, "Black Sand can be found at Rivers")
+                ,         blockDust.mat(MT.OREMATS.Cassiterite   , 1)
+                ,         blockDust.mat(MT.OREMATS.GarnetSand    , 1)
+                ,         blockDust.mat(MT.OREMATS.GlauconiteSand, 1)
+        ), ST.array(
+                  ST.make(dust.mat(MTx.Ironsand                  , 9), "Remember Dust Blocks can be crafted into 9 Dust. Use a Magnetic Separator to extract the Magnetite")
+                , ST.make(dust.mat(MT.OREMATS.BasalticMineralSand, 9), "Remember Dust Blocks can be crafted into 9 Dust. Use a Magnetic Separator to extract the Magnetite")
+                , ST.make(dust.mat(MT.OREMATS.GraniticMineralSand, 9), "Remember Dust Blocks can be crafted into 9 Dust. Use a Magnetic Separator to extract the Magnetite")
+                , ST.make(dust.mat(MT.OREMATS.Cassiterite        , 9), "Remember Dust Blocks can be crafted into 9 Dust")
+                , ST.make(dust.mat(MT.OREMATS.GarnetSand         , 9), "Remember Dust Blocks can be crafted into 9 Dust")
+                , ST.make(dust.mat(MT.OREMATS.GlauconiteSand     , 9), "Remember Dust Blocks can be crafted into 9 Dust")
+        ), null, ZL_LONG, ZL_FS, ZL_FS, 0, 0, 0);
 
         RM.DidYouKnow.addFakeRecipe(false, ST.array(
                 ST.make(dust.mat(MT.Fe2O3, 5), "Throw some Iron Ore into a crucible.")
