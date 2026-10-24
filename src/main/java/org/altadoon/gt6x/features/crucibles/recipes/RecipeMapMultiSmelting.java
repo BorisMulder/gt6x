@@ -8,7 +8,6 @@ import gregapi.oredict.OreDictMaterialStack;
 import gregapi.recipes.Recipe.RecipeMap;
 import gregapi.util.OM;
 import gregapi.util.ST;
-import gregapi.util.UT;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -68,9 +67,6 @@ public class RecipeMapMultiSmelting {
 		for (OreDictMaterialStack stack : recipe.ingredients.getUndividedComponents()) {
 			boolean addedSpecial = false;
 			if (stack.mMaterial.mHidden) {doAdd = false; break;}
-			if (stack.mMaterial == MT.OREMATS.Magnetite          ) {addedSpecial = specialInputs.add(ST.make(BlocksGT.Sands, UT.Code.divup(stack.mAmount, U*9), 0, "You probably want to craft it into Dust"));} else
-			if (stack.mMaterial == MT.OREMATS.BasalticMineralSand) {addedSpecial = specialInputs.add(ST.make(BlocksGT.Sands, UT.Code.divup(stack.mAmount, U*9), 1, "You probably want to craft it into Dust"));} else
-			if (stack.mMaterial == MT.OREMATS.GraniticMineralSand) {addedSpecial = specialInputs.add(ST.make(BlocksGT.Sands, UT.Code.divup(stack.mAmount, U*9), 2, "You probably want to craft it into Dust"));} else
 			if (stack.mMaterial == MT.C                          ) {addedSpecial = specialInputs.add(OM.dustOrIngot(MT.Coal            , stack.mAmount * 2));}
 			if (stack.mMaterial == MT.CaCO3                      ) {addedSpecial = specialInputs.add(OM.dustOrIngot(MT.STONES.Limestone, stack.mAmount * 2));}
 
