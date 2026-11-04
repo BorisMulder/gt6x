@@ -75,7 +75,11 @@ public class Metallurgy extends GT6XFeature {
 	}
 
 	@Override
-	public void init() {
+	public void init() {}
+
+	@Override
+	public void afterGt6Init() {
+		// GT6 MTEs (e.g. the fire bricks block used by the blast furnace parts) only get their item data during GT6 init
 		addMTEs();
 	}
 

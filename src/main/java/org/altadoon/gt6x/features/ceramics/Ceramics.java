@@ -6,6 +6,7 @@ import gregapi.item.prefixitem.PrefixItem;
 import gregapi.oredict.OreDictItemData;
 import gregapi.oredict.OreDictManager;
 import gregapi.oredict.OreDictMaterial;
+import gregapi.oredict.OreDictMaterialStack;
 import gregapi.oredict.OreDictPrefix;
 import gregapi.recipes.Recipe;
 import gregapi.recipes.handlers.RecipeMapHandlerPrefixShredding;
@@ -16,12 +17,16 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import org.altadoon.gt6x.common.*;
 import org.altadoon.gt6x.common.items.ILx;
 import org.altadoon.gt6x.common.items.MultiItemsX;
 import org.altadoon.gt6x.features.GT6XFeature;
 import org.altadoon.gt6x.features.crucibles.recipes.CrucibleUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static gregapi.data.CS.*;
 import static gregapi.data.OP.*;
@@ -46,6 +51,7 @@ public class Ceramics extends GT6XFeature {
 
 	@Override
 	public void afterGt6Init() {
+		changeFireBricksData();
 		addMTEs();
 	}
 
@@ -213,7 +219,16 @@ public class Ceramics extends GT6XFeature {
 
 		// Fire bricks block
 		CRx.overrideShaped(MTEx.gt6MTEReg.getItem(18000), CR.DEF_REV_NCC, "MBM", "B B", "MBM", 'B', ingot.mat(MTx.Firebrick, 1), 'M', OM.dust(MTx.Mortar));
-		OreDictManager.INSTANCE.setItemData(MTEx.gt6MTEReg.getItem(18000), new OreDictItemData(MTx.Firebrick, 4*U));
+	}
+
+	// GT6 derives the item data of a crafted item from its ingredients when the recipe is added, so this has to happen before
+	// any MTE made from fire bricks is registered (e.g. blast furnace parts). The GT6 coke oven is already registered by now, so fix it up.
+	private void changeFireBricksData() {
+		ItemStack fireBricks = MTEx.gt6MTEReg.getItem(18000);
+		OreDictItemData oldData = OM.data_(fireBricks);
+		OreDictItemData newData = new OreDictItemData(MTx.Firebrick, 4*U);
+		OreDictManager.INSTANCE.setItemData(fireBricks, newData);
+		CRx.replaceItemDataPart(MTEx.gt6MTEReg.getItem(17000), oldData, newData); // coke oven
 	}
 
 	private void changeRecipes() {
