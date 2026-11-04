@@ -7,13 +7,13 @@ import net.minecraftforge.fluids.FluidStack;
 import java.util.List;
 
 public interface IFluidFillableToolStats {
-    int usesAddedPerFluidUnit(FluidStack fluidStack);
+	int usesAddedPerFluidUnit(FluidStack fluidStack);
 
-    int getMaxUses();
+	int getMaxUses();
 
-    int getRenderPasses();
-    IIcon getIcon(ItemStack aStack, int aRenderPass);
-    short[] getRGBa(ItemStack aStack, int aRenderPass);
+	int getRenderPasses();
+	IIcon getIcon(ItemStack aStack, int aRenderPass);
+	short[] getRGBa(ItemStack aStack, int aRenderPass);
 
-    void addAdditionalToolTips(List<String> tooltips, ItemStack stack, boolean f3_H);
+	void addAdditionalToolTips(List<String> tooltips, ItemStack stack, boolean f3_H);
 }
