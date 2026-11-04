@@ -105,6 +105,7 @@ public class MTEFusionReactor extends MultiTileEntityFusionReactor {
 
 		for (ListIterator<String> i = list.listIterator(); i.hasNext();) {
 			String tooltip = i.next();
+			if (tooltip == null) continue;
 			if        (tooltip.equals(LH.Chat.WHITE + LH.get("gt.tooltip.multiblock.fusionreactor.2"))) {
 				i.set(LH.Chat.WHITE + LH.get("gt6x.tooltip.multiblock.fusionreactor.2"));
 			} else if (tooltip.equals(LH.Chat.WHITE + LH.get("gt.tooltip.multiblock.fusionreactor.3"))) {

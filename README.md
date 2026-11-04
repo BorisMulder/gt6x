@@ -7,7 +7,7 @@
 This mod aims to extend GregTech 6 by GregoriusT, adding many extra hours of content, all inspired by Real Life science and tech.
 A lot of items, machines and recipes are added, from blast furnaces and complex chemistry to integrated circuit production and resource exploration.
 
-[Read The Full Detailed Documentaion](https://docs.google.com/document/d/16IAe675VZbfVhhd4idz6jwjQXReK6JQNyN_O9ui1OQc/edit) (Work in progress)
+[Read The Full Detailed Documentation](https://docs.google.com/document/d/16IAe675VZbfVhhd4idz6jwjQXReK6JQNyN_O9ui1OQc/edit) (Work in progress)
 
 ### Requirements
 

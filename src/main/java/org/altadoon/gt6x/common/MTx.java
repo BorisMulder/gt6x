@@ -1459,7 +1459,10 @@ public class MTx {
 			.setMcfg(0, MT.Na, 2*U, MT.Si, U, MT.O, 3*U)
 			.heat(1361),
 	Na2SiO3Solution = simpleSolution(16381, Na2SiO3, 6),
-	//TODO 16382 free
+	Ironsand = dustdcmp(16382, "Ironsand", SET_METALLIC, 35, 35, 35, 255, MELTING, MAGNETIC_PASSIVE)
+			.setMcfg(0, MT.OREMATS.Magnetite, 7*U, MT.SiO2, 3*U)
+			.heat(MT.Fe.mMeltingPoint)
+			.addSourceOf(MT.Fe),
 
 	// Engines, more oil processing
 	Ti6Al4V = alloymachine(16383, "Ti-6Al-4V", SET_COPPER, 191, 145, 255, "Titanium Alloy", PIPES)
@@ -1576,10 +1579,6 @@ public class MTx {
 	DRISlag = dustdcmp(16424, "DRI-Slag", SET_FLINT, 100, 100, 50, 255)
 			.put(INGOTS, MORTAR, BRITTLE, GEMS)
 			.heat(ConverterSlag),
-	Ironsand = dustdcmp(16425, "Ironsand", SET_METALLIC, 35, 35, 35, 255, MELTING, MAGNETIC_PASSIVE)
-			.setMcfg(0, MT.OREMATS.Magnetite, 7*U, MT.SiO2, 3*U)
-			.heat(MT.Fe.mMeltingPoint)
-			.addSourceOf(MT.Fe),
 	Li2SO4 = create(16425, "Lithium Sulfate", 255, 255, 255, 255)
 			.setMcfg(0, MT.Li, 2*U, MT.S, U, MT.O, 4*U),
 	Rb2SO4 = create(16426, "Rubidium Sulfate", 255, 255, 255, 255)
@@ -1612,11 +1611,6 @@ public class MTx {
 	Trimethylamine = registerGas(gasdcmp(16434, "Trimethylamine", 200, 200, 255, 150)
 			.setMcfg(1, MT.C, 3*U, MT.H, 9*U, MT.N, U)
 			.heat(156, 278)),
-	ZnCl2 = dustdcmp(16435, "Zinc Chloride", SET_DIAMOND, 255, 255, 255, 255)
-			.uumMcfg(0, MT.Zn, U, MT.Cl, 2*U)
-			.heat(564, 1005)
-			.put(ELECTROLYSER),
-	ZnCl2Solution = simpleSolution(16436, ZnCl2, 3),
 	OH = create(16435, "Hydroxide").setMcfg(1, MT.O, U, MT.H, U).put(ANION, DECOMPOSABLE).tooltip("OH"),
 	SO4 = create(16436, "Sulfate").setMcfg(1, MT.S, U, MT.O, 4*U).put(ANION, DECOMPOSABLE).tooltip("SO"+NUM_SUB[4]),
 	NO3 = create(16437, "Nitrate").setMcfg(1, MT.N, U, MT.O, 3*U).put(ANION, DECOMPOSABLE).tooltip("NO"+NUM_SUB[3]),
@@ -1889,7 +1883,12 @@ public class MTx {
 			.heat(271, 647), // boiling point means critical point here
 	TerfenolD = alloymachine(16552, "Terfenol-D", SET_METALLIC, 100, 100, 50)
 			.uumAloy(0, MT.Tb, U, MT.Dy, 2*U, MT.Fe, 6*U)
-			.heat(1240+C)
+			.heat(1240+C),
+	ZnCl2 = dustdcmp(16553, "Zinc Chloride", SET_DIAMOND, 255, 255, 255, 255)
+			.uumMcfg(0, MT.Zn, U, MT.Cl, 2*U)
+			.heat(564, 1005)
+			.put(ELECTROLYSER),
+	ZnCl2Solution = simpleSolution(16554, ZnCl2, 3)
 	;
 
 	@SuppressWarnings("unused")

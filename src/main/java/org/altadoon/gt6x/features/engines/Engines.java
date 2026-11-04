@@ -37,7 +37,6 @@ import static org.altadoon.gt6x.features.engines.OreDictPrefixes.*;
 
 public class Engines extends GT6XFeature {
 	private static final OreDictMaterial[] ENGINE_MATERIALS = new OreDictMaterial[] { MT.Bronze, MT.ArsenicCopper, MT.ArsenicBronze, MT.IronCast, MTx.Alusil, MTx.Hastelloy, MTx.Ti6Al4V, MTx.TMS196 };
-	private static final ILx[] FUEL_INJECTORS = new ILx[] { ILx.FuelInjectorSetCopper, ILx.FuelInjectorSetCopper, ILx.FuelInjectorSetCopper, ILx.FuelInjectorSetSteel, ILx.FuelInjectorSetSteel, ILx.FuelInjectorSetSteel, ILx.FuelInjectorSetTerfenolD, ILx.FuelInjectorSetTerfenolD};
 	private static final long[] ENGINE_OUTPUTS = new long[] { 16, 16, 24, 32, 64, 128, 256, 512 };
 	private static final OreDictMaterial[] CATALYTIC_CONVERTER_MATERIALS = new OreDictMaterial[] { MT.Pt, MT.Pd, MT.Rh };
 
@@ -91,13 +90,15 @@ public class Engines extends GT6XFeature {
 	private void addMTEs() {
 		MultiTileEntityRegistry reg = MTEx.gt6xMTEReg;
 		OreDictMaterial mat;
+		// not a static field: referencing ILx during feature construction initializes it before the language is loaded
+		ILx[] fuelInjectors = new ILx[] { ILx.FuelInjectorSetCopper, ILx.FuelInjectorSetCopper, ILx.FuelInjectorSetCopper, ILx.FuelInjectorSetSteel, ILx.FuelInjectorSetSteel, ILx.FuelInjectorSetSteel, ILx.FuelInjectorSetTerfenolD, ILx.FuelInjectorSetTerfenolD};
 
 		for (int i = 0; i < ENGINE_OUTPUTS.length; i++) {
 			mat = ENGINE_MATERIALS[i];
 			reg.add("Engine Block ("+mat.getLocal()+")" , "Engines",  MTEx.IDs.EngineBlock[i].get(), 1304, MTEEngineBlockRaw.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F));
 			OreDictPrefixes.registerCustomPrefixItem(OreDictPrefixes.engineBlock, mat, reg.getItem());
 			reg.add("Petrol Engine ("+mat.getLocal()+")", "Engines",  MTEx.IDs.PetrolEngine[i].get(), 1304, MTEEnginePetrol.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_FUELMAP, FMx.Petrol, NBT_EFFICIENCY, 10000, NBT_OUTPUT, ENGINE_OUTPUTS[i], NBT_ENERGY_EMITTED, TD.Energy.RU), "PUP", "PMP", "LSC", 'M', OreDictPrefixes.engineBlock.dat(mat), 'P', piston.dat(mat), 'S', OP.stick.dat(mat), 'C', catalyticConverter.dat(MT.Pd), 'L', OD.itemLubricant, 'U', ILx.SparkPlugs);
-			reg.add("Diesel Engine ("+mat.getLocal()+")", "Engines",  MTEx.IDs.DieselEngine[i].get(), 1304, MTEEngineDiesel.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_FUELMAP, FMx.Diesel, NBT_EFFICIENCY, 10000, NBT_OUTPUT, ENGINE_OUTPUTS[i], NBT_ENERGY_EMITTED, TD.Energy.RU), "PNP", "PMP", "LSC", 'M', OreDictPrefixes.engineBlock.dat(mat), 'P', piston.dat(mat), 'S', OP.stick.dat(mat), 'C', catalyticConverter.dat(MT.Pt), 'L', OD.itemLubricant, 'N', FUEL_INJECTORS[i]);
+			reg.add("Diesel Engine ("+mat.getLocal()+")", "Engines",  MTEx.IDs.DieselEngine[i].get(), 1304, MTEEngineDiesel.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS, 6.0F, NBT_RESISTANCE, 6.0F, NBT_FUELMAP, FMx.Diesel, NBT_EFFICIENCY, 10000, NBT_OUTPUT, ENGINE_OUTPUTS[i], NBT_ENERGY_EMITTED, TD.Energy.RU), "PNP", "PMP", "LSC", 'M', OreDictPrefixes.engineBlock.dat(mat), 'P', piston.dat(mat), 'S', OP.stick.dat(mat), 'C', catalyticConverter.dat(MT.Pt), 'L', OD.itemLubricant, 'N', fuelInjectors[i]);
 		}
 
 		// Some nitro engine blocks are made from A6061. Source: https://sbj.net/stories/2024-coolest-things-made-in-the-ozarks-billet-aluminum-engine-block,93860
@@ -262,9 +263,6 @@ public class Engines extends GT6XFeature {
 			RM.Mixer.addRecipe1(true, 16, 150, dust.mat(MT.NaOH, 0), FL.array(oil.make(200), MTx.Methanol.liquid(30*U1000, true)), FL.array(FL.BioFuel.make(200), MT.Glycerol.liquid(15*U1000, false)));
 			RM.Mixer.addRecipe1(true, 16, 150, dust.mat(MT.KOH , 0), FL.array(oil.make(200), MTx.Methanol.liquid(30*U1000, true)), FL.array(FL.BioFuel.make(200), MT.Glycerol.liquid(15*U1000, false)));
 		}
-
-		// High pressure water for SC reactors
-		RM.Compressor.addRecipe0(true, 2048, 10, FL.DistW.make(1000), FL.make(FLx.HPWater, 750), ZL_IS);
 
 		// Thermal cracking of glycerol
 		RMx.Thermolysis.addRecipe2(true, 32, 100, dust.mat(MT.Ni, 0), dust.mat(MT.Al2O3, 0), MT.Glycerol.liquid(14*U, true), FL.array(MT.CO.gas(6*U, false), MT.H.gas(8*U, false)));
