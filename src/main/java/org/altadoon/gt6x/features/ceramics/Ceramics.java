@@ -17,6 +17,7 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import org.altadoon.gt6x.common.*;
@@ -112,19 +113,24 @@ public class Ceramics extends GT6XFeature {
 		MTEx.gt6xMTEReg.add("Mortar", "Misc Tool Blocks", MTEx.IDs.Mortars.get()+4, 32720, MultiTileEntityMortarX.class, 0, 16, MTEx.StoneBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,   1.0F, NBT_RESISTANCE,   5.0F, NBT_RECIPEMAP, RM.Mortar , NBT_DESIGN, 4), "P", "B", 'B', IL.Ceramic_Bowl, 'P', OP.ingot.dat(MT.ArsenicCopper));
 
 		mat = MT.Al2O3;
-		MTEx.gt6xMTEReg.add("Alumina Refractory Bricks"              , "Multiblock Machines", MTEx.IDs.AluminaBricks       .get(), 17101, MultiTileEntityMultiBlockPart.class, mat.mToolQuality, 64, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  8.0F, NBT_RESISTANCE,  8.0F, NBT_TEXTURE, "refractorybricks" , NBT_DESIGNS, 1), "ICI", "CrC", "ICI", 'I', ingot.dat(mat), 'C', dust.dat(MTx.RefractoryMortar));
-		MTEx.gt6xMTEReg.add("Alumina Checker Bricks"                 , "Multiblock Machines", MTEx.IDs.AluminaCheckerBricks.get(), 17101, MultiTileEntityMultiBlockPart.class, mat.mToolQuality, 64, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  8.0F, NBT_RESISTANCE,  8.0F, NBT_TEXTURE, "checkerbricks"    , NBT_DESIGNS, 1), "CIC", "IrI", "CIC", 'I', ingot.dat(mat), 'C', dust.dat(MTx.RefractoryMortar));
+		// bricks are not reversible: the mortar should not be recoverable from them
+		MTEx.gt6xMTEReg.add("Alumina Refractory Bricks"              , "Multiblock Machines", MTEx.IDs.AluminaBricks       .get(), 17101, MultiTileEntityMultiBlockPart.class, mat.mToolQuality, 64, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  8.0F, NBT_RESISTANCE,  8.0F, NBT_TEXTURE, "refractorybricks" , NBT_DESIGNS, 1));
+		CR.shaped(MTEx.gt6xMTEReg.getItem(), CR.DEF_NCC, "ICI", "CrC", "ICI", 'I', ingot.dat(mat), 'C', dust.dat(MTx.RefractoryMortar)); OM.data(MTEx.gt6xMTEReg.getItem(), mat, 4*U);
+		MTEx.gt6xMTEReg.add("Alumina Checker Bricks"                 , "Multiblock Machines", MTEx.IDs.AluminaCheckerBricks.get(), 17101, MultiTileEntityMultiBlockPart.class, mat.mToolQuality, 64, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  8.0F, NBT_RESISTANCE,  8.0F, NBT_TEXTURE, "checkerbricks"    , NBT_DESIGNS, 1));
+		CR.shaped(MTEx.gt6xMTEReg.getItem(), CR.DEF_NCC, "CIC", "IrI", "CIC", 'I', ingot.dat(mat), 'C', dust.dat(MTx.RefractoryMortar)); OM.data(MTEx.gt6xMTEReg.getItem(), mat, 4*U);
 
 		mat = MTx.RefractoryCeramic;
 		CrucibleUtils.addCrucibleMaterial(mat, 12, 6.0F, false, true, MTEx.StoneBlock, null, ILx.FireclayParts);
 
 		mat = MT.SiC;
-		MTEx.gt6xMTEReg.add("Silicon Carbide Refractory Bricks"      , "Multiblock Machines", MTEx.IDs.SiCBricks           .get(), 17101, MultiTileEntityMultiBlockPart.class, mat.mToolQuality, 64, MTEx.StoneBlock  , UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  6.0F, NBT_RESISTANCE,  6.0F, NBT_TEXTURE, "refractorybricks" , NBT_DESIGNS, 1), "ICI", "CrC", "ICI", 'I', ingot.dat(mat), 'C', dust.dat(MTx.RefractoryMortar));
+		MTEx.gt6xMTEReg.add("Silicon Carbide Refractory Bricks"      , "Multiblock Machines", MTEx.IDs.SiCBricks           .get(), 17101, MultiTileEntityMultiBlockPart.class, mat.mToolQuality, 64, MTEx.StoneBlock  , UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  6.0F, NBT_RESISTANCE,  6.0F, NBT_TEXTURE, "refractorybricks" , NBT_DESIGNS, 1));
+		CR.shaped(MTEx.gt6xMTEReg.getItem(), CR.DEF_NCC, "ICI", "CrC", "ICI", 'I', ingot.dat(mat), 'C', dust.dat(MTx.RefractoryMortar)); OM.data(MTEx.gt6xMTEReg.getItem(), mat, 4*U);
 		MTEx.gt6xMTEReg.add(mat.getLocal()+" Wall"                   , "Multiblock Machines", MTEx.IDs.SiCWall             .get(), 17101, MultiTileEntityMultiBlockPart.class, mat.mToolQuality, 64, MTEx.StoneBlock  , UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  6.0F, NBT_RESISTANCE,  6.0F, NBT_TEXTURE, "metalwall"        , NBT_DESIGNS, 7), "wPP", "hPP", 'P', OP.plate.dat(mat)); RM.Welder.addRecipe2(false, 16, 256, OP.plate.mat(mat, 4), ST.tag(10), MTEx.gt6xMTEReg.getItem());
 		CrucibleUtils.addCrucibleMaterial(mat, 13, 6.0F, false, false, MTEx.StoneBlock, OP.plate);
 
 		mat = MTx.MgOC;
-		MTEx.gt6xMTEReg.add("MgO-C Refractory Bricks"                , "Multiblock Machines", MTEx.IDs.MgOCBricks          .get(), 17101, MultiTileEntityMultiBlockPart.class, mat.mToolQuality, 64, MTEx.StoneBlock  , UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  8.0F, NBT_RESISTANCE,  8.0F, NBT_TEXTURE, "refractorybricks" , NBT_DESIGNS, 1), "ICI", "CrC", "ICI", 'I', ingot.dat(mat), 'C', dust.dat(MTx.RefractoryMortar));
+		MTEx.gt6xMTEReg.add("MgO-C Refractory Bricks"                , "Multiblock Machines", MTEx.IDs.MgOCBricks          .get(), 17101, MultiTileEntityMultiBlockPart.class, mat.mToolQuality, 64, MTEx.StoneBlock  , UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  8.0F, NBT_RESISTANCE,  8.0F, NBT_TEXTURE, "refractorybricks" , NBT_DESIGNS, 1));
+		CR.shaped(MTEx.gt6xMTEReg.getItem(), CR.DEF_NCC, "ICI", "CrC", "ICI", 'I', ingot.dat(mat), 'C', dust.dat(MTx.RefractoryMortar)); OM.data(MTEx.gt6xMTEReg.getItem(), mat, 4*U);
 		MTEx.gt6xMTEReg.add(mat.getLocal()+" Wall"                   , "Multiblock Machines", MTEx.IDs.MgOCWall            .get(), 17101, MultiTileEntityMultiBlockPart.class, mat.mToolQuality, 64, MTEx.StoneBlock  , UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  8.0F, NBT_RESISTANCE,  8.0F, NBT_TEXTURE, "metalwall"        , NBT_DESIGNS, 7), "wPP", "hPP", 'P', OP.plate.dat(mat)); RM.Welder.addRecipe2(false, 16, 256, OP.plate.mat(mat, 4), ST.tag(10), MTEx.gt6xMTEReg.getItem());
 		CrucibleUtils.addCrucibleMaterial(mat, 14, 8.0F, true, false, MTEx.StoneBlock, OP.plate);
 	}
@@ -217,8 +223,8 @@ public class Ceramics extends GT6XFeature {
 		CR.shaped(ST.make(Blocks.brick_block, 1, 0), CR.DEF_REM, "BMB", "M M", "BMB", 'B', ST.make(Items.brick, 1, 0), 'M', OM.dust(MTx.Mortar));
 		CR.shaped(ST.make(Blocks.nether_brick, 1, 0), CR.DEF_REM, "BMB", "M M", "BMB", 'B', ST.make(Items.netherbrick, 1, 0), 'M', OM.dust(MTx.Mortar));
 
-		// Fire bricks block
-		CRx.overrideShaped(MTEx.gt6MTEReg.getItem(18000), CR.DEF_REV_NCC, "MBM", "B B", "MBM", 'B', ingot.mat(MTx.Firebrick, 1), 'M', OM.dust(MTx.Mortar));
+		// Fire bricks block, not reversible: the mortar should not be recoverable (see changeFireBricksData)
+		CRx.overrideShaped(MTEx.gt6MTEReg.getItem(18000), CR.DEF_NCC, "MBM", "B B", "MBM", 'B', ingot.mat(MTx.Firebrick, 1), 'M', OM.dust(MTx.Mortar));
 	}
 
 	// GT6 derives the item data of a crafted item from its ingredients when the recipe is added, so this has to happen before
@@ -245,9 +251,11 @@ public class Ceramics extends GT6XFeature {
 			}
 		}
 
-		Recipe x = RM.Boxinator.findRecipe(null, null, true, Long.MAX_VALUE, null, ZL_FS, ST.make(Items.brick, 4, 0), ST.tag(4)); if (x != null) x.mEnabled = false;
-		x = RM.Boxinator.findRecipe(null, null, true, Long.MAX_VALUE, null, ZL_FS, ST.make(Items.netherbrick, 4, 0), ST.tag(4)); if (x != null) x.mEnabled = false;
-		x = RM.Boxinator.findRecipe(null, null, true, Long.MAX_VALUE, null, ZL_FS, ST.make(Items.brick, 2, 0), ST.tag(2)); if (x != null) x.mEnabled = false;
-		x = RM.Boxinator.findRecipe(null, null, true, Long.MAX_VALUE, null, ZL_FS, ST.make(Items.netherbrick, 2, 0), ST.tag(2)); if (x != null) x.mEnabled = false;
+		// no packing loose bricks into blocks/slabs/stairs
+		for (Recipe r : RM.Boxinator.mRecipeList) {
+			for (ItemStack input : r.mInputs) {
+				if (input != null && (input.getItem() == Items.brick || input.getItem() == Items.netherbrick)) { r.mEnabled = false; break; }
+			}
+		}
 	}
 }
