@@ -13,8 +13,7 @@ import org.altadoon.gt6x.Gt6xMod;
 import java.util.HashMap;
 
 import static gregapi.data.CS.*;
-import static gregapi.data.TD.Atomic.CHALCOGEN;
-import static gregapi.data.TD.Atomic.POLYATOMIC_NONMETAL;
+import static gregapi.data.TD.Atomic.*;
 import static gregapi.data.TD.Compounds.ALLOY;
 import static gregapi.data.TD.Compounds.DECOMPOSABLE;
 import static gregapi.data.TD.ItemGenerator.*;
@@ -330,6 +329,23 @@ public class MTx {
 		);
 	}
 
+	public static OreDictMaterial enrichedUranium(int id, String name, long u238, long u235) {
+		return machine(id, name, SET_RAD,
+				((MT.U_238.mRGBaSolid[0] * u238) + (MT.U_235.mRGBaSolid[0] * u235)) / (u238 + u235),
+				((MT.U_238.mRGBaSolid[1] * u238) + (MT.U_235.mRGBaSolid[1] * u235)) / (u238 + u235),
+				((MT.U_238.mRGBaSolid[2] * u238) + (MT.U_235.mRGBaSolid[2] * u235)) / (u238 + u235),
+				((MT.U_238.mRGBaSolid[3] * u238) + (MT.U_235.mRGBaSolid[3] * u235)) / (u238 + u235))
+				.put(METAL, ACTINIDE, G_INGOT_ORES, SMITHABLE, MELTING, EXTRUDER)
+				.setMcfg(0, MT.U_238, u238*U, MT.U_235, u235*U);
+	}
+
+	public static OreDictMaterial uraniumDioxide(int id, String name, OreDictMaterial base) {
+		return dustdcmp(id, name, SET_CUBE, 10, 10, 10, 255)
+				.setMcfg(1, base, U, MT.O, 2*U)
+				.heat(3138)
+				.put(INGOTS, STICKS, EXTRUDER);
+	}
+
 	static OreDictMaterial unused(String name) {return create(-1, name).put(UNUSED_MATERIAL, DONT_SHOW_THIS_COMPONENT);}
 
 	public static OreDictMaterial registerLiquid(OreDictMaterial mat) {
@@ -357,8 +373,8 @@ public class MTx {
 	}
 
 	public static final OreDictMaterial
-	// PGM
 	CaO = MT.Quicklime.put("CalciumOxide"),
+	// PGM
 	NH4 = create(16001, "Ammonium", 0, 100, 255, 255, CATION, DECOMPOSABLE)
 			.setMcfg(1, MT.N, U, MT.H, 4*U),
 	AmmoniumHexachloroplatinate = dustdcmp(16002, "Ammonium Hexachloroplatinate", SET_FINE, 255, 220, 10, 255)
@@ -1888,7 +1904,39 @@ public class MTx {
 			.uumMcfg(0, MT.Zn, U, MT.Cl, 2*U)
 			.heat(564, 1005)
 			.put(ELECTROLYSER),
-	ZnCl2Solution = simpleSolution(16554, ZnCl2, 3)
+	ZnCl2Solution = simpleSolution(16554, ZnCl2, 3),
+	PbSO4 = dustdcmp(16555, "Lead Sulfate", SET_SAND, 255, 255, 255, 255)
+			.setMcfg(1, MT.Pb, U, MT.S, U, MT.O, 4*U)
+			.heat(1360)
+			.setSmelting(PbO, U),
+	RaO = dustdcmp(16556, "Radium Oxide", SET_RAD, 230, 255, 210, 255)
+			.setMcfg(1, MT.Ra, U, MT.O, U),
+	RaSO4 = dustdcmp(16557, "Radium Sulfate", SET_RAD, 255, 255, 210, 255)
+			.setMcfg(1, MT.Ra, U, MT.S, U, MT.O, 4*U)
+			.heat(1150+C)
+			.setSmelting(RaO, U),
+	UO2SO4 = dustdcmp(16558, "Uranyl Sulfate", SET_RAD, 200, 210, 80, 255)
+			.setMcfg(0, MT.U_238, U, MT.S, U, MT.O, 6*U)
+			.heat(750+C),
+	UO2SO4Solution = simpleSolution(16559, UO2SO4, 3),
+	ThOH4 = dustdcmp(16560, "Thorium Hydroxide", SET_RAD, 90, 110, 90, 255)
+			.setMcfg(1, MT.Th, U, OH, 4*U)
+			.heat(470+C)
+			.setSmelting(ThO2, U),
+	Yellowcake = dustdcmp(16561, "Yellowcake", SET_DULL, 155, 155, 0, 255, "Ammonium Diuranate", "ADU")
+			.uumMcfg(12, NH4, 2*U, MT.U_238, 2*U, MT.O, 7*U)
+			.heat(500),
+	LEU = enrichedUranium(16562, "LEU", 96, 4).setLocal("Low-Enriched Uranium"),
+	HALEU = enrichedUranium(16563, "HALEU", 85, 15).setLocal("High-assay LEU"),
+	HEU = enrichedUranium(16564, "HEU", 50, 50).setLocal("Highly-Enriched Uranium"),
+	WGU = enrichedUranium(16565, "WGU", 15, 85).setLocal("Weapons-Grade Uranium"),
+	UO2 = uraniumDioxide(16566, "Uranium Dioxide", MT.U_238),
+	LEUO2 = uraniumDioxide(16567, "LEU Oxide", LEU),
+	HALEUO2 = uraniumDioxide(16568, "HALEU Oxide", HALEU),
+	HEUO2 = uraniumDioxide(16569, "HEU Oxide", HEU),
+	WGUO2 = uraniumDioxide(16570, "WGU Oxide", WGU),
+	U235O2 = uraniumDioxide(16571, "Uranium-235 Dioxide", MT.U_235)
+
 	;
 
 	@SuppressWarnings("unused")

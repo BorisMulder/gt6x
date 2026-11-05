@@ -31,9 +31,9 @@ public class REEProcessing  extends GT6XFeature {
 	public static final String FEATURE_NAME = "REEProcessing";
 
 	@Override public String name() { return FEATURE_NAME; }
-	@Override public void preInit() {
-		MT.OREMATS.Bastnasite.remove(TD.Processing.ELECTROLYSER);
-		MT.Monazite.remove(TD.Processing.ELECTROLYSER);
+	@Override public void preInit() {}
+	@Override public void afterGt6PreInit() {
+		changeMaterialProperties();
 		changeByProducts();
 	}
 
@@ -58,6 +58,14 @@ public class REEProcessing  extends GT6XFeature {
 	@Override
 	public void afterGt6PostInit() {
 		changeRecipes();
+	}
+
+	private void changeMaterialProperties() {
+		MT.OREMATS.Bastnasite.remove(TD.Processing.ELECTROLYSER);
+		MT.Monazite.remove(TD.Processing.ELECTROLYSER);
+
+		MT.OREMATS.Uraninite.setSmelting(MT.OREMATS.Uraninite, U);
+		MT.OREMATS.Pitchblende.setSmelting(MT.OREMATS.Pitchblende, U);
 	}
 
 	private void addRecipes() {
@@ -134,6 +142,14 @@ public class REEProcessing  extends GT6XFeature {
 		// TODO LaF3-fiberglass (ZBLAN), Er doped
 		// TODO Tb-based green phosphors
 		//TODO Solid-State lasers for higher LU generation
+
+		// Uranium processing
+		RM.Bath.addRecipe1(false, 0, 128, new long[]{10000, 500, 100}, dust.mat(MT.OREMATS.Uraninite, 3), FL.array(MT.H2SO4.liquid(7*U, true)), FL.array(MTx.UO2SO4Solution.liquid(11*U, false), MT.He.gas(U1000, false)), dustTiny.mat(MTx.PbSO4, 1), dustTiny.mat(MTx.RaSO4, 1));
+		RM.Bath.addRecipe1(false, 0, 128, new long[]{10000, 2000, 100}, dust.mat(MT.OREMATS.Pitchblende, 3), FL.array(MT.H2SO4.liquid(7*U, true)), FL.array(MTx.UO2SO4Solution.liquid(11*U, false), MT.He.gas(U1000, false)), dustTiny.mat(MTx.PbSO4, 1), dustTiny.mat(MTx.RaSO4, 1));
+		RM.Mixer.addRecipe0(true, 16, 128, new long[]{10000, 250}, FL.array(MTx.UO2SO4Solution.liquid(22*U, true), MT.NH3.gas(6*U, true), MT.H2O.liquid(9*U, true)), FL.array(MTx.NH4SO4Solution.liquid(20*U, false)), dust.mat(MTx.Yellowcake, 12*U), dustTiny.mat(MTx.ThOH4, 1));
+		RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MTx.Yellowcake, 12), FL.array(MT.H.gas(4*U, true)), FL.array(MT.NH3.gas(2*U, false), MT.H2O.liquid(9*U, false)), dust.mat(MTx.UO2, 2));
+
+		//TODO centrifuging
 	}
 
 	private void changeItemRecipes() {
@@ -174,6 +190,14 @@ public class REEProcessing  extends GT6XFeature {
 				r.mEnabled = false;
 			}
 		}
+
+		for (Recipe r : RM.Mixer.mRecipeList) {
+			if (r.mOutputs.length == 1 && r.mOutputs[0].isItemEqual(dust.mat(MT.UF4, 5)) &&
+				r.mInputs .length == 1 && r.mInputs [0].isItemEqual(dust.mat(MT.OREMATS.Uraninite, 1))) {
+				r.mEnabled = false;
+			}
+		}
+		RM.Mixer.addRecipe1(true,  16, 186, OM.dust(MTx.UO2, U), MT.HF.gas(U*8, T), MT.H2O.liquid(U*6, F), OM.dust(MT.UF4, U*5));
 
 		// Get rid of polarizer recipes for pure Nd
 		for (ListIterator<IRecipeMapHandler> it = RM.Polarizer.mRecipeMapHandlers.listIterator(); it.hasNext(); ) {
