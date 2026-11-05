@@ -346,6 +346,18 @@ public class MTx {
 				.put(INGOTS, STICKS, EXTRUDER);
 	}
 
+	public static OreDictMaterial uraniumHexafluoride(int id, String name, OreDictMaterial base) {
+		return registerGas(gasdcmp(id, name, 66, 98, 85, 255)
+				.setMcfg(1, base, U, MT.F, 6*U)
+				.heat(100, 329));
+	}
+
+	public static OreDictMaterial uraniumTetrafluoride(int id, String name, OreDictMaterial base) {
+		return dustdcmp(id, name, SET_SHARDS, 86, 118, 105, 255, MELTING, MOLTEN)
+				.setMcfg(1, base, U, MT.F, 4*U)
+				.heat(1309, 1690);
+	}
+
 	static OreDictMaterial unused(String name) {return create(-1, name).put(UNUSED_MATERIAL, DONT_SHOW_THIS_COMPONENT);}
 
 	public static OreDictMaterial registerLiquid(OreDictMaterial mat) {
@@ -1935,7 +1947,16 @@ public class MTx {
 	HALEUO2 = uraniumDioxide(16568, "HALEU Oxide", HALEU),
 	HEUO2 = uraniumDioxide(16569, "HEU Oxide", HEU),
 	WGUO2 = uraniumDioxide(16570, "WGU Oxide", WGU),
-	U235O2 = uraniumDioxide(16571, "Uranium-235 Dioxide", MT.U_235)
+	U235O2 = uraniumDioxide(16571, "Uranium-235 Dioxide", MT.U_235),
+	LEUF6 = uraniumHexafluoride(16572, "LEU Hexafluoride", LEU),
+	LEUF4 = uraniumTetrafluoride(16573, "LEU Tetrafluoride", LEU),
+	HALEUF6 = uraniumHexafluoride(16574, "HALEU Hexafluoride", HALEU),
+	HALEUF4 = uraniumTetrafluoride(16575, "HALEU Tetrafluoride", HALEU),
+	HEUF6 = uraniumHexafluoride(16576, "HEU Hexafluoride", HEU),
+	HEUF4 = uraniumTetrafluoride(16577, "HEU Tetrafluoride", HEU),
+	WGUF6 = uraniumHexafluoride(16578, "WGU Hexafluoride", WGU),
+	WGUF4 = uraniumTetrafluoride(16579, "WGU Tetrafluoride", WGU),
+	DUO2 = uraniumDioxide(16580, "Uranium-238 Dioxide", MT.U_238)
 
 	;
 
@@ -2019,6 +2040,10 @@ public class MTx {
 		addMolten(SiGe);
 		addMolten(GaAs);
 		addMolten(InF3);
+
+		for (OreDictMaterial uf4 : new OreDictMaterial[] { LEUF4, HALEUF4, HEUF4, WGUF4 }) {
+			addMolten(uf4);
+		}
 
 		addVapour(RuO4);
 		addVapour(OsO4);

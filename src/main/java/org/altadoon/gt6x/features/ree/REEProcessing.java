@@ -12,6 +12,8 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import gregapi.worldgen.WorldgenObject;
 import gregapi.worldgen.WorldgenOresLarge;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import org.altadoon.gt6x.common.*;
 import org.altadoon.gt6x.features.GT6XFeature;
@@ -20,6 +22,7 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.ListIterator;
+import java.util.Set;
 
 import static gregapi.data.CS.*;
 import static gregapi.data.OP.*;
@@ -148,8 +151,115 @@ public class REEProcessing  extends GT6XFeature {
 		RM.Bath.addRecipe1(false, 0, 128, new long[]{10000, 2000, 100}, dust.mat(MT.OREMATS.Pitchblende, 3), FL.array(MT.H2SO4.liquid(7*U, true)), FL.array(MTx.UO2SO4Solution.liquid(11*U, false), MT.He.gas(U1000, false)), dustTiny.mat(MTx.PbSO4, 1), dustTiny.mat(MTx.RaSO4, 1));
 		RM.Mixer.addRecipe0(true, 16, 128, new long[]{10000, 250}, FL.array(MTx.UO2SO4Solution.liquid(22*U, true), MT.NH3.gas(6*U, true), MT.H2O.liquid(9*U, true)), FL.array(MTx.NH4SO4Solution.liquid(20*U, false)), dust.mat(MTx.Yellowcake, 12*U), dustTiny.mat(MTx.ThOH4, 1));
 		RM.Mixer.addRecipe1(true, 16, 128, dust.mat(MTx.Yellowcake, 12), FL.array(MT.H.gas(4*U, true)), FL.array(MT.NH3.gas(2*U, false), MT.H2O.liquid(9*U, false)), dust.mat(MTx.UO2, 2));
+		// uranium fluoride recipes are added in changeRecipes(), after GT6's versions are disabled
+	}
 
-		//TODO centrifuging
+	/** Centrifuge ticks per full uranium unit of depleted (tails) output */
+	private static final long TICKS_PER_DEPLETED_U = 1024;
+
+	private static class UraniumTier {
+		final OreDictMaterial f6, f4, o2;
+		/** U-235 content in 1/10000 */
+		final long u235;
+		UraniumTier(OreDictMaterial f6, OreDictMaterial f4, OreDictMaterial o2, long u235) {
+			this.f6 = f6; this.f4 = f4; this.o2 = o2; this.u235 = u235;
+		}
+	}
+
+	private void addUraniumRecipes() {
+		UraniumTier
+			natural  = new UraniumTier(MT.UF6     , MT.UF4     , MTx.UO2    ,    72),
+			depleted = new UraniumTier(MT.U238F6  , MT.U238F4  , MTx.DUO2   ,     0),
+			leu      = new UraniumTier(MTx.LEUF6  , MTx.LEUF4  , MTx.LEUO2  ,   400),
+			haleu    = new UraniumTier(MTx.HALEUF6, MTx.HALEUF4, MTx.HALEUO2,  1500),
+			heu      = new UraniumTier(MTx.HEUF6  , MTx.HEUF4  , MTx.HEUO2  ,  5000),
+			wgu      = new UraniumTier(MTx.WGUF6  , MTx.WGUF4  , MTx.WGUO2  ,  8500),
+			u235     = new UraniumTier(MT.U235F6  , MT.U235F4  , MTx.U235O2 , 10000);
+
+		// UO2 -> UF4 -> UF6 (replacing GT6's Uraninite -> UF4 and UF4 -> UF6)
+		RM.Mixer.addRecipe1(true, 16, 186, OM.dust(MTx.UO2, U), MT.HF.gas(U*8, true), MT.H2O.liquid(U*6, false), OM.dust(MT.UF4, U));
+		RM.Mixer.addRecipe1(true, 16, 112, OM.dust(MT.UF4, U), MT.F.gas(U*2, true), NF, MT.UF6.gas(U, false));
+
+		// Enrichment cascade: feed -> enriched product + tails
+		addEnrichmentRecipe(natural, leu  , depleted);
+		addEnrichmentRecipe(leu    , haleu, natural );
+		addEnrichmentRecipe(haleu  , heu  , leu     );
+		addEnrichmentRecipe(heu    , wgu  , haleu   );
+		addEnrichmentRecipe(wgu    , u235 , heu     );
+
+		// UF6 -> UF4
+		for (UraniumTier tier : new UraniumTier[] {natural, depleted, leu, haleu, heu, wgu, u235}) {
+			RM.Mixer.addRecipe0(true, 16, 144, FL.array(MT.H.gas(U*2, true), tier.f6.gas(U, true)), MT.HF.gas(U*4, false), OM.dust(tier.f4, U));
+		}
+
+		// UF4 -> UO2 (pyrohydrolysis)
+		for (UraniumTier tier : new UraniumTier[] {natural, depleted, leu, haleu, heu, wgu, u235}) {
+			RM.HeatMixer.addRecipe1(true, 16, 186, OM.dust(tier.f4, U), MT.H2O.liquid(U*6, true), MT.HF.gas(U*8, false), OM.dust(tier.o2, U));
+		}
+
+		// Molten UF4 + Ca (replacing GT6's versions)
+		RM.Mixer.addRecipe0(true, 16, 112, FL.array(MT.Ca.liquid(U*2, true), MT.UF4   .liquid(U, true)), FL.array(MT.CaF2.liquid(U*6, false), MT.U_238.liquid(U, false)));
+		RM.Mixer.addRecipe0(true, 16, 112, FL.array(MT.Ca.liquid(U*2, true), MT.U238F4.liquid(U, true)), FL.array(MT.CaF2.liquid(U*6, false), MT.U_238.liquid(U, false)));
+		RM.Mixer.addRecipe0(true, 16, 112, FL.array(MT.Ca.liquid(U*2, true), MT.U235F4.liquid(U, true)), FL.array(MT.CaF2.liquid(U*6, false), MT.U_235.liquid(U, false)));
+	}
+
+	/** Fixed input of one unit of hexafluoride; outputs are mass-balanced on U-235 and sum to the input. */
+	private void addEnrichmentRecipe(UraniumTier feed, UraniumTier product, UraniumTier tails) {
+		FluidStack input = feed.f6.gas(U, true);
+		long in = input.amount;
+		long productAmount = in * (feed.u235 - tails.u235) / (product.u235 - tails.u235);
+		long tailsAmount = in - productAmount;
+		long duration = Math.max(1, TICKS_PER_DEPLETED_U * tailsAmount / in);
+
+		RM.Centrifuge.addRecipe0(true, 512, duration, input,
+			FL.array(
+				FL.make(product.f6.mGas.getFluid(), (int) productAmount),
+				FL.make(tails  .f6.mGas.getFluid(), (int) tailsAmount)
+			)
+		);
+	}
+
+	/** Disables GT6's uranium fluoride recipes, since their amounts assume a common divider of 0. */
+	private void disableGt6UraniumFluorideRecipes() {
+		// Centrifuge: only the single-input UF6 -> U238F6 + U235F6 recipe
+		Fluid uf6 = MT.UF6.mGas.getFluid();
+		for (Recipe r : RM.Centrifuge.mRecipeList) {
+			if (r.mFluidInputs.length == 1 && r.mFluidInputs[0] != null && r.mFluidInputs[0].getFluid() == uf6) {
+				r.mEnabled = false;
+				break;
+			}
+		}
+
+		// Mixer: every recipe consumes or produces a tetrafluoride; as dust (Uraninite -> UF4, UF4 -> UF6, UF6 -> UF4) or molten (UF4 + Ca)
+		OreDictMaterial[] tetrafluorides = {MT.UF4, MT.U238F4, MT.U235F4};
+		ItemStack[] dusts = new ItemStack[tetrafluorides.length];
+		Set<Fluid> molten = new HashSet<>();
+		for (int i = 0; i < tetrafluorides.length; i++) {
+			dusts[i] = OM.dust(tetrafluorides[i]);
+			molten.add(tetrafluorides[i].mLiquid.getFluid());
+		}
+
+		for (Recipe r : RM.Mixer.mRecipeList) {
+			if (containsAny(r.mInputs, dusts) || containsAny(r.mOutputs, dusts) || containsAny(r.mFluidInputs, molten)) {
+				r.mEnabled = false;
+			}
+		}
+	}
+
+	private static boolean containsAny(ItemStack[] stacks, ItemStack[] items) {
+		for (ItemStack stack : stacks) {
+			for (ItemStack item : items) {
+				if (ST.equal(stack, item)) return true;
+			}
+		}
+		return false;
+	}
+
+	private static boolean containsAny(FluidStack[] stacks, Set<Fluid> fluids) {
+		for (FluidStack stack : stacks) {
+			if (stack != null && fluids.contains(stack.getFluid())) return true;
+		}
+		return false;
 	}
 
 	private void changeItemRecipes() {
@@ -191,13 +301,9 @@ public class REEProcessing  extends GT6XFeature {
 			}
 		}
 
-		for (Recipe r : RM.Mixer.mRecipeList) {
-			if (r.mOutputs.length == 1 && r.mOutputs[0].isItemEqual(dust.mat(MT.UF4, 5)) &&
-				r.mInputs .length == 1 && r.mInputs [0].isItemEqual(dust.mat(MT.OREMATS.Uraninite, 1))) {
-				r.mEnabled = false;
-			}
-		}
-		RM.Mixer.addRecipe1(true,  16, 186, OM.dust(MTx.UO2, U), MT.HF.gas(U*8, T), MT.H2O.liquid(U*6, F), OM.dust(MT.UF4, U*5));
+		// Replace GT6's uranium fluoride recipes (incl. Uraninite -> UF4 and the one-step UF6 centrifuging)
+		disableGt6UraniumFluorideRecipes();
+		addUraniumRecipes();
 
 		// Get rid of polarizer recipes for pure Nd
 		for (ListIterator<IRecipeMapHandler> it = RM.Polarizer.mRecipeMapHandlers.listIterator(); it.hasNext(); ) {

@@ -723,6 +723,13 @@ public class Metallurgy extends GT6XFeature {
 		RMx.Thermite.addRecipe(0, 8 , OMx.stacks(MT.Al, 8 *U, MTx.Co3O4, 21*U), 600, OM.stack(MT.Co, 9*U), OM.stack(MT.Al2O3, 20*U));
 		RMx.Thermite.addRecipe(0, 2 , OMx.stacks(MT.Al, 2 *U, MTx.BaO  , 6 *U), 600, OM.stack(MT.Ba, 3*U), OM.stack(MT.Al2O3, 5 *U));
 		RMx.Thermite.addRecipe(0, 2 , OMx.stacks(MT.Al, 2 *U, MTx.SrO  , 6 *U), 600, OM.stack(MT.Sr, 3*U), OM.stack(MT.Al2O3, 5 *U));
+		RMx.Thermite.addRecipe(0, 4 , OMx.stacks(MT.Al, 4 *U, MTx.UO2    , 3*U), 600, OM.stack(MT .U_238, 3*U), OM.stack(MT.Al2O3, 10*U));
+		RMx.Thermite.addRecipe(0, 4 , OMx.stacks(MT.Al, 4 *U, MTx.DUO2   , 3*U), 600, OM.stack(MT .U_238, 3*U), OM.stack(MT.Al2O3, 10*U));
+		RMx.Thermite.addRecipe(0, 4 , OMx.stacks(MT.Al, 4 *U, MTx.LEUO2  , 3*U), 600, OM.stack(MTx.LEU  , 3*U), OM.stack(MT.Al2O3, 10*U));
+		RMx.Thermite.addRecipe(0, 4 , OMx.stacks(MT.Al, 4 *U, MTx.HALEUO2, 3*U), 600, OM.stack(MTx.HALEU, 3*U), OM.stack(MT.Al2O3, 10*U));
+		RMx.Thermite.addRecipe(0, 4 , OMx.stacks(MT.Al, 4 *U, MTx.HEUO2  , 3*U), 600, OM.stack(MTx.HEU  , 3*U), OM.stack(MT.Al2O3, 10*U));
+		RMx.Thermite.addRecipe(0, 4 , OMx.stacks(MT.Al, 4 *U, MTx.WGUO2  , 3*U), 600, OM.stack(MTx.WGU  , 3*U), OM.stack(MT.Al2O3, 10*U));
+		RMx.Thermite.addRecipe(0, 4 , OMx.stacks(MT.Al, 4 *U, MTx.U235O2 , 3*U), 600, OM.stack(MT .U_235, 3*U), OM.stack(MT.Al2O3, 10*U));
 
 		// Calcinothermic reduction
 		RMx.Thermite.addRecipe(0, 5, OMx.stacks(MT.Ca, 5*U, MT .V2O5 , 7*U), 600, OM.stack(MT.V , 2*U), OM.stack(MTx.CaO, 10*U));
@@ -738,6 +745,13 @@ public class Metallurgy extends GT6XFeature {
 		RMx.Thermite.addRecipe(0, 2, OMx.stacks(MT.Ca, U  , MTx.FeO  , 2*U), 600, OM.stack(MT.Fe,   U), OM.stack(MTx.CaO, 2 *U));
 		RMx.Thermite.addRecipe(0, 4, OMx.stacks(MT.Ca, 4*U, MTx.Co3O4, 7*U), 600, OM.stack(MT.Co, 3*U), OM.stack(MTx.CaO, 8 *U));
 		RMx.Thermite.addRecipe(0, 3, OMx.stacks(MT.Ca, 3*U, MTx.ScF3 , 8*U), 600, OM.stack(MT.Sc, 2*U), OM.stack(MT.CaF2, 9 *U));
+		RMx.Thermite.addRecipe(0, 2, OMx.stacks(MT.Ca, 2*U, MT .UF4    ,   U), 600, OM.stack(MT .U_238,   U), OM.stack(MT.CaF2, 6 *U));
+		RMx.Thermite.addRecipe(0, 2, OMx.stacks(MT.Ca, 2*U, MT .U238F4 ,   U), 600, OM.stack(MT .U_238,   U), OM.stack(MT.CaF2, 6 *U));
+		RMx.Thermite.addRecipe(0, 2, OMx.stacks(MT.Ca, 2*U, MTx.LEUF4  ,   U), 600, OM.stack(MTx.LEU  ,   U), OM.stack(MT.CaF2, 6 *U));
+		RMx.Thermite.addRecipe(0, 2, OMx.stacks(MT.Ca, 2*U, MTx.HALEUF4,   U), 600, OM.stack(MTx.HALEU,   U), OM.stack(MT.CaF2, 6 *U));
+		RMx.Thermite.addRecipe(0, 2, OMx.stacks(MT.Ca, 2*U, MTx.HEUF4  ,   U), 600, OM.stack(MTx.HEU  ,   U), OM.stack(MT.CaF2, 6 *U));
+		RMx.Thermite.addRecipe(0, 2, OMx.stacks(MT.Ca, 2*U, MTx.WGUF4  ,   U), 600, OM.stack(MTx.WGU  ,   U), OM.stack(MT.CaF2, 6 *U));
+		RMx.Thermite.addRecipe(0, 2, OMx.stacks(MT.Ca, 2*U, MT .U235F4 ,   U), 600, OM.stack(MT .U_235,   U), OM.stack(MT.CaF2, 6 *U));
 		RMx.Thermite.addRecipe(0, 4, OMx.stacks(MT.Ca, 4*U, MT.Adamantine, 7*U), 600, OM.stack(MT.Ad, 3*U), OM.stack(MTx.CaO, 8*U));
 
 		// (Acidic/simple) Bessemer Process
