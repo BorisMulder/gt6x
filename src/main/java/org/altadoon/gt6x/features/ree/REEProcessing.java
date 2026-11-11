@@ -12,6 +12,8 @@ import gregapi.util.ST;
 import gregapi.util.UT;
 import gregapi.worldgen.WorldgenObject;
 import gregapi.worldgen.WorldgenOresLarge;
+import gregtech.tileentity.energy.reactors.MultiTileEntityReactorRodDepleted;
+import gregtech.tileentity.energy.reactors.MultiTileEntityReactorRodNuclear;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -50,7 +52,7 @@ public class REEProcessing  extends GT6XFeature {
 	}
 
 	@Override public void afterGt6Init() {
-		changeMTERecipes();
+		changeMTEs();
 	}
 
 	@Override
@@ -158,27 +160,23 @@ public class REEProcessing  extends GT6XFeature {
 	private static final long TICKS_PER_DEPLETED_U = 1024;
 
 	private static class UraniumTier {
-		final OreDictMaterial f6, f4, o2;
+		final OreDictMaterial metal, f6, f4, o2;
 		/** U-235 content in 1/10000 */
 		final long u235;
-		UraniumTier(OreDictMaterial f6, OreDictMaterial f4, OreDictMaterial o2, long u235) {
-			this.f6 = f6; this.f4 = f4; this.o2 = o2; this.u235 = u235;
+		UraniumTier(OreDictMaterial metal, OreDictMaterial f6, OreDictMaterial f4, OreDictMaterial o2, long u235) {
+			this.metal = metal; this.f6 = f6; this.f4 = f4; this.o2 = o2; this.u235 = u235;
 		}
 	}
 
 	private void addUraniumRecipes() {
 		UraniumTier
-			natural  = new UraniumTier(MT.UF6     , MT.UF4     , MTx.UO2    ,    72),
-			depleted = new UraniumTier(MT.U238F6  , MT.U238F4  , MTx.DUO2   ,     0),
-			leu      = new UraniumTier(MTx.LEUF6  , MTx.LEUF4  , MTx.LEUO2  ,   400),
-			haleu    = new UraniumTier(MTx.HALEUF6, MTx.HALEUF4, MTx.HALEUO2,  1500),
-			heu      = new UraniumTier(MTx.HEUF6  , MTx.HEUF4  , MTx.HEUO2  ,  5000),
-			wgu      = new UraniumTier(MTx.WGUF6  , MTx.WGUF4  , MTx.WGUO2  ,  8500),
-			u235     = new UraniumTier(MT.U235F6  , MT.U235F4  , MTx.U235O2 , 10000);
-
-		// UO2 -> UF4 -> UF6 (replacing GT6's Uraninite -> UF4 and UF4 -> UF6)
-		RM.Mixer.addRecipe1(true, 16, 186, OM.dust(MTx.UO2, U), MT.HF.gas(U*8, true), MT.H2O.liquid(U*6, false), OM.dust(MT.UF4, U));
-		RM.Mixer.addRecipe1(true, 16, 112, OM.dust(MT.UF4, U), MT.F.gas(U*2, true), NF, MT.UF6.gas(U, false));
+			natural  = new UraniumTier(MTx.NU   , MT.UF6     , MT.UF4     , MTx.UO2    ,    72),
+			depleted = new UraniumTier(MT.U_238 , MT.U238F6  , MT.U238F4  , MTx.DUO2   ,     0),
+			leu      = new UraniumTier(MTx.LEU  , MTx.LEUF6  , MTx.LEUF4  , MTx.LEUO2  ,   400),
+			haleu    = new UraniumTier(MTx.HALEU, MTx.HALEUF6, MTx.HALEUF4, MTx.HALEUO2,  1500),
+			heu      = new UraniumTier(MTx.HEU  , MTx.HEUF6  , MTx.HEUF4  , MTx.HEUO2  ,  5000),
+			wgu      = new UraniumTier(MTx.WGU  , MTx.WGUF6  , MTx.WGUF4  , MTx.WGUO2  ,  8500),
+			u235     = new UraniumTier(MT.U_235 , MT.U235F6  , MT.U235F4  , MTx.U235O2 , 10000);
 
 		// Enrichment cascade: feed -> enriched product + tails
 		addEnrichmentRecipe(natural, leu  , depleted);
@@ -187,20 +185,23 @@ public class REEProcessing  extends GT6XFeature {
 		addEnrichmentRecipe(heu    , wgu  , haleu   );
 		addEnrichmentRecipe(wgu    , u235 , heu     );
 
-		// UF6 -> UF4
 		for (UraniumTier tier : new UraniumTier[] {natural, depleted, leu, haleu, heu, wgu, u235}) {
+			// UO2 -> UF4 (replacing GT6's Uraninite -> UF4)
+			RM.Mixer.addRecipe1(true, 16, 144, OM.dust(tier.o2, U), MT.HF.gas(U*8, true), MT.H2O.liquid(U*6, false), OM.dust(tier.f4, U));
+			// UF4 -> UF6
+			RM.Mixer.addRecipe1(true, 16, 112, OM.dust(tier.f4, U), MT.F.gas(U*2, true), NF, tier.f6.gas(U, false));
+			// UF6 -> UF4
 			RM.Mixer.addRecipe0(true, 16, 144, FL.array(MT.H.gas(U*2, true), tier.f6.gas(U, true)), MT.HF.gas(U*4, false), OM.dust(tier.f4, U));
+			// UF4 -> UO2 (pyrohydrolysis)
+			RMx.Thermolysis.addRecipe1(true, 16, 186, OM.dust(tier.f4, U), MT.H2O.liquid(U*6, true), MT.HF.gas(U*8, false), OM.dust(tier.o2, U));
+			// Molten UF4 + Ca (replacing GT6's versions)
+			RM.Mixer.addRecipe0(true, 16, 112, FL.array(MT.Ca.liquid(U*2, true), tier.f4.liquid(U, true)), FL.array(MT.CaF2.liquid(U*6, false), tier.metal.liquid(U, false)));
+			// UO2 -> U (aluminothermic/calcinothermic)
+			RMx.Thermite.addRecipe(0, 4, OMx.stacks(MT.Al, 4*U, tier.o2, 3*U), 600, OM.stack(tier.metal, 3*U), OM.stack(MT.Al2O3, 10*U));
+			RMx.Thermite.addRecipe(0, 2, OMx.stacks(MT.Ca, 2*U, tier.o2,   U), 600, OM.stack(tier.metal,   U), OM.stack(MTx.CaO, 4*U));
+			// U -> UO2 (roasting)
+			RM.Roasting.addRecipe1(true, 16, 56, OM.dust(tier.metal, U), MT.O.gas(2*U, false), NF, OM.dust(tier.o2, U));
 		}
-
-		// UF4 -> UO2 (pyrohydrolysis)
-		for (UraniumTier tier : new UraniumTier[] {natural, depleted, leu, haleu, heu, wgu, u235}) {
-			RM.HeatMixer.addRecipe1(true, 16, 186, OM.dust(tier.f4, U), MT.H2O.liquid(U*6, true), MT.HF.gas(U*8, false), OM.dust(tier.o2, U));
-		}
-
-		// Molten UF4 + Ca (replacing GT6's versions)
-		RM.Mixer.addRecipe0(true, 16, 112, FL.array(MT.Ca.liquid(U*2, true), MT.UF4   .liquid(U, true)), FL.array(MT.CaF2.liquid(U*6, false), MT.U_238.liquid(U, false)));
-		RM.Mixer.addRecipe0(true, 16, 112, FL.array(MT.Ca.liquid(U*2, true), MT.U238F4.liquid(U, true)), FL.array(MT.CaF2.liquid(U*6, false), MT.U_238.liquid(U, false)));
-		RM.Mixer.addRecipe0(true, 16, 112, FL.array(MT.Ca.liquid(U*2, true), MT.U235F4.liquid(U, true)), FL.array(MT.CaF2.liquid(U*6, false), MT.U_235.liquid(U, false)));
 	}
 
 	/** Fixed input of one unit of hexafluoride; outputs are mass-balanced on U-235 and sum to the input. */
@@ -226,7 +227,12 @@ public class REEProcessing  extends GT6XFeature {
 		for (Recipe r : RM.Centrifuge.mRecipeList) {
 			if (r.mFluidInputs.length == 1 && r.mFluidInputs[0] != null && r.mFluidInputs[0].getFluid() == uf6) {
 				r.mEnabled = false;
-				break;
+			} else if (r.mInputs.length == 1 && r.mFluidInputs.length == 0 && (
+				ST.equal(r.mInputs[0], MTEx.gt6MTEReg.getItem(9320)) ||
+				ST.equal(r.mInputs[0], MTEx.gt6MTEReg.getItem(9321)) ||
+				ST.equal(r.mInputs[0], MTEx.gt6MTEReg.getItem(9322))
+			)) {
+				r.mEnabled = false;
 			}
 		}
 
@@ -277,7 +283,7 @@ public class REEProcessing  extends GT6XFeature {
 		}
 	}
 
-	private void changeMTERecipes() {
+	private void changeMTEs() {
 		OreDictMaterial mat = MT.DATA.Electric_T[5];
 		// E. Engine + Motor + Dynamo (IV)
 		CRx.overrideShaped(MTEx.gt6MTEReg.getItem(10015), CR.DEF_REM_REV, "PhP", "CIC", "PwP", 'P', OP.plateTriple.dat(mat), 'I', OP.stickLong.dat(MTx.SmCo5Magnetic), 'C', OP.wireGt16.dat(MT.AnnealedCopper));
@@ -288,6 +294,43 @@ public class REEProcessing  extends GT6XFeature {
 		CRx.overrideShaped(MTEx.gt6MTEReg.getItem(11015), CR.DEF_REM_REV, "G", "M", "G", 'M', MTEx.gt6MTEReg.getItem(10015), 'G', OP.gearGt.dat(mat));
 		CRx.overrideShaped(MTEx.gt6MTEReg.getItem(11025), CR.DEF_REM_REV, "GMG", 'M', MTEx.gt6MTEReg.getItem(10025), 'G', OP.gearGt.dat(mat));
 		CRx.overrideShaped(MTEx.gt6MTEReg.getItem(11115), CR.DEF_REM_REV, "SMS", "SGS", 'M', MTEx.gt6MTEReg.getItem(10115), 'G', OP.gearGt.dat(mat), 'S', OP.stickLong.dat(mat));
+
+		// Old fuel rods
+		for (short id : new short[]{9210, 9220, 9221, 9222, 9230, 9231, 9232, 9233, 9240, 9241, 941, 942}) {
+			MTEx.disableGT6MTE(id);
+		}
+
+		// Th-232 and U-238 are non-fissile; they should be bred rather than made critical. NU can only be made critical in HWRs or using lots of moderators
+		mat = MTx.NU     ; MTEx.gt6xMTEReg.add("Natural Uranium Fuel Rod"              , "Reactors", 9220,  9200, MultiTileEntityReactorRodNuclear.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  10.0F, NBT_RESISTANCE,  10.0F, NBT_MAXDURABILITY, 100000L , NBT_NUCLEAR_SELF,   2, NBT_NUCLEAR_OTHER,   4, NBT_NUCLEAR_DIV, 32, NBT_NUCLEAR_MAX,      512, NBT_VALUE, 9320)); RM.Canner.addRecipe2(false, 16, 16, OP.billet.mat(mat, 3), IL.Reactor_Rod_Empty.get(4), MTEx.gt6xMTEReg.getItem(9220, 4));
+		mat = MTx.UO2    ; MTEx.gt6xMTEReg.add("Natural Uranium Oxide Fuel Rod"        , "Reactors", 9221,  9200, MultiTileEntityReactorRodNuclear.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  10.0F, NBT_RESISTANCE,  10.0F, NBT_MAXDURABILITY, 100000L , NBT_NUCLEAR_SELF,   1, NBT_NUCLEAR_OTHER,   4, NBT_NUCLEAR_DIV, 32, NBT_NUCLEAR_MAX,     1024, NBT_VALUE, 9321)); RM.Canner.addRecipe2(false, 16, 16, OP.billet.mat(mat, 3), IL.Reactor_Rod_Empty.get(4), MTEx.gt6xMTEReg.getItem(9221, 4));
+		mat = MTx.LEU    ; MTEx.gt6xMTEReg.add("Low-Enriched Uranium Fuel Rod"         , "Reactors", 9222,  9200, MultiTileEntityReactorRodNuclear.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  10.0F, NBT_RESISTANCE,  10.0F, NBT_MAXDURABILITY, 300000L , NBT_NUCLEAR_SELF,   4, NBT_NUCLEAR_OTHER,   6, NBT_NUCLEAR_DIV, 16, NBT_NUCLEAR_MAX,      640, NBT_VALUE, 9322)); RM.Canner.addRecipe2(false, 16, 16, OP.billet.mat(mat, 3), IL.Reactor_Rod_Empty.get(4), MTEx.gt6xMTEReg.getItem(9222, 4));
+		mat = MTx.LEUO2  ; MTEx.gt6xMTEReg.add("Low-Enriched Uranium Oxide Fuel Rod"   , "Reactors", 9223,  9200, MultiTileEntityReactorRodNuclear.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  10.0F, NBT_RESISTANCE,  10.0F, NBT_MAXDURABILITY, 300000L , NBT_NUCLEAR_SELF,   2, NBT_NUCLEAR_OTHER,   6, NBT_NUCLEAR_DIV, 16, NBT_NUCLEAR_MAX,     1280, NBT_VALUE, 9323)); RM.Canner.addRecipe2(false, 16, 16, OP.billet.mat(mat, 3), IL.Reactor_Rod_Empty.get(4), MTEx.gt6xMTEReg.getItem(9223, 4));
+		mat = MTx.HALEU  ; MTEx.gt6xMTEReg.add("High-Assay LEU Fuel Rod"               , "Reactors", 9224,  9200, MultiTileEntityReactorRodNuclear.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  10.0F, NBT_RESISTANCE,  10.0F, NBT_MAXDURABILITY, 900000L , NBT_NUCLEAR_SELF,   8, NBT_NUCLEAR_OTHER,   8, NBT_NUCLEAR_DIV, 12, NBT_NUCLEAR_MAX,      768, NBT_VALUE, 9324)); RM.Canner.addRecipe2(false, 16, 16, OP.billet.mat(mat, 3), IL.Reactor_Rod_Empty.get(4), MTEx.gt6xMTEReg.getItem(9224, 4));
+		mat = MTx.HALEUO2; MTEx.gt6xMTEReg.add("High-Assay LEU Oxide Fuel Rod"         , "Reactors", 9225,  9200, MultiTileEntityReactorRodNuclear.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  10.0F, NBT_RESISTANCE,  10.0F, NBT_MAXDURABILITY, 900000L , NBT_NUCLEAR_SELF,   4, NBT_NUCLEAR_OTHER,   8, NBT_NUCLEAR_DIV, 12, NBT_NUCLEAR_MAX,     1536, NBT_VALUE, 9325)); RM.Canner.addRecipe2(false, 16, 16, OP.billet.mat(mat, 3), IL.Reactor_Rod_Empty.get(4), MTEx.gt6xMTEReg.getItem(9225, 4));
+		mat = MTx.HEU    ; MTEx.gt6xMTEReg.add("Highly-Enriched Uranium Fuel Rod"      , "Reactors", 9226,  9200, MultiTileEntityReactorRodNuclear.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  10.0F, NBT_RESISTANCE,  10.0F, NBT_MAXDURABILITY, 3000000L, NBT_NUCLEAR_SELF,  16, NBT_NUCLEAR_OTHER,  16, NBT_NUCLEAR_DIV,  8, NBT_NUCLEAR_MAX,     1024, NBT_VALUE, 9326)); RM.Canner.addRecipe2(false, 16, 16, OP.billet.mat(mat, 3), IL.Reactor_Rod_Empty.get(4), MTEx.gt6xMTEReg.getItem(9226, 4));
+		mat = MTx.HEUO2  ; MTEx.gt6xMTEReg.add("Highly-Enriched Uranium Oxide Fuel Rod", "Reactors", 9227,  9200, MultiTileEntityReactorRodNuclear.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  10.0F, NBT_RESISTANCE,  10.0F, NBT_MAXDURABILITY, 3000000L, NBT_NUCLEAR_SELF,   8, NBT_NUCLEAR_OTHER,  16, NBT_NUCLEAR_DIV,  8, NBT_NUCLEAR_MAX,     2048, NBT_VALUE, 9327)); RM.Canner.addRecipe2(false, 16, 16, OP.billet.mat(mat, 3), IL.Reactor_Rod_Empty.get(4), MTEx.gt6xMTEReg.getItem(9227, 4));
+		mat = MTx.WGU    ; MTEx.gt6xMTEReg.add("Weapons-Grade Uranium Fuel Rod"        , "Reactors", 9228,  9200, MultiTileEntityReactorRodNuclear.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  10.0F, NBT_RESISTANCE,  10.0F, NBT_MAXDURABILITY, 5000000L, NBT_NUCLEAR_SELF,  24, NBT_NUCLEAR_OTHER,  24, NBT_NUCLEAR_DIV,  6, NBT_NUCLEAR_MAX,     1536, NBT_VALUE, 9328)); RM.Canner.addRecipe2(false, 16, 16, OP.billet.mat(mat, 3), IL.Reactor_Rod_Empty.get(4), MTEx.gt6xMTEReg.getItem(9228, 4));
+		mat = MTx.WGUO2  ; MTEx.gt6xMTEReg.add("Weapons-Grade Uranium Oxide Fuel Rod"  , "Reactors", 9229,  9200, MultiTileEntityReactorRodNuclear.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  10.0F, NBT_RESISTANCE,  10.0F, NBT_MAXDURABILITY, 5000000L, NBT_NUCLEAR_SELF,  12, NBT_NUCLEAR_OTHER,  24, NBT_NUCLEAR_DIV,  6, NBT_NUCLEAR_MAX,     3072, NBT_VALUE, 9329)); RM.Canner.addRecipe2(false, 16, 16, OP.billet.mat(mat, 3), IL.Reactor_Rod_Empty.get(4), MTEx.gt6xMTEReg.getItem(9229, 4));
+		mat = MT.U_235   ; MTEx.gt6xMTEReg.add("Uranium-235 Fuel Rod"                  , "Reactors", 9230,  9200, MultiTileEntityReactorRodNuclear.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  10.0F, NBT_RESISTANCE,  10.0F, NBT_MAXDURABILITY, 6000000L, NBT_NUCLEAR_SELF,  32, NBT_NUCLEAR_OTHER,  32, NBT_NUCLEAR_DIV,  4, NBT_NUCLEAR_MAX,     2048, NBT_VALUE, 9330)); RM.Canner.addRecipe2(false, 16, 16, OP.billet.mat(mat, 3), IL.Reactor_Rod_Empty.get(4), MTEx.gt6xMTEReg.getItem(9230, 4));
+		mat = MTx.U235O2 ; MTEx.gt6xMTEReg.add("Uranium-235 Oxide Fuel Rod"            , "Reactors", 9231,  9200, MultiTileEntityReactorRodNuclear.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  10.0F, NBT_RESISTANCE,  10.0F, NBT_MAXDURABILITY, 6000000L, NBT_NUCLEAR_SELF,  16, NBT_NUCLEAR_OTHER,  32, NBT_NUCLEAR_DIV,  4, NBT_NUCLEAR_MAX,     4096, NBT_VALUE, 9331)); RM.Canner.addRecipe2(false, 16, 16, OP.billet.mat(mat, 3), IL.Reactor_Rod_Empty.get(4), MTEx.gt6xMTEReg.getItem(9231, 4));
+		mat = MT.U_233   ; MTEx.gt6xMTEReg.add("Uranium-233 Fuel Rod"                  , "Reactors", 9232,  9200, MultiTileEntityReactorRodNuclear.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  10.0F, NBT_RESISTANCE,  10.0F, NBT_MAXDURABILITY, 6000000L, NBT_NUCLEAR_SELF,  32, NBT_NUCLEAR_OTHER,  32, NBT_NUCLEAR_DIV,  4, NBT_NUCLEAR_MAX,     2048, NBT_VALUE, 9332)); RM.Canner.addRecipe2(false, 16, 16, OP.billet.mat(mat, 3), IL.Reactor_Rod_Empty.get(4), MTEx.gt6xMTEReg.getItem(9232, 4));
+		mat = MTx.U233O2 ; MTEx.gt6xMTEReg.add("Uranium-233 Oxide Fuel Rod"            , "Reactors", 9233,  9200, MultiTileEntityReactorRodNuclear.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  10.0F, NBT_RESISTANCE,  10.0F, NBT_MAXDURABILITY, 6000000L, NBT_NUCLEAR_SELF,  16, NBT_NUCLEAR_OTHER,  32, NBT_NUCLEAR_DIV,  4, NBT_NUCLEAR_MAX,     4096, NBT_VALUE, 9333)); RM.Canner.addRecipe2(false, 16, 16, OP.billet.mat(mat, 3), IL.Reactor_Rod_Empty.get(4), MTEx.gt6xMTEReg.getItem(9233, 4));
+
+		mat = MTx.NU     ; MTEx.gt6xMTEReg.add("Depleted Natural Uranium Fuel Rod"              , "Reactors", 9320,  9200, MultiTileEntityReactorRodDepleted.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  10.0F, NBT_RESISTANCE,  10.0F)); RM.Bath.addRecipe1(true, 0, 512, new long[]{9500,   5,   5,   5}, MTEx.gt6xMTEReg.getItem(), FL.array(MT.HNO3.liquid(10*U, true)), FL.array(MTx.NaturalUranylNitrate.liquid(10*U, false), MT.Kr.gas(  U1000, false), MT.Xe.gas(U1000, false)), scrapGt.mat(MT.Zr, 9), dustTiny.mat(MT.Ru, 1), dustTiny.mat(MT.Rh, 1), dustTiny.mat(MT.Pd, 1));
+		mat = MTx.UO2    ; MTEx.gt6xMTEReg.add("Depleted Natural Uranium Oxide Fuel Rod"        , "Reactors", 9321,  9200, MultiTileEntityReactorRodDepleted.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  10.0F, NBT_RESISTANCE,  10.0F)); RM.Bath.addRecipe1(true, 0, 512, new long[]{9500,   5,   5,   5}, MTEx.gt6xMTEReg.getItem(), FL.array(MT.HNO3.liquid(10*U, true)), FL.array(MTx.NaturalUranylNitrate.liquid(10*U, false), MT.Kr.gas(  U1000, false), MT.Xe.gas(U1000, false)), scrapGt.mat(MT.Zr, 9), dustTiny.mat(MT.Ru, 1), dustTiny.mat(MT.Rh, 1), dustTiny.mat(MT.Pd, 1));
+		mat = MTx.LEU    ; MTEx.gt6xMTEReg.add("Depleted Low-Enriched Uranium Fuel Rod"         , "Reactors", 9322,  9200, MultiTileEntityReactorRodDepleted.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  10.0F, NBT_RESISTANCE,  10.0F)); RM.Bath.addRecipe1(true, 0, 512, new long[]{9500,  10,  10,  10}, MTEx.gt6xMTEReg.getItem(), FL.array(MT.HNO3.liquid(10*U, true)), FL.array(MTx.LEUranylNitrate     .liquid(10*U, false), MT.Kr.gas(2*U1000, false), MT.Xe.gas(2*U1000, false)), scrapGt.mat(MT.Zr, 9), dustTiny.mat(MT.Ru, 1), dustTiny.mat(MT.Rh, 1), dustTiny.mat(MT.Pd, 1));
+		mat = MTx.LEUO2  ; MTEx.gt6xMTEReg.add("Depleted Low-Enriched Uranium Oxide Fuel Rod"   , "Reactors", 9323,  9200, MultiTileEntityReactorRodDepleted.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  10.0F, NBT_RESISTANCE,  10.0F)); RM.Bath.addRecipe1(true, 0, 512, new long[]{9500,  10,  10,  10}, MTEx.gt6xMTEReg.getItem(), FL.array(MT.HNO3.liquid(10*U, true)), FL.array(MTx.LEUranylNitrate     .liquid(10*U, false), MT.Kr.gas(2*U1000, false), MT.Xe.gas(2*U1000, false)), scrapGt.mat(MT.Zr, 9), dustTiny.mat(MT.Ru, 1), dustTiny.mat(MT.Rh, 1), dustTiny.mat(MT.Pd, 1));
+		mat = MTx.HALEU  ; MTEx.gt6xMTEReg.add("Depleted High-Assay LEU Fuel Rod"               , "Reactors", 9324,  9200, MultiTileEntityReactorRodDepleted.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  10.0F, NBT_RESISTANCE,  10.0F)); RM.Bath.addRecipe1(true, 0, 512, new long[]{9500,  30,  30,  30}, MTEx.gt6xMTEReg.getItem(), FL.array(MT.HNO3.liquid(10*U, true)), FL.array(MTx.HALEUranylNitrate   .liquid(10*U, false), MT.Kr.gas(6*U1000, false), MT.Xe.gas(6*U1000, false)), scrapGt.mat(MT.Zr, 9), dustTiny.mat(MT.Ru, 1), dustTiny.mat(MT.Rh, 1), dustTiny.mat(MT.Pd, 1));
+		mat = MTx.HALEUO2; MTEx.gt6xMTEReg.add("Depleted High-Assay LEU Oxide Fuel Rod"         , "Reactors", 9325,  9200, MultiTileEntityReactorRodDepleted.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  10.0F, NBT_RESISTANCE,  10.0F)); RM.Bath.addRecipe1(true, 0, 512, new long[]{9500,  30,  30,  30}, MTEx.gt6xMTEReg.getItem(), FL.array(MT.HNO3.liquid(10*U, true)), FL.array(MTx.HALEUranylNitrate   .liquid(10*U, false), MT.Kr.gas(6*U1000, false), MT.Xe.gas(6*U1000, false)), scrapGt.mat(MT.Zr, 9), dustTiny.mat(MT.Ru, 1), dustTiny.mat(MT.Rh, 1), dustTiny.mat(MT.Pd, 1));
+		mat = MTx.HEU    ; MTEx.gt6xMTEReg.add("Depleted Highly-Enriched Uranium Fuel Rod"      , "Reactors", 9326,  9200, MultiTileEntityReactorRodDepleted.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  10.0F, NBT_RESISTANCE,  10.0F)); RM.Bath.addRecipe1(true, 0, 512, new long[]{9500, 100, 100, 100}, MTEx.gt6xMTEReg.getItem(), FL.array(MT.HNO3.liquid(10*U, true)), FL.array(MTx.HEUranylNitrate     .liquid(10*U, false), MT.Kr.gas(20*U1000, false), MT.Xe.gas(20*U1000, false)), scrapGt.mat(MT.Zr, 9), dustTiny.mat(MT.Ru, 1), dustTiny.mat(MT.Rh, 1), dustTiny.mat(MT.Pd, 1));
+		mat = MTx.HEUO2  ; MTEx.gt6xMTEReg.add("Depleted Highly-Enriched Uranium Oxide Fuel Rod", "Reactors", 9327,  9200, MultiTileEntityReactorRodDepleted.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  10.0F, NBT_RESISTANCE,  10.0F)); RM.Bath.addRecipe1(true, 0, 512, new long[]{9500, 100, 100, 100}, MTEx.gt6xMTEReg.getItem(), FL.array(MT.HNO3.liquid(10*U, true)), FL.array(MTx.HEUranylNitrate     .liquid(10*U, false), MT.Kr.gas(20*U1000, false), MT.Xe.gas(20*U1000, false)), scrapGt.mat(MT.Zr, 9), dustTiny.mat(MT.Ru, 1), dustTiny.mat(MT.Rh, 1), dustTiny.mat(MT.Pd, 1));
+		mat = MTx.WGU    ; MTEx.gt6xMTEReg.add("Depleted Weapons-Grade Uranium Fuel Rod"        , "Reactors", 9328,  9200, MultiTileEntityReactorRodDepleted.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  10.0F, NBT_RESISTANCE,  10.0F)); RM.Bath.addRecipe1(true, 0, 512, new long[]{9500, 175, 175, 175}, MTEx.gt6xMTEReg.getItem(), FL.array(MT.HNO3.liquid(10*U, true)), FL.array(MTx.WGUranylNitrate     .liquid(10*U, false), MT.Kr.gas(35*U1000, false), MT.Xe.gas(35*U1000, false)), scrapGt.mat(MT.Zr, 9), dustTiny.mat(MT.Ru, 1), dustTiny.mat(MT.Rh, 1), dustTiny.mat(MT.Pd, 1));
+		mat = MTx.WGUO2  ; MTEx.gt6xMTEReg.add("Depleted Weapons-Grade Uranium Oxide Fuel Rod"  , "Reactors", 9329,  9200, MultiTileEntityReactorRodDepleted.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  10.0F, NBT_RESISTANCE,  10.0F)); RM.Bath.addRecipe1(true, 0, 512, new long[]{9500, 175, 175, 175}, MTEx.gt6xMTEReg.getItem(), FL.array(MT.HNO3.liquid(10*U, true)), FL.array(MTx.WGUranylNitrate     .liquid(10*U, false), MT.Kr.gas(35*U1000, false), MT.Xe.gas(35*U1000, false)), scrapGt.mat(MT.Zr, 9), dustTiny.mat(MT.Ru, 1), dustTiny.mat(MT.Rh, 1), dustTiny.mat(MT.Pd, 1));
+		mat = MT.U_235   ; MTEx.gt6xMTEReg.add("Depleted Uranium-235 Fuel Rod"                  , "Reactors", 9330,  9200, MultiTileEntityReactorRodDepleted.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  10.0F, NBT_RESISTANCE,  10.0F)); RM.Bath.addRecipe1(true, 0, 512, new long[]{9500, 200, 200, 200}, MTEx.gt6xMTEReg.getItem(), FL.array(MT.HNO3.liquid(10*U, true)), FL.array(MTx.U235ranylNitrate    .liquid(10*U, false), MT.Kr.gas(40*U1000, false), MT.Xe.gas(40*U1000, false)), scrapGt.mat(MT.Zr, 9), dustTiny.mat(MT.Ru, 1), dustTiny.mat(MT.Rh, 1), dustTiny.mat(MT.Pd, 1));
+		mat = MTx.U235O2 ; MTEx.gt6xMTEReg.add("Depleted Uranium-235 Oxide Fuel Rod"            , "Reactors", 9331,  9200, MultiTileEntityReactorRodDepleted.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  10.0F, NBT_RESISTANCE,  10.0F)); RM.Bath.addRecipe1(true, 0, 512, new long[]{9500, 200, 200, 200}, MTEx.gt6xMTEReg.getItem(), FL.array(MT.HNO3.liquid(10*U, true)), FL.array(MTx.U235ranylNitrate    .liquid(10*U, false), MT.Kr.gas(40*U1000, false), MT.Xe.gas(40*U1000, false)), scrapGt.mat(MT.Zr, 9), dustTiny.mat(MT.Ru, 1), dustTiny.mat(MT.Rh, 1), dustTiny.mat(MT.Pd, 1));
+		mat = MT.U_233   ; MTEx.gt6xMTEReg.add("Depleted Uranium-233 Fuel Rod"                  , "Reactors", 9332,  9200, MultiTileEntityReactorRodDepleted.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  10.0F, NBT_RESISTANCE,  10.0F)); RM.Bath.addRecipe1(true, 0, 512, new long[]{9500, 200, 200, 200}, MTEx.gt6xMTEReg.getItem(), FL.array(MT.HNO3.liquid(10*U, true)), FL.array(MTx.U233ranylNitrate    .liquid(10*U, false), MT.Kr.gas(40*U1000, false), MT.Xe.gas(40*U1000, false)), scrapGt.mat(MT.Zr, 9), dustTiny.mat(MT.Ru, 1), dustTiny.mat(MT.Rh, 1), dustTiny.mat(MT.Pd, 1));
+		mat = MTx.U233O2 ; MTEx.gt6xMTEReg.add("Depleted Uranium-233 Oxide Fuel Rod"            , "Reactors", 9333,  9200, MultiTileEntityReactorRodDepleted.class, mat.mToolQuality, 16, MTEx.MachineBlock, UT.NBT.make(NBT_MATERIAL, mat, NBT_HARDNESS,  10.0F, NBT_RESISTANCE,  10.0F)); RM.Bath.addRecipe1(true, 0, 512, new long[]{9500, 200, 200, 200}, MTEx.gt6xMTEReg.getItem(), FL.array(MT.HNO3.liquid(10*U, true)), FL.array(MTx.U233ranylNitrate    .liquid(10*U, false), MT.Kr.gas(40*U1000, false), MT.Xe.gas(40*U1000, false)), scrapGt.mat(MT.Zr, 9), dustTiny.mat(MT.Ru, 1), dustTiny.mat(MT.Rh, 1), dustTiny.mat(MT.Pd, 1));
+
 	}
 
 	private void changeRecipes() {

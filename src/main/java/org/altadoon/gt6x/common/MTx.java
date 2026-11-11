@@ -330,20 +330,21 @@ public class MTx {
 	}
 
 	public static OreDictMaterial enrichedUranium(int id, String name, long u238, long u235) {
-		return machine(id, name, SET_RAD,
+		return dustdcmp(id, name, SET_RAD,
 				((MT.U_238.mRGBaSolid[0] * u238) + (MT.U_235.mRGBaSolid[0] * u235)) / (u238 + u235),
 				((MT.U_238.mRGBaSolid[1] * u238) + (MT.U_235.mRGBaSolid[1] * u235)) / (u238 + u235),
 				((MT.U_238.mRGBaSolid[2] * u238) + (MT.U_235.mRGBaSolid[2] * u235)) / (u238 + u235),
 				((MT.U_238.mRGBaSolid[3] * u238) + (MT.U_235.mRGBaSolid[3] * u235)) / (u238 + u235))
-				.put(METAL, ACTINIDE, G_INGOT_ORES, SMITHABLE, MELTING, EXTRUDER)
-				.setMcfg(0, MT.U_238, u238*U, MT.U_235, u235*U);
+				.put(METAL, ACTINIDE, INGOTS)
+				.setMcfg(0, MT.U_238, u238*U, MT.U_235, u235*U)
+				.tooltip("U");
 	}
 
 	public static OreDictMaterial uraniumDioxide(int id, String name, OreDictMaterial base) {
 		return dustdcmp(id, name, SET_CUBE, 10, 10, 10, 255)
 				.setMcfg(1, base, U, MT.O, 2*U)
 				.heat(3138)
-				.put(INGOTS, STICKS, EXTRUDER);
+				.put(INGOTS);
 	}
 
 	public static OreDictMaterial uraniumHexafluoride(int id, String name, OreDictMaterial base) {
@@ -356,6 +357,18 @@ public class MTx {
 		return dustdcmp(id, name, SET_SHARDS, 86, 118, 105, 255, MELTING, MOLTEN)
 				.setMcfg(1, base, U, MT.F, 4*U)
 				.heat(1309, 1690);
+	}
+
+	public static OreDictMaterial spentUranylNitrateWatery(int id, String matName, OreDictMaterial base) {
+		return registerLiquid(lqudaciddcmp(id, "Spent " + matName + "-Plutonium Nitrate Aqueous Solution", 150, 200, 0, 200)
+				.setMcfg(0, base, U, MT.O, 2*U, NO3, 2*U, MT.Pu, U, NO3, 4*U, MT.H2O, 3*U)
+		);
+	}
+
+	public static OreDictMaterial spentUranylNitrateOrganic(int id, String matName, OreDictMaterial base) {
+		return registerLiquid(lqudaciddcmp(id, "Spent " + matName + "-Plutonium Nitrate Organic Solution", 150, 255, 0, 200)
+				.setMcfg(0, base, U, MT.O, 2*U, NO3, 2*U, MT.Pu, U, NO3, 4*U, MT.Kerosine, U)
+		);
 	}
 
 	static OreDictMaterial unused(String name) {return create(-1, name).put(UNUSED_MATERIAL, DONT_SHOW_THIS_COMPONENT);}
@@ -1667,7 +1680,8 @@ public class MTx {
 			.heat(330+C),
 	ThO2 = oredustdcmp(16448, "Thorium Dioxide", SET_RAD, 180, 220, 0, 255)
 			.setMcfg(1, MT.Th, U, MT.O, 2*U)
-			.heat(3620, 4670),
+			.heat(3620, 4670)
+			.put(INGOTS),
 	EthyleneDiamine = registerLiquid(lquddcmp(16449, "Ethylenediamine", 255, 255, 255, 255)
 			.setMcfg(1, MT.C, 2*U, MT.H, 8*U, MT.N, 2*U)
 			.heat(281, 389)),
@@ -1938,11 +1952,12 @@ public class MTx {
 	Yellowcake = dustdcmp(16561, "Yellowcake", SET_DULL, 155, 155, 0, 255, "Ammonium Diuranate", "ADU")
 			.uumMcfg(12, NH4, 2*U, MT.U_238, 2*U, MT.O, 7*U)
 			.heat(500),
+	NU = enrichedUranium(16562, "Natural Uranium", 9928, 72).tooltip("U"),
 	LEU = enrichedUranium(16562, "LEU", 96, 4).setLocal("Low-Enriched Uranium"),
 	HALEU = enrichedUranium(16563, "HALEU", 85, 15).setLocal("High-assay LEU"),
 	HEU = enrichedUranium(16564, "HEU", 50, 50).setLocal("Highly-Enriched Uranium"),
 	WGU = enrichedUranium(16565, "WGU", 15, 85).setLocal("Weapons-Grade Uranium"),
-	UO2 = uraniumDioxide(16566, "Uranium Dioxide", MT.U_238),
+	UO2 = uraniumDioxide(16566, "Uranium Dioxide", NU),
 	LEUO2 = uraniumDioxide(16567, "LEU Oxide", LEU),
 	HALEUO2 = uraniumDioxide(16568, "HALEU Oxide", HALEU),
 	HEUO2 = uraniumDioxide(16569, "HEU Oxide", HEU),
@@ -1956,8 +1971,23 @@ public class MTx {
 	HEUF4 = uraniumTetrafluoride(16577, "HEU Tetrafluoride", HEU),
 	WGUF6 = uraniumHexafluoride(16578, "WGU Hexafluoride", WGU),
 	WGUF4 = uraniumTetrafluoride(16579, "WGU Tetrafluoride", WGU),
-	DUO2 = uraniumDioxide(16580, "Uranium-238 Dioxide", MT.U_238)
-
+	DUO2 = uraniumDioxide(16580, "Uranium-238 Dioxide", MT.U_238),
+	U233O2 = uraniumDioxide(16581, "Uranium-233 Dioxide", MT.U_233),
+	NaturalUranylNitrate = spentUranylNitrateWatery(16582, "Natural Uranyl", NU),
+	PurifiedNaturalUranylNitrate = spentUranylNitrateOrganic(16583, "Natural Uranyl", NU),
+	LEUranylNitrate = spentUranylNitrateWatery(16584, "LEU Uranyl", LEU),
+	PurifiedLEUranylNitrate = spentUranylNitrateOrganic(16585, "LEU Uranyl", LEU),
+	HALEUranylNitrate = spentUranylNitrateWatery(16586, "HALEU Uranyl", HALEU),
+	PurifiedHALEUranylNitrate = spentUranylNitrateOrganic(16587, "HALEU Uranyl", HALEU),
+	HEUranylNitrate = spentUranylNitrateWatery(16588, "HEU Uranyl", HEU),
+	PurifiedHEUranylNitrate = spentUranylNitrateOrganic(16589, "HEU Uranyl", HEU),
+	WGUranylNitrate = spentUranylNitrateWatery(16590, "WGU Uranyl", WGU),
+	PurifiedWGUranylNitrate = spentUranylNitrateOrganic(16591, "WGU", WGU),
+	U235ranylNitrate = spentUranylNitrateWatery(16592, "Uranyl-235", MT.U_235),
+	PurifiedU235ranylNitrate = spentUranylNitrateOrganic(16593, "Uranyl-235", MT.U_235),
+	U233ranylNitrate = spentUranylNitrateWatery(16594, "Uranyl-233", MT.U_233),
+	PurifiedU233ranylNitrate = spentUranylNitrateOrganic(16595, "Uranyl-233", MT.U_233),
+	END = null
 	;
 
 	@SuppressWarnings("unused")
