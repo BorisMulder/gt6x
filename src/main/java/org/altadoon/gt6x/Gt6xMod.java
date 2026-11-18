@@ -103,9 +103,6 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 
 	@Override
 	public void onModPreInit2(cpw.mods.fml.common.event.FMLPreInitializationEvent event) {
-		MTEx.touch();
-		MTx.touch();
-		OPx.init();
 		RMx.init();
 		MultiItemsX.init(MOD_ID);
 		MultiItemBottlesX.init(MOD_ID);
@@ -144,6 +141,8 @@ public final class Gt6xMod extends gregapi.api.Abstract_Mod {
 
 	private void postGt6PreInit() {
 		MTx.touch();
+		MTEx.touch();
+		OPx.init();
 		FLx.init();
 
 		for (GT6XFeature feature : enabledFeatures) {

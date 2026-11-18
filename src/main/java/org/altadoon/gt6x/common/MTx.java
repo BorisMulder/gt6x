@@ -1,8 +1,10 @@
 package org.altadoon.gt6x.common;
 
 import gregapi.code.HashSetNoNulls;
+import gregapi.code.ObjectStack;
 import gregapi.code.TagData;
 import gregapi.data.*;
+import gregapi.enchants.Enchantment_Radioactivity;
 import gregapi.oredict.OreDictManager;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.oredict.OreDictMaterialStack;
@@ -215,6 +217,9 @@ public class MTx {
 		MT.C_13.heat(MT.C);
 		MT.C_14.heat(MT.C);
 		MT.SiC.heat(3100, MT.Si.mBoilingPoint).setSmelting(MT.Graphite, U2);
+
+		makeRadioactive(MT.U_233, 2);
+		makeRadioactive(MT.Pu_239, 2);
 	}
 
 	public static OreDictMaterial create(int id, String name) {
@@ -331,12 +336,31 @@ public class MTx {
 		);
 	}
 
-	public static OreDictMaterial isotope(int id, OreDictMaterial base, long weight) {
-		return create(id, base.mNameInternal + "-" + weight, 0, 0, 0, 0)
-				.setStats(base.mProtons, weight - base.mProtons, base.mMeltingPoint, base.mBoilingPoint, base.mGramPerCubicCentimeter)
+	public static OreDictMaterial isotope(int id, OreDictMaterial base, long mass) {
+		return isotope(id, base, mass, 0);
+	}
+
+	public static OreDictMaterial isotope(int id, OreDictMaterial base, long mass, int radioactivity) {
+		OreDictMaterial mat = create(id, base.mNameInternal + "-" + mass, 0, 0, 0, 0)
+				.setStats(base.mProtons, mass - base.mProtons, base.mMeltingPoint, base.mBoilingPoint, base.mGramPerCubicCentimeter * (1.0 + ((double)(mass - base.mMass)) / base.mMass))
 				.stealLooks(base)
 				.put(getTags(base))
 				.tooltip(base.mTooltipChemical);
+		if (radioactivity > 0) makeRadioactive(mat, radioactivity);
+		return mat;
+	}
+
+	public static void makeRadioactive(OreDictMaterial mat, int level) {
+		mat .addEnchantmentForTools(Enchantment_Radioactivity.INSTANCE, level)
+			.addEnchantmentForDamage(Enchantment_Radioactivity.INSTANCE, level)
+			.addEnchantmentForRanged(Enchantment_Radioactivity.INSTANCE, level)
+			.addEnchantmentForArmors(Enchantment_Radioactivity.INSTANCE, level);
+	}
+
+	public static void makeRadioactive(OreDictMaterial mat, OreDictMaterial base) {
+		int rads = 0;
+		for (ObjectStack<Enchantment> ench : base.mEnchantmentTools) if (ench.mObject instanceof Enchantment_Radioactivity) rads = Math.max(rads, (int)ench.mAmount);
+		if (rads > 0) makeRadioactive(mat, rads);
 	}
 
 	/** Reads the private OreDictMaterial.mTags set via reflection. */
@@ -358,10 +382,12 @@ public class MTx {
 	}
 
 	public static OreDictMaterial uraniumDioxide(int id, String name, OreDictMaterial base) {
-		return dustdcmp(id, name, SET_CUBE, 10, 10, 10, 255)
+		OreDictMaterial result = dustdcmp(id, name, SET_CUBE, 10, 10, 10, 255)
 				.setMcfg(1, base, U, MT.O, 2*U)
 				.heat(3138)
 				.put(INGOTS);
+		makeRadioactive(result, base);
+		return result;
 	}
 
 	public static OreDictMaterial uraniumHexafluoride(int id, String name, OreDictMaterial base) {
@@ -371,9 +397,11 @@ public class MTx {
 	}
 
 	public static OreDictMaterial uraniumTetrafluoride(int id, String name, OreDictMaterial base) {
-		return dustdcmp(id, name, SET_SHARDS, 86, 118, 105, 255, MELTING, MOLTEN)
+		OreDictMaterial result = dustdcmp(id, name, SET_SHARDS, 86, 118, 105, 255, MELTING, MOLTEN)
 				.setMcfg(1, base, U, MT.F, 4*U)
 				.heat(1309, 1690);
+		makeRadioactive(result, base);
+		return result;
 	}
 
 	static OreDictMaterial unused(String name) {return create(-1, name).put(UNUSED_MATERIAL, DONT_SHOW_THIS_COMPONENT);}
@@ -1977,8 +2005,8 @@ public class MTx {
 	WGUF6 = uraniumHexafluoride(16578, "WGU Hexafluoride", WGU),
 	WGUF4 = uraniumTetrafluoride(16579, "WGU Tetrafluoride", WGU),
 	DUO2 = uraniumDioxide(16580, "Uranium-238 Dioxide", MT.U_238),
-	U233O2 = uraniumDioxide(16581, "Uranium-233 Dioxide", MT.U_233),
-	Pu239O2 = dustdcmp(16582, "Plutonium-239 Dioxide", SET_CUBE, 40, 20, 20, 255)
+	U_233O2 = uraniumDioxide(16581, "Uranium-233 Dioxide", MT.U_233),
+	Pu_239O2 = dustdcmp(16582, "Plutonium-239 Dioxide", SET_CUBE, 40, 20, 20, 255)
 			.setMcfg(1, MT.Pu_239, U, MT.O, 2*U)
 			.heat(3017, 3070)
 			.put(INGOTS),
@@ -1992,8 +2020,8 @@ public class MTx {
 			.setLocal("Tributyl Phosphate")
 			.setMcfg(1, MT.C, 12*U, MT.H, 27*U, MT.P, U, MT.O, 4*U)
 			.heat(193, 562)),
-	Pa_233 = isotope(16586, MT.Pa, 233),
-	Pa233O2 = dustdcmp(16587, "Protactinium-233 Dioxide", SET_CUBE, 40, 20, 20, 255)
+	Pa_233 = isotope(16586, MT.Pa, 233, 2),
+	Pa_233O2 = dustdcmp(16587, "Protactinium-233 Dioxide", SET_CUBE, 40, 20, 20, 255)
 			.uumMcfg(1, Pa_233, U, MT.O, 2*U)
 			.heat(3017, 3070)
 			.put(INGOTS),
@@ -2112,5 +2140,8 @@ public class MTx {
 
 		MT.NeodymiumMagnetic.uumMcfg(0, Nd2Fe14B, U)
 				.setAllToTheOutputOf(Nd2Fe14B);
+
+		makeRadioactive(Pa_233O2, 2);
+		makeRadioactive(Pu_239O2, 2);
 	}
 }

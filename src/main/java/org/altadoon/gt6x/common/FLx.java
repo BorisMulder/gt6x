@@ -34,6 +34,7 @@ public class FLx {
 	public static int NG_PER_LNG = 600;
 	public static Fluid Synoil = MTx.Synoil.mLiquid.getFluid();
 	public static Fluid LiquidNitrogen = null;
+	public static Fluid PUREXWaste = null, PUREXWasteConc = null;
 
 	/*
 	 * If water has a density of 1000 kg/m3 and 1 water = 160 steam then GT6 steam has a density of 1000/160 = 6.25 kg/m3 (this occurs at ~12.5 bar and ~200C, but eh)
@@ -62,9 +63,19 @@ public class FLx {
 	public static HashMap<OreDictMaterial, Fluid> SPENT_URANYL_NITRATE_AQUEOUS = new HashMap<>();
 	public static HashMap<OreDictMaterial, Fluid> SPENT_URANYL_NITRATE_ORGANIC = new HashMap<>();
 
+	public static IIconContainer waterTexture() {
+		return MT.H2O.mTextureSetsBlock.get(IconsGT.INDEX_BLOCK_MOLTEN);
+	}
+
 	@SafeVarargs public static Fluid create(String name, String localized, OreDictMaterial material, int state, Set<String>... fluidList) {return create(name, localized, material, state, 1000, 300, fluidList);}
 	@SafeVarargs public static Fluid create(String name, String localized, OreDictMaterial material, int state, long amountPerUnit, long temperatureK, Set<String>... fluidList) {return create(name, localized, material, state, amountPerUnit, temperatureK, new Textures.BlockIcons.CustomIcon(Gt6xMod.MOD_ID + ":fluids/" + name.toLowerCase()), null, null, 0, fluidList);}
-	@SafeVarargs public static Fluid create(String name, String localized, OreDictMaterial material, int state, long amountPerUnit, long temperatureK, IIconContainer texture, ItemStack fullContainer, ItemStack emptyContainer, int fluidAmount, Set<String>... fluidList) {return FL.create(name, texture, localized, material, null, state, amountPerUnit, temperatureK, fullContainer, emptyContainer, fluidAmount, fluidList);}
+	@SafeVarargs public static Fluid create(String name, String localized, OreDictMaterial material, int state, long amountPerUnit, long temperatureK, IIconContainer texture, ItemStack fullContainer, ItemStack emptyContainer, int fluidAmount, Set<String>... fluidList) {
+		return FL.create(name, texture, localized, material, null, state, amountPerUnit, temperatureK, fullContainer, emptyContainer, fluidAmount, fluidList);
+	}
+
+	@SafeVarargs public static Fluid createLiquid(String name, String localized, OreDictMaterial material, int r, int g, int b, int a, Set<String>... fluidList) {
+		return FL.create(name, waterTexture(), localized, material, new short[]{(short)r, (short)g, (short)b, (short)a}, STATE_LIQUID, 1000, 300, null, null, 0, fluidList);
+	}
 
 	public static FluidStack ReeEdta(OreDictMaterial mat, int amount) {
 		if (REE_EDTA_SOLUTIONS.containsKey(mat)) {
@@ -83,10 +94,11 @@ public class FLx {
 	}
 
 	private static void createSpentUranylNitrates(OreDictMaterial base, String localName) {
-		IIconContainer texture = MT.H2O.mTextureSetsBlock.get(IconsGT.INDEX_BLOCK_MOLTEN);
 		String name = "spent" + base.mNameInternal.toLowerCase() + "uranylnitrate";
-		SPENT_URANYL_NITRATE_AQUEOUS.put(base, FL.create(name + "aqueous", texture, "Spent " + localName + "-Plutonium Nitrate Aqueous Solution", null, new short[]{150, 200, 0, 200}, STATE_LIQUID, 1000, 300, null, null, 0, ACID));
-		SPENT_URANYL_NITRATE_ORGANIC.put(base, FL.create(name + "organic", texture, "Spent " + localName + "-Plutonium Nitrate Organic Solution", null, new short[]{150, 255, 0, 200}, STATE_LIQUID, 1000, 300, null, null, 0, ACID));
+		// aqueous: .setMcfg(0, base, U, MT.O, 2*U, NO3, 2*U, MT.Pu, U, NO3, 4*U, MT.H2O, 3*U)
+		// organic: .setMcfg(0, base, U, MT.O, 2*U, NO3, 2*U, MT.Pu, U, NO3, 4*U, MT.Kerosine, 3*U, MTx.TBP, 2*U)
+		SPENT_URANYL_NITRATE_AQUEOUS.put(base, createLiquid(name + "aqueous", "Spent " + localName + "-Plutonium Nitrate Aqueous Solution", null, 150, 200, 0, 200, ACID));
+		SPENT_URANYL_NITRATE_ORGANIC.put(base, createLiquid(name + "organic", "Spent " + localName + "-Plutonium Nitrate Organic Solution", null, 150, 255, 0, 200));
 	}
 
 	public static void init() {
@@ -100,13 +112,11 @@ public class FLx {
 		LiquidCrystal5CB = create("liquidcrystal5cb", "5CB Liquid Crystal", MTx.LiquidCrystal5CB, STATE_LIQUID, 144, 300);
 
 		for (OreDictMaterial ree : new OreDictMaterial[]{MTx.HREE, MT.Sc, MT.Y, MT.La, MT.Ce, MT.Pr, MT.Nd, MT.Sm, MT.Eu, MT.Gd, MT.Tb, MT.Dy, MT.Ho, MT.Er, MT.Tm, MT.Yb, MT.Lu}) {
-			Fluid f = FL.create(ree.mNameInternal + "EDTASolution", MT.H2O.mTextureSetsBlock.get(IconsGT.INDEX_BLOCK_MOLTEN), ree.mNameLocal + " EDTA Solution", null, new short[]{180, 220, 255, 200}, STATE_LIQUID, 1000, 300, null, null, 0);
+			Fluid f = createLiquid(ree.mNameInternal + "EDTASolution", ree.mNameLocal + " EDTA Solution", null, 180, 220, 255, 200);
 			REE_EDTA_SOLUTIONS.put(ree, f);
 			// .setMcfg(0, MT.H, U, MT.La, U, EDTA, U, MT.H2O, 9*U).heat(MT.H2O)),
 		}
 
-		// aqueous: .setMcfg(0, base, U, MT.O, 2*U, NO3, 2*U, MT.Pu, U, NO3, 4*U, MT.H2O, 3*U)
-		// organic: .setMcfg(0, base, U, MT.O, 2*U, NO3, 2*U, MT.Pu, U, NO3, 4*U, MT.Kerosine, 3*U)
 		createSpentUranylNitrates(MTx.NU   , "Natural Uranyl");
 		createSpentUranylNitrates(MTx.LEU  , "LEU Uranyl");
 		createSpentUranylNitrates(MTx.HALEU, "HALEU Uranyl");
@@ -118,6 +128,8 @@ public class FLx {
 		OreDictMaterial mat = MT.N;
 		mat.setRGBaLiquid(255, 255, 255, 200);
 		LiquidNitrogen = create("liquid." + mat.mNameInternal.toLowerCase(), "Liquid " + mat.mNameLocal, mat, STATE_LIQUID, 100, mat.mBoilingPoint);
+		PUREXWaste = createLiquid("purexnuclearwaste", "Nuclear Waste Nitrate Solution", null, 140, 180, 0, 200, ACID);
+		PUREXWasteConc = createLiquid("purexnuclearwasteconc", "Concentrated Nuclear Waste Nitrate Solution", null, 100, 130, 0, 200, ACID);
 
 		HPWater = create("hpwater", "High-Pressure Water", MTx.HPWater, STATE_LIQUID, 1000, 300, SIMPLE, LIQUID);
 		SCSteam = create("scsteam", "Supercritical Water", MTx.HPWater, STATE_GASEOUS, 8000, 500 + C, SIMPLE, GAS, STEAM, POWER_CONDUCTING);
