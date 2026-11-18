@@ -376,18 +376,6 @@ public class MTx {
 				.heat(1309, 1690);
 	}
 
-	public static OreDictMaterial spentUranylNitrateWatery(int id, String matName, OreDictMaterial base) {
-		return registerLiquid(lqudaciddcmp(id, "Spent " + matName + "-Plutonium Nitrate Aqueous Solution", 150, 200, 0, 200)
-				.setMcfg(0, base, U, MT.O, 2*U, NO3, 2*U, MT.Pu, U, NO3, 4*U, MT.H2O, 3*U)
-		);
-	}
-
-	public static OreDictMaterial spentUranylNitrateOrganic(int id, String matName, OreDictMaterial base) {
-		return registerLiquid(lqudaciddcmp(id, "Spent " + matName + "-Plutonium Nitrate Organic Solution", 150, 255, 0, 200)
-				.setMcfg(0, base, U, MT.O, 2*U, NO3, 2*U, MT.Pu, U, NO3, 4*U, MT.Kerosine, U)
-		);
-	}
-
 	static OreDictMaterial unused(String name) {return create(-1, name).put(UNUSED_MATERIAL, DONT_SHOW_THIS_COMPONENT);}
 
 	public static OreDictMaterial registerLiquid(OreDictMaterial mat) {
@@ -1990,36 +1978,22 @@ public class MTx {
 	WGUF4 = uraniumTetrafluoride(16579, "WGU Tetrafluoride", WGU),
 	DUO2 = uraniumDioxide(16580, "Uranium-238 Dioxide", MT.U_238),
 	U233O2 = uraniumDioxide(16581, "Uranium-233 Dioxide", MT.U_233),
-	NaturalUranylNitrate = spentUranylNitrateWatery(16582, "Natural Uranyl", NU),
-	PurifiedNaturalUranylNitrate = spentUranylNitrateOrganic(16583, "Natural Uranyl", NU),
-	LEUranylNitrate = spentUranylNitrateWatery(16584, "LEU Uranyl", LEU),
-	PurifiedLEUranylNitrate = spentUranylNitrateOrganic(16585, "LEU Uranyl", LEU),
-	HALEUranylNitrate = spentUranylNitrateWatery(16586, "HALEU Uranyl", HALEU),
-	PurifiedHALEUranylNitrate = spentUranylNitrateOrganic(16587, "HALEU Uranyl", HALEU),
-	HEUranylNitrate = spentUranylNitrateWatery(16588, "HEU Uranyl", HEU),
-	PurifiedHEUranylNitrate = spentUranylNitrateOrganic(16589, "HEU Uranyl", HEU),
-	WGUranylNitrate = spentUranylNitrateWatery(16590, "WGU Uranyl", WGU),
-	PurifiedWGUranylNitrate = spentUranylNitrateOrganic(16591, "WGU", WGU),
-	U235ranylNitrate = spentUranylNitrateWatery(16592, "Uranyl-235", MT.U_235),
-	PurifiedU235ranylNitrate = spentUranylNitrateOrganic(16593, "Uranyl-235", MT.U_235),
-	U233ranylNitrate = spentUranylNitrateWatery(16594, "Uranyl-233", MT.U_233),
-	PurifiedU233ranylNitrate = spentUranylNitrateOrganic(16595, "Uranyl-233", MT.U_233),
-	Pu239O2 = dustdcmp(16596, "Plutonium-239 Dioxide", SET_CUBE, 40, 20, 20, 255)
+	Pu239O2 = dustdcmp(16582, "Plutonium-239 Dioxide", SET_CUBE, 40, 20, 20, 255)
 			.setMcfg(1, MT.Pu_239, U, MT.O, 2*U)
 			.heat(3017, 3070)
 			.put(INGOTS),
-	Propanol = registerLiquid(lqudflam(16597, "Propanol", 255, 220, 180, 200)
+	Propanol = registerLiquid(lqudflam(16583, "Propanol", 255, 220, 180, 200)
 			.setMcfg(1, MT.C, 4*U, MT.H, 10*U, MT.O, U)
 			.heat(147, 371)),
-	Butanol = registerLiquid(lqudflam(16598, "Butanol", 255, 230, 200, 200)
+	Butanol = registerLiquid(lqudflam(16584, "Butanol", 255, 230, 200, 200)
 			.setMcfg(1, MT.C, 4*U, MT.H, 10*U, MT.O, U)
 			.heat(183, 391)),
-	TBP = registerLiquid(lqudflam(16599, "TBP", 255, 255, 255, 200)
+	TBP = registerLiquid(lqudflam(16585, "TBP", 255, 255, 255, 200)
 			.setLocal("Tributyl Phosphate")
 			.setMcfg(1, MT.C, 12*U, MT.H, 27*U, MT.P, U, MT.O, 4*U)
 			.heat(193, 562)),
-	Pa_233 = isotope(16600, MT.Pa, 233),
-	Pa233O2 = dustdcmp(16601, "Protactinium-233 Dioxide", SET_CUBE, 40, 20, 20, 255)
+	Pa_233 = isotope(16586, MT.Pa, 233),
+	Pa233O2 = dustdcmp(16587, "Protactinium-233 Dioxide", SET_CUBE, 40, 20, 20, 255)
 			.uumMcfg(1, Pa_233, U, MT.O, 2*U)
 			.heat(3017, 3070)
 			.put(INGOTS),

@@ -58,6 +58,9 @@ public class FLx {
 	public static FL[] BIO_OILS = { FL.Oil_Frying, FL.Oil_Seed, FL.Oil_Plant, FL.Oil_Sunflower, FL.Oil_Olive, FL.Oil_Nut, FL.Oil_Lin, FL.Oil_Hemp, FL.Oil_Fish, FL.Oil_Whale, FL.Oil_Canola, FL.Oil_Plant };
 
 	public static HashMap<OreDictMaterial, Fluid> REE_EDTA_SOLUTIONS = new HashMap<>();
+	/** Spent uranyl-plutonium nitrate solutions, keyed by the uranium material of the spent fuel. */
+	public static HashMap<OreDictMaterial, Fluid> SPENT_URANYL_NITRATE_AQUEOUS = new HashMap<>();
+	public static HashMap<OreDictMaterial, Fluid> SPENT_URANYL_NITRATE_ORGANIC = new HashMap<>();
 
 	@SafeVarargs public static Fluid create(String name, String localized, OreDictMaterial material, int state, Set<String>... fluidList) {return create(name, localized, material, state, 1000, 300, fluidList);}
 	@SafeVarargs public static Fluid create(String name, String localized, OreDictMaterial material, int state, long amountPerUnit, long temperatureK, Set<String>... fluidList) {return create(name, localized, material, state, amountPerUnit, temperatureK, new Textures.BlockIcons.CustomIcon(Gt6xMod.MOD_ID + ":fluids/" + name.toLowerCase()), null, null, 0, fluidList);}
@@ -69,6 +72,21 @@ public class FLx {
 		} else {
 			return null;
 		}
+	}
+
+	public static FluidStack spentUranylNitrateAqueous(OreDictMaterial mat, long amount) {
+		return SPENT_URANYL_NITRATE_AQUEOUS.containsKey(mat) ? FL.make(SPENT_URANYL_NITRATE_AQUEOUS.get(mat), amount) : null;
+	}
+
+	public static FluidStack spentUranylNitrateOrganic(OreDictMaterial mat, long amount) {
+		return SPENT_URANYL_NITRATE_ORGANIC.containsKey(mat) ? FL.make(SPENT_URANYL_NITRATE_ORGANIC.get(mat), amount) : null;
+	}
+
+	private static void createSpentUranylNitrates(OreDictMaterial base, String localName) {
+		IIconContainer texture = MT.H2O.mTextureSetsBlock.get(IconsGT.INDEX_BLOCK_MOLTEN);
+		String name = "spent" + base.mNameInternal.toLowerCase() + "uranylnitrate";
+		SPENT_URANYL_NITRATE_AQUEOUS.put(base, FL.create(name + "aqueous", texture, "Spent " + localName + "-Plutonium Nitrate Aqueous Solution", null, new short[]{150, 200, 0, 200}, STATE_LIQUID, 1000, 300, null, null, 0, ACID));
+		SPENT_URANYL_NITRATE_ORGANIC.put(base, FL.create(name + "organic", texture, "Spent " + localName + "-Plutonium Nitrate Organic Solution", null, new short[]{150, 255, 0, 200}, STATE_LIQUID, 1000, 300, null, null, 0, ACID));
 	}
 
 	public static void init() {
@@ -86,6 +104,16 @@ public class FLx {
 			REE_EDTA_SOLUTIONS.put(ree, f);
 			// .setMcfg(0, MT.H, U, MT.La, U, EDTA, U, MT.H2O, 9*U).heat(MT.H2O)),
 		}
+
+		// aqueous: .setMcfg(0, base, U, MT.O, 2*U, NO3, 2*U, MT.Pu, U, NO3, 4*U, MT.H2O, 3*U)
+		// organic: .setMcfg(0, base, U, MT.O, 2*U, NO3, 2*U, MT.Pu, U, NO3, 4*U, MT.Kerosine, 3*U)
+		createSpentUranylNitrates(MTx.NU   , "Natural Uranyl");
+		createSpentUranylNitrates(MTx.LEU  , "LEU Uranyl");
+		createSpentUranylNitrates(MTx.HALEU, "HALEU Uranyl");
+		createSpentUranylNitrates(MTx.HEU  , "HEU Uranyl");
+		createSpentUranylNitrates(MTx.WGU  , "WGU Uranyl");
+		createSpentUranylNitrates(MT.U_235 , "Uranyl-235");
+		createSpentUranylNitrates(MT.U_233 , "Uranyl-233");
 
 		OreDictMaterial mat = MT.N;
 		mat.setRGBaLiquid(255, 255, 255, 200);
