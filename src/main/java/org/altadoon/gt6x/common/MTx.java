@@ -7,10 +7,12 @@ import gregapi.oredict.OreDictManager;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.oredict.OreDictMaterialStack;
 import gregapi.render.TextureSet;
+import gregapi.util.UT;
 import net.minecraft.enchantment.Enchantment;
 import org.altadoon.gt6x.Gt6xMod;
 
 import java.util.HashMap;
+import java.util.Set;
 
 import static gregapi.data.CS.*;
 import static gregapi.data.TD.Atomic.*;
@@ -327,6 +329,21 @@ public class MTx {
 				solute.fRGBaSolid[0], solute.fRGBaSolid[1], solute.fRGBaSolid[2], solute.fRGBaSolid[3],
 				solute, waterUnits, SIMPLE_SOLUTION, randomData
 		);
+	}
+
+	public static OreDictMaterial isotope(int id, OreDictMaterial base, long weight) {
+		return create(id, base.mNameInternal + "-" + weight, 0, 0, 0, 0)
+				.setStats(base.mProtons, weight - base.mProtons, base.mMeltingPoint, base.mBoilingPoint, base.mGramPerCubicCentimeter)
+				.stealLooks(base)
+				.put(getTags(base))
+				.tooltip(base.mTooltipChemical);
+	}
+
+	/** Reads the private OreDictMaterial.mTags set via reflection. */
+	@SuppressWarnings("unchecked")
+	private static TagData[] getTags(OreDictMaterial mat) {
+		Object tags = UT.Reflection.getFieldContent(mat, "mTags", true, true);
+		return tags instanceof Set ? ((Set<TagData>) tags).toArray(new TagData[0]) : new TagData[0];
 	}
 
 	public static OreDictMaterial enrichedUranium(int id, String name, long u238, long u235) {
@@ -1431,10 +1448,10 @@ public class MTx {
 			.setMcfg(1, MT.H, U, MT.Cl, 3*U, MT.Si, U)
 			.heat(146, 305)),
 	PCl3 = registerLiquid(lquddcmp(16350, "Phosphorus Trichloride", 255, 255, 220, 200)
-			.setMcfg(0, MT.P, U, MT.Cl, 3*U)
+			.setMcfg(1, MT.P, U, MT.Cl, 3*U)
 			.heat(180, 349)),
 	POCl3 = registerLiquid(lquddcmp(16351, "Phosphoryl Trichloride", 210, 210, 210, 200)
-			.setMcfg(0, MT.P, U, MT.O, U, MT.Cl, 3*U)
+			.setMcfg(1, MT.P, U, MT.O, U, MT.Cl, 3*U)
 			.heat(274, 379)),
 	H3PO3 = dustdcmp(16352, "Phosphorous Acid", SET_CUBE, 255, 255, 255, 255)
 			.setMcfg(0, MT.H, 3*U, MT.P, U, MT.O, 3*U)
@@ -1987,6 +2004,25 @@ public class MTx {
 	PurifiedU235ranylNitrate = spentUranylNitrateOrganic(16593, "Uranyl-235", MT.U_235),
 	U233ranylNitrate = spentUranylNitrateWatery(16594, "Uranyl-233", MT.U_233),
 	PurifiedU233ranylNitrate = spentUranylNitrateOrganic(16595, "Uranyl-233", MT.U_233),
+	Pu239O2 = dustdcmp(16596, "Plutonium-239 Dioxide", SET_CUBE, 40, 20, 20, 255)
+			.setMcfg(1, MT.Pu_239, U, MT.O, 2*U)
+			.heat(3017, 3070)
+			.put(INGOTS),
+	Propanol = registerLiquid(lqudflam(16597, "Propanol", 255, 220, 180, 200)
+			.setMcfg(1, MT.C, 4*U, MT.H, 10*U, MT.O, U)
+			.heat(147, 371)),
+	Butanol = registerLiquid(lqudflam(16598, "Butanol", 255, 230, 200, 200)
+			.setMcfg(1, MT.C, 4*U, MT.H, 10*U, MT.O, U)
+			.heat(183, 391)),
+	TBP = registerLiquid(lqudflam(16599, "TBP", 255, 255, 255, 200)
+			.setLocal("Tributyl Phosphate")
+			.setMcfg(1, MT.C, 12*U, MT.H, 27*U, MT.P, U, MT.O, 4*U)
+			.heat(193, 562)),
+	Pa_233 = isotope(16600, MT.Pa, 233),
+	Pa233O2 = dustdcmp(16601, "Protactinium-233 Dioxide", SET_CUBE, 40, 20, 20, 255)
+			.uumMcfg(1, Pa_233, U, MT.O, 2*U)
+			.heat(3017, 3070)
+			.put(INGOTS),
 	END = null
 	;
 

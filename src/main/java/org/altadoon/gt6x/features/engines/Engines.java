@@ -202,7 +202,9 @@ public class Engines extends GT6XFeature {
 		for (String ethanol : FLx.ALCOHOLS) if (FL.exists(ethanol)) {
 			FMx.petrol(16, 14, FL.make(ethanol, 1), 2, 1);
 		}
+		FMx.petrol(16, 15, MTx.Propanol.liquid(U1000, true), 3, 1);
 		FMx.petrol(16, 15, MTx.Isopropanol.liquid(U1000, true), 3, 1);
+		FMx.petrol(16, 16, MTx.Butanol.liquid(U1000, true), 4, 1);
 		FMx.petrol(16, 17, MTx.Pentanol.liquid(U1000, true), 5, 1);
 
 		// Misc

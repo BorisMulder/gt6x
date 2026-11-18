@@ -429,11 +429,11 @@ public class BasicChemistry extends GT6XFeature {
 		}
 
 		// Phosphine, Phosphorous Acid
-		RM.Mixer.addRecipe1(true, 16, 16, dust.mat(MT.P, 1), MT.Cl.gas(3*U, true), MTx.PCl3.liquid(4*U, false), NI);
-		RM.Mixer.addRecipe0(true, 16, 32, FL.array(MTx.PCl3.liquid(4*U, true), MT.O.gas(U, true)), MTx.POCl3.liquid(5*U, false), NI);
-		RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.P2O5, 7), FL.array(MTx.CCl4.liquid(3*U, true)), FL.array(MTx.POCl3.liquid(10*U, false), MTx.COCl2.gas(3*U, false)), NI);
+		RM.Mixer.addRecipe1(true, 16, 16, dust.mat(MT.P, 1), MT.Cl.gas(3*U, true), MTx.PCl3.liquid(U, false), NI);
+		RM.Mixer.addRecipe0(true, 16, 32, FL.array(MTx.PCl3.liquid(U, true), MT.O.gas(U, true)), MTx.POCl3.liquid(U, false), NI);
+		RM.Mixer.addRecipe1(true, 16, 32, dust.mat(MTx.P2O5, 7), FL.array(MTx.CCl4.liquid(3*U, true)), FL.array(MTx.POCl3.liquid(2*U, false), MTx.COCl2.gas(3*U, false)), NI);
 		for (FluidStack water : FL.waters(9000))
-			RM.Mixer.addRecipe0(true, 16, 32, FL.array(MTx.PCl3.liquid(4 * U, true), water), MT.HCl.gas(6*U, false), dust.mat(MTx.H3PO3, 7));
+			RM.Mixer.addRecipe0(true, 16, 32, FL.array(MTx.PCl3.liquid(U, true), water), MT.HCl.gas(6*U, false), dust.mat(MTx.H3PO3, 7));
 		RMx.Thermolysis.addRecipe1(true, 16, 128, dust.mat(MTx.H3PO3, 7), NF, FL.array(MTx.H3PO4.liquid(3*8*U4, false), MTx.PH3.gas(U4, false)));
 		RM.Mixer.addRecipeX(true, 16, 3*64, ST.array(ST.tag(3), dust.mat(MT.P, 8), dust.mat(MT.NaOH, 27)), FL.Water.make(9000), MTx.PH3.gas(5*U, false), dust.mat(MTx.Na3PO4, 24));
 		RM.Mixer.addRecipeX(true, 16, 3*64, ST.array(ST.tag(3), dust.mat(MT.P, 8)), FL.array(MTx.NaOHSolution.liquid(54*U, true)), FL.array(MTx.Na3PO4Solution.liquid(42*U, false), MTx.PH3.gas(5*U, false)));

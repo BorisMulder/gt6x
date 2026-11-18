@@ -418,9 +418,14 @@ public class OilProcessing extends GT6XFeature {
 			RM.Mixer.addRecipe2(true, 16, 64, dust.mat(MT.NaOH, 3), dust.mat(MTx.BenzenediazoniumChloride, 1), FL.array(MTx.Benzene.liquid(U, true), FL.mul(water, 3)), FL.array(MT.N.gas(2 * U, false), FL.Saltwater.make(8000)), dust.mat(MTx.Biphenyl, 1));
 		}
 
-		// Pentanol, Chloropentane
+		// Propanol, Butanol, Pentanol
+		RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.Rh, 0), FL.array(MT.Ethylene.gas(U, true), MT.CO.gas(2*U, true), MT.H.gas(4*U, true)), FL.array(MTx.Propanol.liquid(U, false)));
+		RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.Rh, 0), FL.array(MT.Propylene.gas(U, true), MT.CO.gas(2*U, true), MT.H.gas(4*U, true)), FL.array(MTx.Butanol.liquid(U, false)));
 		RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.Rh, 0), FL.array(MTx.Butylene.gas(U, true), MT.CO.gas(2*U, true), MT.H.gas(4*U, true)), FL.array(MTx.Pentanol.liquid(U, false)));
+
+		// Chloropentane, TBP
 		RM.Mixer.addRecipe0(true, 16, 64, FL.array(MTx.Pentanol.liquid(U, true), MT.HCl.gas(2*U, true)), FL.array(MTx.Chloropentane.liquid(U, false), MT.H2O.liquid(3*U, false)));
+		RM.Mixer.addRecipe0(true, 16, 192, FL.array(MTx.Butanol.liquid(3*U, true), MTx.POCl3.liquid(U, true)), FL.array(MTx.TBP.liquid(U, false), MT.HCl.gas(6*U, false)));
 
 		// Water-gas shift reaction
 		RM.Mixer.addRecipe1(true, 16, 64, dust.mat(MT.Fe2O3, 0), FL.array(FL.Steam.make(3000*(long)STEAM_PER_WATER), MT.CO.gas(2*U, true)), FL.array(MT.H.gas(2*U, false), MT.CO2.gas(3*U, false)));
