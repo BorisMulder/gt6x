@@ -616,8 +616,8 @@ public class MTx {
 			.put(FLAMMABLE, CENTRIFUGE)
 			.heat(100, 200),
 			1650),
-	ZnBlastFurnaceGas = registerGas(gas(16057, "Zinc-Rich Blast Furnace Gas", 0, 20, 30, 200)
-			.uumMcfg(0, MT.Zn, U, BlastFurnaceGas, 6*U)
+	ZnCdVapour = registerGas(gas(16057, "Zinc-Cadmium Vapour", 200, 200, 210, 200)
+			.uumMcfg(0, MT.Zn, 8*U, MT.Cd, U)
 			.heat(MT.Zn),
 			(int)MT.Zn.mBoilingPoint),
 	PbO = dustdcmp(16058, "Lead Oxide", SET_DULL, 150, 130, 100, 255)
