@@ -88,6 +88,7 @@ public class MTx {
 		MT.OREMATS.Wollastonite.setMcfg(0, MT.Quicklime, 2*U, MT.SiO2, 3*U).tooltip("CaSiO" + NUM_SUB[3]);
 		MT.PigIron .uumMcfg(5, MT.Fe, 5*U, MT.C, U).heat(1445, MT.Fe.mBoilingPoint).qual(3, 4.0, 128, 2).setAllToTheOutputOf(MT.PigIron);
 		MT.PigIron.remove(MOLTEN);
+		MT.ElectricalSteel.setMcfg(6, MT.Steel, 5*U, MT.Si, U).tooltip("Fe" + NUM_SUB[5] + "Si"); // alloying recipes in Metallurgy
 		addMolten(MT.PigIron, C+1510);
 		MT.IronCast.setMcfg(8, MT.Fe, 8*U, MT.C, U).heat(1260+C, MT.Fe.mBoilingPoint).qual(3, 5.0, 256, 2).setAllToTheOutputOf(MT.IronCast).hide(false).add(DUSTS, PIPES);
 		MT.Fe.mReRegistrations.remove(MT.IronCast); MT.IronCast.mToThis.remove(MT.Fe);
@@ -2025,6 +2026,24 @@ public class MTx {
 			.uumMcfg(1, Pa_233, U, MT.O, 2*U)
 			.heat(3017, 3070)
 			.put(INGOTS),
+
+	Fe3Si = alloy(16600, "Ferrosilicon", SET_METALLIC, 125, 135, 145)
+			.uumAloy(0, MT.Fe, 3*U, MT.Si, U)
+			.heat(1212+C),
+	// Silica-fluxed iron ore mixtures, in the ratio needed for Fe3Si. These only exist as sinters.
+	SiliceousHematite = create(16601, "Siliceous Hematite", 150, 80, 70, 255)
+			.setTextures(SET_ROUGH)
+			.setMcfg(0, MT.Fe2O3, 15*U, MT.SiO2, 6*U)
+			.tooltip("Fe" + NUM_SUB[6] + "Si" + NUM_SUB[2] + "O" + NUM_SUB[1] + NUM_SUB[3]),
+	SiliceousMagnetite = create(16602, "Siliceous Magnetite", 80, 80, 80, 255)
+			.setTextures(SET_ROUGH)
+			.setMcfg(0, MT.OREMATS.Magnetite, 7*U, MT.SiO2, 3*U)
+			.tooltip("Fe" + NUM_SUB[3] + "SiO" + NUM_SUB[6]),
+	SiliceousWuestite = create(16603, "Siliceous Wuestite", 100, 80, 70, 255)
+			.setTextures(SET_ROUGH)
+			.setMcfg(0, FeO, 6*U, MT.SiO2, 3*U)
+			.tooltip("Fe" + NUM_SUB[3] + "SiO" + NUM_SUB[5])
+			.setLocal("Siliceous Wüstite"),
 	END = null
 	;
 

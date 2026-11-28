@@ -90,7 +90,7 @@ public class Ceramics extends GT6XFeature {
 	}
 
 	private void addAlloyingRecipes() {
-		RMx.SSS.addRecipe(0, OMx.stacks(OM.stack(MT.SiO2, 3*U), OM.stack(MT.C, 2*U)), 1700+C, OM.stack(MT.SiC, U));
+		RMx.SSS.addRecipe(0, OMx.stacks(OM.stack(MT.SiO2, 3*U), OM.stack(MT.C, 3*U)), 1700+C, OM.stack(MT.SiC, 2*U), OM.stack(MT.CO, 2*2*U)); // SiO2 + 3 C -> SiC + 2 CO
 
 		RMx.SSS.addRecipe(0, OMx.stacks(OM.stack(MT.Gypsum, U), OM.stack(MTx.CaO, 4*9*U), OM.stack(MT.STONES.Shale, 3*9*U)), 1450+C, OM.stack(MTx.Cement, 4*9*U+U));
 		for (OreDictMaterial ash : ANY.Ash.mToThis)

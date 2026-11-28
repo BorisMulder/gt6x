@@ -103,7 +103,8 @@ public class Metallurgy extends GT6XFeature {
 				.setCondition(ICondition.FALSE)
 				.setMaterialStats(-1, U)
 				.forceItemGeneration(MT.Fe2O3, MT.OREMATS.Magnetite, MTx.Ironsand, MT.OREMATS.BasalticMineralSand, MT.OREMATS.GraniticMineralSand, MTx.FeO,
-					MT.OREMATS.Garnierite, MT.OREMATS.Cassiterite, MT.OREMATS.Chromite, MT.OREMATS.Malachite, MTx.PbO, MTx.ZnO, MT.MnO2, MTx.MnO, MTx.Co3O4, MTx.CoO, MT.SiO2, MTx.Sb2O3)
+					MT.OREMATS.Garnierite, MT.OREMATS.Cassiterite, MT.OREMATS.Chromite, MT.OREMATS.Malachite, MTx.PbO, MTx.ZnO, MT.MnO2, MTx.MnO, MTx.Co3O4, MTx.CoO, MTx.Sb2O3,
+					MTx.SiliceousHematite, MTx.SiliceousMagnetite, MTx.SiliceousWuestite)
 				.add(TOOLTIP_MATERIAL, UNIFICATABLE);
 		PrefixItem item = new PrefixItem(MOD_ID, MD.GT.mID, "gt6x.meta.sinter" , sinter); if (COMPAT_FR != null) COMPAT_FR.addToBackpacks("miner", ST.make(item, 1, W));
 
@@ -285,6 +286,9 @@ public class Metallurgy extends GT6XFeature {
 		MT.WroughtIron.addAlloyingRecipe(new OreDictConfigurationComponent(101, OM.stack(MT.Steel, 100*U), OM.stack(MTx.FeO, 2*U)));
 		MT.WroughtIron.addAlloyingRecipe(new OreDictConfigurationComponent(302, OM.stack(MT.Steel, 300*U), OM.stack(MT.Fe2O3, 5*U)));
 		MT.WroughtIron.addAlloyingRecipe(new OreDictConfigurationComponent(403, OM.stack(MT.Steel, 400*U), OM.stack(MT.OREMATS.Magnetite, 7*U)));
+		MT.MeteoricIron.addAlloyingRecipe(new OreDictConfigurationComponent(101, OM.stack(MT.MeteoricSteel, 100*U), OM.stack(MTx.FeO, 2*U)));
+		MT.MeteoricIron.addAlloyingRecipe(new OreDictConfigurationComponent(302, OM.stack(MT.MeteoricSteel, 300*U), OM.stack(MT.Fe2O3, 5*U)));
+		MT.MeteoricIron.addAlloyingRecipe(new OreDictConfigurationComponent(403, OM.stack(MT.MeteoricSteel, 400*U), OM.stack(MT.OREMATS.Magnetite, 7*U)));
 
 		// Crucible steel (damascus)
 		MT.DamascusSteel.addAlloyingRecipe(new OreDictConfigurationComponent(100, OM.stack(MT.IronCast, 8*U), OM.stack(MT.WroughtIron, 92*U)));
@@ -296,10 +300,23 @@ public class Metallurgy extends GT6XFeature {
 		MT.StainlessSteel.addAlloyingRecipe(new OreDictConfigurationComponent(36, OM.stack(MT.Steel,14*U), OM.stack(MTx.FeCr2, 6*U), OM.stack(MT.Invar, 12*U), OM.stack(MT.Mn, 4*U)));
 
 		MT.Invar.addAlloyingRecipe(new OreDictConfigurationComponent(3, OM.stack(MT.Steel,2*U), OM.stack(MT.Ni, U)));
+
 		MT.TinAlloy.addAlloyingRecipe(new OreDictConfigurationComponent(2, OM.stack(MT.Steel, U), OM.stack(MT.Sn, U)));
 		MT.Kanthal.addAlloyingRecipe(new OreDictConfigurationComponent(3, OM.stack(MT.Steel, U), OM.stack(MT.Al, U), OM.stack(MT.Cr, U)));
 		MT.Kanthal.addAlloyingRecipe(new OreDictConfigurationComponent(6, OM.stack(MT.Steel, U), OM.stack(MT.Al, 2*U), OM.stack(MTx.FeCr2, 3*U)));
 		MT.Angmallen.addAlloyingRecipe(new OreDictConfigurationComponent(2, OM.stack(MT.Steel, U), OM.stack(MT.Au, U)));
+
+		// Electrical Steel (Fe5Si) from Si or ferrosilicon. Replaces the GT6 1:1 Steel:Si and MeteoricSteel:Si recipes (added in MT.TECH.init), keeping the crucible alloying tag.
+		for (IOreDictConfigurationComponent comp : MT.ElectricalSteel.mAlloyCreationRecipes) {
+			for (OreDictMaterialStack component : comp.getUndividedComponents()) {
+				component.mMaterial.mAlloyComponentReferences.remove(MT.ElectricalSteel);
+			}
+		}
+		MT.ElectricalSteel.mAlloyCreationRecipes.clear();
+		MT.ElectricalSteel.addAlloyingRecipe(new OreDictConfigurationComponent(6, OM.stack(MT.Steel, 5*U), OM.stack(MT.Si   , U)));
+		MT.ElectricalSteel.addAlloyingRecipe(new OreDictConfigurationComponent(6, OM.stack(MT.Steel, 2*U), OM.stack(MTx.Fe3Si, 4*U)));
+		MT.ElectricalSteel.addAlloyingRecipe(new OreDictConfigurationComponent(6, OM.stack(MT.MeteoricSteel, 5*U), OM.stack(MT.Si   , U)));
+		MT.ElectricalSteel.addAlloyingRecipe(new OreDictConfigurationComponent(6, OM.stack(MT.MeteoricSteel, 2*U), OM.stack(MTx.Fe3Si, 4*U)));
 
 		// Other alloys
 		MT.YttriumBariumCuprate.addAlloyingRecipe(new OreDictConfigurationComponent(20, OM.stack(MT.AnnealedCopper, 6*U), OM.stack(MTx.BaO, 4*U), OM.stack(MTx.Y2O3, 2*U)));
@@ -493,8 +510,7 @@ public class Metallurgy extends GT6XFeature {
 		final long znMult = 2, znSlag = 1, znOxygen = oxygenCount(MTx.ZnO);
 		// Mineral sands: 10 sand = 7 magnetite (-> 3 Fe) + 3 gangue, doubled to get an even amount of metal. The gangue needs extra flux, so 6 flux/slag per 10 sand.
 		final long sandMult = 2, sandSlag = 6 * sandMult, sandOxygen = oxygenCount(MT.OREMATS.Magnetite);
-		// SiO2: 3 SiO2 -> 1 Si, doubled to get an even amount of metal. No flux.
-		final long siMult = 2, siOxygen = oxygenCount(MT.SiO2);
+		final long siOxygen = oxygenCount(MT.SiO2);
 		final long limoniteOxygen = oxygenCount(MT.Fe2O3);
 
 		for (ItemStack coalDust : ST.array(dust.mat(MT.PetCoke, 1), dust.mat(MT.CoalCoke, 1), dust.mat(MT.LigniteCoke, 3), dust.mat(MT.Charcoal, 2), dust.mat(MT.C, 1))) {
@@ -509,8 +525,6 @@ public class Metallurgy extends GT6XFeature {
 					RMx.Sintering.addRecipeX(true, 16, 32 * sandMult, ST.array(ST.tag(3), dust.mat(mineralSand[0], 10 * sandMult), ST.mul(sandOxygen * sandMult, coalDust), dust.mat(flux, sandSlag)), sinter.mat(mineralSand[0], 10 * sandMult));
 				}
 			}
-
-			RMx.Sintering.addRecipeX(true, 16, 32 * siMult, ST.array(ST.tag(3), dust.mat(MT.SiO2, 3 * siMult), ST.mul(siOxygen * siMult, coalDust)), sinter.mat(MT.SiO2, 3 * siMult));
 		}
 
 		for (ItemStack coal : ST.array(ingot.mat(MT.PetCoke, 1), ingot.mat(MT.CoalCoke, 1), ingot.mat(MT.LigniteCoke, 3), ingot.mat(MT.Charcoal, 2), gem.mat(MT.PetCoke, 1), gem.mat(MT.CoalCoke, 1), gem.mat(MT.LigniteCoke, 3), gem.mat(MT.Charcoal, 2))) {
@@ -565,32 +579,78 @@ public class Metallurgy extends GT6XFeature {
 						FL.array(MT.PigIron.liquid(3 * sandMult * U, false), MTx.Slag.liquid(sandSlag * U, false), MTx.BlastFurnaceGas.gas(CAmount * 5 * U, false))
 				);
 			}
+		}
 
-			// Si is special since it does not use calcite (Otherwise calcium silicate would form instead of silicon)
-			CAmount = (siOxygen * 2 + 2) * siMult;
-			RMx.BlastFurnace.addRecipeX(true, 8, 512 * siMult,
-					ST.array(dust.mat(MT.SiO2, 3 * siMult), ST.mul(CAmount, coal)),
-					FL.array(FL.Air.make(CAmount * 2500)),
-					FL.array(MT.Si.liquid(siMult * U, false), MTx.BlastFurnaceGas.gas(CAmount * 5 * U, false))
-			);
-			CAmount = (siOxygen + 2) * siMult;
-			RMx.BlastFurnace.addRecipeX(true, 8, 256 * siMult,
-					ST.array(dust.mat(MT.SiO2, 3 * siMult), ST.mul(CAmount, coal)),
-					FL.array(FL.mul(blast, CAmount * 2500)),
-					FL.array(MT.Si.liquid(siMult * U, false), MTx.BlastFurnaceGas.gas(CAmount * 5 * U, false))
-			);
-			CAmount = (siOxygen * 2 + 1) * siMult;
-			RMx.BlastFurnace.addRecipeX(true, 8, 256 * siMult,
-					ST.array(sinter.mat(MT.SiO2, 3 * siMult), ST.mul((siOxygen + 1) * siMult, coal)),
-					FL.array(FL.Air.make(CAmount * 2500)),
-					FL.array(MT.Si.liquid(siMult * U, false), MTx.BlastFurnaceGas.gas(CAmount * 5 * U, false))
-			);
-			CAmount = (siOxygen + 1) * siMult;
-			RMx.BlastFurnace.addRecipeX(true, 8, 128 * siMult,
-					ST.array(sinter.mat(MT.SiO2, 3 * siMult), ST.mul(siMult, coal)),
-					FL.array(FL.mul(blast, CAmount * 2500)),
-					FL.array(MT.Si.liquid(siMult * U, false), MTx.BlastFurnaceGas.gas(CAmount * 5 * U, false))
-			);
+		// Low-grade ferrosilicon: silica replaces calcite as flux and is co-reduced with the iron ore (SiO2 + 2 C -> Si + 2 CO), so no slag forms.
+		// Scaled so that the recipe produces a whole number of Fe3Si (3 Fe : 1 Si). The O from SiO2 costs coal at the same rate as the ore's O.
+		// Silica-fluxed sinters are separate materials containing the ore and SiO2 in that ratio. Elemental Si is made in the EAF instead.
+		Map<OreDictMaterial, OreDictMaterial> siliceousSinters = new HashMap<>();
+		siliceousSinters.put(MT.Fe2O3, MTx.SiliceousHematite);
+		siliceousSinters.put(MT.OREMATS.Magnetite, MTx.SiliceousMagnetite);
+		siliceousSinters.put(MTx.FeO, MTx.SiliceousWuestite);
+
+		for (OreDictMaterialStack[] stacks : smeltLiquidSlag) {
+			OreDictMaterial siliceous = siliceousSinters.get(stacks[0].mMaterial);
+			if (siliceous == null) continue;
+			long mult = stacks[1].mAmount % 3 == 0 ? 1 : 3;
+			long siCount = stacks[1].mAmount * mult / 3;
+			long oreAmount = stacks[0].mAmount * mult;
+			long sinterAmount = oreAmount + 3 * siCount;
+			long totalOxygen = oxygenCount(stacks[0].mMaterial) * mult + siOxygen * siCount;
+			FluidStack fe3si = MTx.Fe3Si.liquid(4 * siCount * U, false);
+			long CAmount;
+
+			for (ItemStack coalDust : ST.array(dust.mat(MT.PetCoke, 1), dust.mat(MT.CoalCoke, 1), dust.mat(MT.LigniteCoke, 3), dust.mat(MT.Charcoal, 2), dust.mat(MT.C, 1))) {
+				RMx.Sintering.addRecipeX(true, 16, 32 * mult, ST.array(ST.tag(3), dust.mat(stacks[0].mMaterial, oreAmount), ST.mul(totalOxygen, coalDust), dust.mat(MT.SiO2, 3 * siCount)), sinter.mat(siliceous, sinterAmount));
+
+				if (stacks[0].mMaterial == MT.Fe2O3) {
+					// 8 limonite -> 5 Fe2O3 (water is driven off)
+					for (OreDictMaterial limonite : new OreDictMaterial[] {MT.OREMATS.YellowLimonite, MT.OREMATS.BrownLimonite}) {
+						RMx.Sintering.addRecipeX(true, 16, 32 * mult, ST.array(ST.tag(3), dust.mat(limonite, oreAmount / 5 * 8), ST.mul(totalOxygen, coalDust), dust.mat(MT.SiO2, 3 * siCount)), sinter.mat(siliceous, sinterAmount));
+					}
+				} else if (stacks[0].mMaterial == MT.OREMATS.Magnetite) {
+					// 10 mineral sand = 7 magnetite + 3 siliceous gangue, which takes the place of the SiO2
+					for (OreDictMaterial[] mineralSand : mineralSands()) {
+						RMx.Sintering.addRecipeX(true, 16, 32 * mult, ST.array(ST.tag(2), dust.mat(mineralSand[0], oreAmount / 7 * 10), ST.mul(totalOxygen, coalDust)), sinter.mat(siliceous, sinterAmount));
+					}
+				}
+			}
+
+			for (ItemStack coal : ST.array(ingot.mat(MT.PetCoke, 1), ingot.mat(MT.CoalCoke, 1), ingot.mat(MT.LigniteCoke, 3), ingot.mat(MT.Charcoal, 2), gem.mat(MT.PetCoke, 1), gem.mat(MT.CoalCoke, 1), gem.mat(MT.LigniteCoke, 3), gem.mat(MT.Charcoal, 2))) {
+				for (OreDictPrefix ore : new OreDictPrefix[]{crushed, crushedTiny, crushedPurified, crushedPurifiedTiny, crushedCentrifuged, crushedCentrifugedTiny}) {
+					long oreMult = UT.Code.divup(oreAmount * U, ore.mAmount);
+					// skip recipes whose inputs don't fit in a single stack (e.g. tiny ore chunks of the large Fe2O3 batch)
+					if (oreMult > 64) continue;
+					// ore chunks with cold air (least efficient)
+					CAmount = totalOxygen * 2 + 2 * mult;
+					if (CAmount * coal.stackSize <= 64) RMx.BlastFurnace.addRecipeX(true, 8, 512 * mult,
+							ST.array(ore.mat(stacks[0].mMaterial, oreMult), ST.mul(CAmount, coal), dust.mat(MT.SiO2, 3 * siCount)),
+							FL.array(FL.Air.make(CAmount * 2500)),
+							FL.array(fe3si, MTx.BlastFurnaceGas.gas(CAmount * 5 * U, false))
+					);
+					// ore chunks with blast (second most efficient)
+					CAmount = totalOxygen + 2 * mult;
+					if (CAmount * coal.stackSize <= 64) RMx.BlastFurnace.addRecipeX(true, 8, 256 * mult,
+							ST.array(ore.mat(stacks[0].mMaterial, oreMult), ST.mul(CAmount, coal), dust.mat(MT.SiO2, 3 * siCount)),
+							FL.array(FL.mul(blast, CAmount * 2500)),
+							FL.array(fe3si, MTx.BlastFurnaceGas.gas(CAmount * 5 * U, false))
+					);
+				}
+				// sinters with cold air (second least efficient)
+				CAmount = totalOxygen * 2 + mult;
+				RMx.BlastFurnace.addRecipeX(true, 8, 256 * mult,
+						ST.array(sinter.mat(siliceous, sinterAmount), ST.mul(totalOxygen + mult, coal)),
+						FL.array(FL.Air.make(CAmount * 2500)),
+						FL.array(fe3si, MTx.BlastFurnaceGas.gas(CAmount * 5 * U, false))
+				);
+				// sinters with blast (most efficient)
+				CAmount = totalOxygen + mult;
+				RMx.BlastFurnace.addRecipeX(true, 8, 128 * mult,
+						ST.array(sinter.mat(siliceous, sinterAmount), ST.mul(mult, coal)),
+						FL.array(FL.mul(blast, CAmount * 2500)),
+						FL.array(fe3si, MTx.BlastFurnaceGas.gas(CAmount * 5 * U, false))
+				);
+			}
 		}
 
 		// Pidgeon Process
@@ -873,6 +933,10 @@ public class Metallurgy extends GT6XFeature {
 		RMx.EAF.addRecipe(0, 15, OMx.stacks(MTx.ImpureCementite, 75*U, MT.O, U*15, MTx.CaO  , U*6 , MTx.CalcinedDolomite, U*8), MTx.FerrousSlag.mMeltingPoint, OM.stack(MT.Steel, 45*U), OM.stack(MTx.DRISlag, 40*U), OM.stack(MT.CO, 53*U2));
 		RMx.EAF.addRecipe(0, 10, OMx.stacks(MTx.SpongeIron     , 75*U, MT.O, U*10, MTx.CaO  , U*10, MTx.MgO             , U*4), MTx.FerrousSlag.mMeltingPoint, OM.stack(MT.Steel, 45*U), OM.stack(MTx.DRISlag, 40*U), OM.stack(MT.CO, 8*2*U));
 		RMx.EAF.addRecipe(0, 10, OMx.stacks(MTx.SpongeIron     , 75*U, MT.O, U*10, MTx.CaO  , U*6 , MTx.CalcinedDolomite, U*8), MTx.FerrousSlag.mMeltingPoint, OM.stack(MT.Steel, 45*U), OM.stack(MTx.DRISlag, 40*U), OM.stack(MT.CO, 8*2*U));
+
+		// Metallurgical silicon in EAF. SiC also forms from SiO2 + C at lower temperatures (see Ceramics SSS recipe) and is reduced by SiO2 at higher temperatures.
+		RMx.EAF.addRecipe(0, OMx.stacks(MT.SiO2, 3*U, MT.C  , 2*U), 2000+C, OM.stack(MT.Si,   U), OM.stack(MT.CO, 2*2*U)); // SiO2 + 2 C -> Si + 2 CO
+		RMx.EAF.addRecipe(0, OMx.stacks(MT.SiO2, 3*U, MT.SiC, 4*U), 2000+C, OM.stack(MT.Si, 3*U), OM.stack(MT.CO, 2*2*U)); // SiO2 + 2 SiC -> 3 Si + 2 CO
 
 		// Pure phosphorus production in EAF
 		RMx.EAF.addRecipe(0, OMx.stacks(MT.Apatite, 2*3*U, MT.SiO2, 9*U, MT.C, 5*U), 1850, OM.stack(MTx.Slag, 3*5*U), OM.stack(MT.CaCl2, U), OM.stack(MTx.P_CO_Gas, 12*U));
